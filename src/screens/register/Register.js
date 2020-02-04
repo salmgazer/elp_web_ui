@@ -1,4 +1,4 @@
-import React, {Component} from "react";
+import React from "react";
 import PropTypes from 'prop-types';
 import { withRouter } from "react-router-dom";
 import { makeStyles, withStyles } from '@material-ui/core/styles';
@@ -7,13 +7,13 @@ import Stepper from '@material-ui/core/Stepper';
 import Step from '@material-ui/core/Step';
 import StepLabel from '@material-ui/core/StepLabel';
 import Check from '@material-ui/icons/Check';
-import PersonIcon from '@material-ui/icons/Person';
-import StorefrontIcon from '@material-ui/icons/Storefront';
-import PhoneAndroidIcon from '@material-ui/icons/PhoneAndroid';
+import PersonOutlineOutlinedIcon from '@material-ui/icons/PersonOutlineOutlined';
+import StorefrontOutlinedIcon from '@material-ui/icons/StorefrontOutlined';
+import PhoneAndroidOutlinedIcon from '@material-ui/icons/PhoneAndroidOutlined';
 import StepConnector from '@material-ui/core/StepConnector';
 import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
-import { positions } from '@material-ui/system';
+import Box from '@material-ui/core/Box';
 import SectionNavbars from '../Components/Sections/SectionNavbars';
 import ArrowBackIcon from '@material-ui/icons/ArrowBack';
 import PersonalInformationSection from './Sections/PersonalInformationSection';
@@ -89,18 +89,18 @@ QontoStepIcon.propTypes = {
 
 const ColorlibConnector = withStyles({
     alternativeLabel: {
-        top: 22,
+        top: 33,
     },
     active: {
         '& $line': {
-            backgroundImage:
-                'linear-gradient( 95deg,rgb(242,113,33) 0%,rgb(233,64,87) 50%,rgb(138,35,135) 100%)',
+            backgroundColor:
+                '#DAAB59',
         },
     },
     completed: {
         '& $line': {
-            backgroundImage:
-                'linear-gradient( 95deg,rgb(242,113,33) 0%,rgb(233,64,87) 50%,rgb(138,35,135) 100%)',
+            backgroundColor:
+                '#DAAB59',
         },
     },
     line: {
@@ -113,24 +113,29 @@ const ColorlibConnector = withStyles({
 
 const useColorlibStepIconStyles = makeStyles({
     root: {
-        backgroundColor: '#ccc',
+        backgroundColor: '#FFF',
         zIndex: 1,
-        color: '#fff',
-        width: 50,
-        height: 50,
+        color: '#eaeaf0',
+        border: '3px solid #eaeaf0',
+        width: 65,
+        height: 65,
         display: 'flex',
         borderRadius: '50%',
         justifyContent: 'center',
         alignItems: 'center',
     },
     active: {
-        backgroundImage:
-            'linear-gradient( 136deg, rgb(242,113,33) 0%, rgb(233,64,87) 50%, rgb(138,35,135) 100%)',
+        backgroundColor:
+            '#FFF',
+        color: '#DAAB59',
+        border: '3px solid #DAAB59',
         boxShadow: '0 4px 10px 0 rgba(0,0,0,.25)',
     },
     completed: {
-        backgroundImage:
-            'linear-gradient( 136deg, rgb(242,113,33) 0%, rgb(233,64,87) 50%, rgb(138,35,135) 100%)',
+        backgroundColor:
+            '#FFF',
+        color: '#DAAB59',
+        border: '3px solid #DAAB59',
     },
 });
 
@@ -139,9 +144,9 @@ function ColorlibStepIcon(props) {
     const { active, completed } = props;
 
     const icons = {
-        1: <PersonIcon />,
-        2: <StorefrontIcon />,
-        3: <PhoneAndroidIcon />,
+        1: <PersonOutlineOutlinedIcon />,
+        2: <StorefrontOutlinedIcon />,
+        3: <PhoneAndroidOutlinedIcon />,
     };
 
     return (
@@ -161,6 +166,13 @@ ColorlibStepIcon.propTypes = {
     completed: PropTypes.bool,
     icon: PropTypes.node,
 };
+
+const newBtnStyles = withStyles({
+    buttonC1: {
+        border: '1px solid #DAAB59',
+        color: '#DAAB59',
+    },
+})(props => <Button {...props} />);
 
 const useStyles = makeStyles(theme => ({
     root: {
@@ -188,13 +200,13 @@ function getStepContent(step) {
         case 2:
             return <AccountInformationSection/>;
         default:
-            return 'Unknown step';
+            return 'Complete';
     }
 }
 
 const Register = props => {
     const classes = useStyles();
-    const [activeStep, setActiveStep] = React.useState(1);
+    const [activeStep, setActiveStep] = React.useState(0);
     const steps = getSteps();
 
     const handleNext = () => {
@@ -207,6 +219,10 @@ const Register = props => {
 
     const handleReset = () => {
         setActiveStep(0);
+    };
+
+    const handleFinish = () => {
+        props.history.push('/verify_sms')
     };
 
     return (
@@ -222,31 +238,61 @@ const Register = props => {
                 ))}
             </Stepper>
             <div>
-                {activeStep === steps.length ? (
-                    <div>
-                        <Typography className={classes.instructions}>
-                            All steps completed - you&apos;re finished
-                        </Typography>
-                        <Button onClick={handleReset} className={classes.button}>
-                            Reset
-                        </Button>
-                    </div>
-                ) : (
+                {activeStep === steps.length - 1 ? (
                     <div>
                         <Typography className={classes.instructions}>{getStepContent(activeStep)}</Typography>
-                        <div>
-                            <Button disabled={activeStep === 0} onClick={handleBack} className={classes.button}>
+                        <Box
+                            boxShadow={1}
+                            bgcolor="background.paper"
+                            p={1}
+                            style={{ height: '2rem', position: "fixed", bottom:"0", width:"100%" }}
+                        >
+                            <Button
+                                variant="outlined"
+                                style={{border: '1px solid #DAAB59', color: '#DAAB59', padding: '5px 50px'}}
+                                disabled={activeStep === 0}
+                                onClick={handleBack}
+                                className={classes.button}
+                            >
                                 Back
                             </Button>
                             <Button
                                 variant="contained"
-                                color="primary"
+                                style={{'backgroundColor': '#DAAB59' , color: '#333333', padding: '5px 50px'}}
+                                onClick={handleFinish}
+                                className={classes.button}
+                            >
+                                Finish
+                            </Button>
+                        </Box>
+                    </div>
+                ) : (
+                    <div>
+                        <Typography className={classes.instructions}>{getStepContent(activeStep)}</Typography>
+                        <Box
+                            boxShadow={1}
+                            bgcolor="background.paper"
+                            p={1}
+                            style={{ height: '2rem', position: "fixed", bottom:"0", width:"100%" }}
+                        >
+                            <Button
+                                variant="outlined"
+                                style={{border: '1px solid #DAAB59', color: '#DAAB59', padding: '5px 50px'}}
+                                disabled={activeStep === 0}
+                                onClick={handleBack}
+                                className={classes.button}
+                            >
+                                Back
+                            </Button>
+                            <Button
+                                variant="contained"
+                                style={{'backgroundColor': '#DAAB59' , color: '#333333', padding: '5px 50px'}}
                                 onClick={handleNext}
                                 className={classes.button}
                             >
-                                {activeStep === steps.length - 1 ? 'Finish' : 'Next'}
+                                Next
                             </Button>
-                        </div>
+                        </Box>
                     </div>
                 )}
             </div>

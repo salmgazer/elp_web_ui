@@ -15,6 +15,19 @@ import VisibilityOff from '@material-ui/icons/VisibilityOff';
 import FormControl from '@material-ui/core/FormControl';
 import InputLabel from '@material-ui/core/InputLabel';
 import OutlinedInput from '@material-ui/core/OutlinedInput';
+import Checkbox from '@material-ui/core/Checkbox';
+import FormControlLabel from "@material-ui/core/FormControlLabel/FormControlLabel";
+
+
+const GreenCheckbox = withStyles({
+    root: {
+        color: '#333',
+        '&$checked': {
+            color: green[600],
+        },
+    },
+    checked: {},
+})(props => <Checkbox color="default" {...props} />);
 
 
 const useStyles = makeStyles(theme => ({
@@ -59,6 +72,7 @@ export default function AccountInformationSection() {
         weight: '',
         weightRange: '',
         showPassword: false,
+        checkedB: false,
     });
 
     const handleChange = prop => event => {
@@ -72,11 +86,30 @@ export default function AccountInformationSection() {
     const handleMouseDownPassword = event => {
         event.preventDefault();
     };
+
+    const handleChangeChk = name => event => {
+        setValues({ ...values, [name]: event.target.checked });
+    };
+
     const classes = useStyles();
 
     return (
         <Paper className={classes.paper}>
             <form className={classes.root} noValidate>
+                <Grid item xs={12}>
+                    <FormControlLabel
+                        control={
+                            <GreenCheckbox
+                                style={{paddingLeft: '0px'}}
+                                checked={values.checkedB}
+                                onChange={handleChangeChk('checkedB')}
+                                value="checkedB"
+                                color="success"
+                            />
+                        }
+                        label="Use phone number to login"
+                    />
+                </Grid>
                 <Grid item xs={12}>
                     <ValidationTextField
                         className={classes.margin}

@@ -15,18 +15,6 @@ import FormControl from '@material-ui/core/FormControl';
 import FormLabel from '@material-ui/core/FormLabel';
 import Select from '@material-ui/core/Select';
 import InputLabel from '@material-ui/core/InputLabel';
-import Checkbox from '@material-ui/core/Checkbox';
-
-
-const GreenCheckbox = withStyles({
-    root: {
-        color: '#333',
-        '&$checked': {
-            color: green[600],
-        },
-    },
-    checked: {},
-})(props => <Checkbox color="default" {...props} />);
 
 const useStyles = makeStyles(theme => ({
     root: {
@@ -66,7 +54,7 @@ const useStyles = makeStyles(theme => ({
             outlineOffset: 2,
         },
         'input:hover ~ &': {
-            backgroundColor: '#ebf1f5',
+            backgroundColor: 'green',
         },
         'input:disabled ~ &': {
             boxShadow: 'none',
@@ -74,7 +62,7 @@ const useStyles = makeStyles(theme => ({
         },
     },
     checkedIcon: {
-        backgroundColor: '#137cbd',
+        backgroundColor: 'green',
         backgroundImage: 'linear-gradient(180deg,hsla(0,0%,100%,.1),hsla(0,0%,100%,0))',
         '&:before': {
             display: 'block',
@@ -84,7 +72,7 @@ const useStyles = makeStyles(theme => ({
             content: '""',
         },
         'input:hover ~ &': {
-            backgroundColor: '#106ba3',
+            backgroundColor: 'green',
         },
     },
 }));
@@ -114,7 +102,7 @@ function StyledRadio(props) {
         <Radio
             className={classes.root}
             disableRipple
-            color="default"
+            color="primary"
             checkedIcon={<span className={clsx(classes.icon, classes.checkedIcon)} />}
             icon={<span className={classes.icon} />}
             {...props}
@@ -128,7 +116,6 @@ export default function ShopInformationSection() {
     const [state, setState] = React.useState({
         store_type: '',
         name: 'Select a store type',
-        checkedB: false,
     });
 
     const inputLabel = React.useRef(null);
@@ -144,26 +131,9 @@ export default function ShopInformationSection() {
         });
     };
 
-    const handleChangeChk = name => event => {
-        setState({ ...state, [name]: event.target.checked });
-    };
-
     return (
-        <Paper className={classes.paper}>
+        <Paper className={classes.paper} style={{'margin-bottom': '80px'}}>
             <form className={classes.root} noValidate>
-                <Grid item xs={12}>
-                    <FormControlLabel
-                        control={
-                            <GreenCheckbox
-                                checked={state.checkedB}
-                                onChange={handleChangeChk('checkedB')}
-                                value="checkedB"
-                                color="success"
-                            />
-                        }
-                        label="Use phone number to login"
-                    />
-                </Grid>
                 <Grid item xs={12}>
                     <ValidationTextField
                         className={classes.margin}
@@ -183,16 +153,6 @@ export default function ShopInformationSection() {
                         defaultValue=""
                         id="validation-outlined-input"
                     />
-                </Grid>
-                <Grid item xs={12} className={classes.margin}>
-                    <FormControl className={classes.margin} component="fieldset">
-                        <FormLabel component="legend" className={classes.left}>Store type:</FormLabel>
-                        <RadioGroup className={classes.margin} defaultValue="1" aria-label="store_type" name="customized-radios">
-                            <FormControlLabel value="1" control={<StyledRadio />} label="Retail" />
-                            <FormControlLabel value="2" control={<StyledRadio />} label="Wholesale" />
-                            <FormControlLabel value="3" control={<StyledRadio />} label="Both" />
-                        </RadioGroup>
-                    </FormControl>
                 </Grid>
 
                 <Grid item xs={12} className={classes.margin}>
@@ -214,6 +174,17 @@ export default function ShopInformationSection() {
                             <option value={20}>Pharmacy</option>
                             <option value={30}>Material</option>
                         </Select>
+                    </FormControl>
+                </Grid>
+
+                <Grid item xs={12} className={classes.margin}>
+                    <FormControl className={classes.margin} component="fieldset">
+                        <FormLabel component="legend" className={classes.left}>Store type:</FormLabel>
+                        <RadioGroup className={classes.margin} defaultValue="1" aria-label="store_type" name="customized-radios">
+                            <FormControlLabel value="1" control={<StyledRadio />} label="Retail" />
+                            <FormControlLabel value="2" control={<StyledRadio />} label="Wholesale" />
+                            <FormControlLabel value="3" control={<StyledRadio />} label="Both" />
+                        </RadioGroup>
                     </FormControl>
                 </Grid>
             </form>

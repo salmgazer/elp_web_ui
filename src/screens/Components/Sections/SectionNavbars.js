@@ -30,7 +30,7 @@ export default function SectionNavbars(props) {
                     <IconButton edge="start" className={classes.menuButton} color="inherit" aria-label="menu">
                         {props.children}
                     </IconButton>
-                    <Typography variant="h6" color="inherit">
+                    <Typography variant="h6" color="inherit" style={{'fontWeight': 700, 'color': '#3d3d3d'}} >
                         {props.title}
                     </Typography>
                 </Toolbar>
