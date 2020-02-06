@@ -55,7 +55,7 @@ const VerifySMS = props => {
                     <Typography
                         variant="h6"
                         component="p"
-                        style={{fontSize: '14px' , color: '#e5e5e5', textAlign: 'center', width: '60%', margin: '0 auto' }}
+                        style={{fontSize: '14px' , color: '#403c3c94', textAlign: 'center', width: '60%', margin: '0 auto' }}
                     >
                         Please enter the four digit pin sent to your phone
                     </Typography>
@@ -77,7 +77,8 @@ const VerifySMS = props => {
 
                     <Grid
                         item xs={12}
-                        style={{position: 'fixed', bottom: '40px', margin: '0 auto'}}
+                        alignItems="center"
+                        style={{margin: '30% auto 5px'}}
                     >
                         <Typography
                             component="span"

@@ -14,6 +14,7 @@ import StepConnector from '@material-ui/core/StepConnector';
 import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
 import Box from '@material-ui/core/Box';
+import paths from "../../utilities/paths";
 import SectionNavbars from '../Components/Sections/SectionNavbars';
 import ArrowBackIcon from '@material-ui/icons/ArrowBack';
 import PersonalInformationSection from './Sections/PersonalInformationSection';
@@ -205,6 +206,7 @@ function getStepContent(step) {
 }
 
 const Register = props => {
+    const { history } = props;
     const classes = useStyles();
     const [activeStep, setActiveStep] = React.useState(0);
     const steps = getSteps();
@@ -222,13 +224,13 @@ const Register = props => {
     };
 
     const handleFinish = () => {
-        props.history.push('/verify_sms')
+        history.push(paths.verify_sms);
     };
 
     return (
         <div className={classes.root}>
             <SectionNavbars title="Create Account">
-                <ArrowBackIcon/>
+                <ArrowBackIcon onClick={() => history.push(paths.login)}/>
             </SectionNavbars>
             <Stepper alternativeLabel activeStep={activeStep} connector={<ColorlibConnector />}>
                 {steps.map(label => (
@@ -245,7 +247,7 @@ const Register = props => {
                             boxShadow={1}
                             bgcolor="background.paper"
                             p={1}
-                            style={{ height: '2rem', position: "fixed", bottom:"0", width:"100%" }}
+                            style={{ height: '2.5rem', position: "fixed", bottom:"0", width:"100%" }}
                         >
                             <Button
                                 variant="outlined"
@@ -273,7 +275,7 @@ const Register = props => {
                             boxShadow={1}
                             bgcolor="background.paper"
                             p={1}
-                            style={{ height: '2rem', position: "fixed", bottom:"0", width:"100%" }}
+                            style={{ height: '2.5rem', position: "fixed", bottom:"0", width:"100%" }}
                         >
                             <Button
                                 variant="outlined"

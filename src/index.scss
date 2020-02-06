@@ -11,3 +11,29 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
+
+.capitalize {
+  text-transform: capitalize !important;
+}
+
+.capitalization {
+  text-transform: none !important;
+}
+
+.Mui-focused {
+  color: #daab59 !important;
+}
+.MuiInput-underline:after {
+  border-bottom: 2px solid #daab59 !important;
+}
+.shadow1 {
+  -webkit-box-shadow: 3px 5px 5px 0px rgba(227,227,227,1);
+  -moz-box-shadow: 3px 5px 5px 0px rgba(227,227,227,1);
+  box-shadow: 3px 5px 5px 0px rgba(227,227,227,1);
+}
+.MuiPaper-elevation1 {
+  -webkit-box-shadow: 3px 5px 5px 1px rgba(227,227,227,1) !important;
+  -moz-box-shadow: 3px 5px 5px 1px rgba(227,227,227,1) !important;
+  box-shadow: 3px 5px 5px 1px rgba(227,227,227,1) !important;
+}
+

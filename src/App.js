@@ -6,6 +6,7 @@ import Login from "./screens/login/Login";
 import Home from "./screens/home/Home";
 import Register from "./screens/register/Register";
 import VerifySMS from "./screens/verifySMS/Verify_sms";
+import Dashboard from "./screens/dashboard/Dasboard";
 
 import {
   HashRouter as Router,
@@ -79,6 +80,14 @@ class App extends React.Component {
                         setPageBackground();
                         this.setTitle(`Verify contact | ${appName}`);
                         return <VerifySMS />;
+                    }}
+                />
+                <Route
+                    path={paths.dashboard}
+                    render={() => {
+                        setPageBackground();
+                        this.setTitle(`Dashboard | ${appName}`);
+                        return <Dashboard />;
                     }}
                 />
               <Route path="*">
