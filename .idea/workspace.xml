@@ -2,15 +2,9 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="23d7673f-f43c-4e81-9c96-c34110ab3b67" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/App.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/App.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/assets/img/confirmImg.jpeg" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/src/index.scss" beforeDir="false" afterPath="$PROJECT_DIR$/src/index.scss" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/screens/login/Login.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/screens/login/Login.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/screens/login/Login.scss" beforeDir="false" afterPath="$PROJECT_DIR$/src/screens/login/Login.scss" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/screens/register/Register.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/screens/register/Register.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/screens/verifySMS/Verify_sms.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/screens/verifySMS/Verify_sms.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/utilities/paths.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/utilities/paths.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/screens/Components/Sections/SectionNavbars.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/screens/Components/Sections/SectionNavbars.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/screens/dashboard/Dasboard.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/screens/dashboard/Dasboard.js" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -34,10 +28,10 @@
         <counts>
           <entry key="gitignore" value="2" />
           <entry key="html" value="2" />
-          <entry key="js" value="33" />
+          <entry key="js" value="38" />
           <entry key="json" value="4" />
           <entry key="md" value="1" />
-          <entry key="scss" value="3" />
+          <entry key="scss" value="4" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.types.open">
@@ -45,9 +39,9 @@
           <entry key="Git file" value="2" />
           <entry key="HTML" value="2" />
           <entry key="JSON" value="4" />
-          <entry key="JavaScript" value="33" />
+          <entry key="JavaScript" value="38" />
           <entry key="Markdown" value="1" />
-          <entry key="SCSS" value="3" />
+          <entry key="SCSS" value="4" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.js.language.service.starts">
@@ -58,15 +52,15 @@
       <usages-collector id="statistics.file.extensions.edit">
         <counts>
           <entry key="gitignore" value="1" />
-          <entry key="js" value="4447" />
-          <entry key="scss" value="99" />
+          <entry key="js" value="5518" />
+          <entry key="scss" value="288" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.types.edit">
         <counts>
           <entry key="Git file" value="1" />
-          <entry key="JavaScript" value="4447" />
-          <entry key="SCSS" value="99" />
+          <entry key="JavaScript" value="5518" />
+          <entry key="SCSS" value="288" />
         </counts>
       </usages-collector>
     </session>
@@ -74,9 +68,23 @@
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/index.js">
+        <entry file="file://$PROJECT_DIR$/src/screens/dashboard/Dasboard.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state>
+            <state relative-caret-position="55">
+              <caret line="139" column="56" selection-start-line="139" selection-start-column="56" selection-end-line="139" selection-end-column="56" />
+              <folding>
+                <element signature="e#0#26#0" expanded="true" />
+                <element signature="n#!!block;n#getUsersFromLocal#0" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/src/screens/dashboard/Sections/CardGridComponent.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="157">
+              <caret line="15" column="42" selection-start-line="15" selection-start-column="42" selection-end-line="15" selection-end-column="42" />
               <folding>
                 <element signature="e#0#26#0" expanded="true" />
               </folding>
@@ -85,19 +93,34 @@
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/utilities/paths.js">
+        <entry file="file://$PROJECT_DIR$/src/screens/Components/Cards/CardDefault.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="34">
-              <caret line="2" column="12" selection-start-line="2" selection-start-column="4" selection-end-line="2" selection-end-column="12" />
+            <state relative-caret-position="241">
+              <caret line="26" column="75" selection-start-line="26" selection-start-column="75" selection-end-line="26" selection-end-column="75" />
+              <folding>
+                <element signature="e#0#26#0" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/screens/dashboard/Dasboard.js">
+        <entry file="file://$PROJECT_DIR$/src/screens/dashboard/Dashboard.scss">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="17">
-              <caret line="1" lean-forward="true" selection-start-line="1" selection-end-line="1" />
+            <state relative-caret-position="119">
+              <caret line="7" column="1" selection-start-line="7" selection-start-column="1" selection-end-line="7" selection-end-column="1" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/screens/Components/Sections/SectionNavbars.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="238">
+              <caret line="29" column="31" selection-end-line="40" />
+              <folding>
+                <element signature="e#0#26#0" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -105,8 +128,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/screens/login/Login.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="221">
-              <caret line="93" column="16" lean-forward="true" selection-start-line="93" selection-end-line="94" />
+            <state relative-caret-position="381">
+              <caret line="210" column="37" lean-forward="true" selection-start-line="210" selection-start-column="37" selection-end-line="210" selection-end-column="37" />
               <folding>
                 <element signature="e#0#26#0" expanded="true" />
                 <element signature="n#!!block;n#getUsersFromLocal#0" />
@@ -116,43 +139,10 @@
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/App.js">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="238">
-              <caret line="89" column="42" selection-start-line="89" selection-start-column="42" selection-end-line="89" selection-end-column="42" />
-              <folding>
-                <element signature="e#0#26#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/screens/register/Sections/AccountInformationSection.js">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-340">
-              <caret line="116" column="25" lean-forward="true" selection-start-line="116" selection-start-column="25" selection-end-line="116" selection-end-column="25" />
-              <folding>
-                <element signature="e#0#26#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/index.scss">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="459">
-              <caret line="34" column="35" selection-start-line="34" selection-start-column="35" selection-end-line="34" selection-end-column="35" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/screens/login/Login.scss">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="102">
-              <caret line="6" column="1" lean-forward="true" selection-start-line="6" selection-start-column="1" selection-end-line="6" selection-end-column="1" />
+              <caret line="58" column="19" selection-start-line="58" selection-start-column="19" selection-end-line="58" selection-end-column="19" />
             </state>
           </provider>
         </entry>
@@ -160,8 +150,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/screens/verifySMS/Verify_sms.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="165">
-              <caret line="28" column="11" selection-start-line="28" selection-start-column="4" selection-end-line="28" selection-end-column="11" />
+            <state relative-caret-position="-419">
+              <caret line="42" column="29" lean-forward="true" selection-start-line="40" selection-start-column="12" selection-end-line="42" selection-end-column="29" />
               <folding>
                 <element signature="e#0#26#0" expanded="true" />
               </folding>
@@ -169,11 +159,11 @@
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="true">
+      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/screens/register/Register.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="275">
-              <caret line="232" column="70" selection-start-line="232" selection-start-column="70" selection-end-line="232" selection-end-column="70" />
+            <state relative-caret-position="462">
+              <caret line="295" column="37" lean-forward="true" selection-start-line="288" selection-start-column="28" selection-end-line="295" selection-end-column="37" />
               <folding>
                 <element signature="e#0#39#0" expanded="true" />
               </folding>
@@ -215,8 +205,8 @@
       <find>background-image</find>
       <find>useStyles</find>
       <find>QontoConnector</find>
-      <find>boxRadius</find>
       <find>shadow1</find>
+      <find>boxRadius</find>
     </findStrings>
   </component>
   <component name="Git.Settings">
@@ -226,19 +216,23 @@
     <option name="CHANGED_PATHS">
       <list>
         <option value="$PROJECT_DIR$/.gitignore" />
-        <option value="$PROJECT_DIR$/src/screens/Components/Sections/SectionNavbars.js" />
         <option value="$PROJECT_DIR$/src/screens/register/Sections/AccountInformationSection.js" />
         <option value="$PROJECT_DIR$/src/screens/register/Sections/ShopInformationSection.js" />
         <option value="$PROJECT_DIR$/src/screens/register/Sections/PersonalInformationSection.js" />
         <option value="$PROJECT_DIR$/src/screens/verifySMS/verify_sms.js" />
         <option value="$PROJECT_DIR$/src/screens/verifySMS/Verify_sms.js" />
         <option value="$PROJECT_DIR$/src/screens/login/Login.scss" />
-        <option value="$PROJECT_DIR$/src/screens/dashboard/Dasboard.js" />
         <option value="$PROJECT_DIR$/src/utilities/paths.js" />
         <option value="$PROJECT_DIR$/src/App.js" />
         <option value="$PROJECT_DIR$/src/screens/login/Login.js" />
-        <option value="$PROJECT_DIR$/src/index.scss" />
         <option value="$PROJECT_DIR$/src/screens/register/Register.js" />
+        <option value="$PROJECT_DIR$/src/screens/Components/Sections/SectionNavbars.js" />
+        <option value="$PROJECT_DIR$/src/screens/Components/Box/BoxDefault.js" />
+        <option value="$PROJECT_DIR$/src/index.scss" />
+        <option value="$PROJECT_DIR$/src/screens/Components/Cards/CardDefault.js" />
+        <option value="$PROJECT_DIR$/src/screens/dashboard/Dashboard.scss" />
+        <option value="$PROJECT_DIR$/src/screens/dashboard/Dasboard.js" />
+        <option value="$PROJECT_DIR$/src/screens/dashboard/Sections/CardGridComponent.js" />
       </list>
     </option>
   </component>
@@ -299,6 +293,21 @@
               <item name="web-ui" type="462c0819:PsiDirectoryNode" />
               <item name="src" type="462c0819:PsiDirectoryNode" />
               <item name="screens" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="web-ui" type="b2602c69:ProjectViewProjectNode" />
+              <item name="web-ui" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="screens" type="462c0819:PsiDirectoryNode" />
+              <item name="Components" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="web-ui" type="b2602c69:ProjectViewProjectNode" />
+              <item name="web-ui" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="screens" type="462c0819:PsiDirectoryNode" />
+              <item name="Components" type="462c0819:PsiDirectoryNode" />
+              <item name="Cards" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="web-ui" type="b2602c69:ProjectViewProjectNode" />
@@ -369,6 +378,16 @@
       </list>
     </option>
   </component>
+  <component name="RunManager">
+    <configuration name="Dasboard.js" type="NodeJSConfigurationType" factoryName="Node.js" temporary="true" nameIsGenerated="true" path-to-js-file="Dasboard.js" working-dir="$PROJECT_DIR$/src/screens/dashboard">
+      <method v="2" />
+    </configuration>
+    <recent_temporary>
+      <list>
+        <item itemvalue="Node.js.Dasboard.js" />
+      </list>
+    </recent_temporary>
+  </component>
   <component name="SvnConfiguration">
     <configuration />
   </component>
@@ -382,12 +401,12 @@
       <workItem from="1580298804469" duration="2625000" />
       <workItem from="1580309458209" duration="1180000" />
       <workItem from="1580379504907" duration="27005000" />
-      <workItem from="1580683038429" duration="61111000" />
+      <workItem from="1580683038429" duration="78833000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="91921000" />
+    <option name="totallyTimeSpent" value="109643000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-7" y="-7" width="1295" height="735" extended-state="6" />
@@ -401,7 +420,7 @@
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Find" order="1" weight="0.32890365" />
       <window_info anchor="bottom" id="Run" order="2" />
-      <window_info anchor="bottom" id="Debug" order="3" weight="0.4" />
+      <window_info anchor="bottom" id="Debug" order="3" visible="true" weight="0.1345515" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
       <window_info anchor="bottom" id="TODO" order="6" />
@@ -526,16 +545,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/screens/Components/Sections/SectionNavbars.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state>
-          <caret lean-forward="true" />
-          <folding>
-            <element signature="e#0#26#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/screens/register/Sections/ShopInformationSection.js">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="332">
@@ -609,47 +618,12 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/screens/dashboard/Dasboard.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="17">
-          <caret line="1" lean-forward="true" selection-start-line="1" selection-end-line="1" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/screens/verifySMS/Verify_sms.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="165">
-          <caret line="28" column="11" selection-start-line="28" selection-start-column="4" selection-end-line="28" selection-end-column="11" />
-          <folding>
-            <element signature="e#0#26#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/index.scss">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="459">
-          <caret line="34" column="35" selection-start-line="34" selection-start-column="35" selection-end-line="34" selection-end-column="35" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/screens/register/Sections/AccountInformationSection.js">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="-340">
           <caret line="116" column="25" lean-forward="true" selection-start-line="116" selection-start-column="25" selection-end-line="116" selection-end-column="25" />
           <folding>
             <element signature="e#0#26#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/screens/login/Login.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="221">
-          <caret line="93" column="16" lean-forward="true" selection-start-line="93" selection-end-line="94" />
-          <folding>
-            <element signature="e#0#26#0" expanded="true" />
-            <element signature="n#!!block;n#getUsersFromLocal#0" />
           </folding>
         </state>
       </provider>
@@ -661,12 +635,98 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/src/screens/verifySMS/Verify_sms.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-419">
+          <caret line="42" column="29" lean-forward="true" selection-start-line="40" selection-start-column="12" selection-end-line="42" selection-end-column="29" />
+          <folding>
+            <element signature="e#0#26#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/src/screens/register/Register.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="275">
-          <caret line="232" column="70" selection-start-line="232" selection-start-column="70" selection-end-line="232" selection-end-column="70" />
+        <state relative-caret-position="462">
+          <caret line="295" column="37" lean-forward="true" selection-start-line="288" selection-start-column="28" selection-end-line="295" selection-end-column="37" />
           <folding>
             <element signature="e#0#39#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/screens/Components/Sections/SectionNavbars.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="238">
+          <caret line="29" column="31" selection-end-line="40" />
+          <folding>
+            <element signature="e#0#26#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/screens/Components/Box/BoxDefault.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="272">
+          <caret line="16" column="4" lean-forward="true" selection-end-line="32" />
+          <folding>
+            <element signature="e#0#26#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/index.scss">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="459">
+          <caret line="58" column="19" selection-start-line="58" selection-start-column="19" selection-end-line="58" selection-end-column="19" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/screens/login/Login.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="381">
+          <caret line="210" column="37" lean-forward="true" selection-start-line="210" selection-start-column="37" selection-end-line="210" selection-end-column="37" />
+          <folding>
+            <element signature="e#0#26#0" expanded="true" />
+            <element signature="n#!!block;n#getUsersFromLocal#0" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/screens/Components/Cards/CardDefault.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="241">
+          <caret line="26" column="75" selection-start-line="26" selection-start-column="75" selection-end-line="26" selection-end-column="75" />
+          <folding>
+            <element signature="e#0#26#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/screens/dashboard/Dashboard.scss">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="119">
+          <caret line="7" column="1" selection-start-line="7" selection-start-column="1" selection-end-line="7" selection-end-column="1" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/screens/dashboard/Dasboard.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="55">
+          <caret line="139" column="56" selection-start-line="139" selection-start-column="56" selection-end-line="139" selection-end-column="56" />
+          <folding>
+            <element signature="e#0#26#0" expanded="true" />
+            <element signature="n#!!block;n#getUsersFromLocal#0" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/screens/dashboard/Sections/CardGridComponent.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="157">
+          <caret line="15" column="42" selection-start-line="15" selection-start-column="42" selection-end-line="15" selection-end-column="42" />
+          <folding>
+            <element signature="e#0#26#0" expanded="true" />
           </folding>
         </state>
       </provider>

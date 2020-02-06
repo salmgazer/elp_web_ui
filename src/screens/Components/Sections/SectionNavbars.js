@@ -10,7 +10,7 @@ const useStyles = makeStyles(theme => ({
         flexGrow: 1,
     },
     menuButton: {
-        marginRight: theme.spacing(2),
+        marginRight: theme.spacing(0),
     },
 
     header: {
@@ -30,7 +30,7 @@ export default function SectionNavbars(props) {
                     <IconButton edge="start" className={classes.menuButton} color="inherit" aria-label="menu">
                         {props.children}
                     </IconButton>
-                    <Typography variant="h6" color="inherit" style={{'fontWeight': 700, 'color': '#3d3d3d'}} >
+                    <Typography variant="h6" color="inherit" style={{'fontWeight': 700, 'color': '#3d3d3d', textAlign: 'center', margin: '0 auto'}} >
                         {props.title}
                     </Typography>
                 </Toolbar>
