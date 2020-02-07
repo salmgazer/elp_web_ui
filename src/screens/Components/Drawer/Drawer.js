@@ -29,10 +29,7 @@ const Drawer = props => {
     console.log(props);
     const classes = useStyles();
     const [state, setState] = React.useState({
-        top: false,
         left: props.isShow,
-        bottom: false,
-        right: false,
     });
 
     const toggleDrawer = (side, open) => event => {

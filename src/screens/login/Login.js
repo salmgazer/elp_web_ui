@@ -170,7 +170,12 @@ const Login = props => {
                                       <PhoneIcon />
                                   </Grid>
                                   <Grid item>
-                                      <TextField onChange={event => setState({ usernameOrPhone: event.target.value })} id="usernameOrPhone" type='text' value={state.usernameOrPhone} label="username/contact" />
+                                      <TextField
+                                          onChange={event => setState({ usernameOrPhone: event.target.value })}
+                                          id="usernameOrPhone" type='text' value={state.usernameOrPhone}
+                                          label="username/contact"
+                                          helperText=""
+                                      />
                                   </Grid>
                               </Grid>
                           </div>
@@ -186,6 +191,7 @@ const Login = props => {
                                           onChange={event => setState({ password: event.target.value })}
                                           type={state.isShown ? 'text' : 'password'}
                                           label="password"
+                                          helperText=""
                                       />
                                   </Grid>
                               </Grid>

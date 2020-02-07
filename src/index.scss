@@ -20,7 +20,7 @@ code {
   text-transform: none !important;
 }
 
-.Mui-focused {
+.MuiFormLabel-root.Mui-focused {
   color: #daab59 !important;
 }
 .MuiInput-underline:after {
@@ -57,5 +57,8 @@ code {
   max-height: 150px;
   border-radius: 5px;
   margin-bottom: 15px;
+}
+.MuiStepLabel-label.MuiStepLabel-active, .MuiStepLabel-label.MuiStepLabel-completed {
+  color: #DAAB59 !important;
 }
 

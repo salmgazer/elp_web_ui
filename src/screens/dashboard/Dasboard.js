@@ -176,6 +176,7 @@ const Dashboard = props => {
                             bgcolor="background.paper"
                             p={1}
                             className={'boxDefault'}
+                            style="margin-bottom: '70px';"
                         >
                             <CardDefault styles={{width: '85%', marginTop: '10px'}}>
                                 <HomeIcon style={{fontSize: '2rem'}}/>

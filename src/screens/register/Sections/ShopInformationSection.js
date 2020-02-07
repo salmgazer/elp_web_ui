@@ -23,7 +23,7 @@ const useStyles = makeStyles(theme => ({
     },
     formControl: {
         margin: theme.spacing(1),
-        minWidth: '90%',
+        minWidth: '95%',
     },
     selectEmpty: {
         marginTop: theme.spacing(2),
@@ -83,8 +83,12 @@ const ValidationTextField = withStyles({
             borderColor: 'green',
             borderWidth: 2,
         },
-        '& input:invalid + fieldset': {
+        '& input:invalid:not:focus + fieldset': {
             borderColor: 'red',
+            borderWidth: 2,
+        },
+        '& input:invalid:focus + fieldset': {
+            borderColor: '#DAAB59',
             borderWidth: 2,
         },
         '& input:valid:focus + fieldset': {
@@ -141,7 +145,7 @@ export default function ShopInformationSection() {
                         required
                         variant="outlined"
                         defaultValue=""
-                        id="validation-outlined-input"
+                        id="storeName"
                     />
                 </Grid>
                 <Grid item xs={12}>
@@ -151,7 +155,7 @@ export default function ShopInformationSection() {
                         required
                         variant="outlined"
                         defaultValue=""
-                        id="validation-outlined-input"
+                        id="location"
                     />
                 </Grid>
 
@@ -167,7 +171,7 @@ export default function ShopInformationSection() {
                             labelWidth={labelWidth}
                             inputProps={{
                                 name: 'store_type',
-                                id: 'outlined-age-native-simple',
+                                id: 'storeCategory',
                             }}
                         >
                             <option value={10}>Drink Store</option>

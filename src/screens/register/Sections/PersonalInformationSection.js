@@ -32,8 +32,12 @@ const ValidationTextField = withStyles({
             borderColor: 'green',
             borderWidth: 2,
         },
-        '& input:invalid + fieldset': {
+        '& input:invalid:not:focus + fieldset': {
             borderColor: 'red',
+            borderWidth: 2,
+        },
+        '& input:invalid:focus + fieldset': {
+            borderColor: '#DAAB59',
             borderWidth: 2,
         },
         '& input:valid:focus + fieldset': {
@@ -56,7 +60,7 @@ export default function PersonalInformationSection() {
                         required
                         variant="outlined"
                         defaultValue=""
-                        id="validation-outlined-input"
+                        id="firstName"
                     />
                 </Grid>
                 <Grid item xs={12}>
@@ -66,7 +70,7 @@ export default function PersonalInformationSection() {
                         required
                         variant="outlined"
                         defaultValue=""
-                        id="validation-outlined-input"
+                        id="otherNames"
                     />
                 </Grid>
                 <Grid item xs={12}>
@@ -76,7 +80,7 @@ export default function PersonalInformationSection() {
                         required
                         variant="outlined"
                         defaultValue=""
-                        id="validation-outlined-input"
+                        id="contact"
                     />
                 </Grid>
             </form>

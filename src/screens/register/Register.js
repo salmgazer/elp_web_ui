@@ -116,8 +116,8 @@ const useColorlibStepIconStyles = makeStyles({
     root: {
         backgroundColor: '#FFF',
         zIndex: 1,
-        color: '#eaeaf0',
-        border: '3px solid #eaeaf0',
+        color: '#0000002e',
+        border: '3px solid #0000002e',
         width: 65,
         height: 65,
         display: 'flex',
@@ -217,10 +217,6 @@ const Register = props => {
 
     const handleBack = () => {
         setActiveStep(prevActiveStep => prevActiveStep - 1);
-    };
-
-    const handleReset = () => {
-        setActiveStep(0);
     };
 
     const handleFinish = () => {

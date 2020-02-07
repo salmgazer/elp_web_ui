@@ -54,8 +54,12 @@ const ValidationTextField = withStyles({
             borderColor: 'green',
             borderWidth: 2,
         },
-        '& input:invalid + fieldset': {
+        '& input:invalid:not:focus + fieldset': {
             borderColor: 'red',
+            borderWidth: 2,
+        },
+        '& input:invalid:focus + fieldset': {
+            borderColor: '#DAAB59',
             borderWidth: 2,
         },
         '& input:valid:focus + fieldset': {
@@ -64,6 +68,15 @@ const ValidationTextField = withStyles({
         },
     },
 })(TextField);
+
+const FakeFormControl = withStyles({
+    root: {
+        '& input:focus + fieldset': {
+            borderColor: '#DAAB59',
+            borderWidth: 2,
+        },
+    }
+})(FormControl);
 
 export default function AccountInformationSection() {
     const [values, setValues] = React.useState({
@@ -117,14 +130,14 @@ export default function AccountInformationSection() {
                         required
                         variant="outlined"
                         defaultValue=""
-                        id="validation-outlined-input"
+                        id="username"
                     />
                 </Grid>
                 <Grid item xs={12}>
-                    <FormControl className={clsx(classes.margin, classes.textField)} variant="outlined">
+                    <FakeFormControl className={clsx(classes.margin, classes.textField)} variant="outlined">
                         <InputLabel htmlFor="outlined-adornment-password">Password</InputLabel>
                         <OutlinedInput
-                            id="outlined-adornment-password"
+                            id="password"
                             type={values.showPassword ? 'text' : 'password'}
                             value={values.password}
                             required
@@ -143,13 +156,13 @@ export default function AccountInformationSection() {
                             }
                             labelWidth={70}
                         />
-                    </FormControl>
+                    </FakeFormControl>
                 </Grid>
                 <Grid item xs={12}>
-                    <FormControl className={clsx(classes.margin, classes.textField)} variant="outlined">
+                    <FakeFormControl className={clsx(classes.margin, classes.textField)} variant="outlined">
                         <InputLabel htmlFor="outlined-adornment-password">Confirm password</InputLabel>
                         <OutlinedInput
-                            id="outlined-adornment-password"
+                            id="passwordConfirm"
                             type={values.showPassword ? 'text' : 'password'}
                             value={values.password}
                             required
@@ -168,7 +181,7 @@ export default function AccountInformationSection() {
                             }
                             labelWidth={70}
                         />
-                    </FormControl>
+                    </FakeFormControl>
                 </Grid>
             </form>
         </Paper>
