@@ -140,6 +140,7 @@ const Dashboard = props => {
                             bgcolor="background.paper"
                             p={1}
                             className={'boxDefault'}
+                            styles={{marginTop: '90px'}}
                         >
                             <Typography
                                 component="p"
@@ -176,14 +177,14 @@ const Dashboard = props => {
                             bgcolor="background.paper"
                             p={1}
                             className={'boxDefault'}
-                            style="margin-bottom: '70px';"
+                            styles={{marginBottom: '90px'}}
                         >
                             <CardDefault styles={{width: '85%', marginTop: '10px'}}>
                                 <HomeIcon style={{fontSize: '2rem'}}/>
                                 <Typography
                                     component="p"
                                     variant="h6"
-                                    style={{fontWeight: '700 !important', fontSize: '1.00rem'}}
+                                    style={{fontWeight: '700', fontSize: '1.00rem'}}
                                 >
                                     Go to Homepage
                                 </Typography>
@@ -194,7 +195,7 @@ const Dashboard = props => {
                                 <Typography
                                     component="p"
                                     variant="h6"
-                                    style={{fontWeight: '700 !important', fontSize: '1.00rem'}}
+                                    style={{fontWeight: '700', fontSize: '1.00rem'}}
                                 >
                                     Go to Settings
                                 </Typography>

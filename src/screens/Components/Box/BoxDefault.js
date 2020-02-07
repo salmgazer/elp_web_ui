@@ -25,6 +25,7 @@ export default function BoxDefault(props) {
             bgcolor="background.paper"
             p={1}
             className={'boxDefault'}
+            style={props.styles}
         >
             {props.children}
         </Box>

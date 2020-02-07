@@ -25,7 +25,7 @@ export default function SectionNavbars(props) {
 
     return (
         <div className={classes.root}>
-            <AppBar position="static" style={{ background: '#DAAB59' , color: '#343a40'}}>
+            <AppBar position="fixed" style={{ background: '#DAAB59' , color: '#343a40'}}>
                 <Toolbar variant="dense">
                     <IconButton edge="start" className={classes.menuButton} color="inherit" aria-label="menu">
                         {props.children}

@@ -228,7 +228,12 @@ const Register = props => {
             <SectionNavbars title="Create Account">
                 <ArrowBackIcon onClick={() => history.push(paths.login)}/>
             </SectionNavbars>
-            <Stepper alternativeLabel activeStep={activeStep} connector={<ColorlibConnector />}>
+            <Stepper
+                alternativeLabel
+                activeStep={activeStep}
+                connector={<ColorlibConnector />}
+                style={{marginTop: '40px'}}
+            >
                 {steps.map(label => (
                     <Step key={label}>
                         <StepLabel StepIconComponent={ColorlibStepIcon}>{label}</StepLabel>
