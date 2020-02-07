@@ -17,12 +17,12 @@ import MenuIcon from '@material-ui/icons/Menu';
 import HomeIcon from '@material-ui/icons/Home';
 import Logo from '../../assets/img/el-parah.png';
 import Typography from "@material-ui/core/Typography/Typography";
-import CloseIcon from "@material-ui/core/SvgIcon/SvgIcon";
 import SectionNavbars from "../Components/Sections/SectionNavbars";
 import BoxDefault from "../Components/Box/BoxDefault";
 import CardDefault from "../Components/Cards/CardDefault";
 import SettingsIcon from '@material-ui/icons/Settings';
 import CardGridComponent from "./Sections/CardGridComponent";
+import Drawer from "../Components/Drawer/Drawer";
 
 
 const useStyles = makeStyles(theme => ({
@@ -112,23 +112,30 @@ const Dashboard = props => {
 
     return (
         <div style={{height: '100vh'}}>
-            <SectionNavbars title="Welcome Paul!">
-                <MenuIcon
-                    style={{fontSize: '2.5rem'}}
-                />
-            </SectionNavbars>
             <Component
                 initialState={{
                     profitMade: 0,
                     salesMade: 0,
                     creditSales: 0,
-                    purchaseMade: 0
+                    purchaseMade: 0,
+                    isDrawerShow: false,
                 }}
             >
                 {({ state, setState }) => (
                     <React.Fragment>
+                        {console.log(state.isDrawerShow)}
+
                         <CssBaseline />
 
+
+                        <SectionNavbars title="Welcome Paul!">
+                            <MenuIcon
+                                onClick={() => setState({isDrawerShow: true})}
+                                style={{fontSize: '2.5rem'}}
+                            />
+                        </SectionNavbars>
+
+                        <Drawer isShow={state.isDrawerShow} />
                         <BoxDefault
                             bgcolor="background.paper"
                             p={1}
@@ -154,11 +161,15 @@ const Dashboard = props => {
                                 <CardGridComponent
                                     title="Credit sales made"
                                     amount={state.creditSales}
-                                />
+                                >
+                                    <br/><a  href="#" style={{'marginTop': '1px', color: '#DAAB59', fontSize: '14px', fontWeight: '300'}}>View credit sales</a>
+                                </CardGridComponent>
                                 <CardGridComponent
                                     title="Purchases made today"
                                     amount={state.purchaseMade}
-                                />
+                                >
+                                    <br/><a  href="#" style={{'marginTop': '1px', color: '#DAAB59', fontSize: '14px', fontWeight: '300'}}>View stock</a>
+                                </CardGridComponent>
                             </Grid>
                         </BoxDefault>
                         <BoxDefault

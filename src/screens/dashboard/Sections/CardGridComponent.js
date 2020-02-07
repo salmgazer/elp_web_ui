@@ -23,6 +23,7 @@ export default function CardGridComponent(props) {
                     style={{fontWeight: '700', fontSize: '22px'}}
                 >
                     GHC {props.amount}
+                    {props.children}
                 </Typography>
             </CardDefault>
         </Grid>

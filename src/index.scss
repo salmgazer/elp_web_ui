@@ -27,14 +27,14 @@ code {
   border-bottom: 2px solid #daab59 !important;
 }
 .shadow1 {
-  -webkit-box-shadow: 3px 5px 5px 0px rgba(227,227,227,1);
-  -moz-box-shadow: 3px 5px 5px 0px rgba(227,227,227,1);
-  box-shadow: 3px 5px 5px 0px rgba(227,227,227,1);
+  -webkit-box-shadow: 1px 1px 6px 3px rgba(227,227,227,0.54);
+  -moz-box-shadow: 1px 1px 6px 3px rgba(227,227,227,0.54);
+  box-shadow: 1px 1px 6px 3px rgba(227,227,227,0.54);
 }
 .MuiPaper-elevation1 {
-  -webkit-box-shadow: 3px 5px 5px 1px rgba(227,227,227,1) !important;
-  -moz-box-shadow: 3px 5px 5px 1px rgba(227,227,227,1) !important;
-  box-shadow: 3px 5px 5px 1px rgba(227,227,227,1) !important;
+  -webkit-box-shadow: 1px 1px 6px 3px rgba(227,227,227,0.54) !important;
+  -moz-box-shadow: 1px 1px 6px 3px rgba(227,227,227,0.54) !important;
+  box-shadow: 1px 1px 6px 3px rgba(227,227,227,0.54) !important;
 }
 .marginCenter {
   margin-left: auto;
@@ -42,18 +42,18 @@ code {
 }
 .boxDefault {
   margin: 10px auto;
-  -webkit-box-shadow: 3px 5px 5px 0px rgba(227,227,227,1);
-  -moz-box-shadow: 3px 5px 5px 0px rgba(227,227,227,1);
-  box-shadow: 3px 5px 5px 0px rgba(227,227,227,1);
+  -webkit-box-shadow: 1px 1px 6px 3px rgba(227,227,227,0.54);
+  -moz-box-shadow: 1px 1px 6px 3px rgba(227,227,227,0.54);
+  box-shadow: 1px 1px 6px 3px rgba(227,227,227,0.54);
   min-height: 150px;
   width: 95%;
   border-radius: 5px;
 }
 
 .cardDefault {
-  -webkit-box-shadow: 3px 5px 5px 0px rgba(227,227,227,1);
-  -moz-box-shadow: 3px 5px 5px 0px rgba(227,227,227,1);
-  box-shadow: 3px 5px 5px 0px rgba(227,227,227,1);
+  -webkit-box-shadow: 1px 1px 6px 3px rgba(227,227,227,0.54);
+  -moz-box-shadow: 1px 1px 6px 3px rgba(227,227,227,0.54);
+  box-shadow: 1px 1px 6px 3px rgba(227,227,227,0.54);
   max-height: 150px;
   border-radius: 5px;
   margin-bottom: 15px;
