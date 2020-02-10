@@ -1,4 +1,6 @@
 import React from "react";
+import OtpInput from 'react-otp-input';
+import Component from "@reactions/component";
 import CssBaseline from '@material-ui/core/CssBaseline';
 import Typography from '@material-ui/core/Typography';
 import Container from '@material-ui/core/Container';
@@ -9,10 +11,11 @@ import { makeStyles } from '@material-ui/core/styles';
 import Box from '@material-ui/core/Box';
 import Grid from '@material-ui/core/Grid';
 import TextField from '@material-ui/core/TextField';
-
+import './verify.scss';
 
 import confirmImg from '../../assets/img/confirm.jfif';
 import Button from "@material-ui/core/Button/Button";
+import paths from "../../utilities/paths";
 
 
 const useStyles = makeStyles(theme => ({
@@ -34,69 +37,86 @@ const useStyles = makeStyles(theme => ({
 }));
 
 const VerifySMS = props => {
+    const { history } = props;
     const classes = useStyles();
 
     return (
         <div className={classes.root} style={{ backgroundColor: '#ffffff', height: '100vh' }}>
             <SectionNavbars>
-                <CloseIcon/>
+                <CloseIcon onClick={() => history.push(paths.login)} />
             </SectionNavbars>
-            <React.Fragment>
-                <CssBaseline />
+            <Component
+                initialState={{
+                    otp: '',
+                }}
+            >
+                {({ state, setState }) => (
+                    <React.Fragment>
+                        <CssBaseline />
 
-                <Container maxWidth="sm">
-                    <Box component="div" m={2} style={{paddingTop: '30px'}}>
-                        <img className="img-responsive" src={confirmImg} alt={'test'}/>
-                    </Box>
-                    <Typography variant="h6" component="h6">
-                        Verify phone number
-                    </Typography>
+                        <Container maxWidth="sm">
+                            <Box component="div" m={2} style={{paddingTop: '60px'}}>
+                                <img className="img-responsive" src={confirmImg} alt={'test'}/>
+                            </Box>
+                            <Typography variant="h6" component="h6">
+                                Verify phone number
+                            </Typography>
 
-                    <Typography
-                        variant="h6"
-                        component="p"
-                        style={{fontSize: '14px' , color: '#403c3c94', textAlign: 'center', width: '60%', margin: '0 auto' }}
-                    >
-                        Please enter the four digit pin sent to your phone
-                    </Typography>
-                    <TextField
-                        style={{ margin: '10px 5px'}}
-                        id="outlined-size-small"
-                        size="small"
-                        variant="outlined"
-                    />
+                            <Typography
+                                variant="h6"
+                                component="p"
+                                style={{fontSize: '14px' , color: '#403c3c94', textAlign: 'center', width: '60%', margin: '0 auto' }}
+                            >
+                                Please enter the four digit pin sent to your phone
+                            </Typography>
+                            <div
+                                style={{display: 'inline-flex'}}
+                            >
+                                <OtpInput
+                                    onChange={otp => setState({otp})}
+                                    numInputs={4}
+                                    separator=""
+                                    value={state.otp}
+                                    inputStyle="inputStyle"
+                                    focusStyle="activeInputStyle"
+                                    isInputNum="true"
+                                    shouldAutoFocus="true"
+                                />
+                            </div>
 
+                            <br/>
+                            <Button
+                                variant="contained"
+                                style={{'backgroundColor': '#DAAB59' , color: '#333333', padding: '8px 40px', fontSize: '14px', fontWeight: '700'}}
+                                className={classes.button}
+                            >
+                                Finish
+                            </Button>
 
-                    <Button
-                        variant="contained"
-                        style={{'backgroundColor': '#DAAB59' , color: '#333333', padding: '5px 40px', fontSize: '12px', fontWeight: '700'}}
-                        className={classes.button}
-                    >
-                        Finish
-                    </Button>
+                            <Grid
+                                item xs={12}
+                                alignItems="center"
+                                style={{margin: '30% auto 5px'}}
+                            >
+                                <Typography
+                                    component="span"
 
-                    <Grid
-                        item xs={12}
-                        alignItems="center"
-                        style={{margin: '30% auto 5px'}}
-                    >
-                        <Typography
-                            component="span"
+                                >
+                                    Didn't receive code?
+                                </Typography>
 
-                        >
-                            Didn't receive code?
-                        </Typography>
-
-                        <Button
-                            variant="outlined"
-                            style={{border: '1px solid #DAAB59', textAlign: 'center', color: '#DAAB59', padding: '5px 15px', fontSize: '12px', marginLeft: '10px'}}
-                            className={classes.button + ' ' + classes.shadow1}
-                        >
-                            Resend code
-                        </Button>
-                    </Grid>
-                </Container>
-            </React.Fragment>
+                                <Button
+                                    variant="outlined"
+                                    style={{border: '1px solid #DAAB59', textAlign: 'center', color: '#DAAB59', padding: '8px 15px', fontSize: '12px', marginLeft: '10px'}}
+                                    className={classes.button + ' ' + classes.shadow1}
+                                >
+                                    Resend code
+                                </Button>
+                            </Grid>
+                        </Container>
+                    </React.Fragment>
+                )}
+            </Component>
         </div>
     );
 };

@@ -23,6 +23,7 @@ code {
 .MuiFormLabel-root.Mui-focused {
   color: #daab59 !important;
 }
+
 .MuiInput-underline:after {
   border-bottom: 2px solid #daab59 !important;
 }
@@ -61,4 +62,15 @@ code {
 .MuiStepLabel-label.MuiStepLabel-active, .MuiStepLabel-label.MuiStepLabel-completed {
   color: #DAAB59 !important;
 }
+
+.MuiOutlinedInput-root .Mui-focused {
+  .MuiOutlinedInput-notchedOutline {
+    border-color: #daab59 !important;
+  }
+}
+
+.MuiFormGroup-root {
+  flex-direction: unset !important;
+}
+
 

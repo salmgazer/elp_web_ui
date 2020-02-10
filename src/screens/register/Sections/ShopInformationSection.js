@@ -21,6 +21,14 @@ const useStyles = makeStyles(theme => ({
         display: 'flex',
         flexWrap: 'wrap',
     },
+    select: {
+        '&:before': {
+            borderColor: '#DAAB59',
+        },
+        '&:hover:not(.Mui-disabled):before': {
+            borderColor: '#DAAB59',
+        },
+    },
     formControl: {
         margin: theme.spacing(1),
         minWidth: '95%',
@@ -93,10 +101,34 @@ const ValidationTextField = withStyles({
         },
         '& input:valid:focus + fieldset': {
             borderLeftWidth: 6,
+            borderColor: '#DAAB59',
             padding: '4px !important', // override inline-style
         },
     },
 })(TextField);
+
+const ValidationSelectField = withStyles({
+    root: {
+        '& select:valid + fieldset': {
+            borderColor: 'green',
+            borderWidth: 2,
+        },
+        '& select:invalid:not:focus + fieldset': {
+            borderColor: 'red',
+            borderWidth: 2,
+        },
+        '& select:invalid:focus + fieldset': {
+            borderColor: '#DAAB59',
+            borderWidth: 2,
+        },
+        '& select:valid:focus + fieldset': {
+            borderLeftWidth: 6,
+            borderColor: '#DAAB59',
+            padding: '4px !important', // override inline-style
+        },
+    },
+})(Select);
+
 
 // Inspired by blueprintjs
 function StyledRadio(props) {
@@ -164,7 +196,7 @@ export default function ShopInformationSection() {
                         <InputLabel ref={inputLabel} htmlFor="outlined-age-native-simple">
                             Store Category:
                         </InputLabel>
-                        <Select
+                        <ValidationSelectField
                             native
                             value={state.store_type}
                             onChange={handleChange('store_type')}
@@ -173,11 +205,12 @@ export default function ShopInformationSection() {
                                 name: 'store_type',
                                 id: 'storeCategory',
                             }}
+                            className={classes.select}
                         >
                             <option value={10}>Drink Store</option>
                             <option value={20}>Pharmacy</option>
                             <option value={30}>Material</option>
-                        </Select>
+                        </ValidationSelectField>
                     </FormControl>
                 </Grid>
 

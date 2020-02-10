@@ -192,6 +192,9 @@ function getSteps() {
     return ['Personal', 'Shop', 'Account'];
 }
 
+/*@todo
+* change state for password and confirm password...
+* */
 function getStepContent(step) {
     switch (step) {
         case 0:

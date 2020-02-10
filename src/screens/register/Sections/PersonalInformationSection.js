@@ -42,6 +42,7 @@ const ValidationTextField = withStyles({
         },
         '& input:valid:focus + fieldset': {
             borderLeftWidth: 6,
+            borderColor: '#DAAB59',
             padding: '4px !important', // override inline-style
         },
     },
