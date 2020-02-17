@@ -15,6 +15,9 @@ import {
   useLocation
 } from "react-router-dom";
 import paths from "./utilities/paths";
+import GetStarted from "./screens/getStarted/GetStarted";
+import AddProducts from "./screens/onboarding/addProducts/AddProducts";
+import CategorySetup from "./screens/onboarding/categorySetup/CategorySetup";
 
 function NoMatch() {
   let location = useLocation();
@@ -88,6 +91,30 @@ class App extends React.Component {
                         setPageBackground();
                         this.setTitle(`Dashboard | ${appName}`);
                         return <Dashboard />;
+                    }}
+                />
+                <Route
+                    path={paths.get_started}
+                    render={() => {
+                        setPageBackground();
+                        this.setTitle(`Getting Started | ${appName}`);
+                        return <GetStarted/>;
+                    }}
+                />
+                <Route
+                    path={paths.category_setup}
+                    render={() => {
+                        setPageBackground();
+                        this.setTitle(`Add shop categories | ${appName}`);
+                        return <CategorySetup/>;
+                    }}
+                />
+                <Route
+                    path={paths.add_products}
+                    render={() => {
+                        setPageBackground();
+                        this.setTitle(`Add products | ${appName}`);
+                        return <AddProducts/>;
                     }}
                 />
               <Route path="*">

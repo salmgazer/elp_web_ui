@@ -118,13 +118,11 @@ const Dashboard = props => {
                     salesMade: 0,
                     creditSales: 0,
                     purchaseMade: 0,
-                    isDrawerShow: false,
+                    isDrawerShow: true,
                 }}
             >
                 {({ state, setState }) => (
                     <React.Fragment>
-                        {console.log(state.isDrawerShow)}
-
                         <CssBaseline />
 
 

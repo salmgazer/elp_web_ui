@@ -10,12 +10,12 @@ import { withRouter } from "react-router-dom";
 import { makeStyles } from '@material-ui/core/styles';
 import Box from '@material-ui/core/Box';
 import Grid from '@material-ui/core/Grid';
-import TextField from '@material-ui/core/TextField';
 import './verify.scss';
 
 import confirmImg from '../../assets/img/confirm.jfif';
 import Button from "@material-ui/core/Button/Button";
 import paths from "../../utilities/paths";
+import SuccessDialog from "../Components/Dialog/SuccessDialog";
 
 
 const useStyles = makeStyles(theme => ({
@@ -39,12 +39,31 @@ const useStyles = makeStyles(theme => ({
 const VerifySMS = props => {
     const { history } = props;
     const classes = useStyles();
+    const [successDialog, setSuccessDialog] = React.useState(false);
+
+    //Logic for verifying SMS
+    const verifySMS = async({otp}) => {
+        if(otp.toString().length < 4){
+            alert('Please check code');
+            return;
+        }
+
+        setSuccessDialog(true);
+
+        setTimeout(function(){
+            setSuccessDialog(false);
+            history.push(paths.get_started);
+        }, 2000);
+    };
 
     return (
         <div className={classes.root} style={{ backgroundColor: '#ffffff', height: '100vh' }}>
             <SectionNavbars>
                 <CloseIcon onClick={() => history.push(paths.login)} />
             </SectionNavbars>
+
+            <SuccessDialog states={successDialog}/>
+
             <Component
                 initialState={{
                     otp: '',
@@ -85,10 +104,12 @@ const VerifySMS = props => {
                             </div>
 
                             <br/>
+                            <p>{successDialog}</p>
                             <Button
                                 variant="contained"
                                 style={{'backgroundColor': '#DAAB59' , color: '#333333', padding: '8px 40px', fontSize: '14px', fontWeight: '700'}}
                                 className={classes.button}
+                                onClick={() => verifySMS(state)}
                             >
                                 Finish
                             </Button>

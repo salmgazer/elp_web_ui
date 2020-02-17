@@ -12,6 +12,18 @@ code {
     monospace;
 }
 
+.img100 {
+  width: 100%;
+}
+
+.darkHeader{
+  color: #333333;
+  font-weight: 700 !important;
+  font-size: 22px;
+  text-align: center;
+  margin: 20px auto !important;
+}
+
 .capitalize {
   text-transform: capitalize !important;
 }
@@ -73,4 +85,23 @@ code {
   flex-direction: unset !important;
 }
 
+/*overflow scroll x*/
+.scrollWrapper {
+  display: flex;
+  flex-wrap: nowrap;
+  overflow-x: auto;
+  -ms-overflow-style: none;
+
+  span {
+    flex: 0 0 auto;
+    padding: 8px 10px;
+    margin: 1px 2px;
+    border-radius: 20px;
+  }
+
+
+}
+.scrollWrapper::-webkit-scrollbar{
+  display: none;
+}
 
