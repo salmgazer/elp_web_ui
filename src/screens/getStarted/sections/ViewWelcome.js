@@ -6,6 +6,10 @@ import BoxDefault from "../../Components/Box/BoxDefault";
 import Button from "@material-ui/core/Button/Button";
 
 const ViewWelcome = props => {
+    const nextPageHandler = event => {
+        props.step(event);
+    };
+
     return(
         <div>
             <Typography
@@ -17,7 +21,7 @@ const ViewWelcome = props => {
             </Typography>
             <Box component="div" m={2}>
                 <img className="img100" src={shopImg} alt={'test'}/>
-            </Box>c
+            </Box>
             <BoxDefault
                 styles={{
                     color: '#333333',
@@ -49,6 +53,7 @@ const ViewWelcome = props => {
                     variant="contained"
                     style={{'backgroundColor': '#DAAB59' , borderRadius: '10px', color: '#333333', padding: '8px 50px', margin: '10px auto', fontSize: '16px', fontWeight: '700'}}
                     className={`capitalization`}
+                    onClick={nextPageHandler.bind(this)}
                 >
                     Get started
                 </Button>

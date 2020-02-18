@@ -5,6 +5,8 @@ import shopImg from "../../../assets/img/shop.svg";
 import BoxDefault from "../../Components/Box/BoxDefault";
 import Button from "@material-ui/core/Button/Button";
 import paths from "../../../utilities/paths";
+import {withRouter} from "react-router";
+
 
 const ViewStore = props => {
     const { history } = props;
@@ -61,4 +63,4 @@ const ViewStore = props => {
     );
 };
 
-export default ViewStore;
+export default withRouter(ViewStore);
