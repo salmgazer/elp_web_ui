@@ -1,0 +1,51 @@
+import React from 'react';
+import Grid from "@material-ui/core/Grid/Grid";
+import Paper from "@material-ui/core/Paper/Paper";
+import InputBase from "@material-ui/core/InputBase/InputBase";
+import {makeStyles} from "@material-ui/core";
+
+const useStyles = makeStyles(theme => ({
+    root: {
+        width: '92%',
+        display: 'flex',
+        padding: '2px 5px',
+        alignItems: 'center',
+        borderRadius: '5px',
+        height: '35px',
+        border: '1px solid #ced4da',
+        fontSize: '0.9rem',
+        lineHeight: '1.5',
+        transition: 'border-color .15s ease-in-out,box-shadow .15s ease-in-out',
+    },
+    input: {
+        marginLeft: theme.spacing(1),
+        flex: 1,
+        textAlign: 'center',
+    },
+    iconButton: {
+        padding: 10,
+    }
+}));
+
+const PriceInput = props => {
+    const classes = useStyles();
+
+    return(
+        <div>
+            <label className={`text-dark py-2`} style={{fontSize: '18px', fontWeight: '600'}}> {props.label}</label>
+
+            <Grid container spacing={1} className={`mb-2`}>
+                <Grid item xs={6} className={`mx-auto`}>
+                    <Paper className={classes.root} >
+                        <InputBase
+                            className={`${classes.input} search-box text-center`}
+                            type="tel"
+                        />
+                    </Paper>
+                </Grid>
+            </Grid>
+        </div>
+    );
+};
+
+export default PriceInput;
