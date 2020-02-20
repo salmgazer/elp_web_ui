@@ -8,6 +8,7 @@ import QuantityInput from "../../../Components/Input/QuantityInput";
 import PriceInput from "../../../Components/Input/PriceInput";
 import { confirmAlert } from 'react-confirm-alert';
 import 'react-confirm-alert/src/react-confirm-alert.css';
+import SuccessDialog from "../../../Components/Dialog/SuccessDialog";
 
 
 const useStyles = makeStyles(theme => ({
@@ -35,6 +36,8 @@ const useStyles = makeStyles(theme => ({
 
 const AddProductView = props => {
     const [history , setHistory] = useState([{"st_id":"20766","st_date":"2020-02-18","st_quantity":"3","st_product":"32","st_store_id":"1","timestamps":"2020-02-18 11:27:05"},{"st_id":"17451","st_date":"2020-01-09","st_quantity":"1","st_product":"32","st_store_id":"1","timestamps":"2020-01-09 13:40:05"}]);
+    const [successDialog, setSuccessDialog] = React.useState(false);
+
     const classes = useStyles();
 
     const product = props.product[0];
@@ -67,8 +70,25 @@ const AddProductView = props => {
         })
     };
 
+    const saveStock = (event) => {
+        setSuccessDialog(true);
+
+        setTimeout(function(){
+            setSuccessDialog(false);
+            props.setView(0, event)
+        }, 2000);
+    };
+
+    const backHandler = (event) => {
+        props.setView(0);
+    };
+
+
+
     return(
         <div style={{paddingTop: '60px'}}>
+            <SuccessDialog states={successDialog}/>
+
             <div className="row p-0 pt-0 mx-0 text-center w-100 shadow1">
                 <Typography
                     component="p"
@@ -142,12 +162,14 @@ const AddProductView = props => {
                 <Button
                     variant="outlined"
                     style={{border: '1px solid #DAAB59', color: '#DAAB59', padding: '5px 50px', marginRight: '10px'}}
+                    onClick={backHandler.bind(this)}
                 >
                     Cancel
                 </Button>
                 <Button
                     variant="contained"
                     style={{'backgroundColor': '#DAAB59' , color: '#333333', padding: '5px 50px'}}
+                    onClick={saveStock.bind(this)}
                 >
                     Save
                 </Button>

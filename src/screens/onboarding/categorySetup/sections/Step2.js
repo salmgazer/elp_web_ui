@@ -1,5 +1,4 @@
 import React from 'react';
-import Grid from "@material-ui/core/Grid/Grid";
 import Box from "@material-ui/core/Box/Box";
 import SelectedCategorySingle from "./SelectedCategorySingle";
 

@@ -20,7 +20,7 @@ const MainView = props => {
     };
 
     const addProduct = (pId , event) => {
-        props.productAdd(pId);
+        props.productAdd(pId , 1);
     };
 
     const useStyles = () => makeStyles(theme => ({
@@ -37,6 +37,10 @@ const MainView = props => {
     const handleChangeIndex = index => {
         setValue(index);
     };
+
+    const addedProductsViewHandler = event => {
+        props.setView(2);
+    }
 
     return(
         <div>
@@ -74,7 +78,7 @@ const MainView = props => {
                 <Button
                     variant="contained"
                     style={{'backgroundColor': '#DAAB59' , color: '#333333', padding: '5px 20px', fontSize: '14px'}}
-                    onClick=""
+                    onClick={addedProductsViewHandler.bind(this)}
                     className={`capitalization font-weight-bold text-dark`}
                 >
                     View added products

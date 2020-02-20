@@ -6,7 +6,7 @@ import {makeStyles} from "@material-ui/core";
 
 const useStyles = makeStyles(theme => ({
     root: {
-        width: '92%',
+        width: '90%',
         display: 'flex',
         padding: '2px 5px',
         alignItems: 'center',
@@ -32,7 +32,7 @@ const PriceInput = props => {
 
     return(
         <div>
-            <label className={`text-dark py-2`} style={{fontSize: '18px', fontWeight: '600'}}> {props.label}</label>
+            <label className={`text-dark py-2 text-center`} style={{fontSize: '18px', fontWeight: '600'}}> {props.label}</label>
 
             <Grid container spacing={1} className={`mb-2`}>
                 <Grid item xs={6} className={`mx-auto`}>
@@ -41,7 +41,9 @@ const PriceInput = props => {
                             className={`${classes.input} search-box text-center`}
                             type="tel"
                         />
+
                     </Paper>
+                    {props.children}
                 </Grid>
             </Grid>
         </div>
