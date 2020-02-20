@@ -1,0 +1,11 @@
+{
+  "brands": {
+    "resource": "brands",
+    "primaryKeyName": "id"
+  },
+  "products": {
+    "resource": "products",
+    "primaryKeyName": "id"
+  },
+  "others": {}
+}
