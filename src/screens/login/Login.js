@@ -18,6 +18,7 @@ import {makeStyles} from "@material-ui/core";
 
 import Logo from '../../assets/img/el-parah.png';
 import Typography from "@material-ui/core/Typography/Typography";
+import './Login.scss';
 
 
 const useStyles = makeStyles(theme => ({

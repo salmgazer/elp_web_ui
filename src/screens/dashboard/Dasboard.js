@@ -118,7 +118,7 @@ const Dashboard = props => {
                     salesMade: 0,
                     creditSales: 0,
                     purchaseMade: 0,
-                    isDrawerShow: true,
+                    isDrawerShow: false,
                 }}
             >
                 {({ state, setState }) => (
