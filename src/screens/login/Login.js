@@ -15,6 +15,7 @@ import Box from "@material-ui/core/Box/Box";
 import CssBaseline from "@material-ui/core/CssBaseline/CssBaseline";
 import Container from "@material-ui/core/Container/Container";
 import {makeStyles} from "@material-ui/core";
+import { ValidatorForm, TextValidator} from 'react-material-ui-form-validator';
 
 import Logo from '../../assets/img/el-parah.png';
 import Typography from "@material-ui/core/Typography/Typography";
@@ -165,16 +166,27 @@ const Login = props => {
                       </Typography>
 
                       <Box component="div" className={classes.padding1} style={{width: '230px', paddingBottom: '40px' ,margin: '0 auto', color: '#403C3C'}}>
+                          <ValidatorForm
+                              ref="form"
+                              onSubmit={() => login(state)}
+                              onError={errors => console.log(errors)}
+                          >
+
                           <div className={classes.margin} style={{'paddingBottom': '10px'}}>
                               <Grid container spacing={1} alignItems="flex-end" >
                                   <Grid item>
                                       <PhoneIcon />
                                   </Grid>
                                   <Grid item>
-                                      <TextField
+                                      <TextValidator
                                           onChange={event => setState({ usernameOrPhone: event.target.value })}
-                                          id="usernameOrPhone" type='text' value={state.usernameOrPhone}
+                                          id="usernameOrPhone"
+                                          type='text'
+                                          value={state.usernameOrPhone}
                                           label="username/contact"
+                                          name="usernameOrPhone"
+                                          validators={['required', 'minStringLength:6']}
+                                          errorMessages={['Username is a required field', 'The minimum length for username is 6']}
                                           helperText=""
                                       />
                                   </Grid>
@@ -187,10 +199,14 @@ const Login = props => {
                                       <LockIcon />
                                   </Grid>
                                   <Grid item>
-                                      <TextField
+                                      <TextValidator
                                           id="password"
                                           onChange={event => setState({ password: event.target.value })}
                                           type={state.isShown ? 'text' : 'password'}
+                                          value={state.password}
+                                          validators={['required', 'minStringLength:6']}
+                                          errorMessages={['Password is a required field', 'The minimum length for password is 6']}
+                                          name="password"
                                           label="password"
                                           helperText=""
                                       />
@@ -202,10 +218,11 @@ const Login = props => {
                               variant="contained"
                               style={{'width': '100%','backgroundColor': '#DAAB59' , marginBottom: '30px',color: '#403C3C', padding: '5px 40px', fontSize: '17px', fontWeight: '700'}}
                               className={classes.button} className="capitalization"
-                              onClick={() => login(state)}
+                              type="submit"
                           >
                               Login
                           </Button>
+                          </ValidatorForm>
 
                           <a  href="#" style={{'marginTop': '20px', color: '#403C3C', fontSize: '14px'}}><i>Help! I forgot my password</i> </a> <br/> or
 
