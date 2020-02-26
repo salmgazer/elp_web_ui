@@ -1,5 +1,6 @@
 export default {
-    login: "/",
+    cart: "/",
+    login: "/login",
     register: "/register",
     home: "/home",
     verify_sms: "/verify_sms",
@@ -7,4 +8,5 @@ export default {
     get_started: "/get-started",
     category_setup: "/add-store-category",
     add_products: "/add-products",
+    
 };
