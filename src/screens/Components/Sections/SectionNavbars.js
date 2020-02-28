@@ -4,6 +4,7 @@ import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
 import IconButton from '@material-ui/core/IconButton';
+import Button from '@material-ui/core/Button';
 
 const useStyles = makeStyles(theme => ({
     root: {
@@ -33,6 +34,9 @@ export default function SectionNavbars(props) {
                     <Typography variant="h6" color="inherit" style={{'fontWeight': 700, 'color': '#3d3d3d', textAlign: 'center', margin: '0 auto'}} >
                         {props.title}
                     </Typography>
+                    <IconButton color="inherit">
+                        {props.icons}
+                    </IconButton>
                 </Toolbar>
             </AppBar>
         </div>
