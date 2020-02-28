@@ -2,25 +2,8 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="23d7673f-f43c-4e81-9c96-c34110ab3b67" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/App.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/App.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/index.scss" beforeDir="false" afterPath="$PROJECT_DIR$/src/index.scss" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/screens/dashboard/Dasboard.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/screens/dashboard/Dasboard.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/screens/getStarted/GetStarted.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/screens/getStarted/GetStarted.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/screens/login/Login.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/screens/login/Login.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/screens/login/Login.scss" beforeDir="false" afterPath="$PROJECT_DIR$/src/screens/login/Login.scss" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/screens/register/Register.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/screens/register/Register.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/screens/register/Register.scss" beforeDir="false" afterPath="$PROJECT_DIR$/src/screens/register/Register.scss" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/screens/register/Sections/AccountInformationSection.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/screens/register/Sections/AccountInformationSection.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/screens/register/Sections/PersonalInformationSection.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/screens/register/Sections/PersonalInformationSection.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/screens/register/Sections/ShopInformationSection.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/screens/register/Sections/ShopInformationSection.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/screens/verifySMS/Verify_sms.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/screens/verifySMS/Verify_sms.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/screens/verifySMS/verify.scss" beforeDir="false" afterPath="$PROJECT_DIR$/src/screens/verifySMS/verify.scss" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/services/Api.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/services/Api.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/services/Auth0Service.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/services/Auth0Service.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/services/LocalInfo.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/services/LocalInfo.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/services/resources.json" beforeDir="false" afterPath="$PROJECT_DIR$/src/services/resources.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/utilities/paths.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/utilities/paths.js" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -58,7 +41,7 @@
       <usages-collector id="statistics.file.extensions.open">
         <counts>
           <entry key="css" value="1" />
-          <entry key="gitignore" value="3" />
+          <entry key="gitignore" value="4" />
           <entry key="html" value="2" />
           <entry key="js" value="217" />
           <entry key="json" value="16" />
@@ -71,7 +54,7 @@
       <usages-collector id="statistics.file.types.open">
         <counts>
           <entry key="CSS" value="1" />
-          <entry key="Git file" value="3" />
+          <entry key="Git file" value="4" />
           <entry key="HTML" value="2" />
           <entry key="JSON" value="16" />
           <entry key="JavaScript" value="217" />
@@ -90,7 +73,7 @@
       <usages-collector id="statistics.file.extensions.edit">
         <counts>
           <entry key="css" value="1" />
-          <entry key="gitignore" value="1" />
+          <entry key="gitignore" value="8" />
           <entry key="js" value="35721" />
           <entry key="json" value="146" />
           <entry key="scss" value="1698" />
@@ -99,7 +82,7 @@
       <usages-collector id="statistics.file.types.edit">
         <counts>
           <entry key="CSS" value="1" />
-          <entry key="Git file" value="1" />
+          <entry key="Git file" value="8" />
           <entry key="JSON" value="146" />
           <entry key="JavaScript" value="35721" />
           <entry key="SCSS" value="1698" />
@@ -109,20 +92,6 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/screens/register/Sections/AccountInformationSection.js">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-2312">
-              <caret line="143" column="6" lean-forward="true" selection-start-line="125" selection-start-column="4" selection-end-line="143" selection-end-column="6" />
-              <folding>
-                <element signature="e#0#59#0" expanded="true" />
-                <element signature="e#1011#1138#0" />
-                <element signature="e#1232#1577#0" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/screens/forgotPassword/sections/ConfirmSMS.js">
           <provider selected="true" editor-type-id="text-editor">
@@ -165,7 +134,7 @@
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="true">
+      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/screens/forgotPassword/sections/ForgotPassword.js">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="323">
@@ -175,6 +144,15 @@
                 <element signature="e#878#1305#0" />
                 <element signature="e#1504#2066#0" />
               </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/.gitignore">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="204">
+              <caret line="15" lean-forward="true" selection-start-line="15" selection-end-line="15" />
             </state>
           </provider>
         </entry>
@@ -275,7 +253,6 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/src/screens/onboarding/categorySetup/sections/Step2.js" />
         <option value="$PROJECT_DIR$/src/screens/onboarding/addProducts/sections/MainView.js" />
         <option value="$PROJECT_DIR$/src/screens/onboarding/addProducts/sections/addedView/AddedSingleView.js" />
         <option value="$PROJECT_DIR$/src/screens/Components/Calculator/CostCalculator.js" />
@@ -326,6 +303,7 @@
         <option value="$PROJECT_DIR$/src/services/Api.js" />
         <option value="$PROJECT_DIR$/src/screens/forgotPassword/sections/ResetPassword.js" />
         <option value="$PROJECT_DIR$/src/screens/forgotPassword/sections/ForgotPassword.js" />
+        <option value="$PROJECT_DIR$/.gitignore" />
       </list>
     </option>
   </component>
@@ -486,17 +464,18 @@
       <workItem from="1580309458209" duration="1180000" />
       <workItem from="1580379504907" duration="27005000" />
       <workItem from="1580683038429" duration="309075000" />
-      <workItem from="1582584985708" duration="120710000" />
+      <workItem from="1582584985708" duration="120964000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="460595000" />
+    <option name="totallyTimeSpent" value="460849000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-7" y="-7" width="1295" height="735" extended-state="6" />
+    <editor active="true" />
     <layout>
-      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.21052632" />
+      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.21052632" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="npm" order="2" side_tool="true" />
       <window_info id="DB Browser" order="3" />
@@ -517,7 +496,7 @@
       <window_info anchor="bottom" id="Regex Tester" order="13" />
       <window_info anchor="bottom" id="Event Log" order="14" side_tool="true" />
       <window_info anchor="bottom" id="Version Control" order="15" show_stripe_button="false" />
-      <window_info active="true" anchor="bottom" id="Terminal" order="16" visible="true" weight="0.14119601" />
+      <window_info anchor="bottom" id="Terminal" order="16" visible="true" weight="0.14119601" />
       <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
       <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
       <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.24939272" />
@@ -561,13 +540,6 @@
     <option name="myLimit" value="2678400000" />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/src/screens/onboarding/addProducts/sections/EditProductView.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="238">
-          <caret line="44" column="31" lean-forward="true" selection-start-line="44" selection-end-line="45" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/screens/Components/Modal/Modal.js">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="40">
@@ -1012,6 +984,13 @@
             <element signature="e#878#1305#0" />
             <element signature="e#1504#2066#0" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/.gitignore">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="204">
+          <caret line="15" lean-forward="true" selection-start-line="15" selection-end-line="15" />
         </state>
       </provider>
     </entry>
