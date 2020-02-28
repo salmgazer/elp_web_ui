@@ -18,8 +18,10 @@ import paths from "./utilities/paths";
 import GetStarted from "./screens/getStarted/GetStarted";
 import AddProducts from "./screens/onboarding/addProducts/AddProducts";
 import CategorySetup from "./screens/onboarding/categorySetup/CategorySetup";
+import Cart from "./screens/sell/cart/Cart";
 import ResetPassword from "./screens/forgotPassword/sections/ResetPassword";
 import ForgottenPassword from "./screens/forgotPassword/ForgottenPassword";
+
 
 function NoMatch() {
   let location = useLocation();
@@ -61,6 +63,14 @@ class App extends React.Component {
                 render={() => {
                   this.setTitle(`Login | ${appName}`);
                   return <Login />;
+                }}
+              />
+              <Route
+                exact
+                path={paths.cart}
+                render={() => {
+                  this.setTitle(`Cart | ${appName}`);
+                  return <Cart />;
                 }}
               />
               <Route

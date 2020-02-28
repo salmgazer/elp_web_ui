@@ -1,5 +1,6 @@
 export default {
     login: "/",
+    cart: "/cart",
     register: "/register",
     home: "/home",
     verify_sms: "/verify_sms",
