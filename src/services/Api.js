@@ -1,50 +1,55 @@
-const axios = require('axios');
-
+import axios from 'axios';
 const resources = require('./resources.json');
 
-
-class Api {
-    /* @todo put base url here when new api is ready */
-    static get basePath() {
-        return "";
-    }
-
+export default class Api {
     constructor(resourceName) {
+        //console.log(resources);
         const resourceConfig = resources[resourceName];
         const { resource, primaryKeyName } = resourceConfig;
         this.resource = resource;
+        //console.log(this.resource);
         this.primaryKeyName = primaryKeyName;
     }
 
-    async index(requestPath = this.constructor.basePath, queryParams= {}) {
+    /* @todo put base url here when new api is ready */
+    static get basePath() {
+        return 'http://elpfakeapi-env.unhavpij3f.us-east-2.elasticbeanstalk.com';
+    }
+
+    async index(requestPath = `${this.constructor.basePath}/${this.resource}`, queryParams= {}) {
+        console.log(requestPath);
         return axios.get(requestPath, {
             params: queryParams
         });
     }
 
-    async show(requestPath = this.constructor.basePath, primaryKeyValue) {
+    async show(requestPath = `${this.constructor.basePath}/${this.resource}`, primaryKeyValue) {
         const params = {};
         params[this.primaryKeyName] = primaryKeyValue;
         return axios.get(requestPath, { params });
     }
 
-    async create(requestPath = this.constructor.basePath, data = {}) {
-        return axios.post(requestPath, { data });
+    async getUserByPhone(phone , requestPath = `${this.constructor.basePath}/${this.resource}`) {
+        const params = {phone , $limit:1};
+        const result = await axios.get(requestPath, { params });
+
+        return result.data.data[0];
     }
 
-    async update(requestPath = this.constructor.basePath, primaryKeyValue, data = {}) {
-        return axios.put(`${requestPath}/${primaryKeyValue}`, { data });
+    async create(data = {} , config = {} , requestPath = `${this.constructor.basePath}/${this.resource}`) {
+        console.log(requestPath);
+        console.log(data);
+        return axios.post(requestPath,  data  , config);
     }
 
-    async destroy(requestPath = this.constructor.basePath, primaryKeyValue) {
+    async update(data = {} , primaryKeyValue, requestPath = `${this.constructor.basePath}/${this.resource}`) {
+        return axios.put(`${requestPath}/${primaryKeyValue}`, data );
+    }
+
+    async destroy(requestPath = `${this.constructor.basePath}/${this.resource}`, primaryKeyValue) {
         const params = {};
         params[this.primaryKeyName] = primaryKeyValue;
 
         return axios.delete(requestPath, { params });
     }
 }
-
-new Api('others').show('https://elparah.store/onboarding/addProducts/store_type_products.php?q=4')
-    .then((res) => {
-        console.log(res);
-    });
