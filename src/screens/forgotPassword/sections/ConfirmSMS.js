@@ -1,22 +1,16 @@
-import React , {useState} from "react";
+import React from "react";
 import OtpInput from 'react-otp-input';
 import Component from "@reactions/component";
 import CssBaseline from '@material-ui/core/CssBaseline';
 import Typography from '@material-ui/core/Typography';
 import Container from '@material-ui/core/Container';
-import SectionNavbars from '../Components/Sections/SectionNavbars';
-import CloseIcon from '@material-ui/icons/Close';
 import { withRouter } from "react-router-dom";
 import { makeStyles } from '@material-ui/core/styles';
 import Box from '@material-ui/core/Box';
 import Grid from '@material-ui/core/Grid';
-import './verify.scss';
 
-import confirmImg from '../../assets/img/confirm.jfif';
+import confirmImg from '../../../assets/img/confirm.jfif';
 import Button from "@material-ui/core/Button/Button";
-import paths from "../../utilities/paths";
-import SuccessDialog from "../Components/Dialog/SuccessDialog";
-
 
 const useStyles = makeStyles(theme => ({
     root: {
@@ -36,10 +30,8 @@ const useStyles = makeStyles(theme => ({
     },
 }));
 
-const VerifySMS = props => {
-    const { history } = props;
+const ConfirmSMS = props => {
     const classes = useStyles();
-    const [successDialog, setSuccessDialog] = useState(false);
 
     //Logic for verifying SMS
     const verifySMS = async({otp}) => {
@@ -51,11 +43,7 @@ const VerifySMS = props => {
         let code = localStorage.getItem('userOTP');
 
         if(code == otp){
-            setSuccessDialog(true);
-            setTimeout(function(){
-                setSuccessDialog(false);
-                history.push(paths.get_started);
-            }, 2000);
+            props.setView(2);
         }else{
             return false
         }
@@ -63,14 +51,6 @@ const VerifySMS = props => {
 
     return (
         <div className={classes.root} style={{ backgroundColor: '#ffffff', height: '100vh' }}>
-            <SectionNavbars>
-                <CloseIcon onClick={() => history.push(paths.login)} />
-            </SectionNavbars>
-
-            <div className="dialog_success">
-                <SuccessDialog states={successDialog}/>
-            </div>
-
             <Component
                 initialState={{
                     otp: '',
@@ -111,7 +91,6 @@ const VerifySMS = props => {
                             </div>
 
                             <br/>
-                            <p>{successDialog}</p>
                             <Button
                                 variant="contained"
                                 style={{'backgroundColor': '#DAAB59' , color: '#333333', padding: '8px 40px', fontSize: '14px', fontWeight: '700'}}
@@ -149,4 +128,4 @@ const VerifySMS = props => {
     );
 };
 
-export default withRouter(VerifySMS);
+export default withRouter(ConfirmSMS);

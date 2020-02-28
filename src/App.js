@@ -18,6 +18,8 @@ import paths from "./utilities/paths";
 import GetStarted from "./screens/getStarted/GetStarted";
 import AddProducts from "./screens/onboarding/addProducts/AddProducts";
 import CategorySetup from "./screens/onboarding/categorySetup/CategorySetup";
+import ResetPassword from "./screens/forgotPassword/sections/ResetPassword";
+import ForgottenPassword from "./screens/forgotPassword/ForgottenPassword";
 
 function NoMatch() {
   let location = useLocation();
@@ -69,6 +71,22 @@ class App extends React.Component {
                   return <Register />;
                 }}
               />
+                <Route
+                path={paths.reset_password}
+                render={() => {
+                  this.setTitle(`Reset Password | ${appName}`);
+                  setPageBackground();
+                  return <ResetPassword />;
+                }}
+              />
+                <Route
+                    path={paths.forgot_password}
+                    render={() => {
+                        this.setTitle(`Forgot Password | ${appName}`);
+                        setPageBackground();
+                        return <ForgottenPassword />;
+                    }}
+                />
               <Route
                 path={paths.home}
                 render={() => {

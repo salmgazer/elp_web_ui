@@ -1,4 +1,4 @@
-import React from "react";
+import React , {useState} from "react";
 import PropTypes from 'prop-types';
 import { withRouter } from "react-router-dom";
 import { makeStyles, withStyles } from '@material-ui/core/styles';
@@ -20,6 +20,7 @@ import ArrowBackIcon from '@material-ui/icons/ArrowBack';
 import PersonalInformationSection from './Sections/PersonalInformationSection';
 import ShopInformationSection from './Sections/ShopInformationSection';
 import AccountInformationSection from './Sections/AccountInformationSection';
+import Auth0Service from '../../services/Auth0Service';
 import "./Register.scss";
 
 const QontoConnector = withStyles({
@@ -189,30 +190,66 @@ const useStyles = makeStyles(theme => ({
 }));
 
 function getSteps() {
-    return ['Personal', 'Shop', 'Account'];
-}
-
-/*@todo
-* change state for password and confirm password...
-* */
-function getStepContent(step) {
-    switch (step) {
-        case 0:
-            return <PersonalInformationSection/>;
-        case 1:
-            return <ShopInformationSection/>;
-        case 2:
-            return <AccountInformationSection/>;
-        default:
-            return 'Complete';
-    }
+    return ['Personal', 'Company', 'Account'];
 }
 
 const Register = props => {
+    const [user , setUser] = useState(0);
+    const [company , setCompany] = useState(0);
     const { history } = props;
     const classes = useStyles();
-    const [activeStep, setActiveStep] = React.useState(0);
+    const [activeStep, setActiveStep] = useState(0);
     const steps = getSteps();
+    const [data , setData] = useState({
+        firstName: '',
+        otherNames: '',
+        phone: '',
+        companyName: '',
+        location: '',
+        storeCategory: '',
+        username: '',
+        password: '',
+        passwordRepeat: '',
+        isValid: true,
+    });
+
+
+    /*@todo
+    * change state for password and confirm password...
+    * */
+    function getStepContent(step) {
+        switch (step) {
+            case 0:
+                return <PersonalInformationSection isValid={formValidHandler} formData={data} collectData={formDataHandler}/>;
+            case 1:
+                return <ShopInformationSection isValid={formValidHandler} formData={data} collectData={formDataHandler}/>;
+            case 2:
+                return <AccountInformationSection isValid={formValidHandler} formData={data} collectData={formDataHandler}/>;
+            default:
+                return 'Complete';
+        }
+    }
+
+    const formDataHandler = event => {
+        const { ...formData }  = data;
+
+        formData[event.target.name] = event.target.value;
+        /*if (event.target.name === 'password') {
+            this.form.isFormValid(false);
+        }*/
+        setData(formData);
+    };
+
+    const formValidHandler = result => {
+        const { ...formData }  = data;
+
+        formData['isValid'] = !result;
+        /*if (event.target.name === 'password') {
+            this.form.isFormValid(false);
+        }*/
+
+        setData(formData);
+    };
 
     const handleNext = () => {
         setActiveStep(prevActiveStep => prevActiveStep + 1);
@@ -222,7 +259,27 @@ const Register = props => {
         setActiveStep(prevActiveStep => prevActiveStep - 1);
     };
 
-    const handleFinish = () => {
+    const handleFinish = async() => {
+        //console.log(data);
+        /*
+        * Handle registration here...
+        * */
+
+        let req = await new Auth0Service().register(data);
+
+        if(!req.error){
+            /*
+            * @todo
+            * push user details to watermelon...
+            * */
+            localStorage.setItem('userContact' , req.user.phone);
+            localStorage.setItem('userOTP' , req.user.otp);
+            localStorage.setItem('userFirstName' , req.user.firstName);
+            console.log(req);
+        }else{
+            console.log(req.error);
+        }
+
         history.push(paths.verify_sms);
     };
 
@@ -267,6 +324,7 @@ const Register = props => {
                                 style={{'backgroundColor': '#DAAB59' , color: '#333333', padding: '5px 50px'}}
                                 onClick={handleFinish}
                                 className={classes.button}
+                                disabled={data.isValid}
                             >
                                 Finish
                             </Button>
@@ -295,6 +353,7 @@ const Register = props => {
                                 style={{'backgroundColor': '#DAAB59' , color: '#333333', padding: '5px 50px'}}
                                 onClick={handleNext}
                                 className={classes.button}
+                                disabled={data.isValid}
                             >
                                 Next
                             </Button>

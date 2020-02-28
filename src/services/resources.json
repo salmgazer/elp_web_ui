@@ -1,10 +1,26 @@
 {
+  "authentication": {
+    "resource": "authentication",
+    "primaryKeyName": "id"
+  },
   "brands": {
     "resource": "brands",
     "primaryKeyName": "id"
   },
   "products": {
     "resource": "products",
+    "primaryKeyName": "id"
+  },
+  "users": {
+    "resource": "users",
+    "primaryKeyName": "id"
+  },
+  "companies": {
+    "resource": "companies",
+    "primaryKeyName": "id"
+  },
+  "business_categories": {
+    "resource": "business_categories",
     "primaryKeyName": "id"
   },
   "others": {}

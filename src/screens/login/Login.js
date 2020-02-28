@@ -1,6 +1,5 @@
 import React from "react";
-import "./Login.scss";
-import { withRouter } from "react-router-dom";
+import { withRouter , Link } from "react-router-dom";
 import Component from "@reactions/component";
 import { useDatabase } from "@nozbe/watermelondb/hooks";
 import { Q } from "@nozbe/watermelondb";
@@ -14,12 +13,13 @@ import paths from "../../utilities/paths";
 import Box from "@material-ui/core/Box/Box";
 import CssBaseline from "@material-ui/core/CssBaseline/CssBaseline";
 import Container from "@material-ui/core/Container/Container";
-import {makeStyles} from "@material-ui/core";
+import {makeStyles, withStyles} from "@material-ui/core";
 import { ValidatorForm, TextValidator} from 'react-material-ui-form-validator';
 
 import Logo from '../../assets/img/el-parah.png';
 import Typography from "@material-ui/core/Typography/Typography";
 import './Login.scss';
+import Auth0Service from "../../services/Auth0Service";
 
 
 const useStyles = makeStyles(theme => ({
@@ -55,6 +55,28 @@ const useStyles = makeStyles(theme => ({
         backgroundColor: '#daab59',
     }
 }));
+
+const ValidationTextField = withStyles({
+    root: {
+        '& input:valid + fieldset': {
+            borderColor: 'green',
+            borderWidth: 2,
+        },
+        '& input:invalid:not:focus + fieldset': {
+            borderColor: 'red',
+            borderWidth: 2,
+        },
+        '& input:invalid:focus + fieldset': {
+            borderColor: '#DAAB59',
+            borderWidth: 2,
+        },
+        '& input:valid:focus + fieldset': {
+            borderLeftWidth: 6,
+            borderColor: '#DAAB59',
+            padding: '4px !important', // override inline-style
+        },
+    },
+})(TextValidator);
 
 const apiUrl = "";
 
@@ -101,12 +123,25 @@ const Login = props => {
     }
 
     const login = async ({ usernameOrPhone, password }) => {
-        if (password.length < 6 || usernameOrPhone.length === 0) {
+        if (password.length < 2 || usernameOrPhone.length === 0) {
           alert("Password or username/phone is incorrect");
           return;
         }
 
-        history.push(paths.dashboard);
+        let req = await new Auth0Service().login(usernameOrPhone , password);
+
+        if(!req.error){
+            /*
+            * @todo
+            * push user details to watermelon...
+            * */
+            console.log(req);
+            history.push(paths.dashboard)
+        }else{
+            console.log(req);
+        }
+
+        //history.push(paths.dashboard);
 
         // try to get store from local db
         /*let stores = await getStore(database);
@@ -150,7 +185,7 @@ const Login = props => {
                   style={{backgroundColor: '#f2ece3'}}
               >
                   <Box
-                      className={classes.shadow2}
+                      className={`${classes.shadow2} login`}
                       style={{'borderRadius': '10px'}}
                   >
                       <Box component="div" style={{paddingTop: '50px', marginTop: '32px'}}>
@@ -178,15 +213,15 @@ const Login = props => {
                                       <PhoneIcon />
                                   </Grid>
                                   <Grid item>
-                                      <TextValidator
+                                      <ValidationTextField
                                           onChange={event => setState({ usernameOrPhone: event.target.value })}
                                           id="usernameOrPhone"
                                           type='text'
                                           value={state.usernameOrPhone}
                                           label="username/contact"
                                           name="usernameOrPhone"
-                                          validators={['required', 'minStringLength:6']}
-                                          errorMessages={['Username is a required field', 'The minimum length for username is 6']}
+                                          validators={['required', 'minStringLength:4']}
+                                          errorMessages={['Username is a required field', 'The minimum length for username is 4']}
                                           helperText=""
                                       />
                                   </Grid>
@@ -199,12 +234,12 @@ const Login = props => {
                                       <LockIcon />
                                   </Grid>
                                   <Grid item>
-                                      <TextValidator
+                                      <ValidationTextField
                                           id="password"
                                           onChange={event => setState({ password: event.target.value })}
                                           type={state.isShown ? 'text' : 'password'}
                                           value={state.password}
-                                          validators={['required', 'minStringLength:6']}
+                                          validators={['required', 'minStringLength:2']}
                                           errorMessages={['Password is a required field', 'The minimum length for password is 6']}
                                           name="password"
                                           label="password"
@@ -224,8 +259,10 @@ const Login = props => {
                           </Button>
                           </ValidatorForm>
 
-                          <a  href="#" style={{'marginTop': '20px', color: '#403C3C', fontSize: '14px'}}><i>Help! I forgot my password</i> </a> <br/> or
-
+                          <Link to={paths.forgot_password}>
+                          <a  style={{'marginTop': '20px', color: '#403C3C', fontSize: '14px'}}><i>Help! I forgot my password</i> </a> <br/>
+                          </Link>
+                          or
                           <Button
                               variant="contained"
                               style={{'width': '100%','backgroundColor': '#DAAB59' , color: '#403C3C', margin: '10px auto',padding: '5px 1px', fontSize: '17px', fontWeight: '700'}}

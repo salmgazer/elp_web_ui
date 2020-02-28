@@ -7,4 +7,6 @@ export default {
     get_started: "/get-started",
     category_setup: "/add-store-category",
     add_products: "/add-products",
+    forgot_password: "/forgot-password",
+    reset_password: "/reset-password",
 };

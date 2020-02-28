@@ -1,9 +1,7 @@
-const axios = require('axios');
-
+import axios from 'axios';
 const resources = require('./resources.json');
 
-
-class Api {
+export default class Api {
     constructor(resourceName) {
         //console.log(resources);
         const resourceConfig = resources[resourceName];
@@ -31,27 +29,27 @@ class Api {
         return axios.get(requestPath, { params });
     }
 
-    async create(requestPath = `${this.constructor.basePath}/${this.resource}`, data = {}) {
+    async getUserByPhone(phone , requestPath = `${this.constructor.basePath}/${this.resource}`) {
+        const params = {phone , $limit:1};
+        const result = await axios.get(requestPath, { params });
+
+        return result.data.data[0];
+    }
+
+    async create(data = {} , config = {} , requestPath = `${this.constructor.basePath}/${this.resource}`) {
         console.log(requestPath);
         console.log(data);
-        return axios.post(requestPath, { data });
+        return axios.post(requestPath,  data  , config);
     }
 
-    async update(requestPath = this.constructor.basePath, primaryKeyValue, data = {}) {
-        return axios.put(`${requestPath}/${primaryKeyValue}`, { data });
+    async update(data = {} , primaryKeyValue, requestPath = `${this.constructor.basePath}/${this.resource}`) {
+        return axios.put(`${requestPath}/${primaryKeyValue}`, data );
     }
 
-    async destroy(requestPath = this.constructor.basePath, primaryKeyValue) {
+    async destroy(requestPath = `${this.constructor.basePath}/${this.resource}`, primaryKeyValue) {
         const params = {};
         params[this.primaryKeyName] = primaryKeyValue;
 
         return axios.delete(requestPath, { params });
     }
 }
-
-new Api('brands').create('http://elpfakeapi-env.unhavpij3f.us-east-2.elasticbeanstalk.com/brands' , {
-    "name": "Testers"
-})
-    .then((res) => {
-        console.log(res);
-    });
