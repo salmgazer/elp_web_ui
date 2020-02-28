@@ -1,6 +1,8 @@
 import React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import MenuIcon from '@material-ui/icons/Menu';
+import AddShoppingCartIcon from '@material-ui/icons/AddShoppingCart';
+import ArrowBackIosIcon from '@material-ui/icons/ArrowBackIos';
 import SectionNavbars from "../../../Components/Sections/SectionNavbars";
 import Paper from '@material-ui/core/Paper';
 import InputAdornment from '@material-ui/core/InputAdornment';
@@ -63,6 +65,7 @@ const useStyles = makeStyles(theme => ({
 const CartView = props => {
     const [mainDialog, setMainDialog] = React.useState(false);
     const [addDialog, setAddDialog] = React.useState(false);
+    const checkUser = React.useState(false);
     const [user, setUser] = React.useState('Chris Asante');
 
     const handleChange = event => {
@@ -94,10 +97,18 @@ const CartView = props => {
 
     return(
         <div className={classes.root}>
-            <SectionNavbars title="Cart" >
-                <MenuIcon
-                    style={{fontSize: '2.5rem'}}
+            <SectionNavbars 
+                title="Cart"  
+                icons={
+                    <AddShoppingCartIcon 
+                        style={{fontSize: '2rem'}}
+                        onClick={openDialogHandler.bind(this)}
+                    />}
+            >
+                <ArrowBackIosIcon
+                    style={{fontSize: '2rem'}}
                 />
+                 
             </SectionNavbars>
 
             <Grid container spacing={1}>
@@ -277,9 +288,9 @@ const CartView = props => {
             >
                 <Button
                     variant="outlined"
-                    style={{border: '1px solid #DAAB59', color: '#333333', padding: '5px 20px', marginRight: '10px', textTransform: 'none', fontSize:'17px'}}
+                    style={{border: '1px solid #DAAB59', color: '#333333', padding: '5px 30px', marginRight: '10px', textTransform: 'none', fontSize:'17px'}}
                 >
-                    Save {' & '} Switch   
+                    Add product   
                 </Button>
                 <Button
                     variant="contained"

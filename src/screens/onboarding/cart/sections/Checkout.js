@@ -17,6 +17,10 @@ import Button from "@material-ui/core/Button/Button";
 import ArrowBackIosIcon from '@material-ui/icons/ArrowBackIos';
 import { withRouter } from "react-router-dom";
 import ViewCash from './ViewCash';
+import MainDialog from "../../../Components/Dialog/MainDialog";
+import ErrorImage from '../../../../assets/img/error.png';
+import CancelIcon from '@material-ui/icons/Cancel';
+import Modal from '../../../Components/Modal/Modal';
 
 const useStyles = makeStyles(theme => ({
     root: {
@@ -53,7 +57,7 @@ const useStyles = makeStyles(theme => ({
 const CheckoutView = props => {
 
     const classes = useStyles();
-
+    const [mainDialog, setMainDialog] = React.useState(false);
     const [value, setValue] = React.useState(0);
     function a11yProps(index) {
         return {
@@ -61,6 +65,15 @@ const CheckoutView = props => {
             'aria-controls': `full-width-tabpanel-${index}`,
         };
       }
+
+    const closeDialogHandler = (event) => {
+        setMainDialog(false);
+        setValue(0);
+    };
+
+    const openDialogHandler = (event) => {
+        setMainDialog(true);
+    };
 
     const handleChange = (event, newValue) => {
       setValue(newValue);
@@ -74,13 +87,17 @@ const CheckoutView = props => {
         props.setView(0);
     };
 
+    const openSuccessHandler = (event) => {
+        props.setView(2);
+    };
+
 
     return(
         <div className={classes.root}>
             <SectionNavbars title="Payment" >
                 <ArrowBackIosIcon
                     onClick={backHandler.bind(this)}
-                    style={{fontSize: '2.5rem'}}
+                    style={{fontSize: '2rem'}}
                 />
             </SectionNavbars>
 
@@ -105,9 +122,9 @@ const CheckoutView = props => {
                     aria-label="full width tabs example"
                 >
                     <Tab className={classes.tabs} label="Cash" icon={<LocalAtmIcon style={{color: '#DAAB59'}} />} {...a11yProps(0)} />
-                    <Tab className={classes.tabs} label="Mobile Money" icon={<PhoneAndroidIcon style={{color: '#DAAB59'}} />} {...a11yProps(1)} />
-                    <Tab className={classes.tabs} label="Credit" icon={<ScheduleIcon style={{color: '#DAAB59'}} />} {...a11yProps(2)} />
-                    <Tab className={classes.tabs} label="Other" icon={<CardGiftcardIcon style={{color: '#DAAB59'}} />} {...a11yProps(3)} />
+                    <Tab onClick={openDialogHandler.bind(this)} className={classes.tabs} label="MoMo" icon={<PhoneAndroidIcon style={{color: '#DAAB59'}} />} {...a11yProps(1)} />
+                    <Tab onClick={openDialogHandler.bind(this)} className={classes.tabs} label="Credit" icon={<ScheduleIcon style={{color: '#DAAB59'}} />} {...a11yProps(2)} />
+                    <Tab onClick={openDialogHandler.bind(this)} className={classes.tabs} label="Other" icon={<CardGiftcardIcon style={{color: '#DAAB59'}} />} {...a11yProps(3)} />
                 </Tabs>
             </AppBar>
 
@@ -115,19 +132,71 @@ const CheckoutView = props => {
                 index={value}
                 onChangeIndex={handleChangeIndex}
             >
-                <TabPanel value={value} index={0}>
+                <TabPanel value={value} index={0} >
                     <ViewCash />
                 </TabPanel>
-                <TabPanel value={value} index={1} >
-                    Item 2
+                <TabPanel value={value} index={1}  >
+                    
                 </TabPanel>
-                <TabPanel value={value} index={2} >
-                    Item 3
+                <TabPanel value={value} index={2}  >
+                   
                 </TabPanel>
-                <TabPanel value={value} index={3} >
-                    Item 4
+                <TabPanel value={value} index={3}  >
+                    
                 </TabPanel>
             </SwipeableViews>
+
+            <MainDialog handleDialogClose={closeDialogHandler.bind(this)} states={mainDialog} >
+                <div className="row p-3 pt-0 mx-auto text-center w-100" >
+                    <CancelIcon  style={{position: 'relative', float: 'right', fontSize: '2rem'}}
+                        onClick={closeDialogHandler.bind(this)}
+                    />
+
+                    <Typography
+
+                        variant="h2"
+                        style={{fontSize: '30px' }}
+                        className={`text-center mb-2 mx-auto w-100 text-dark font-weight-bold`}
+                    >
+                        Oops!
+                    </Typography>
+
+                    <Box component="div" m={2}>
+                        <img className="img100" src={ErrorImage} alt={'test'}/>
+                     </Box>
+
+                    <div className="text-center mx-auto my-3">
+                        <Typography
+                            component="p"
+                            variant="h6"
+                            style={{fontSize: '16px' , margin: '0px 0px', padding: '16px'}}
+                            className={`text-center mb-2 mx-auto w-90 text-dark font-weight-bold`}
+                        >
+                            Seems like you have discovered a premium feature.
+                        </Typography>
+
+                        <Typography
+                            component="p"
+                            variant="h6"
+                            style={{fontSize: '16px' , margin: '0px 0px', padding: '16px'}}
+                            className={`text-center mb-2 mx-auto w-90 text-dark font-weight-bold`}
+                        >
+                            Please upgrade to be able to process other payment methods.
+                        </Typography>
+                    </div>
+
+                    <div className="text-center mx-auto my-3">
+                        <Button
+                                variant="outlined"
+                                style={{'backgroundColor': '#DAAB59' , color: '#333333', padding: '7px 58px', textTransform: 'none', fontSize:'17px'}}
+                                
+                            >
+                                Upgrade now
+                        </Button>
+                    </div>
+
+                </div>
+            </MainDialog>
 
             <Box
                 className="shadow1"
@@ -138,8 +207,14 @@ const CheckoutView = props => {
                 <Button
                     variant="contained"
                     className='text-dark font-weight-bold'
-                    style={{'backgroundColor': '#DAAB59' , color: '#333333', padding: '8px 70px'}}
-                    onClick={backHandler.bind(this)}
+                    style={{
+                        backgroundColor: '#DAAB59', 
+                        color: '#333333', 
+                        padding: '5px 60px',
+                        textTransform: 'none', 
+                        fontSize: '20px', 
+                    }}
+                    onClick={openSuccessHandler.bind(this)}
                 >
                     Finish
                 </Button>

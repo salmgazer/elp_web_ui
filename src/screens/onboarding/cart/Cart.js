@@ -4,6 +4,7 @@ import {withRouter} from "react-router";
 import CartView from "./sections/ViewCart";
 import {confirmAlert} from "react-confirm-alert";
 import Checkout from "./sections/Checkout";
+import CompleteCart from "./sections/CompleteCart";
 
 
 class Cart extends Component{
@@ -49,6 +50,8 @@ class Cart extends Component{
                 return <CartView setView={this.setStepContentView.bind(this)} products={this.state.productList} deleteProduct={this.deleteProduct.bind(this)} />;
             case 1:
                 return <Checkout setView={this.setStepContentView.bind(this)} />;
+            case 2:
+                return <CompleteCart setView={this.setStepContentView.bind(this)} />;
             default:
                 return 'Complete';
         }
