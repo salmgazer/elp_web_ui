@@ -18,7 +18,7 @@ import paths from "./utilities/paths";
 import GetStarted from "./screens/getStarted/GetStarted";
 import AddProducts from "./screens/onboarding/addProducts/AddProducts";
 import CategorySetup from "./screens/onboarding/categorySetup/CategorySetup";
-import Cart from "./screens/onboarding/cart/Cart";
+import Cart from "./screens/sell/cart/Cart";
 
 function NoMatch() {
   let location = useLocation();

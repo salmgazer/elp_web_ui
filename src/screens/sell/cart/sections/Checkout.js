@@ -20,7 +20,7 @@ import ViewCash from './ViewCash';
 import MainDialog from "../../../Components/Dialog/MainDialog";
 import ErrorImage from '../../../../assets/img/error.png';
 import CancelIcon from '@material-ui/icons/Cancel';
-import Modal from '../../../Components/Modal/Modal';
+
 
 const useStyles = makeStyles(theme => ({
     root: {
