@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useState} from "react";
 import OtpInput from 'react-otp-input';
 import Component from "@reactions/component";
 import CssBaseline from '@material-ui/core/CssBaseline';
@@ -11,6 +11,8 @@ import Grid from '@material-ui/core/Grid';
 
 import confirmImg from '../../../assets/img/confirm.jfif';
 import Button from "@material-ui/core/Button/Button";
+import Snackbar from '@material-ui/core/Snackbar';
+import MuiAlert from '@material-ui/lab/Alert';
 
 const useStyles = makeStyles(theme => ({
     root: {
@@ -30,8 +32,13 @@ const useStyles = makeStyles(theme => ({
     },
 }));
 
+function Alert(props) {
+    return <MuiAlert elevation={6} variant="filled" {...props} />;
+}
+
 const ConfirmSMS = props => {
     const classes = useStyles();
+    const [errorDialog, setErrorDialog] = useState(false);
 
     //Logic for verifying SMS
     const verifySMS = async({otp}) => {
@@ -45,8 +52,17 @@ const ConfirmSMS = props => {
         if(code == otp){
             props.setView(2);
         }else{
+            setErrorDialog(true);
             return false
         }
+    };
+
+    const handleCloseSnack = (event, reason) => {
+        if (reason === 'clickaway') {
+            return;
+        }
+
+        setErrorDialog(false);
     };
 
     return (
@@ -60,10 +76,16 @@ const ConfirmSMS = props => {
                     <React.Fragment>
                         <CssBaseline />
 
-                        <Container maxWidth="sm">
+                        <Container maxWidth="sm"
+                        >
                             <Box component="div" m={2} style={{paddingTop: '60px'}}>
                                 <img className="img-responsive" src={confirmImg} alt={'test'}/>
                             </Box>
+                            <Snackbar open={errorDialog} autoHideDuration={6000} onClose={handleCloseSnack}>
+                                <Alert onClose={handleCloseSnack} severity="error">
+                                    Number you entered is incorrect. Please enter again!
+                                </Alert>
+                            </Snackbar>
                             <Typography variant="h6" component="h6">
                                 Verify phone number
                             </Typography>
@@ -102,7 +124,6 @@ const ConfirmSMS = props => {
 
                             <Grid
                                 item xs={12}
-                                alignItems="center"
                                 style={{margin: '15% auto 5px'}}
                             >
                                 <Typography

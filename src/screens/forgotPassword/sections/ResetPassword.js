@@ -19,6 +19,8 @@ import IconButton from "@material-ui/core/IconButton/IconButton";
 import Visibility from '@material-ui/icons/Visibility';
 import VisibilityOff from '@material-ui/icons/VisibilityOff';
 import Api from "../../../services/Api";
+import Snackbar from '@material-ui/core/Snackbar';
+import MuiAlert from '@material-ui/lab/Alert';
 
 
 const useStyles = makeStyles(theme => ({
@@ -61,15 +63,21 @@ const ValidationTextField = withStyles({
     },
 })(TextValidator);
 
+function Alert(props) {
+    return <MuiAlert elevation={6} variant="filled" {...props} />;
+}
+
 const ResetPassword = props => {
     const { history } = props;
     const classes = useStyles();
+    const [errorDialog, setErrorDialog] = useState(false);
+    const [successDialog, setSuccessDialog] = useState(false);
 
     //Logic for sending SMS
 
 
         const submit = async ({ ...data }) => {
-            const userData = JSON.parse(localStorage.getItem('user'));
+            const userData = JSON.parse(localStorage.getItem('forgotUser'));
 
             userData.password =  data.password;
             console.log(userData);
@@ -77,12 +85,17 @@ const ResetPassword = props => {
             let req = await new Api('users').update(userData , userData.userId);
 
             if(!req.error){
-                //localStorage.setItem('user' , JSON.stringify(req));
-                console.log('$$$$$$$$$$$$$$$$$$$$$');
-                console.log(req.data);
-                //props.setView(1);
+                setSuccessDialog(true);
+                localStorage.removeItem('forgotUser');
+                localStorage.removeItem('userOTP');
+
+                setTimeout(function(){
+                    setSuccessDialog(false);
+                    history.push(paths.login);
+                }, 2000);
             }else{
-                console.log(req);
+                setErrorDialog(true);
+                return false
             }
         };
 
@@ -115,6 +128,15 @@ const ResetPassword = props => {
         });
     };
 */
+    const handleCloseSnack = (event, reason) => {
+        if (reason === 'clickaway') {
+            return;
+        }
+
+        setErrorDialog(false);
+        setSuccessDialog(false);
+    };
+
     return (
         <div className={classes.root} style={{ backgroundColor: '#ffffff', height: '100vh' }}>
             <Component
@@ -142,6 +164,17 @@ const ResetPassword = props => {
                             <Box component="div" m={2} style={{paddingTop: '0px'}}>
                                 <img className={`img-responsive w-100`} src={confirmImg} alt={'test'}/>
                             </Box>
+                            <Snackbar open={errorDialog} autoHideDuration={6000} onClose={handleCloseSnack}>
+                                <Alert onClose={handleCloseSnack} severity="error">
+                                    Sorry details could not update. Please try again!
+                                </Alert>
+                            </Snackbar>
+
+                            <Snackbar open={successDialog} autoHideDuration={6000} onClose={handleCloseSnack}>
+                                <Alert onClose={handleCloseSnack} severity="success">
+                                    Password change successful. Please login!
+                                </Alert>
+                            </Snackbar>
 
                             <ValidatorForm
                                 ref="form"
@@ -225,9 +258,9 @@ const ResetPassword = props => {
                             </ValidatorForm>
 
                             <Link to={paths.login}>
-                                <a
+                                <div
                                     className={`text-dark mt-3`}
-                                    style={{'marginTop': '20px', fontSize: '22px'}}>Back to login screen</a> <br/>
+                                    style={{'marginTop': '20px', fontSize: '22px'}}>Back to login screen</div> <br/>
                             </Link>
                         </Container>
                     </React.Fragment>

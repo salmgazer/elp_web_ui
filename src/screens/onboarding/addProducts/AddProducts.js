@@ -10,6 +10,7 @@ import AddedProductView from "./sections/AddedProductView";
 import {confirmAlert} from "react-confirm-alert";
 import EditProductView from "./sections/EditProductView";
 import CompleteView from "./sections/CompleteView";
+import './addProduct.scss';
 
 class AddProducts extends Component{
     state = {
@@ -306,7 +307,7 @@ class AddProducts extends Component{
 
     render(){
         return(
-            <div>
+            <div className={`addProducts`}>
                 <SectionNavbars title="Stock" >
                     <MenuIcon
                         onClick={() => this.setState({isDrawerShow: true})}

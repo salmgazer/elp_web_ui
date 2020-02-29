@@ -42,6 +42,7 @@ const ViewStore = props => {
                     variant="h5"
                     component="h6"
                     className="darkHeader"
+                    style={{fontSize: '1.3rem'}}
                 >
                     Add stock to your store.
                 </Typography>
@@ -52,7 +53,7 @@ const ViewStore = props => {
 
                 <Button
                     variant="contained"
-                    style={{'backgroundColor': '#DAAB59' , borderRadius: '10px', color: '#333333', padding: '8px 50px', margin: '10px auto', fontSize: '16px', fontWeight: '700'}}
+                    style={{'backgroundColor': '#DAAB59' , borderRadius: '10px', color: '#333333', padding: '8px 50px', margin: '10px auto', fontSize: '18px', fontWeight: '700'}}
                     className={`capitalization`}
                     onClick={() => history.push(paths.category_setup)}
                 >

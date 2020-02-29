@@ -1,10 +1,12 @@
 body {
-  margin: 0;
+  margin: 0 !important;
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
     'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-    sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+    sans-serif !important;
+  -webkit-font-smoothing: antialiased !important;
+  -moz-osx-font-smoothing: grayscale !important;
+  padding: 0 !important;
+  width: 100% !important;
 }
 
 code {
@@ -226,15 +228,6 @@ code {
   border-bottom: 2px solid #daab59 !important;
 }
 
-.shadow {
-  box-shadow: 0 .5rem 1rem rgba(0,0,0,.15)!important;
-}
-
-.shadow1 {
-  -webkit-box-shadow: 1px 1px 6px 3px rgba(227,227,227,0.54);
-  -moz-box-shadow: 1px 1px 6px 3px rgba(227,227,227,0.54);
-  box-shadow: 1px 1px 6px 3px rgba(227,227,227,0.54);
-}
 .MuiPaper-elevation1 {
   -webkit-box-shadow: 1px 1px 6px 3px rgba(227,227,227,0.54) !important;
   -moz-box-shadow: 1px 1px 6px 3px rgba(227,227,227,0.54) !important;
@@ -264,7 +257,7 @@ code {
 }
 
 .MuiPaper-elevation1 {
-  box-shadow: 0 .5rem 1rem rgba(0,0,0,.15)!important;
+  box-shadow: 0 0rem 0rem rgba(0, 0, 0, 0.15) !important;
 }
 
 .MuiStepLabel-label.MuiStepLabel-active, .MuiStepLabel-label.MuiStepLabel-completed {
@@ -352,5 +345,21 @@ code {
   left: 0 !important;
   right: 0 !important;
   width: 100% !important;
+}
+
+.shadow {
+  box-shadow: 0 .5rem 1rem rgba(0,0,0,.15)!important;
+}
+
+.shadow1 {
+  -webkit-box-shadow: 1px 1px 6px 3px rgba(227,227,227,0.54);
+  -moz-box-shadow: 1px 1px 6px 3px rgba(227,227,227,0.54);
+  box-shadow: 1px 1px 6px 3px rgba(227,227,227,0.54);
+}
+
+.imageProduct{
+  width: 150px !important;
+  height: 150px !important;
+  margin: 0 auto !important;
 }
 

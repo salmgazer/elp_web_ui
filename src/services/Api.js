@@ -42,6 +42,12 @@ export default class Api {
         return axios.post(requestPath,  data  , config);
     }
 
+    async options(config = {} , requestPath = `${this.constructor.basePath}/${this.resource}`) {
+        console.log(requestPath);
+        console.log(config);
+        return axios.options(requestPath,  config);
+    }
+
     async update(data = {} , primaryKeyValue, requestPath = `${this.constructor.basePath}/${this.resource}`) {
         return axios.put(`${requestPath}/${primaryKeyValue}`, data );
     }

@@ -16,6 +16,8 @@ import confirmImg from '../../assets/img/confirm.jfif';
 import Button from "@material-ui/core/Button/Button";
 import paths from "../../utilities/paths";
 import SuccessDialog from "../Components/Dialog/SuccessDialog";
+import Snackbar from '@material-ui/core/Snackbar';
+import MuiAlert from '@material-ui/lab/Alert';
 
 
 const useStyles = makeStyles(theme => ({
@@ -36,10 +38,15 @@ const useStyles = makeStyles(theme => ({
     },
 }));
 
+function Alert(props) {
+    return <MuiAlert elevation={6} variant="filled" {...props} />;
+}
+
 const VerifySMS = props => {
     const { history } = props;
     const classes = useStyles();
     const [successDialog, setSuccessDialog] = useState(false);
+    const [errorDialog, setErrorDialog] = useState(false);
 
     //Logic for verifying SMS
     const verifySMS = async({otp}) => {
@@ -57,8 +64,17 @@ const VerifySMS = props => {
                 history.push(paths.get_started);
             }, 2000);
         }else{
+            setErrorDialog(true);
             return false
         }
+    };
+
+    const handleCloseSnack = (event, reason) => {
+        if (reason === 'clickaway') {
+            return;
+        }
+
+        setErrorDialog(false);
     };
 
     return (
@@ -81,6 +97,11 @@ const VerifySMS = props => {
                         <CssBaseline />
 
                         <Container maxWidth="sm">
+                            <Snackbar open={errorDialog} autoHideDuration={6000} onClose={handleCloseSnack}>
+                                <Alert onClose={handleCloseSnack} severity="error">
+                                    Number you entered is incorrect. Please enter again!
+                                </Alert>
+                            </Snackbar>
                             <Box component="div" m={2} style={{paddingTop: '60px'}}>
                                 <img className="img-responsive" src={confirmImg} alt={'test'}/>
                             </Box>

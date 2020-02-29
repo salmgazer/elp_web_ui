@@ -89,18 +89,18 @@ const AddProductView = props => {
         <div style={{paddingTop: '60px'}}>
             <SuccessDialog states={successDialog}/>
 
-            <div className="row p-0 pt-0 mx-0 text-center w-100 shadow1">
+            <div className="row p-0 pt-0 mx-0 text-center shadow1">
                 <Typography
                     component="p"
                     variant="h6"
                     style={{fontSize: '18px' , margin: '0px 0px', padding: '16px'}}
-                    className={`text-center mx-auto w-100 text-dark font-weight-bold`}
+                    className={`text-center mx-auto text-dark font-weight-bold`}
                 >
                     {product.pro_name}
                 </Typography>
             </div>
             <div>
-                <img className={`img-fluid w-75 mx-auto d-block pt-2`} src={image} alt={`${product.pro_name}`}/>
+                <img className={`img-fluid imageProduct mx-auto d-block pt-2`} src={image} alt={`${product.pro_name}`}/>
             </div>
 
             <div
@@ -111,7 +111,7 @@ const AddProductView = props => {
                     component="h5"
                     variant="h5"
                     style={{fontWeight: '500', fontSize: '20px' , margin: '0px 0px', padding: '14px'}}
-                    className={`text-center mx-auto w-100 text-dark`}
+                    className={`text-center mx-auto text-dark`}
                 >
                     Total stock : 0
                 </Typography>
@@ -129,7 +129,7 @@ const AddProductView = props => {
                         component="h5"
                         variant="h5"
                         style={{fontWeight: '500', fontSize: '18px' , margin: '0px 0px', padding: '0px 14px'}}
-                        className={`text-center mx-auto w-100 text-dark`}
+                        className={`text-center mx-auto text-dark`}
                     >
                         History
                     </Typography>

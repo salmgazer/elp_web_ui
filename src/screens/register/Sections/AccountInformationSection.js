@@ -149,13 +149,17 @@ export default function AccountInformationSection(props) {
         if(event.target.checked === true){
             const { ...formData }  = formFields;
             //console.log(formData.firstName);
-            formData['username'] = userFields.phone;
+            let f = userFields.phone;
+
+            f = f.replace(/-/g , "");
+
+            formData['username'] = f;
             /*if (event.target.name === 'password') {
                 this.form.isFormValid(false);
             }*/
             const {...fakeEvent} = event;
             fakeEvent.target.name = "username";
-            fakeEvent.target.value = userFields.phone;
+            fakeEvent.target.value = f;
             setFormFields(formData);
             props.collectData(fakeEvent);
         }else{
@@ -277,7 +281,7 @@ export default function AccountInformationSection(props) {
                                 {showPassword.showPassword ? <Visibility /> : <VisibilityOff />}
                                 </IconButton>
                                 </InputAdornment>
-
+                            
                         }}
                     />
                 </Grid>
@@ -297,20 +301,6 @@ export default function AccountInformationSection(props) {
                         errorMessages={['Password confirmation is a required field', 'password mismatch']}
                         helperText=""
                         onChange={checkPassword}
-                        InputProps={{
-                            endAdornment:
-                                <InputAdornment position="end">
-                                    <IconButton
-                                        aria-label="toggle password visibility"
-                                        onClick={handleClickShowPassword}
-                                        onMouseDown={handleMouseDownPassword}
-                                        edge="end"
-                                    >
-                                        {showPassword.showPassword ? <Visibility /> : <VisibilityOff />}
-                                    </IconButton>
-                                </InputAdornment>
-
-                        }}
                     />
                 </Grid>
 

@@ -68,10 +68,29 @@ export default function PersonalInformationSection(props) {
         props.isValid(result);
     };
 
+    /*
+    * Add dashes to contact
+    * */
+    const addDashes = contact => {
+        let fs = contact.target.value;
+
+        let r = /(\D+)/g,
+            npa = '',
+            nxx = '',
+            last4 = '';
+        fs = fs.replace(r, '');
+        npa = fs.substr(0, 3);
+        nxx = fs.substr(3, 3);
+        last4 = fs.substr(6, 4);
+        fs = npa + '-' + nxx + '-' + last4;
+        contact.target.value = fs;
+        handleChange(contact);
+    };
+
     const formRef = React.createRef('form');
 
     return (
-        <Paper className={classes.paper}>
+        <Paper className={`${classes.paper}`}>
             <ValidatorForm
                 ref={formRef}
                 onError={handleFormValidation}
@@ -112,7 +131,7 @@ export default function PersonalInformationSection(props) {
                 <Grid item xs={12}>
                     <ValidationTextField
                         className={classes.margin}
-                        onChange={handleChange}
+                        onChange={addDashes}
                         validatorListener={handleFormValidation}
                         name="phone"
                         label="Phone number"
@@ -120,11 +139,10 @@ export default function PersonalInformationSection(props) {
                         type="tel"
                         variant="outlined"
                         id="contact"
-                        validators={['required', 'isNumber' , 'minStringLength:10' , 'maxStringLength:10']}
+                        validators={['required', 'minStringLength:12' , 'maxStringLength:12']}
                         errorMessages={
                             [
                                 'Contact is a required field',
-                                'Only enter numeric inputs accepted',
                                 'The minimum length for contact is 10' ,
                                 'The maximum length for contact is 10'
                             ]

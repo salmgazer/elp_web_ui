@@ -17,6 +17,7 @@ import { ValidatorForm, TextValidator} from 'react-material-ui-form-validator';
 import Auth0Service from "../../../services/Auth0Service";
 import InputAdornment from '@material-ui/core/InputAdornment';
 import Api from "../../../services/Api";
+import GenerateOTP from "../../../services/GenerateString";
 
 
 const useStyles = makeStyles(theme => ({
@@ -74,8 +75,17 @@ const ForgotPassword = props => {
         let req = await new Api('users').getUserByPhone(phone);
 
         if(req){
-            localStorage.setItem('user' , JSON.stringify(req));
+            /*
+            * Send OTP to user...
+            * */
+            const otp = new GenerateOTP(4).generateNumber();
+            localStorage.setItem('userOTP' , otp);
+
+            new Auth0Service().sendOTP(req.phone , otp);
+
+            localStorage.setItem('forgotUser' , JSON.stringify(req));
             props.setView(1);
+
         }else{
             console.log(req);
         }
@@ -167,10 +177,11 @@ const ForgotPassword = props => {
                             </ValidatorForm>
 
                             <Link to={paths.login}>
-                                <a
+                                <div
                                     className={`text-dark mt-3`}
-                                    style={{'marginTop': '20px', fontSize: '22px'}}>Back to login screen</a> <br/>
+                                    style={{'marginTop': '20px', fontSize: '22px'}}>Back to login screen</div> <br/>
                             </Link>
+
                         </Container>
                     </React.Fragment>
                 )}

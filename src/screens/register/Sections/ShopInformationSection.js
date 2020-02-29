@@ -217,7 +217,7 @@ export default function ShopInformationSection(props) {
                         id="storeName"
                         onChange={handleChangeHandler}
                         validators={['required', 'minStringLength:3']}
-                        errorMessages={['Company name is a required field', 'The minimum length for company name is 3']}
+                        errorMessages={['Company name is a required field', 'Company name should be more than 3']}
                         helperText=""
                         validatorListener={handleFormValidation}
                     />
@@ -232,7 +232,7 @@ export default function ShopInformationSection(props) {
                         value={formFields.location}
                         onChange={handleChangeHandler}
                         validators={['required', 'minStringLength:3']}
-                        errorMessages={['Location is a required field', 'The minimum length for location is 3']}
+                        errorMessages={['Location is a required field', 'Location should be more than 3']}
                         helperText=""
                         id="location"
                         validatorListener={handleFormValidation}

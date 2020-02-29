@@ -36,9 +36,7 @@ class ForgottenPassword extends Component{
     render(){
         return(
             <div>
-
                 {this.getStepContent(this.state.activeStep)}
-
             </div>
         )
     }

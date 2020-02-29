@@ -41,6 +41,7 @@ const ViewWelcome = props => {
                     variant="h5"
                     component="h6"
                     className="darkHeader"
+                    style={{fontSize: '1.3rem'}}
                 >
                     Welcome to your store.
                 </Typography>
@@ -51,7 +52,7 @@ const ViewWelcome = props => {
 
                 <Button
                     variant="contained"
-                    style={{'backgroundColor': '#DAAB59' , borderRadius: '10px', color: '#333333', padding: '8px 50px', margin: '10px auto', fontSize: '16px', fontWeight: '700'}}
+                    style={{'backgroundColor': '#DAAB59' , borderRadius: '10px', color: '#333333', padding: '8px 50px', margin: '10px auto', fontSize: '18px', fontWeight: '700'}}
                     className={`capitalization`}
                     onClick={nextPageHandler.bind(this)}
                 >

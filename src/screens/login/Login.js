@@ -4,8 +4,7 @@ import Component from "@reactions/component";
 import { useDatabase } from "@nozbe/watermelondb/hooks";
 import { Q } from "@nozbe/watermelondb";
 import LocalInfo from "../../services/LocalInfo";
-import TextField from "@material-ui/core/TextField";
-import PhoneIcon from '@material-ui/icons/Phone';
+import AccountCircleIcon from '@material-ui/icons/AccountCircle';
 import LockIcon from '@material-ui/icons/Lock';
 import Grid from '@material-ui/core/Grid';
 import Button from "@material-ui/core/Button";
@@ -20,6 +19,7 @@ import Logo from '../../assets/img/el-parah.png';
 import Typography from "@material-ui/core/Typography/Typography";
 import './Login.scss';
 import Auth0Service from "../../services/Auth0Service";
+import InputAdornment from '@material-ui/core/InputAdornment';
 
 
 const useStyles = makeStyles(theme => ({
@@ -182,13 +182,13 @@ const Login = props => {
 
               <Container
                   maxWidth="sm"
-                  style={{backgroundColor: '#f2ece3'}}
+                  style={{backgroundColor: '#f2ece3', padding: '8% 3%'}}
               >
                   <Box
                       className={`${classes.shadow2} login`}
                       style={{'borderRadius': '10px'}}
                   >
-                      <Box component="div" style={{paddingTop: '50px', marginTop: '32px'}}>
+                      <Box component="div" style={{paddingTop: '50px', marginTop: '0px'}}>
                           <img style={{width: '230px', height: '90px'}} className="img-responsive" src={Logo} alt={'Elparah Logo'}/>
                       </Box>
                       <Typography
@@ -210,9 +210,6 @@ const Login = props => {
                           <div className={classes.margin} style={{'paddingBottom': '10px'}}>
                               <Grid container spacing={1} alignItems="flex-end" >
                                   <Grid item>
-                                      <PhoneIcon />
-                                  </Grid>
-                                  <Grid item>
                                       <ValidationTextField
                                           onChange={event => setState({ usernameOrPhone: event.target.value })}
                                           id="usernameOrPhone"
@@ -223,6 +220,12 @@ const Login = props => {
                                           validators={['required', 'minStringLength:4']}
                                           errorMessages={['Username is a required field', 'The minimum length for username is 4']}
                                           helperText=""
+                                          InputProps={{
+                                              startAdornment:
+                                                  <InputAdornment position="start">
+                                                      <AccountCircleIcon />
+                                                  </InputAdornment>
+                                          }}
                                       />
                                   </Grid>
                               </Grid>
@@ -230,9 +233,6 @@ const Login = props => {
 
                           <div className={classes.margin} className={classes.padding1}>
                               <Grid container spacing={1} alignItems="flex-end">
-                                  <Grid item>
-                                      <LockIcon />
-                                  </Grid>
                                   <Grid item>
                                       <ValidationTextField
                                           id="password"
@@ -244,6 +244,12 @@ const Login = props => {
                                           name="password"
                                           label="password"
                                           helperText=""
+                                          InputProps={{
+                                              startAdornment:
+                                                  <InputAdornment position="start">
+                                                      <LockIcon />
+                                                  </InputAdornment>
+                                          }}
                                       />
                                   </Grid>
                               </Grid>
@@ -265,7 +271,7 @@ const Login = props => {
                           or
                           <Button
                               variant="contained"
-                              style={{'width': '100%','backgroundColor': '#DAAB59' , color: '#403C3C', margin: '10px auto',padding: '5px 1px', fontSize: '17px', fontWeight: '700'}}
+                              style={{'width': '100%','backgroundColor': '#DAAB59' , color: '#403C3C', margin: '10px auto 30px',padding: '5px 1px', fontSize: '17px', fontWeight: '700'}}
                               className={classes.button} className="capitalization"
                               onClick={() => history.push(paths.register)}
                           >
