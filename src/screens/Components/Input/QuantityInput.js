@@ -32,6 +32,7 @@ const useStyles = makeStyles(theme => ({
 const QuantityInput = props => {
     const classes = useStyles();
     const [quantity , setQuantity] = useState();
+    const inputName = props.inputName;
 
     const increaseQ = () => {
         if(isNaN(quantity) || quantity.length <= 0)
@@ -40,7 +41,10 @@ const QuantityInput = props => {
             return
         }
 
-        setQuantity(quantity + 1);
+        const qn = parseFloat(quantity) + 1;
+        setQuantity(parseFloat(quantity) + 1);
+
+        props.getValue(inputName , qn);
     };
 
     const decreaseQ = () => {
@@ -50,7 +54,24 @@ const QuantityInput = props => {
             return;
         }
 
-        setQuantity(quantity - 1);
+        const qn = parseFloat(quantity) - 1;
+        setQuantity(parseFloat(quantity) - 1);
+
+        props.getValue(inputName , qn);
+
+    };
+
+    const setValueHandler = (event) => {
+        event.persist();
+        if(isNaN(event.target.value) || (event.target.value).length <= 0)
+        {
+            setQuantity();
+            return
+        }
+
+        setQuantity(event.target.value);
+        props.getValue(inputName , event.target.value);
+
     };
 
     return(
@@ -69,7 +90,10 @@ const QuantityInput = props => {
                     <Paper className={`${classes.root} text-center`} >
                         <InputBase
                             className={`${classes.input} search-box text-center`}
+                            type="tel"
                             value={quantity}
+                            name={props.inputName}
+                            onChange={(event) => setValueHandler(event)}
                         />
                     </Paper>
                 </Grid>

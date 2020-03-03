@@ -25,42 +25,48 @@ class AddProducts extends Component{
                 "pro_name": "Bella Vinas Red Wine 5L",
                 "image": "no_image.png",
                 "p_cat_id": "1",
-                "cat_name": "Alcoholic Wine"
+                "cat_name": "Alcoholic Wine",
+                "status" : true,
             },
             {
                 "pro_id": "1952",
                 "pro_name": "Kasapreko 750ml Tonic PB - Pack of 12",
                 "image": "no_image.png",
                 "p_cat_id": "1",
-                "cat_name": "Alcoholic Wine"
+                "cat_name": "Alcoholic Wine",
+                "status": true,
             },
             {
                 "pro_id": "1943",
                 "pro_name": "Darling Lemon 330ml - Pack of 12",
                 "image": "no_image.png",
                 "p_cat_id": "137",
-                "cat_name": "Alcoholic Wine"
+                "cat_name": "Alcoholic Wine",
+                "status": false,
             },
             {
                 "pro_id": "1964",
                 "pro_name": "Choice Irish Cream 50ml - Pack of 20",
                 "image": "no_image.png",
                 "p_cat_id": "1",
-                "cat_name": "Alcoholic Wine"
+                "cat_name": "Alcoholic Wine",
+                "status": false,
             },
             {
                 "pro_id": "1126",
                 "pro_name": "Sangria Don Simon Red Wine 1L Tetrapak",
                 "image": " Sangria Don Simon Red Wine 1L Tetrapak.jpg",
                 "p_cat_id": "1",
-                "cat_name": "Alcoholic Wine"
+                "cat_name": "Alcoholic Wine",
+                "status": true,
             },
             {
                 "pro_id": "2836",
                 "pro_name": "Four Special 1.5L Wine",
                 "image": "no_image.png",
                 "p_cat_id": "1",
-                "cat_name": "Alcoholic Wine"
+                "cat_name": "Alcoholic Wine",
+                "status": false
             },
         ],
         addedProducts: [
@@ -217,11 +223,13 @@ class AddProducts extends Component{
     };
 
     getStepContent = step => {
+        const shop_products = (this.state.productList).filter((item) => item['status'] === true);
+
         switch (step) {
             case 0:
-                return <MainView setView={this.setStepContentView.bind(this)} viewAddedProducts={this.viewAddedProducts(this)} products={this.state.productList} productAdd={this.showAddView.bind(this)} spCount={this.state.addedProducts.length} />;
+                return <MainView setView={this.setStepContentView.bind(this)} viewAddedProducts={this.viewAddedProducts(this)} products={this.state.productList} productAdd={this.showAddView.bind(this)} removeProduct={this.removeProduct.bind(this)} spCount={shop_products.length} />;
             case 1:
-                return <AddProductView setView={this.setStepContentView.bind(this)} product={this.state.currentProduct}/>;
+                return <AddProductView addNewProduct={this.addNewProduct.bind(this)} setView={this.setStepContentView.bind(this)} product={this.state.currentProduct}/>;
             case 2:
                 return <AddedProductView deleteProduct={this.deleteProduct.bind(this)} products={this.state.addedProducts} setView={this.setStepContentView.bind(this)} pro_quantity={this.state.storeProducts} productEdit={this.showEditView.bind(this)}/>;
             case 3:
@@ -243,7 +251,41 @@ class AddProducts extends Component{
         return 0;
     };
 
+    removeProduct = (proId) => {
+        confirmAlert({
+            title: 'Confirm to remove',
+            message: 'Are you sure you want to remove this product.',
+            buttons: [
+                {
+                    label: 'Yes',
+                    onClick: () => {
+                        let old_list = this.state.productList;
+
+                        const productIndex = old_list.findIndex((item => item.pro_id === proId));
+                        const item = {...old_list[productIndex]};
+
+                        item.status = false;
+
+                        old_list[productIndex] = item;
+
+                        this.setState({
+                            productList: [...old_list],
+                        });
+                    }
+                },
+                {
+                    label: 'No',
+                    onClick: () => {
+                        return false;
+                    }
+                }
+            ]
+        });
+    };
+
+
     showAddView = (proId , step) => {
+        console.log(`${proId} from addProduct`);
         const old_list = this.state.productList;
 
         //Find index of specific object using findIndex method.
@@ -256,6 +298,7 @@ class AddProducts extends Component{
         });
     };
 
+
     showEditView = (proId , step) => {
         const old_list = this.state.addedProducts;
 
@@ -266,6 +309,22 @@ class AddProducts extends Component{
         this.setState({
             currentProduct: product,
             activeStep: step
+        });
+    };
+
+    addNewProduct = async(formFields) => {
+        console.log(formFields)
+        let old_list = this.state.productList;
+
+        const productIndex = old_list.findIndex((item => item.pro_id === (formFields.pro_id)));
+        const item = {...old_list[productIndex]};
+
+        item.status = true;
+
+        old_list[productIndex] = item;
+
+        this.setState({
+            productList: [...old_list],
         });
     };
 

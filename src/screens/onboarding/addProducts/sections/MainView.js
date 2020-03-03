@@ -20,7 +20,13 @@ const MainView = props => {
     };
 
     const addProduct = (pId , event) => {
+        console.log(`${pId} from mainview`);
         props.productAdd(pId , 1);
+    };
+
+    const removeProduct = (pId , event) => {
+        console.log(`${pId} from removeView`);
+        props.removeProduct(pId);
     };
 
     const useStyles = () => makeStyles(theme => ({
@@ -40,7 +46,7 @@ const MainView = props => {
 
     const addedProductsViewHandler = event => {
         props.setView(2);
-    }
+    };
 
     return(
         <div>
@@ -64,7 +70,7 @@ const MainView = props => {
                 onChangeIndex={handleChangeIndex}
             >
                 <TabPanel value={value} index={0}>
-                    <SearchMode products={props.products} productAdd={addProduct.bind(this)}/>
+                    <SearchMode products={props.products} productAdd={addProduct.bind(this)} removeProduct={removeProduct.bind(this)}/>
                 </TabPanel>
                 <TabPanel value={value} index={1} >
                     <BarcodeMode/>

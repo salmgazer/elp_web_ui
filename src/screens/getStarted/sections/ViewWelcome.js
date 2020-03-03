@@ -11,7 +11,7 @@ const ViewWelcome = props => {
     };
 
     return(
-        <div>
+        <div class="getStarted">
             <Typography
                 variant="h5"
                 component="h6"

@@ -10,6 +10,11 @@ import Step1 from "./sections/Step1";
 import Step2 from "./sections/Step2";
 
 class CategorySetup extends Component{
+    /*
+    * @todo
+    * 1. Get categories and subcategories from watermelon.
+    * */
+
     state = {
         activeStep: 0,
         categories: [
@@ -104,7 +109,6 @@ class CategorySetup extends Component{
 
     selectCategoryHandler = (itemId , event) => {
         console.log(itemId);
-        const old_subcategories = this.state.subcategories;
         const old_categories = this.state.categories;
 
         const subcategories = old_categories.findIndex((item => item.id === itemId));
@@ -119,6 +123,20 @@ class CategorySetup extends Component{
         });
     };
 
+    addSubCategoryHandler = (subCategoryId , event) => {
+        const old_subcategories = this.state.subcategories;
+
+        const subcategories = old_subcategories.findIndex((item => item.id === subCategoryId));
+        const item = {...old_subcategories[subcategories]};
+
+        item.status = !item.status;
+        old_subcategories[subcategories] = item;
+
+        this.setState({
+            subcategories: old_subcategories
+        });
+    };
+
     //Steps to select category
     getSteps = () => {
         return ['Add Categories' , 'View Added Categories'];
@@ -127,11 +145,13 @@ class CategorySetup extends Component{
     getStepContent = step => {
         const categories = this.state.categories;
         const subcategories = this.state.subcategories;
+        const shop_subcategories = subcategories.filter((item) => item.status === true);
+
         switch (step) {
             case 0:
-                return <Step1 clickFnc={this.selectCategoryHandler.bind(this)} categories={categories} subcategories={subcategories}/> ;
+                return <Step1 addSubCategory={this.addSubCategoryHandler.bind(this)} clickFnc={this.selectCategoryHandler.bind(this)} categories={categories} subcategories={subcategories}/> ;
             case 1:
-                return <Step2 subcategories={subcategories}/>;
+                return <Step2 addSubCategory={this.addSubCategoryHandler.bind(this)} subcategories={shop_subcategories}/>;
             default:
                 return 'Complete';
         }

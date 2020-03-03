@@ -10,6 +10,8 @@ import Grid from "@material-ui/core/Grid/Grid";
 import Select from '@material-ui/core/Select';
 import MenuItem from '@material-ui/core/MenuItem';
 import ProductCard from "../../../Components/Cards/ProductCard";
+import AddedIcon from "../../../Components/ClickableIcons/AddedIcon";
+import AddIcon from "../../../Components/ClickableIcons/AddIcon";
 
 
 const useStyles = makeStyles(theme => ({
@@ -45,10 +47,22 @@ const SearchMode = props => {
         props.productAdd(pId);
     };
 
+    const products = props.products;
+
     const classes = useStyles();
 
+    const addProductHandler = (id) => {
+        console.log(id);
+        props.productAdd(id);
+    };
+
+    const removeProductHandler = (id) => {
+        console.log(id);
+        props.removeProduct(id);
+    };
+
     return(
-        <div className="shadow1 boxMain" style={{minHeight: '400px' , width: '96%', padding: '0px 2%'}}>
+        <div className="shadow1 boxMain" style={{minHeight: '400px' , width: '96%', padding: '0px 2% 20px' , marginBottom: '60px'}}>
             <Typography
                 component="p"
                 variant="h6"
@@ -86,9 +100,45 @@ const SearchMode = props => {
             </Grid>
 
             <Grid container spacing={1} className='mt-3'>
-                {props.products.map((item) =>
-                    <ProductCard key={item.pro_id} product={item} clickProduct={addProduct.bind(this)}>
-                    </ProductCard>
+                {products.map((item) =>
+                    <Grid key={item.pro_id} item xs={4} style={{padding: '4px 8px' , position: 'relative'}} className={`mx-0 px-1`}>
+                        { item.status ?
+                            <div
+                                onClick={removeProductHandler.bind(this , item.pro_id)}
+                            >
+                                <AddedIcon
+                                    styles={{
+                                        width: '30px',
+                                        height: '30px',
+                                        borderRadius: '50%',
+                                        top: '-2px',
+                                        float: 'right',
+                                        position: 'absolute',
+                                        right: '-2px',
+                                        color: '#28a745',
+                                    }}
+                                />
+                            </div>:
+                            <div
+                                onClick={addProductHandler.bind(this, item.pro_id)}
+                            >
+                                <AddIcon
+                                    styles={{
+                                        width: '30px',
+                                        height: '30px',
+                                        borderRadius: '50%',
+                                        top: '-2px',
+                                        float: 'right',
+                                        position: 'absolute',
+                                        right: '-2px',
+                                        color: '#DAAB59',
+                                    }}
+                                />
+                            </div>
+                        }
+                        <ProductCard product={item}>
+                        </ProductCard>
+                    </Grid>
                 )}
             </Grid>
         </div>

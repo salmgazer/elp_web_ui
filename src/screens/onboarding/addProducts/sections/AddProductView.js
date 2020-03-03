@@ -9,6 +9,8 @@ import PriceInput from "../../../Components/Input/PriceInput";
 import { confirmAlert } from 'react-confirm-alert';
 import 'react-confirm-alert/src/react-confirm-alert.css';
 import SuccessDialog from "../../../Components/Dialog/SuccessDialog";
+import Snackbar from '@material-ui/core/Snackbar';
+import MuiAlert from '@material-ui/lab/Alert';
 
 
 const useStyles = makeStyles(theme => ({
@@ -34,9 +36,20 @@ const useStyles = makeStyles(theme => ({
     }
 }));
 
+function Alert(props) {
+    return <MuiAlert elevation={6} variant="filled" {...props} />;
+}
+
 const AddProductView = props => {
     const [history , setHistory] = useState([{"st_id":"20766","st_date":"2020-02-18","st_quantity":"3","st_product":"32","st_store_id":"1","timestamps":"2020-02-18 11:27:05"},{"st_id":"17451","st_date":"2020-01-09","st_quantity":"1","st_product":"32","st_store_id":"1","timestamps":"2020-01-09 13:40:05"}]);
     const [successDialog, setSuccessDialog] = React.useState(false);
+    const [errorDialog, setErrorDialog] = useState(false);
+    const [formFields , setFormFields] = React.useState({
+        quantity: '',
+        sellingPrice: '',
+        costPrice: '',
+        pro_id: props.product[0].pro_id,
+    });
 
     const classes = useStyles();
 
@@ -71,6 +84,19 @@ const AddProductView = props => {
     };
 
     const saveStock = (event) => {
+        if((formFields.costPrice !== "" || parseFloat(formFields.costPrice !== 0)) && (formFields.sellingPrice !== "" || parseFloat(formFields.sellingPrice !== 0))){
+            if(parseFloat(formFields.costPrice) >= parseFloat(formFields.sellingPrice)){
+                setErrorDialog(true);
+                setTimeout(function(){
+                    setErrorDialog(false);
+                }, 3000);
+                return false;
+            }
+
+        }
+
+        props.addNewProduct(formFields);
+
         setSuccessDialog(true);
 
         setTimeout(function(){
@@ -80,9 +106,43 @@ const AddProductView = props => {
     };
 
     const backHandler = (event) => {
-        props.setView(0);
+        confirmAlert({
+            title: 'Confirm to cancel',
+            message: 'You risk losing the details added for this product.',
+            buttons: [
+                {
+                    label: 'Yes',
+                    onClick: () => {
+                        props.setView(0);
+                    }
+                },
+                {
+                    label: 'No',
+                    onClick: () => {
+                        return false;
+                    }
+                }
+            ]
+        });
     };
 
+    const setInputValue = (name , value) => {
+        console.log(name , value)
+        const {...oldFormFields} = formFields;
+
+        oldFormFields[name] = value;
+        console.log(oldFormFields)
+
+        setFormFields(oldFormFields);
+    };
+
+    const handleCloseSnack = (event, reason) => {
+        if (reason === 'clickaway') {
+            return;
+        }
+
+        setErrorDialog(false);
+    };
 
 
     return(
@@ -103,6 +163,12 @@ const AddProductView = props => {
                 <img className={`img-fluid imageProduct mx-auto d-block pt-2`} src={image} alt={`${product.pro_name}`}/>
             </div>
 
+            <Snackbar open={errorDialog} autoHideDuration={6000} onClose={handleCloseSnack}>
+                <Alert onClose={handleCloseSnack} severity="error">
+                    Cost price can not be more than selling more
+                </Alert>
+            </Snackbar>
+
             <div
                 className={`row shadow1 pb-3`}
                 style={{'borderTopLeftRadius': '15px', 'borderTopRightRadius': '15px', marginBottom: '60px'}}
@@ -117,11 +183,11 @@ const AddProductView = props => {
                 </Typography>
 
                 <div className={`rounded bordered mb-3 mx-3 px-3 py-3`}>
-                    <QuantityInput label={`Quantity counted`}/>
+                    <QuantityInput label={`Quantity counted`} inputName="quantity" getValue={setInputValue.bind(this)}/>
 
-                    <PriceInput label={`Cost price`}/>
+                    <PriceInput label={`Cost price`} inputName="costPrice" getValue={setInputValue.bind(this)}/>
 
-                    <PriceInput label={`Selling price`}/>
+                    <PriceInput label={`Selling price`} inputName="sellingPrice" getValue={setInputValue.bind(this)}/>
                 </div>
 
                 <div className={`rounded bordered mb-3 mx-3 px-3 py-3`}>
