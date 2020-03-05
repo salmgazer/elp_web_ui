@@ -18,6 +18,7 @@
     "@testing-library/jest-dom": "^4.2.4",
     "@testing-library/react": "^9.4.0",
     "@testing-library/user-event": "^7.2.1",
+    "@zxing/library": "^0.16.0",
     "auth0-js": "^9.12.2",
     "axios": "^0.19.2",
     "customize-cra": "^0.9.1",

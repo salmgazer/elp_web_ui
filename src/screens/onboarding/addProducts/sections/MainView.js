@@ -9,6 +9,10 @@ import BarcodeMode from "./BarcodeMode";
 import Box from "@material-ui/core/Box/Box";
 import Button from "@material-ui/core/Button/Button";
 import {makeStyles} from "@material-ui/core";
+import Typography from "@material-ui/core/Typography/Typography";
+import Grid from "@material-ui/core/Grid/Grid";
+import Paper from "@material-ui/core/Paper/Paper";
+import InputBase from "@material-ui/core/InputBase/InputBase";
 
 const MainView = props => {
     const [value , setValue] = useState(0);

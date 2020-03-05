@@ -27,6 +27,14 @@ code {
   padding-top: 1rem!important;
 }
 
+.p-3 {
+  padding: 1rem!important;
+}
+
+.mb-5, .my-5 {
+  margin-bottom: 3rem!important;
+}
+
 .px-1 {
   padding-left: .25rem!important;
 }
@@ -85,6 +93,14 @@ code {
 
 .ml-3, .mx-3 {
   margin-left: 1rem!important;
+}
+
+.ml-1, .mx-1 {
+  margin-left: .25rem!important;
+}
+
+.mr-1, .mx-1 {
+  margin-right: .25rem!important;
 }
 
 .ml-0, .mx-0 {
@@ -363,5 +379,17 @@ code {
   width: 150px !important;
   height: 150px !important;
   margin: 0 auto !important;
+}
+.m-auto {
+  margin: auto!important;
+}
+.text-white {
+  color: #fff!important;
+}
+
+.newBox {
+  .MuiBox-root{
+    border-radius: 60px 60px 0px 0 !important;
+  }
 }
 
