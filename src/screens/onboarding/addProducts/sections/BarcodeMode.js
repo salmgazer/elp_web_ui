@@ -1,4 +1,4 @@
-import React from 'react';
+import React , {useState} from 'react';
 import { BrowserQRCodeReader } from '@zxing/library';
 import {makeStyles} from "@material-ui/core";
 import './barcodeMode.scss';
@@ -11,7 +11,11 @@ import Button from "@material-ui/core/Button/Button";
 import Box from "@material-ui/core/Box/Box";
 import './AddProducts.scss';
 import Don from '../../../../assets/img/Don.jpg';
-
+import Snackbar from '@material-ui/core/Snackbar';
+import MuiAlert from '@material-ui/lab/Alert';
+import MainDialog from "../../../Components/Dialog/MainDialog";
+import KeyboardBackspaceIcon from "@material-ui/core/SvgIcon/SvgIcon";
+import SearchMode from "./SearchMode";
 
 
 const useStyles = makeStyles(theme => ({
@@ -35,6 +39,11 @@ const useStyles = makeStyles(theme => ({
 
 const BarcodeMode = props => {
     const styles = useStyles();
+    const [barcodeNumber , setBarcodeNumber] = useState('');
+    const [productName , setProductName] = useState('');
+    const [productImage , setProductImage] = useState('');
+    const [showProduct , setShowProduct] = useState(false);
+    const [errorDialog, setErrorDialog] = useState(true);
     const codeReader = new BrowserQRCodeReader();
     const beepSound = new Audio('data:audio/wav;base64,UklGRl9vT19XQVZFZm10IBAAAAABAAEAQB8AAEAfAAABAAgAZGF0YU'+Array(1e3).join(123));
     let selectedDeviceId;
@@ -93,23 +102,86 @@ const BarcodeMode = props => {
         })
         .catch(err => console.error(err));
 
+    const barcodeSearch = async (event) => {
+        if(barcodeNumber == 0){
+            setErrorDialog(true);
+            alert('me')
+        }
+
+        console.log(barcodeNumber);
+        const prod = await props.searchBarcode(barcodeNumber);
+        if(prod){
+            //props.setView(1);
+
+            if( prod.length === 1) {
+                setProductImage(`https://elparah.store/admin/upload/${prod[0].image}`);
+                setProductName(prod[0].pro_name);
+                setShowProduct(true);
+            }
+            //setProductImage((props.product[0]).)
+            console.log(prod)
+        }
+        console.log(prod)
+    };
+
     return(
         <div className={`bCode mx-1`} style={{position: 'relative', minHeight: '65vh'}}>
-{/*
-            <div style={{width: '100%' ,position: 'relative'}}>
-*/}
-                <div id="barOverlay" className="text-center text-white"
-                     style={{backgroundImage: `url(${Don})`, backgroundRepeat: 'no-repeat' , backgroundPosition: 'top', backgroundSize: '80% 250px', position: 'absolute', height: '65vh',zIndex: '1000',width: '100%',backgroundColor: '#919191',opacity: '0.4', outlineOffset: '0px', outline: '15px solid rgb(145, 145, 145)'}}>
-                    <p className="text-center w-100 font-weight-bold"
-                       style={{marginTop: '30%',fontSize: '20px',color: 'black'}}>Click to scan
-                        barcode of product</p>
+            <MainDialog states={showProduct}>
+                <Typography
+                    component="h6"
+                    variant="h6"
+                    className={`text-center my-1`}
+                    style={{fontWeight: '500', fontSize: '16px' , margin: '5px auto', paddingTop: '10px'}}
+                >
+                    Selected product :
+                </Typography>
+
+                <div className={`w-100 m-2`}>
+                    <img className={`img-fluid mx-auto w-50 h-75`} src={productImage} alt={`${productName}`}/>
                 </div>
 
-                <Grid container spacing={1} className={`p-3 mb-0 mx-1`}>
-                    <Grid
-                        item xs={12}
-                        className={`text-right`}
+                <Typography
+                    component="p"
+                    variant="h6"
+                    className={`text-center my-2 font-weight-bold`}
+                    style={{fontWeight: '500', fontSize: '16px' , margin: '5px auto', paddingTop: '10px'}}
+                >
+                    {productName}
+                </Typography>
+
+                <Box
+                    className={`bg-white my-3`}
+                    p={1}
+                    style={{ height: '2.5rem', width:"100%" }}
+                >
+                    <Button
+                        variant="outlined"
+                        style={{border: '1px solid #DAAB59', color: '#DAAB59', marginRight: '10px'}}
+                        onClick = {() => props.setView(0)}
                     >
+                        Cancel
+                    </Button>
+                    <Button
+                        variant="contained"
+                        style={{'backgroundColor': '#DAAB59' , color: '#333333'}}
+                        onClick = {() => props.setView(1)}
+                    >
+                        Add
+                    </Button>
+                </Box>
+            </MainDialog>
+            <div id="barOverlay" className="text-center text-white"
+                 style={{backgroundImage: `url(${Don})`, backgroundRepeat: 'no-repeat' , backgroundPosition: 'top', backgroundSize: '80% 250px', position: 'absolute', height: '65vh',zIndex: '1000',width: '100%',backgroundColor: '#919191',opacity: '0.4', outlineOffset: '0px', outline: '15px solid rgb(145, 145, 145)'}}>
+                <p className="text-center w-100 font-weight-bold"
+                   style={{marginTop: '30%',fontSize: '20px',color: 'black'}}>Click to scan
+                    barcode of product</p>
+            </div>
+
+            <Grid container spacing={1} className={`p-3 mb-0 mx-1`}>
+                <Grid
+                    item xs={12}
+                    className={`text-right`}
+                >
                     <div className={`video_canvas`}>
                         <video
                             id="video"
@@ -120,15 +192,8 @@ const BarcodeMode = props => {
                         >
                         </video>
                     </div>
-
-                    </Grid>
-
-
                 </Grid>
-{/*
-            </div>
-*/}
-
+            </Grid>
             <div
                 className={`newBox`}
                 style={{position:'relative', zIndex: 1030, right: 0, left: '-3.5%', width: '100%'}}
@@ -157,6 +222,7 @@ const BarcodeMode = props => {
                                         className={`${styles.input} search-box`}
                                         placeholder="Enter barcode key"
                                         inputProps={{ 'aria-label': 'Enter barcode key' }}
+                                        onChange={(event) => setBarcodeNumber(event.target.value)}
                                     />
                                 </Paper>
                             </Grid>
@@ -167,12 +233,11 @@ const BarcodeMode = props => {
                                 style={{color: '#D34343'}}
                             >
                                 <div style={{backgroundColor: '#DAAB59', color: '#333333', borderRadius: '50%', width: '40px', height: '40px'}}>
-                                    <SearchIcon className={`p-2`}/>
+                                    <SearchIcon className={`p-2`} onClick={barcodeSearch}/>
                                 </div>
                             </Grid>
                         </Grid>
                     </div>
-
                 </Box>
             </div>
         </div>

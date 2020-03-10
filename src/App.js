@@ -21,6 +21,8 @@ import CategorySetup from "./screens/onboarding/categorySetup/CategorySetup";
 import Cart from "./screens/sell/cart/Cart";
 import ResetPassword from "./screens/forgotPassword/sections/ResetPassword";
 import ForgottenPassword from "./screens/forgotPassword/ForgottenPassword";
+import StoreSummary from "./screens/sell/store_summary/StoreSummary";
+import Sell from "./screens/sell/sell/Sell";
 
 
 function NoMatch() {
@@ -143,6 +145,24 @@ class App extends React.Component {
                         setPageBackground();
                         this.setTitle(`Add products | ${appName}`);
                         return <AddProducts/>;
+                    }}
+                />
+
+                <Route
+                    path={paths.store_summary}
+                    render={() => {
+                        setPageBackground();
+                        this.setTitle(`Store summary | ${appName}`);
+                        return <StoreSummary/>;
+                    }}
+                />
+
+                <Route
+                    path={paths.sell}
+                    render={() => {
+                        setPageBackground();
+                        this.setTitle(`Sell | ${appName}`);
+                        return <Sell/>;
                     }}
                 />
               <Route path="*">

@@ -42,7 +42,7 @@ class Cart extends Component{
                 "cat_name": "Alcoholic Wine"
             }
         ]
-    }
+    };
 
     getStepContent = step => {
         switch (step) {
@@ -95,11 +95,7 @@ class Cart extends Component{
     render(){
         return(
             <div>
-
                 {this.getStepContent(this.state.activeStep)}
-
-
-
             </div>
         )
     }

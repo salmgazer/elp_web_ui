@@ -8,9 +8,9 @@ import QuantityInput from "../../../Components/Input/QuantityInput";
 import PriceInput from "../../../Components/Input/PriceInput";
 import { confirmAlert } from 'react-confirm-alert';
 import 'react-confirm-alert/src/react-confirm-alert.css';
-import SuccessDialog from "../../../Components/Dialog/SuccessDialog";
 import Snackbar from '@material-ui/core/Snackbar';
 import MuiAlert from '@material-ui/lab/Alert';
+import SimpleSnackbar from "../../../Components/Snackbar/SimpleSnackbar";
 
 
 const useStyles = makeStyles(theme => ({
@@ -147,7 +147,14 @@ const AddProductView = props => {
 
     return(
         <div style={{paddingTop: '60px'}}>
-            <SuccessDialog states={successDialog}/>
+            <SimpleSnackbar
+                openState={successDialog}
+                message={`New product added successfully`}
+            >
+                <Button color="secondary" size="small">
+                    UNDO
+                </Button>
+            </SimpleSnackbar>
 
             <div className="row p-0 pt-0 mx-0 text-center shadow1">
                 <Typography

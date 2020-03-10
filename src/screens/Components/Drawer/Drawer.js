@@ -9,12 +9,15 @@ import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
 import StoreIcon from '@material-ui/icons/Store';
 import ShoppingCartIcon from '@material-ui/icons/ShoppingCart';
-import ListAltIcon from '@material-ui/icons/ListAlt';import './Drawer.scss';
+import ListAltIcon from '@material-ui/icons/ListAlt';
+import './Drawer.scss';
 import AttachMoneyIcon from '@material-ui/icons/AttachMoney';
 import DashboardIcon from '@material-ui/icons/Dashboard';
 import PersonIcon from '@material-ui/icons/Person';
 import SettingsIcon from '@material-ui/icons/Settings';
 import ExitToAppIcon from '@material-ui/icons/ExitToApp';
+import { withRouter } from "react-router-dom";
+import paths from "../../../utilities/paths";
 
 const useStyles = makeStyles({
     list: {
@@ -26,6 +29,8 @@ const useStyles = makeStyles({
 });
 
 const Drawer = props => {
+    const { history } = props;
+
     console.log(props);
     const classes = useStyles();
     const [state, setState] = React.useState({
@@ -68,7 +73,7 @@ const Drawer = props => {
                     <ListItemText primary="My stores" />
                 </ListItem>
                 <Divider />
-                <ListItem button key={2}>
+                <ListItem button key={2} onClick={() => history.push(paths.sell)}>
                     <ListItemIcon><ShoppingCartIcon style={{color: '#FFFFFF'}} /></ListItemIcon>
                     <ListItemText primary="Sell" />
                 </ListItem>
@@ -120,4 +125,4 @@ const Drawer = props => {
     );
 };
 
-export default Drawer;
+export default withRouter(Drawer);

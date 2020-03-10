@@ -76,8 +76,8 @@ const MainView = props => {
                 <TabPanel value={value} index={0}>
                     <SearchMode products={props.products} productAdd={addProduct.bind(this)} removeProduct={removeProduct.bind(this)}/>
                 </TabPanel>
-                <TabPanel value={value} index={1} >
-                    <BarcodeMode/>
+                <TabPanel value={value} index={1}>
+                    <BarcodeMode product={props.product} setView={props.setView} searchBarcode={props.searchBarcode} />
                 </TabPanel>
             </SwipeableViews>
             <Box
