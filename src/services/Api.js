@@ -5,10 +5,11 @@ export default class Api {
     constructor(resourceName) {
         //console.log(resources);
         const resourceConfig = resources[resourceName];
-        const { resource, primaryKeyName } = resourceConfig;
+        const { resource, primaryKeyName, parentResources } = resourceConfig;
         this.resource = resource;
         //console.log(this.resource);
         this.primaryKeyName = primaryKeyName;
+        this.parentResources = parentResources;
     }
 
     /* @todo put base url here when new api is ready */
@@ -16,7 +17,15 @@ export default class Api {
         return 'http://elpfakeapi-env.unhavpij3f.us-east-2.elasticbeanstalk.com';
     }
 
-    async index(requestPath = `${this.constructor.basePath}/${this.resource}`, queryParams= {}) {
+    get constructUrl(params) {
+      // companies/{company_id}/branches/{branch_id}/products
+      let fullPath = '';
+      this.parentResources.forEach(parentResource => {
+        fullPath = `${fullPath}/${parentResource}/${params[parentResource]}`;
+      });
+    }
+
+    async index(requestPath = `${this.constructor.basePath}/${this.resource}`, queryParams= {}, params={}) {
         console.log(requestPath);
         return axios.get(requestPath, {
             params: queryParams
