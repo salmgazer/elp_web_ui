@@ -9,7 +9,11 @@
   },
   "products": {
     "resource": "products",
-    "primaryKeyName": "id"
+    "primaryKeyName": "id",
+    "parentResources": [
+      "companies",
+      "branches"
+    ]
   },
   "users": {
     "resource": "users",

@@ -4,6 +4,7 @@
 *
 * */
 
+// StringTransformer //StringGenerator
 export default class generateString {
     constructor(length){
         this.charLength = length;
