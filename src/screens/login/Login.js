@@ -18,7 +18,7 @@ import { ValidatorForm, TextValidator} from 'react-material-ui-form-validator';
 import Logo from '../../assets/img/el-parah.png';
 import Typography from "@material-ui/core/Typography/Typography";
 import './Login.scss';
-import Auth0Service from "../../services/Auth0Service";
+import AuthService from "../../services/AuthService";
 import InputAdornment from '@material-ui/core/InputAdornment';
 
 
@@ -128,7 +128,7 @@ const Login = props => {
           return;
         }
 
-        let req = await new Auth0Service().login(usernameOrPhone , password);
+        let req = await new AuthService().login(usernameOrPhone , password);
 
         if(!req.error){
             /*

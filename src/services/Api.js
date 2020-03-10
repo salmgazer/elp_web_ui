@@ -1,5 +1,6 @@
 import axios from 'axios';
 const resources = require('./resources.json');
+const apis = require('../config/apis.json');
 
 export default class Api {
     constructor(resourceName) {
@@ -9,59 +10,73 @@ export default class Api {
         this.resource = resource;
         //console.log(this.resource);
         this.primaryKeyName = primaryKeyName;
-        this.parentResources = parentResources;
+        this.parentResources = parentResources || [];
+
+        // get env
+        this.environment = 'development';
+        this.apiConfig = apis["elp-core-api"][this.environment]['v1'];
     }
 
-    /* @todo put base url here when new api is ready */
-    static get basePath() {
-        return 'http://elpfakeapi-env.unhavpij3f.us-east-2.elasticbeanstalk.com';
-    }
-
-    get constructUrl(params) {
+    /*
+    * @todo
+    * remove querystring package...
+    * */
+    fullUrl(parentParams = {}) {
       // companies/{company_id}/branches/{branch_id}/products
-      let fullPath = '';
-      this.parentResources.forEach(parentResource => {
-        fullPath = `${fullPath}/${parentResource}/${params[parentResource]}`;
-      });
+        const {protocol, basePath, prefix } = this.apiConfig;
+        let fullPath = `${protocol}://${basePath}/${prefix}`;
+
+        this.parentResources.forEach(parentResource => {
+            fullPath = `${fullPath}/${parentResource}/${parentParams[parentResource]}`;
+        });
+
+        return fullPath;
     }
 
-    async index(requestPath = `${this.constructor.basePath}/${this.resource}`, queryParams= {}, params={}) {
+    static get headers(){
+        return {
+            "X-El-Parah-Hash" : "9IKZKacum7YEmCjD57I53FtW",
+            "X-El-Parah-Client" : "elp-pos-web-ui"
+        };
+    }
+
+    async index(requestPath = `${this.fullUrl(parentResources)}/${this.resource}`, queryParams= {}, parentResources = {}) {
         console.log(requestPath);
         return axios.get(requestPath, {
-            params: queryParams
+            headers: this.constructor.headers,
         });
     }
 
-    async show(requestPath = `${this.constructor.basePath}/${this.resource}`, primaryKeyValue) {
+    async show(requestPath = `${this.fullUrl(parentResources)}/${this.resource}`, primaryKeyValue, parentResources = {}) {
         const params = {};
         params[this.primaryKeyName] = primaryKeyValue;
         return axios.get(requestPath, { params });
     }
 
-    async getUserByPhone(phone , requestPath = `${this.constructor.basePath}/${this.resource}`) {
+    async getUserByPhone(phone , requestPath = `${this.fullUrl(parentResources)}/${this.resource}` , parentResources = {}) {
         const params = {phone , $limit:1};
         const result = await axios.get(requestPath, { params });
 
         return result.data.data[0];
     }
 
-    async create(data = {} , config = {} , requestPath = `${this.constructor.basePath}/${this.resource}`) {
+    async create(data = {} , config = {} , requestPath = `${this.fullUrl(parentResources)}/${this.resource}` , parentResources = {}) {
         console.log(requestPath);
         console.log(data);
         return axios.post(requestPath,  data  , config);
     }
 
-    async options(config = {} , requestPath = `${this.constructor.basePath}/${this.resource}`) {
+    async options(config = {} , requestPath = `${this.fullUrl(parentResources)}/${this.resource}` , parentResources = {}) {
         console.log(requestPath);
         console.log(config);
         return axios.options(requestPath,  config);
     }
 
-    async update(data = {} , primaryKeyValue, requestPath = `${this.constructor.basePath}/${this.resource}`) {
+    async update(data = {} , primaryKeyValue, requestPath = `${this.constructor.basePath}/${this.resource}` , parentResources = {}) {
         return axios.put(`${requestPath}/${primaryKeyValue}`, data );
     }
 
-    async destroy(requestPath = `${this.constructor.basePath}/${this.resource}`, primaryKeyValue) {
+    async destroy(requestPath = `${this.fullUrl(parentResources)}/${this.resource}`, primaryKeyValue , parentResources = {}) {
         const params = {};
         params[this.primaryKeyName] = primaryKeyValue;
 

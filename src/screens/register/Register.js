@@ -20,7 +20,7 @@ import ArrowBackIcon from '@material-ui/icons/ArrowBack';
 import PersonalInformationSection from './Sections/PersonalInformationSection';
 import ShopInformationSection from './Sections/ShopInformationSection';
 import AccountInformationSection from './Sections/AccountInformationSection';
-import Auth0Service from '../../services/Auth0Service';
+import AuthService from '../../services/AuthService';
 import "./Register.scss";
 
 const QontoConnector = withStyles({
@@ -207,6 +207,7 @@ const Register = props => {
         companyName: '',
         location: '',
         storeCategory: '',
+        storeType: 'Retail',
         username: '',
         password: '',
         passwordRepeat: '',
@@ -265,7 +266,7 @@ const Register = props => {
         * Handle registration here...
         * */
 
-        let req = await new Auth0Service().register(data);
+        let req = await new AuthService().register(data);
 
         if(!req.error){
             /*
@@ -281,6 +282,7 @@ const Register = props => {
         }
 
         history.push(paths.verify_sms);
+        console.log(data);
     };
 
     return (

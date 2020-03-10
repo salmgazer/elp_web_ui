@@ -13,7 +13,7 @@ import confirmImg from '../../../assets/img/forgot.png';
 import Button from "@material-ui/core/Button/Button";
 import paths from "../../../utilities/paths";
 import { ValidatorForm, TextValidator} from 'react-material-ui-form-validator';
-import Auth0Service from "../../../services/Auth0Service";
+import AuthService from "../../../services/AuthService";
 import InputAdornment from '@material-ui/core/InputAdornment';
 import IconButton from "@material-ui/core/IconButton/IconButton";
 import Visibility from '@material-ui/icons/Visibility';
@@ -101,7 +101,7 @@ const ResetPassword = props => {
 
         //history.push(paths.login);
 
-        /*let req = await new Auth0Service().login(phone);
+        /*let req = await new AuthService().login(phone);
 
         if(!req.error){
 

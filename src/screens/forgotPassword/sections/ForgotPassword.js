@@ -14,7 +14,7 @@ import confirmImg from '../../../assets/img/forgot.png';
 import Button from "@material-ui/core/Button/Button";
 import paths from "../../../utilities/paths";
 import { ValidatorForm, TextValidator} from 'react-material-ui-form-validator';
-import Auth0Service from "../../../services/Auth0Service";
+import AuthService from "../../../services/AuthService";
 import InputAdornment from '@material-ui/core/InputAdornment';
 import Api from "../../../services/Api";
 import GenerateOTP from "../../../services/GenerateString";
@@ -81,7 +81,7 @@ const ForgotPassword = props => {
             const otp = new GenerateOTP(4).generateNumber();
             localStorage.setItem('userOTP' , otp);
 
-            new Auth0Service().sendOTP(req.phone , otp);
+            new AuthService().sendOTP(req.phone , otp);
 
             localStorage.setItem('forgotUser' , JSON.stringify(req));
             props.setView(1);

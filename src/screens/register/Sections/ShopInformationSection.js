@@ -156,6 +156,7 @@ export default function ShopInformationSection(props) {
         companyName: userFields.companyName,
         location: userFields.location,
         storeCategory: userFields.storeCategory,
+        storeType: userFields.storeType,
     });
 
     const [state, setState] = useState({
@@ -166,8 +167,12 @@ export default function ShopInformationSection(props) {
     useEffect(() => {
         (
             async function getCategories(){
+                //let newCategory = await new Api('business_categories').index();
                 let newCategory = await new Api('business_categories').index();
                 setCategories(newCategory.data.data);
+
+                console.log('$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$');
+                console.log(newCategory.data.data);
             }
         )();
     }, []);
@@ -257,29 +262,29 @@ export default function ShopInformationSection(props) {
                         >
                             <option value={0}>Select Category</option>
                             {categories.map((category) =>
-                                <option value={category.id}>{category.name}</option>
+                                <option key={category.id} value={category.id}>{category.name}</option>
                             )}
                         </ValidationSelectField>
                     </FormControl>
                 </Grid>
 
-                {/*<Grid item xs={12} className={classes.margin}>
+                <Grid item xs={12} className={classes.margin}>
                     <FormControl className={classes.margin} component="fieldset">
                         <FormLabel component="legend" className={classes.left}>Store type:</FormLabel>
                         <RadioGroup
                             className={classes.margin}
                             onChange={handleChangeHandler}
-                            value={formFields.storeCategory}
+                            value={formFields.storeType}
                             aria-label="store_type"
-                            name="customized-radios"
-                            defaultValue="1"
+                            name="storeType"
+                            defaultValue={formFields.storeType}
                         >
-                            <FormControlLabel value="1" control={<StyledRadio />} label="Retail" />
-                            <FormControlLabel value="2" control={<StyledRadio />} label="Wholesale" />
-                            <FormControlLabel value="3" control={<StyledRadio />} label="Both" />
+                            <FormControlLabel value="Retail" control={<StyledRadio />} label="Retail" />
+                            <FormControlLabel value="Wholesale" control={<StyledRadio />} label="Wholesale" />
+                            <FormControlLabel value="Both" control={<StyledRadio />} label="Both" />
                         </RadioGroup>
                     </FormControl>
-                </Grid>*/}
+                </Grid>
             </ValidatorForm>
         </Paper>
     );

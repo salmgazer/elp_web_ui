@@ -3,7 +3,7 @@ import Api from './Api';
 import GenerateOTP from './GenerateString';
 import SmsService from './SmsService';
 
-export default class Auth0Service {
+export default class AuthService {
     /*constructor() {
         //this.auth0 = new auth0.WebAuth(auth0_config);
     }*/
@@ -54,20 +54,47 @@ export default class Auth0Service {
         @var { username , firstName , otherNames, phone, password}
         @todo check if user exist
         */
-        let user , company = 0;
-        const userData = {
-            username: data.username,
-            firstName: data.firstName,
-            otherNames: data.otherNames,
-            phone: data.phone,
-            password: data.password,
-            otp: new GenerateOTP(4).generateNumber(),
+        let user , company , branch = '';
+        const params = {
+            user: {
+                "password": data.password,
+                "firstName": data.firstName,
+                "otherNames": data.otherNames,
+                "phone": data.phone,
+                "username": data.username,
+                "whatsAppPhone": data.phone,
+                "otp": new GenerateOTP(4).generateNumber(),
+            },
+            company: {
+                "name": data.companyName,
+                "businessCategoryId": data.storeCategory,
+            },
+            branch: {
+                "name": data.companyName,
+                "startDate": "",
+                "location": data.companyName,
+                "gps": "",
+                "logo": "",
+                "phone": data.phone,
+                "whatsAppPhone": data.phone,
+                "type": data.storeType,
+            },
         };
-        user = await this.registerUser(userData);
+        user = await new Api('others').create(
+            params,
+            {},
+            'https://elp-core-api-staging.herokuapp.com/v1/client/users/register'
+        );
 
         if( user ){
             console.log(user);
-            const companyData = {
+            const response = await this.sendOTP(user.phone , user.otp);
+
+            return {
+                user,
+                response,
+            };
+            /*const companyData = {
                 name: data.companyName,
                 userId: user.userId
             };
@@ -83,18 +110,7 @@ export default class Auth0Service {
                     company,
                     response,
                 }
-            }
-
-            /*
-            * @todo handle error return functions...before sending errors
-            * */
-            return {
-                error: {
-                    msg: "Something went wrong with company creation",
-                    status: 400
-                }
-
-            };
+            }*/
         }
 
         return {
