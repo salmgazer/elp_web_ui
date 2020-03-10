@@ -12,14 +12,17 @@ const ProductCard = props => {
         <Paper className={`shadow mb-2 bg-white pro-item`} >
             <img className={`img-fluid w-75 rounded mx-auto d-block pt-2`} src={image} alt={`${product.pro_name}`}/>
 
-
             <Typography
                 component="p"
                 variant="h6"
-                className={`pb-2 px-1 mt-3 pro-item-name text-center text-capitalize font-weight-bold text-dark`}
+                className={`pb-1 px-1 mt-1 pro-item-name text-center text-capitalize font-weight-bold text-dark`}
             >
                 {product.pro_name}
             </Typography>
+
+            <span className={`text-center font-weight-lighter text-dark`} style={{fontSize: '12px'}}>
+                {props.children}
+            </span>
         </Paper>
     );
 };

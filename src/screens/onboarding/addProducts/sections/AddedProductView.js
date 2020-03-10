@@ -79,7 +79,7 @@ const AddedProductView = props => {
                     <Typography
                         component="p"
                         variant="h6"
-                        style={{fontSize: '18px' , margin: '0px 0px', padding: '16px'}}
+                        style={{fontSize: '18px' , margin: '0px 0px', padding: '5px'}}
                         className={`text-center mx-auto w-100 text-dark font-weight-bold`}
                     >
                         {`Added products (${props.products.length})` }

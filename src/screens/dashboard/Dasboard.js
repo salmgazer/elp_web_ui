@@ -219,7 +219,7 @@ const Dashboard = props => {
                                 variant="contained"
                                 style={{'width': '70%','backgroundColor': '#DAAB59' , color: '#403C3C', margin: '4px auto',padding: '8px 5px', fontSize: '17px', fontWeight: '700'}}
                                 className={classes.button} className="capitalization"
-                                onClick={() => history.push(paths.register)}
+                                onClick={() => history.push(paths.store_summary)}
                             >
                                 Start selling
                             </Button>

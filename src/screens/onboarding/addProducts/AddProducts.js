@@ -27,6 +27,7 @@ class AddProducts extends Component{
                 "p_cat_id": "1",
                 "cat_name": "Alcoholic Wine",
                 "status" : true,
+                "barcode" : '8851028002277',
             },
             {
                 "pro_id": "1952",
@@ -35,6 +36,7 @@ class AddProducts extends Component{
                 "p_cat_id": "1",
                 "cat_name": "Alcoholic Wine",
                 "status": true,
+                "barcode" : '8851028002278',
             },
             {
                 "pro_id": "1943",
@@ -43,6 +45,7 @@ class AddProducts extends Component{
                 "p_cat_id": "137",
                 "cat_name": "Alcoholic Wine",
                 "status": false,
+                "barcode" : null,
             },
             {
                 "pro_id": "1964",
@@ -51,6 +54,7 @@ class AddProducts extends Component{
                 "p_cat_id": "1",
                 "cat_name": "Alcoholic Wine",
                 "status": false,
+                "barcode" : null,
             },
             {
                 "pro_id": "1126",
@@ -59,6 +63,7 @@ class AddProducts extends Component{
                 "p_cat_id": "1",
                 "cat_name": "Alcoholic Wine",
                 "status": true,
+                "barcode" : null,
             },
             {
                 "pro_id": "2836",
@@ -66,7 +71,8 @@ class AddProducts extends Component{
                 "image": "no_image.png",
                 "p_cat_id": "1",
                 "cat_name": "Alcoholic Wine",
-                "status": false
+                "status": false,
+                "barcode" : null,
             },
         ],
         addedProducts: [
@@ -227,7 +233,7 @@ class AddProducts extends Component{
 
         switch (step) {
             case 0:
-                return <MainView setView={this.setStepContentView.bind(this)} viewAddedProducts={this.viewAddedProducts(this)} products={this.state.productList} productAdd={this.showAddView.bind(this)} removeProduct={this.removeProduct.bind(this)} spCount={shop_products.length} />;
+                return <MainView searchBarcode={this.searchBarcode.bind(this)} setView={this.setStepContentView.bind(this)} product={this.state.currentProduct} viewAddedProducts={this.viewAddedProducts(this)} products={this.state.productList} productAdd={this.showAddView.bind(this)} removeProduct={this.removeProduct.bind(this)} spCount={shop_products.length} />;
             case 1:
                 return <AddProductView addNewProduct={this.addNewProduct.bind(this)} setView={this.setStepContentView.bind(this)} product={this.state.currentProduct}/>;
             case 2:
@@ -292,10 +298,27 @@ class AddProducts extends Component{
         const itemIndex = old_list.filter((item => item.pro_id === proId));
         //Assign current object to new variable
 
+        //console.log(itemIndex)
         this.setState({
             currentProduct: itemIndex,
             activeStep: step
         });
+    };
+
+    searchBarcode = async (barcode) => {
+        //console.log(`${proId} from addProduct`);
+        const old_list = this.state.productList;
+
+        //Find index of specific object using findIndex method.
+        const itemIndex = old_list.filter((item => item.barcode === barcode));
+        //Assign current object to new variable
+
+        console.log(itemIndex)
+        await this.setState({
+            currentProduct: itemIndex
+        });
+
+        return itemIndex;
     };
 
 
