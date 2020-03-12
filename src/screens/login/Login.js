@@ -199,7 +199,7 @@ const Login = props => {
 
                   <Container
                       maxWidth="sm"
-                      style={{backgroundColor: '#f2ece3', padding: '8% 3%'}}
+                      style={{backgroundColor: '#f2ece3', padding: '3% 3%'}}
                   >
                       <SimpleSnackbar
                           type="warning"
