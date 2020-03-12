@@ -12,7 +12,7 @@ const ViewCash = props => {
                     <TextField id="outlined-basic" label="Customer" variant="outlined" size="small" style={{margin: '25px 0px 25px 0px'}} />
 
                     <Tooltip title="Add new">   
-                        <PersonAddIcon style={{fontSize: '30px',  color: '#DAAB59', marginTop: '25px', position: 'absolute', marginLeft: '15px'}}></PersonAddIcon> 
+                        <PersonAddIcon style={{fontSize: '30px',  color: '#DAAB59', marginTop: '30px', position: 'absolute', marginLeft: '15px'}}></PersonAddIcon> 
                     </Tooltip>  
 
                     <TextField id="outlined-basic" label="Amount Paid" variant="outlined" size="small" style={{margin: '25px'}} />

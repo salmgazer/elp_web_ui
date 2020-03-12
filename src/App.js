@@ -19,6 +19,8 @@ import GetStarted from "./screens/getStarted/GetStarted";
 import AddProducts from "./screens/onboarding/addProducts/AddProducts";
 import CategorySetup from "./screens/onboarding/categorySetup/CategorySetup";
 import Cart from "./screens/sell/cart/Cart";
+import Accounting from "./screens/accounting/Accounting";
+import SalesHistory from "./screens/purchaseHistory/PurchaseHistory";
 
 function NoMatch() {
   let location = useLocation();
@@ -68,6 +70,22 @@ class App extends React.Component {
                 render={() => {
                   this.setTitle(`Cart | ${appName}`);
                   return <Cart />;
+                }}
+              />
+              <Route
+                exact
+                path={paths.purchase_history}
+                render={() => {
+                  this.setTitle(`Sales History | ${appName}`);
+                  return <SalesHistory />;
+                }}
+              />
+              <Route
+                exact
+                path={paths.accounting}
+                render={() => {
+                  this.setTitle(`Accounting | ${appName}`);
+                  return <Accounting />;
                 }}
               />
               <Route

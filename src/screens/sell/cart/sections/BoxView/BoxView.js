@@ -37,7 +37,7 @@ const ViewSingleProduct = props => {
                 </div>
             </Grid>
             <Grid item xs={2} style={{height: '60px', margin: '25px 0px 0px 0px'}}>
-                <input type="number" min="1" style={{width: '50px', textAlign: 'right'}} />
+                <input type="number" min="1" style={{width: '50px'}} />
             </Grid>
             <Grid item xs={2} style={{height: '60px', margin: '20px 0px 0px 0px'}}>                       
                 <DeleteIcon

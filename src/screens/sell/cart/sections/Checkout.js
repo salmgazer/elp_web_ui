@@ -189,7 +189,6 @@ const CheckoutView = props => {
                         <Button
                                 variant="outlined"
                                 style={{'backgroundColor': '#DAAB59' , color: '#333333', padding: '7px 58px', textTransform: 'none', fontSize:'17px'}}
-                                
                             >
                                 Upgrade now
                         </Button>
