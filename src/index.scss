@@ -205,6 +205,12 @@ code {
    height: 50%!important;
 }
 
+.ellipsis {
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
+}
+
 .icon-font {
   font-size: 40px!important;
   cursor: pointer !important;
@@ -326,6 +332,13 @@ code {
   border-radius: 5px;
 }
 
+button.Mui-disabled {
+    border: 1px solid #d8c29c !important;
+    background-color: #d8c29c !important;
+    color: #333333 !important;
+    cursor: not-allowed !important;
+    pointer-events: all;
+}
 .cardDefault {
   -webkit-box-shadow: 1px 1px 6px 3px rgba(227,227,227,0.54);
   -moz-box-shadow: 1px 1px 6px 3px rgba(227,227,227,0.54);
@@ -357,6 +370,14 @@ code {
 
 .MuiFormGroup-root {
   flex-direction: unset !important;
+}
+
+
+.sharpBorderRadius{
+  .MuiBox-root{
+    border-top-left-radius: 50px !important;
+    border-top-right-radius: 50px !important;
+  }
 }
 
 /*overflow scroll x*/

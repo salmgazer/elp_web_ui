@@ -57,6 +57,7 @@ const AddProductCart = props => {
     return (
         <div>
             <SimpleSnackbar
+                type="default"
                 openState={productAdded}
                 message={`New product added successfully`}
             >

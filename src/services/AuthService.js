@@ -2,6 +2,7 @@ import localInfo from './LocalInfo';
 import Api from './Api';
 import GenerateOTP from './GenerateString';
 import SmsService from './SmsService';
+const jwt = require('jsonwebtoken');
 
 export default class AuthService {
     /*constructor() {
@@ -13,36 +14,54 @@ export default class AuthService {
         // try to login
         // if pass: save in localstorage
         // if fail: alert user
-        const userData = {
+        const params = {
             username: username,
             password: password,
             strategy: "local",
         };
 
-        let user = await new Api('authentication').create(userData);
-        console.log('$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$')
-        console.log(user);
-        console.log('$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$')
+        try {
+            let user = await new Api('others').create(
+                params,
+                {},
+                {},
+                'https://elp-core-api-dev.herokuapp.com/v1/client/users/login'
+            );
 
-        if( user ){
-            const response = user.data;
-            localStorage.setItem('accessToken' , response.accessToken);
-            localStorage.setItem('userDetails' , JSON.stringify(response.user));
-            localStorage.setItem('username' , response.user.username);
+            if( user ){
+                try {
+                    var decoded = jwt.verify(user.data.token, 'Z7oGGqapxnMrBSd2xXFuqseC');
 
+                    const response = decoded.data;
+
+                    localStorage.setItem('accessToken' , user.data.token);
+                    localStorage.setItem('userDetails' , JSON.stringify(response.user));
+                    localStorage.setItem('username' , response.user.username);
+
+                    return {
+                        success: 200,
+                        user: response.user
+                    };
+                } catch(err) {
+                    return {
+                        error: {
+                            msg: "Invalid token",
+                            status: 401
+                        }
+
+                    };
+                }
+            }
+        }catch (error) {
             return {
-                success: 200,
-                user: response.user
+                error: {
+                    msg: "Invalid login credentials",
+                    status: 401
+                }
             };
         }
 
-        return {
-            error: {
-                msg: "Invalid login credentials",
-                status: 401
-            }
 
-        };
     };
 
     register = async( data ) => {
@@ -67,7 +86,7 @@ export default class AuthService {
             },
             company: {
                 "name": data.companyName,
-                "businessCategoryId": data.storeCategory,
+                "businessCategoryId": parseInt(data.storeCategory),
             },
             branch: {
                 "name": data.companyName,
@@ -80,46 +99,33 @@ export default class AuthService {
                 "type": data.storeType,
             },
         };
-        user = await new Api('others').create(
-            params,
-            {},
-            'https://elp-core-api-staging.herokuapp.com/v1/client/users/register'
-        );
 
-        if( user ){
-            console.log(user);
-            const response = await this.sendOTP(user.phone , user.otp);
+        try{
+            user = await new Api('others').create(
+                params,
+                {},
+                {},
+                'https://elp-core-api-dev.herokuapp.com/v1/client/users/register'
+            );
 
-            return {
-                user,
-                response,
-            };
-            /*const companyData = {
-                name: data.companyName,
-                userId: user.userId
-            };
-
-            company = await this.registerCompany(companyData);
-
-            if( company ){
-                //This will handle OTP...
-                const response = await this.sendOTP(user.phone , user.otp);
+            if( user ){
+                user = user.data.user;
+                console.log(user);
+                const response = await this.sendOTP(user.firstName ,user.phone , user.otp);
 
                 return {
                     user,
-                    company,
                     response,
-                }
-            }*/
-        }
-
-        return {
-            error: {
-                msg: "Something went wrong with user creation",
-                status: 400
+                };
             }
-
-        };
+        }catch (error){
+            return {
+                error: {
+                    msg: error.response.data.message,
+                    status: 401
+                }
+            };
+        }
     };
 
     registerUser = async ( data ) => {
@@ -138,8 +144,8 @@ export default class AuthService {
         return res.data;
     };
 
-    sendOTP = (contact , token) => {
-        const message = `Your code is: ${token}. Please enter it.`;
+    sendOTP = (name , contact , token) => {
+        const message = `Hello ${name}, your verification code is: ${token}. Please enter it.`;
 
         return new SmsService(contact , message).sendSMS();
     };

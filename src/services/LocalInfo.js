@@ -54,7 +54,6 @@ export default class LocalInfo {
   static setSession(user, store, userStore) {
     this.setStoreId(store.id);
     this.setStoreName(store.name);
-    this.setStoreCode(store.code);
     this.setUserId(user.id);
     this.setUserRole(userStore.role);
     this.setUsername(userStore.username);

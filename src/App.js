@@ -1,5 +1,6 @@
 import React from "react";
 import "./App.scss";
+import "react-loader-spinner/dist/loader/css/react-spinner-loader.css"
 import DatabaseProvider from "@nozbe/watermelondb/DatabaseProvider";
 import database from "./models/database";
 import Login from "./screens/login/Login";

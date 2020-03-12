@@ -169,10 +169,7 @@ export default function ShopInformationSection(props) {
             async function getCategories(){
                 //let newCategory = await new Api('business_categories').index();
                 let newCategory = await new Api('business_categories').index();
-                setCategories(newCategory.data.data);
-
-                console.log('$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$');
-                console.log(newCategory.data.data);
+                setCategories(newCategory.data.business_categories);
             }
         )();
     }, []);

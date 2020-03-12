@@ -22,6 +22,8 @@ import ShopInformationSection from './Sections/ShopInformationSection';
 import AccountInformationSection from './Sections/AccountInformationSection';
 import AuthService from '../../services/AuthService';
 import "./Register.scss";
+import SimpleSnackbar from "../Components/Snackbar/SimpleSnackbar";
+import PrimaryLoader from "../Components/Loader/Loader";
 
 const QontoConnector = withStyles({
     alternativeLabel: {
@@ -169,13 +171,6 @@ ColorlibStepIcon.propTypes = {
     icon: PropTypes.node,
 };
 
-const newBtnStyles = withStyles({
-    buttonC1: {
-        border: '1px solid #DAAB59',
-        color: '#DAAB59',
-    },
-})(props => <Button {...props} />);
-
 const useStyles = makeStyles(theme => ({
     root: {
         width: '100%',
@@ -194,9 +189,10 @@ function getSteps() {
 }
 
 const Register = props => {
-    const [user , setUser] = useState(0);
-    const [company , setCompany] = useState(0);
     const { history } = props;
+    const [loading , setLoading] = useState(false);
+    const [errorDialog, setErrorDialog] = useState(false);
+    const [errorMsg, setErrorMsg] = useState('');
     const classes = useStyles();
     const [activeStep, setActiveStep] = useState(0);
     const steps = getSteps();
@@ -206,7 +202,7 @@ const Register = props => {
         phone: '',
         companyName: '',
         location: '',
-        storeCategory: '',
+        storeCategory: 0,
         storeType: 'Retail',
         username: '',
         password: '',
@@ -261,6 +257,7 @@ const Register = props => {
     };
 
     const handleFinish = async() => {
+        setLoading(true);
         //console.log(data);
         /*
         * Handle registration here...
@@ -278,11 +275,16 @@ const Register = props => {
             localStorage.setItem('userFirstName' , req.user.firstName);
             console.log(req);
         }else{
-            console.log(req.error);
+            setLoading(false);
+            await setErrorDialog(true);
+            await setErrorMsg(req.error.msg);
+
+            return setTimeout(function(){
+                setErrorDialog(false);
+            }, 3000);
         }
 
         history.push(paths.verify_sms);
-        console.log(data);
     };
 
     return (
@@ -290,6 +292,13 @@ const Register = props => {
             <SectionNavbars title="Create Account">
                 <ArrowBackIcon onClick={() => history.push(paths.login)}/>
             </SectionNavbars>
+
+            <SimpleSnackbar
+                type="warning"
+                openState={errorDialog}
+                message={errorMsg}
+            />
+
             <Stepper
                 alternativeLabel
                 activeStep={activeStep}
@@ -326,9 +335,21 @@ const Register = props => {
                                 style={{'backgroundColor': '#DAAB59' , color: '#333333', padding: '5px 50px'}}
                                 onClick={handleFinish}
                                 className={classes.button}
-                                disabled={data.isValid}
+                                disabled={data.isValid || loading}
                             >
-                                Finish
+                                {
+                                    loading ?
+                                        <PrimaryLoader
+                                            style={{width: '30px' , height: '2.5rem'}}
+                                            color="#FFFFFF"
+                                            type="Oval"
+                                            className={`mt-1`}
+                                            width={25}
+                                            height={25}
+                                        />
+                                        :
+                                        'Finish'
+                                }
                             </Button>
                         </Box>
                     </div>
@@ -341,15 +362,17 @@ const Register = props => {
                             p={1}
                             style={{ height: '2.5rem', position: "fixed", bottom:"0", width:"100%" }}
                         >
-                            <Button
-                                variant="outlined"
-                                style={{border: '1px solid #DAAB59', color: '#DAAB59', padding: '5px 50px'}}
-                                disabled={activeStep === 0}
-                                onClick={handleBack}
-                                className={classes.button}
-                            >
-                                Back
-                            </Button>
+                            {activeStep === 0 ? '' :
+                                <Button
+                                    variant="outlined"
+                                    style={{border: '1px solid #DAAB59', color: '#DAAB59', padding: '5px 50px'}}
+                                    disabled={activeStep === 0}
+                                    onClick={handleBack}
+                                    className={classes.button}
+                                >
+                                    Back
+                                </Button>
+                            }
                             <Button
                                 variant="contained"
                                 style={{'backgroundColor': '#DAAB59' , color: '#333333', padding: '5px 50px'}}

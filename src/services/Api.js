@@ -24,7 +24,7 @@ export default class Api {
     fullUrl(parentParams = {}) {
       // companies/{company_id}/branches/{branch_id}/products
         const {protocol, basePath, prefix } = this.apiConfig;
-        let fullPath = `${protocol}://${basePath}/${prefix}`;
+        let fullPath = `${protocol}://${basePath}/v1/${prefix}`;
 
         this.parentResources.forEach(parentResource => {
             fullPath = `${fullPath}/${parentResource}/${parentParams[parentResource]}`;
@@ -36,11 +36,13 @@ export default class Api {
     static get headers(){
         return {
             "X-El-Parah-Hash" : "9IKZKacum7YEmCjD57I53FtW",
-            "X-El-Parah-Client" : "elp-pos-web-ui"
+            "X-El-Parah-Client" : "elp-pos-web-ui",
+            "Access-Control-Allow-Credentials": true,
+            "Access-Control-Allow-Origin": '*',
         };
     }
 
-    async index(requestPath = `${this.fullUrl(parentResources)}/${this.resource}`, queryParams= {}, parentResources = {}) {
+    async index(parentResources = {} , requestPath = `${this.fullUrl(parentResources)}/${this.resource}`, queryParams= {}) {
         console.log(requestPath);
         return axios.get(requestPath, {
             headers: this.constructor.headers,
@@ -60,10 +62,14 @@ export default class Api {
         return result.data.data[0];
     }
 
-    async create(data = {} , config = {} , requestPath = `${this.fullUrl(parentResources)}/${this.resource}` , parentResources = {}) {
-        console.log(requestPath);
-        console.log(data);
-        return axios.post(requestPath,  data  , config);
+    async create(data = {} , config = {} , parentResources = {}, requestPath = `${this.fullUrl(parentResources)}/${this.resource}`) {
+        return axios.post(
+            requestPath,
+            data  ,
+            {
+                headers: {...this.constructor.headers, ...config}
+            }
+        );
     }
 
     async options(config = {} , requestPath = `${this.fullUrl(parentResources)}/${this.resource}` , parentResources = {}) {

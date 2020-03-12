@@ -15,9 +15,12 @@ import './verify.scss';
 import confirmImg from '../../assets/img/confirm.jfif';
 import Button from "@material-ui/core/Button/Button";
 import paths from "../../utilities/paths";
-import SuccessDialog from "../Components/Dialog/SuccessDialog";
 import Snackbar from '@material-ui/core/Snackbar';
 import MuiAlert from '@material-ui/lab/Alert';
+import SimpleSnackbar from "../Components/Snackbar/SimpleSnackbar";
+import PrimaryLoader from "../Components/Loader/Loader";
+import AuthService from "../../services/AuthService";
+import GenerateOTP from "../../services/GenerateString";
 
 
 const useStyles = makeStyles(theme => ({
@@ -44,9 +47,13 @@ function Alert(props) {
 
 const VerifySMS = props => {
     const { history } = props;
+    const [loading , setLoading] = useState(false);
+    const [loadingSMS , setLoadingSMS] = useState(false);
     const classes = useStyles();
     const [successDialog, setSuccessDialog] = useState(false);
     const [errorDialog, setErrorDialog] = useState(false);
+    const [successMsg, setSuccessMsg] = useState('');
+    const [errorMsg, setErrorMsg] = useState('');
 
     //Logic for verifying SMS
     const verifySMS = async({otp}) => {
@@ -55,18 +62,51 @@ const VerifySMS = props => {
             return;
         }
 
-        let code = localStorage.getItem('userOTP');
+        setLoading(true);
 
-        if(code == otp){
+        let code = parseFloat(localStorage.getItem('userOTP'));
+
+        if(code === otp){
+            setSuccessMsg('You have successfully created an account.');
             setSuccessDialog(true);
             setTimeout(function(){
                 setSuccessDialog(false);
                 history.push(paths.get_started);
             }, 2000);
         }else{
+            setLoading(false);
+            setErrorMsg('Number you entered is incorrect. Please enter again!');
             setErrorDialog(true);
             return false
         }
+    };
+
+    const resendSMS = async () => {
+        setLoadingSMS(true);
+
+        const phone = localStorage.getItem('userContact');
+        const otp = new GenerateOTP(4).generateNumber();
+        const name = localStorage.getItem('userFirstName');
+
+        try{
+            await new AuthService().sendOTP(name , phone , otp);
+
+            setSuccessMsg('YOur verification code has been sent.');
+            setSuccessDialog(true);
+            localStorage.setItem('userOTP' , otp);
+
+            setTimeout(function(){
+                setSuccessDialog(false);
+            }, 2000);
+
+        }catch (error){
+            setErrorMsg('Could not send code. Please enter again!');
+            setErrorDialog(true);
+            return false;
+        }
+
+        setLoadingSMS(false);
+        //console.log(req);
     };
 
     const handleCloseSnack = (event, reason) => {
@@ -83,9 +123,11 @@ const VerifySMS = props => {
                 <CloseIcon onClick={() => history.push(paths.login)} />
             </SectionNavbars>
 
-            <div className="dialog_success">
-                <SuccessDialog states={successDialog}/>
-            </div>
+            <SimpleSnackbar
+                type="success"
+                openState={successDialog}
+                message={successMsg}
+            />
 
             <Component
                 initialState={{
@@ -99,7 +141,7 @@ const VerifySMS = props => {
                         <Container maxWidth="sm">
                             <Snackbar open={errorDialog} autoHideDuration={6000} onClose={handleCloseSnack}>
                                 <Alert onClose={handleCloseSnack} severity="error">
-                                    Number you entered is incorrect. Please enter again!
+                                    {errorMsg}
                                 </Alert>
                             </Snackbar>
                             <Box component="div" m={2} style={{paddingTop: '60px'}}>
@@ -138,8 +180,21 @@ const VerifySMS = props => {
                                 style={{'backgroundColor': '#DAAB59' , color: '#333333', padding: '8px 40px', fontSize: '14px', fontWeight: '700'}}
                                 className={classes.button}
                                 onClick={() => verifySMS(state)}
+                                disabled={loading}
                             >
-                                Finish
+                                {
+                                    loading ?
+                                        <PrimaryLoader
+                                            style={{width: '30px' , height: '2.5rem'}}
+                                            color="#FFFFFF"
+                                            type="Oval"
+                                            className={`mt-1`}
+                                            width={25}
+                                            height={25}
+                                        />
+                                        :
+                                        'Finish'
+                                }
                             </Button>
 
                             <Grid
@@ -158,8 +213,22 @@ const VerifySMS = props => {
                                     variant="outlined"
                                     style={{border: '1px solid #DAAB59', textAlign: 'center', color: '#DAAB59', padding: '8px 15px', fontSize: '12px', marginLeft: '10px'}}
                                     className={classes.button + ' ' + classes.shadow1}
+                                    onClick={() => resendSMS()}
+                                    disabled={loadingSMS}
                                 >
-                                    Resend code
+                                    {
+                                        loadingSMS ?
+                                            <PrimaryLoader
+                                                style={{width: '30px' , height: '2.5rem'}}
+                                                color="#FFFFFF"
+                                                type="Oval"
+                                                className={`mt-1`}
+                                                width={25}
+                                                height={25}
+                                            />
+                                            :
+                                            'Resend Code'
+                                    }
                                 </Button>
                             </Grid>
                         </Container>

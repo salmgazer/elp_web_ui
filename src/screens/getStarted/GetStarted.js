@@ -4,10 +4,6 @@ import Container from '@material-ui/core/Container';
 import './GetStarted.scss';
 import ViewWelcome from "./sections/ViewWelcome";
 import ViewStore from "./sections/ViewStore";
-import MainView from "../onboarding/addProducts/sections/MainView";
-import AddProductView from "../onboarding/addProducts/sections/AddProductView";
-import AddedProductView from "../onboarding/addProducts/sections/AddedProductView";
-
 
 const useStyles = makeStyles(theme => ({
     root: {
@@ -53,7 +49,7 @@ const GetStarted = props => {
     const classes = useStyles();
 
     return (
-        <div className={classes.root} style={{ backgroundColor: '#ffffff', height: '100vh' }}>
+        <div className={classes.root} style={{ backgroundColor: '#ffffff', height: '90vh' }}>
             <Container maxWidth="sm" p={0}>
                 {getStepContent(activeStep)}
             </Container>

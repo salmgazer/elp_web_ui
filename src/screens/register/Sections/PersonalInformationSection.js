@@ -1,4 +1,4 @@
-import React, {useState , useRef } from 'react';
+import React, {useState , useRef , useEffect } from 'react';
 import {
     withStyles,
     makeStyles,
@@ -49,6 +49,8 @@ const ValidationTextField = withStyles({
 })(TextValidator);
 
 export default function PersonalInformationSection(props) {
+    const PersonalInformationForm = useRef(null);
+
     const userFields = props.formData;
     const classes = useStyles();
     const [formFields , setFormFields] = useState({
@@ -57,12 +59,17 @@ export default function PersonalInformationSection(props) {
         phone: userFields.phone,
     });
 
-    const handleChange = (event) => {
+    const handleChange = async(event) => {
         const { ...formData }  = formFields;
         formData[event.target.name] = event.target.value;
         setFormFields(formData);
         props.collectData(event);
     };
+
+    /*useEffect(() => {
+        const lie
+        console.log( PersonalInformationForm.current.isFormValid()._value);
+    });*/
 
     const handleFormValidation = (result) => {
         props.isValid(result);
@@ -87,13 +94,10 @@ export default function PersonalInformationSection(props) {
         handleChange(contact);
     };
 
-    const formRef = React.createRef('form');
-
     return (
         <Paper className={`${classes.paper}`}>
             <ValidatorForm
-                ref={formRef}
-                onError={handleFormValidation}
+                ref={PersonalInformationForm}
                 className={classes.root}
                 instantValidate
             >
@@ -116,13 +120,13 @@ export default function PersonalInformationSection(props) {
                 <Grid item xs={12}>
                     <ValidationTextField
                         onChange={handleChange}
-                        validatorListener={handleFormValidation}
                         name="otherNames"
                         className={classes.margin}
                         label="Other names"
                         required
                         variant="outlined"
                         id="otherNames"
+                        validatorListener={handleFormValidation}
                         value={formFields.otherNames}
                         validators={['required', 'minStringLength:2']}
                         errorMessages={['Other names is a required field', 'The minimum length for other name is 2']}
@@ -132,11 +136,11 @@ export default function PersonalInformationSection(props) {
                     <ValidationTextField
                         className={classes.margin}
                         onChange={addDashes}
-                        validatorListener={handleFormValidation}
                         name="phone"
                         label="Phone number"
                         required
                         type="tel"
+                        validatorListener={handleFormValidation}
                         variant="outlined"
                         id="contact"
                         validators={['required', 'minStringLength:12' , 'maxStringLength:12']}

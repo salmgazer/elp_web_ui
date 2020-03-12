@@ -16,37 +16,26 @@ export default class SmsService{
     }
 
     sendSMS = async() => {
-        const requestFields = {
+        const contact = (this.contact).replace(/-/g , "");
+        const params = {
             id : this.id,
-            to : [this.contact],
+            to : [contact],
             body : this.message,
             sender_mask : this.sender_mask,
         };
 
         const headers =  {
             "Authorization" : this.token,
-            "Content-Type" : "application/json",
+            "Content-Type" : "application/json",/*
+            "Access-Control-Allow-Origin": "*",
+            "Access-Control-Request-Headers": "*"*/
         };
 
-        //For sms..options
-        /*new Api('others').options(
-            {
-                data: { ...requestFields },
-                headers: {
-                    ...headers
-                },
-            },
+        new Api('others').create(params,
+            headers,
+            {},
             this.url
-        );*/
-
-        new Api('others').create(requestFields, {
-            headers: {
-                ...headers
-            },
-        },
-        this.url
         );
-        //console.log(contact , message);
     };
 }
 

@@ -1,4 +1,4 @@
-import React from "react";
+import React , {useState , useRef}  from "react";
 import { withRouter , Link } from "react-router-dom";
 import Component from "@reactions/component";
 import { useDatabase } from "@nozbe/watermelondb/hooks";
@@ -14,13 +14,15 @@ import CssBaseline from "@material-ui/core/CssBaseline/CssBaseline";
 import Container from "@material-ui/core/Container/Container";
 import {makeStyles, withStyles} from "@material-ui/core";
 import { ValidatorForm, TextValidator} from 'react-material-ui-form-validator';
+import { render } from 'react-dom';
 
 import Logo from '../../assets/img/el-parah.png';
 import Typography from "@material-ui/core/Typography/Typography";
 import './Login.scss';
 import AuthService from "../../services/AuthService";
 import InputAdornment from '@material-ui/core/InputAdornment';
-
+import PrimaryLoader from "../Components/Loader/Loader";
+import SimpleSnackbar from "../Components/Snackbar/SimpleSnackbar";
 
 const useStyles = makeStyles(theme => ({
     root: {
@@ -28,6 +30,7 @@ const useStyles = makeStyles(theme => ({
     },
     button: {
         marginRight: theme.spacing(1),
+
     },
     instructions: {
         marginTop: theme.spacing(1),
@@ -114,6 +117,10 @@ async function getUsersFromLocal(database) {
 
 const Login = props => {
     const classes = useStyles();
+    const loginForm = useRef(null);
+    const [loading , setLoading] = useState(false);
+    const [errorDialog, setErrorDialog] = useState(false);
+    const [errorMsg, setErrorMsg] = useState('');
 
     const { history } = props;
     const database = useDatabase();
@@ -128,6 +135,10 @@ const Login = props => {
           return;
         }
 
+        //Start loader and disable button
+        setLoading(true);
+
+        //Make a request to get token
         let req = await new AuthService().login(usernameOrPhone , password);
 
         if(!req.error){
@@ -135,10 +146,16 @@ const Login = props => {
             * @todo
             * push user details to watermelon...
             * */
-            console.log(req);
             history.push(paths.dashboard)
         }else{
-            console.log(req);
+            document.getElementById("loginForm").reset();
+            setLoading(false);
+            await setErrorDialog(true);
+            await setErrorMsg(req.error.msg);
+
+            return setTimeout(function(){
+                setErrorDialog(false);
+            }, 3000);
         }
 
         //history.push(paths.dashboard);
@@ -165,125 +182,160 @@ const Login = props => {
           alert(`You are not associated to any store`);
           return;
         }*/
-      };
+    };
 
     return (
-    <div style={{backgroundColor: '#f2ece3', height: '100vh', padding: "4% 3%"}}>
-      <Component
-        initialState={{
-          isShown: false,
-          password: "",
-          usernameOrPhone: ""
-        }}
-      >
-        {({ state, setState }) => (
-          <React.Fragment>
-              <CssBaseline />
+        <div style={{backgroundColor: '#f2ece3', height: '100vh', padding: "4% 3%"}}>
+          <Component
+            initialState={{
+              isShown: false,
+              password: "",
+              usernameOrPhone: ""
+            }}
+          >
+            {({ state, setState }) => (
+              <React.Fragment>
+                  <CssBaseline />
 
-              <Container
-                  maxWidth="sm"
-                  style={{backgroundColor: '#f2ece3', padding: '8% 3%'}}
-              >
-                  <Box
-                      className={`${classes.shadow2} login`}
-                      style={{'borderRadius': '10px'}}
+                  <Container
+                      maxWidth="sm"
+                      style={{backgroundColor: '#f2ece3', padding: '8% 3%'}}
                   >
-                      <Box component="div" style={{paddingTop: '50px', marginTop: '0px'}}>
-                          <img style={{width: '230px', height: '90px'}} className="img-responsive" src={Logo} alt={'Elparah Logo'}/>
-                      </Box>
-                      <Typography
-                          variant="h6"
-                          component="h6"
-                          fontSize="1.25rem"
-                          style={{marginBottom: '30px', paddingTop: '5px'}}
+                      <SimpleSnackbar
+                          type="warning"
+                          openState={errorDialog}
+                          message={errorMsg}
+                      />
+
+                      <Box
+                          className={`${classes.shadow2} login`}
+                          style={{'borderRadius': '10px'}}
                       >
-                          Mobile POS App
-                      </Typography>
-
-                      <Box component="div" className={classes.padding1} style={{width: '230px', paddingBottom: '40px' ,margin: '0 auto', color: '#403C3C'}}>
-                          <ValidatorForm
-                              ref="form"
-                              onSubmit={() => login(state)}
-                              onError={errors => console.log(errors)}
+                          <Box component="div" style={{paddingTop: '50px', marginTop: '0px'}}>
+                              <img style={{width: '230px', height: '90px'}} className="img-responsive" src={Logo} alt={'Elparah Logo'}/>
+                          </Box>
+                          <Typography
+                              variant="h6"
+                              component="h6"
+                              fontSize="1.25rem"
+                              style={{marginBottom: '30px', paddingTop: '5px'}}
                           >
+                              Mobile POS App
+                          </Typography>
 
-                          <div className={classes.margin} style={{'paddingBottom': '10px'}}>
-                              <Grid container spacing={1} alignItems="flex-end" >
-                                  <Grid item>
-                                      <ValidationTextField
-                                          onChange={event => setState({ usernameOrPhone: event.target.value })}
-                                          id="usernameOrPhone"
-                                          type='text'
-                                          value={state.usernameOrPhone}
-                                          label="username/contact"
-                                          name="usernameOrPhone"
-                                          validators={['required', 'minStringLength:4']}
-                                          errorMessages={['Username is a required field', 'The minimum length for username is 4']}
-                                          helperText=""
-                                          InputProps={{
-                                              startAdornment:
-                                                  <InputAdornment position="start">
-                                                      <AccountCircleIcon />
-                                                  </InputAdornment>
-                                          }}
-                                      />
-                                  </Grid>
-                              </Grid>
-                          </div>
+                          <Box component="div" className={classes.padding1} style={{width: '230px', paddingBottom: '40px' ,margin: '0 auto', color: '#403C3C'}}>
+                              <ValidatorForm
+                                  ref={loginForm}
+                                  id = "loginForm"
+                                  onSubmit={ async () => {
+                                           await login(state)
+                                           .then(async function(){
+                                               if(loginForm.current === null){
 
-                          <div className={classes.margin} className={classes.padding1}>
-                              <Grid container spacing={1} alignItems="flex-end">
-                                  <Grid item>
-                                      <ValidationTextField
-                                          id="password"
-                                          onChange={event => setState({ password: event.target.value })}
-                                          type={state.isShown ? 'text' : 'password'}
-                                          value={state.password}
-                                          validators={['required', 'minStringLength:2']}
-                                          errorMessages={['Password is a required field', 'The minimum length for password is 6']}
-                                          name="password"
-                                          label="password"
-                                          helperText=""
-                                          InputProps={{
-                                              startAdornment:
-                                                  <InputAdornment position="start">
-                                                      <LockIcon />
-                                                  </InputAdornment>
-                                          }}
-                                      />
-                                  </Grid>
-                              </Grid>
-                          </div>
+                                               }else{
+                                                   await setState({
+                                                       isShown: false,
+                                                       password: "",
+                                                       usernameOrPhone: ""
+                                                   });
+                                                   loginForm.current.resetValidations();
+                                               }
+                                           });
+                                      }
+                                  }
+                                  onError={errors => console.log(errors)}
+                              >
 
-                          <Button
-                              variant="contained"
-                              style={{'width': '100%','backgroundColor': '#DAAB59' , marginBottom: '30px',color: '#403C3C', padding: '5px 40px', fontSize: '17px', fontWeight: '700'}}
-                              className={classes.button} className="capitalization"
-                              type="submit"
-                          >
-                              Login
-                          </Button>
-                          </ValidatorForm>
+                                  <div className={classes.margin} style={{'paddingBottom': '10px'}}>
+                                      <Grid container spacing={1} alignItems="flex-end" >
+                                          <Grid item>
+                                              <ValidationTextField
+                                                  onChange={event => setState({ usernameOrPhone: event.target.value })}
+                                                  id="usernameOrPhone"
+                                                  type='text'
+                                                  value={state.usernameOrPhone}
+                                                  label="username/contact"
+                                                  name="usernameOrPhone"
+                                                  validators={['required', 'minStringLength:4']}
+                                                  errorMessages={['Username is a required field', 'The minimum length for username is 4']}
+                                                  helperText=""
+                                                  InputProps={{
+                                                      startAdornment:
+                                                          <InputAdornment position="start">
+                                                              <AccountCircleIcon />
+                                                          </InputAdornment>
+                                                  }}
+                                              />
+                                          </Grid>
+                                      </Grid>
+                                  </div>
 
-                          <Link to={paths.forgot_password}>
-                          <a  style={{'marginTop': '20px', color: '#403C3C', fontSize: '14px'}}><i>Help! I forgot my password</i> </a> <br/>
-                          </Link>
-                          or
-                          <Button
-                              variant="contained"
-                              style={{'width': '100%','backgroundColor': '#DAAB59' , color: '#403C3C', margin: '10px auto 30px',padding: '5px 1px', fontSize: '17px', fontWeight: '700'}}
-                              className={classes.button} className="capitalization"
-                              onClick={() => history.push(paths.register)}
-                          >
-                              Create new account
-                          </Button>
+                                  <div className={`${classes.margin} ${classes.padding1}`}>
+                                      <Grid container spacing={1} alignItems="flex-end">
+                                          <Grid item>
+                                              <ValidationTextField
+                                                  id="password"
+                                                  onChange={event => setState({ password: event.target.value })}
+                                                  type={state.isShown ? 'text' : 'password'}
+                                                  value={state.password}
+                                                  validators={['required', 'minStringLength:2']}
+                                                  errorMessages={['Password is a required field', 'The minimum length for password is 6']}
+                                                  name="password"
+                                                  label="password"
+                                                  helperText=""
+                                                  InputProps={{
+                                                      startAdornment:
+                                                          <InputAdornment position="start">
+                                                              <LockIcon />
+                                                          </InputAdornment>
+                                                  }}
+                                              />
+                                          </Grid>
+                                      </Grid>
+                                  </div>
+
+                                  <Button
+                                      variant="contained"
+                                      style={{'width': '100%','backgroundColor': '#DAAB59' , marginBottom: '30px',color: '#403C3C', padding: '5px 40px', fontSize: '17px', fontWeight: '700'}}
+                                      className={`${classes.button} capitalization primaryButton`}
+                                      type="submit"
+                                      disabled={loading}
+                                  >
+                                      {
+                                          loading ?
+                                              <PrimaryLoader
+                                                  style={{width: '30px' , height: '30px'}}
+                                                  color="#FFFFFF"
+                                                  type="Oval"
+                                                  className={`mt-1`}
+                                                  width={25}
+                                                  height={25}
+                                              />
+                                                    :
+                                              'Login'
+                                      }
+                                  </Button>
+                              </ValidatorForm>
+
+                              <Link to={paths.forgot_password} style={{textDecorationColor: '#333333'}}>
+                                <span  style={{'marginTop': '20px', color: '#403C3C', fontSize: '14px'}}><i>Help! I forgot my password</i> </span> <br/>
+                              </Link>
+                              or
+                              <Button
+                                  variant="contained"
+                                  style={{'width': '100%','backgroundColor': '#DAAB59' , color: '#403C3C', margin: '10px auto 30px',padding: '5px 1px', fontSize: '17px', fontWeight: '700'}}
+                                  className={`${classes.button} capitalization`}
+                                  onClick={() => history.push(paths.register)}
+                              >
+                                  Create new account
+                              </Button>
+                          </Box>
                       </Box>
-                  </Box>
-              </Container>
-          </React.Fragment>
-        )}
-      </Component>
-    </div>
+                  </Container>
+              </React.Fragment>
+            )}
+          </Component>
+        </div>
     );
 };
 

@@ -130,12 +130,8 @@ export default function AccountInformationSection(props) {
         props.collectData(event);
 
         ValidatorForm.addValidationRule('isPasswordMatch', (value) => {
-            console.log(value);
-
             const { ...values } = props.formData;
-            console.log('$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$')
-            console.log(formFields.password);
-            console.log('$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$')
+
             if (value !== formFields.password) {
                 return false;
             }
@@ -148,7 +144,7 @@ export default function AccountInformationSection(props) {
 
         if(event.target.checked === true){
             const { ...formData }  = formFields;
-            //console.log(formData.firstName);
+
             let f = userFields.phone;
 
             f = f.replace(/-/g , "");
@@ -164,7 +160,7 @@ export default function AccountInformationSection(props) {
             props.collectData(fakeEvent);
         }else{
             const { ...formData }  = formFields;
-            //console.log(formData.firstName);
+
             formData['username'] = '';
             /*if (event.target.name === 'password') {
                 this.form.isFormValid(false);
@@ -203,9 +199,6 @@ export default function AccountInformationSection(props) {
         formData[event.target.name] = event.target.value;
         setFormFields(formData);
         props.collectData(event);
-        console.log('$$$$$$$$$$$$$$$$$$$$$$$$$$')
-        console.log(formFields)
-        console.log('$$$$$$$$$$$$$$$$$$$$$$$$$$')
     };
 
     const handleFormValidation = (result) => {
