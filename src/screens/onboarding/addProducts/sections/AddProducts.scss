@@ -28,7 +28,7 @@
 
 .pro-item {
   border-radius: 10px !important;
-  height: 150px !important;
+  min-height: 120px !important;
 
   img {
     height: 85px !important;
@@ -52,4 +52,14 @@
   border-radius: 50%;
   width: 25px;
   height: 25px;
+}
+
+.optionAdd {
+  .MuiTypography-body1 {
+    font-size: 0.9rem !important;
+  }
+
+  .MuiFormControlLabel-root {
+    margin-left: -4px !important;
+  }
 }

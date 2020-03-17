@@ -18,7 +18,7 @@ const Step1 = (props) => {
 
             <Box style={{marginTop: '5px'}} p={1}>
                 <Grid container spacing={1}>
-                    {subcategories.map((item) => <SubCategorySingle key={item.id} item={item} _addSubCategoryHandler={props.addSubCategory} />)}
+                    {subcategories.map((item) => <SubCategorySingle key={item.id} item={item} _addSubCategoryHandler={props.addSubCategory} _removeSubCategoryHandler={props.removeSubCategory}/>)}
                 </Grid>
             </Box>
         </div>

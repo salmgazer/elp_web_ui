@@ -11,15 +11,19 @@ const SubCategorySingle = props => {
         props._addSubCategoryHandler(id);
     };
 
+    const removeSubCategoryHandler = (id , event) => {
+        props._removeSubCategoryHandler(id);
+    };
+
     return(
         <Grid item xs={4}>
             <Card
                 className="shadow1"
                 style={{margin: '5px auto' ,backgroundImage: `url(${category.image})` , backgroundPosition: 'center', backgroundSize: 'cover' , width: '100%' , height: '160px', padding: '0px', position: 'relative'}}
             >
-                { category.status ?
+                { category.owned ?
                     <div
-                        onClick={(event) => addSubCategoryHandler(category.id , event)}
+                        onClick={(event) => removeSubCategoryHandler(category.id , event)}
                     >
                         <AddedIcon
                             styles={{

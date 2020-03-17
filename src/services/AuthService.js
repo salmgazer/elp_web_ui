@@ -37,6 +37,8 @@ export default class AuthService {
                     localStorage.setItem('accessToken' , user.data.token);
                     localStorage.setItem('userDetails' , JSON.stringify(response.user));
                     localStorage.setItem('username' , response.user.username);
+                    localStorage.setItem('activeBranch' , response.access[0].branches[0].branchId);
+                    localStorage.setItem('userData', JSON.stringify(response));
 
                     return {
                         success: 200,
@@ -109,6 +111,9 @@ export default class AuthService {
             );
 
             if( user ){
+                localStorage.setItem('randomString' , data.password);
+                localStorage.setItem('activeBranch' , user.data.branch.id);
+
                 user = user.data.user;
                 console.log(user);
                 const response = await this.sendOTP(user.firstName ,user.phone , user.otp);

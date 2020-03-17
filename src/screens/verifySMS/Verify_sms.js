@@ -21,6 +21,7 @@ import SimpleSnackbar from "../Components/Snackbar/SimpleSnackbar";
 import PrimaryLoader from "../Components/Loader/Loader";
 import AuthService from "../../services/AuthService";
 import GenerateOTP from "../../services/GenerateString";
+import Api from "../../services/Api";
 
 
 const useStyles = makeStyles(theme => ({
@@ -66,13 +67,40 @@ const VerifySMS = props => {
 
         let code = parseFloat(localStorage.getItem('userOTP'));
 
+        const params = {
+            "phone" : localStorage.getItem('userContact'),
+            "password" : localStorage.getItem('randomString'),
+            "otp" : otp.toString(),
+        };
+
         if(code === otp){
-            setSuccessMsg('You have successfully created an account.');
-            setSuccessDialog(true);
-            setTimeout(function(){
-                setSuccessDialog(false);
-                history.push(paths.get_started);
-            }, 2000);
+            try {
+                let user = await new Api('others').update(
+                    params,
+                    {},
+                    {},
+                    `https://elp-core-api-dev.herokuapp.com/v1/client/users/verify`,
+                );
+
+                if(user){
+                    localStorage.setItem('accessToken' , user.data.token);
+                    localStorage.removeItem('randomString');
+                    localStorage.removeItem('userOTP');
+                    setSuccessMsg('You have successfully created an account.');
+                    setSuccessDialog(true);
+                    setTimeout(function(){
+                        setSuccessDialog(false);
+                        setLoading(false);
+                        history.push(paths.get_started);
+                    }, 2000);
+                }
+            }catch (error) {
+                setErrorMsg('Please try again.');
+                setErrorDialog(true);
+                setLoading(false);
+
+                console.log(error)
+            }
         }else{
             setLoading(false);
             setErrorMsg('Number you entered is incorrect. Please enter again!');
@@ -118,7 +146,7 @@ const VerifySMS = props => {
     };
 
     return (
-        <div className={classes.root} style={{ backgroundColor: '#ffffff', height: '100vh' }}>
+        <div className={classes.root} style={{ backgroundColor: '#ffffff', height: '95vh' }}>
             <SectionNavbars>
                 <CloseIcon onClick={() => history.push(paths.login)} />
             </SectionNavbars>
@@ -196,40 +224,40 @@ const VerifySMS = props => {
                                         'Finish'
                                 }
                             </Button>
-
-                            <Grid
-                                item xs={12}
-                                alignItems="center"
-                                style={{margin: '15% auto 5px'}}
-                            >
-                                <Typography
-                                    component="span"
-
+                            <Grid container spacing={1} alignItems="center" className={`my-1`}>
+                                <Grid
+                                    item xs={12}
+                                    style={{margin: '15% auto 5px'}}
                                 >
-                                    Didn't receive code?
-                                </Typography>
+                                    <Typography
+                                        component="span"
 
-                                <Button
-                                    variant="outlined"
-                                    style={{border: '1px solid #DAAB59', textAlign: 'center', color: '#DAAB59', padding: '8px 15px', fontSize: '12px', marginLeft: '10px'}}
-                                    className={classes.button + ' ' + classes.shadow1}
-                                    onClick={() => resendSMS()}
-                                    disabled={loadingSMS}
-                                >
-                                    {
-                                        loadingSMS ?
-                                            <PrimaryLoader
-                                                style={{width: '30px' , height: '2.5rem'}}
-                                                color="#FFFFFF"
-                                                type="Oval"
-                                                className={`mt-1`}
-                                                width={25}
-                                                height={25}
-                                            />
-                                            :
-                                            'Resend Code'
-                                    }
-                                </Button>
+                                    >
+                                        Didn't receive code?
+                                    </Typography>
+
+                                    <Button
+                                        variant="outlined"
+                                        style={{border: '1px solid #DAAB59', textAlign: 'center', color: '#DAAB59', padding: '8px 15px', fontSize: '12px', marginLeft: '10px'}}
+                                        className={classes.button + ' ' + classes.shadow1}
+                                        onClick={() => resendSMS()}
+                                        disabled={loadingSMS}
+                                    >
+                                        {
+                                            loadingSMS ?
+                                                <PrimaryLoader
+                                                    style={{width: '30px' , height: '2.5rem'}}
+                                                    color="#FFFFFF"
+                                                    type="Oval"
+                                                    className={`mt-1`}
+                                                    width={25}
+                                                    height={25}
+                                                />
+                                                :
+                                                'Resend Code'
+                                        }
+                                    </Button>
+                                </Grid>
                             </Grid>
                         </Container>
                     </React.Fragment>

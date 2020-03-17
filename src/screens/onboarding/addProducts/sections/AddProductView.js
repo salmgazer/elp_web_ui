@@ -11,77 +11,46 @@ import 'react-confirm-alert/src/react-confirm-alert.css';
 import Snackbar from '@material-ui/core/Snackbar';
 import MuiAlert from '@material-ui/lab/Alert';
 import SimpleSnackbar from "../../../Components/Snackbar/SimpleSnackbar";
+import MenuIcon from '@material-ui/icons/Menu';
+import SectionNavbars from "../../../Components/Sections/SectionNavbars";
+import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
+import {faCalculator} from "@fortawesome/free-solid-svg-icons";
+import Modal from "../../../Components/Modal/Modal";
+import CostCalculator from "../../../Components/Calculator/CostCalculator";
+import CostInput from "../../../Components/Input/CostInput";
 
-
-const useStyles = makeStyles(theme => ({
-    root: {
-        width: '92%',
-        display: 'flex',
-        padding: '2px 5px',
-        alignItems: 'center',
-        borderRadius: '5px',
-        height: '35px',
-        border: '1px solid #ced4da',
-        fontSize: '0.9rem',
-        lineHeight: '1.5',
-        transition: 'border-color .15s ease-in-out,box-shadow .15s ease-in-out',
-    },
-    input: {
-        marginLeft: theme.spacing(1),
-        flex: 1,
-        textAlign: 'center',
-    },
-    iconButton: {
-        padding: 10,
-    }
-}));
 
 function Alert(props) {
     return <MuiAlert elevation={6} variant="filled" {...props} />;
 }
 
 const AddProductView = props => {
-    const [history , setHistory] = useState([{"st_id":"20766","st_date":"2020-02-18","st_quantity":"3","st_product":"32","st_store_id":"1","timestamps":"2020-02-18 11:27:05"},{"st_id":"17451","st_date":"2020-01-09","st_quantity":"1","st_product":"32","st_store_id":"1","timestamps":"2020-01-09 13:40:05"}]);
-    const [successDialog, setSuccessDialog] = React.useState(false);
+    const [successDialog, setSuccessDialog] = useState(false);
     const [errorDialog, setErrorDialog] = useState(false);
-    const [formFields , setFormFields] = React.useState({
-        quantity: '',
-        sellingPrice: '',
-        costPrice: '',
-        pro_id: props.product[0].pro_id,
+    const [calculatorDialog, setCalculatorDialog] = useState(false);
+    const [formFields , setFormFields] = useState({
+        quantity: null,
+        sellingPrice: null,
+        costPrice: null,
+        productId: props.product[0].id,
+        branchId: parseFloat(localStorage.getItem('activeBranch')),
     });
 
-    const classes = useStyles();
-
     const product = props.product[0];
-    const image = `https://elparah.store/admin/upload/${product.image}`;
+    //console.log(product);
+    let image = '';
 
-    const deleteHistory = (historyId , event) => {
-        console.log(historyId);
+    if(product.image){
+        image = `https://elparah.store/admin/upload/${product.image}`;
+    }
 
-        confirmAlert({
-            title: 'Confirm to delete',
-            message: 'Are you sure you want to delete this item.',
-            buttons: [
-                {
-                    label: 'Yes',
-                    onClick: () => {
-                        let old_list = [...history];
+    image = 'https://elparah.store/admin/upload/no_image.png';
 
-                        const result = old_list.filter(item => item.st_id !== historyId);
+    const lastStock = !product.stock || product.stock[((product.stock).length - 1)];
 
-                        setHistory([...result]);
-                    }
-                },
-                {
-                    label: 'No',
-                    onClick: () => {
-                        return false;
-                    }
-                }
-            ]
-        })
-    };
+    const defaultStock = product.stock || [];
+
+    const stock = defaultStock.reduce((a, b) => a + (b['quantity'] || 0), 0);
 
     const saveStock = (event) => {
         if((formFields.costPrice !== "" || parseFloat(formFields.costPrice !== 0)) && (formFields.sellingPrice !== "" || parseFloat(formFields.sellingPrice !== 0))){
@@ -90,9 +59,9 @@ const AddProductView = props => {
                 setTimeout(function(){
                     setErrorDialog(false);
                 }, 3000);
+
                 return false;
             }
-
         }
 
         props.addNewProduct(formFields);
@@ -127,13 +96,20 @@ const AddProductView = props => {
     };
 
     const setInputValue = (name , value) => {
-        console.log(name , value)
         const {...oldFormFields} = formFields;
 
         oldFormFields[name] = value;
-        console.log(oldFormFields)
 
         setFormFields(oldFormFields);
+    };
+
+    const getCalculatorValue = (value) => {
+        const {...oldFormFields} = formFields;
+
+        oldFormFields['costPrice'] = parseFloat(value);
+
+        setFormFields(oldFormFields);
+        console.log(oldFormFields);
     };
 
     const handleCloseSnack = (event, reason) => {
@@ -144,9 +120,23 @@ const AddProductView = props => {
         setErrorDialog(false);
     };
 
+    const openCalculator = (event) => {
+        setCalculatorDialog(true);
+    };
+
+    const getCalculatorModalState = (value) => {
+        setCalculatorDialog(value);
+    };
+
 
     return(
         <div style={{paddingTop: '60px'}}>
+            <SectionNavbars title="Stock" >
+                <MenuIcon
+                    onClick={() => this.setState({isDrawerShow: true})}
+                    style={{fontSize: '2.5rem'}}
+                />
+            </SectionNavbars>
             <SimpleSnackbar
                 openState={successDialog}
                 message={`New product added successfully`}
@@ -163,7 +153,7 @@ const AddProductView = props => {
                     style={{fontSize: '18px' , margin: '0px 0px', padding: '16px'}}
                     className={`text-center mx-auto text-dark font-weight-bold`}
                 >
-                    {product.pro_name}
+                    {product.name}
                 </Typography>
             </div>
             <div>
@@ -176,6 +166,8 @@ const AddProductView = props => {
                 </Alert>
             </Snackbar>
 
+            <CostCalculator product={product} calculatedPrice={getCalculatorValue.bind(this)} closeModal={getCalculatorModalState.bind(this)} calculatorDialog={calculatorDialog}/>
+
             <div
                 className={`row shadow1 pb-3`}
                 style={{'borderTopLeftRadius': '15px', 'borderTopRightRadius': '15px', marginBottom: '60px'}}
@@ -186,15 +178,17 @@ const AddProductView = props => {
                     style={{fontWeight: '500', fontSize: '20px' , margin: '0px 0px', padding: '14px'}}
                     className={`text-center mx-auto text-dark`}
                 >
-                    Total stock : 0
+                    Total stock : {stock}
                 </Typography>
 
                 <div className={`rounded bordered mb-3 mx-3 px-3 py-3`}>
                     <QuantityInput label={`Quantity counted`} inputName="quantity" getValue={setInputValue.bind(this)}/>
 
-                    <PriceInput label={`Cost price`} inputName="costPrice" getValue={setInputValue.bind(this)}/>
+                    <CostInput label={`Cost price`} inputName="costPrice" initialValue={formFields.costPrice || ''} getValue={setInputValue.bind(this)} >
+                        <FontAwesomeIcon onClick={openCalculator.bind(this)} icon={faCalculator} fixedWidth />
+                    </CostInput>
 
-                    <PriceInput label={`Selling price`} inputName="sellingPrice" getValue={setInputValue.bind(this)}/>
+                    <PriceInput label={`Selling price`} inputName="sellingPrice" initialValue={lastStock.sellingPrice || ''} getValue={setInputValue.bind(this)}/>
                 </div>
 
                 <div className={`rounded bordered mb-3 mx-3 px-3 py-3`}>
@@ -209,10 +203,10 @@ const AddProductView = props => {
 
                     <div id="historyRow" className="w-100 mx-auto text-center">
 
-                        {history.length > 0 ? (
+                        {product.stock !== null ? (
                             <div>
-                                {history.map((item) =>
-                                    <ProductHistory deleteHistory={deleteHistory.bind(this)} key={item.st_id} item={item}/>
+                                {(product.stock).map((item) =>
+                                    <ProductHistory deleteHistory={props.deleteHistory} key={item.id} item={item}/>
                                 )}
                             </div>
                         ):(

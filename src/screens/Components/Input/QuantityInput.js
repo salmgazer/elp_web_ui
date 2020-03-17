@@ -70,7 +70,7 @@ const QuantityInput = props => {
         }
 
         setQuantity(event.target.value);
-        props.getValue(inputName , event.target.value);
+        props.getValue(inputName , parseFloat(event.target.value));
 
     };
 
@@ -92,6 +92,7 @@ const QuantityInput = props => {
                             className={`${classes.input} search-box text-center`}
                             type="tel"
                             value={quantity}
+                            defaultValue={quantity}
                             name={props.inputName}
                             onChange={(event) => setValueHandler(event)}
                         />

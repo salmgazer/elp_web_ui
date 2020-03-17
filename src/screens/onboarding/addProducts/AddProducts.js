@@ -1,6 +1,4 @@
 import React, {Component} from 'react';
-import MenuIcon from '@material-ui/icons/Menu';
-import SectionNavbars from "../../Components/Sections/SectionNavbars";
 import { makeStyles, useTheme } from '@material-ui/core/styles';
 import {withRouter} from "react-router";
 import './sections/AddProducts.scss';
@@ -11,217 +9,61 @@ import {confirmAlert} from "react-confirm-alert";
 import EditProductView from "./sections/EditProductView";
 import CompleteView from "./sections/CompleteView";
 import './addProduct.scss';
+import Api from "../../../services/Api";
 
 class AddProducts extends Component{
     state = {
         isDrawerShow: false,
         value: 0,
         storeProducts: 1,
+        loading: false,
         activeStep: 0,
         currentProduct: 0,
         productList: [
-            {
-                "pro_id": "119",
-                "pro_name": "Bella Vinas Red Wine 5L",
-                "image": "no_image.png",
-                "p_cat_id": "1",
-                "cat_name": "Alcoholic Wine",
-                "status" : true,
-                "barcode" : '8851028002277',
-            },
-            {
-                "pro_id": "1952",
-                "pro_name": "Kasapreko 750ml Tonic PB - Pack of 12",
-                "image": "no_image.png",
-                "p_cat_id": "1",
-                "cat_name": "Alcoholic Wine",
-                "status": true,
-                "barcode" : '8851028002278',
-            },
-            {
-                "pro_id": "1943",
-                "pro_name": "Darling Lemon 330ml - Pack of 12",
-                "image": "no_image.png",
-                "p_cat_id": "137",
-                "cat_name": "Alcoholic Wine",
-                "status": false,
-                "barcode" : null,
-            },
-            {
-                "pro_id": "1964",
-                "pro_name": "Choice Irish Cream 50ml - Pack of 20",
-                "image": "no_image.png",
-                "p_cat_id": "1",
-                "cat_name": "Alcoholic Wine",
-                "status": false,
-                "barcode" : null,
-            },
-            {
-                "pro_id": "1126",
-                "pro_name": "Sangria Don Simon Red Wine 1L Tetrapak",
-                "image": " Sangria Don Simon Red Wine 1L Tetrapak.jpg",
-                "p_cat_id": "1",
-                "cat_name": "Alcoholic Wine",
-                "status": true,
-                "barcode" : null,
-            },
-            {
-                "pro_id": "2836",
-                "pro_name": "Four Special 1.5L Wine",
-                "image": "no_image.png",
-                "p_cat_id": "1",
-                "cat_name": "Alcoholic Wine",
-                "status": false,
-                "barcode" : null,
-            },
+
         ],
         addedProducts: [
-            {
-                "store_id": "1",
-                "store_name": "kwesi store",
-                "pro_id": "199",
-                "pro_name": " CB Guvee Red Wine 750ml",
-                "Weight_Type": "Litre",
-                "product_weight": "750000000",
-                "Bar_Code": "8851028002277",
-                "p_cat_id": "1",
-                "p_store_id": null,
-                "p_manufact_id": "140",
-                "image": "no_image.png",
-                "Cost_Price": "12",
-                "Selling_Price": "13",
-                "pro_quantity": "427",
-                "pro_detail_id": "106721",
-                "store_owner": "Kwasi Danso",
-                "Address_of_Store": "Oyibi, Near Bush Canteen",
-                "Physical_location": "Dzorwulu",
-                "Community_Area": "Oyibi",
-                "store_image": null,
-                "Phone_number": "0259657885",
-                "whatsapp": "0259657885"
-            },
-            {
-                "store_id": "1",
-                "store_name": "kwesi store",
-                "pro_id": "2727",
-                "pro_name": " CBL Munchee Chocolate Cookies 100g",
-                "Weight_Type": "Kilogram",
-                "product_weight": "100000000",
-                "Bar_Code": "8851028002277",
-                "p_cat_id": "8",
-                "p_store_id": null,
-                "p_manufact_id": "140",
-                "image": "no_image.png",
-                "Cost_Price": "1.5",
-                "Selling_Price": "20",
-                "pro_quantity": "1",
-                "pro_detail_id": "107715",
-                "store_owner": "Kwasi Danso",
-                "Address_of_Store": "Oyibi, Near Bush Canteen",
-                "Physical_location": "Dzorwulu",
-                "Community_Area": "Oyibi",
-                "store_image": null,
-                "Phone_number": "0259657885",
-                "whatsapp": "0259657885"
-            },
-            {
-                "store_id": "1",
-                "store_name": "kwesi store",
-                "pro_id": "200",
-                "pro_name": " CBL Munchee Chocolate Sticks 20g",
-                "Weight_Type": "Litre",
-                "product_weight": "20000000",
-                "Bar_Code": "705632441947",
-                "p_cat_id": "21",
-                "p_store_id": null,
-                "p_manufact_id": "140",
-                "image": "no_image.png",
-                "Cost_Price": "1.5",
-                "Selling_Price": "2",
-                "pro_quantity": "1",
-                "pro_detail_id": "107713",
-                "store_owner": "Kwasi Danso",
-                "Address_of_Store": "Oyibi, Near Bush Canteen",
-                "Physical_location": "Dzorwulu",
-                "Community_Area": "Oyibi",
-                "store_image": null,
-                "Phone_number": "0259657885",
-                "whatsapp": "0259657885"
-            },
-            {
-                "store_id": "1",
-                "store_name": "kwesi store",
-                "pro_id": "302",
-                "pro_name": " Courvoisier Cognac 750ml GB",
-                "Weight_Type": "Litre",
-                "product_weight": "750000000",
-                "Bar_Code": "012546011099",
-                "p_cat_id": "96",
-                "p_store_id": null,
-                "p_manufact_id": "42",
-                "image": "no_image.png",
-                "Cost_Price": "3",
-                "Selling_Price": "15",
-                "pro_quantity": "6",
-                "pro_detail_id": "107714",
-                "store_owner": "Kwasi Danso",
-                "Address_of_Store": "Oyibi, Near Bush Canteen",
-                "Physical_location": "Dzorwulu",
-                "Community_Area": "Oyibi",
-                "store_image": null,
-                "Phone_number": "0259657885",
-                "whatsapp": "0259657885"
-            },
-            {
-                "store_id": "1",
-                "store_name": "kwesi store",
-                "pro_id": "313",
-                "pro_name": " Cremina Glucose",
-                "Weight_Type": "Piece",
-                "product_weight": "1000000000",
-                "Bar_Code": "012546011099",
-                "p_cat_id": "8",
-                "p_store_id": null,
-                "p_manufact_id": "140",
-                "image": "Absolut Vodka 750ml GB.jpg",
-                "Cost_Price": "0.17",
-                "Selling_Price": "0.3",
-                "pro_quantity": "1",
-                "pro_detail_id": "106814",
-                "store_owner": "Kwasi Danso",
-                "Address_of_Store": "Oyibi, Near Bush Canteen",
-                "Physical_location": "Dzorwulu",
-                "Community_Area": "Oyibi",
-                "store_image": null,
-                "Phone_number": "0259657885",
-                "whatsapp": "0259657885"
-            },
-            {
-                "store_id": "1",
-                "store_name": "kwesi store",
-                "pro_id": "4",
-                "pro_name": "10 Over 10 Cola+Orange 350ml PB",
-                "Weight_Type": "Litre",
-                "product_weight": "0.35",
-                "Bar_Code": null,
-                "p_cat_id": "93",
-                "p_store_id": null,
-                "p_manufact_id": "99",
-                "image": "no_image.png",
-                "Cost_Price": "0",
-                "Selling_Price": "0",
-                "pro_quantity": null,
-                "pro_detail_id": "107748",
-                "store_owner": "Kwasi Danso",
-                "Address_of_Store": "Oyibi, Near Bush Canteen",
-                "Physical_location": "Dzorwulu",
-                "Community_Area": "Oyibi",
-                "store_image": null,
-                "Phone_number": "0259657885",
-                "whatsapp": "0259657885"
-            },
+
         ]
     };
+
+    /*searchProductHandler = (search) => {
+        /!*
+        * @todo
+        * Work on fetchin data from source
+        * *!/
+        const old_products = this.state.productList;
+
+        const products = old_products.filter(function(item) {
+            return (item.pro_name).toLowerCase().indexOf(search.toLowerCase()) !== -1
+        });
+
+        this.setState({
+            productList: products
+        });
+    };*/
+
+    async componentDidMount() {
+        const branchId = localStorage.getItem('activeBranch');
+        const accessToken = localStorage.getItem('accessToken');
+        try {
+            let products = await new Api('others').index(
+                {},
+                {'Authorization': `Bearer ${accessToken}`},
+                `https://elp-core-api-dev.herokuapp.com/v1/client/branches/${branchId}/products`,
+            );
+
+            localStorage.setItem('storeProductsLookup' , JSON.stringify(products.data.products));
+
+            this.setState({
+                'productList' : products.data.products,
+            });
+
+            console.log(products);
+        }catch (error) {
+            console.log(error)
+        }
+    }
 
     //Steps to select category
     getSteps = () => {
@@ -233,7 +75,7 @@ class AddProducts extends Component{
 
         switch (step) {
             case 0:
-                return <MainView searchBarcode={this.searchBarcode.bind(this)} setView={this.setStepContentView.bind(this)} product={this.state.currentProduct} viewAddedProducts={this.viewAddedProducts(this)} products={this.state.productList} productAdd={this.showAddView.bind(this)} removeProduct={this.removeProduct.bind(this)} spCount={shop_products.length} />;
+                return <MainView searchHandler={this.searchHandler.bind(this)} optionFilter={this.optionProductHandler.bind(this)} finishAddProducts={this.completeAddProducts.bind(this)} loading={this.state.loading} searchBarcode={this.searchBarcode.bind(this)} setView={this.setStepContentView.bind(this)} product={this.state.currentProduct} viewAddedProducts={this.viewAddedProducts(this)} products={this.state.productList} productAdd={this.showAddView.bind(this)} removeProduct={this.removeProduct.bind(this)} spCount={shop_products.length} />;
             case 1:
                 return <AddProductView addNewProduct={this.addNewProduct.bind(this)} setView={this.setStepContentView.bind(this)} product={this.state.currentProduct}/>;
             case 2:
@@ -253,29 +95,116 @@ class AddProducts extends Component{
         });
     };
 
+    /*
+    * Search products handler...
+    * */
+    searchHandler = (search) => {
+        console.log(search);
+        /*
+        * @todo
+        * Work on fetching data from source
+        * */
+        let storeProducts = JSON.parse(localStorage.getItem('storeProductsLookup'));
+
+        const searchResults = storeProducts.filter(function(item) {
+            return (item.name).toLowerCase().indexOf(search.toLowerCase()) !== -1
+        });
+
+        this.setState({
+            productList: searchResults
+        });
+    };
+
+    completeAddProducts = async() => {
+        const branchId = localStorage.getItem('activeBranch');
+        const accessToken = localStorage.getItem('accessToken');
+
+        this.setState({
+            loading: true
+        });
+
+        const branchProductsAdded = JSON.parse(localStorage.getItem('branchProductsAdded')) || [];
+        const branchProductsRemoved = localStorage.getItem('branchProductsRemoved') || [];
+
+        console.log(branchProductsRemoved);
+        if (Array.isArray(branchProductsAdded) && branchProductsAdded.length) {
+            console.log(branchProductsAdded);
+            const addedProducts = await new Api('others').create(
+                branchProductsAdded,
+                {'Authorization': `Bearer ${accessToken}`},
+                {},
+                `https://elp-core-api-dev.herokuapp.com/v1/client/branches/${branchId}/products`,
+            );
+
+            localStorage.removeItem('branchProductsAdded');
+            console.log(addedProducts);
+        }
+
+        if (typeof branchProductsRemoved != "undefined" && branchProductsRemoved != null && branchProductsRemoved.length != null
+            && branchProductsRemoved.length > 0) {
+            console.log(branchProductsRemoved);
+            let removedProducts = await new Api('others').destroy(
+                {'Authorization': `Bearer ${accessToken}`},
+                {},
+                `https://elp-core-api-dev.herokuapp.com/v1/client/branches/${branchId}/products?product_ids=${branchProductsRemoved}`,
+            );
+
+            localStorage.removeItem('branchProductsRemoved');
+            console.log(removedProducts)
+        }
+
+        this.setState({
+            loading: false,
+            activeStep: 4,
+        });
+
+    };
+
     viewAddedProducts = () => {
         return 0;
     };
 
-    removeProduct = (proId) => {
+    deleteHistory = (historyId , productId) => {
+        console.log(historyId , productId);
+    };
+
+    removeProduct = (productId) => {
         confirmAlert({
             title: 'Confirm to remove',
-            message: 'Are you sure you want to remove this product.',
+            message: 'Are you sure you want to remove this product. It may be having stock',
             buttons: [
                 {
                     label: 'Yes',
                     onClick: () => {
+                        //console.log(formFields);
+                        let branchProductsAdded = JSON.parse(localStorage.getItem('branchProductsAdded')) || [];
+                        branchProductsAdded = branchProductsAdded.filter((item => item.productId !== productId));
+
+                        localStorage.setItem('branchProductsAdded' , JSON.stringify(branchProductsAdded));
+
+                        let branchProductsRemoved = JSON.parse(localStorage.getItem('branchProductsRemoved')) || [];
+
                         let old_list = this.state.productList;
 
-                        const productIndex = old_list.findIndex((item => item.pro_id === proId));
+                        const productIndex = old_list.findIndex((item => item.id === (productId)));
                         const item = {...old_list[productIndex]};
 
-                        item.status = false;
+                        if(item.owned){
+                            item.owned = false;
+                        }
+
+                        branchProductsRemoved.push(productId);
+                        item.stock = [];
 
                         old_list[productIndex] = item;
 
+                        console.log(item);
+                        localStorage.setItem('branchProductsRemoved' , JSON.stringify(branchProductsRemoved));
+
+                        localStorage.setItem('storeProductsLookup' , JSON.stringify(old_list));
+
                         this.setState({
-                            productList: [...old_list],
+                            productList: old_list
                         });
                     }
                 },
@@ -289,13 +218,12 @@ class AddProducts extends Component{
         });
     };
 
-
-    showAddView = (proId , step) => {
-        console.log(`${proId} from addProduct`);
+    showAddView = (productId , step) => {
+        console.log(`${productId} from addProduct`);
         const old_list = this.state.productList;
 
         //Find index of specific object using findIndex method.
-        const itemIndex = old_list.filter((item => item.pro_id === proId));
+        const itemIndex = old_list.filter((item => item.id === productId));
         //Assign current object to new variable
 
         //console.log(itemIndex)
@@ -335,19 +263,62 @@ class AddProducts extends Component{
         });
     };
 
-    addNewProduct = async(formFields) => {
-        console.log(formFields)
-        let old_list = this.state.productList;
+    //OptionSelectProducts
+    /*
+    * Bring products per option selected...
+    * */
 
-        const productIndex = old_list.findIndex((item => item.pro_id === (formFields.pro_id)));
-        const item = {...old_list[productIndex]};
+    optionProductHandler = async (value) => {
+        console.log(value);
+        let storeProducts = [];
 
-        item.status = true;
+        switch (value) {
+            case 'all':
+                storeProducts = JSON.parse(localStorage.getItem('storeProductsLookup'));
+                break;
 
-        old_list[productIndex] = item;
+            case 'stocked':
+                storeProducts = JSON.parse(localStorage.getItem('storeProductsLookup')).filter((product) => product.stock !== null);
+                break;
+
+            case 'incomplete':
+                storeProducts = JSON.parse(localStorage.getItem('storeProductsLookup')).filter((product) => (product.stock === null || (product.stock[(product.stock.length - 1).sellingPrice]) === null));
+                break;
+            default:
+                alert('Value does not exist');
+                break;
+        }
 
         this.setState({
-            productList: [...old_list],
+            productList: storeProducts
+        });
+    };
+
+    addNewProduct = async(formFields) => {
+        console.log(formFields);
+        let branchProductsAdded = JSON.parse(localStorage.getItem('branchProductsAdded')) || [];
+
+        let old_list = this.state.productList;
+
+        const productIndex = old_list.findIndex((item => item.id === (formFields.productId)));
+        const item = {...old_list[productIndex]};
+
+        if(!item.owned){
+            item.owned = true;
+        }
+
+        branchProductsAdded.push(formFields);
+        item.stock = item.stock || [];
+        (item.stock).push(formFields);
+        old_list[productIndex] = item;
+
+        console.log(item);
+        localStorage.setItem('branchProductsAdded' , JSON.stringify(branchProductsAdded));
+
+        localStorage.setItem('storeProductsLookup' , JSON.stringify(old_list));
+
+        this.setState({
+            productList: old_list
         });
     };
 
@@ -363,7 +334,7 @@ class AddProducts extends Component{
                     onClick: () => {
                         let old_list = [...this.state.addedProducts];
 
-                        const result = old_list.filter(item => item.pro_id !== pId);
+                        const result = old_list.filter(item => item.id !== pId);
 
                         this.setState({
                             addedProducts: [...result],
@@ -390,12 +361,6 @@ class AddProducts extends Component{
     render(){
         return(
             <div className={`addProducts`}>
-                <SectionNavbars title="Stock" >
-                    <MenuIcon
-                        onClick={() => this.setState({isDrawerShow: true})}
-                        style={{fontSize: '2.5rem'}}
-                    />
-                </SectionNavbars>
 
                 {this.getStepContent(this.state.activeStep)}
             </div>

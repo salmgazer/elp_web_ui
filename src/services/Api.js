@@ -37,15 +37,15 @@ export default class Api {
         return {
             "X-El-Parah-Hash" : "9IKZKacum7YEmCjD57I53FtW",
             "X-El-Parah-Client" : "elp-pos-web-ui",
-            "Access-Control-Allow-Credentials": true,
-            "Access-Control-Allow-Origin": '*',
+            "Content-Type" : "application/json",
+            "Accept" : "application/json",
         };
     }
 
-    async index(parentResources = {} , requestPath = `${this.fullUrl(parentResources)}/${this.resource}`, queryParams= {}) {
+    async index(parentResources = {} , config = {}, requestPath = `${this.fullUrl(parentResources)}/${this.resource}`, queryParams= {}) {
         console.log(requestPath);
         return axios.get(requestPath, {
-            headers: this.constructor.headers,
+            headers: {...this.constructor.headers, ...config}
         });
     }
 
@@ -78,14 +78,29 @@ export default class Api {
         return axios.options(requestPath,  config);
     }
 
-    async update(data = {} , primaryKeyValue, requestPath = `${this.constructor.basePath}/${this.resource}` , parentResources = {}) {
-        return axios.put(`${requestPath}/${primaryKeyValue}`, data );
+
+    async update(data = {} , config = {} , parentResources = {}, requestPath = `${this.fullUrl(parentResources)}/${this.resource}`) {
+        return axios.put(
+            requestPath,
+            data  ,
+            {
+                headers: {...this.constructor.headers, ...config}
+            }
+        );
     }
 
-    async destroy(requestPath = `${this.fullUrl(parentResources)}/${this.resource}`, primaryKeyValue , parentResources = {}) {
+    async destroy(config = {} , parentResources = {}, requestPath = `${this.fullUrl(parentResources)}/${this.resource}` , primaryKeyValue = null) {
+        return axios.delete(
+            requestPath,
+            {
+                headers: {...this.constructor.headers, ...config}
+            }
+        );
+    }
+    /*async destroy(requestPath = `${this.fullUrl(parentResources)}/${this.resource}`, primaryKeyValue , parentResources = {}) {
         const params = {};
         params[this.primaryKeyName] = primaryKeyValue;
 
         return axios.delete(requestPath, { params });
-    }
+    }*/
 }

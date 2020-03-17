@@ -8,14 +8,16 @@ import SearchMode from "./SearchMode";
 import BarcodeMode from "./BarcodeMode";
 import Box from "@material-ui/core/Box/Box";
 import Button from "@material-ui/core/Button/Button";
-import {makeStyles} from "@material-ui/core";
+import MainDialog from "../../../Components/Dialog/MainDialog";
 import Typography from "@material-ui/core/Typography/Typography";
-import Grid from "@material-ui/core/Grid/Grid";
-import Paper from "@material-ui/core/Paper/Paper";
-import InputBase from "@material-ui/core/InputBase/InputBase";
+import MenuIcon from '@material-ui/icons/Menu';
+import SectionNavbars from "../../../Components/Sections/SectionNavbars";
+import PrimaryLoader from "../../../Components/Loader/Loader";
 
 const MainView = props => {
     const [value , setValue] = useState(0);
+    const [mainDialog, setMainDialog] = useState(false);
+
     const a11yProps = (index) => {
         return {
             id: `full-width-tab-${index}`,
@@ -33,13 +35,6 @@ const MainView = props => {
         props.removeProduct(pId);
     };
 
-    const useStyles = () => makeStyles(theme => ({
-        root: {
-            backgroundColor: theme.palette.background.paper,
-            width: 500,
-        },
-    }));
-
     const handleChange = (event, newValue) => {
         setValue(newValue);
     };
@@ -48,12 +43,31 @@ const MainView = props => {
         setValue(index);
     };
 
+    const openDialogHandler = (event) => {
+        setMainDialog(true);
+    };
+
+    const closeDialogHandler = (event) => {
+        setMainDialog(false);
+    };
+
+    const finsihHandler = (event) => {
+        props.finishAddProducts();
+    };
+
     const addedProductsViewHandler = event => {
         props.setView(2);
     };
 
     return(
         <div>
+            <SectionNavbars title="Stock" >
+                <MenuIcon
+                    onClick={() => this.setState({isDrawerShow: true})}
+                    style={{fontSize: '2.5rem'}}
+                />
+            </SectionNavbars>
+
             <p style={{marginTop: '70px', fontSize: '16px', fontWeight: '400', color: '#616161'}}>Select all the products you have in your shop</p>
 
             <AppBar position="static" color="default">
@@ -69,12 +83,65 @@ const MainView = props => {
                     <Tab label="Barcode mode" {...a11yProps(1)} />
                 </Tabs>
             </AppBar>
+
+            <MainDialog handleDialogClose={closeDialogHandler.bind(this)} states={mainDialog}>
+                <div className="row p-3 pt-0 mx-auto text-center">
+
+                    <Typography
+                        component="p"
+                        variant="h6"
+                        style={{fontSize: '16px' , margin: '0px 0px', padding: '16px', lineHeight: '1.3'}}
+                        className={`text-center mb-2 mx-auto text-dark font-weight-bold`}
+                    >
+                        You have not stocked up all the products in the list.
+                    </Typography>
+
+                    <div className="text-center mx-auto">
+                        <label style={{fontWeight: '500'}}>I want to complete stock info.</label>
+                        <Button
+                            variant="outlined"
+                            style={{border: '1px solid #DAAB59', color: '#DAAB59', padding: '5px 80px'}}
+                            onClick={closeDialogHandler.bind(this)}
+                            className={`capitalization mt-2`}
+                            disabled={props.loading}
+                        >
+                            Go back
+                        </Button>
+                    </div>
+
+                    <div className="text-center mx-auto my-4">
+                        <label style={{fontWeight: '500'}}>I have finished adding products.</label>
+                        <Button
+                            variant="outlined"
+                            style={{'backgroundColor': '#DAAB59' , border: '1px solid #DAAB59', color: '#000000', padding: '7px 86px'}}
+                            onClick={finsihHandler.bind(this)}
+                            className={`capitalization mt-2`}
+                            disabled={props.loading}
+                        >
+                            {
+                                props.loading ?
+                                    <PrimaryLoader
+                                        style={{width: '30px' , height: '2.5rem'}}
+                                        color="#FFFFFF"
+                                        type="Oval"
+                                        className={`mt-1`}
+                                        width={25}
+                                        height={25}
+                                    />
+                                    :
+                                    'Finish'
+                            }
+                        </Button>
+                    </div>
+                </div>
+            </MainDialog>
+
             <SwipeableViews
                 index={value}
                 onChangeIndex={handleChangeIndex}
             >
                 <TabPanel value={value} index={0}>
-                    <SearchMode products={props.products} productAdd={addProduct.bind(this)} removeProduct={removeProduct.bind(this)}/>
+                    <SearchMode searchHandler={props.searchHandler} optionFilter={props.optionFilter} products={props.products} productAdd={addProduct.bind(this)} removeProduct={removeProduct.bind(this)}/>
                 </TabPanel>
                 <TabPanel value={value} index={1}>
                     <BarcodeMode product={props.product} setView={props.setView} searchBarcode={props.searchBarcode} />
@@ -87,14 +154,15 @@ const MainView = props => {
             >
                 <Button
                     variant="contained"
-                    style={{'backgroundColor': '#DAAB59' , color: '#333333', padding: '5px 20px', fontSize: '14px'}}
-                    onClick={addedProductsViewHandler.bind(this)}
+                    style={{'backgroundColor': '#DAAB59' , color: '#333333', padding: '7px 80px', fontSize: '14px'}}
+
                     className={`capitalization font-weight-bold text-dark`}
+                    onClick={openDialogHandler.bind(this)}
                 >
-                    View added products
-                    <span className={`btnPCount`}>
+                    Finish
+                    {/*<span className={`btnPCount`}>
                         {props.spCount}
-                    </span>
+                    </span>*/}
                 </Button>
             </Box>
         </div>

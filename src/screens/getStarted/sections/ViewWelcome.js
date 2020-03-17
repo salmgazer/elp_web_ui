@@ -1,7 +1,7 @@
 import React from 'react';
 import Typography from "@material-ui/core/Typography/Typography";
 import Box from "@material-ui/core/Box/Box";
-import shopImg from "../../../assets/img/shop.svg";
+import shopImg from "../../../assets/img/completion.png";
 import BoxDefault from "../../Components/Box/BoxDefault";
 import Button from "@material-ui/core/Button/Button";
 
@@ -11,7 +11,7 @@ const ViewWelcome = props => {
     };
 
     return(
-        <div class="getStarted">
+        <div className="getStarted">
             <Typography
                 variant="h5"
                 component="h6"

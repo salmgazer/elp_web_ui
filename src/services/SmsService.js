@@ -26,9 +26,11 @@ export default class SmsService{
 
         const headers =  {
             "Authorization" : this.token,
-            "Content-Type" : "application/json",/*
+            "Content-Type" : "application/json",
             "Access-Control-Allow-Origin": "*",
-            "Access-Control-Request-Headers": "*"*/
+            "Access-Control-Request-Headers": "*",
+            "Access-Control-Allow-Credentials": true
+
         };
 
         new Api('others').create(params,

@@ -272,7 +272,8 @@ const Register = props => {
             * */
             localStorage.setItem('userContact' , req.user.phone);
             localStorage.setItem('userOTP' , req.user.otp);
-            localStorage.setItem('userFirstName' , req.user.firstName);
+            localStorage.setItem('firstName' , req.user.firstName);
+
             console.log(req);
         }else{
             setLoading(false);

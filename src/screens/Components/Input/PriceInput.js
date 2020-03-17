@@ -30,7 +30,7 @@ const useStyles = makeStyles(theme => ({
 const PriceInput = props => {
     const classes = useStyles();
     const inputName = props.inputName;
-    const [quantity , setQuantity] = useState();
+    const [quantity , setQuantity] = useState((props.initialValue || ''));
 
     const setValueHandler = (event) => {
         event.persist();
@@ -41,7 +41,7 @@ const PriceInput = props => {
         }
 
         setQuantity(event.target.value);
-        props.getValue(inputName , event.target.value);
+        props.getValue(inputName , parseFloat(event.target.value));
     };
 
     return(

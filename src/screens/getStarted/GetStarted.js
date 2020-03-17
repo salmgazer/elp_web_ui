@@ -24,7 +24,7 @@ const GetStarted = props => {
     const [activeStep , setActiveStep] = React.useState(0);
 
     //Temporary name for firstname for user..
-    const username = localStorage.getItem('userFirstName');
+    const username = localStorage.getItem('firstName');
 
     //Steps to select category
     const getSteps = () => {
