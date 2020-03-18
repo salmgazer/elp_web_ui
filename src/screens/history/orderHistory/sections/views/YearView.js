@@ -8,7 +8,7 @@ import TextField from '@material-ui/core/TextField';
 import Box from "@material-ui/core/Box/Box";
 import { withRouter } from "react-router-dom";
 
-import SingleWeekView from './productViews/SingleWeekView';
+import SingleYearView from './singleView/SingleYearView';
 
 const useStyles = makeStyles(theme => ({
     root: {
@@ -16,7 +16,7 @@ const useStyles = makeStyles(theme => ({
 
     },
     title: {
-        fontSize: 11,
+        fontSize: 9,
     },
     text: {
         fontSize: 15,
@@ -38,24 +38,24 @@ const useStyles = makeStyles(theme => ({
 
   const values = [
     {
-      value: 'Week 1',
-      label: 'Week 1: 1/01/2020 - 7/01/2020',
+      value: '2020',
+      label: '2020',
     },
     {
-      value: 'Week 2',
-      label: 'Week 2: 8/01/2020 - 14/01/2020',
+      value: '2019',
+      label: '2019',
     },
     {
-      value: 'Week 3',
-      label: 'Week 3: 15/01/2020 - 21/01/2020',
+      value: '2018',
+      label: '2018',
     },
     {
-      value: 'Week 4',
-      label: 'Week 4: 22/01/2020 - 28/01/2020',
+      value: '2017',
+      label: '2017',
     }
   ];
 
-  const WeekView = props => {
+  const YearView = props => {
     
     const classes = useStyles();
     const [user, setUser] = React.useState('2020');
@@ -69,11 +69,11 @@ const useStyles = makeStyles(theme => ({
         props.setView(0);
     };
 
-    const openMonth = (event) => {
+    const openWeek = (event) => {
         props.setView(2);
     };
 
-    const openYear = (event) => {
+    const openMonth = (event) => {
         props.setView(3);
     };
 
@@ -93,8 +93,9 @@ const useStyles = makeStyles(theme => ({
 
                 <Grid item xs={3}>
                     <Button
-                        variant="contained"
-                        style={{'backgroundColor': '#DAAB59' , color: 'white', padding: '5px 10px', textTransform: 'none', fontSize:'10px'}}
+                        variant="outlined"
+                        style={{border: '1px solid #DAAB59', color: '#DAAB59', padding: '5px 10px', textTransform: 'none', fontSize:'10px'}}
+                        onClick={openWeek.bind(this)}
                     >
                         Week  
                     </Button>
@@ -112,9 +113,8 @@ const useStyles = makeStyles(theme => ({
 
                 <Grid item xs={3}>
                     <Button
-                        variant="outlined"
-                        style={{border: '1px solid #DAAB59', color: '#DAAB59', padding: '5px 10px', textTransform: 'none', fontSize:'10px'}}
-                        onClick={openYear.bind(this)}
+                        variant="contained"
+                        style={{'backgroundColor': '#DAAB59' , color: 'white', padding: '5px 10px', textTransform: 'none', fontSize:'10px'}}
                     >
                         Year  
                     </Button>
@@ -122,7 +122,7 @@ const useStyles = makeStyles(theme => ({
             </Grid>
 
             <Grid container spacing={1}>
-                <Typography style={{fontSize: '14px', paddingTop: '20px', marginRight: '20px'}} >
+                <Typography style={{fontSize: '14px', paddingTop: '20px', marginRight: '50px'}} >
                     {props.pageName}
                 </Typography>
 
@@ -131,7 +131,7 @@ const useStyles = makeStyles(theme => ({
                     select
                     size="small"
                     value={user}
-                    style={{width: '260px', float: 'right', margin: '10px 0px', fontSize: '7px'}}
+                    style={{width: '150px', float: 'right', margin: '10px'}}
                     onChange={handleChange}
                     color="#DAAB59"
                     SelectProps={{
@@ -185,7 +185,7 @@ const useStyles = makeStyles(theme => ({
                 <Grid item xs={3}>
                     <Paper className={classes.paper}>
                         <Typography className={classes.title} component="p" >
-                            Profit
+                            {props.profitName}
                         </Typography>
                         <Typography className={classes.text} >
                             GHC 100
@@ -196,7 +196,19 @@ const useStyles = makeStyles(theme => ({
             </Grid>
 
             <Box style={{marginTop: '5px' , paddingBottom: '60px'}} p={1} className={`mt-3 mb-5`}>
-                {props.weekItem.map((item) => <SingleWeekView  key={item.day_id} weekItems={item}/>)}
+                
+                <Grid container spacing={1} className={`shadow1 mb-3 borderRadius10`}>
+                    <Grid item xs={8}>
+                        <span className='text-dark font-weight-bold' style={{ fontSize: '13px'}} >January 2020</span>
+                    </Grid>
+
+                    <Grid item xs={4}>
+                        <span className="font-weight-light mt-1" style={{ fontSize: '13px'}}>Total : GHC 900</span>
+                    </Grid>
+                </Grid>
+    
+                {props.yearItem.map((item) => <SingleYearView  key={item.month_id} yearSuppliers={item}/>)}
+                
             </Box>
 
 
@@ -205,4 +217,4 @@ const useStyles = makeStyles(theme => ({
 
   }
 
-  export default withRouter(WeekView);
+  export default withRouter(YearView);
