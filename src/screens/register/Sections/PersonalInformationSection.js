@@ -1,12 +1,12 @@
-import React from 'react';
+import React, {useState , useRef , useEffect } from 'react';
 import {
     withStyles,
     makeStyles,
 } from '@material-ui/core/styles';
 import Paper from '@material-ui/core/Paper';
-import TextField from '@material-ui/core/TextField';
 import { green } from '@material-ui/core/colors';
 import Grid from '@material-ui/core/Grid';
+import { ValidatorForm, TextValidator} from 'react-material-ui-form-validator';
 
 const useStyles = makeStyles(theme => ({
     root: {
@@ -46,45 +46,115 @@ const ValidationTextField = withStyles({
             padding: '4px !important', // override inline-style
         },
     },
-})(TextField);
+})(TextValidator);
 
-export default function PersonalInformationSection() {
+export default function PersonalInformationSection(props) {
+    const PersonalInformationForm = useRef(null);
+
+    const userFields = props.formData;
     const classes = useStyles();
+    const [formFields , setFormFields] = useState({
+        firstName: userFields.firstName,
+        otherNames: userFields.otherNames,
+        phone: userFields.phone,
+    });
+
+    const handleChange = async(event) => {
+        const { ...formData }  = formFields;
+        formData[event.target.name] = event.target.value;
+        setFormFields(formData);
+        props.collectData(event);
+    };
+
+    /*useEffect(() => {
+        const lie
+        console.log( PersonalInformationForm.current.isFormValid()._value);
+    });*/
+
+    const handleFormValidation = (result) => {
+        props.isValid(result);
+    };
+
+    /*
+    * Add dashes to contact
+    * */
+    const addDashes = contact => {
+        let fs = contact.target.value;
+
+        let r = /(\D+)/g,
+            npa = '',
+            nxx = '',
+            last4 = '';
+        fs = fs.replace(r, '');
+        npa = fs.substr(0, 3);
+        nxx = fs.substr(3, 3);
+        last4 = fs.substr(6, 4);
+        fs = npa + '-' + nxx + '-' + last4;
+        contact.target.value = fs;
+        handleChange(contact);
+    };
 
     return (
-        <Paper className={classes.paper}>
-            <form className={classes.root} noValidate>
+        <Paper className={`${classes.paper}`}>
+            <ValidatorForm
+                ref={PersonalInformationForm}
+                className={classes.root}
+                instantValidate
+            >
                 <Grid item xs={12}>
                     <ValidationTextField
+                        onChange={handleChange}
                         className={classes.margin}
                         label="First name"
+                        name="firstName"
                         required
                         variant="outlined"
-                        defaultValue=""
                         id="firstName"
+                        value={formFields.firstName}
+                        validators={['required', 'minStringLength:2']}
+                        errorMessages={['first name is a required field', 'The minimum length for first name is 2']}
+                        helperText=""
+                        validatorListener={handleFormValidation}
                     />
                 </Grid>
                 <Grid item xs={12}>
                     <ValidationTextField
+                        onChange={handleChange}
+                        name="otherNames"
                         className={classes.margin}
                         label="Other names"
                         required
                         variant="outlined"
-                        defaultValue=""
                         id="otherNames"
+                        validatorListener={handleFormValidation}
+                        value={formFields.otherNames}
+                        validators={['required', 'minStringLength:2']}
+                        errorMessages={['Other names is a required field', 'The minimum length for other name is 2']}
                     />
                 </Grid>
                 <Grid item xs={12}>
                     <ValidationTextField
                         className={classes.margin}
+                        onChange={addDashes}
+                        name="phone"
                         label="Phone number"
                         required
+                        type="tel"
+                        validatorListener={handleFormValidation}
                         variant="outlined"
-                        defaultValue=""
                         id="contact"
+                        validators={['required', 'minStringLength:12' , 'maxStringLength:12']}
+                        errorMessages={
+                            [
+                                'Contact is a required field',
+                                'The minimum length for contact is 10' ,
+                                'The maximum length for contact is 10'
+                            ]
+                        }
+                        value={formFields.phone}
                     />
                 </Grid>
-            </form>
+            </ValidatorForm>
         </Paper>
     );
 }

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState , useEffect} from 'react';
 import {
     withStyles,
     makeStyles,
@@ -14,6 +14,8 @@ import FormControl from '@material-ui/core/FormControl';
 import FormLabel from '@material-ui/core/FormLabel';
 import Select from '@material-ui/core/Select';
 import InputLabel from '@material-ui/core/InputLabel';
+import { ValidatorForm, TextValidator , SelectValidator} from 'react-material-ui-form-validator';
+import Api from '../../../services/Api';
 
 const useStyles = makeStyles(theme => ({
     root: {
@@ -104,7 +106,7 @@ const ValidationTextField = withStyles({
             padding: '4px !important', // override inline-style
         },
     },
-})(TextField);
+})(TextValidator);
 
 const ValidationSelectField = withStyles({
     root: {
@@ -146,12 +148,31 @@ function StyledRadio(props) {
 }
 
 
-export default function ShopInformationSection() {
+export default function ShopInformationSection(props) {
+    const userFields = props.formData;
     const classes = useStyles();
-    const [state, setState] = React.useState({
-        store_type: '',
+    const [categories , setCategories] = useState([]);
+    const [formFields , setFormFields] = useState({
+        companyName: userFields.companyName,
+        location: userFields.location,
+        storeCategory: userFields.storeCategory,
+        storeType: userFields.storeType,
+    });
+
+    const [state, setState] = useState({
+        storeCaregory: '',
         name: 'Select a store type',
     });
+
+    useEffect(() => {
+        (
+            async function getCategories(){
+                //let newCategory = await new Api('business_categories').index();
+                let newCategory = await new Api('business_categories').index();
+                setCategories(newCategory.data.business_categories);
+            }
+        )();
+    }, []);
 
     const inputLabel = React.useRef(null);
     const [labelWidth, setLabelWidth] = React.useState(0);
@@ -165,18 +186,42 @@ export default function ShopInformationSection() {
             [name]: event.target.value,
         });
     };
+    const handleChangeHandler = (event) => {
+        const { ...formData }  = formFields;
+        //console.log(formData.firstName);
+        formData[event.target.name] = event.target.value;
+        setFormFields(formData);
+        props.collectData(event);
+    };
+
+    const handleFormValidation = (result) => {
+        props.isValid(result);
+    };
+
+    const formRef = React.createRef('form');
 
     return (
         <Paper className={classes.paper} style={{'margin-bottom': '80px'}}>
-            <form className={classes.root} noValidate>
+            <ValidatorForm
+                ref={formRef}
+                onError={handleFormValidation}
+                className={classes.root}
+                instantValidate
+            >
                 <Grid item xs={12}>
                     <ValidationTextField
                         className={classes.margin}
-                        label="Store name"
+                        label="Company name"
                         required
                         variant="outlined"
-                        defaultValue=""
+                        name="companyName"
+                        value={formFields.companyName}
                         id="storeName"
+                        onChange={handleChangeHandler}
+                        validators={['required', 'minStringLength:3']}
+                        errorMessages={['Company name is a required field', 'Company name should be more than 3']}
+                        helperText=""
+                        validatorListener={handleFormValidation}
                     />
                 </Grid>
                 <Grid item xs={12}>
@@ -185,8 +230,14 @@ export default function ShopInformationSection() {
                         label="Location"
                         required
                         variant="outlined"
-                        defaultValue=""
+                        name="location"
+                        value={formFields.location}
+                        onChange={handleChangeHandler}
+                        validators={['required', 'minStringLength:3']}
+                        errorMessages={['Location is a required field', 'Location should be more than 3']}
+                        helperText=""
                         id="location"
+                        validatorListener={handleFormValidation}
                     />
                 </Grid>
 
@@ -197,18 +248,19 @@ export default function ShopInformationSection() {
                         </InputLabel>
                         <ValidationSelectField
                             native
-                            value={state.store_type}
-                            onChange={handleChange('store_type')}
+                            onChange={handleChangeHandler}
+                            value={formFields.storeCategory}
                             labelWidth={labelWidth}
                             inputProps={{
-                                name: 'store_type',
+                                name: 'storeCategory',
                                 id: 'storeCategory',
                             }}
                             className={classes.select}
                         >
-                            <option value={10}>Drink Store</option>
-                            <option value={20}>Pharmacy</option>
-                            <option value={30}>Material</option>
+                            <option value={0}>Select Category</option>
+                            {categories.map((category) =>
+                                <option key={category.id} value={category.id}>{category.name}</option>
+                            )}
                         </ValidationSelectField>
                     </FormControl>
                 </Grid>
@@ -216,14 +268,21 @@ export default function ShopInformationSection() {
                 <Grid item xs={12} className={classes.margin}>
                     <FormControl className={classes.margin} component="fieldset">
                         <FormLabel component="legend" className={classes.left}>Store type:</FormLabel>
-                        <RadioGroup className={classes.margin} defaultValue="1" aria-label="store_type" name="customized-radios">
-                            <FormControlLabel value="1" control={<StyledRadio />} label="Retail" />
-                            <FormControlLabel value="2" control={<StyledRadio />} label="Wholesale" />
-                            <FormControlLabel value="3" control={<StyledRadio />} label="Both" />
+                        <RadioGroup
+                            className={classes.margin}
+                            onChange={handleChangeHandler}
+                            value={formFields.storeType}
+                            aria-label="store_type"
+                            name="storeType"
+                            defaultValue={formFields.storeType}
+                        >
+                            <FormControlLabel value="Retail" control={<StyledRadio />} label="Retail" />
+                            <FormControlLabel value="Wholesale" control={<StyledRadio />} label="Wholesale" />
+                            <FormControlLabel value="Both" control={<StyledRadio />} label="Both" />
                         </RadioGroup>
                     </FormControl>
                 </Grid>
-            </form>
+            </ValidatorForm>
         </Paper>
     );
 }

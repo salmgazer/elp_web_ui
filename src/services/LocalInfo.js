@@ -4,12 +4,19 @@ export default class LocalInfo {
       userId: "user_id",
       storeName: "storeName",
       storeId: "storeId",
-      userRole: "user_role"
+      userRole: "user_role",
+      username: "username",
+      accessToken: "accessToken",
     };
   }
 
   static get userId() {
     return localStorage.getItem(this.keys.userId);
+  }
+
+  static get username() {
+      alert(this.keys.username);
+      return localStorage.getItem(this.keys.username);
   }
 
   static get storeName() {
@@ -28,6 +35,10 @@ export default class LocalInfo {
     localStorage.setItem(this.keys.userId, userId);
   }
 
+  static setUsername(username) {
+      localStorage.setItem(this.keys.username, username);
+  }
+
   static setStoreName(storeName) {
     localStorage.setItem(this.keys.storeName, storeName);
   }
@@ -43,9 +54,9 @@ export default class LocalInfo {
   static setSession(user, store, userStore) {
     this.setStoreId(store.id);
     this.setStoreName(store.name);
-    this.setStoreCode(store.code);
     this.setUserId(user.id);
     this.setUserRole(userStore.role);
+    this.setUsername(userStore.username);
   }
 
   static sessionExists() {
@@ -62,6 +73,8 @@ export default class LocalInfo {
     localStorage.removeItem(this.keys.storeName);
     localStorage.removeItem(this.keys.userId);
     localStorage.removeItem(this.keys.userRole);
+    localStorage.removeItem(this.keys.username);
+    localStorage.removeItem(this.keys.accessToken);
     window.location.href = "/";
   }
 }

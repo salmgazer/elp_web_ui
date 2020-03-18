@@ -2,14 +2,36 @@ import React from 'react';
 import Grid from "@material-ui/core/Grid/Grid";
 import Typography from "@material-ui/core/Typography/Typography";
 import DeleteIcon from '@material-ui/icons/Delete';
+import {confirmAlert} from "react-confirm-alert";
 
 
 const ProductHistory = props => {
-    const deleteHistoryHandler = (historyId , event) => {
-        props.deleteHistory(historyId , event);
+    const product = props.item;
+    console.log(product);
+
+    const deleteHistoryHandler = (historyId) => {
+        console.log(historyId);
+
+        confirmAlert({
+            title: 'Confirm to delete',
+            message: 'Are you sure you want to delete this item.',
+            buttons: [
+                {
+                    label: 'Yes',
+                    onClick: () => {
+                        props.deleteHistory(historyId)
+                    }
+                },
+                {
+                    label: 'No',
+                    onClick: () => {
+                        return false;
+                    }
+                }
+            ]
+        })
     };
 
-    const product = props.item;
     return(
         <div className={`rounded mx-1 my-2 p-2 bordered`}>
             <Grid container spacing={1} className={`mb-2`}>
@@ -23,7 +45,7 @@ const ProductHistory = props => {
                         style={{fontSize: '18px'}}
                         className={`text-left text-dark font-weight-bold`}
                     >
-                        {`${product.st_quantity} packs added`}
+                        {`${product.quantity} packs added`}
                     </Typography>
                     <div>Tuesday, February 18th, 2020</div>
                     <div>5 : 15pm</div>
@@ -34,7 +56,7 @@ const ProductHistory = props => {
                     className={`pl-2 pt-3 mx-auto`}
                 >
                     <div className={`deleteIcon`}>
-                        <DeleteIcon onClick={deleteHistoryHandler.bind(this , product.st_id)}
+                        <DeleteIcon onClick={deleteHistoryHandler.bind(this)}
                             style={{fontSize: '30px', color: '#DAAB59'}}
                         /><br/>
                         Delete

@@ -1,4 +1,4 @@
-import React from "react";
+import React , {useState} from "react";
 import PropTypes from 'prop-types';
 import { withRouter } from "react-router-dom";
 import { makeStyles, withStyles } from '@material-ui/core/styles';
@@ -20,7 +20,10 @@ import ArrowBackIcon from '@material-ui/icons/ArrowBack';
 import PersonalInformationSection from './Sections/PersonalInformationSection';
 import ShopInformationSection from './Sections/ShopInformationSection';
 import AccountInformationSection from './Sections/AccountInformationSection';
+import AuthService from '../../services/AuthService';
 import "./Register.scss";
+import SimpleSnackbar from "../Components/Snackbar/SimpleSnackbar";
+import PrimaryLoader from "../Components/Loader/Loader";
 
 const QontoConnector = withStyles({
     alternativeLabel: {
@@ -168,13 +171,6 @@ ColorlibStepIcon.propTypes = {
     icon: PropTypes.node,
 };
 
-const newBtnStyles = withStyles({
-    buttonC1: {
-        border: '1px solid #DAAB59',
-        color: '#DAAB59',
-    },
-})(props => <Button {...props} />);
-
 const useStyles = makeStyles(theme => ({
     root: {
         width: '100%',
@@ -189,30 +185,68 @@ const useStyles = makeStyles(theme => ({
 }));
 
 function getSteps() {
-    return ['Personal', 'Shop', 'Account'];
-}
-
-/*@todo
-* change state for password and confirm password...
-* */
-function getStepContent(step) {
-    switch (step) {
-        case 0:
-            return <PersonalInformationSection/>;
-        case 1:
-            return <ShopInformationSection/>;
-        case 2:
-            return <AccountInformationSection/>;
-        default:
-            return 'Complete';
-    }
+    return ['Personal', 'Company', 'Account'];
 }
 
 const Register = props => {
     const { history } = props;
+    const [loading , setLoading] = useState(false);
+    const [errorDialog, setErrorDialog] = useState(false);
+    const [errorMsg, setErrorMsg] = useState('');
     const classes = useStyles();
-    const [activeStep, setActiveStep] = React.useState(0);
+    const [activeStep, setActiveStep] = useState(0);
     const steps = getSteps();
+    const [data , setData] = useState({
+        firstName: '',
+        otherNames: '',
+        phone: '',
+        companyName: '',
+        location: '',
+        storeCategory: 0,
+        storeType: 'Retail',
+        username: '',
+        password: '',
+        passwordRepeat: '',
+        isValid: true,
+    });
+
+
+    /*@todo
+    * change state for password and confirm password...
+    * */
+    function getStepContent(step) {
+        switch (step) {
+            case 0:
+                return <PersonalInformationSection isValid={formValidHandler} formData={data} collectData={formDataHandler}/>;
+            case 1:
+                return <ShopInformationSection isValid={formValidHandler} formData={data} collectData={formDataHandler}/>;
+            case 2:
+                return <AccountInformationSection isValid={formValidHandler} formData={data} collectData={formDataHandler}/>;
+            default:
+                return 'Complete';
+        }
+    }
+
+    const formDataHandler = event => {
+        const { ...formData }  = data;
+
+        formData[event.target.name] = event.target.value;
+        /*if (event.target.name === 'password') {
+            this.form.isFormValid(false);
+        }*/
+        setData(formData);
+    };
+
+    const formValidHandler = result => {
+        const { ...formData }  = data;
+
+        formData['isValid'] = !result;
+        /*if (event.target.name === 'password') {
+            this.form.isFormValid(false);
+        }*/
+
+        setData(formData);
+    };
 
     const handleNext = () => {
         setActiveStep(prevActiveStep => prevActiveStep + 1);
@@ -222,7 +256,35 @@ const Register = props => {
         setActiveStep(prevActiveStep => prevActiveStep - 1);
     };
 
-    const handleFinish = () => {
+    const handleFinish = async() => {
+        setLoading(true);
+        //console.log(data);
+        /*
+        * Handle registration here...
+        * */
+
+        let req = await new AuthService().register(data);
+
+        if(!req.error){
+            /*
+            * @todo
+            * push user details to watermelon...
+            * */
+            localStorage.setItem('userContact' , req.user.phone);
+            localStorage.setItem('userOTP' , req.user.otp);
+            localStorage.setItem('firstName' , req.user.firstName);
+
+            console.log(req);
+        }else{
+            setLoading(false);
+            await setErrorDialog(true);
+            await setErrorMsg(req.error.msg);
+
+            return setTimeout(function(){
+                setErrorDialog(false);
+            }, 3000);
+        }
+
         history.push(paths.verify_sms);
     };
 
@@ -231,6 +293,13 @@ const Register = props => {
             <SectionNavbars title="Create Account">
                 <ArrowBackIcon onClick={() => history.push(paths.login)}/>
             </SectionNavbars>
+
+            <SimpleSnackbar
+                type="warning"
+                openState={errorDialog}
+                message={errorMsg}
+            />
+
             <Stepper
                 alternativeLabel
                 activeStep={activeStep}
@@ -267,8 +336,21 @@ const Register = props => {
                                 style={{'backgroundColor': '#DAAB59' , color: '#333333', padding: '5px 50px'}}
                                 onClick={handleFinish}
                                 className={classes.button}
+                                disabled={data.isValid || loading}
                             >
-                                Finish
+                                {
+                                    loading ?
+                                        <PrimaryLoader
+                                            style={{width: '30px' , height: '2.5rem'}}
+                                            color="#FFFFFF"
+                                            type="Oval"
+                                            className={`mt-1`}
+                                            width={25}
+                                            height={25}
+                                        />
+                                        :
+                                        'Finish'
+                                }
                             </Button>
                         </Box>
                     </div>
@@ -281,20 +363,23 @@ const Register = props => {
                             p={1}
                             style={{ height: '2.5rem', position: "fixed", bottom:"0", width:"100%" }}
                         >
-                            <Button
-                                variant="outlined"
-                                style={{border: '1px solid #DAAB59', color: '#DAAB59', padding: '5px 50px'}}
-                                disabled={activeStep === 0}
-                                onClick={handleBack}
-                                className={classes.button}
-                            >
-                                Back
-                            </Button>
+                            {activeStep === 0 ? '' :
+                                <Button
+                                    variant="outlined"
+                                    style={{border: '1px solid #DAAB59', color: '#DAAB59', padding: '5px 50px'}}
+                                    disabled={activeStep === 0}
+                                    onClick={handleBack}
+                                    className={classes.button}
+                                >
+                                    Back
+                                </Button>
+                            }
                             <Button
                                 variant="contained"
                                 style={{'backgroundColor': '#DAAB59' , color: '#333333', padding: '5px 50px'}}
                                 onClick={handleNext}
                                 className={classes.button}
+                                disabled={data.isValid}
                             >
                                 Next
                             </Button>

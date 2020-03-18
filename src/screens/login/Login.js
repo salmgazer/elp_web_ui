@@ -1,12 +1,10 @@
-import React from "react";
-import "./Login.scss";
-import { withRouter } from "react-router-dom";
+import React , {useState , useRef}  from "react";
+import { withRouter , Link } from "react-router-dom";
 import Component from "@reactions/component";
 import { useDatabase } from "@nozbe/watermelondb/hooks";
 import { Q } from "@nozbe/watermelondb";
 import LocalInfo from "../../services/LocalInfo";
-import TextField from "@material-ui/core/TextField";
-import PhoneIcon from '@material-ui/icons/Phone';
+import AccountCircleIcon from '@material-ui/icons/AccountCircle';
 import LockIcon from '@material-ui/icons/Lock';
 import Grid from '@material-ui/core/Grid';
 import Button from "@material-ui/core/Button";
@@ -14,12 +12,17 @@ import paths from "../../utilities/paths";
 import Box from "@material-ui/core/Box/Box";
 import CssBaseline from "@material-ui/core/CssBaseline/CssBaseline";
 import Container from "@material-ui/core/Container/Container";
-import {makeStyles} from "@material-ui/core";
+import {makeStyles, withStyles} from "@material-ui/core";
+import { ValidatorForm, TextValidator} from 'react-material-ui-form-validator';
+import { render } from 'react-dom';
 
 import Logo from '../../assets/img/el-parah.png';
 import Typography from "@material-ui/core/Typography/Typography";
 import './Login.scss';
-
+import AuthService from "../../services/AuthService";
+import InputAdornment from '@material-ui/core/InputAdornment';
+import PrimaryLoader from "../Components/Loader/Loader";
+import SimpleSnackbar from "../Components/Snackbar/SimpleSnackbar";
 
 const useStyles = makeStyles(theme => ({
     root: {
@@ -27,6 +30,7 @@ const useStyles = makeStyles(theme => ({
     },
     button: {
         marginRight: theme.spacing(1),
+
     },
     instructions: {
         marginTop: theme.spacing(1),
@@ -54,6 +58,28 @@ const useStyles = makeStyles(theme => ({
         backgroundColor: '#daab59',
     }
 }));
+
+const ValidationTextField = withStyles({
+    root: {
+        '& input:valid + fieldset': {
+            borderColor: 'green',
+            borderWidth: 2,
+        },
+        '& input:invalid:not:focus + fieldset': {
+            borderColor: 'red',
+            borderWidth: 2,
+        },
+        '& input:invalid:focus + fieldset': {
+            borderColor: '#DAAB59',
+            borderWidth: 2,
+        },
+        '& input:valid:focus + fieldset': {
+            borderLeftWidth: 6,
+            borderColor: '#DAAB59',
+            padding: '4px !important', // override inline-style
+        },
+    },
+})(TextValidator);
 
 const apiUrl = "";
 
@@ -91,6 +117,10 @@ async function getUsersFromLocal(database) {
 
 const Login = props => {
     const classes = useStyles();
+    const loginForm = useRef(null);
+    const [loading , setLoading] = useState(false);
+    const [errorDialog, setErrorDialog] = useState(false);
+    const [errorMsg, setErrorMsg] = useState('');
 
     const { history } = props;
     const database = useDatabase();
@@ -100,12 +130,35 @@ const Login = props => {
     }
 
     const login = async ({ usernameOrPhone, password }) => {
-        if (password.length < 6 || usernameOrPhone.length === 0) {
+        if (password.length < 2 || usernameOrPhone.length === 0) {
           alert("Password or username/phone is incorrect");
           return;
         }
 
-        history.push(paths.dashboard);
+        //Start loader and disable button
+        setLoading(true);
+
+        //Make a request to get token
+        let req = await new AuthService().login(usernameOrPhone , password);
+
+        if(!req.error){
+            /*
+            * @todo
+            * push user details to watermelon...
+            * */
+            history.push(paths.dashboard)
+        }else{
+            document.getElementById("loginForm").reset();
+            setLoading(false);
+            await setErrorDialog(true);
+            await setErrorMsg(req.error.msg);
+
+            return setTimeout(function(){
+                setErrorDialog(false);
+            }, 3000);
+        }
+
+        //history.push(paths.dashboard);
 
         // try to get store from local db
         /*let stores = await getStore(database);
@@ -129,101 +182,160 @@ const Login = props => {
           alert(`You are not associated to any store`);
           return;
         }*/
-      };
+    };
 
     return (
-    <div style={{backgroundColor: '#f2ece3', height: '100vh', padding: "4% 3%"}}>
-      <Component
-        initialState={{
-          isShown: false,
-          password: "",
-          usernameOrPhone: ""
-        }}
-      >
-        {({ state, setState }) => (
-          <React.Fragment>
-              <CssBaseline />
+        <div style={{backgroundColor: '#f2ece3', height: '100vh', padding: "4% 3%"}}>
+          <Component
+            initialState={{
+              isShown: false,
+              password: "",
+              usernameOrPhone: ""
+            }}
+          >
+            {({ state, setState }) => (
+              <React.Fragment>
+                  <CssBaseline />
 
-              <Container
-                  maxWidth="sm"
-                  style={{backgroundColor: '#f2ece3'}}
-              >
-                  <Box
-                      className={classes.shadow2}
-                      style={{'borderRadius': '10px'}}
+                  <Container
+                      maxWidth="sm"
+                      style={{backgroundColor: '#f2ece3', padding: '3% 3%'}}
                   >
-                      <Box component="div" style={{paddingTop: '50px', marginTop: '32px'}}>
-                          <img style={{width: '230px', height: '90px'}} className="img-responsive" src={Logo} alt={'Elparah Logo'}/>
-                      </Box>
-                      <Typography
-                          variant="h6"
-                          component="h6"
-                          fontSize="1.25rem"
-                          style={{marginBottom: '30px', paddingTop: '5px'}}
+                      <SimpleSnackbar
+                          type="warning"
+                          openState={errorDialog}
+                          message={errorMsg}
+                      />
+
+                      <Box
+                          className={`${classes.shadow2} login`}
+                          style={{'borderRadius': '10px'}}
                       >
-                          Mobile POS App
-                      </Typography>
-
-                      <Box component="div" className={classes.padding1} style={{width: '230px', paddingBottom: '40px' ,margin: '0 auto', color: '#403C3C'}}>
-                          <div className={classes.margin} style={{'paddingBottom': '10px'}}>
-                              <Grid container spacing={1} alignItems="flex-end" >
-                                  <Grid item>
-                                      <PhoneIcon />
-                                  </Grid>
-                                  <Grid item>
-                                      <TextField
-                                          onChange={event => setState({ usernameOrPhone: event.target.value })}
-                                          id="usernameOrPhone" type='text' value={state.usernameOrPhone}
-                                          label="username/contact"
-                                          helperText=""
-                                      />
-                                  </Grid>
-                              </Grid>
-                          </div>
-
-                          <div className={classes.margin} className={classes.padding1}>
-                              <Grid container spacing={1} alignItems="flex-end">
-                                  <Grid item>
-                                      <LockIcon />
-                                  </Grid>
-                                  <Grid item>
-                                      <TextField
-                                          id="password"
-                                          onChange={event => setState({ password: event.target.value })}
-                                          type={state.isShown ? 'text' : 'password'}
-                                          label="password"
-                                          helperText=""
-                                      />
-                                  </Grid>
-                              </Grid>
-                          </div>
-
-                          <Button
-                              variant="contained"
-                              style={{'width': '100%','backgroundColor': '#DAAB59' , marginBottom: '30px',color: '#403C3C', padding: '5px 40px', fontSize: '17px', fontWeight: '700'}}
-                              className={classes.button} className="capitalization"
-                              onClick={() => login(state)}
+                          <Box component="div" style={{paddingTop: '50px', marginTop: '0px'}}>
+                              <img style={{width: '230px', height: '90px'}} className="img-responsive" src={Logo} alt={'Elparah Logo'}/>
+                          </Box>
+                          <Typography
+                              variant="h6"
+                              component="h6"
+                              fontSize="1.25rem"
+                              style={{marginBottom: '30px', paddingTop: '5px'}}
                           >
-                              Login
-                          </Button>
+                              Mobile POS App
+                          </Typography>
 
-                          <a  href="#" style={{'marginTop': '20px', color: '#403C3C', fontSize: '14px'}}><i>Help! I forgot my password</i> </a> <br/> or
+                          <Box component="div" className={classes.padding1} style={{width: '230px', paddingBottom: '40px' ,margin: '0 auto', color: '#403C3C'}}>
+                              <ValidatorForm
+                                  ref={loginForm}
+                                  id = "loginForm"
+                                  onSubmit={ async () => {
+                                           await login(state)
+                                           .then(async function(){
+                                               if(loginForm.current === null){
 
-                          <Button
-                              variant="contained"
-                              style={{'width': '100%','backgroundColor': '#DAAB59' , color: '#403C3C', margin: '10px auto',padding: '5px 1px', fontSize: '17px', fontWeight: '700'}}
-                              className={classes.button} className="capitalization"
-                              onClick={() => history.push(paths.register)}
-                          >
-                              Create new account
-                          </Button>
+                                               }else{
+                                                   await setState({
+                                                       isShown: false,
+                                                       password: "",
+                                                       usernameOrPhone: ""
+                                                   });
+                                                   loginForm.current.resetValidations();
+                                               }
+                                           });
+                                      }
+                                  }
+                                  onError={errors => console.log(errors)}
+                              >
+
+                                  <div className={classes.margin} style={{'paddingBottom': '10px'}}>
+                                      <Grid container spacing={1} alignItems="flex-end" >
+                                          <Grid item>
+                                              <ValidationTextField
+                                                  onChange={event => setState({ usernameOrPhone: event.target.value })}
+                                                  id="usernameOrPhone"
+                                                  type='text'
+                                                  value={state.usernameOrPhone}
+                                                  label="username/contact"
+                                                  name="usernameOrPhone"
+                                                  validators={['required', 'minStringLength:4']}
+                                                  errorMessages={['Username is a required field', 'The minimum length for username is 4']}
+                                                  helperText=""
+                                                  InputProps={{
+                                                      startAdornment:
+                                                          <InputAdornment position="start">
+                                                              <AccountCircleIcon />
+                                                          </InputAdornment>
+                                                  }}
+                                              />
+                                          </Grid>
+                                      </Grid>
+                                  </div>
+
+                                  <div className={`${classes.margin} ${classes.padding1}`}>
+                                      <Grid container spacing={1} alignItems="flex-end">
+                                          <Grid item>
+                                              <ValidationTextField
+                                                  id="password"
+                                                  onChange={event => setState({ password: event.target.value })}
+                                                  type={state.isShown ? 'text' : 'password'}
+                                                  value={state.password}
+                                                  validators={['required', 'minStringLength:2']}
+                                                  errorMessages={['Password is a required field', 'The minimum length for password is 6']}
+                                                  name="password"
+                                                  label="password"
+                                                  helperText=""
+                                                  InputProps={{
+                                                      startAdornment:
+                                                          <InputAdornment position="start">
+                                                              <LockIcon />
+                                                          </InputAdornment>
+                                                  }}
+                                              />
+                                          </Grid>
+                                      </Grid>
+                                  </div>
+
+                                  <Button
+                                      variant="contained"
+                                      style={{'width': '100%','backgroundColor': '#DAAB59' , marginBottom: '30px',color: '#403C3C', padding: '5px 40px', fontSize: '17px', fontWeight: '700'}}
+                                      className={`${classes.button} capitalization primaryButton`}
+                                      type="submit"
+                                      disabled={loading}
+                                  >
+                                      {
+                                          loading ?
+                                              <PrimaryLoader
+                                                  style={{width: '30px' , height: '30px'}}
+                                                  color="#FFFFFF"
+                                                  type="Oval"
+                                                  className={`mt-1`}
+                                                  width={25}
+                                                  height={25}
+                                              />
+                                                    :
+                                              'Login'
+                                      }
+                                  </Button>
+                              </ValidatorForm>
+
+                              <Link to={paths.forgot_password} style={{textDecorationColor: '#333333'}}>
+                                <span  style={{'marginTop': '20px', color: '#403C3C', fontSize: '14px'}}><i>Help! I forgot my password</i> </span> <br/>
+                              </Link>
+                              or
+                              <Button
+                                  variant="contained"
+                                  style={{'width': '100%','backgroundColor': '#DAAB59' , color: '#403C3C', margin: '10px auto 30px',padding: '5px 1px', fontSize: '17px', fontWeight: '700'}}
+                                  className={`${classes.button} capitalization`}
+                                  onClick={() => history.push(paths.register)}
+                              >
+                                  Create new account
+                              </Button>
+                          </Box>
                       </Box>
-                  </Box>
-              </Container>
-          </React.Fragment>
-        )}
-      </Component>
-    </div>
+                  </Container>
+              </React.Fragment>
+            )}
+          </Component>
+        </div>
     );
 };
 

@@ -1,4 +1,4 @@
-import React, {Component} from 'react';
+import React, {Component, useEffect, useState} from 'react';
 import { withRouter } from "react-router-dom";
 import ArrowBackIcon from "@material-ui/core/SvgIcon/SvgIcon";
 import paths from "../../../utilities/paths";
@@ -8,103 +8,46 @@ import Don from '../../../assets/img/Don.jpg';
 import Button from "@material-ui/core/Button/Button";
 import Step1 from "./sections/Step1";
 import Step2 from "./sections/Step2";
+import Api from "../../../services/Api";
+import SimpleSnackbar from "../../Components/Snackbar/SimpleSnackbar";
 
 class CategorySetup extends Component{
+    /*
+    * @todo
+    * 1. Get categories and subcategories from watermelon.
+    * */
+
     state = {
         activeStep: 0,
-        categories: [
-            {
-                id: 1,
-                name: "Non-alcoholic drink",
-                subcategories: [
-                    {
-                        id: 1,
-                        name: "Water",
-                        image: `${Don}`,
-                        status: true
-                    },
-                    {
-                        id: 2,
-                        name: "Soft Drinks",
-                        image: `${Don}`,
-                        status: false
-                    },
-                    {
-                        id: 3,
-                        name: "Malt Drinks",
-                        image: `${Don}`,
-                        status: true
-                    }
-                ]
-            },
-            {
-                id: 2,
-                name: "Home care",
-                subcategories: [
-                    {
-                        id: 4,
-                        name: "Energy Drinks",
-                        image: `${Don}`,
-                        status: true
-                    }
-                ]
-            },
-            {
-                id: 3,
-                name: "Food",
-                subcategories: [
-                    {
-                        id: 4,
-                        name: "Energy Drinks",
-                        image: `${Don}`,
-                        status: true
-                    }
-                ]
-            },
-            {
-                id: 4,
-                name: "Alcoholic drink",
-                subcategories: [
-                    {
-                        id: 4,
-                        name: "Energy Drinks",
-                        image: `${Don}`,
-                        status: true
-                    }
-                ]
-            }
-        ],
-        subcategories: [
-            {
-                id: 1,
-                name: "Water",
-                image: `${Don}`,
-                status: true
-            },
-            {
-                id: 2,
-                name: "Soft Drinks",
-                image: `${Don}`,
-                status: true
-            },
-            {
-                id: 3,
-                name: "Malt Drinks",
-                image: `${Don}`,
-                status: false
-            },
-            {
-                id: 4,
-                name: "Energy Drinks",
-                image: `${Don}`,
-                status: false
-            }
-        ]
+        categories: [],
+        subcategories: [],
+        errorDialog: false,
+        errorMsg: '',
     };
+
+    async componentDidMount() {
+        const branchId = localStorage.getItem('activeBranch');
+        const accessToken = localStorage.getItem('accessToken');
+        try {
+            let newCategory = await new Api('others').index(
+                {},
+                {'Authorization': `Bearer ${accessToken}`},
+                `https://elp-core-api-dev.herokuapp.com/v1/client/branches/${branchId}/product_categories`,
+            );
+
+            this.setState({
+                'categories' : newCategory.data.allParents,
+                'subcategories' : newCategory.data.allChildren
+            });
+
+            console.log(newCategory.data);
+        }catch (error) {
+            console.log(error)
+        }
+    }
 
     selectCategoryHandler = (itemId , event) => {
         console.log(itemId);
-        const old_subcategories = this.state.subcategories;
         const old_categories = this.state.categories;
 
         const subcategories = old_categories.findIndex((item => item.id === itemId));
@@ -119,6 +62,79 @@ class CategorySetup extends Component{
         });
     };
 
+    addSubCategoryHandler = (subCategoryId , event) => {
+        let branchCategoriesAdded = JSON.parse(localStorage.getItem('branchCategoriesAdded')) || [];
+        let branchCategoriesRemoved = JSON.parse(localStorage.getItem('branchCategoriesRemoved')) || [];
+
+        const old_subcategories = this.state.subcategories;
+
+        const subcategories = old_subcategories.findIndex((item => item.id === subCategoryId));
+        const item = {...old_subcategories[subcategories]};
+
+        if(item.owned){
+            return false;
+        }else{
+            branchCategoriesAdded.push(subCategoryId);
+            branchCategoriesRemoved = branchCategoriesRemoved.filter((item => item !== subCategoryId));
+
+            localStorage.setItem('branchCategoriesRemoved' , JSON.stringify(branchCategoriesRemoved));
+        }
+
+        item.owned = !item.owned;
+        old_subcategories[subcategories] = item;
+
+        localStorage.setItem('branchCategoriesAdded' , JSON.stringify(branchCategoriesAdded));
+
+        this.setState({
+            subcategories: old_subcategories
+        });
+    };
+
+    removeSubCategoryHandler = (subCategoryId , event) => {
+        let branchCategoriesRemoved = JSON.parse(localStorage.getItem('branchCategoriesRemoved')) || [];
+        let branchCategoriesAdded = JSON.parse(localStorage.getItem('branchCategoriesAdded')) || [];
+
+        const old_subcategories = this.state.subcategories;
+
+        const subcategories = old_subcategories.findIndex((item => item.id === subCategoryId));
+        const item = {...old_subcategories[subcategories]};
+
+        if(item.owned){
+            item.owned = false;
+            old_subcategories[subcategories] = item;
+
+            branchCategoriesRemoved.push(subCategoryId);
+
+            localStorage.setItem('branchCategoriesRemoved' , JSON.stringify(branchCategoriesRemoved));
+
+            branchCategoriesAdded = branchCategoriesAdded.filter((item => item !== subCategoryId));
+
+            localStorage.setItem('branchCategoriesAdded' , JSON.stringify(branchCategoriesAdded));
+
+            this.setState({
+                subcategories: old_subcategories
+            });
+        }else{
+            return false;
+        }
+    };
+
+    searchHandler = (search) => {
+        /*
+        * @todo
+        * Work on fetchin data from source
+        * */
+        const old_subcategories = this.state.subcategories;
+
+        const subcategories = old_subcategories.filter(function(item) {
+            return (item.name).toLowerCase().indexOf(search.toLowerCase()) !== -1
+        });
+
+        this.setState({
+            subcategories: subcategories
+        });
+    };
+
     //Steps to select category
     getSteps = () => {
         return ['Add Categories' , 'View Added Categories'];
@@ -127,11 +143,13 @@ class CategorySetup extends Component{
     getStepContent = step => {
         const categories = this.state.categories;
         const subcategories = this.state.subcategories;
+        const shop_subcategories = subcategories.filter((item) => item.owned === true);
+
         switch (step) {
             case 0:
-                return <Step1 clickFnc={this.selectCategoryHandler.bind(this)} categories={categories} subcategories={subcategories}/> ;
+                return <Step1 addSubCategory={this.addSubCategoryHandler.bind(this)} removeSubCategory={this.removeSubCategoryHandler.bind(this)} clickFnc={this.selectCategoryHandler.bind(this)} categories={categories} subcategories={subcategories}/> ;
             case 1:
-                return <Step2 subcategories={subcategories}/>;
+                return <Step2 search={this.searchHandler.bind(this)} addSubCategory={this.addSubCategoryHandler.bind(this)} removeSubCategory={this.removeSubCategoryHandler.bind(this)} subcategories={shop_subcategories}/>;
             default:
                 return 'Complete';
         }
@@ -149,19 +167,56 @@ class CategorySetup extends Component{
         })
     };
 
-    handleFinish = () => {
+    handleFinish = async() => {
         const { history } = this.props;
-        history.push(paths.add_products);
+        const branchCategories = (this.state.subcategories).filter(item => item.owned === true);
+
+        localStorage.setItem('branchCategories' , JSON.stringify(branchCategories));
+
+        const branchId = localStorage.getItem('activeBranch');
+        const accessToken = localStorage.getItem('accessToken');
+        const branchAddedCategories = localStorage.getItem('branchCategoriesAdded');
+
+        try {
+            let branchCategories = await new Api('others').create(
+                {},
+                {'Authorization': `Bearer ${accessToken}`},
+                {},
+                `https://elp-core-api-dev.herokuapp.com/v1/client/branches/${branchId}/product_categories?product_category_ids=${branchAddedCategories}`,
+            );
+
+            if(branchCategories){
+                history.push(paths.add_products);
+            }
+
+            this.setState({
+                errorDialog: true,
+                errorMsg: 'Something went wrong. Please try again'
+            });
+        }catch (error) {
+            this.setState({
+                errorDialog: true,
+                errorMsg: error
+            });
+            console.log(error)
+        }
     };
 
     render(){
         const steps = this.getSteps();
+        const counter = ((this.state.subcategories).filter(item => item.owned === true)).length;
 
         return(
             <div>
                 <SectionNavbars title="Setup Shop">
                     <ArrowBackIcon />
                 </SectionNavbars>
+
+                <SimpleSnackbar
+                    type="warning"
+                    openState={this.state.errorDialog}
+                    message={this.state.errorMsg}
+                />
 
                 <div>
                     {this.state.activeStep === steps.length - 1 ? (
@@ -186,6 +241,7 @@ class CategorySetup extends Component{
                                     variant="contained"
                                     style={{'backgroundColor': '#DAAB59' , color: '#333333', padding: '5px 50px'}}
                                     onClick={this.handleFinish}
+                                    disabled={!counter}
                                 >
                                     Finish
                                 </Button>
@@ -213,6 +269,7 @@ class CategorySetup extends Component{
                                     variant="contained"
                                     style={{'backgroundColor': '#DAAB59' , color: '#333333', padding: '5px 50px'}}
                                     onClick={this.handleNext}
+                                    disabled={!counter}
                                 >
                                     Next
                                 </Button>

@@ -14,6 +14,7 @@ import { faCalculator } from '@fortawesome/free-solid-svg-icons';
 import { faInfo } from '@fortawesome/free-solid-svg-icons';
 import Modal from "../../../Components/Modal/Modal";
 import CostCalculator from "../../../Components/Calculator/CostCalculator";
+import CostInput from "../../../Components/Input/CostInput";
 
 
 
@@ -74,7 +75,7 @@ const EditProductView = props => {
         <div style={{paddingTop: '60px'}}>
             <SuccessDialog states={successDialog}/>
             <div>
-                <img className={`img-fluid w-50 h-75 mx-auto d-block pt-2`} src={image} alt={`${product.pro_name}`}/>
+                <img style={{width: '150px' , height: '150px'}} className={`img-fluid mx-auto d-block pt-2`} src={image} alt={`${product.pro_name}`}/>
             </div>
 
             <div
@@ -95,7 +96,7 @@ const EditProductView = props => {
                             className="mx-auto"
                             bgcolor="background.paper"
                             p={1}
-                            style={{ height: '2.5rem', width:"100%" }}
+                            style={{ height: '2.5rem', width:"100%"}}
                             >
                             <Button
                                 variant="outlined"
@@ -106,7 +107,7 @@ const EditProductView = props => {
                             </Button>
                             <Button
                                 variant="contained"
-                                style={{'backgroundColor': '#DAAB59' , color: '#333333', padding: '5px 30px'}}
+                                style={{'backgroundColor': '#DAAB59' , color: '#333333', padding: '5px 25px'}}
                                 onClick={saveStock.bind(this)}
                             >
                                 Calculate
@@ -121,15 +122,15 @@ const EditProductView = props => {
                 <div className={`bordered rounded mx-3 px-3 py-1`}>
                     <QuantityInput label={`Quantity counted`}/>
 
-                    <PriceInput label={`Lowest stock`}>
+                    <CostInput label={`Lowest stock`}>
                         <Tooltip title="You'll receive a notification when the stock is less than this number" arrow>
                             <FontAwesomeIcon icon={faInfo} fixedWidth />
                         </Tooltip>
-                    </PriceInput>
+                    </CostInput>
 
-                    <PriceInput label={`Cost price`}>
+                    <CostInput label={`Cost price`}>
                         <FontAwesomeIcon onClick={openCalculator.bind(this)} icon={faCalculator} fixedWidth />
-                    </PriceInput>
+                    </CostInput>
 
                     <PriceInput label={`Selling price`}/>
                 </div>

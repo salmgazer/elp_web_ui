@@ -18,35 +18,44 @@ const GreenCheckbox = withStyles({
 })(props => <Checkbox color="default" {...props} />);
 
 const SelectedCategorySingle = props => {
-    return(
-        <Grid container spacing={1}>
-            <Grid item xs={3}>
-                <Card
-                    className="shadow1"
-                    style={{margin: '5px auto' ,backgroundImage: `url(${props.item.image})` , backgroundPosition: 'center', backgroundSize: 'cover' , width: '60px' ,borderRadius: '50%', height: '60px', padding: '0px'}}
-                />
-            </Grid>
-            <Grid item xs={7} style={{display: 'table', height: '60px', margin: '8px 0px'}}>
-                <div style={{textAlign: 'left', display: 'table-cell', verticalAlign: 'middle'}}>
-                    {props.item.name}
-                </div>
-            </Grid>
-            <Grid item xs={2} style={{display: 'table', height: '60px', margin: '13px 0px'}}>
-                <div style={{textAlign: 'right'}}>
-                    <FormControlLabel
-                        control={
-                            <GreenCheckbox
-                                checked={props.item.status}
-                                /*onChange={handleChange('checkedG')}*/
-                                value="checkedG"
-                                style={{display: 'table-cell', verticalAlign: 'middle'}}
-                            />
-                        }
-                    />
-                </div>
-            </Grid>
+    const addSubCategoryHandler = (id , event) => {
+        props._addSubCategoryHandler(id);
+    };
 
-        </Grid>
+    const subcategory = props.item;
+
+    return(
+        <div className={`shadow1 rounded mx-auto my-3`} style={{width: '95%'}}>
+            <Grid container spacing={1}>
+                <Grid item xs={3}>
+                    <Card
+                        className="shadow1"
+                        style={{margin: '5px auto' ,backgroundImage: `url(${subcategory.image})` , backgroundPosition: 'center', backgroundSize: 'cover' , width: '60px' ,borderRadius: '50%', height: '60px', padding: '0px'}}
+                    />
+                </Grid>
+                <Grid item xs={7} style={{display: 'table', height: '60px', margin: '8px 0px'}}>
+                    <div style={{textAlign: 'left', display: 'table-cell', verticalAlign: 'middle'}}>
+                        {subcategory.name}
+                    </div>
+                </Grid>
+                <Grid item xs={2} style={{display: 'table', height: '60px', margin: '13px 0px'}}>
+                    <div style={{textAlign: 'right'}}>
+                        <FormControlLabel
+                            control={
+                                <GreenCheckbox
+                                    checked={subcategory.owned}
+                                    /*onChange={handleChange('checkedG')}*/
+                                    value="checkedG"
+                                    onClick={(event) => addSubCategoryHandler(subcategory.id , event)}
+                                    style={{display: 'table-cell', verticalAlign: 'middle'}}
+                                />
+                            }
+                        />
+                    </div>
+                </Grid>
+
+            </Grid>
+        </div>
     );
 };
 

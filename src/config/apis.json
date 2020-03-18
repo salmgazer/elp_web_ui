@@ -1,0 +1,11 @@
+{
+  "elp-core-api" : {
+    "development": {
+      "v1": {
+        "basePath" : "elp-core-api-dev.herokuapp.com",
+        "protocol" : "https",
+        "prefix" : "client"
+      }
+    }
+  }
+}

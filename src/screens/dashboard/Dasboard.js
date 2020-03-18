@@ -3,7 +3,6 @@ import { withRouter } from "react-router-dom";
 import Component from "@reactions/component";
 import { useDatabase } from "@nozbe/watermelondb/hooks";
 import { Q } from "@nozbe/watermelondb";
-import LocalInfo from "../../services/LocalInfo";
 import './Dashboard.scss';
 
 import Grid from '@material-ui/core/Grid';
@@ -23,6 +22,8 @@ import CardDefault from "../Components/Cards/CardDefault";
 import SettingsIcon from '@material-ui/icons/Settings';
 import CardGridComponent from "./Sections/CardGridComponent";
 import Drawer from "../Components/Drawer/Drawer";
+
+import LocalInfo from '../../services/LocalInfo';
 
 
 const useStyles = makeStyles(theme => ({
@@ -103,6 +104,12 @@ async function getUsersFromLocal(database) {
 const Dashboard = props => {
     const classes = useStyles();
 
+    /*
+    * @todo replace user name with localInfo details.
+    * */
+    const username = JSON.parse(localStorage.getItem('userDetails')).firstName;
+    console.log(username);
+
     const { history } = props;
     const database = useDatabase();
 
@@ -126,7 +133,7 @@ const Dashboard = props => {
                         <CssBaseline />
 
 
-                        <SectionNavbars title="Welcome Paul!">
+                        <SectionNavbars title={`Welcome ${username}`}>
                             <MenuIcon
                                 onClick={() => setState({isDrawerShow: true})}
                                 style={{fontSize: '2.5rem'}}
@@ -212,7 +219,7 @@ const Dashboard = props => {
                                 variant="contained"
                                 style={{'width': '70%','backgroundColor': '#DAAB59' , color: '#403C3C', margin: '4px auto',padding: '8px 5px', fontSize: '17px', fontWeight: '700'}}
                                 className={classes.button} className="capitalization"
-                                onClick={() => history.push(paths.register)}
+                                onClick={() => history.push(paths.store_summary)}
                             >
                                 Start selling
                             </Button>
