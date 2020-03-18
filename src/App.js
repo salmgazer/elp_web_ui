@@ -15,6 +15,7 @@ import {
   Route,
   useLocation
 } from "react-router-dom";
+
 import paths from "./utilities/paths";
 import GetStarted from "./screens/getStarted/GetStarted";
 import AddProducts from "./screens/onboarding/addProducts/AddProducts";
