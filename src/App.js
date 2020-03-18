@@ -21,11 +21,17 @@ import GetStarted from "./screens/getStarted/GetStarted";
 import AddProducts from "./screens/onboarding/addProducts/AddProducts";
 import CategorySetup from "./screens/onboarding/categorySetup/CategorySetup";
 import Cart from "./screens/sell/cart/Cart";
+
+import Accounting from "./screens/accounting/Accounting";
+import SalesHistory from "./screens/history/salesHistory/SalesHistory";
+import PurchaseHistory from "./screens/history/purchaseHistory/PurchaseHistory";
+import OrderHistory from "./screens/history/orderHistory/OrderHistory";
+import InvoiceHistory from "./screens/history/invoiceHistory/InvoiceHistory";
+
 import ResetPassword from "./screens/forgotPassword/sections/ResetPassword";
 import ForgottenPassword from "./screens/forgotPassword/ForgottenPassword";
 import StoreSummary from "./screens/sell/store_summary/StoreSummary";
 import Sell from "./screens/sell/sell/Sell";
-
 
 function NoMatch() {
   let location = useLocation();
@@ -75,6 +81,46 @@ class App extends React.Component {
                 render={() => {
                   this.setTitle(`Cart | ${appName}`);
                   return <Cart />;
+                }}
+              />
+              <Route
+                exact
+                path={paths.sales_history}
+                render={() => {
+                  this.setTitle(`Sales History | ${appName}`);
+                  return <SalesHistory />;
+                }}
+              />
+              <Route
+                exact
+                path={paths.purchase_history}
+                render={() => {
+                  this.setTitle(`Purchase History | ${appName}`);
+                  return <PurchaseHistory />;
+                }}
+              />
+              <Route
+                exact
+                path={paths.order_history}
+                render={() => {
+                  this.setTitle(`Order History | ${appName}`);
+                  return <OrderHistory />;
+                }}
+              />
+              <Route
+                exact
+                path={paths.invoice_history}
+                render={() => {
+                  this.setTitle(`Invoice History | ${appName}`);
+                  return <InvoiceHistory />;
+                }}
+              />
+              <Route
+                exact
+                path={paths.accounting}
+                render={() => {
+                  this.setTitle(`Accounting | ${appName}`);
+                  return <Accounting />;
                 }}
               />
               <Route
