@@ -3,6 +3,7 @@ import PriceInput from "../Input/PriceInput";
 import Box from "@material-ui/core/Box/Box";
 import Button from "@material-ui/core/Button/Button";
 import Modal from "../Modal/Modal";
+import './costPriceCalculator.scss';
 
 const CostCalculator = (props) => {
     const [formFields , setFormFields] = useState({
@@ -49,6 +50,7 @@ const CostCalculator = (props) => {
                     bgcolor="background.paper"
                     p={1}
                     style={{ height: '2.5rem', width:"100%"}}
+                    key={props.product.id}
                 >
                     <Button
                         variant="outlined"
@@ -66,7 +68,7 @@ const CostCalculator = (props) => {
                     </Button>
                 </Box>]}
                 handleClose={handleModalClose.bind(this)}
-                title={[<div><h5 className={`font-weight-bold text-dark my-0`}>Cost Price Calculator</h5><span style={{fontSize: '16px', fontWeight: '400'}}>{props.product.name}</span></div>]}
+                title={[<div key={props.product.id} ><h5 className={`font-weight-bold text-dark my-0`}>Cost Price Calculator</h5><span style={{fontSize: '16px', fontWeight: '400'}}>{props.product.name}</span></div>]}
                 states={props.calculatorDialog}
             >
                 <PriceInput inputName="quantityRoll" getValue={setInputValue.bind(this)} label={`Quantity on a roll/box`}/>

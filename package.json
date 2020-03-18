@@ -21,6 +21,7 @@
     "@zxing/library": "^0.16.0",
     "auth0-js": "^9.12.2",
     "axios": "^0.19.2",
+    "cors": "^2.8.5",
     "customize-cra": "^0.9.1",
     "jsonwebtoken": "^8.5.1",
     "node-sass": "^4.13.1",
@@ -58,5 +59,8 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
+  },
+  "devDependencies": {
+    "http-proxy-middleware": "^1.0.3"
   }
 }

@@ -75,7 +75,7 @@ export default class AuthService {
         @var { username , firstName , otherNames, phone, password}
         @todo check if user exist
         */
-        let user , company , branch = '';
+        let user;
         const params = {
             user: {
                 "password": data.password,
@@ -103,24 +103,24 @@ export default class AuthService {
         };
 
         try{
-            user = await new Api('others').create(
+            const response = await new Api('others').create(
                 params,
                 {},
                 {},
                 'https://elp-core-api-dev.herokuapp.com/v1/client/users/register'
             );
 
-            if( user ){
+            if( response ){
                 localStorage.setItem('randomString' , data.password);
-                localStorage.setItem('activeBranch' , user.data.branch.id);
+                localStorage.setItem('activeBranch' , response.data.branch.id);
+                localStorage.setItem('userDetails' , JSON.stringify(response.data.user));
 
-                user = user.data.user;
+                user = response.data.user;
                 console.log(user);
-                const response = await this.sendOTP(user.firstName ,user.phone , user.otp);
+                //const response = await this.sendOTP(user.firstName ,user.phone , user.otp);
 
                 return {
-                    user,
-                    response,
+                    user
                 };
             }
         }catch (error){

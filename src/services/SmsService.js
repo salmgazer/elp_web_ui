@@ -1,8 +1,6 @@
-import Api from './Api';
 import SMSconfig from '../config/SMS.json';
+import axios from "axios";
 
-/*const Api = require('./Api.js');
-const SMSconfig = require('../config/SMS.json');*/
 
 export default class SmsService{
     constructor(contact , message){
@@ -26,17 +24,15 @@ export default class SmsService{
 
         const headers =  {
             "Authorization" : this.token,
-            "Content-Type" : "application/json",
-            "Access-Control-Allow-Origin": "*",
-            "Access-Control-Request-Headers": "*",
-            "Access-Control-Allow-Credentials": true
-
         };
-
-        new Api('others').create(params,
-            headers,
-            {},
-            this.url
+        return axios.post(
+            this.url,
+            params  ,
+            {
+                headers: {
+                    'Authorization' : this.token,
+                }
+            }
         );
     };
 }

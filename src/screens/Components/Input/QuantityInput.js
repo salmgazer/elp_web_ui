@@ -92,7 +92,7 @@ const QuantityInput = props => {
                             className={`${classes.input} search-box text-center`}
                             type="tel"
                             value={quantity}
-                            defaultValue={quantity}
+                            defaultValue=''
                             name={props.inputName}
                             onChange={(event) => setValueHandler(event)}
                         />

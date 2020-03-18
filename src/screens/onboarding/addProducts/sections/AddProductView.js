@@ -2,7 +2,6 @@ import React , {useState} from 'react';
 import Typography from "@material-ui/core/Typography/Typography";
 import Button from "@material-ui/core/Button/Button";
 import Box from "@material-ui/core/Box/Box";
-import {makeStyles} from "@material-ui/core";
 import ProductHistory from "./history/ProductHistory";
 import QuantityInput from "../../../Components/Input/QuantityInput";
 import PriceInput from "../../../Components/Input/PriceInput";
@@ -15,9 +14,9 @@ import MenuIcon from '@material-ui/icons/Menu';
 import SectionNavbars from "../../../Components/Sections/SectionNavbars";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faCalculator} from "@fortawesome/free-solid-svg-icons";
-import Modal from "../../../Components/Modal/Modal";
 import CostCalculator from "../../../Components/Calculator/CostCalculator";
 import CostInput from "../../../Components/Input/CostInput";
+import ProductServiceHandler from '../../../../services/ProductServiceHandler';
 
 
 function Alert(props) {
@@ -25,6 +24,7 @@ function Alert(props) {
 }
 
 const AddProductView = props => {
+    const [loading , setLoading] = useState(false);
     const [successDialog, setSuccessDialog] = useState(false);
     const [errorDialog, setErrorDialog] = useState(false);
     const [calculatorDialog, setCalculatorDialog] = useState(false);
@@ -37,25 +37,18 @@ const AddProductView = props => {
     });
 
     const product = props.product[0];
-    //console.log(product);
-    let image = '';
 
-    if(product.image){
-        image = `https://elparah.store/admin/upload/${product.image}`;
-    }
-
-    image = 'https://elparah.store/admin/upload/no_image.png';
-
-    const lastStock = !product.stock || product.stock[((product.stock).length - 1)];
-
-    const defaultStock = product.stock || [];
-
-    const stock = defaultStock.reduce((a, b) => a + (b['quantity'] || 0), 0);
+    /*
+    * Get product details from handler
+    * */
+    const productDetails = new ProductServiceHandler(product);
 
     const saveStock = (event) => {
+        setLoading(true);
         if((formFields.costPrice !== "" || parseFloat(formFields.costPrice !== 0)) && (formFields.sellingPrice !== "" || parseFloat(formFields.sellingPrice !== 0))){
             if(parseFloat(formFields.costPrice) >= parseFloat(formFields.sellingPrice)){
                 setErrorDialog(true);
+                setLoading(false);
                 setTimeout(function(){
                     setErrorDialog(false);
                 }, 3000);
@@ -70,6 +63,7 @@ const AddProductView = props => {
 
         setTimeout(function(){
             setSuccessDialog(false);
+            setLoading(false);
             props.setView(0, event)
         }, 2000);
     };
@@ -157,7 +151,7 @@ const AddProductView = props => {
                 </Typography>
             </div>
             <div>
-                <img className={`img-fluid imageProduct mx-auto d-block pt-2`} src={image} alt={`${product.pro_name}`}/>
+                <img className={`img-fluid imageProduct mx-auto d-block pt-2`} src={productDetails.getProductImage()} alt={productDetails.getProductName()}/>
             </div>
 
             <Snackbar open={errorDialog} autoHideDuration={6000} onClose={handleCloseSnack}>
@@ -178,7 +172,7 @@ const AddProductView = props => {
                     style={{fontWeight: '500', fontSize: '20px' , margin: '0px 0px', padding: '14px'}}
                     className={`text-center mx-auto text-dark`}
                 >
-                    Total stock : {stock}
+                    Total stock : {productDetails.getProductQuantity()}
                 </Typography>
 
                 <div className={`rounded bordered mb-3 mx-3 px-3 py-3`}>
@@ -188,7 +182,7 @@ const AddProductView = props => {
                         <FontAwesomeIcon onClick={openCalculator.bind(this)} icon={faCalculator} fixedWidth />
                     </CostInput>
 
-                    <PriceInput label={`Selling price`} inputName="sellingPrice" initialValue={lastStock.sellingPrice || ''} getValue={setInputValue.bind(this)}/>
+                    <PriceInput label={`Selling price`} inputName="sellingPrice" initialValue={productDetails.getSellingPrice() || ''} getValue={setInputValue.bind(this)}/>
                 </div>
 
                 <div className={`rounded bordered mb-3 mx-3 px-3 py-3`}>
@@ -205,8 +199,8 @@ const AddProductView = props => {
 
                         {product.stock !== null ? (
                             <div>
-                                {(product.stock).map((item) =>
-                                    <ProductHistory deleteHistory={props.deleteHistory} key={item.id} item={item}/>
+                                {(product.stock).map((item , index) =>
+                                    <ProductHistory deleteHistory={props.deleteHistory} key={index} item={item}/>
                                 )}
                             </div>
                         ):(
@@ -237,6 +231,7 @@ const AddProductView = props => {
                     variant="contained"
                     style={{'backgroundColor': '#DAAB59' , color: '#333333', padding: '5px 50px'}}
                     onClick={saveStock.bind(this)}
+                    disabled={loading}
                 >
                     Save
                 </Button>
