@@ -6,13 +6,13 @@ import DateFnsUtils from '@date-io/date-fns';
 import {
   MuiPickersUtilsProvider,
   KeyboardDatePicker,
-} from '@material-ui/pickers';
+} from '@material-ui/pickers'; 
 import Paper from '@material-ui/core/Paper';
 import Typography from '@material-ui/core/Typography';
 import Box from "@material-ui/core/Box/Box";
 import { withRouter } from "react-router-dom";
 
-import SingleDayView from './productViews/SingleDayView';
+import SingleDaySupplierView from './singleView/SingleDaySupplier';
 
 const useStyles = makeStyles(theme => ({
     root: {
@@ -20,7 +20,7 @@ const useStyles = makeStyles(theme => ({
 
     },
     title: {
-        fontSize: 11,
+        fontSize: 9,
     },
     text: {
         fontSize: 15,
@@ -29,14 +29,6 @@ const useStyles = makeStyles(theme => ({
     paper: {
       padding: theme.spacing(1),
       textAlign: 'center', 
-    },
-    button: {
-        border: '1px solid #DAAB59',
-        color: '#DAAB59',
-        padding: '5px 50px',
-        marginRight: '10px',
-        marginTop: '10px',
-        textTransform: 'none',
     }
   }));
 
@@ -50,19 +42,15 @@ const useStyles = makeStyles(theme => ({
       };
 
     const openWeek = (event) => {
-        props.setView(1);
-    };
-
-    const openMonth = (event) => {
         props.setView(2);
     };
 
-    const openYear = (event) => {
+    const openMonth = (event) => {
         props.setView(3);
     };
 
-    const editProductHandler = (event) => {
-        props.editProduct(event);
+    const openYear = (event) => {
+        props.setView(4);
     };
 
     return(
@@ -73,7 +61,6 @@ const useStyles = makeStyles(theme => ({
                     <Button
                         variant="contained"
                         style={{'backgroundColor': '#DAAB59' , color: 'white', padding: '5px 10px', textTransform: 'none', fontSize:'10px'}}
-
                     >
                         Day
                     </Button>
@@ -111,7 +98,7 @@ const useStyles = makeStyles(theme => ({
             </Grid>
 
             <Grid container spacing={1}>
-                <Typography style={{fontSize: '14px', paddingTop: '20px', marginRight: '100px'}} >
+                <Typography style={{fontSize: '14px', paddingTop: '20px', marginRight: '50px'}} >
                     {props.pageName}
                 </Typography>
 
@@ -132,7 +119,6 @@ const useStyles = makeStyles(theme => ({
                         }}
                     />
                 </MuiPickersUtilsProvider>
-
             </Grid>
 
             <Grid container spacing={1}>
@@ -172,7 +158,7 @@ const useStyles = makeStyles(theme => ({
                 <Grid item xs={3}>
                     <Paper className={classes.paper}>
                         <Typography className={classes.title} component="p" >
-                            Profit
+                            {props.profitName}
                         </Typography>
                         <Typography className={classes.text} >
                             GHC 100
@@ -182,11 +168,9 @@ const useStyles = makeStyles(theme => ({
                 
             </Grid>
 
-            <Box style={{marginTop: '5px' , paddingBottom: '60px'}} p={1} className={`mt-3 mb-5`}>
-                {props.products.map((item) => <SingleDayView  key={item.pro_id} item={item}/>)}
+            <Box style={{ paddingBottom: '60px'}} p={1} className={`mt-3 mb-5`}>
+                {props.suppliers.map((item) => <SingleDaySupplierView  key={item.supp_id} supp={item} indProducts={props.products} setView={props.setView}/>)}
             </Box>
-
-
 
         </div>
     )

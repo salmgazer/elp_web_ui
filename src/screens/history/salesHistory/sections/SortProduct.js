@@ -73,13 +73,13 @@ class SortProduct extends Component{
             case 4:
                 return <SProductView setView={this.setStepContentView.bind(this)} products={this.state.productList} />;
             case 0:
-                return <DayView setView={this.setStepContentView.bind(this)} products={this.state.productList} pageName="Bella sold" />;
+                return <DayView setView={this.setStepContentView.bind(this)} products={this.state.productList} pageName="Bella sold" profitName="Profit" />;
             case 1:
-                return <WeekView setView={this.setStepContentView.bind(this)} weekItem={this.state.weekList} pageName="Bella sold" />;
+                return <WeekView setView={this.setStepContentView.bind(this)} weekItem={this.state.weekList} pageName="Bella sold" profitName="Profit" />;
             case 2:
-                return <MonthView setView={this.setStepContentView.bind(this)} monthItem={this.state.monthList} pageName="Bella sold" />;
+                return <MonthView setView={this.setStepContentView.bind(this)} monthItem={this.state.monthList} pageName="Bella sold" profitName="Profit" />;
             case 3:
-                return <YearView setView={this.setStepContentView.bind(this)} yearItem={this.state.yearList} pageName="Bella sold" />;
+                return <YearView setView={this.setStepContentView.bind(this)} yearItem={this.state.yearList} pageName="Bella sold" profitName="Profit" />;
             default:
                 return 'Complete';
         }

@@ -3,18 +3,14 @@ import { makeStyles } from '@material-ui/core/styles';
 import Card from "@material-ui/core/Card/Card";
 import Grid from "@material-ui/core/Grid/Grid";
 import EditIcon from '@material-ui/icons/Edit';
-import MainDialog from '../../../Components/Dialog/MainDialog';
+import MainDialog from '../../../../Components/Dialog/MainDialog';
 import DeleteIcon from '@material-ui/icons/Delete';
 import AppBar from '@material-ui/core/AppBar';
 import Tabs from "@material-ui/core/Tabs/Tabs";
 import Tab from "@material-ui/core/Tab/Tab";
 import SwipeableViews from "react-swipeable-views";
-import TabPanel from '../../../Components/Tabs/TabPanel';
-import DateFnsUtils from '@date-io/date-fns';
-import {
-  MuiPickersUtilsProvider,
-  KeyboardDatePicker,
-} from '@material-ui/pickers';
+import TabPanel from '../../../../Components/Tabs/TabPanel';
+import Dates from '../../../../Components/Date/Date'; 
 import InputAdornment from '@material-ui/core/InputAdornment';
 import StayPrimaryPortraitIcon from '@material-ui/icons/StayPrimaryPortrait';
 import Button from "@material-ui/core/Button/Button";
@@ -33,7 +29,6 @@ const SingleDayView = props => {
     const product = props.item;
     const [mainDialog, setMainDialog] = React.useState(false);
     const [value, setValue] = React.useState(0);
-    const [selectedDate, setSelectedDate] = React.useState(new Date());
 
     function a11yProps(index) {
         return {
@@ -41,10 +36,6 @@ const SingleDayView = props => {
             'aria-controls': `full-width-tabpanel-${index}`,
         };
     }
-
-    const handleDateChange = date => {
-        setSelectedDate(date);
-      };
 
     const image = `https://elparah.store/admin/upload/${product.image}`;
 
@@ -155,24 +146,9 @@ const SingleDayView = props => {
                         onChangeIndex={handleChangeIndex}
                     >
                         <TabPanel value={value} index={0} >
-                            <MuiPickersUtilsProvider utils={DateFnsUtils}>
-                                <KeyboardDatePicker
-                                    disableToolbar
-                                    variant="outlined"
-                                    label="Pick new date"
-                                    format="dd/MM/yyyy"
-                                    margin="normal"
-                                    id="date-picker"
-                                    className='text-dark font-weight-bold'
-                                    style={{margin: '50px'}}
-                                    size='small'
-                                    value={selectedDate}
-                                    onChange={handleDateChange}
-                                    KeyboardButtonProps={{
-                                        'aria-label': 'change date',
-                                    }}
-                                />
-                            </MuiPickersUtilsProvider>
+
+                            <Dates label="Pick new date" style={{margin: '50px'}} />
+                            
                         </TabPanel>
 
                         <TabPanel value={value} index={1}  >
@@ -204,43 +180,10 @@ const SingleDayView = props => {
                                     }}
                                 />
 
-                                <MuiPickersUtilsProvider utils={DateFnsUtils}>
-                                    <KeyboardDatePicker
-                                        disableToolbar
-                                        variant="outlined"
-                                        label="From"
-                                        format="dd/MM/yyyy"
-                                        margin="normal"
-                                        id="date-picker"
-                                        className='text-dark font-weight-bold'
-                                        style={{margin: '20px'}}
-                                        size='small'
-                                        value={selectedDate}
-                                        onChange={handleDateChange}
-                                        KeyboardButtonProps={{
-                                            'aria-label': 'change date',
-                                        }}
-                                    />
-                                </MuiPickersUtilsProvider>
-
-                                <MuiPickersUtilsProvider utils={DateFnsUtils}>
-                                    <KeyboardDatePicker
-                                        disableToolbar
-                                        variant="outlined"
-                                        label="To"
-                                        format="dd/MM/yyyy"
-                                        margin="normal"
-                                        id="date-picker"
-                                        className='text-dark font-weight-bold'
-                                        style={{margin: '20px'}}
-                                        size='small'
-                                        value={selectedDate}
-                                        onChange={handleDateChange}
-                                        KeyboardButtonProps={{
-                                            'aria-label': 'change date',
-                                        }}
-                                    />
-                                </MuiPickersUtilsProvider>
+                                <Dates label="From" style={{margin: '20px'}} />
+                                
+                                <Dates label="To" style={{margin: '20px'}} />
+                                
                             </form>
                         </TabPanel>
 
