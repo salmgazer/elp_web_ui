@@ -1,21 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="23d7673f-f43c-4e81-9c96-c34110ab3b67" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/src/screens/Components/Calculator/costPriceCalculator.scss" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/services/ProductServiceHandler.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/setupProxy.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/package-lock.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/screens/Components/Calculator/CostCalculator.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/screens/Components/Calculator/CostCalculator.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/screens/Components/Input/CostInput.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/screens/Components/Input/CostInput.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/screens/Components/Input/PriceInput.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/screens/Components/Input/PriceInput.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/screens/Components/Input/QuantityInput.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/screens/Components/Input/QuantityInput.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/screens/onboarding/addProducts/sections/AddProductView.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/screens/onboarding/addProducts/sections/AddProductView.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/services/AuthService.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/services/AuthService.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/services/SmsService.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/services/SmsService.js" afterDir="false" />
-    </list>
+    <list default="true" id="23d7673f-f43c-4e81-9c96-c34110ab3b67" name="Default Changelist" comment="" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -132,7 +118,7 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/screens/onboarding/addProducts/sections/AddProductView.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="105">
+            <state relative-caret-position="850">
               <caret line="50" column="34" selection-start-line="50" selection-start-column="34" selection-end-line="50" selection-end-column="34" />
               <folding>
                 <element signature="e#0#39#0" expanded="true" />
@@ -145,7 +131,7 @@
         <entry file="file://$PROJECT_DIR$/src/screens/Components/Input/QuantityInput.js">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="408">
-              <caret line="94" column="41" lean-forward="true" selection-start-line="94" selection-start-column="41" selection-end-line="94" selection-end-column="43" />
+              <caret line="94" column="41" selection-start-line="94" selection-start-column="41" selection-end-line="94" selection-end-column="43" />
               <folding>
                 <element signature="e#0#39#0" expanded="true" />
                 <element signature="e#470#972#0" />
@@ -158,7 +144,7 @@
         <entry file="file://$PROJECT_DIR$/src/screens/Components/Input/PriceInput.js">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="493">
-              <caret line="68" lean-forward="true" selection-start-line="68" selection-end-line="68" />
+              <caret line="68" selection-start-line="68" selection-end-line="68" />
             </state>
           </provider>
         </entry>
@@ -206,7 +192,7 @@
         <entry file="file://$PROJECT_DIR$/src/services/SmsService.js">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="85">
-              <caret line="5" lean-forward="true" selection-start-line="5" selection-end-line="5" />
+              <caret line="5" selection-start-line="5" selection-end-line="5" />
               <folding>
                 <element signature="e#0#43#0" expanded="true" />
               </folding>
@@ -218,7 +204,7 @@
         <entry file="file://$PROJECT_DIR$/src/services/AuthService.js">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="212">
-              <caret line="142" lean-forward="true" selection-start-line="142" selection-end-line="142" />
+              <caret line="142" selection-start-line="142" selection-end-line="142" />
               <folding>
                 <element signature="e#0#36#0" expanded="true" />
               </folding>
@@ -594,12 +580,12 @@
       <workItem from="1582584985708" duration="141182000" />
       <workItem from="1583149738584" duration="144008000" />
       <workItem from="1583945259813" duration="77155000" />
-      <workItem from="1584346819721" duration="63169000" />
+      <workItem from="1584346819721" duration="64380000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="765399000" />
+    <option name="totallyTimeSpent" value="766610000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-7" y="-7" width="1295" height="735" extended-state="6" />
@@ -1001,7 +987,7 @@
     <entry file="file://$PROJECT_DIR$/src/services/SmsService.js">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="85">
-          <caret line="5" lean-forward="true" selection-start-line="5" selection-end-line="5" />
+          <caret line="5" selection-start-line="5" selection-end-line="5" />
           <folding>
             <element signature="e#0#43#0" expanded="true" />
           </folding>
@@ -1061,7 +1047,7 @@
     <entry file="file://$PROJECT_DIR$/src/screens/Components/Input/PriceInput.js">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="493">
-          <caret line="68" lean-forward="true" selection-start-line="68" selection-end-line="68" />
+          <caret line="68" selection-start-line="68" selection-end-line="68" />
         </state>
       </provider>
     </entry>
@@ -1075,7 +1061,7 @@
     <entry file="file://$PROJECT_DIR$/src/screens/Components/Input/QuantityInput.js">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="408">
-          <caret line="94" column="41" lean-forward="true" selection-start-line="94" selection-start-column="41" selection-end-line="94" selection-end-column="43" />
+          <caret line="94" column="41" selection-start-line="94" selection-start-column="41" selection-end-line="94" selection-end-column="43" />
           <folding>
             <element signature="e#0#39#0" expanded="true" />
             <element signature="e#470#972#0" />
@@ -1086,7 +1072,7 @@
     <entry file="file://$PROJECT_DIR$/src/services/AuthService.js">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="212">
-          <caret line="142" lean-forward="true" selection-start-line="142" selection-end-line="142" />
+          <caret line="142" selection-start-line="142" selection-end-line="142" />
           <folding>
             <element signature="e#0#36#0" expanded="true" />
           </folding>
@@ -1095,7 +1081,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/screens/onboarding/addProducts/sections/AddProductView.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="105">
+        <state relative-caret-position="850">
           <caret line="50" column="34" selection-start-line="50" selection-start-column="34" selection-end-line="50" selection-end-column="34" />
           <folding>
             <element signature="e#0#39#0" expanded="true" />
