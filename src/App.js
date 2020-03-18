@@ -24,6 +24,7 @@ import SalesHistory from "./screens/history/salesHistory/SalesHistory";
 import PurchaseHistory from "./screens/history/purchaseHistory/PurchaseHistory";
 import OrderHistory from "./screens/history/orderHistory/OrderHistory";
 import InvoiceHistory from "./screens/history/invoiceHistory/InvoiceHistory";
+import NewDashboard from "./screens/newDashboard/Dashboard";
 
 function NoMatch() {
   let location = useLocation();
@@ -113,6 +114,14 @@ class App extends React.Component {
                 render={() => {
                   this.setTitle(`Accounting | ${appName}`);
                   return <Accounting />;
+                }}
+              />
+              <Route
+                exact
+                path={paths.new_dashboard}
+                render={() => {
+                    this.setTitle(`Dashboard | ${appName}`);
+                    return <NewDashboard />;
                 }}
               />
               <Route
