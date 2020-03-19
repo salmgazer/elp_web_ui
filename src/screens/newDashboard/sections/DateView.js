@@ -1,6 +1,7 @@
 import React from 'react';
 import Grid from "@material-ui/core/Grid/Grid";
 import Paper from '@material-ui/core/Paper';
+import CalendarTodayIcon from '@material-ui/icons/CalendarToday';
 
 import SalesView from './SalesView';
 
@@ -14,7 +15,7 @@ const DateView = props => {
             <Grid container spacing={1}>
 
                 <Grid item xs={2}>
-                    <Paper style={{backgroundColor: 'black', color: 'white', height: '50px'}} >Today</Paper>
+                    <Paper style={{backgroundColor: 'black', color: 'white', height: '48px'}} >Today</Paper>
                 </Grid>
 
                 <Grid item xs={2}>
@@ -34,7 +35,9 @@ const DateView = props => {
                 </Grid>
 
                 <Grid item xs={2}>
-                    <Paper >{(date.getDate()+5)} {month}</Paper>
+                    <Paper style={{ height: '48px'}} >
+                        <CalendarTodayIcon />
+                    </Paper>
                 </Grid>
             </Grid>
 
