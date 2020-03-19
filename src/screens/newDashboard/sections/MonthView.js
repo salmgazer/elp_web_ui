@@ -4,27 +4,26 @@ import Typography from "@material-ui/core/Typography/Typography";
 
 import SalesView from './SalesView';
 
-const WeekView = props => {
+const MonthView = props => {
 
-    const currDate = new Date();
-    const newdate = new Date();
-    newdate.setDate(currDate.getDate()-7);
+    const fullYear = { year: 'numeric', month: 'long'};
     
     return(
         <div>
             <CardDefault styles={{width: '95%', marginTop: '5px'}}>
                 <Typography
                     component="p"
-                    style={{fontSize: '17px'}}
+                    style={{fontSize: '18px'}}
                 >
-                    Sales from {newdate.toDateString()} to {currDate.toDateString()} 
+                    Sales for {new Date().toLocaleDateString([], fullYear)}
+                    
                 </Typography>
             </CardDefault>
 
-            <SalesView totalAmount="400" profitMade="100" creditSales="20" totalStock="500" />
+            <SalesView totalAmount="1230" profitMade="900" creditSales="60" totalStock="1000" />
         </div>
     )
 
 }
 
-export default WeekView;
+export default MonthView;

@@ -11,9 +11,12 @@ import BoxDefault from "../Components/Box/BoxDefault";
 import Typography from "@material-ui/core/Typography/Typography";
 import Grid from "@material-ui/core/Grid/Grid";
 import CardDefault from "../Components/Cards/CardDefault";
+
 import {withRouter} from "react-router";
 
-import SalesView from './sections/SalesView';
+import DateView from './sections/DateView';
+import WeekView from './sections/WeekView';
+import MonthView from './sections/MonthView';
 
 import DashboardCard from '../Components/Cards/DashboardCard';
 
@@ -121,38 +124,15 @@ class Dashboard extends Component {
                     onChangeIndex={this.handleChangeIndex}
                 >
                     <TabPanel value={this.state.value} index={0} >
-
-                        <SalesView totalAmount="200" profitMade="50" creditSales="10" totalStock="300" />
-
+                        <DateView />
                     </TabPanel>
 
                     <TabPanel value={this.state.value} index={1} >
-
-                        <CardDefault styles={{width: '95%', marginTop: '5px'}}>
-                            <Typography
-                                component="p"
-                                style={{fontSize: '17px'}}
-                            >
-                                Sales from Mon, 16th Feb to Sat 21th 
-                            </Typography>
-                        </CardDefault>
-
-                        <SalesView totalAmount="400" profitMade="100" creditSales="20" totalStock="500" />
-
+                        <WeekView />
                     </TabPanel>
 
                     <TabPanel value={this.state.value} index={2} >
-
-                        <CardDefault styles={{width: '95%', marginTop: '5px'}}>
-                            <Typography
-                                component="p"
-                                style={{fontSize: '18px'}}
-                            >
-                                Sales for February 2020
-                            </Typography>
-                        </CardDefault>
-
-                        <SalesView totalAmount="1230" profitMade="900" creditSales="60" totalStock="1000" />
+                        <MonthView />
                     </TabPanel>
 
                 </SwipeableViews>
