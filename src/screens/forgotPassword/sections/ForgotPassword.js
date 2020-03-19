@@ -14,11 +14,17 @@ import confirmImg from '../../../assets/img/forgot.png';
 import Button from "@material-ui/core/Button/Button";
 import paths from "../../../utilities/paths";
 import { ValidatorForm, TextValidator} from 'react-material-ui-form-validator';
-import AuthService from "../../../services/AuthService";
 import InputAdornment from '@material-ui/core/InputAdornment';
 import Api from "../../../services/Api";
-import GenerateOTP from "../../../services/GenerateString";
+import phoneFormat from "../../../services/phoneFormatter";
+import SimpleSnackbar from "../../Components/Snackbar/SimpleSnackbar";
+import Snackbar from "@material-ui/core/Snackbar/Snackbar";
+import MuiAlert from '@material-ui/lab/Alert';
 
+
+function Alert(props) {
+    return <MuiAlert elevation={6} variant="filled" {...props} />;
+}
 
 const useStyles = makeStyles(theme => ({
     root: {
@@ -62,6 +68,10 @@ const ValidationTextField = withStyles({
 
 const ForgotPassword = props => {
     const { history } = props;
+    const [successDialog, setSuccessDialog] = useState(false);
+    const [successMsg, setSuccessMsg] = useState('');
+    const [errorDialog, setErrorDialog] = useState(false);
+    const [errorMsg, setErrorMsg] = useState('');
     const classes = useStyles();
 
     //Logic for sending SMS
@@ -70,25 +80,45 @@ const ForgotPassword = props => {
             alert("Phone number is incorrect");
             return;
         }
+
+        const contact = phoneFormat(phone);
+        localStorage.setItem('userContact' , contact);
+
         //history.push(paths.reset_password)
 
-        let req = await new Api('users').getUserByPhone(phone);
+        try{
+            let response = await new Api('others').index(
+                {},
+                {},
+                `https://elp-core-api-dev.herokuapp.com/v1/client/users/verify_password_reset?phone=${contact}`,
+                {}
+            );
 
-        if(req){
-            /*
-            * Send OTP to user...
-            * */
-            const otp = new GenerateOTP(4).generateNumber();
-            localStorage.setItem('userOTP' , otp);
+            setSuccessMsg('Your verification code has been sent.');
+            setSuccessDialog(true);
 
-            new AuthService().sendOTP(req.phone , otp);
+            console.log(response);
+            localStorage.setItem('userOTP' , response.data.otp);
+            localStorage.setItem('randomId' , response.data.userId);
+            setTimeout(function(){
+                props.setView(1);
+                setSuccessDialog(false);
+            }, 2000);
 
-            localStorage.setItem('forgotUser' , JSON.stringify(req));
-            props.setView(1);
 
-        }else{
-            console.log(req);
+        } catch (error) {
+            setErrorMsg('Could not send code. Please enter again!');
+            setErrorDialog(true);
         }
+
+    };
+
+    const handleCloseSnack = (event, reason) => {
+        if (reason === 'clickaway') {
+            return;
+        }
+
+        setErrorDialog(false);
     };
 
 
@@ -103,6 +133,18 @@ const ForgotPassword = props => {
                 {({ state, setState }) => (
                     <React.Fragment>
                         <CssBaseline />
+                        <SimpleSnackbar
+                            type="success"
+                            openState={successDialog}
+                            message={successMsg}
+                        />
+
+                        <Snackbar open={errorDialog} autoHideDuration={6000} onClose={handleCloseSnack}>
+                            <Alert onClose={handleCloseSnack} severity="error">
+                                {errorMsg}
+                            </Alert>
+                        </Snackbar>
+
 
                         <Container maxWidth="sm">
                             <Typography

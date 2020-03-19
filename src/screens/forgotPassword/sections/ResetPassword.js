@@ -21,6 +21,8 @@ import VisibilityOff from '@material-ui/icons/VisibilityOff';
 import Api from "../../../services/Api";
 import Snackbar from '@material-ui/core/Snackbar';
 import MuiAlert from '@material-ui/lab/Alert';
+import SimpleSnackbar from "../../Components/Snackbar/SimpleSnackbar";
+import phoneFormat from "../../../services/phoneFormatter";
 
 
 const useStyles = makeStyles(theme => ({
@@ -70,34 +72,44 @@ function Alert(props) {
 const ResetPassword = props => {
     const { history } = props;
     const classes = useStyles();
-    const [errorDialog, setErrorDialog] = useState(false);
     const [successDialog, setSuccessDialog] = useState(false);
+    const [successMsg, setSuccessMsg] = useState('');
+    const [errorDialog, setErrorDialog] = useState(false);
+    const [errorMsg, setErrorMsg] = useState('');
 
     //Logic for sending SMS
 
 
-        const submit = async ({ ...data }) => {
-            const userData = JSON.parse(localStorage.getItem('forgotUser'));
-
-            userData.password =  data.password;
-            console.log(userData);
-
-            let req = await new Api('users').update(userData , userData.userId);
-
-            if(!req.error){
-                setSuccessDialog(true);
-                localStorage.removeItem('forgotUser');
-                localStorage.removeItem('userOTP');
-
-                setTimeout(function(){
-                    setSuccessDialog(false);
-                    history.push(paths.login);
-                }, 2000);
-            }else{
-                setErrorDialog(true);
-                return false
-            }
+    const submit = async ({ ...data }) => {
+        const userData = {
+            userId: localStorage.getItem('randomId'),
+            otp: localStorage.getItem('userOTP'),
+            password: data.password,
         };
+
+        console.log(userData);
+        try{
+            let response = await new Api('others').update(
+                userData,
+                {},
+                {},
+                `https://elp-core-api-dev.herokuapp.com/v1/client/users/reset_password`,
+            );
+
+            setSuccessMsg('Your password has been changed successfully. Please login to your account');
+            setSuccessDialog(true);
+
+            console.log(response);
+            setTimeout(function(){
+                setSuccessDialog(false);
+            }, 2000);
+
+            history.push(paths.login);
+        } catch (error) {
+            setErrorMsg('Could not send code. Please enter again!');
+            setErrorDialog(true);
+        }
+    };
 
         //history.push(paths.login);
 
@@ -164,15 +176,15 @@ const ResetPassword = props => {
                             <Box component="div" m={2} style={{paddingTop: '0px'}}>
                                 <img className={`img-responsive w-100`} src={confirmImg} alt={'test'}/>
                             </Box>
+                            <SimpleSnackbar
+                                type="success"
+                                openState={successDialog}
+                                message={successMsg}
+                            />
+
                             <Snackbar open={errorDialog} autoHideDuration={6000} onClose={handleCloseSnack}>
                                 <Alert onClose={handleCloseSnack} severity="error">
-                                    Sorry details could not update. Please try again!
-                                </Alert>
-                            </Snackbar>
-
-                            <Snackbar open={successDialog} autoHideDuration={6000} onClose={handleCloseSnack}>
-                                <Alert onClose={handleCloseSnack} severity="success">
-                                    Password change successful. Please login!
+                                    {errorMsg}
                                 </Alert>
                             </Snackbar>
 

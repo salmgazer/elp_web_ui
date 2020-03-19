@@ -127,8 +127,7 @@ class AddProducts extends Component{
         const branchProductsAdded = JSON.parse(localStorage.getItem('branchProductsAdded')) || [];
         const branchProductsRemoved = localStorage.getItem('branchProductsRemoved') || [];
         const branchDeletedProducts = localStorage.getItem('branchDeletedProducts') || [];
-        console.log(branchDeletedProducts);
-        console.log(branchDeletedProducts);
+
         if (Array.isArray(branchProductsAdded) && branchProductsAdded.length) {
             console.log(branchProductsAdded);
             const addedProducts = await new Api('others').create(
@@ -165,7 +164,6 @@ class AddProducts extends Component{
             );
 
             localStorage.removeItem('branchProductsRemoved');
-            console.log(removedProducts)
         }
 
         this.setState({
@@ -370,14 +368,19 @@ class AddProducts extends Component{
         switch (value) {
             case 'all':
                 storeProducts = JSON.parse(localStorage.getItem('storeProductsLookup'));
+                console.log(storeProducts);
                 break;
 
             case 'stocked':
-                storeProducts = JSON.parse(localStorage.getItem('storeProductsLookup')).filter((product) => product.stock !== null);
+                storeProducts = JSON.parse(localStorage.getItem('storeProductsLookup')).filter((product) => product.stock.length !== 0);
+                console.log(storeProducts);
+
                 break;
 
             case 'incomplete':
-                storeProducts = JSON.parse(localStorage.getItem('storeProductsLookup')).filter((product) => (product.stock === null || (product.stock[(product.stock.length - 1).sellingPrice]) === null));
+                storeProducts = JSON.parse(localStorage.getItem('storeProductsLookup')).filter((product) => (product.owned === true && (!product.sellingPrice || (product.stock[(product.stock.length - 1).costPrice]) === null)));
+                console.log(storeProducts);
+
                 break;
             default:
                 alert('Value does not exist');

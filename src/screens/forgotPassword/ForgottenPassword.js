@@ -11,7 +11,6 @@ class ForgottenPassword extends Component{
     state={
         isDrawerShow: false,
         activeStep: 0,
-
     };
 
     getStepContent = step => {
