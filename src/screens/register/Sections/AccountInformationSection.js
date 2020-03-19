@@ -3,9 +3,7 @@ import {
     withStyles,
     makeStyles,
 } from '@material-ui/core/styles';
-import clsx from 'clsx';
 import Paper from '@material-ui/core/Paper';
-import TextField from '@material-ui/core/TextField';
 import { green } from '@material-ui/core/colors';
 import Grid from '@material-ui/core/Grid';
 import InputAdornment from '@material-ui/core/InputAdornment';
@@ -13,11 +11,10 @@ import IconButton from '@material-ui/core/IconButton';
 import Visibility from '@material-ui/icons/Visibility';
 import VisibilityOff from '@material-ui/icons/VisibilityOff';
 import FormControl from '@material-ui/core/FormControl';
-import InputLabel from '@material-ui/core/InputLabel';
-import OutlinedInput from '@material-ui/core/OutlinedInput';
 import Checkbox from '@material-ui/core/Checkbox';
 import FormControlLabel from "@material-ui/core/FormControlLabel/FormControlLabel";
 import { ValidatorForm, TextValidator} from 'react-material-ui-form-validator';
+import phoneFormat from "../../../services/phoneFormatter";
 
 
 const GreenCheckbox = withStyles({
@@ -93,16 +90,9 @@ const PasswordTextField = withStyles({
     },
 })(TextValidator);
 
-const FakeFormControl = withStyles({
-    root: {
-        '& input:focus + fieldset': {
-            borderColor: '#DAAB59',
-            borderWidth: 2,
-        },
-    }
-})(FormControl);
-
 export default function AccountInformationSection(props) {
+    const PersonalInformationForm = useRef(null);
+
     const userFields = props.formData;
     const [showPassword, setShowPassword] = useState({
         showPassword: false,
@@ -114,14 +104,6 @@ export default function AccountInformationSection(props) {
         password: userFields.password,
         passwordRepeat: userFields.passwordRepeat,
     });
-    const latestFields = useRef(formFields);
-
-    useEffect(() => {
-
-
-
-
-    }, []);
 
     const checkPassword = (event) => {
         const { ...formData }  = formFields;
@@ -182,6 +164,11 @@ export default function AccountInformationSection(props) {
         event.preventDefault();
     };
 
+    const usernameFormatter = (event) => {
+        event.target.value = ((event.target.value).replace(" " , "")).toLowerCase();
+        handleChange(event);
+    };
+
     const handleChangeHandler = (event) => {
         const { ...formData }  = formFields;
         //console.log(formData.firstName);
@@ -201,17 +188,16 @@ export default function AccountInformationSection(props) {
         props.collectData(event);
     };
 
-    const handleFormValidation = (result) => {
-        props.isValid(result);
+    const handleFormValidation = async (result) => {
+        props.isValid(await PersonalInformationForm.current.isFormValid());
     };
 
     const classes = useStyles();
-    const formRef = React.createRef('form');
 
     return (
         <Paper className={classes.paper}>
             <ValidatorForm
-                ref={formRef}
+                ref={PersonalInformationForm}
                 onError={handleFormValidation}
                 className={classes.root}
                 instantValidate
@@ -239,7 +225,7 @@ export default function AccountInformationSection(props) {
                         variant="outlined"
                         name="username"
                         validatorListener={handleFormValidation}
-                        onChange={handleChange}
+                        onChange={usernameFormatter}
                         value={formFields.username}
                         validators={['required', 'minStringLength:3']}
                         errorMessages={['Username is a required field', 'The minimum length for username is 3']}
@@ -265,14 +251,14 @@ export default function AccountInformationSection(props) {
                         InputProps={{
                             endAdornment:
                                 <InputAdornment position="end">
-                                <IconButton
-                                aria-label="toggle password visibility"
-                                onClick={handleClickShowPassword}
-                                onMouseDown={handleMouseDownPassword}
-                                edge="end"
-                                >
-                                {showPassword.showPassword ? <Visibility /> : <VisibilityOff />}
-                                </IconButton>
+                                    <IconButton
+                                        aria-label="toggle password visibility"
+                                        onClick={handleClickShowPassword}
+                                        onMouseDown={handleMouseDownPassword}
+                                        edge="end"
+                                    >
+                                    {showPassword.showPassword ? <Visibility /> : <VisibilityOff />}
+                                    </IconButton>
                                 </InputAdornment>
                             
                         }}
@@ -291,7 +277,7 @@ export default function AccountInformationSection(props) {
                         type={showPassword.showPassword ? 'text' : 'password'}
                         value={formFields.passwordRepeat}
                         validators={['required', 'isPasswordMatch']}
-                        errorMessages={['Password confirmation is a required field', 'password mismatch']}
+                        errorMessages={['Password confirmation is a required field', 'passwords do not match']}
                         helperText=""
                         onChange={checkPassword}
                     />

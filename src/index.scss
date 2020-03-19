@@ -491,3 +491,37 @@ button.Mui-disabled {
   font-weight: 700;
 }
 
+.MuiStepper-root {
+  padding: 24px 24px 5px !important;
+}
+
+.react-tel-input .form-control+div:before {
+  content: '' !important;
+  position: absolute;
+  top: -7px;
+  left: 19px;
+  display: block;
+  background: white;
+  padding: 0 5px;
+  font-size: 13px;
+  width: 70px;
+}
+
+.react-tel-input .selected-flag {
+  position: relative;
+  width: 52px;
+  height: 100%;
+  padding: 0 0 0 25px !important;
+  border-radius: 3px 0 0 3px;
+}
+
+.react-tel-input .form-control {
+  font-size: 16px;
+  background: #FFFFFF;
+  border: 1px solid #CACACA;
+  border-radius: 5px;
+  width: 267px !important;
+  outline: none;
+  padding: 18.5px 14px 18.5px 58px;
+  transition: box-shadow ease .25s,border-color ease .25s;
+}

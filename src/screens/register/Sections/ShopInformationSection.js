@@ -1,4 +1,4 @@
-import React, {useState , useEffect} from 'react';
+import React, {useState, useEffect, useRef} from 'react';
 import {
     withStyles,
     makeStyles,
@@ -149,6 +149,7 @@ function StyledRadio(props) {
 
 
 export default function ShopInformationSection(props) {
+    const PersonalInformationForm = useRef(null);
     const userFields = props.formData;
     const classes = useStyles();
     const [categories , setCategories] = useState([]);
@@ -176,7 +177,7 @@ export default function ShopInformationSection(props) {
 
     const inputLabel = React.useRef(null);
     const [labelWidth, setLabelWidth] = React.useState(0);
-    React.useEffect(() => {
+    useEffect(() => {
         setLabelWidth(inputLabel.current.offsetWidth);
     }, []);
 
@@ -193,17 +194,16 @@ export default function ShopInformationSection(props) {
         setFormFields(formData);
         props.collectData(event);
     };
-
-    const handleFormValidation = (result) => {
-        props.isValid(result);
+    const handleFormValidation = async(result) => {
+        props.isValid(await PersonalInformationForm.current.isFormValid());
     };
 
-    const formRef = React.createRef('form');
+    //handleFormValidation(true);
 
     return (
         <Paper className={classes.paper} style={{'margin-bottom': '80px'}}>
             <ValidatorForm
-                ref={formRef}
+                ref={PersonalInformationForm}
                 onError={handleFormValidation}
                 className={classes.root}
                 instantValidate

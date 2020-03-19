@@ -5,12 +5,13 @@ import DeleteIcon from '@material-ui/icons/Delete';
 import {confirmAlert} from "react-confirm-alert";
 
 
-const ProductHistory = props => {
-    const product = props.item;
-    console.log(product);
+const productHistory = props => {
+    const history = props.item;
+    console.log(history);
+    //console.log(history);
 
-    const deleteHistoryHandler = (historyId) => {
-        console.log(historyId);
+    const deleteHistoryHandler = (event) => {
+        //console.log(historyId);
 
         confirmAlert({
             title: 'Confirm to delete',
@@ -19,7 +20,7 @@ const ProductHistory = props => {
                 {
                     label: 'Yes',
                     onClick: () => {
-                        props.deleteHistory(historyId)
+                        props.deleteHistory(history.id)
                     }
                 },
                 {
@@ -45,7 +46,7 @@ const ProductHistory = props => {
                         style={{fontSize: '18px'}}
                         className={`text-left text-dark font-weight-bold`}
                     >
-                        {`${product.quantity} packs added`}
+                        {`${history.quantity} packs added`}
                     </Typography>
                     <div>Tuesday, February 18th, 2020</div>
                     <div>5 : 15pm</div>
@@ -55,8 +56,10 @@ const ProductHistory = props => {
                     item xs={3}
                     className={`pl-2 pt-3 mx-auto`}
                 >
-                    <div className={`deleteIcon`}>
-                        <DeleteIcon onClick={deleteHistoryHandler.bind(this)}
+                    <div className={`deleteIcon`}
+                         onClick={deleteHistoryHandler}
+                    >
+                        <DeleteIcon
                             style={{fontSize: '30px', color: '#DAAB59'}}
                         /><br/>
                         Delete
@@ -68,4 +71,4 @@ const ProductHistory = props => {
     )
 };
 
-export default ProductHistory;
+export default productHistory;

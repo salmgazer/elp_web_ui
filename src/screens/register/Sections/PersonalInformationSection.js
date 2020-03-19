@@ -4,9 +4,9 @@ import {
     makeStyles,
 } from '@material-ui/core/styles';
 import Paper from '@material-ui/core/Paper';
-import { green } from '@material-ui/core/colors';
 import Grid from '@material-ui/core/Grid';
 import { ValidatorForm, TextValidator} from 'react-material-ui-form-validator';
+import phoneFormat from '../../../services/phoneFormatter';
 
 const useStyles = makeStyles(theme => ({
     root: {
@@ -66,32 +66,21 @@ export default function PersonalInformationSection(props) {
         props.collectData(event);
     };
 
-    /*useEffect(() => {
-        const lie
-        console.log( PersonalInformationForm.current.isFormValid()._value);
-    });*/
-
-    const handleFormValidation = (result) => {
-        props.isValid(result);
+    const handleFormValidation = async(result) => {
+        props.isValid(await PersonalInformationForm.current.isFormValid());
     };
 
     /*
     * Add dashes to contact
     * */
-    const addDashes = contact => {
-        let fs = contact.target.value;
+    const addDashes = event => {
+        if(event.target.value.length <= 12){
+            event.target.value = phoneFormat(event.target.value);
+            handleChange(event);
+            return true;
+        }
 
-        let r = /(\D+)/g,
-            npa = '',
-            nxx = '',
-            last4 = '';
-        fs = fs.replace(r, '');
-        npa = fs.substr(0, 3);
-        nxx = fs.substr(3, 3);
-        last4 = fs.substr(6, 4);
-        fs = npa + '-' + nxx + '-' + last4;
-        contact.target.value = fs;
-        handleChange(contact);
+        return false;
     };
 
     return (
@@ -141,8 +130,9 @@ export default function PersonalInformationSection(props) {
                         required
                         type="tel"
                         validatorListener={handleFormValidation}
+                        pattern="^(?:\(\d{3}\)|\d{3})[- ]?\d{3}[- ]?\d{4}$"
                         variant="outlined"
-                        id="contact"
+                        id="phone_input"
                         validators={['required', 'minStringLength:12' , 'maxStringLength:12']}
                         errorMessages={
                             [

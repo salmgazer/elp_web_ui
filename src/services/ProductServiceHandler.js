@@ -30,6 +30,16 @@ export default class ProductServiceHandler {
         return this.product.stock !== null ? this.product.stock : [];
     }
 
+
+    /*
+    * @var product
+    * Get the cost price of product
+    * @return var
+    * */
+    getProductHistory(){
+        return this.product.history !== null ? this.product.history : [];
+    }
+
     /*
     * @var product
     * Get the image of product

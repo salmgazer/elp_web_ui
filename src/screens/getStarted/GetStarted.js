@@ -11,14 +11,6 @@ const useStyles = makeStyles(theme => ({
     },
 }));
 
-/*const ViewControl = props => {
-    if(props.isStore){
-        return <ViewStore/>;
-    }
-
-    return <ViewWelcome username={props.username}/>;
-};*/
-
 const GetStarted = props => {
     const [isStore , setIsStore] = React.useState(false);
     const [activeStep , setActiveStep] = React.useState(0);

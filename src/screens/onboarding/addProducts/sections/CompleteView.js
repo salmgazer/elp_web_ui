@@ -63,7 +63,7 @@ const CompleteView = props => {
                         className={`capitalization`}
                         onClick={() => history.push(paths.dashboard)}
                     >
-                        Go to settings!
+                        Go to admin!
                     </Button>
                 </BoxDefault>
             </div>

@@ -4,7 +4,6 @@ import ArrowBackIcon from "@material-ui/core/SvgIcon/SvgIcon";
 import paths from "../../../utilities/paths";
 import SectionNavbars from "../../Components/Sections/SectionNavbars";
 import Box from "@material-ui/core/Box/Box";
-import Don from '../../../assets/img/Don.jpg';
 import Button from "@material-ui/core/Button/Button";
 import Step1 from "./sections/Step1";
 import Step2 from "./sections/Step2";
@@ -34,6 +33,7 @@ class CategorySetup extends Component{
                 {'Authorization': `Bearer ${accessToken}`},
                 `https://elp-core-api-dev.herokuapp.com/v1/client/branches/${branchId}/product_categories`,
             );
+            localStorage.setItem('categoryLookup' , JSON.stringify(newCategory.data.allChildren));
 
             this.setState({
                 'categories' : newCategory.data.allParents,
@@ -47,18 +47,16 @@ class CategorySetup extends Component{
     }
 
     selectCategoryHandler = (itemId , event) => {
-        console.log(itemId);
-        const old_categories = this.state.categories;
+        //const stateSubcategories = this.state.subcategories;
 
-        const subcategories = old_categories.findIndex((item => item.id === itemId));
-        const item = [
-            ...old_categories[subcategories].subcategories
-        ];
-
-        console.log(item);
+        let branchCategories = JSON.parse(localStorage.getItem('categoryLookup'));
+        console.log(branchCategories);
+        const searchResults = branchCategories.filter((item) => {
+            return item.parentId === itemId;
+        });
 
         this.setState({
-            subcategories: item
+            subcategories: searchResults
         });
     };
 
@@ -82,6 +80,8 @@ class CategorySetup extends Component{
 
         item.owned = !item.owned;
         old_subcategories[subcategories] = item;
+
+        localStorage.setItem('categoryLookup' , JSON.stringify(old_subcategories));
 
         localStorage.setItem('branchCategoriesAdded' , JSON.stringify(branchCategoriesAdded));
 
@@ -110,6 +110,7 @@ class CategorySetup extends Component{
             branchCategoriesAdded = branchCategoriesAdded.filter((item => item !== subCategoryId));
 
             localStorage.setItem('branchCategoriesAdded' , JSON.stringify(branchCategoriesAdded));
+            localStorage.setItem('categoryLookup' , JSON.stringify(old_subcategories));
 
             this.setState({
                 subcategories: old_subcategories
@@ -124,7 +125,7 @@ class CategorySetup extends Component{
         * @todo
         * Work on fetchin data from source
         * */
-        const old_subcategories = this.state.subcategories;
+        const old_subcategories = JSON.parse(localStorage.getItem('categoryLookup'));
 
         const subcategories = old_subcategories.filter(function(item) {
             return (item.name).toLowerCase().indexOf(search.toLowerCase()) !== -1
@@ -204,6 +205,8 @@ class CategorySetup extends Component{
 
     render(){
         const steps = this.getSteps();
+        console.log(JSON.parse(localStorage.getItem('categoryLookup')));
+
         const counter = ((this.state.subcategories).filter(item => item.owned === true)).length;
 
         return(

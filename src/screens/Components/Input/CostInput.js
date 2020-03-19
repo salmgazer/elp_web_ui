@@ -3,6 +3,7 @@ import Grid from "@material-ui/core/Grid/Grid";
 import Paper from "@material-ui/core/Paper/Paper";
 import InputBase from "@material-ui/core/InputBase/InputBase";
 import {makeStyles} from "@material-ui/core";
+import './styles/SellInput.scss';
 
 const useStyles = makeStyles(theme => ({
     root: {

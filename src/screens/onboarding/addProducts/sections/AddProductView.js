@@ -122,6 +122,11 @@ const AddProductView = props => {
         setCalculatorDialog(value);
     };
 
+    /*const undoProduct = () => {
+        props.undoAddProduct;
+    };*/
+
+    const productHistory = productDetails.getProductHistory();
 
     return(
         <div style={{paddingTop: '60px'}}>
@@ -135,7 +140,9 @@ const AddProductView = props => {
                 openState={successDialog}
                 message={`New product added successfully`}
             >
-                <Button color="secondary" size="small">
+                <Button color="secondary" size="small"
+                    onClick={props.undoAddProduct}
+                >
                     UNDO
                 </Button>
             </SimpleSnackbar>
@@ -197,17 +204,17 @@ const AddProductView = props => {
 
                     <div id="historyRow" className="w-100 mx-auto text-center">
 
-                        {product.stock !== null ? (
+                        {(productHistory.length !== 0 ? (
                             <div>
-                                {(product.stock).map((item , index) =>
-                                    <ProductHistory deleteHistory={props.deleteHistory} key={index} item={item}/>
+                                {(productHistory).map((item) =>
+                                    <ProductHistory deleteHistory={props.deleteHistory} key={item.id} item={item}/>
                                 )}
                             </div>
                         ):(
                             <div>
-                                <span className="text-dark font-weight-bold font-italic text-center mx-auto">No previous quantity counted</span>
+                                <span className="text-dark font-weight-bold font-italic text-center mx-auto">No previous history</span>
                             </div>
-                        )}
+                        ))}
                     </div>
                 </div>
 

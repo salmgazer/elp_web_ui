@@ -112,16 +112,22 @@ const VerifySMS = props => {
     const resendSMS = async () => {
         setLoadingSMS(true);
 
-        const phone = localStorage.getItem('userContact');
-        const otp = new GenerateOTP(4).generateNumber();
-        const name = localStorage.getItem('userFirstName');
+
+        const userId = JSON.parse(localStorage.getItem('userDetails')).userId;
 
         try{
-            await new AuthService().sendOTP(name , phone , otp);
+            const response = await new Api('others').create(
+                {},
+                {},
+                {},
+                `https://elp-core-api-dev.herokuapp.com/v1/client/users/${userId}/resendOTP`
+            );
 
-            setSuccessMsg('YOur verification code has been sent.');
+            setSuccessMsg('Your verification code has been sent.');
             setSuccessDialog(true);
-            localStorage.setItem('userOTP' , otp);
+
+            console.log(response);
+            localStorage.setItem('userOTP' , response.data.otp);
 
             setTimeout(function(){
                 setSuccessDialog(false);
