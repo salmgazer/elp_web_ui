@@ -60,6 +60,10 @@ const AuditHistory = props => {
         props.setView(1);
      };
 
+    const deleteProductHandler = (event) => {
+        props.deleteProduct(event);
+    };
+
     return(
         <div>
 
@@ -72,7 +76,7 @@ const AuditHistory = props => {
             </SectionNavbar>
 
             <Grid container spacing={1} className={classes.root} >
-                <Date style={{width: '170px', border: 'solid'}}/>
+                <Date style={{width: '170px', border: '1px solid #DAAB59'}}/>
             </Grid>
 
             <Grid container spacing={1} >
@@ -120,7 +124,7 @@ const AuditHistory = props => {
             </Grid>
 
             <Box style={{ paddingBottom: '60px'}} p={1} className={`mt-3 mb-5`}>
-                {props.products.map((item) => <SingleProductView  key={item.prod_id} item={item} />)}
+                {props.products.map((item) => <SingleProductView  key={item.prod_id} item={item} deleteStoreProduct={deleteProductHandler.bind(this)} />)}
             </Box>
 
             <Box

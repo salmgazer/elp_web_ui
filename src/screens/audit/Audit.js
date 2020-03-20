@@ -1,5 +1,6 @@
 import React, {Component} from 'react';
 import {withRouter} from "react-router";
+import {confirmAlert} from "react-confirm-alert";
 
 import AuditHistory from './sections/AuditHistory';
 import Reconciliation from './sections/Reconciliation';
@@ -58,7 +59,7 @@ class Audit extends Component{
             case 1:
                 return <AuditHistory setView={this.setStepContentView.bind(this)} auditDates={this.state.datesList} />
             case 2:
-                return <AuditDetails setView={this.setStepContentView.bind(this)} products={this.state.productList} />
+                return <AuditDetails setView={this.setStepContentView.bind(this)} products={this.state.productList} deleteProduct={this.deleteProduct.bind(this)} />
             case 3:
                 return <Reconciliation />
             default:
@@ -70,6 +71,34 @@ class Audit extends Component{
         this.setState({
             activeStep: step
         });
+    };
+
+    deleteProduct = (pId , event) => {
+
+        confirmAlert({
+            title: 'Confirm to delete',
+            message: 'Are you sure you want to delete this product.',
+            buttons: [
+                {
+                    label: 'Yes',
+                    onClick: () => {
+                        let old_list = [...this.state.productList];
+
+                        const result = old_list.filter(item => item.prod_id !== pId);
+
+                        this.setState({
+                            productList: [...result],
+                        });
+                    }
+                },
+                {
+                    label: 'No',
+                    onClick: () => {
+                        return false;
+                    }
+                }
+            ]
+        })
     };
 
 

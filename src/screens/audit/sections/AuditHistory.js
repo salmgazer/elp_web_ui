@@ -33,7 +33,7 @@ const AuditHistory = props => {
 
             <Grid container spacing={1} className={classes.root} >
                 
-                    <Date label='Date picker' style={{width: '170px', border: 'solid'}}/>
+                    <Date label='Date picker' style={{width: '170px', border: '1px solid #DAAB59'}}/>
                
             </Grid>
 
