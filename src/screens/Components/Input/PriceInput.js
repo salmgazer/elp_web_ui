@@ -42,8 +42,8 @@ const PriceInput = props => {
             return
         }
 
-        setQuantity(parseFloat(event.target.value));
-        props.getValue(inputName , (parseFloat(event.target.value)));
+        setQuantity((parseFloat(event.target.value)).toFixed(2));
+        props.getValue(inputName , (parseFloat(event.target.value)).toFixed(2));
     };
 
     return(

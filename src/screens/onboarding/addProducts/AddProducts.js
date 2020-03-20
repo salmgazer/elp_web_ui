@@ -400,7 +400,11 @@ class AddProducts extends Component{
         };
 
         formFields = {
-            ...formFields,
+            branchId: formFields.branchId,
+            productId: formFields.productId,
+            costPrice: parseFloat(formFields.costPrice),
+            sellingPrice: parseFloat(formFields.sellingPrice),
+            quantity: formFields.quantity,
             tempId: tempId,
         };
 
@@ -409,6 +413,7 @@ class AddProducts extends Component{
         (item.stock).push(
             formFields
         );
+        console.log(item.stock);
 
         (item.history).push(historyItem);
 
