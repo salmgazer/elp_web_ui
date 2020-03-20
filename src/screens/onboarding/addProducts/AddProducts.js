@@ -273,6 +273,7 @@ class AddProducts extends Component{
 
                         branchProductsRemoved.push(productId);
                         item.stock = [];
+                        item.history = [];
 
                         old_list[productIndex] = item;
 
