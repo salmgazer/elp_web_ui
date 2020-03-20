@@ -9,7 +9,7 @@ export default class ProductServiceHandler {
     * @return var
     * */
     getSellingPrice(){
-        return this.product.owned === true ? this.product.sellingPrice : null;
+        return (this.product.owned === true && this.product.sellingPrice) ? (this.product.sellingPrice).toFixed(2) : null;
     }
 
     /*
@@ -18,7 +18,7 @@ export default class ProductServiceHandler {
     * @return var
     * */
     getCostPrice(){
-        return this.product.stock ? this.product.stock[((this.product.stock).length - 1)] : null;
+        return this.product.stock ? (this.product.stock[((this.product.stock).length - 1)].costPrice).toFixed(2) : null;
     }
 
     /*

@@ -78,7 +78,7 @@ const Drawer = props => {
                     <ListItemText primary="Sell" />
                 </ListItem>
                 <Divider />
-                <ListItem button key={3}>
+                <ListItem button key={3} onClick={() => history.push(paths.stock)}>
                     <ListItemIcon><ListAltIcon style={{color: '#FFFFFF'}} /></ListItemIcon>
                     <ListItemText primary="Stock" />
                 </ListItem>

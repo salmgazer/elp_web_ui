@@ -19,8 +19,6 @@ import Snackbar from '@material-ui/core/Snackbar';
 import MuiAlert from '@material-ui/lab/Alert';
 import SimpleSnackbar from "../Components/Snackbar/SimpleSnackbar";
 import PrimaryLoader from "../Components/Loader/Loader";
-import AuthService from "../../services/AuthService";
-import GenerateOTP from "../../services/GenerateString";
 import Api from "../../services/Api";
 
 

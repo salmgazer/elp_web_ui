@@ -129,6 +129,10 @@ code {
   margin-top: 70px;
 }
 
+.mt-6 {
+  margin-top: 60px;
+}
+
 .mb-7 {
   margin-bottom: 70px;
 }
@@ -477,6 +481,10 @@ button.Mui-disabled {
   color: #fff!important;
 }
 
+.italize{
+  font-style: italic;
+}
+
 .newBox {
   .MuiBox-root{
     border-radius: 60px 60px 0px 0 !important;
@@ -524,4 +532,36 @@ button.Mui-disabled {
   outline: none;
   padding: 18.5px 14px 18.5px 58px;
   transition: box-shadow ease .25s,border-color ease .25s;
+}
+
+.MuiToolbar-gutters {
+  padding-left: 5px !important;
+  padding-right: 5px !important;
+}
+
+.MuiIconButton-root {
+  padding: 8px !important;
+}
+
+.rightMenuIcons {
+  .MuiIconButton-root{
+    padding: 12px 5px;
+  }
+}
+
+.MuiGrid-root .cardDefault {
+  padding: 5px !important;
+}
+
+.MuiTab-textColorPrimary.Mui-selected {
+  color: #daab59 !important;
+}
+
+.MuiAppBar-colorDefault {
+  color: rgba(0, 0, 0, 0.87);
+  background-color: #ffffff !important;
+}
+
+.icon-color{
+  color: #333232;
 }

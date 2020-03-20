@@ -11,7 +11,6 @@ const productHistory = props => {
     //console.log(history);
 
     const deleteHistoryHandler = (event) => {
-        //console.log(historyId);
 
         confirmAlert({
             title: 'Confirm to delete',

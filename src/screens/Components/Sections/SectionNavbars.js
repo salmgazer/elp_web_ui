@@ -34,9 +34,11 @@ export default function SectionNavbars(props) {
                     <Typography variant="h6" color="inherit" style={{'fontWeight': 700, 'color': '#3d3d3d', textAlign: 'center', margin: '0 auto'}} >
                         {props.title}
                     </Typography>
-                    <IconButton color="inherit">
-                        {props.icons}
-                    </IconButton>
+                    <div className={`rightMenuIcons`}>
+                        <IconButton color="inherit">
+                            {props.icons}
+                        </IconButton>
+                    </div>
                 </Toolbar>
             </AppBar>
         </div>

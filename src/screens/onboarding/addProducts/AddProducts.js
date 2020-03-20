@@ -298,12 +298,10 @@ class AddProducts extends Component{
     };
 
     showAddView = (productId , step) => {
-        console.log(`${productId} from addProduct`);
         const old_list = this.state.productList;
 
         //Find index of specific object using findIndex method.
         const itemIndex = old_list.filter((item => item.id === productId));
-        //Assign current object to new variable
 
         //console.log(itemIndex)
         this.setState({

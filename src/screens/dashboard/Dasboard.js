@@ -14,7 +14,6 @@ import {makeStyles} from "@material-ui/core";
 import MenuIcon from '@material-ui/icons/Menu';
 
 import HomeIcon from '@material-ui/icons/Home';
-import Logo from '../../assets/img/el-parah.png';
 import Typography from "@material-ui/core/Typography/Typography";
 import SectionNavbars from "../Components/Sections/SectionNavbars";
 import BoxDefault from "../Components/Box/BoxDefault";

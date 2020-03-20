@@ -17,4 +17,5 @@ export default {
     reset_password: "/reset-password",
     store_summary: "/store-summary",
     sell: "/sell",
+    stock: "/stock",
 };

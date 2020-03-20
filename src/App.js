@@ -32,6 +32,7 @@ import ResetPassword from "./screens/forgotPassword/sections/ResetPassword";
 import ForgottenPassword from "./screens/forgotPassword/ForgottenPassword";
 import StoreSummary from "./screens/sell/store_summary/StoreSummary";
 import Sell from "./screens/sell/sell/Sell";
+import MainViewStock from "./screens/stock/DirectiveViewStock";
 
 function NoMatch() {
   let location = useLocation();
@@ -211,6 +212,15 @@ class App extends React.Component {
                         setPageBackground();
                         this.setTitle(`Sell | ${appName}`);
                         return <Sell/>;
+                    }}
+                />
+
+                <Route
+                    path={paths.stock}
+                    render={() => {
+                        setPageBackground();
+                        this.setTitle(`Stock | ${appName}`);
+                        return <MainViewStock/>;
                     }}
                 />
               <Route path="*">

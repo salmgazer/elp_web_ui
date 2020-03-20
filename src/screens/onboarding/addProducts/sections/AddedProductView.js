@@ -12,7 +12,6 @@ import Select from "@material-ui/core/Select/Select";
 import MenuItem from "@material-ui/core/MenuItem/MenuItem";
 import {makeStyles} from "@material-ui/core";
 import AddedProductSingle from "./addedView/AddedSingleView";
-import Modal from "../../../Components/Modal/Modal";
 import MainDialog from "../../../Components/Dialog/MainDialog";
 
 const useStyles = makeStyles(theme => ({
