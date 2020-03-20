@@ -1,6 +1,7 @@
 export default {
     login: "/",
     cart: "/cart",
+    audit: "/audit",
     sales_history: "/sales-history",
     purchase_history: "/purchase-history",
     order_history: "/order-history",

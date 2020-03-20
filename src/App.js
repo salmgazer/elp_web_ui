@@ -25,6 +25,7 @@ import PurchaseHistory from "./screens/history/purchaseHistory/PurchaseHistory";
 import OrderHistory from "./screens/history/orderHistory/OrderHistory";
 import InvoiceHistory from "./screens/history/invoiceHistory/InvoiceHistory";
 import NewDashboard from "./screens/newDashboard/Dashboard";
+import Audit from "./screens/audit/Audit";
 
 function NoMatch() {
   let location = useLocation();
@@ -74,6 +75,14 @@ class App extends React.Component {
                 render={() => {
                   this.setTitle(`Cart | ${appName}`);
                   return <Cart />;
+                }}
+              />
+              <Route
+                exact
+                path={paths.audit}
+                render={() => {
+                  this.setTitle(`Audit | ${appName}`);
+                  return <Audit />;
                 }}
               />
               <Route

@@ -13,7 +13,7 @@ const MonthView = props => {
             <CardDefault styles={{width: '95%', marginTop: '5px'}}>
                 <Typography
                     component="p"
-                    style={{fontSize: '18px'}}
+                    style={{fontSize: '18px', padding: '10px'}}
                 >
                     Sales for {new Date().toLocaleDateString([], fullYear)}
                     
