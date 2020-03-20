@@ -3,7 +3,7 @@ import Grid from "@material-ui/core/Grid/Grid";
 import Typography from "@material-ui/core/Typography/Typography";
 import DeleteIcon from '@material-ui/icons/Delete';
 import {confirmAlert} from "react-confirm-alert";
-
+import format from 'date-fns/format'
 
 const productHistory = props => {
     const history = props.item;
@@ -48,8 +48,8 @@ const productHistory = props => {
                     >
                         {`${history.quantity} packs added`}
                     </Typography>
-                    <div>Tuesday, February 18th, 2020</div>
-                    <div>5 : 15pm</div>
+                    <div>{format(new Date(history.createdAt) , "eeee, MMMM do, yyyy")}</div>
+                    <div>{format(new Date(history.createdAt) , "HH:mm a")}</div>
                 </Grid>
 
                 <Grid
