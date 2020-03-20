@@ -18,8 +18,8 @@ const GreenCheckbox = withStyles({
 })(props => <Checkbox color="default" {...props} />);
 
 const SelectedCategorySingle = props => {
-    const addSubCategoryHandler = (id , event) => {
-        props._addSubCategoryHandler(id);
+    const removeSubCategoryHandler = (id , event) => {
+        props.removeSubCategory(id);
     };
 
     const subcategory = props.item;
@@ -46,7 +46,7 @@ const SelectedCategorySingle = props => {
                                     checked={subcategory.owned}
                                     /*onChange={handleChange('checkedG')}*/
                                     value="checkedG"
-                                    onClick={(event) => addSubCategoryHandler(subcategory.id , event)}
+                                    onClick={(event) => removeSubCategoryHandler(subcategory.id , event)}
                                     style={{display: 'table-cell', verticalAlign: 'middle'}}
                                 />
                             }

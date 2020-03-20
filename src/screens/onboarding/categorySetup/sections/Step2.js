@@ -41,7 +41,7 @@ const Step2 = (props) => {
             </Box>
 
             <Box style={{marginTop: '5px'}} p={1}>
-                {props.subcategories.map((item) => <SelectedCategorySingle key={item.id} item={item} _addSubCategoryHandler={props.addSubCategory} />)}
+                {props.subcategories.map((item) => <SelectedCategorySingle key={item.id} item={item} removeSubCategory={props.removeSubCategory} />)}
             </Box>
         </div>
     );

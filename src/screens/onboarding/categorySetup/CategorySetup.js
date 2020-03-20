@@ -61,6 +61,7 @@ class CategorySetup extends Component{
     };
 
     addSubCategoryHandler = (subCategoryId , event) => {
+        console.log(subCategoryId);
         let branchCategoriesAdded = JSON.parse(localStorage.getItem('branchCategoriesAdded')) || [];
         let branchCategoriesRemoved = JSON.parse(localStorage.getItem('branchCategoriesRemoved')) || [];
 
@@ -68,7 +69,7 @@ class CategorySetup extends Component{
 
         const subcategories = old_subcategories.findIndex((item => item.id === subCategoryId));
         const item = {...old_subcategories[subcategories]};
-
+        console.log(item)
         if(item.owned){
             return false;
         }else{
