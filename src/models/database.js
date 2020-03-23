@@ -1,9 +1,13 @@
 import { Database } from "@nozbe/watermelondb";
 import LokiJSAdapter from "@nozbe/watermelondb/adapters/lokijs";
 import schema from "./schema";
-import Store from "./stores/Store";
-import User from "./users/User";
-import UserStore from "./usersStores/UserStore";
+import Brand from "./brands/Brand";
+import Manufacturer from "./manufacturers/Manufacturer";
+import ProductCategory from "./productCategories/ProductCategory";
+import Product from "./products/Product";
+import BranchProduct from "./branchesProducts/BranchProduct";
+import BranchProductStock from "./branchesProductsStocks/BranchProductStock";
+import BranchProductStockHistory from "./branchesProductsStocksHistories/BranchProductStockHistory";
 
 const adapter = new LokiJSAdapter({
   schema
@@ -11,6 +15,14 @@ const adapter = new LokiJSAdapter({
 
 export default new Database({
   adapter,
-  modelClasses: [Store, User, UserStore],
+  modelClasses: [
+    Brand,
+    Manufacturer,
+    ProductCategory,
+    Product,
+    BranchProduct,
+    BranchProductStock,
+    BranchProductStockHistory
+  ],
   actionsEnabled: true
 });

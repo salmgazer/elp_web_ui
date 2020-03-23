@@ -8,7 +8,12 @@ export default class LocalInfo {
       username: "username",
       accessToken: "accessToken",
       branchId: "activeBranch",
+      userAccess: "userData"
     };
+  }
+
+  static get userAccess() {
+    return localStorage.getItem(this.keys.userAccess);
   }
 
   static get userId() {

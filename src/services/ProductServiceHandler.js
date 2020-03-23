@@ -14,11 +14,22 @@ export default class ProductServiceHandler {
 
     /*
     * @var product
-    * Get the cost price of product
+    * Get the most recent cost price of product
     * @return var
     * */
     getCostPrice(){
-        return this.product.stock ? (this.product.stock[((this.product.stock).length - 1)].costPrice).toFixed(2) : null;
+      let mostRecentCostPrice = null;
+      this.product.stock.sort(function(stock1,stock2){
+        return new Date(stock2.createdAt) - new Date(stock1.createdAt);
+      });
+      for (let m = this.product.stock.length - 1; m >= 0; m--) {
+        if (this.product.stock[m].costPrice) {
+          mostRecentCostPrice = this.product.stock[m].costPrice;
+          break;
+        }
+      }
+      return mostRecentCostPrice;
+      // return this.product.stock ? (this.product.stock[((this.product.stock).length - 1)].costPrice).toFixed(2) : null;
     }
 
     /*

@@ -1,14 +1,23 @@
 import { appSchema, tableSchema } from "@nozbe/watermelondb";
+import brandSchema from "./brands/brandSchema";
+import manufacturerSchema from "./manufacturers/manufacturerSchema";
+import productCategorySchema from "./productCategories/productCategorySchema";
+import productSchema from "./products/productSchema";
+import branchProductSchema from "./branchesProducts/branchProductSchema";
+import branchProductStockSchema from "./branchesProductsStocks/branchProductStockSchema";
+import branchProductStockHistorySchema from "./branchesProductsStocksHistories/branchProductStockHistorySchema";
 
-import storeSchema from "./stores/storeSchema";
-import userSchema from "./users/userSchema";
-import userStoreSchema from "./usersStores/userStoreSchema";
 
 export default appSchema({
   version: 1,
   tables: [
-    tableSchema(userSchema),
-    tableSchema(userStoreSchema),
-    tableSchema(storeSchema)
+    tableSchema(brandSchema),
+    tableSchema(manufacturerSchema),
+    tableSchema(productCategorySchema),
+    tableSchema(productSchema),
+    tableSchema(branchProductSchema),
+    tableSchema(branchProductSchema),
+    tableSchema(branchProductStockSchema),
+    tableSchema(branchProductStockHistorySchema)
   ]
 });

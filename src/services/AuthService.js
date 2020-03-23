@@ -1,7 +1,6 @@
 import localInfo from './LocalInfo';
 import Api from './Api';
 import GenerateOTP from './GenerateString';
-import SmsService from './SmsService';
 const jwt = require('jsonwebtoken');
 
 export default class AuthService {
@@ -147,12 +146,6 @@ export default class AuthService {
         );
 
         return res.data;
-    };
-
-    sendOTP = (name , contact , token) => {
-        const message = `Hello ${name}, your verification code is: ${token}. Please enter it.`;
-
-        return new SmsService(contact , message).sendSMS();
     };
 
     logout = () => {

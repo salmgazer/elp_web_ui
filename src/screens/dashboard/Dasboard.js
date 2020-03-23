@@ -1,5 +1,7 @@
 import React from "react";
 import { withRouter } from "react-router-dom";
+import { withDatabase } from "@nozbe/watermelondb/DatabaseProvider";
+import withObservables from "@nozbe/with-observables";
 import Component from "@reactions/component";
 import { useDatabase } from "@nozbe/watermelondb/hooks";
 import { Q } from "@nozbe/watermelondb";
@@ -23,6 +25,10 @@ import CardGridComponent from "./Sections/CardGridComponent";
 import Drawer from "../Components/Drawer/Drawer";
 
 import LocalInfo from '../../services/LocalInfo';
+import Manufacturer from "../../models/manufacturers/Manufacturer";
+import Brand from "../../models/brands/Brand";
+import BranchProduct from "../../models/branchesProducts/BranchProduct";
+import SyncService from "../../services/SyncService";
 
 
 const useStyles = makeStyles(theme => ({
@@ -66,40 +72,6 @@ const useStyles = makeStyles(theme => ({
     }
 }));
 
-const apiUrl = "";
-
-async function getUserStoreFromLocal(database, user, store) {
-    return database.collections
-        .get("users_stores")
-        .query(Q.where("user_id", user.id), Q.where("store_id", store.id))
-        .fetch();
-}
-
-async function getUserFromLocal(database, usernameOrPhone, password) {
-    return database.collections
-        .get("users")
-        .query(
-            Q.where("username", usernameOrPhone),
-            Q.or(Q.where("phone", usernameOrPhone)),
-            Q.where("password", password)
-        )
-        .fetch();
-}
-
-async function getStore(database) {
-    return database.collections
-        .get("stores")
-        .query()
-        .fetch();
-}
-
-async function getUsersFromLocal(database) {
-    return database.collections
-        .get("users")
-        .query()
-        .fetch();
-}
-
 const Dashboard = props => {
     const classes = useStyles();
 
@@ -109,8 +81,35 @@ const Dashboard = props => {
     const username = JSON.parse(localStorage.getItem('userDetails')).firstName;
     console.log(username);
 
-    const { history } = props;
-    const database = useDatabase();
+    const { history, branchProducts, brands, manufacturers, database } = props;
+    // const database = useDatabase();
+
+
+    console.log("********************************");
+    console.log(branchProducts);
+    console.log(brands);
+    console.log(manufacturers);
+    console.log("********************************");
+
+  const createBrand = async () => {
+    const brandsCollection = database.collections.get(Brand.table);
+    const brandToCreate = { name: "Some new brand" };
+    database.action(async () => {
+      const existingBrand = await brandsCollection
+        .query(Q.where("name", brandToCreate.name))
+        .fetch();
+      if (existingBrand[0]) {
+        alert(`The brand ${brandToCreate.name} already exists`);
+        return;
+      }
+      const newBrand = await brandsCollection.create(brand => {
+        brand.name = brandToCreate.name;
+      });
+
+      alert(`Successfully created the brand ${newBrand.name}`);
+    });
+  };
+
 
     if (LocalInfo.storeId && LocalInfo.userId) {
         history.push(paths.home);
@@ -218,7 +217,16 @@ const Dashboard = props => {
                                 variant="contained"
                                 style={{'width': '70%','backgroundColor': '#DAAB59' , color: '#403C3C', margin: '4px auto',padding: '8px 5px', fontSize: '17px', fontWeight: '700'}}
                                 className={classes.button} className="capitalization"
-                                onClick={() => history.push(paths.store_summary)}
+                                // onClick={() => history.push(paths.store_summary)}
+                                onClick={async () => {
+                                  const activeBranch = LocalInfo.branchId;
+                                  const userAccess = JSON.parse(LocalInfo.userAccess);
+                                  console.log(userAccess);
+                                  const companyId = userAccess.access[0].id;
+                                  const userId = userAccess.user.userId;
+                                  await SyncService.sync(companyId, activeBranch, userId, database);
+                                  console.log("DONE SYNCING");
+                                }}
                             >
                                 Start selling
                             </Button>
@@ -230,4 +238,14 @@ const Dashboard = props => {
     );
 };
 
-export default withRouter(Dashboard);
+
+const EnhancedDashboard = withDatabase(
+  withObservables([], ({ database }) => ({
+    branchProducts: database.collections.get(BranchProduct.table).query(Q.where('branchId', localStorage.getItem('activeBranch'))).observe(),
+    brands: database.collections.get(Brand.table).query().observe(),
+    manufacturers: database.collections.get(Manufacturer.table).query().observe(),
+  }))(withRouter(Dashboard))
+);
+
+export default EnhancedDashboard;
+
