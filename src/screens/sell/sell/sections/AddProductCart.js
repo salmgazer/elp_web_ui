@@ -9,6 +9,7 @@ import InputBase from "@material-ui/core/InputBase";
 import Paper from "@material-ui/core/Paper";
 import {makeStyles} from "@material-ui/core";
 import SimpleSnackbar from "../../../Components/Snackbar/SimpleSnackbar";
+import ProductServiceHandler from "../../../../services/ProductServiceHandler";
 
 const useStyles = makeStyles(theme => ({
     root: {
@@ -40,7 +41,11 @@ const AddProductCart = props => {
     const [productAdded , setProductAdded] = useState(false);
 
     const product = props.product;
-    const image = `https://elparah.store/admin/upload/${product.image}`;
+    console.log(product);
+
+    const ProductHandler = new ProductServiceHandler(product);
+
+    const image = ProductHandler.getProductImage();
 
     const setInputValue = (name , value) => {
         console.log(name , value)

@@ -352,7 +352,6 @@ class AddProducts extends Component{
         switch (value) {
             case 'all':
                 storeProducts = JSON.parse(localStorage.getItem('storeProductsLookup'));
-                console.log(storeProducts);
                 break;
 
             case 'stocked':
@@ -363,8 +362,6 @@ class AddProducts extends Component{
 
             case 'incomplete':
                 storeProducts = JSON.parse(localStorage.getItem('storeProductsLookup')).filter((product) => (product.owned === true && (!product.sellingPrice || (product.stock[(product.stock.length - 1).costPrice]) === null)));
-                console.log(storeProducts);
-
                 break;
             default:
                 alert('Value does not exist');
@@ -431,8 +428,6 @@ class AddProducts extends Component{
     };
 
     deleteProduct = (pId , event) => {
-        console.log(pId);
-
         confirmAlert({
             title: 'Confirm to delete',
             message: 'Are you sure you want to delete this product.',
