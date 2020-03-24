@@ -5,7 +5,6 @@ import {
 } from '@material-ui/core/styles';
 import clsx from 'clsx';
 import Paper from '@material-ui/core/Paper';
-import TextField from '@material-ui/core/TextField';
 import Grid from '@material-ui/core/Grid';
 import Radio from '@material-ui/core/Radio';
 import RadioGroup from '@material-ui/core/RadioGroup';
@@ -14,7 +13,7 @@ import FormControl from '@material-ui/core/FormControl';
 import FormLabel from '@material-ui/core/FormLabel';
 import Select from '@material-ui/core/Select';
 import InputLabel from '@material-ui/core/InputLabel';
-import { ValidatorForm, TextValidator , SelectValidator} from 'react-material-ui-form-validator';
+import { ValidatorForm, TextValidator } from 'react-material-ui-form-validator';
 import Api from '../../../services/Api';
 
 const useStyles = makeStyles(theme => ({
@@ -181,12 +180,6 @@ export default function ShopInformationSection(props) {
         setLabelWidth(inputLabel.current.offsetWidth);
     }, []);
 
-    const handleChange = name => event => {
-        setState({
-            ...state,
-            [name]: event.target.value,
-        });
-    };
     const handleChangeHandler = (event) => {
         const { ...formData }  = formFields;
         //console.log(formData.firstName);

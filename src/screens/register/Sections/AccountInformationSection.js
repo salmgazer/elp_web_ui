@@ -10,11 +10,9 @@ import InputAdornment from '@material-ui/core/InputAdornment';
 import IconButton from '@material-ui/core/IconButton';
 import Visibility from '@material-ui/icons/Visibility';
 import VisibilityOff from '@material-ui/icons/VisibilityOff';
-import FormControl from '@material-ui/core/FormControl';
 import Checkbox from '@material-ui/core/Checkbox';
 import FormControlLabel from "@material-ui/core/FormControlLabel/FormControlLabel";
 import { ValidatorForm, TextValidator} from 'react-material-ui-form-validator';
-import phoneFormat from "../../../services/phoneFormatter";
 
 
 const GreenCheckbox = withStyles({

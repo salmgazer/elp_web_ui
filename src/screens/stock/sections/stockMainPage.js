@@ -38,6 +38,11 @@ const StockMainPage = props => {
         setValue(index);
     };
 
+    const setView = (view) => {
+        console.log('in');
+        props.setView(view);
+    };
+
 
     return (
         <div className={`stock`}>
@@ -71,8 +76,12 @@ const StockMainPage = props => {
                         spacing={1}
                         style={{paddingRight: '10px', paddingLeft: '10px' , width: '100%', margin: 'auto'}}
                     >
-                        <Grid item xs={4}>
-                            <CardDefault styles={{width: '100%', marginTop: '10px', borderRadius: '10px'}} >
+                        <Grid
+                            onClick={setView.bind(this , 2)}
+                            item xs={4}>
+                            <CardDefault
+                                styles={{width: '100%', marginTop: '10px', borderRadius: '10px'}}
+                            >
                                 <Typography
                                     component="h6"
                                     variant="h6"
@@ -91,8 +100,13 @@ const StockMainPage = props => {
                             </CardDefault>
                         </Grid>
 
-                        <Grid item xs={4}>
-                            <CardDefault styles={{width: '100%', marginTop: '10px', borderRadius: '10px'}} >
+                        <Grid
+                            item xs={4}
+                            onClick={setView.bind(this , 3)}
+                        >
+                            <CardDefault
+                                styles={{width: '100%', marginTop: '10px', borderRadius: '10px'}}
+                            >
                                 <Typography
                                     component="h6"
                                     variant="h6"
@@ -111,8 +125,13 @@ const StockMainPage = props => {
                             </CardDefault>
                         </Grid>
 
-                        <Grid item xs={4}>
-                            <CardDefault styles={{width: '100%', marginTop: '10px', borderRadius: '10px'}} >
+                        <Grid
+                            item xs={4}
+                            onClick={setView.bind(this , 4)}
+                        >
+                            <CardDefault
+                                styles={{width: '100%', marginTop: '10px', borderRadius: '10px'}}
+                            >
                                 <Typography
                                     component="h6"
                                     variant="h6"
