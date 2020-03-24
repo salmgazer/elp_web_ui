@@ -2,10 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="23d7673f-f43c-4e81-9c96-c34110ab3b67" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/src/screens/onboarding/addProducts/AddProducts.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/screens/onboarding/addProducts/AddProducts.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/screens/sell/sell/Sell.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/screens/sell/sell/Sell.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/screens/sell/sell/sections/AddProductCart.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/screens/sell/sell/sections/AddProductCart.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/screens/sell/sell/sections/SearchMode/SellSearchMode.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/screens/sell/sell/sections/SearchMode/SellSearchMode.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/screens/dashboard/Dasboard.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/screens/dashboard/Dasboard.js" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -53,7 +50,7 @@
           <entry key="css" value="2" />
           <entry key="gitignore" value="5" />
           <entry key="html" value="3" />
-          <entry key="js" value="594" />
+          <entry key="js" value="595" />
           <entry key="json" value="42" />
           <entry key="md" value="1" />
           <entry key="png" value="2" />
@@ -69,7 +66,7 @@
           <entry key="HTML" value="3" />
           <entry key="Image" value="2" />
           <entry key="JSON" value="42" />
-          <entry key="JavaScript" value="594" />
+          <entry key="JavaScript" value="595" />
           <entry key="Markdown" value="1" />
           <entry key="SCSS" value="80" />
           <entry key="SVG" value="1" />
@@ -134,7 +131,7 @@
           <file pinned="false" current-in-tab="true">
             <entry file="file://$PROJECT_DIR$/src/screens/sell/sell/Sell.js">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="556">
+                <state relative-caret-position="348">
                   <caret line="82" column="1" lean-forward="true" selection-start-line="82" selection-start-column="1" selection-end-line="82" selection-end-column="1" />
                   <folding>
                     <element signature="e#0#39#0" expanded="true" />
@@ -174,7 +171,7 @@
               </provider>
             </entry>
           </file>
-          <file pinned="false" current-in-tab="true">
+          <file pinned="false" current-in-tab="false">
             <entry file="file://$PROJECT_DIR$/src/screens/sell/sell/sections/SearchMode/SellSearchMode.js">
               <provider selected="true" editor-type-id="text-editor">
                 <state relative-caret-position="451">
@@ -182,6 +179,15 @@
                   <folding>
                     <element signature="e#0#41#0" expanded="true" />
                   </folding>
+                </state>
+              </provider>
+            </entry>
+          </file>
+          <file pinned="false" current-in-tab="true">
+            <entry file="file://$PROJECT_DIR$/src/screens/dashboard/Dasboard.js">
+              <provider selected="true" editor-type-id="text-editor">
+                <state relative-caret-position="310">
+                  <caret line="249" column="15" selection-start-line="249" selection-start-column="15" selection-end-line="249" selection-end-column="15" />
                 </state>
               </provider>
             </entry>
@@ -248,7 +254,6 @@
         <option value="$PROJECT_DIR$/src/App.js" />
         <option value="$PROJECT_DIR$/src/screens/stock/MainViewStock.js" />
         <option value="$PROJECT_DIR$/src/screens/Components/Drawer/Drawer.js" />
-        <option value="$PROJECT_DIR$/src/screens/dashboard/Dasboard.js" />
         <option value="$PROJECT_DIR$/src/screens/Components/Sections/SectionNavbars.js" />
         <option value="$PROJECT_DIR$/src/screens/dashboard/Dashboard.scss" />
         <option value="$PROJECT_DIR$/src/screens/stock/sections/BarcodeMode/StockBarcodeMode.js" />
@@ -289,6 +294,7 @@
         <option value="$PROJECT_DIR$/src/screens/sell/sell/sections/SearchMode/SellSearchMode.js" />
         <option value="$PROJECT_DIR$/src/screens/sell/sell/sections/AddProductCart.js" />
         <option value="$PROJECT_DIR$/src/screens/sell/sell/Sell.js" />
+        <option value="$PROJECT_DIR$/src/screens/dashboard/Dasboard.js" />
       </list>
     </option>
   </component>
@@ -525,12 +531,12 @@
       <workItem from="1584719691957" duration="26079000" />
       <workItem from="1584892724675" duration="590000" />
       <workItem from="1584918255562" duration="394000" />
-      <workItem from="1584918756976" duration="40191000" />
+      <workItem from="1584918756976" duration="40365000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="893796000" />
+    <option name="totallyTimeSpent" value="893970000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="1913" y="-7" width="1550" height="878" extended-state="6" />
@@ -557,7 +563,7 @@
       <window_info anchor="bottom" id="Regex Tester" order="13" />
       <window_info anchor="bottom" id="Event Log" order="14" sideWeight="0.50162077" side_tool="true" weight="0.26275116" />
       <window_info anchor="bottom" id="Version Control" order="15" show_stripe_button="false" />
-      <window_info anchor="bottom" id="Terminal" order="16" sideWeight="0.49837926" weight="0.26040268" />
+      <window_info anchor="bottom" id="Terminal" order="16" sideWeight="0.49837926" visible="true" weight="0.26040268" />
       <window_info anchor="bottom" id="Floobits" order="17" weight="0.32869786" />
       <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
       <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
@@ -705,13 +711,6 @@
           <folding>
             <element signature="e#0#26#0" expanded="true" />
           </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/screens/dashboard/Dasboard.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-2262">
-          <caret line="86" lean-forward="true" selection-start-line="86" selection-end-line="86" />
         </state>
       </provider>
     </entry>
@@ -1029,7 +1028,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/screens/sell/sell/Sell.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="556">
+        <state relative-caret-position="348">
           <caret line="82" column="1" lean-forward="true" selection-start-line="82" selection-start-column="1" selection-end-line="82" selection-end-column="1" />
           <folding>
             <element signature="e#0#39#0" expanded="true" />
@@ -1044,6 +1043,13 @@
           <folding>
             <element signature="e#0#41#0" expanded="true" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/screens/dashboard/Dasboard.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="310">
+          <caret line="249" column="15" selection-start-line="249" selection-start-column="15" selection-end-line="249" selection-end-column="15" />
         </state>
       </provider>
     </entry>
