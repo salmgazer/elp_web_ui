@@ -9,7 +9,7 @@ import AuditDetails from './sections/AuditDetails';
 class Audit extends Component{
 
     state={
-        activeStep: 1,
+        activeStep: 3,
         datesList: [
             {
                 'date_id': '1',
@@ -61,7 +61,7 @@ class Audit extends Component{
             case 2:
                 return <AuditDetails setView={this.setStepContentView.bind(this)} products={this.state.productList} deleteProduct={this.deleteProduct.bind(this)} />
             case 3:
-                return <Reconciliation />
+                return <Reconciliation setView={this.setStepContentView.bind(this)} />
             default:
                 return 'Complete';
         }
