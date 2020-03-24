@@ -1,7 +1,7 @@
 import React , {useState} from 'react';
 import { BrowserQRCodeReader } from '@zxing/library';
 import {makeStyles} from "@material-ui/core";
-import './barcodeMode.scss';
+import '../barcode/barcodeMode.scss';
 import Grid from '@material-ui/core/Grid';
 import Typography from "@material-ui/core/Typography";
 import InputBase from "@material-ui/core/InputBase";
@@ -9,13 +9,10 @@ import Paper from "@material-ui/core/Paper";
 import SearchIcon from '@material-ui/icons/Search';
 import Button from "@material-ui/core/Button/Button";
 import Box from "@material-ui/core/Box/Box";
-import './AddProducts.scss';
-import Don from '../../../../assets/img/Don.jpg';
-import Snackbar from '@material-ui/core/Snackbar';
-import MuiAlert from '@material-ui/lab/Alert';
-import MainDialog from "../../../Components/Dialog/MainDialog";
-import KeyboardBackspaceIcon from "@material-ui/core/SvgIcon/SvgIcon";
-import SearchMode from "./SearchMode";
+import '../AddProducts.scss';
+import Don from '../../../../../assets/img/Don.jpg';
+import MainDialog from "../../../../Components/Dialog/MainDialog";
+
 
 
 const useStyles = makeStyles(theme => ({
