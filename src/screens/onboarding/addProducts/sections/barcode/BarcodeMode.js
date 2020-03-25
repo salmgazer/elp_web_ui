@@ -14,6 +14,8 @@ import Don from '../../../../../assets/img/Don.jpg';
 import Snackbar from '@material-ui/core/Snackbar';
 import MuiAlert from '@material-ui/lab/Alert';
 import MainDialog from "../../../../Components/Dialog/MainDialog";
+import SimpleSnackbar from "../../../../Components/Snackbar/SimpleSnackbar";
+import ProductServiceHandler from "../../../../../services/ProductServiceHandler";
 
 
 
@@ -42,7 +44,7 @@ const BarcodeMode = props => {
     const [productName , setProductName] = useState('');
     const [productImage , setProductImage] = useState('');
     const [showProduct , setShowProduct] = useState(false);
-    const [errorDialog, setErrorDialog] = useState(true);
+    const [errorDialog, setErrorDialog] = useState(false);
 
     const codeReader = new BrowserBarcodeReader();
     const beepSound = new Audio('data:audio/wav;base64,UklGRl9vT19XQVZFZm10IBAAAAABAAEAQB8AAEAfAAABAAgAZGF0YU'+Array(1e3).join(123));
@@ -75,6 +77,7 @@ const BarcodeMode = props => {
                         alert(result.text);
                         beepSound.play();
                         setBarcodeNumber(result.text);
+                        codeReader.reset();
                         document.getElementById('barOverlay').style.display = 'block';
                     })
                     .catch(err => {
@@ -93,21 +96,29 @@ const BarcodeMode = props => {
 
         console.log(barcodeNumber);
         const prod = await props.searchBarcode(barcodeNumber);
+        console.log(props.product);
         if(prod){
-            //props.setView(1);
+            const product = props.product[0];
+
+            const productHandler = new ProductServiceHandler(product);
 
             if( prod.length === 1) {
-                setProductImage(`https://elparah.store/admin/upload/${prod[0].image}`);
-                setProductName(prod[0].pro_name);
+                setProductImage(productHandler.getProductImage());
+                setProductName(productHandler.getProductName());
                 setShowProduct(true);
             }
-            console.log(prod)
+            console.log(product)
         }
         console.log(prod)
     };
 
     return(
         <div className={`bCode mx-1`} style={{position: 'relative', minHeight: '65vh'}}>
+            <SimpleSnackbar
+                type="warning"
+                openState={errorDialog}
+                message={`No product found. Please try again`}
+            />
             <MainDialog states={showProduct}>
                 <Typography
                     component="h6"
