@@ -1,7 +1,8 @@
 import {synchronize} from "@nozbe/watermelondb/sync";
 import LocalInfo from "./LocalInfo";
+import Api from "./Api";
 
-const apiUrl = 'https://elp-core-api-dev.herokuapp.com/v1/client';
+const apiUrl = 'http://localhost:8081/v1/client';
 
 export default class SyncService {
   static async sync(companyId, branchId, userId, database) {
@@ -12,29 +13,39 @@ export default class SyncService {
         pullChanges: async ({lastPulledAt}) => {
           let queryString = '';
 
-          console.log("*************************");
-          console.log("*************************");
-          console.log(lastPulledAt);
-          console.log("*************************");
-          console.log("*************************");
 
-          queryString = `${queryString}&company_id=${companyId}&branch_id=${branchId}`;
+          const products = await database.collections.get('products').query().fetch();
+          const brands = await database.collections.get('brands').query().fetch();
+          const manufacturers = await database.collections.get('manufacturers').query().fetch();
+          const productCategories = await database.collections.get('product_categories').query().fetch();
+
+          const globalEntities = {
+            products: products.map(p => p.id),
+            brands: brands.map(b => b.id),
+            manufacturers: manufacturers.map(m => m.id),
+            product_categories: productCategories.map(pc => pc.id)
+          };
+
+          queryString = `${queryString}company_id=${companyId}&branch_id=${branchId}&global_entities=${JSON.stringify(globalEntities)}`;
           if (lastPulledAt) {
             queryString = `last_pulled_at=${lastPulledAt}&${queryString}`;
           }
 
-          const response = await fetch(`${apiUrl}/users/${userId}/sync?${queryString}`, {
-            method: 'GET',
-            headers: {
-              'Content-Type': 'application/json',
-              'Authorization': LocalInfo.accessToken
-            }
-          });
-          if (!response.ok) {
+          console.log(queryString);
+
+          const response = await new Api('others').index(
+            {},
+            {'Authorization': `Bearer ${LocalInfo.accessToken}`},
+            `${apiUrl}/users/${userId}/sync?${queryString}`,
+          );
+
+          if (!response) {
             throw new Error(await response.text())
           }
 
-          const {changes, timestamp} = await response.json();
+          const {changes, timestamp} = await response.data;
+          /*
+          console.log(changes.products);
 
           // check if row does not exist and move it from updated to created
           const tables = Object.keys(changes);
@@ -71,28 +82,30 @@ export default class SyncService {
               }
             }
           }
+          */
 
           return {changes, timestamp};
         },
         pushChanges: async ({changes, lastPulledAt}) => {
           let queryString = '';
 
-          queryString = `${queryString}&company_id=${companyId}&branch_id=${branchId}`;
+          queryString = `${queryString}company_id=${companyId}&branch_id=${branchId}`;
 
           if (lastPulledAt) {
             queryString = `last_pulled_at=${lastPulledAt}&${queryString}`;
           }
 
-          const response = await fetch(`${apiUrl}/users/${userId}/sync?${queryString}`, {
-            method: 'POST',
-            body: JSON.stringify(changes),
-            headers: {
-              'Content-Type': 'application/json',
-              'Authorization': LocalInfo.accessToken
-            }
-          });
+          console.log("WE ARE HERE ABOUT TO PUSH");
+
+          const response = await new Api('others').create(
+            JSON.stringify(changes),
+            {'Authorization': `Bearer ${LocalInfo.accessToken}`},
+            {},
+            `${apiUrl}/users/${userId}/sync?${queryString}`
+          );
+
           console.log("DONE SYNCING");
-          if (!response.ok) {
+          if (!response) {
             throw new Error(await response.text())
           }
         },
