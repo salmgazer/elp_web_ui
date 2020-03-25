@@ -18,6 +18,9 @@ import SimpleSnackbar from "../../../../Components/Snackbar/SimpleSnackbar";
 import ProductServiceHandler from "../../../../../services/ProductServiceHandler";
 
 
+function Alert(props) {
+    return <MuiAlert elevation={6} variant="filled" {...props} />;
+}
 
 const useStyles = makeStyles(theme => ({
     root: {
@@ -40,11 +43,12 @@ const useStyles = makeStyles(theme => ({
 
 const BarcodeMode = props => {
     const styles = useStyles();
-    const [barcodeNumber , setBarcodeNumber] = useState('');
+    const [barcodeNumber , setBarcodeNumber] = useState();
     const [productName , setProductName] = useState('');
     const [productImage , setProductImage] = useState('');
     const [showProduct , setShowProduct] = useState(false);
     const [errorDialog, setErrorDialog] = useState(false);
+    const [errorMessage, setErrorMessage] = useState('');
 
     const codeReader = new BrowserBarcodeReader();
     const beepSound = new Audio('data:audio/wav;base64,UklGRl9vT19XQVZFZm10IBAAAAABAAEAQB8AAEAfAAABAAgAZGF0YU'+Array(1e3).join(123));
@@ -77,6 +81,7 @@ const BarcodeMode = props => {
                         alert(result.text);
                         beepSound.play();
                         setBarcodeNumber(result.text);
+                        barcodeSearchHandler();
                         codeReader.reset();
                         document.getElementById('barOverlay').style.display = 'block';
                     })
@@ -88,18 +93,15 @@ const BarcodeMode = props => {
         })
         .catch(err => console.error(err));
 
-    const barcodeSearchHandler = async (event) => {
+    const barcodeSearchHandler = async() => {
         if(barcodeNumber === '' || typeof barcodeNumber === 'undefined'){
-            setErrorDialog(true);
-            alert('me')
+            await setErrorMessage('Barcode empty. Please try again.');
+            await setErrorDialog(true);
         }
-
-        console.log(barcodeNumber);
         const prod = await props.searchBarcode(barcodeNumber);
-        console.log(props.product);
-        if(prod){
-            const product = props.product[0];
 
+        if(prod.length === 1){
+            const product = prod[0];
             const productHandler = new ProductServiceHandler(product);
 
             if( prod.length === 1) {
@@ -107,17 +109,20 @@ const BarcodeMode = props => {
                 setProductName(productHandler.getProductName());
                 setShowProduct(true);
             }
-            console.log(product)
+            return true
+        }else if(prod.length === 0) {
+            console.log('me')
+            await setErrorMessage('Product with this barcode does not exist');
+            await setErrorDialog(true);
         }
-        console.log(prod)
     };
 
     return(
         <div className={`bCode mx-1`} style={{position: 'relative', minHeight: '65vh'}}>
             <SimpleSnackbar
-                type="warning"
+                type="success"
                 openState={errorDialog}
-                message={`No product found. Please try again`}
+                message={errorMessage}
             />
             <MainDialog states={showProduct}>
                 <Typography
@@ -150,7 +155,7 @@ const BarcodeMode = props => {
                     <Button
                         variant="outlined"
                         style={{border: '1px solid #DAAB59', color: '#DAAB59', marginRight: '10px'}}
-                        onClick = {() => props.setView(0)}
+                        onClick = {() => setShowProduct(false)}
                     >
                         Cancel
                     </Button>
@@ -216,7 +221,7 @@ const BarcodeMode = props => {
                                         placeholder="Enter barcode key"
                                         value={barcodeNumber}
                                         inputProps={{ 'aria-label': 'Enter barcode key' }}
-                                        onChange={(event) => barcodeSearchHandler(event)}
+                                        onChange={(event) => setBarcodeNumber(event.target.value)}
                                     />
                                 </Paper>
                             </Grid>

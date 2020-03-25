@@ -14,6 +14,7 @@ export default function SimpleSnackbar(props) {
     useEffect(() => {
         // Update the document title using the browser API
         setOpen(props.openState);
+        console.log(props.openState);
     });
 
     const handleClose = (event, reason) => {

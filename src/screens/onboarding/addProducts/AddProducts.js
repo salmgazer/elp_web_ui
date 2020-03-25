@@ -312,11 +312,11 @@ class AddProducts extends Component{
 
     searchBarcode = async (barcode) => {
         //console.log(`${proId} from addProduct`);
-        const old_list = this.state.productList;
+
+        const old_list = JSON.parse(localStorage.getItem('storeProductsLookup'));
 
         //Find index of specific object using findIndex method.
-        const itemIndex = old_list.filter((product => product.barcode === barcode));
-        //Assign current object to new variable
+        const itemIndex = old_list.filter((product => product.barCode === barcode));
 
         console.log(itemIndex);
         await this.setState({
