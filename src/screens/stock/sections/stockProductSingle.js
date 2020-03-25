@@ -7,7 +7,6 @@ import Typography from "@material-ui/core/Typography";
 import ProductServiceHandler from "../../../services/ProductServiceHandler";
 import format from 'date-fns/format'
 import LocationProductSingle from "./LocationProductSingle";
-import SecondaryButton from "../../Components/Buttons/SecondaryButton";
 import Box from "@material-ui/core/Box/Box";
 import BottomMenu from "./BottomMenu";
 
@@ -134,7 +133,7 @@ const StockProductSingle = props => {
                 p={1}
                 style={{ height: '3.0rem', position: "fixed", bottom:"0", width:"100%" }}
             >
-                <BottomMenu/>
+                <BottomMenu setView={props.setView}/>
             </Box>
 
         </div>

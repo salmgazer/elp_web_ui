@@ -8,7 +8,7 @@ const PrimaryButton = props => {
             style={{border: '1px solid #DAAB59', color: '#DAAB59', padding: '5px 50px', fontSize: '15px'}}
             className={`${props.classes} capitalize`}
         >
-            props.children
+            {props.children}
         </Button>
     )
 };

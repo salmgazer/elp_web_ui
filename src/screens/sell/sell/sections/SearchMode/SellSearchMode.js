@@ -10,6 +10,7 @@ import AddIcon from "../../../../Components/ClickableIcons/AddIcon";
 import ProductCard from "../../../../Components/Cards/ProductCard";
 import WarningIcon from "../../../../Components/ClickableIcons/WarningIcon";
 import Typography from "@material-ui/core/Typography/Typography";
+import ProductServiceHandler from "../../../../../services/ProductServiceHandler";
 
 const useStyles = makeStyles(theme => ({
     root: {
@@ -36,7 +37,7 @@ const useStyles = makeStyles(theme => ({
 const SellSearchMode = props => {
     const classes = useStyles();
     const products = props.products;
-
+    console.log(products);
     const addProductHandler = (id) => {
         console.log(id);
         props.productAdd(id , 1);
@@ -85,11 +86,11 @@ const SellSearchMode = props => {
                 </Typography>
 
                 <Grid container spacing={1} className='mt-3'>
-                    {products.map((item) =>
-                        <Grid key={item.pro_id} item xs={4} style={{padding: '4px 8px' , position: 'relative'}} className={`mx-0 px-1`}>
-                            { item.pro_quantity === null ?
+                    {products.map((product) =>
+                        <Grid key={product.id} item xs={4} style={{padding: '4px 8px' , position: 'relative'}} className={`mx-0 px-1`}>
+                            { new ProductServiceHandler(product).getProductQuantity() === null ?
                                 <div
-                                    onClick={removeProductHandler.bind(this , item.pro_id)}
+                                    onClick={removeProductHandler.bind(this , product.id)}
                                 >
                                     <WarningIcon
                                         styles={{
@@ -105,7 +106,7 @@ const SellSearchMode = props => {
                                     />
                                 </div>:
                                 <div
-                                    onClick={addProductHandler.bind(this, item.pro_id)}
+                                    onClick={addProductHandler.bind(this, product.id)}
                                 >
                                     <AddIcon
                                         styles={{
@@ -121,8 +122,8 @@ const SellSearchMode = props => {
                                     />
                                 </div>
                             }
-                            <ProductCard product={item}>
-                                GHC {(parseFloat(item.Selling_Price)).toFixed(2)}
+                            <ProductCard product={product}>
+                                GHC {new ProductServiceHandler(product).getSellingPrice()}
                             </ProductCard>
                         </Grid>
                     )}

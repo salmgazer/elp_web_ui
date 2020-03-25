@@ -7,6 +7,11 @@ import AccessTimeIcon from '@material-ui/icons/AccessTime';
 import CreateOutlinedIcon from '@material-ui/icons/CreateOutlined';
 
 const BottomMenu = props => {
+
+    const setView = (step) => {
+        props.setView(step);
+    };
+
     return (
         <Grid container spacing={1} className={`py-1`}>
             <Grid
@@ -27,6 +32,7 @@ const BottomMenu = props => {
             </Grid>
             <Grid
                 item xs={3}
+                onClick={setView.bind(this, 6)}
                 className={`text-center icon-color`}
             >
                 <SwapHorizOutlinedIcon

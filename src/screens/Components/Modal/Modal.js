@@ -67,7 +67,9 @@ const Modal = props => {
                     {props.children}
                 </DialogContent>
                 <DialogActions>
-                    {props.footer}
+                    <div className={`mx-auto`}>
+                        {props.footer}
+                    </div>
                 </DialogActions>
             </Dialog>
         </div>

@@ -5,6 +5,11 @@ import './stock.scss';
 import Api from "../../services/Api";
 import LocalInfo from '../../services/LocalInfo';
 import StockProductSingle from "./sections/stockProductSingle";
+import StockSummaryPage from "./sections/itemsLeft/stockSummaryPage";
+import ItemsOutOfStock from "./sections/outOfStock/itemsOutOfStock";
+import ItemsLowStock from "./sections/lowStock/itemsLowStock";
+import AddNewStockPage from "./sections/addNewStockPage";
+import MoveStock from "./sections/moveStock/moveStock";
 
 class DirectiveViewStock extends Component{
     state = {
@@ -27,7 +32,13 @@ class DirectiveViewStock extends Component{
                 status: false,
                 quantity: 1000
             }
-        ]
+        ],
+        storeDetails: {
+            itemsInStore: '2000',
+            totalCostPrice: '50,000',
+            totalSellingPrice: '60,000',
+            totalExpectedProfit: '10,000',
+        },
     };
 
     /*
@@ -70,6 +81,16 @@ class DirectiveViewStock extends Component{
                 return <StockMainPage stock={this.state.stockList} setView={this.setStepContentView.bind(this)} addProductStockView={this.showProductStockView.bind(this)}/> ;
             case 1:
                 return <StockProductSingle locations={this.state.locations} product={this.state.currentProduct} setView={this.setStepContentView.bind(this)}/>;
+            case 2:
+                return <StockSummaryPage storeDetails={this.state.storeDetails} setView={this.setStepContentView.bind(this)}/>;
+            case 3:
+                return <ItemsOutOfStock addNewProductStockView={this.addNewProductStockView.bind(this)} stock={this.state.stockList} storeDetails={this.state.storeDetails} setView={this.setStepContentView.bind(this)}/>;
+            case 4:
+                return <ItemsLowStock addNewProductStockView={this.addNewProductStockView.bind(this)} stock={this.state.stockList} storeDetails={this.state.storeDetails} setView={this.setStepContentView.bind(this)}/>;
+            case 5:
+                return <AddNewStockPage product={this.state.currentProduct} setView={this.setStepContentView.bind(this)}/>;
+            case 6:
+                return <MoveStock product={this.state.currentProduct} setView={this.setStepContentView.bind(this)}/>;
             default:
                 return 'Complete';
         }
@@ -119,6 +140,23 @@ class DirectiveViewStock extends Component{
         });
     };
 
+    /*
+    * Add new stock
+    * */
+
+    addNewProductStockView = (productId) => {
+        console.log(`${productId} from addStock`);
+        const old_list = this.state.stockList;
+
+        //Find index of specific object using findIndex method.
+        const product = old_list.filter((product => product.id === productId));
+
+        //console.log(itemIndex)
+        this.setState({
+            currentProduct: product[0],
+            activeStep: 5
+        });
+    };
 
     render(){
         return (

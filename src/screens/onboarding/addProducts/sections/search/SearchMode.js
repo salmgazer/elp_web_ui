@@ -1,14 +1,14 @@
 import React, {useState} from 'react';
-import './AddProducts.scss';
+import '../AddProducts.scss';
 import {
     makeStyles,
 } from '@material-ui/core/styles';
 import Grid from "@material-ui/core/Grid/Grid";
 import clsx from 'clsx';
-import ProductCard from "../../../Components/Cards/ProductCard";
-import AddedIcon from "../../../Components/ClickableIcons/AddedIcon";
-import AddIcon from "../../../Components/ClickableIcons/AddIcon";
-import SearchInput from "../../../Components/Input/SearchInput";
+import ProductCard from "../../../../Components/Cards/ProductCard";
+import AddedIcon from "../../../../Components/ClickableIcons/AddedIcon";
+import AddIcon from "../../../../Components/ClickableIcons/AddIcon";
+import SearchInput from "../../../../Components/Input/SearchInput";
 import Radio from '@material-ui/core/Radio';
 import RadioGroup from '@material-ui/core/RadioGroup';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
