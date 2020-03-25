@@ -1,5 +1,5 @@
 import React , {useState} from 'react';
-import { BrowserQRCodeReader } from '@zxing/library';
+import { BrowserBarcodeReader } from '@zxing/library';
 import {makeStyles} from "@material-ui/core";
 import '../barcode/barcodeMode.scss';
 import Grid from '@material-ui/core/Grid';
@@ -11,6 +11,8 @@ import Button from "@material-ui/core/Button/Button";
 import Box from "@material-ui/core/Box/Box";
 import '../AddProducts.scss';
 import Don from '../../../../../assets/img/Don.jpg';
+import Snackbar from '@material-ui/core/Snackbar';
+import MuiAlert from '@material-ui/lab/Alert';
 import MainDialog from "../../../../Components/Dialog/MainDialog";
 
 
@@ -41,7 +43,8 @@ const BarcodeMode = props => {
     const [productImage , setProductImage] = useState('');
     const [showProduct , setShowProduct] = useState(false);
     const [errorDialog, setErrorDialog] = useState(true);
-    const codeReader = new BrowserQRCodeReader();
+
+    const codeReader = new BrowserBarcodeReader();
     const beepSound = new Audio('data:audio/wav;base64,UklGRl9vT19XQVZFZm10IBAAAAABAAEAQB8AAEAfAAABAAgAZGF0YU'+Array(1e3).join(123));
     let selectedDeviceId;
 
@@ -69,8 +72,9 @@ const BarcodeMode = props => {
                 codeReader
                     .decodeOnceFromVideoDevice(selectedDeviceId, 'video')
                     .then(result => {
+                        alert(result.text);
                         beepSound.play();
-                        document.getElementById('productBarcode').value = result.text;
+                        setBarcodeNumber(result.text);
                         document.getElementById('barOverlay').style.display = 'block';
                     })
                     .catch(err => {
@@ -78,29 +82,11 @@ const BarcodeMode = props => {
                         console.log(err)
                     });
             });
-
-
-            /*codeReader
-                .decodeFromVideoDevice(selectedDeviceId, 'video', (result, err) => {
-                    if (result) {
-                        beepSound.play();
-                        alert(result);
-                        document.getElementById('productBarcode').val(result.text);
-                        //scanCode(result.text);
-                        codeReader.reset();
-                        //$('#barOverlay').show();
-
-                    }
-                    if (err && !(err instanceof BrowserQRCodeReader.NotFoundException)) {
-                        console.error(err);
-                        document.getElementById('barError').textContent = err;
-                    }
-            })*/
         })
         .catch(err => console.error(err));
 
-    const barcodeSearch = async (event) => {
-        if(barcodeNumber == 0){
+    const barcodeSearchHandler = async (event) => {
+        if(barcodeNumber === '' || typeof barcodeNumber === 'undefined'){
             setErrorDialog(true);
             alert('me')
         }
@@ -115,7 +101,6 @@ const BarcodeMode = props => {
                 setProductName(prod[0].pro_name);
                 setShowProduct(true);
             }
-            //setProductImage((props.product[0]).)
             console.log(prod)
         }
         console.log(prod)
@@ -218,8 +203,9 @@ const BarcodeMode = props => {
                                     <InputBase
                                         className={`${styles.input} search-box`}
                                         placeholder="Enter barcode key"
+                                        value={barcodeNumber}
                                         inputProps={{ 'aria-label': 'Enter barcode key' }}
-                                        onChange={(event) => setBarcodeNumber(event.target.value)}
+                                        onChange={(event) => barcodeSearchHandler(event)}
                                     />
                                 </Paper>
                             </Grid>
@@ -230,7 +216,7 @@ const BarcodeMode = props => {
                                 style={{color: '#D34343'}}
                             >
                                 <div style={{backgroundColor: '#DAAB59', color: '#333333', borderRadius: '50%', width: '40px', height: '40px'}}>
-                                    <SearchIcon className={`p-2`} onClick={barcodeSearch}/>
+                                    <SearchIcon className={`p-2`} onClick={barcodeSearchHandler}/>
                                 </div>
                             </Grid>
                         </Grid>
