@@ -2,7 +2,7 @@ import {synchronize} from "@nozbe/watermelondb/sync";
 import LocalInfo from "./LocalInfo";
 import Api from "./Api";
 
-const apiUrl = 'http://localhost:8081/v1/client';
+const apiUrl = 'https://elp-core-api-dev.herokuapp.com/v1/client';
 
 export default class SyncService {
   static async sync(companyId, branchId, userId, database) {
