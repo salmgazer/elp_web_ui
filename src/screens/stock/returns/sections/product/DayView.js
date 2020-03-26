@@ -2,13 +2,17 @@ import React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import Grid from '@material-ui/core/Grid';
 import Button from "@material-ui/core/Button/Button";
+import DateFnsUtils from '@date-io/date-fns';
+import {
+  MuiPickersUtilsProvider,
+  KeyboardDatePicker,
+} from '@material-ui/pickers'; 
 import Paper from '@material-ui/core/Paper';
 import Typography from '@material-ui/core/Typography';
-import TextField from '@material-ui/core/TextField';
 import Box from "@material-ui/core/Box/Box";
 import { withRouter } from "react-router-dom";
 
-import SingleYearView from './productViews/SingleYearView';
+import SingleDayView from './singleView/SingleDayView';
 
 const useStyles = makeStyles(theme => ({
     root: {
@@ -36,38 +40,14 @@ const useStyles = makeStyles(theme => ({
     }
   }));
 
-  const values = [
-    {
-      value: '2020',
-      label: '2020',
-    },
-    {
-      value: '2019',
-      label: '2019',
-    },
-    {
-      value: '2018',
-      label: '2018',
-    },
-    {
-      value: '2017',
-      label: '2017',
-    }
-  ];
-
-  const YearView = props => {
+  const DayView = props => {
     
     const classes = useStyles();
-    const [user, setUser] = React.useState('2020');
+    const [selectedDate, setSelectedDate] = React.useState(new Date());
 
-    const handleChange = event => {
-        setUser(event.target.value);
-    };
-
-
-    const openDay = (event) => {
-        props.setView(0);
-    };
+    const handleDateChange = date => {
+        setSelectedDate(date);
+      };
 
     const openWeek = (event) => {
         props.setView(1);
@@ -77,15 +57,19 @@ const useStyles = makeStyles(theme => ({
         props.setView(2);
     };
 
+    const openYear = (event) => {
+        props.setView(3);
+    };
+
     return(
         <div className={classes.root}>
             <Grid container spacing={1}>
 
                 <Grid item xs={3}>
                     <Button
-                        variant="outlined"
-                        style={{border: '1px solid #DAAB59', color: '#DAAB59', padding: '5px 10px', textTransform: 'none', fontSize:'10px'}}
-                        onClick={openDay.bind(this)}
+                        variant="contained"
+                        style={{'backgroundColor': '#DAAB59' , color: 'white', padding: '5px 10px', textTransform: 'none', fontSize:'10px'}}
+
                     >
                         Day
                     </Button>
@@ -113,8 +97,9 @@ const useStyles = makeStyles(theme => ({
 
                 <Grid item xs={3}>
                     <Button
-                        variant="contained"
-                        style={{'backgroundColor': '#DAAB59' , color: 'white', padding: '5px 10px', textTransform: 'none', fontSize:'10px'}}
+                        variant="outlined"
+                        style={{border: '1px solid #DAAB59', color: '#DAAB59', padding: '5px 10px', textTransform: 'none', fontSize:'10px'}}
+                        onClick={openYear.bind(this)}
                     >
                         Year  
                     </Button>
@@ -122,34 +107,27 @@ const useStyles = makeStyles(theme => ({
             </Grid>
 
             <Grid container spacing={1}>
-                <Grid item xs={6}>
-                    <Typography style={{fontSize: '14px', paddingTop: '20px'}} >
-                        {props.pageName}
-                    </Typography>
-                </Grid>
+                <Typography style={{fontSize: '14px', paddingTop: '20px', marginRight: '50px'}} >
+                    {props.pageName}
+                </Typography>
 
-                <Grid item xs={6}>
-                    <TextField
-                        id="outlined-select-receive-native"
-                        select
-                        size="small"
-                        value={user}
-                        style={{width: '150px', float: 'right', margin: '10px'}}
-                        onChange={handleChange}
-                        color="#DAAB59"
-                        SelectProps={{
-                            native: true,
-                        }}
+                <MuiPickersUtilsProvider utils={DateFnsUtils}>
+                    <KeyboardDatePicker
+                        disableToolbar
                         variant="outlined"
-                        >
-                        {values.map(option => (
-                            <option key={option.value} value={option.value}>
-                            {option.label}
-                            </option>
-                        ))}
-                    </TextField>
-                </Grid>
-
+                        format="dd/MM/yyyy"
+                        margin="normal"
+                        id="date-picker"
+                        className='text-dark font-weight-bold'
+                        style={{float: 'right', width: '170px'}}
+                        size='small'
+                        value={selectedDate}
+                        onChange={handleDateChange}
+                        KeyboardButtonProps={{
+                            'aria-label': 'change date',
+                        }}
+                    />
+                </MuiPickersUtilsProvider>
             </Grid>
 
             <Grid container spacing={1}>
@@ -200,8 +178,9 @@ const useStyles = makeStyles(theme => ({
             </Grid>
 
             <Box style={{marginTop: '5px' , paddingBottom: '60px'}} p={1} className={`mt-3 mb-5`}>
-                {props.yearItem.map((item) => <SingleYearView  key={item.day_id} yearItems={item}/>)}
+                {props.products.map((item) => <SingleDayView  key={item.pro_id} item={item}/>)}
             </Box>
+
 
 
         </div>
@@ -209,4 +188,4 @@ const useStyles = makeStyles(theme => ({
 
   }
 
-  export default withRouter(YearView);
+  export default withRouter(DayView);

@@ -1,14 +1,18 @@
 import React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
+import Typography from '@material-ui/core/Typography';
+import BoxDefault from '../../../../Components/Box/BoxDefault';
 import Grid from '@material-ui/core/Grid';
 import Button from "@material-ui/core/Button/Button";
+import DateFnsUtils from '@date-io/date-fns';
+import {
+  MuiPickersUtilsProvider,
+  KeyboardDatePicker,
+} from '@material-ui/pickers'; 
 import Paper from '@material-ui/core/Paper';
-import Typography from '@material-ui/core/Typography';
-import TextField from '@material-ui/core/TextField';
 import Box from "@material-ui/core/Box/Box";
-import { withRouter } from "react-router-dom";
 
-import SingleWeekView from './productViews/SingleWeekView';
+import SingleDayView from './singleViews/SingleDayView';
 
 const useStyles = makeStyles(theme => ({
     root: {
@@ -25,67 +29,53 @@ const useStyles = makeStyles(theme => ({
     paper: {
       padding: theme.spacing(1),
       textAlign: 'center', 
-    },
-    button: {
-        border: '1px solid #DAAB59',
-        color: '#DAAB59',
-        padding: '5px 50px',
-        marginRight: '10px',
-        marginTop: '10px',
-        textTransform: 'none',
     }
   }));
 
-  const values = [
-    {
-      value: 'Week 1',
-      label: 'Week 1: 1/01/2020 - 7/01/2020',
-    },
-    {
-      value: 'Week 2',
-      label: 'Week 2: 8/01/2020 - 14/01/2020',
-    },
-    {
-      value: 'Week 3',
-      label: 'Week 3: 15/01/2020 - 21/01/2020',
-    },
-    {
-      value: 'Week 4',
-      label: 'Week 4: 22/01/2020 - 28/01/2020',
-    }
-  ];
+const DayView = props => { 
 
-  const WeekView = props => {
-    
     const classes = useStyles();
-    const [user, setUser] = React.useState('2020');
+    const [selectedDate, setSelectedDate] = React.useState(new Date());
 
-    const handleChange = event => {
-        setUser(event.target.value);
-    };
+    const handleDateChange = date => {
+        setSelectedDate(date);
+      };
 
-
-    const openDay = (event) => {
-        props.setView(0);
-    };
-
-    const openMonth = (event) => {
+    const openWeek = (event) => {
         props.setView(2);
     };
 
-    const openYear = (event) => {
+    const openMonth = (event) => {
         props.setView(3);
     };
 
-    return(
-        <div className={classes.root}>
+    const openYear = (event) => {
+        props.setView(4);
+    };
+
+    const backHandler = (event) => {
+        props.setView(0);
+    };
+
+    return (
+        <div>
+            <BoxDefault
+                bgcolor="background.paper"
+                p={1}
+                className={'boxDefault'}
+                styles={{marginTop: '60px'}}
+            >
+                <Typography component="p" style={{ fontSize: '15px' }} >
+                    Select the date the returned item was supplied
+                </Typography>
+            </BoxDefault>
+
             <Grid container spacing={1}>
 
                 <Grid item xs={3}>
                     <Button
-                        variant="outlined"
-                        style={{border: '1px solid #DAAB59', color: '#DAAB59', padding: '5px 10px', textTransform: 'none', fontSize:'10px'}}
-                        onClick={openDay.bind(this)}
+                        variant="contained"
+                        style={{'backgroundColor': '#DAAB59' , color: 'white', padding: '5px 10px', textTransform: 'none', fontSize:'10px'}}
                     >
                         Day
                     </Button>
@@ -93,8 +83,9 @@ const useStyles = makeStyles(theme => ({
 
                 <Grid item xs={3}>
                     <Button
-                        variant="contained"
-                        style={{'backgroundColor': '#DAAB59' , color: 'white', padding: '5px 10px', textTransform: 'none', fontSize:'10px'}}
+                        variant="outlined"
+                        style={{border: '1px solid #DAAB59', color: '#DAAB59', padding: '5px 10px', textTransform: 'none', fontSize:'10px'}}
+                        onClick={openWeek.bind(this)}
                     >
                         Week  
                     </Button>
@@ -122,33 +113,27 @@ const useStyles = makeStyles(theme => ({
             </Grid>
 
             <Grid container spacing={1}>
-                <Grid item xs={6}>
-                    <Typography style={{fontSize: '14px', paddingTop: '20px'}} >
-                        {props.pageName}
-                    </Typography>
-                </Grid>
+                <Typography style={{fontSize: '14px', paddingTop: '20px', marginRight: '50px', marginLeft: '5px'}} >
+                    {props.pageName}
+                </Typography>
 
-                <Grid item xs={6}>
-                    <TextField
-                        id="outlined-select-receive-native"
-                        select
-                        size="small"
-                        value={user}
-                        style={{width: '190px', float: 'right', margin: '10px 0px', fontSize: '7px'}}
-                        onChange={handleChange}
-                        color="#DAAB59"
-                        SelectProps={{
-                            native: true,
-                        }}
+                <MuiPickersUtilsProvider utils={DateFnsUtils}>
+                    <KeyboardDatePicker
+                        disableToolbar
                         variant="outlined"
-                        >
-                        {values.map(option => (
-                            <option key={option.value} value={option.value}>
-                            {option.label}
-                            </option>
-                        ))}
-                    </TextField>
-                </Grid>
+                        format="dd/MM/yyyy"
+                        margin="normal"
+                        id="date-picker"
+                        className='text-dark font-weight-bold'
+                        style={{float: 'right', width: '170px'}}
+                        size='small'
+                        value={selectedDate}
+                        onChange={handleDateChange}
+                        KeyboardButtonProps={{
+                            'aria-label': 'change date',
+                        }}
+                    />
+                </MuiPickersUtilsProvider>
 
             </Grid>
 
@@ -189,7 +174,7 @@ const useStyles = makeStyles(theme => ({
                 <Grid item xs={3}>
                     <Paper className={classes.paper}>
                         <Typography className={classes.title} component="p" >
-                            {props.profitName}
+                            Expected profit
                         </Typography>
                         <Typography className={classes.text} >
                             GHC 100
@@ -199,14 +184,39 @@ const useStyles = makeStyles(theme => ({
                 
             </Grid>
 
-            <Box style={{marginTop: '5px' , paddingBottom: '60px'}} p={1} className={`mt-3 mb-5`}>
-                {props.weekItem.map((item) => <SingleWeekView  key={item.day_id} weekItems={item}/>)}
-            </Box>
+            <BoxDefault
+                bgcolor="background.paper"
+                p={1}
+                className={'boxDefault'}
+                
+            >
+                {props.suppliers.map((item) => <SingleDayView  key={item.supp_id} supp={item} indProducts={props.products} />)}
+            </BoxDefault>
 
+            <Box
+                    className="shadow1"
+                    bgcolor="background.paper"
+                    p={1}
+                    style={{ height: '2.5rem', position: "fixed", bottom:"0", width:"100%" }}
+                >
+                    <Button
+                        variant="outlined"
+                        style={{border: '1px solid #DAAB59', color: '#333333', padding: '5px 50px', marginRight: '10px', textTransform: 'none', fontSize:'17px'}}
+                        onClick={backHandler.bind(this)}
+                    >
+                        Back  
+                    </Button>
+                    <Button
+                        variant="contained"
+                        style={{'backgroundColor': '#DAAB59' , color: '#333333', padding: '5px 50px', textTransform: 'none', fontSize:'17px'}}
+                    >
+                        Print
+                    </Button>
+                </Box>
 
         </div>
     )
 
-  }
+}
 
-  export default withRouter(WeekView);
+export default DayView;

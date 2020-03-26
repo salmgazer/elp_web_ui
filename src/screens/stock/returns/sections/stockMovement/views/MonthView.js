@@ -8,7 +8,7 @@ import TextField from '@material-ui/core/TextField';
 import Box from "@material-ui/core/Box/Box";
 import { withRouter } from "react-router-dom";
 
-import SingleYearView from './productViews/SingleYearView';
+import SingleMonthView from './singleView/SingleMonthView';
 
 const useStyles = makeStyles(theme => ({
     root: {
@@ -16,7 +16,7 @@ const useStyles = makeStyles(theme => ({
 
     },
     title: {
-        fontSize: 9,
+        fontSize: 8,
     },
     text: {
         fontSize: 15,
@@ -38,32 +38,64 @@ const useStyles = makeStyles(theme => ({
 
   const values = [
     {
-      value: '2020',
-      label: '2020',
+      value: 'January',
+      label: 'January',
     },
     {
-      value: '2019',
-      label: '2019',
+      value: 'February',
+      label: 'February',
     },
     {
-      value: '2018',
-      label: '2018',
+      value: 'March',
+      label: 'March',
     },
     {
-      value: '2017',
-      label: '2017',
+      value: 'April',
+      label: 'April',
+    },
+    {
+      value: 'May',
+      label: 'May',
+    },
+    {
+      value: 'June',
+      label: 'June',
+    },
+    {
+      value: 'July',
+      label: 'July',
+    },
+    {
+      value: 'August',
+      label: 'August',
+    },
+    {
+      value: 'September',
+      label: 'September',
+    },
+    {
+      value: 'October',
+      label: 'October',
+    },
+    {
+      value: 'November',
+      label: 'November',
+    },
+    {
+      value: 'December',
+      label: 'December',
     }
+
   ];
 
-  const YearView = props => {
+  const MonthView = props => {
     
     const classes = useStyles();
-    const [user, setUser] = React.useState('2020');
+    const [user, setUser] = React.useState('March');
 
     const handleChange = event => {
         setUser(event.target.value);
     };
-
 
     const openDay = (event) => {
         props.setView(0);
@@ -73,8 +105,8 @@ const useStyles = makeStyles(theme => ({
         props.setView(1);
     };
 
-    const openMonth = (event) => {
-        props.setView(2);
+    const openYear = (event) => {
+        props.setView(3);
     };
 
     return(
@@ -103,9 +135,8 @@ const useStyles = makeStyles(theme => ({
 
                 <Grid item xs={3}>
                     <Button
-                        variant="outlined"
-                        style={{border: '1px solid #DAAB59', color: '#DAAB59', padding: '5px 10px', textTransform: 'none', fontSize:'10px'}}
-                        onClick={openMonth.bind(this)}
+                        variant="contained"
+                        style={{'backgroundColor': '#DAAB59' , color: 'white', padding: '5px 10px', textTransform: 'none', fontSize:'10px'}}
                     >
                         Month  
                     </Button>
@@ -113,8 +144,9 @@ const useStyles = makeStyles(theme => ({
 
                 <Grid item xs={3}>
                     <Button
-                        variant="contained"
-                        style={{'backgroundColor': '#DAAB59' , color: 'white', padding: '5px 10px', textTransform: 'none', fontSize:'10px'}}
+                        variant="outlined"
+                        style={{border: '1px solid #DAAB59', color: '#DAAB59', padding: '5px 10px', textTransform: 'none', fontSize:'10px'}}
+                        onClick={openYear.bind(this)}
                     >
                         Year  
                     </Button>
@@ -122,6 +154,7 @@ const useStyles = makeStyles(theme => ({
             </Grid>
 
             <Grid container spacing={1}>
+
                 <Grid item xs={6}>
                     <Typography style={{fontSize: '14px', paddingTop: '20px'}} >
                         {props.pageName}
@@ -156,21 +189,32 @@ const useStyles = makeStyles(theme => ({
                 <Grid item xs={3}>
                     <Paper className={classes.paper}>
                         <Typography className={classes.title} component="p" >
-                            Quantity
+                            Opening balance
                         </Typography>
                         <Typography className={classes.text} >
-                            5 items
+                            3.5
                         </Typography>
                     </Paper>
                 </Grid>
                 
-                <Grid item xs={3}>
+                <Grid item xs={2}>
                     <Paper className={classes.paper}>
                         <Typography className={classes.title} component="p" >
-                            Cost price
+                            Purchased
                         </Typography>
                         <Typography className={classes.text} >
-                            GHC 500
+                            0
+                        </Typography>
+                    </Paper>
+                </Grid>
+
+                <Grid item xs={2}>
+                    <Paper className={classes.paper}>
+                        <Typography className={classes.title} component="p" >
+                            Sold
+                        </Typography>
+                        <Typography className={classes.text} >
+                            55
                         </Typography>
                     </Paper>
                 </Grid>
@@ -178,21 +222,21 @@ const useStyles = makeStyles(theme => ({
                 <Grid item xs={3}>
                     <Paper className={classes.paper}>
                         <Typography className={classes.title} component="p" >
-                            Selling price
+                            Closing balance
                         </Typography>
                         <Typography className={classes.text} >
-                            GHC 600
+                            66.5
                         </Typography>
                     </Paper>
                 </Grid>
 
-                <Grid item xs={3}>
+                <Grid item xs={2}>
                     <Paper className={classes.paper}>
                         <Typography className={classes.title} component="p" >
-                            {props.profitName}
+                            Difference
                         </Typography>
                         <Typography className={classes.text} >
-                            GHC 100
+                            63
                         </Typography>
                     </Paper>
                 </Grid>
@@ -200,7 +244,7 @@ const useStyles = makeStyles(theme => ({
             </Grid>
 
             <Box style={{marginTop: '5px' , paddingBottom: '60px'}} p={1} className={`mt-3 mb-5`}>
-                {props.yearItem.map((item) => <SingleYearView  key={item.day_id} yearItems={item}/>)}
+                {props.monthItem.map((item) => <SingleMonthView  key={item.week_id} monthItems={item}/>)}
             </Box>
 
 
@@ -209,4 +253,4 @@ const useStyles = makeStyles(theme => ({
 
   }
 
-  export default withRouter(YearView);
+  export default withRouter(MonthView);

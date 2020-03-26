@@ -107,27 +107,31 @@ const useStyles = makeStyles(theme => ({
             </Grid>
 
             <Grid container spacing={1}>
-                <Typography style={{fontSize: '14px', paddingTop: '20px', marginRight: '50px'}} >
-                    {props.pageName}
-                </Typography>
+                <Grid item xs={6}>
+                    <Typography style={{fontSize: '14px', paddingTop: '20px'}} >
+                        {props.pageName}
+                    </Typography>
+                </Grid>
 
-                <MuiPickersUtilsProvider utils={DateFnsUtils}>
-                    <KeyboardDatePicker
-                        disableToolbar
-                        variant="outlined"
-                        format="dd/MM/yyyy"
-                        margin="normal"
-                        id="date-picker"
-                        className='text-dark font-weight-bold'
-                        style={{float: 'right', width: '170px'}}
-                        size='small'
-                        value={selectedDate}
-                        onChange={handleDateChange}
-                        KeyboardButtonProps={{
-                            'aria-label': 'change date',
-                        }}
-                    />
-                </MuiPickersUtilsProvider>
+                <Grid item xs={6}>
+                    <MuiPickersUtilsProvider utils={DateFnsUtils}>
+                        <KeyboardDatePicker
+                            disableToolbar
+                            variant="outlined"
+                            format="dd/MM/yyyy"
+                            margin="normal"
+                            id="date-picker"
+                            className='text-dark font-weight-bold'
+                            style={{float: 'right', width: '170px'}}
+                            size='small'
+                            value={selectedDate}
+                            onChange={handleDateChange}
+                            KeyboardButtonProps={{
+                                'aria-label': 'change date',
+                            }}
+                        />
+                    </MuiPickersUtilsProvider>
+                </Grid>
             </Grid>
 
             <Grid container spacing={1}>

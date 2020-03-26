@@ -7,8 +7,9 @@ import Typography from '@material-ui/core/Typography';
 import TextField from '@material-ui/core/TextField';
 import Box from "@material-ui/core/Box/Box";
 import { withRouter } from "react-router-dom";
+import BoxDefault from '../../../../Components/Box/BoxDefault';
 
-import SingleMonthView from './singleView/SingleMonthView';
+import SingleMonthView from './singleViews/SingleMonthView';
 
 const useStyles = makeStyles(theme => ({
     root: {
@@ -98,7 +99,7 @@ const useStyles = makeStyles(theme => ({
     };
 
     const openDay = (event) => {
-        props.setView(0);
+        props.setView(1);
     };
 
     const openWeek = (event) => {
@@ -109,8 +110,24 @@ const useStyles = makeStyles(theme => ({
         props.setView(4);
     };
 
+    const backHandler = (event) => {
+        props.setView(0);
+    };
+
     return(
         <div className={classes.root}>
+
+            <BoxDefault
+                bgcolor="background.paper"
+                p={1}
+                className={'boxDefault'}
+                styles={{marginTop: '60px'}}
+            >
+                <Typography component="p" style={{ fontSize: '15px' }} >
+                    Select the date the returned item was supplied
+                </Typography>
+            </BoxDefault>
+
             <Grid container spacing={1}>
 
                 <Grid item xs={3}>
@@ -154,33 +171,29 @@ const useStyles = makeStyles(theme => ({
             </Grid>
 
             <Grid container spacing={1}>
-                <Grid item xs={6}>
-                    <Typography style={{fontSize: '14px', paddingTop: '20px', marginRight: '50px'}} >
-                        {props.pageName}
-                    </Typography>
-                </Grid>
+                <Typography style={{fontSize: '14px', paddingTop: '20px', marginRight: '50px'}} >
+                    {props.pageName}
+                </Typography>
 
-                <Grid item xs={6}>
-                    <TextField
-                        id="outlined-select-receive-native"
-                        select
-                        size="small"
-                        value={user}
-                        style={{width: '150px', float: 'right', margin: '10px'}}
-                        onChange={handleChange}
-                        color="#DAAB59"
-                        SelectProps={{
-                            native: true,
-                        }}
-                        variant="outlined"
-                        >
-                        {values.map(option => (
-                            <option key={option.value} value={option.value}>
-                            {option.label}
-                            </option>
-                        ))}
-                    </TextField>
-                </Grid>
+                <TextField
+                    id="outlined-select-receive-native"
+                    select
+                    size="small"
+                    value={user}
+                    style={{width: '150px', float: 'right', margin: '10px'}}
+                    onChange={handleChange}
+                    color="#DAAB59"
+                    SelectProps={{
+                        native: true,
+                    }}
+                    variant="outlined"
+                    >
+                    {values.map(option => (
+                        <option key={option.value} value={option.value}>
+                        {option.label}
+                        </option>
+                    ))}
+                </TextField>
 
             </Grid>
 
@@ -221,7 +234,7 @@ const useStyles = makeStyles(theme => ({
                 <Grid item xs={3}>
                     <Paper className={classes.paper}>
                         <Typography className={classes.title} component="p" >
-                            {props.profitName}
+                            Expected profit
                         </Typography>
                         <Typography className={classes.text} >
                             GHC 100
@@ -277,6 +290,27 @@ const useStyles = makeStyles(theme => ({
     
                 {props.monthItem.map((item) => <SingleMonthView  key={item.week_id} monthSuppliers={item}/>)}
                 
+            </Box>
+
+            <Box
+                className="shadow1"
+                bgcolor="background.paper"
+                p={1}
+                style={{ height: '2.5rem', position: "fixed", bottom:"0", width:"100%" }}
+            >
+                <Button
+                    variant="outlined"
+                    style={{border: '1px solid #DAAB59', color: '#333333', padding: '5px 50px', marginRight: '10px', textTransform: 'none', fontSize:'17px'}}
+                    onClick={backHandler.bind(this)}
+                >
+                    Back  
+                </Button>
+                <Button
+                    variant="contained"
+                    style={{'backgroundColor': '#DAAB59' , color: '#333333', padding: '5px 50px', textTransform: 'none', fontSize:'17px'}}
+                >
+                    Print
+                </Button>
             </Box>
 
 

@@ -7,8 +7,9 @@ import Typography from '@material-ui/core/Typography';
 import TextField from '@material-ui/core/TextField';
 import Box from "@material-ui/core/Box/Box";
 import { withRouter } from "react-router-dom";
+import BoxDefault from '../../../../Components/Box/BoxDefault';
 
-import SingleYearView from './productViews/SingleYearView';
+import SingleYearView from './singleViews/SingleYearView';
 
 const useStyles = makeStyles(theme => ({
     root: {
@@ -66,19 +67,35 @@ const useStyles = makeStyles(theme => ({
 
 
     const openDay = (event) => {
-        props.setView(0);
-    };
-
-    const openWeek = (event) => {
         props.setView(1);
     };
 
-    const openMonth = (event) => {
+    const openWeek = (event) => {
         props.setView(2);
+    };
+
+    const openMonth = (event) => {
+        props.setView(3);
+    };
+
+    const backHandler = (event) => {
+        props.setView(0);
     };
 
     return(
         <div className={classes.root}>
+
+            <BoxDefault
+                bgcolor="background.paper"
+                p={1}
+                className={'boxDefault'}
+                styles={{marginTop: '60px'}}
+            >
+                <Typography component="p" style={{ fontSize: '15px' }} >
+                    Select the date the returned item was supplied
+                </Typography>
+            </BoxDefault>
+
             <Grid container spacing={1}>
 
                 <Grid item xs={3}>
@@ -122,33 +139,29 @@ const useStyles = makeStyles(theme => ({
             </Grid>
 
             <Grid container spacing={1}>
-                <Grid item xs={6}>
-                    <Typography style={{fontSize: '14px', paddingTop: '20px'}} >
-                        {props.pageName}
-                    </Typography>
-                </Grid>
+                <Typography style={{fontSize: '14px', paddingTop: '20px', marginRight: '50px'}} >
+                    {props.pageName}
+                </Typography>
 
-                <Grid item xs={6}>
-                    <TextField
-                        id="outlined-select-receive-native"
-                        select
-                        size="small"
-                        value={user}
-                        style={{width: '150px', float: 'right', margin: '10px'}}
-                        onChange={handleChange}
-                        color="#DAAB59"
-                        SelectProps={{
-                            native: true,
-                        }}
-                        variant="outlined"
-                        >
-                        {values.map(option => (
-                            <option key={option.value} value={option.value}>
-                            {option.label}
-                            </option>
-                        ))}
-                    </TextField>
-                </Grid>
+                <TextField
+                    id="outlined-select-receive-native"
+                    select
+                    size="small"
+                    value={user}
+                    style={{width: '150px', float: 'right', margin: '10px'}}
+                    onChange={handleChange}
+                    color="#DAAB59"
+                    SelectProps={{
+                        native: true,
+                    }}
+                    variant="outlined"
+                    >
+                    {values.map(option => (
+                        <option key={option.value} value={option.value}>
+                        {option.label}
+                        </option>
+                    ))}
+                </TextField>
 
             </Grid>
 
@@ -189,7 +202,7 @@ const useStyles = makeStyles(theme => ({
                 <Grid item xs={3}>
                     <Paper className={classes.paper}>
                         <Typography className={classes.title} component="p" >
-                            {props.profitName}
+                            Expected profit
                         </Typography>
                         <Typography className={classes.text} >
                             GHC 100
@@ -200,7 +213,40 @@ const useStyles = makeStyles(theme => ({
             </Grid>
 
             <Box style={{marginTop: '5px' , paddingBottom: '60px'}} p={1} className={`mt-3 mb-5`}>
-                {props.yearItem.map((item) => <SingleYearView  key={item.day_id} yearItems={item}/>)}
+                
+                <Grid container spacing={1} className={`shadow1 mb-3 borderRadius10`}>
+                    <Grid item xs={8}>
+                        <span className='text-dark font-weight-bold' style={{ fontSize: '13px'}} >January 2020</span>
+                    </Grid>
+
+                    <Grid item xs={4}>
+                        <span className="font-weight-light mt-1" style={{ fontSize: '13px'}}>Total : GHC 900</span>
+                    </Grid>
+                </Grid>
+    
+                {props.yearItem.map((item) => <SingleYearView  key={item.month_id} yearSuppliers={item}/>)}
+                
+            </Box>
+
+            <Box
+                className="shadow1"
+                bgcolor="background.paper"
+                p={1}
+                style={{ height: '2.5rem', position: "fixed", bottom:"0", width:"100%" }}
+            >
+                <Button
+                    variant="outlined"
+                    style={{border: '1px solid #DAAB59', color: '#333333', padding: '5px 50px', marginRight: '10px', textTransform: 'none', fontSize:'17px'}}
+                    onClick={backHandler.bind(this)}
+                >
+                    Back  
+                </Button>
+                <Button
+                    variant="contained"
+                    style={{'backgroundColor': '#DAAB59' , color: '#333333', padding: '5px 50px', textTransform: 'none', fontSize:'17px'}}
+                >
+                    Print
+                </Button>
             </Box>
 
 

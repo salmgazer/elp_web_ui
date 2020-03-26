@@ -27,6 +27,7 @@ import InvoiceHistory from "./screens/history/invoiceHistory/InvoiceHistory";
 import NewDashboard from "./screens/newDashboard/Dashboard";
 import Audit from "./screens/audit/Audit";
 import Payment from "./screens/payment/Payment";
+import Returns from "./screens/stock/returns/Returns";
 
 function NoMatch() {
   let location = useLocation();
@@ -92,6 +93,14 @@ class App extends React.Component {
                 render={() => {
                   this.setTitle(`Payment | ${appName}`);
                   return <Payment />;
+                }}
+              />
+              <Route
+                exact
+                path={paths.returns}
+                render={() => {
+                  this.setTitle(`Returns | ${appName}`);
+                  return <Returns />;
                 }}
               />
               <Route

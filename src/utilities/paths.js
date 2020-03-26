@@ -3,6 +3,7 @@ export default {
     cart: "/cart",
     audit: "/audit",
     payment: "/payment",
+    returns: "/returns",
     sales_history: "/sales-history",
     purchase_history: "/purchase-history",
     order_history: "/order-history",

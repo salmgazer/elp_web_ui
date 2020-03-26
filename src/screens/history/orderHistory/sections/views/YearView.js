@@ -122,29 +122,33 @@ const useStyles = makeStyles(theme => ({
             </Grid>
 
             <Grid container spacing={1}>
-                <Typography style={{fontSize: '14px', paddingTop: '20px', marginRight: '50px'}} >
-                    {props.pageName}
-                </Typography>
+                <Grid item xs={6}>
+                    <Typography style={{fontSize: '14px', paddingTop: '20px', marginRight: '50px'}} >
+                        {props.pageName}
+                    </Typography>
+                </Grid>
 
-                <TextField
-                    id="outlined-select-receive-native"
-                    select
-                    size="small"
-                    value={user}
-                    style={{width: '150px', float: 'right', margin: '10px'}}
-                    onChange={handleChange}
-                    color="#DAAB59"
-                    SelectProps={{
-                        native: true,
-                    }}
-                    variant="outlined"
-                    >
-                    {values.map(option => (
-                        <option key={option.value} value={option.value}>
-                        {option.label}
-                        </option>
-                    ))}
-                </TextField>
+                <Grid item xs={6}>
+                    <TextField
+                        id="outlined-select-receive-native"
+                        select
+                        size="small"
+                        value={user}
+                        style={{width: '150px', float: 'right', margin: '10px'}}
+                        onChange={handleChange}
+                        color="#DAAB59"
+                        SelectProps={{
+                            native: true,
+                        }}
+                        variant="outlined"
+                        >
+                        {values.map(option => (
+                            <option key={option.value} value={option.value}>
+                            {option.label}
+                            </option>
+                        ))}
+                    </TextField>
+                </Grid>
 
             </Grid>
 
