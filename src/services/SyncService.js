@@ -20,8 +20,6 @@ export default class SyncService {
             queryString = `last_pulled_at=${LocalInfo.lastSyncedAt}&${queryString}`;
           }
 
-          console.log(queryString);
-
           const response = await new Api('others').index(
             {},
             {'Authorization': `Bearer ${LocalInfo.accessToken}`},
@@ -75,28 +73,23 @@ export default class SyncService {
           */
 
 
-          console.log(response.data);
-
-          console.log(otherChanges);
-
           database.action(async () => {
             for (const globalModel of globalModels) {
-              console.log(globalModel.table);
-              console.log("=================================");
               for (const row of otherChanges[globalModel.table]) {
                 const collection = database.collections.get(globalModel.table);
-                const existingRow = collection
+                const existingRows = await collection
                   .query(Q.where(globalModel.displayColumn, row[globalModel.displayColumn])).fetch();
-                if (!existingRow[0]) {
-                  await collection.create(aRow => {
-                    globalModel.columns.forEach(column => {
-                      console.log(column);
-                      if (row[column]) {
-                        aRow[column] = row[column];
-                      }
-                    });
-                  });
+
+                for (const existingRow of existingRows) {
+                  await existingRow.destroyPermanently();
                 }
+                await collection.create(aRow => {
+                  globalModel.columns.forEach(column => {
+                    if (row[column]) {
+                      aRow[column] = row[column];
+                    }
+                  });
+                });
               }
             }
           });
@@ -111,10 +104,6 @@ export default class SyncService {
           if (LocalInfo.lastSyncedAt) {
             queryString = `last_pulled_at=${LocalInfo.lastSyncedAt}&${queryString}`;
           }
-
-          console.log("@@@@@@@@@@@@@@@@@@@@@@");
-          console.log(changes);
-          console.log("@@@@@@@@@@@@@@@@@@@@@@");
 
           globalModels.forEach(globalModel => {
             delete changes[globalModel.table];
