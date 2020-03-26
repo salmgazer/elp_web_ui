@@ -14,7 +14,6 @@ import CssBaseline from "@material-ui/core/CssBaseline/CssBaseline";
 import Container from "@material-ui/core/Container/Container";
 import {makeStyles, withStyles} from "@material-ui/core";
 import { ValidatorForm, TextValidator} from 'react-material-ui-form-validator';
-import { render } from 'react-dom';
 
 import Logo from '../../assets/img/el-parah.png';
 import Typography from "@material-ui/core/Typography/Typography";
@@ -23,6 +22,7 @@ import AuthService from "../../services/AuthService";
 import InputAdornment from '@material-ui/core/InputAdornment';
 import PrimaryLoader from "../Components/Loader/Loader";
 import SimpleSnackbar from "../Components/Snackbar/SimpleSnackbar";
+import SyncService from "../../services/SyncService";
 
 const useStyles = makeStyles(theme => ({
     root: {
@@ -152,6 +152,14 @@ const Login = props => {
             setLoading(false);
             await setErrorDialog(true);
             await setErrorMsg(req.error.msg);
+
+            const activeBranch = LocalInfo.branchId;
+            const userAccess = JSON.parse(LocalInfo.userAccess);
+            console.log(userAccess);
+            const companyId = userAccess.access[0].id;
+            const userId = userAccess.user.userId;
+            await SyncService.sync(companyId, activeBranch, userId, database);
+            console.log("DONE SYNCING");
 
             return setTimeout(function(){
                 setErrorDialog(false);
