@@ -247,5 +247,5 @@ const EnhancedDashboard = withDatabase(
   }))(withRouter(Dashboard))
 );
 
-export default Dashboard;
+export default EnhancedDashboard;
 
