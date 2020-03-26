@@ -10,4 +10,4 @@ const globalModels = [
   ProductCategory
 ];
 
-module.exports = globalModels;
+export default globalModels;
