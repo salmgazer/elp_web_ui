@@ -45,7 +45,7 @@ export default class Sell extends Component {
     getStepContent = step => {
         switch (step) {
             case 0:
-                return <SellView productAdd={this.showAddView.bind(this)} products={this.state.productList} spCount={this.state.spCount} salesMade={this.state.salesMade} profitMade={this.state.profitMade}/>;
+                return <SellView productAdd={this.showAddView.bind(this)} products={this.state.productList} spCount={this.state.spCount} salesMade={this.state.salesMade} profitMade={this.state.profitMade} searchBarcode={this.searchBarcode.bind(this)} setView={this.setStepContentView.bind(this)} />;
             case 1:
                 return <AddProductCart setView={this.setStepContentView.bind(this)} product={this.state.currentProduct} spCount={this.state.spCount} salesMade={this.state.salesMade} profitMade={this.state.profitMade}/>;
             default:
@@ -71,6 +71,23 @@ export default class Sell extends Component {
             currentProduct: itemIndex,
             activeStep: step
         });
+    };
+
+    //Search product barcode
+    searchBarcode = async (barcode) => {
+        //console.log(`${proId} from addProduct`);
+
+        const old_list = JSON.parse(localStorage.getItem('storeProductsLookup'));
+
+        //Find index of specific object using findIndex method.
+        const itemIndex = old_list.filter((product => product.barCode === barcode));
+
+        console.log(itemIndex);
+        await this.setState({
+            currentProduct: itemIndex,
+        });
+
+        return itemIndex;
     };
 
     render(){

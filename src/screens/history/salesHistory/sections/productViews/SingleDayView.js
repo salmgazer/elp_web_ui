@@ -9,7 +9,7 @@ import AppBar from '@material-ui/core/AppBar';
 import Tabs from "@material-ui/core/Tabs/Tabs";
 import Tab from "@material-ui/core/Tab/Tab";
 import SwipeableViews from "react-swipeable-views";
-import TabPanel from '../../../../Components/Tabs/TabPanel';
+import TabPanel from '../../../../../components/Tabs/TabPanel';
 import Dates from '../../../../Components/Date/Date'; 
 import InputAdornment from '@material-ui/core/InputAdornment';
 import StayPrimaryPortraitIcon from '@material-ui/icons/StayPrimaryPortrait';

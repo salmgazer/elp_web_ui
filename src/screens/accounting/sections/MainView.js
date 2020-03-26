@@ -1,6 +1,6 @@
 import React, {useState} from 'react';
 import { makeStyles } from '@material-ui/core/styles';
-import SectionNavbar from '../../Components/Sections/SectionNavbars';
+import SectionNavbar from '../../../components/Sections/SectionNavbars';
 import MenuIcon from '@material-ui/icons/Menu';
 import MoreVertIcon from '@material-ui/icons/MoreVert';
 import Grid from '@material-ui/core/Grid';
@@ -10,7 +10,7 @@ import AppBar from '@material-ui/core/AppBar';
 import Tabs from "@material-ui/core/Tabs/Tabs";
 import Tab from "@material-ui/core/Tab/Tab";
 import SwipeableViews from "react-swipeable-views";
-import TabPanel from "../../Components/Tabs/TabPanel";
+import TabPanel from "../../../components/Tabs/TabPanel";
 import Box from "@material-ui/core/Box/Box";
 import Button from "@material-ui/core/Button/Button";
 

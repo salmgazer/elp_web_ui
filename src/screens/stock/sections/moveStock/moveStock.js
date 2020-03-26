@@ -3,13 +3,13 @@ import ArrowBackIcon from '@material-ui/icons/ArrowBack';
 import Button from "@material-ui/core/Button";
 import Typography from "@material-ui/core/Typography";
 import Box from "@material-ui/core/Box/Box";
-import PrimaryButton from "../../../Components/Buttons/PrimaryButton";
-import SecondaryButton from "../../../Components/Buttons/SecondaryButton";
+import PrimaryButton from "../../../../components/Buttons/PrimaryButton";
+import SecondaryButton from "../../../../components/Buttons/SecondaryButton";
 import QuantityInput from "../../../Components/Input/QuantityInput";
-import PrimarySelect from "../../../Components/Select/PrimarySelect";
+import PrimarySelect from "../../../../components/Select/PrimarySelect";
 import ProductServiceHandler from "../../../../services/ProductServiceHandler";
-import SectionNavbars from "../../../Components/Sections/SectionNavbars";
-import SimpleSnackbar from "../../../Components/Snackbar/SimpleSnackbar";
+import SectionNavbars from "../../../../components/Sections/SectionNavbars";
+import SimpleSnackbar from "../../../../components/Snackbar/SimpleSnackbar";
 import Grid from "@material-ui/core/Grid/Grid";
 
 

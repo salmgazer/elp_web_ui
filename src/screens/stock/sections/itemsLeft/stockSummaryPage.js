@@ -1,6 +1,6 @@
 import React from 'react';
 import ArrowBackIcon from '@material-ui/icons/ArrowBack';
-import SectionNavbars from "../../../Components/Sections/SectionNavbars";
+import SectionNavbars from "../../../../components/Sections/SectionNavbars";
 import Typography from "@material-ui/core/Typography/Typography";
 import Container from "@material-ui/core/Container/Container";
 import Grid from "@material-ui/core/Grid/Grid";
@@ -9,7 +9,7 @@ import ItemsImage from '../../../../assets/img/items.png';
 import ProfitImage from '../../../../assets/img/cost_price.png';
 import SellingImage from '../../../../assets/img/expected_profit.png';
 import CostImage from '../../../../assets/img/total_cost.png';
-import SecondaryButton from "../../../Components/Buttons/SecondaryButton";
+import SecondaryButton from "../../../../components/Buttons/SecondaryButton";
 import Box from "@material-ui/core/Box/Box";
 
 const StockSummaryPage = props => {

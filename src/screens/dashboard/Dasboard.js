@@ -17,8 +17,8 @@ import MenuIcon from '@material-ui/icons/Menu';
 
 import HomeIcon from '@material-ui/icons/Home';
 import Typography from "@material-ui/core/Typography/Typography";
-import SectionNavbars from "../Components/Sections/SectionNavbars";
-import BoxDefault from "../Components/Box/BoxDefault";
+import SectionNavbars from "../../components/Sections/SectionNavbars";
+import BoxDefault from "../../components/Box/BoxDefault";
 import CardDefault from "../Components/Cards/CardDefault";
 import SettingsIcon from '@material-ui/icons/Settings';
 import CardGridComponent from "./Sections/CardGridComponent";

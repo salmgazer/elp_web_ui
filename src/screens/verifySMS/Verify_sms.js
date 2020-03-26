@@ -4,7 +4,7 @@ import Component from "@reactions/component";
 import CssBaseline from '@material-ui/core/CssBaseline';
 import Typography from '@material-ui/core/Typography';
 import Container from '@material-ui/core/Container';
-import SectionNavbars from '../Components/Sections/SectionNavbars';
+import SectionNavbars from '../../components/Sections/SectionNavbars';
 import CloseIcon from '@material-ui/icons/Close';
 import { withRouter } from "react-router-dom";
 import { makeStyles } from '@material-ui/core/styles';
@@ -17,8 +17,8 @@ import Button from "@material-ui/core/Button/Button";
 import paths from "../../utilities/paths";
 import Snackbar from '@material-ui/core/Snackbar';
 import MuiAlert from '@material-ui/lab/Alert';
-import SimpleSnackbar from "../Components/Snackbar/SimpleSnackbar";
-import PrimaryLoader from "../Components/Loader/Loader";
+import SimpleSnackbar from "../../components/Snackbar/SimpleSnackbar";
+import PrimaryLoader from "../../components/Loader/Loader";
 import Api from "../../services/Api";
 
 

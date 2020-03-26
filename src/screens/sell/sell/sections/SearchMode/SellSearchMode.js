@@ -6,9 +6,9 @@ import IconButton from "@material-ui/core/IconButton";
 import SearchIcon from '@material-ui/icons/Search';
 import {makeStyles} from "@material-ui/core";
 import ShoppingCartOutlinedIcon from '@material-ui/icons/ShoppingCartOutlined';
-import AddIcon from "../../../../Components/ClickableIcons/AddIcon";
-import ProductCard from "../../../../Components/Cards/ProductCard";
-import WarningIcon from "../../../../Components/ClickableIcons/WarningIcon";
+import AddIcon from "../../../../../components/ClickableIcons/AddIcon";
+import ProductCard from "../../../../../components/Cards/ProductCard";
+import WarningIcon from "../../../../../components/ClickableIcons/WarningIcon";
 import Typography from "@material-ui/core/Typography/Typography";
 import ProductServiceHandler from "../../../../../services/ProductServiceHandler";
 
@@ -20,14 +20,25 @@ const useStyles = makeStyles(theme => ({
         alignItems: 'center',
         borderRadius: '30px',
         height: '35px',
-        border: '1px solid #ced4da',
-        fontSize: '0.9rem',
+        fontSize: '0.7rem',
+        lineHeight: '1.5',
+        transition: 'border-color .15s ease-in-out,box-shadow .15s ease-in-out',
+    },
+    cart: {
+        width: '95%',
+        display: 'flex',
+        padding: '2px 5px',
+        alignItems: 'center',
+        borderRadius: '6px',
+        height: '35px',
+        fontSize: '0.8rem',
         lineHeight: '1.5',
         transition: 'border-color .15s ease-in-out,box-shadow .15s ease-in-out',
     },
     input: {
         marginLeft: theme.spacing(1),
         flex: 1,
+        fontSize: '0.9rem',
     },
     iconButton: {
         padding: 10,
@@ -36,10 +47,9 @@ const useStyles = makeStyles(theme => ({
 
 const SellSearchMode = props => {
     const classes = useStyles();
-    const products = props.products;
-    console.log(products);
+    const products = new ProductServiceHandler(props.products).getStoreProducts();
+
     const addProductHandler = (id) => {
-        console.log(id);
         props.productAdd(id , 1);
     };
 
@@ -65,9 +75,9 @@ const SellSearchMode = props => {
                 </Grid>
 
                 <Grid item xs={5} style={{padding: '4px 8px'}}>
-                    <Paper className={`${classes.root} text-center`} >
-                        <span className={`mx-auto`}
-                            style={{fontSize: '18px' , lineHeight: '1.5rem'}}
+                    <Paper className={`${classes.cart} text-center`} >
+                        <span className={`mx-auto italize font-weight-light`}
+                            style={{fontSize: '15px' , lineHeight: '1.5rem'}}
                         >
                             <ShoppingCartOutlinedIcon style={{fontSize: '16px'}}/>
                             Saved Cart
@@ -82,7 +92,7 @@ const SellSearchMode = props => {
                     variant="h6"
                     style={{fontWeight: '500', fontSize: '18px' , margin: '3px 0px', paddingTop: '5px'}}
                 >
-                    Top sold products
+                    Quick add
                 </Typography>
 
                 <Grid container spacing={1} className='mt-3'>

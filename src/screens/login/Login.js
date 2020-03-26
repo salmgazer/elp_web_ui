@@ -20,8 +20,8 @@ import Typography from "@material-ui/core/Typography/Typography";
 import './Login.scss';
 import AuthService from "../../services/AuthService";
 import InputAdornment from '@material-ui/core/InputAdornment';
-import PrimaryLoader from "../Components/Loader/Loader";
-import SimpleSnackbar from "../Components/Snackbar/SimpleSnackbar";
+import PrimaryLoader from "../../components/Loader/Loader";
+import SimpleSnackbar from "../../components/Snackbar/SimpleSnackbar";
 import SyncService from "../../services/SyncService";
 
 const useStyles = makeStyles(theme => ({

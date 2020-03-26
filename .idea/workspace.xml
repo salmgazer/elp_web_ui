@@ -1,8 +1,20 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
+<<<<<<< HEAD
     <list default="true" id="23d7673f-f43c-4e81-9c96-c34110ab3b67" name="Default Changelist" comment="" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
+=======
+    <list default="true" id="23d7673f-f43c-4e81-9c96-c34110ab3b67" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/codeStyles/Project.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/codeStyles/Project.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/models/brands/Brand.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/models/brands/Brand.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/models/manufacturers/Manufacturer.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/models/manufacturers/Manufacturer.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/models/productCategories/ProductCategory.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/models/productCategories/ProductCategory.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/models/products/Product.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/models/products/Product.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/services/SyncService.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/services/SyncService.js" afterDir="false" />
+    </list>
+>>>>>>> 7ec52762bc1e63d4cda51c1493b456113ace957e
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -22,6 +34,7 @@
     <expand />
     <select />
   </component>
+<<<<<<< HEAD
   <component name="FUSProjectUsageTrigger">
     <session id="544396060">
       <usages-collector id="statistics.lifecycle.project">
@@ -324,6 +337,8 @@
       </split-second>
     </splitter>
   </component>
+=======
+>>>>>>> 7ec52762bc1e63d4cda51c1493b456113ace957e
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
       <list>
@@ -369,79 +384,6 @@
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
-  <component name="IdeDocumentHistory">
-    <option name="CHANGED_PATHS">
-      <list>
-        <option value="$PROJECT_DIR$/src/screens/stock/MainViewStock.js" />
-        <option value="$PROJECT_DIR$/src/screens/Components/Drawer/Drawer.js" />
-        <option value="$PROJECT_DIR$/src/screens/Components/Sections/SectionNavbars.js" />
-        <option value="$PROJECT_DIR$/src/screens/dashboard/Dashboard.scss" />
-        <option value="$PROJECT_DIR$/src/screens/stock/sections/BarcodeMode/StockBarcodeMode.js" />
-        <option value="$PROJECT_DIR$/src/services/LocalInfo.js" />
-        <option value="$PROJECT_DIR$/src/screens/Components/Cards/ProductCard.js" />
-        <option value="$PROJECT_DIR$/src/screens/Components/Product/SingleProductBox.js" />
-        <option value="$PROJECT_DIR$/src/screens/Components/Buttons/SecondaryButton.js" />
-        <option value="$PROJECT_DIR$/src/services/ProductServiceHandler.js" />
-        <option value="$PROJECT_DIR$/src/screens/stock/sections/SearchMode/StockSearchMode.js" />
-        <option value="$PROJECT_DIR$/src/screens/onboarding/addProducts/sections/history/ProductHistory.js" />
-        <option value="$PROJECT_DIR$/src/screens/stock/stock.scss" />
-        <option value="$PROJECT_DIR$/src/screens/stock/sections/SearchMode/LocationProductSingle.js" />
-        <option value="$PROJECT_DIR$/src/screens/stock/sections/LocationProductSingle.js" />
-        <option value="$PROJECT_DIR$/src/index.scss" />
-        <option value="$USER_HOME$/.floorc.json" />
-        <option value="$PROJECT_DIR$/src/screens/stock/sections/stockSummaryPage.js" />
-        <option value="$PROJECT_DIR$/src/screens/stock/sections/ItemsOutOfStock.js" />
-        <option value="$PROJECT_DIR$/src/screens/Components/Buttons/PrimaryButton.js" />
-        <option value="$PROJECT_DIR$/src/screens/stock/sections/OutOfStockProductSingle.js" />
-        <option value="$PROJECT_DIR$/src/screens/stock/sections/itemsOutOfStock.js" />
-        <option value="$PROJECT_DIR$/src/screens/stock/sections/outOfStockProductSingle.js" />
-        <option value="$PROJECT_DIR$/src/screens/stock/sections/stockMainPage.js" />
-        <option value="$PROJECT_DIR$/src/screens/stock/sections/itemsLeft/stockSummaryPage.js" />
-        <option value="$PROJECT_DIR$/src/screens/stock/sections/lowStock/lowStockProductSingle.js" />
-        <option value="$PROJECT_DIR$/src/screens/stock/sections/outOfStock/itemsOutOfStock.js" />
-        <option value="$PROJECT_DIR$/src/screens/stock/sections/lowStock/itemsLowStock.js" />
-        <option value="$PROJECT_DIR$/src/screens/stock/sections/outOfStock/outOfStockProductSingle.js" />
-        <option value="$PROJECT_DIR$/src/screens/register/Sections/AccountInformationSection.js" />
-        <option value="$PROJECT_DIR$/src/screens/Components/Modal/Modal.js" />
-        <option value="$PROJECT_DIR$/src/screens/register/Sections/ShopInformationSection.js" />
-        <option value="$PROJECT_DIR$/src/screens/stock/DirectiveViewStock.js" />
-        <option value="$PROJECT_DIR$/src/screens/stock/sections/BottomMenu.js" />
-        <option value="$PROJECT_DIR$/src/screens/stock/sections/stockProductSingle.js" />
-        <option value="$PROJECT_DIR$/src/screens/Components/Select/PrimarySelect.js" />
-        <option value="$PROJECT_DIR$/src/screens/stock/sections/addNewStockPage.js" />
-        <option value="$PROJECT_DIR$/src/screens/stock/sections/moveStock/moveStock.js" />
-        <option value="$PROJECT_DIR$/src/screens/sell/sell/sections/SearchMode/SellSearchMode.js" />
-        <option value="$PROJECT_DIR$/src/screens/sell/sell/sections/AddProductCart.js" />
-        <option value="$PROJECT_DIR$/src/screens/sell/sell/Sell.js" />
-        <option value="$PROJECT_DIR$/src/screens/onboarding/addProducts/sections/search/SearchMode.js" />
-        <option value="$PROJECT_DIR$/src/services/ScriptLoader.js" />
-        <option value="$PROJECT_DIR$/public/index.html" />
-        <option value="$PROJECT_DIR$/src/screens/onboarding/addProducts/AddProducts.js" />
-        <option value="$PROJECT_DIR$/src/screens/onboarding/addProducts/sections/barcode/BarcodeMode.js" />
-        <option value="$PROJECT_DIR$/src/screens/Components/Snackbar/SimpleSnackbar.js" />
-        <option value="$PROJECT_DIR$/src/services/SyncService.js" />
-        <option value="$PROJECT_DIR$/src/screens/dashboard/Dasboard.js" />
-        <option value="$PROJECT_DIR$/src/services/AuthService.js" />
-        <option value="$PROJECT_DIR$/src/screens/login/Login.js" />
-      </list>
-    </option>
-  </component>
-  <component name="JsBuildToolGruntFileManager" detection-done="true" sorting="DEFINITION_ORDER" />
-  <component name="JsBuildToolPackageJson" detection-done="true" sorting="DEFINITION_ORDER">
-    <package-json value="$PROJECT_DIR$/package.json" />
-  </component>
-  <component name="JsGulpfileManager">
-    <detection-done>true</detection-done>
-    <sorting>DEFINITION_ORDER</sorting>
-  </component>
-  <component name="NodeModulesDirectoryManager">
-    <handled-path value="$PROJECT_DIR$/node_modules" />
-  </component>
-  <component name="NodePackageJsonFileManager">
-    <packageJsonPaths>
-      <path value="$PROJECT_DIR$/package.json" />
-    </packageJsonPaths>
-  </component>
   <component name="ProjectFrameBounds" extendedState="6">
     <option name="x" value="1911" />
     <option name="y" value="-9" />
@@ -450,167 +392,6 @@
   </component>
   <component name="ProjectLevelVcsManager">
     <ConfirmationsSetting value="1" id="Add" />
-  </component>
-  <component name="ProjectView">
-    <navigator proportions="" version="1">
-      <foldersAlwaysOnTop value="true" />
-    </navigator>
-    <panes>
-      <pane id="Scope" />
-      <pane id="ProjectPane">
-        <subPane>
-          <expand>
-            <path>
-              <item name="web-ui" type="b2602c69:ProjectViewProjectNode" />
-              <item name="web-ui" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="web-ui" type="b2602c69:ProjectViewProjectNode" />
-              <item name="web-ui" type="462c0819:PsiDirectoryNode" />
-              <item name="public" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="web-ui" type="b2602c69:ProjectViewProjectNode" />
-              <item name="web-ui" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="web-ui" type="b2602c69:ProjectViewProjectNode" />
-              <item name="web-ui" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="assets" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="web-ui" type="b2602c69:ProjectViewProjectNode" />
-              <item name="web-ui" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="screens" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="web-ui" type="b2602c69:ProjectViewProjectNode" />
-              <item name="web-ui" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="screens" type="462c0819:PsiDirectoryNode" />
-              <item name="Components" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="web-ui" type="b2602c69:ProjectViewProjectNode" />
-              <item name="web-ui" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="screens" type="462c0819:PsiDirectoryNode" />
-              <item name="Components" type="462c0819:PsiDirectoryNode" />
-              <item name="Input" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="web-ui" type="b2602c69:ProjectViewProjectNode" />
-              <item name="web-ui" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="screens" type="462c0819:PsiDirectoryNode" />
-              <item name="Components" type="462c0819:PsiDirectoryNode" />
-              <item name="Modal" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="web-ui" type="b2602c69:ProjectViewProjectNode" />
-              <item name="web-ui" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="screens" type="462c0819:PsiDirectoryNode" />
-              <item name="Components" type="462c0819:PsiDirectoryNode" />
-              <item name="Snackbar" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="web-ui" type="b2602c69:ProjectViewProjectNode" />
-              <item name="web-ui" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="screens" type="462c0819:PsiDirectoryNode" />
-              <item name="dashboard" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="web-ui" type="b2602c69:ProjectViewProjectNode" />
-              <item name="web-ui" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="screens" type="462c0819:PsiDirectoryNode" />
-              <item name="forgotPassword" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="web-ui" type="b2602c69:ProjectViewProjectNode" />
-              <item name="web-ui" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="screens" type="462c0819:PsiDirectoryNode" />
-              <item name="forgotPassword" type="462c0819:PsiDirectoryNode" />
-              <item name="sections" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="web-ui" type="b2602c69:ProjectViewProjectNode" />
-              <item name="web-ui" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="screens" type="462c0819:PsiDirectoryNode" />
-              <item name="login" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="web-ui" type="b2602c69:ProjectViewProjectNode" />
-              <item name="web-ui" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="screens" type="462c0819:PsiDirectoryNode" />
-              <item name="sell" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="web-ui" type="b2602c69:ProjectViewProjectNode" />
-              <item name="web-ui" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="screens" type="462c0819:PsiDirectoryNode" />
-              <item name="sell" type="462c0819:PsiDirectoryNode" />
-              <item name="sell" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="web-ui" type="b2602c69:ProjectViewProjectNode" />
-              <item name="web-ui" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="screens" type="462c0819:PsiDirectoryNode" />
-              <item name="sell" type="462c0819:PsiDirectoryNode" />
-              <item name="sell" type="462c0819:PsiDirectoryNode" />
-              <item name="sections" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="web-ui" type="b2602c69:ProjectViewProjectNode" />
-              <item name="web-ui" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="screens" type="462c0819:PsiDirectoryNode" />
-              <item name="sell" type="462c0819:PsiDirectoryNode" />
-              <item name="sell" type="462c0819:PsiDirectoryNode" />
-              <item name="sections" type="462c0819:PsiDirectoryNode" />
-              <item name="SearchMode" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="web-ui" type="b2602c69:ProjectViewProjectNode" />
-              <item name="web-ui" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="screens" type="462c0819:PsiDirectoryNode" />
-              <item name="stock" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="web-ui" type="b2602c69:ProjectViewProjectNode" />
-              <item name="web-ui" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="screens" type="462c0819:PsiDirectoryNode" />
-              <item name="verifySMS" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="web-ui" type="b2602c69:ProjectViewProjectNode" />
-              <item name="web-ui" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="services" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="web-ui" type="b2602c69:ProjectViewProjectNode" />
-              <item name="web-ui" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="utilities" type="462c0819:PsiDirectoryNode" />
-            </path>
-          </expand>
-          <select />
-        </subPane>
-      </pane>
-    </panes>
   </component>
   <component name="PropertiesComponent">
     <property name="SearchEverywhereHistoryKey" value="api.json&#9;FILE&#9;file://C:/BLOND.WORLD/ELPARAH/web-ui/src/config/apis.json&#10;co&#9;FILE&#9;file://C:/BLOND.WORLD/ELPARAH/web-ui/src/screens/Components/Calculator/CostCalculator.js&#10;sms&#9;FILE&#9;file://C:/BLOND.WORLD/ELPARAH/web-ui/src/services/SmsService.js&#10;BoxDe&#9;FILE&#9;file://C:/BLOND.WORLD/ELPARAH/web-ui/src/screens/Components/Box/BoxDefault.js" />
@@ -621,8 +402,10 @@
     <property name="node.js.detected.package.standard" value="true" />
     <property name="node.js.path.for.package.eslint" value="project" />
     <property name="node.js.path.for.package.standard" value="project" />
+    <property name="node.js.path.for.package.tslint" value="project" />
     <property name="node.js.selected.package.eslint" value="C:\BLOND.WORLD\ELPARAH\web-ui\node_modules\eslint" />
     <property name="node.js.selected.package.standard" value="" />
+    <property name="node.js.selected.package.tslint" value="(autodetect)" />
     <property name="nodejs_interpreter_path.stuck_in_default_project" value="undefined stuck path" />
     <property name="nodejs_npm_path_reset_for_default_project" value="true" />
     <property name="nodejs_package_manager_path" value="npm" />
@@ -642,20 +425,8 @@
       <recent name="C:\BLOND.WORLD\ELPARAH\web-ui\src\screens\stock\sections" />
     </key>
   </component>
-  <component name="RunDashboard">
-    <option name="ruleStates">
-      <list>
-        <RuleState>
-          <option name="name" value="ConfigurationTypeDashboardGroupingRule" />
-        </RuleState>
-        <RuleState>
-          <option name="name" value="StatusDashboardGroupingRule" />
-        </RuleState>
-      </list>
-    </option>
-  </component>
   <component name="RunManager">
-    <configuration name="Dasboard.js" type="NodeJSConfigurationType" factoryName="Node.js" temporary="true" nameIsGenerated="true" path-to-js-file="Dasboard.js" working-dir="$PROJECT_DIR$/src/screens/dashboard">
+    <configuration name="Dasboard.js" type="NodeJSConfigurationType" temporary="true" nameIsGenerated="true" path-to-js-file="Dasboard.js" working-dir="$PROJECT_DIR$/src/screens/dashboard">
       <method v="2" />
     </configuration>
     <recent_temporary>
@@ -690,6 +461,7 @@
     </task>
     <servers />
   </component>
+<<<<<<< HEAD
   <component name="TimeTrackingManager">
     <option name="totallyTimeSpent" value="920602000" />
   </component>
@@ -1211,4 +983,9 @@
       </provider>
     </entry>
   </component>
+=======
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="1" />
+  </component>
+>>>>>>> 7ec52762bc1e63d4cda51c1493b456113ace957e
 </project>

@@ -1,7 +1,7 @@
 import React from 'react';
 import Grid from "@material-ui/core/Grid/Grid";
 import Card from "@material-ui/core/Card/Card";
-import PrimaryButton from "../../../Components/Buttons/PrimaryButton";
+import PrimaryButton from "../../../../components/Buttons/PrimaryButton";
 import ProductServiceHandler from "../../../../services/ProductServiceHandler";
 
 const LowStockProductSingle = props => {

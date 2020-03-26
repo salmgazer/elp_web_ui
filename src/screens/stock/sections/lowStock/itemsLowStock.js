@@ -1,10 +1,10 @@
 import React from 'react';
-import SectionNavbars from "../../../Components/Sections/SectionNavbars";
+import SectionNavbars from "../../../../components/Sections/SectionNavbars";
 import ArrowBackIcon from "@material-ui/core/SvgIcon/SvgIcon";
 import Typography from "@material-ui/core/Typography/Typography";
 import Container from "@material-ui/core/Container/Container";
 import Box from "@material-ui/core/Box/Box";
-import SecondaryButton from "../../../Components/Buttons/SecondaryButton";
+import SecondaryButton from "../../../../components/Buttons/SecondaryButton";
 import LowStockProductSingle from "./lowStockProductSingle";
 
 const ItemsLowStock = (props) => {

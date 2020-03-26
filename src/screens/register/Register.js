@@ -15,15 +15,15 @@ import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
 import Box from '@material-ui/core/Box';
 import paths from "../../utilities/paths";
-import SectionNavbars from '../Components/Sections/SectionNavbars';
+import SectionNavbars from '../../components/Sections/SectionNavbars';
 import ArrowBackIcon from '@material-ui/icons/ArrowBack';
 import PersonalInformationSection from './Sections/PersonalInformationSection';
 import ShopInformationSection from './Sections/ShopInformationSection';
 import AccountInformationSection from './Sections/AccountInformationSection';
 import AuthService from '../../services/AuthService';
 import "./Register.scss";
-import SimpleSnackbar from "../Components/Snackbar/SimpleSnackbar";
-import PrimaryLoader from "../Components/Loader/Loader";
+import SimpleSnackbar from "../../components/Snackbar/SimpleSnackbar";
+import PrimaryLoader from "../../components/Loader/Loader";
 
 const useQontoStepIconStyles = makeStyles({
     root: {

@@ -3,16 +3,16 @@ import AppBar from "@material-ui/core/AppBar/AppBar";
 import Tabs from "@material-ui/core/Tabs/Tabs";
 import Tab from "@material-ui/core/Tab/Tab";
 import SwipeableViews from "react-swipeable-views";
-import TabPanel from "../../../Components/Tabs/TabPanel";
+import TabPanel from "../../../../components/Tabs/TabPanel";
 import SearchMode from "./search/SearchMode";
 import BarcodeMode from "./barcode/BarcodeMode";
 import Box from "@material-ui/core/Box/Box";
 import Button from "@material-ui/core/Button/Button";
-import MainDialog from "../../../Components/Dialog/MainDialog";
+import MainDialog from "../../../../components/Dialog/MainDialog";
 import Typography from "@material-ui/core/Typography/Typography";
 import MenuIcon from '@material-ui/icons/Menu';
-import SectionNavbars from "../../../Components/Sections/SectionNavbars";
-import PrimaryLoader from "../../../Components/Loader/Loader";
+import SectionNavbars from "../../../../components/Sections/SectionNavbars";
+import PrimaryLoader from "../../../../components/Loader/Loader";
 
 const MainView = props => {
     const [value , setValue] = useState(0);

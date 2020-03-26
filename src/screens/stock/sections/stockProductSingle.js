@@ -1,8 +1,8 @@
 import React, {useState} from 'react';
-import SectionNavbars from "../../Components/Sections/SectionNavbars";
+import SectionNavbars from "../../../components/Sections/SectionNavbars";
 import ArrowBackIcon from '@material-ui/icons/ArrowBack';
 import Button from "@material-ui/core/Button";
-import SimpleSnackbar from "../../Components/Snackbar/SimpleSnackbar";
+import SimpleSnackbar from "../../../components/Snackbar/SimpleSnackbar";
 import Typography from "@material-ui/core/Typography";
 import ProductServiceHandler from "../../../services/ProductServiceHandler";
 import format from 'date-fns/format'

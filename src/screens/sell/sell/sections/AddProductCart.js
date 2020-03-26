@@ -8,7 +8,7 @@ import Grid from "@material-ui/core/Grid";
 import InputBase from "@material-ui/core/InputBase";
 import Paper from "@material-ui/core/Paper";
 import {makeStyles} from "@material-ui/core";
-import SimpleSnackbar from "../../../Components/Snackbar/SimpleSnackbar";
+import SimpleSnackbar from "../../../../components/Snackbar/SimpleSnackbar";
 import ProductServiceHandler from "../../../../services/ProductServiceHandler";
 
 const useStyles = makeStyles(theme => ({
@@ -40,12 +40,12 @@ const AddProductCart = props => {
     const [btnState,setBtnState] = useState(false);
     const [productAdded , setProductAdded] = useState(false);
 
-    const product = props.product;
+    const product = props.product[0];
     console.log(product);
 
-    const ProductHandler = new ProductServiceHandler(product);
+    const productHandler = new ProductServiceHandler(product);
 
-    const image = ProductHandler.getProductImage();
+    const image = productHandler.getProductImage();
 
     const setInputValue = (name , value) => {
         console.log(name , value)
@@ -78,7 +78,7 @@ const AddProductCart = props => {
                     <KeyboardBackspaceIcon style={{fontWeight: '700'}}/>
                 </span>
                 <div className={`w-100 m-2 my-5`}>
-                    <img className={`img-fluid mx-auto w-50 h-75`} src={image} alt={`${product.pro_name}`}/>
+                    <img className={`img-fluid mx-auto w-50 h-75`} src={image} alt={`${productHandler.getProductName()}`}/>
                 </div>
             </div>
 
@@ -93,7 +93,7 @@ const AddProductCart = props => {
                         style={{fontSize: '18px' , margin: '3px 0px', paddingTop: '5px'}}
                         className={`font-weight-bold text-center text-dark`}
                     >
-                        { product.pro_name }
+                        { productHandler.getProductName() }
                     </Typography>
 
                     <SellQuantityInput label={`Quantity`} inputName="quantity" getValue={setInputValue.bind(this)}/>
@@ -105,11 +105,11 @@ const AddProductCart = props => {
                         <span
                             className={`text-center mx-auto`}
                         >
-                            Total : GHC {`13.00`}
+                            Total : GHC {`${productHandler.getSellingPrice()}`}
                             <span
                                 className={`mx-2`}
                                 style={{fontSize: '18px'}}
-                            >|</span> 376 left in stock
+                            >|</span> {`${productHandler.getProductQuantity()} left in stock`}
                         </span>
                     </div>
 

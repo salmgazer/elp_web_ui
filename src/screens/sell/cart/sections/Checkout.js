@@ -1,6 +1,6 @@
 import React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
-import SectionNavbars from "../../../Components/Sections/SectionNavbars";
+import SectionNavbars from "../../../../components/Sections/SectionNavbars";
 import Tabs from "@material-ui/core/Tabs/Tabs";
 import Tab from "@material-ui/core/Tab/Tab";
 import SwipeableViews from "react-swipeable-views";
@@ -8,7 +8,7 @@ import LocalAtmIcon from '@material-ui/icons/LocalAtm';
 import PhoneAndroidIcon from '@material-ui/icons/PhoneAndroid';
 import ScheduleIcon from '@material-ui/icons/Schedule';
 import CardGiftcardIcon from '@material-ui/icons/CardGiftcard';
-import TabPanel from "../../../Components/Tabs/TabPanel";
+import TabPanel from "../../../../components/Tabs/TabPanel";
 import AppBar from '@material-ui/core/AppBar';
 import Box from "@material-ui/core/Box/Box";
 import Grid from '@material-ui/core/Grid';

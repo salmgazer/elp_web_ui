@@ -5,7 +5,7 @@ import CardGridComponent from "../../../dashboard/Sections/CardGridComponent";
 import Tabs from "@material-ui/core/Tabs/Tabs";
 import Tab from "@material-ui/core/Tab/Tab";
 import AppBar from "@material-ui/core/AppBar/AppBar";
-import TabPanel from "../../../Components/Tabs/TabPanel";
+import TabPanel from "../../../../components/Tabs/TabPanel";
 import SwipeableViews from "react-swipeable-views";
 import Button from "@material-ui/core/Button/Button";
 import Box from "@material-ui/core/Box/Box";
@@ -13,7 +13,8 @@ import {withRouter} from 'react-router-dom';
 import paths from "../../../../utilities/paths";
 import SellSearchMode from "./SearchMode/SellSearchMode";
 import MenuIcon from '@material-ui/icons/Menu';
-import SectionNavbars from "../../../Components/Sections/SectionNavbars";
+import SectionNavbars from "../../../../components/Sections/SectionNavbars";
+import BarcodeMode from "./BarcodeMode/BarcodeMode";
 
 const SellView = props => {
     const { history } = props;
@@ -90,7 +91,7 @@ const SellView = props => {
                         <SellSearchMode productAdd={props.productAdd} products={props.products}/>
                     </TabPanel>
                     <TabPanel value={value} index={1} >
-                        Barcode Mode
+                        <BarcodeMode product={props.product} setView={props.setView} searchBarcode={props.searchBarcode}/>
                     </TabPanel>
                 </SwipeableViews>
 

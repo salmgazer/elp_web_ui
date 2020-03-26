@@ -1,7 +1,7 @@
 import React , {useState} from 'react';
 import { BrowserBarcodeReader } from '@zxing/library';
 import {makeStyles} from "@material-ui/core";
-import '../barcode/barcodeMode.scss';
+import './barcodeMode.scss';
 import Grid from '@material-ui/core/Grid';
 import Typography from "@material-ui/core/Typography";
 import InputBase from "@material-ui/core/InputBase";
@@ -9,13 +9,12 @@ import Paper from "@material-ui/core/Paper";
 import SearchIcon from '@material-ui/icons/Search';
 import Button from "@material-ui/core/Button/Button";
 import Box from "@material-ui/core/Box/Box";
-import '../AddProducts.scss';
 import Don from '../../../../../assets/img/Don.jpg';
 import Snackbar from '@material-ui/core/Snackbar';
 import MuiAlert from '@material-ui/lab/Alert';
-import MainDialog from "../../../../Components/Dialog/MainDialog";
 import SimpleSnackbar from "../../../../../components/Snackbar/SimpleSnackbar";
 import ProductServiceHandler from "../../../../../services/ProductServiceHandler";
+import MainDialog from "../../../../../components/Dialog/MainDialog";
 
 
 function Alert(props) {
@@ -102,12 +101,11 @@ const BarcodeMode = props => {
 
         if(prod.length === 1){
             const product = prod[0];
+            console.log(product);
             const productHandler = new ProductServiceHandler(product);
 
             if( prod.length === 1) {
-                setProductImage(productHandler.getProductImage());
-                setProductName(productHandler.getProductName());
-                setShowProduct(true);
+                props.setView(1);
             }
             return true
         }else if(prod.length === 0) {

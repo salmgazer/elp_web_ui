@@ -1,7 +1,7 @@
 import React, {useState} from 'react';
 import Grid from "@material-ui/core/Grid/Grid";
 import SearchInput from "../../../Components/Input/SearchInput";
-import SingleProductBox from "../../../Components/Product/SingleProductBox";
+import SingleProductBox from "../../../../components/Product/SingleProductBox";
 
 const StockSearchMode = props => {
     const products = props.stock;

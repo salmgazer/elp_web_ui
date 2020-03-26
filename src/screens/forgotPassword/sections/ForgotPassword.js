@@ -17,7 +17,7 @@ import { ValidatorForm, TextValidator} from 'react-material-ui-form-validator';
 import InputAdornment from '@material-ui/core/InputAdornment';
 import Api from "../../../services/Api";
 import phoneFormat from "../../../services/phoneFormatter";
-import SimpleSnackbar from "../../Components/Snackbar/SimpleSnackbar";
+import SimpleSnackbar from "../../../components/Snackbar/SimpleSnackbar";
 import Snackbar from "@material-ui/core/Snackbar/Snackbar";
 import MuiAlert from '@material-ui/lab/Alert';
 

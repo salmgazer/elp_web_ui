@@ -2,13 +2,13 @@ import React, {Component, useEffect, useState} from 'react';
 import { withRouter } from "react-router-dom";
 import ArrowBackIcon from "@material-ui/core/SvgIcon/SvgIcon";
 import paths from "../../../utilities/paths";
-import SectionNavbars from "../../Components/Sections/SectionNavbars";
+import SectionNavbars from "../../../components/Sections/SectionNavbars";
 import Box from "@material-ui/core/Box/Box";
 import Button from "@material-ui/core/Button/Button";
 import Step1 from "./sections/Step1";
 import Step2 from "./sections/Step2";
 import Api from "../../../services/Api";
-import SimpleSnackbar from "../../Components/Snackbar/SimpleSnackbar";
+import SimpleSnackbar from "../../../components/Snackbar/SimpleSnackbar";
 
 class CategorySetup extends Component{
     /*

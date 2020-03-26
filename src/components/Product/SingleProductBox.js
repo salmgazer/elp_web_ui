@@ -1,6 +1,6 @@
 import React from 'react';
 import ProductCard from "../Cards/ProductCard";
-import ProductServiceHandler from "../../../services/ProductServiceHandler";
+import ProductServiceHandler from "../../services/ProductServiceHandler";
 import Grid from "@material-ui/core/Grid/Grid";
 
 const SingleProductBox = props => {

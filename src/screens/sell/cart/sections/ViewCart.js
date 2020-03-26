@@ -3,7 +3,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import MenuIcon from '@material-ui/icons/Menu';
 import AddShoppingCartIcon from '@material-ui/icons/AddShoppingCart';
 import ArrowBackIosIcon from '@material-ui/icons/ArrowBackIos';
-import SectionNavbars from "../../../Components/Sections/SectionNavbars";
+import SectionNavbars from "../../../../components/Sections/SectionNavbars";
 import Paper from '@material-ui/core/Paper';
 import InputAdornment from '@material-ui/core/InputAdornment';
 import PersonIcon from '@material-ui/icons/Person';

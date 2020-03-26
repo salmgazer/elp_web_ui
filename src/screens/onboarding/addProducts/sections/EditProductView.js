@@ -12,7 +12,7 @@ import Tooltip from '@material-ui/core/Tooltip';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCalculator } from '@fortawesome/free-solid-svg-icons';
 import { faInfo } from '@fortawesome/free-solid-svg-icons';
-import Modal from "../../../Components/Modal/Modal";
+import Modal from "../../../../components/Modal/Modal";
 import CostCalculator from "../../../Components/Calculator/CostCalculator";
 import CostInput from "../../../Components/Input/CostInput";
 

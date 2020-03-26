@@ -2,7 +2,7 @@ import React from 'react';
 import Typography from "@material-ui/core/Typography/Typography";
 import Box from "@material-ui/core/Box/Box";
 import shopImg from "../../../assets/img/completion.png";
-import BoxDefault from "../../Components/Box/BoxDefault";
+import BoxDefault from "../../../components/Box/BoxDefault";
 import Button from "@material-ui/core/Button/Button";
 
 const ViewWelcome = props => {

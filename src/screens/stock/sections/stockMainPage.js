@@ -1,21 +1,21 @@
 import React, {Fragment, useState} from 'react';
 import CssBaseline from "@material-ui/core/CssBaseline";
 import Container from '@material-ui/core/Container';
-import SectionNavbars from "../../Components/Sections/SectionNavbars";
+import SectionNavbars from "../../../components/Sections/SectionNavbars";
 import MenuIcon from '@material-ui/icons/Menu';
 import MoreVertIcon from '@material-ui/icons/MoreVert';
 import Grid from '@material-ui/core/Grid';
 import SystemDate from "../../Components/Date/SystemDate";
 import CardDefault from "../../Components/Cards/CardDefault";
 import Typography from "@material-ui/core/Typography";
-import TabPanel from "../../Components/Tabs/TabPanel";
+import TabPanel from "../../../components/Tabs/TabPanel";
 import SwipeableViews from "react-swipeable-views";
 import Tabs from "@material-ui/core/Tabs";
 import Tab from "@material-ui/core/Tab";
 import AppBar from "@material-ui/core/AppBar";
 import StockSearchMode from "./SearchMode/StockSearchMode";
 import StockBarcodeMode from "./BarcodeMode/StockBarcodeMode";
-import SecondaryButton from "../../Components/Buttons/SecondaryButton";
+import SecondaryButton from "../../../components/Buttons/SecondaryButton";
 import Box from "@material-ui/core/Box";
 
 

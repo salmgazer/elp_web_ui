@@ -77,4 +77,13 @@ export default class ProductServiceHandler {
     getProductName(){
         return this.product.name ? this.product.name : '';
     }
+
+    /*
+    * @array products
+    * Return a stores products
+    * @return array
+    * */
+    getStoreProducts(){
+        return (this.product).filter((product) => product.owned === true);
+    }
 }

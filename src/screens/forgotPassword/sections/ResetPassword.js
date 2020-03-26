@@ -21,7 +21,7 @@ import VisibilityOff from '@material-ui/icons/VisibilityOff';
 import Api from "../../../services/Api";
 import Snackbar from '@material-ui/core/Snackbar';
 import MuiAlert from '@material-ui/lab/Alert';
-import SimpleSnackbar from "../../Components/Snackbar/SimpleSnackbar";
+import SimpleSnackbar from "../../../components/Snackbar/SimpleSnackbar";
 import phoneFormat from "../../../services/phoneFormatter";
 
 

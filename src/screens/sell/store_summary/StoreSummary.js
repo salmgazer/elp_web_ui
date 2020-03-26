@@ -2,7 +2,7 @@ import React , {useState} from 'react';
 import {withRouter} from 'react-router-dom';
 import MenuIcon from '@material-ui/icons/Menu';
 import Component from "@reactions/component";
-import SectionNavbars from "../../Components/Sections/SectionNavbars";
+import SectionNavbars from "../../../components/Sections/SectionNavbars";
 import Drawer from "../../Components/Drawer/Drawer";
 import Typography from "@material-ui/core/Typography/Typography";
 import CardGridComponent from "../../dashboard/Sections/CardGridComponent";
