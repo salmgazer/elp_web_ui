@@ -1,6 +1,7 @@
 import { Model } from '@nozbe/watermelondb';
 import { field, date, text, readonly, relation} from '@nozbe/watermelondb/decorators';
 import * as Q from "@nozbe/watermelondb/QueryDescription";
+import productSchema from "./productSchema";
 
 export default class Product extends Model {
   static table = 'products';
@@ -11,6 +12,8 @@ export default class Product extends Model {
     product_categories: { type: 'belongs_to', key: 'productCategoryId' },
     manufacturers: { type: 'belongs_to', key: 'manufacturerId' },
   };
+
+  static displayColumn = 'name';
 
   @field('name') name;
   @text('description') description;
@@ -25,6 +28,8 @@ export default class Product extends Model {
   @relation('users', 'createdBy') createdBy;
   @readonly @date('createdAt') createdAt;
   @readonly @date('updatedAt') updatedAt;
+
+  static columns = productSchema.columns.map(c => c.name);
 
   async stocks(branchId) {
     return this.collections
