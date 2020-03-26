@@ -1,11 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="23d7673f-f43c-4e81-9c96-c34110ab3b67" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/src/screens/dashboard/Dasboard.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/screens/dashboard/Dasboard.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/screens/login/Login.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/screens/login/Login.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/services/SyncService.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/services/SyncService.js" afterDir="false" />
-    </list>
+    <list default="true" id="23d7673f-f43c-4e81-9c96-c34110ab3b67" name="Default Changelist" comment="" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -147,7 +143,7 @@
           <file pinned="false" current-in-tab="true">
             <entry file="file://$PROJECT_DIR$/src/screens/login/Login.js">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="424">
+                <state relative-caret-position="100">
                   <caret line="169" lean-forward="true" selection-start-line="169" selection-end-line="169" />
                   <folding>
                     <element signature="e#0#49#0" expanded="true" />
@@ -303,7 +299,7 @@
           <file pinned="false" current-in-tab="true">
             <entry file="file://$PROJECT_DIR$/src/screens/dashboard/Dasboard.js">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="371">
+                <state relative-caret-position="100">
                   <caret line="227" column="41" selection-start-line="227" selection-start-column="41" selection-end-line="227" selection-end-column="41" />
                   <folding>
                     <element signature="e#0#26#0" expanded="true" />
@@ -690,12 +686,12 @@
       <workItem from="1584719691957" duration="26079000" />
       <workItem from="1584892724675" duration="590000" />
       <workItem from="1584918255562" duration="394000" />
-      <workItem from="1584918756976" duration="65770000" />
+      <workItem from="1584918756976" duration="66997000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="919375000" />
+    <option name="totallyTimeSpent" value="920602000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="1913" y="-7" width="1550" height="878" extended-state="6" />
@@ -722,7 +718,7 @@
       <window_info anchor="bottom" id="Regex Tester" order="13" />
       <window_info anchor="bottom" id="Event Log" order="14" sideWeight="0.50162077" side_tool="true" weight="0.26275116" />
       <window_info anchor="bottom" id="Version Control" order="15" show_stripe_button="false" />
-      <window_info anchor="bottom" id="Terminal" order="16" sideWeight="0.49837926" weight="0.49395972" />
+      <window_info active="true" anchor="bottom" id="Terminal" order="16" sideWeight="0.49837926" visible="true" weight="0.49395972" />
       <window_info anchor="bottom" id="Floobits" order="17" weight="0.32869786" />
       <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
       <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
@@ -1194,7 +1190,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/screens/login/Login.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="424">
+        <state relative-caret-position="100">
           <caret line="169" lean-forward="true" selection-start-line="169" selection-end-line="169" />
           <folding>
             <element signature="e#0#49#0" expanded="true" />
@@ -1206,7 +1202,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/screens/dashboard/Dasboard.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="371">
+        <state relative-caret-position="100">
           <caret line="227" column="41" selection-start-line="227" selection-start-column="41" selection-end-line="227" selection-end-column="41" />
           <folding>
             <element signature="e#0#26#0" expanded="true" />
