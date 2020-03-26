@@ -1,5 +1,5 @@
 import { Model } from '@nozbe/watermelondb'
-import {field, date, readonly, children, relation} from '@nozbe/watermelondb/decorators';
+import {field, date, children, relation} from '@nozbe/watermelondb/decorators';
 import productSchema from "../products/productSchema";
 
 export default class ProductCategories extends Model {
@@ -17,7 +17,7 @@ export default class ProductCategories extends Model {
   @field('name') name;
   @field('parentId') number;
   @relation('product_categories', 'parentId') parentProductCategory;
-  @readonly @date('createdAt') createdAt;
-  @readonly @date('updatedAt') updatedAt;
+  @date('createdAt') createdAt;
+  @date('updatedAt') updatedAt;
   @children('products') products;
 }

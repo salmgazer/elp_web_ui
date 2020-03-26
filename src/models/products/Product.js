@@ -1,5 +1,5 @@
 import { Model } from '@nozbe/watermelondb';
-import { field, date, text, readonly, relation} from '@nozbe/watermelondb/decorators';
+import { field, date, text, relation} from '@nozbe/watermelondb/decorators';
 import * as Q from "@nozbe/watermelondb/QueryDescription";
 import productSchema from "./productSchema";
 
@@ -25,9 +25,8 @@ export default class Product extends Model {
   @relation('brands', 'brandId') brand;
   @relation('product_categories', 'productCategoryId') productCategory;
   @relation('manufacturers', 'manufacturerId') manufacturer;
-  @relation('users', 'createdBy') createdBy;
-  @readonly @date('createdAt') createdAt;
-  @readonly @date('updatedAt') updatedAt;
+  @date('createdAt') createdAt;
+  @date('updatedAt') updatedAt;
 
   static columns = productSchema.columns.map(c => c.name);
 

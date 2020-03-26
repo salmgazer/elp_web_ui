@@ -8,7 +8,8 @@ export default class LocalInfo {
       username: "username",
       accessToken: "accessToken",
       branchId: "activeBranch",
-      userAccess: "userData"
+      userAccess: "userData",
+      lastSyncedAt: "lastSyncedAt"
     };
   }
 
@@ -23,6 +24,14 @@ export default class LocalInfo {
   static get username() {
       alert(this.keys.username);
       return localStorage.getItem(this.keys.username);
+  }
+
+  static set lastSyncedAt(datetime) {
+    localStorage.setItem(this.keys.lastSyncedAt, datetime);
+  }
+
+  static get lastSyncedAt() {
+    return localStorage.getItem(this.keys.lastSyncedAt);
   }
 
   static get storeName() {

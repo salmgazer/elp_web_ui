@@ -29,6 +29,7 @@ import Manufacturer from "../../models/manufacturers/Manufacturer";
 import Brand from "../../models/brands/Brand";
 import BranchProduct from "../../models/branchesProducts/BranchProduct";
 import SyncService from "../../services/SyncService";
+import Product from "../../models/products/Product";
 
 
 const useStyles = makeStyles(theme => ({
@@ -81,7 +82,7 @@ const Dashboard = props => {
     const username = JSON.parse(localStorage.getItem('userDetails')).firstName;
     console.log(username);
 
-    const { history, branchProducts, brands, manufacturers, database } = props;
+    const { history, branchProducts, brands, manufacturers, products, database } = props;
     // const database = useDatabase();
 
 
@@ -89,6 +90,7 @@ const Dashboard = props => {
     console.log(branchProducts);
     console.log(brands);
     console.log(manufacturers);
+    console.log(products);
     console.log("********************************");
 
   const createBrand = async () => {
@@ -244,6 +246,7 @@ const EnhancedDashboard = withDatabase(
     branchProducts: database.collections.get(BranchProduct.table).query(Q.where('branchId', localStorage.getItem('activeBranch'))).observe(),
     brands: database.collections.get(Brand.table).query().observe(),
     manufacturers: database.collections.get(Manufacturer.table).query().observe(),
+    products: database.collections.get(Product.table).query().observe()
   }))(withRouter(Dashboard))
 );
 

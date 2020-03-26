@@ -8,7 +8,6 @@ const productSchema = {
     { name: 'manufacturerId', type: 'number' },
     { name: 'brandId', type: 'number' },
     { name: 'productCategoryId', type: 'number' },
-    { name: 'createdBy', type: 'string' },
     { name: 'createdAt', type: 'number' },
     { name: 'updatedAt', type: 'number' },
   ]

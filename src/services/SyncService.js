@@ -15,9 +15,9 @@ export default class SyncService {
         pullChanges: async ({lastPulledAt}) => {
           let queryString = '';
 
-          queryString = `${queryString}company_id=${companyId}&branch_id=${branchId}}`;
-          if (lastPulledAt) {
-            queryString = `last_pulled_at=${lastPulledAt}&${queryString}`;
+          queryString = `${queryString}company_id=${companyId}&branch_id=${branchId}`;
+          if (LocalInfo.lastSyncedAt) {
+            queryString = `last_pulled_at=${LocalInfo.lastSyncedAt}&${queryString}`;
           }
 
           console.log(queryString);
@@ -33,6 +33,7 @@ export default class SyncService {
           }
 
           const {changes, timestamp, otherChanges} = await response.data;
+          LocalInfo.lastSyncedAt = timestamp;
           /*
           console.log(changes.products);
 
@@ -73,22 +74,32 @@ export default class SyncService {
           }
           */
 
-          for (const globalModel of globalModels) {
-            for (const row of otherChanges[globalModel.table]) {
-              database.action(async () => {
+
+          console.log(response.data);
+
+          console.log(otherChanges);
+
+          database.action(async () => {
+            for (const globalModel of globalModels) {
+              console.log(globalModel.table);
+              console.log("=================================");
+              for (const row of otherChanges[globalModel.table]) {
                 const collection = database.collections.get(globalModel.table);
                 const existingRow = collection
                   .query(Q.where(globalModel.displayColumn, row[globalModel.displayColumn])).fetch();
                 if (!existingRow[0]) {
-                  const newRow = await collection.create(aRow => {
+                  await collection.create(aRow => {
                     globalModel.columns.forEach(column => {
-                      aRow[column] = row[column];
+                      console.log(column);
+                      if (row[column]) {
+                        aRow[column] = row[column];
+                      }
                     });
                   });
                 }
-              });
+              }
             }
-          }
+          });
 
           return {changes, timestamp};
         },
@@ -97,9 +108,13 @@ export default class SyncService {
 
           queryString = `${queryString}company_id=${companyId}&branch_id=${branchId}`;
 
-          if (lastPulledAt) {
-            queryString = `last_pulled_at=${lastPulledAt}&${queryString}`;
+          if (LocalInfo.lastSyncedAt) {
+            queryString = `last_pulled_at=${LocalInfo.lastSyncedAt}&${queryString}`;
           }
+
+          console.log("@@@@@@@@@@@@@@@@@@@@@@");
+          console.log(changes);
+          console.log("@@@@@@@@@@@@@@@@@@@@@@");
 
           globalModels.forEach(globalModel => {
             delete changes[globalModel.table];

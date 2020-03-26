@@ -4,7 +4,7 @@ const brandSchema = {
     { name: 'name', type: 'string' },
     { name: 'createdBy', type: 'string' },
     { name: 'createdAt', type: 'number' },
-    { name: 'updated_A', type: 'number' },
+    { name: 'updatedAt', type: 'number' },
   ]
 };
 
