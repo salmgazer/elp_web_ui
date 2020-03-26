@@ -1,6 +1,8 @@
 import {synchronize} from "@nozbe/watermelondb/sync";
 import LocalInfo from "./LocalInfo";
 import Api from "./Api";
+import {Q} from "@nozbe/watermelondb";
+import globalModels from '../models/globalModels'
 
 const apiUrl = 'https://elp-core-api-dev.herokuapp.com/v1/client';
 
@@ -13,20 +15,7 @@ export default class SyncService {
         pullChanges: async ({lastPulledAt}) => {
           let queryString = '';
 
-
-          const products = await database.collections.get('products').query().fetch();
-          const brands = await database.collections.get('brands').query().fetch();
-          const manufacturers = await database.collections.get('manufacturers').query().fetch();
-          const productCategories = await database.collections.get('product_categories').query().fetch();
-
-          const globalEntities = {
-            products: products.map(p => p.id),
-            brands: brands.map(b => b.id),
-            manufacturers: manufacturers.map(m => m.id),
-            product_categories: productCategories.map(pc => pc.id)
-          };
-
-          queryString = `${queryString}company_id=${companyId}&branch_id=${branchId}&global_entities=${JSON.stringify(globalEntities)}`;
+          queryString = `${queryString}company_id=${companyId}&branch_id=${branchId}}`;
           if (lastPulledAt) {
             queryString = `last_pulled_at=${lastPulledAt}&${queryString}`;
           }
@@ -43,7 +32,7 @@ export default class SyncService {
             throw new Error(await response.text())
           }
 
-          const {changes, timestamp} = await response.data;
+          const {changes, timestamp, otherChanges} = await response.data;
           /*
           console.log(changes.products);
 
@@ -84,6 +73,23 @@ export default class SyncService {
           }
           */
 
+          for (const globalModel of globalModels) {
+            for (const row of otherChanges[globalModel.table]) {
+              database.action(async () => {
+                const collection = database.collections.get(globalModel.table);
+                const existingRow = collection
+                  .query(Q.where(globalModel.displayColumn, row[globalModel.displayColumn])).fetch();
+                if (!existingRow[0]) {
+                  const newRow = await collection.create(aRow => {
+                    globalModel.columns.forEach(column => {
+                      aRow[column] = row[column];
+                    });
+                  });
+                }
+              });
+            }
+          }
+
           return {changes, timestamp};
         },
         pushChanges: async ({changes, lastPulledAt}) => {
@@ -95,7 +101,9 @@ export default class SyncService {
             queryString = `last_pulled_at=${lastPulledAt}&${queryString}`;
           }
 
-          console.log("WE ARE HERE ABOUT TO PUSH");
+          globalModels.forEach(globalModel => {
+            delete changes[globalModel.table];
+          });
 
           const response = await new Api('others').create(
             JSON.stringify(changes),
