@@ -19,10 +19,10 @@ import HomeIcon from '@material-ui/icons/Home';
 import Typography from "@material-ui/core/Typography/Typography";
 import SectionNavbars from "../../components/Sections/SectionNavbars";
 import BoxDefault from "../../components/Box/BoxDefault";
-import CardDefault from "../Components/Cards/CardDefault";
+import CardDefault from "../../components/Cards/CardDefault";
 import SettingsIcon from '@material-ui/icons/Settings';
 import CardGridComponent from "./Sections/CardGridComponent";
-import Drawer from "../Components/Drawer/Drawer";
+import Drawer from "../../components/Drawer/Drawer";
 
 import LocalInfo from '../../services/LocalInfo';
 import Manufacturer from "../../models/manufacturers/Manufacturer";

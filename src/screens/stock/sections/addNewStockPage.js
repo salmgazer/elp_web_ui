@@ -6,7 +6,7 @@ import SimpleSnackbar from "../../../components/Snackbar/SimpleSnackbar";
 import Button from "@material-ui/core/Button/Button";
 import Typography from "@material-ui/core/Typography/Typography";
 import QuantityInput from "../../Components/Input/QuantityInput";
-import CostCalculator from "../../Components/Calculator/CostCalculator";
+import CostCalculator from "../../../components/Calculator/CostCalculator";
 import Grid from "@material-ui/core/Grid/Grid";
 import SwapHorizOutlinedIcon from '@material-ui/icons/SwapHorizOutlined';
 import InputBase from "@material-ui/core/InputBase/InputBase";

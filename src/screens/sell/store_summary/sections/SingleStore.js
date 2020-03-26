@@ -3,7 +3,7 @@ import Grid from "@material-ui/core/Grid";
 import StorefrontOutlinedIcon from '@material-ui/icons/StorefrontOutlined';
 import Card from "@material-ui/core/Card";
 import {withRouter} from 'react-router-dom';
-import CardDefaultSmall from "../../../Components/Cards/CardDefaultSmall";
+import CardDefaultSmall from "../../../../components/Cards/CardDefaultSmall";
 import Typography from "@material-ui/core/Typography/Typography";
 import './singleStore.scss';
 import paths from "../../../../utilities/paths";

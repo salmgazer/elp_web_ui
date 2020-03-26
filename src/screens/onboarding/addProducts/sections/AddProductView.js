@@ -14,7 +14,7 @@ import MenuIcon from '@material-ui/icons/Menu';
 import SectionNavbars from "../../../../components/Sections/SectionNavbars";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faCalculator} from "@fortawesome/free-solid-svg-icons";
-import CostCalculator from "../../../Components/Calculator/CostCalculator";
+import CostCalculator from "../../../../components/Calculator/CostCalculator";
 import CostInput from "../../../Components/Input/CostInput";
 import ProductServiceHandler from '../../../../services/ProductServiceHandler';
 

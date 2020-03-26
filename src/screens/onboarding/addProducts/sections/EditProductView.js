@@ -7,13 +7,13 @@ import QuantityInput from "../../../Components/Input/QuantityInput";
 import PriceInput from "../../../Components/Input/PriceInput";
 import { confirmAlert } from 'react-confirm-alert';
 import 'react-confirm-alert/src/react-confirm-alert.css';
-import SuccessDialog from "../../../Components/Dialog/SuccessDialog";
+import SuccessDialog from "../../../../components/Dialog/SuccessDialog";
 import Tooltip from '@material-ui/core/Tooltip';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCalculator } from '@fortawesome/free-solid-svg-icons';
 import { faInfo } from '@fortawesome/free-solid-svg-icons';
 import Modal from "../../../../components/Modal/Modal";
-import CostCalculator from "../../../Components/Calculator/CostCalculator";
+import CostCalculator from "../../../../components/Calculator/CostCalculator";
 import CostInput from "../../../Components/Input/CostInput";
 
 

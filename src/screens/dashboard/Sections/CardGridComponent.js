@@ -1,7 +1,7 @@
 import React from 'react';
 
 import Typography from "@material-ui/core/Typography/Typography";
-import CardDefault from "../../Components/Cards/CardDefault";
+import CardDefault from "../../../components/Cards/CardDefault";
 import Grid from "@material-ui/core/Grid/Grid";
 
 

@@ -12,7 +12,7 @@ import Select from "@material-ui/core/Select/Select";
 import MenuItem from "@material-ui/core/MenuItem/MenuItem";
 import {makeStyles} from "@material-ui/core";
 import AddedProductSingle from "./addedView/AddedSingleView";
-import MainDialog from "../../../Components/Dialog/MainDialog";
+import MainDialog from "../../../../components/Dialog/MainDialog";
 
 const useStyles = makeStyles(theme => ({
     root: {

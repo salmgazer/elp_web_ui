@@ -17,7 +17,7 @@ import PersonIcon from '@material-ui/icons/Person';
 import SettingsIcon from '@material-ui/icons/Settings';
 import ExitToAppIcon from '@material-ui/icons/ExitToApp';
 import { withRouter } from "react-router-dom";
-import paths from "../../../utilities/paths";
+import paths from "../../utilities/paths";
 
 const useStyles = makeStyles({
     list: {

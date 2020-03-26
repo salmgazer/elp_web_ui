@@ -17,7 +17,7 @@ import Button from "@material-ui/core/Button/Button";
 import ArrowBackIosIcon from '@material-ui/icons/ArrowBackIos';
 import { withRouter } from "react-router-dom";
 import ViewCash from './ViewCash';
-import MainDialog from "../../../Components/Dialog/MainDialog";
+import MainDialog from "../../../../components/Dialog/MainDialog";
 import ErrorImage from '../../../../assets/img/error.png';
 import CancelIcon from '@material-ui/icons/Cancel';
 

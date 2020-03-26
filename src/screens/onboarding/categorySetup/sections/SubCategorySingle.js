@@ -1,8 +1,8 @@
 import React from 'react';
 import Grid from "@material-ui/core/Grid/Grid";
 import Card from "@material-ui/core/Card/Card";
-import AddedIcon from "../../../Components/ClickableIcons/AddedIcon";
-import AddIcon from "../../../Components/ClickableIcons/AddIcon";
+import AddedIcon from "../../../../components/ClickableIcons/AddedIcon";
+import AddIcon from "../../../../components/ClickableIcons/AddIcon";
 
 const SubCategorySingle = props => {
     const category = props.item;

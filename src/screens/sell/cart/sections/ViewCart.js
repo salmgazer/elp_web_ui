@@ -16,7 +16,7 @@ import Button from "@material-ui/core/Button/Button";
 import PersonAddIcon from '@material-ui/icons/PersonAdd';
 import Box from "@material-ui/core/Box/Box";
 import AddedProductSingle from "./BoxView/BoxView";
-import MainDialog from "../../../Components/Dialog/MainDialog";
+import MainDialog from "../../../../components/Dialog/MainDialog";
 import { withRouter } from "react-router-dom";
 
 const useStyles = makeStyles(theme => ({

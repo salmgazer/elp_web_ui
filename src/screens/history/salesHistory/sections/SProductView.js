@@ -9,7 +9,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import Button from "@material-ui/core/Button/Button";
 import Grid from "@material-ui/core/Grid/Grid";
 
-import ProductCard from "../../../Components/Cards/ProductCard";
+import ProductCard from "../../../../components/Cards/ProductCard";
 
 
 const useStyles = makeStyles(theme => ({

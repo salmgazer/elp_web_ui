@@ -13,7 +13,7 @@ import '../AddProducts.scss';
 import Don from '../../../../../assets/img/Don.jpg';
 import Snackbar from '@material-ui/core/Snackbar';
 import MuiAlert from '@material-ui/lab/Alert';
-import MainDialog from "../../../../Components/Dialog/MainDialog";
+import MainDialog from "../../../../../components/Dialog/MainDialog";
 import SimpleSnackbar from "../../../../../components/Snackbar/SimpleSnackbar";
 import ProductServiceHandler from "../../../../../services/ProductServiceHandler";
 

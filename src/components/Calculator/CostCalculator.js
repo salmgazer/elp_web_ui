@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import PriceInput from "../Input/PriceInput";
+import PriceInput from "../../screens/Components/Input/PriceInput";
 import Box from "@material-ui/core/Box/Box";
 import Button from "@material-ui/core/Button/Button";
 import Modal from "../Modal/Modal";

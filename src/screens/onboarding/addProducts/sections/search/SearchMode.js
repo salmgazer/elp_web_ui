@@ -5,9 +5,9 @@ import {
 } from '@material-ui/core/styles';
 import Grid from "@material-ui/core/Grid/Grid";
 import clsx from 'clsx';
-import ProductCard from "../../../../Components/Cards/ProductCard";
-import AddedIcon from "../../../../Components/ClickableIcons/AddedIcon";
-import AddIcon from "../../../../Components/ClickableIcons/AddIcon";
+import ProductCard from "../../../../../components/Cards/ProductCard";
+import AddedIcon from "../../../../../components/ClickableIcons/AddedIcon";
+import AddIcon from "../../../../../components/ClickableIcons/AddIcon";
 import SearchInput from "../../../../Components/Input/SearchInput";
 import Radio from '@material-ui/core/Radio';
 import RadioGroup from '@material-ui/core/RadioGroup';

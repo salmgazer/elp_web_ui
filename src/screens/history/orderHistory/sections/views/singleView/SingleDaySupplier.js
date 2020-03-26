@@ -2,7 +2,7 @@ import React from 'react';
 import Grid from "@material-ui/core/Grid/Grid";
 import AccessTimeIcon from '@material-ui/icons/AccessTime';
 import Button from "@material-ui/core/Button/Button";
-import MainDialog from '../../../../../Components/Dialog/NewDialog';
+import MainDialog from '../../../../../../components/Dialog/NewDialog';
 import Box from "@material-ui/core/Box/Box";
 import Link from '@material-ui/core/Link';
 import Typography from '@material-ui/core/Typography';
