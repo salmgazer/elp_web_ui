@@ -15,7 +15,7 @@ export default class BranchProduct extends Model {
   @field('lowestStock') lowestStock;
   @field('sellingPrice') sellingPrice;
   @relation('products', 'productId') product;
-  @relation('users', 'createdBy') createdBy;
+  //@relation('users', 'createdBy') createdBy;
   @readonly @date('createdAt') createdAt;
   @readonly @date('updatedAt') updatedAt;
 

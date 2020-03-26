@@ -146,20 +146,18 @@ const Login = props => {
             * @todo
             * push user details to watermelon...
             * */
-            history.push(paths.dashboard)
-        }else{
-            document.getElementById("loginForm").reset();
-            setLoading(false);
-            await setErrorDialog(true);
-            await setErrorMsg(req.error.msg);
-
             const activeBranch = LocalInfo.branchId;
             const userAccess = JSON.parse(LocalInfo.userAccess);
             console.log(userAccess);
             const companyId = userAccess.access[0].id;
             const userId = userAccess.user.userId;
             await SyncService.sync(companyId, activeBranch, userId, database);
-            console.log("DONE SYNCING");
+            history.push(paths.dashboard)
+        }else{
+            document.getElementById("loginForm").reset();
+            setLoading(false);
+            await setErrorDialog(true);
+            await setErrorMsg(req.error.msg);
 
             return setTimeout(function(){
                 setErrorDialog(false);
