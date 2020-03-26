@@ -17,7 +17,7 @@ export default class BranchProductStock extends Model {
   @field('costPrice') costPrice;
   @relation('products', 'productId') product;
   @relation('branches_products', 'branchProductId') branchProduct;
-  @relation('users', 'createdBy') createdBy;
+  //@relation('users', 'createdBy') createdBy;
   @readonly @date('createdAt') createdAt;
   @readonly @date('updatedAt') updatedAt;
 }
