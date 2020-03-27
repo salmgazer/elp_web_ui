@@ -30,6 +30,7 @@ import Brand from "../../models/brands/Brand";
 import BranchProduct from "../../models/branchesProducts/BranchProduct";
 import SyncService from "../../services/SyncService";
 import Product from "../../models/products/Product";
+import Customer from "../../models/customers/Customer";
 
 
 const useStyles = makeStyles(theme => ({
@@ -82,7 +83,7 @@ const Dashboard = props => {
     const username = JSON.parse(localStorage.getItem('userDetails')).firstName;
     console.log(username);
 
-    const { history, branchProducts, brands, manufacturers, products, database } = props;
+    const { history, branchProducts, brands, manufacturers, products, database, customers } = props;
     // const database = useDatabase();
 
 
@@ -91,11 +92,12 @@ const Dashboard = props => {
     console.log(brands);
     console.log(manufacturers);
     console.log(products);
+    console.log(customers);
     console.log("********************************");
 
-  const createBrand = async () => {
-    const brandsCollection = database.collections.get(Brand.table);
-    const brandToCreate = { name: "Some new brand" };
+  const createCustomer = async () => {
+    const brandsCollection = database.collections.get(Customer.table);
+    const brandToCreate = { name: "That guy", location: "Oyibi", phone: "0543344100", createdAt: Date.now(), updatedAt: Date.now() };
     database.action(async () => {
       const existingBrand = await brandsCollection
         .query(Q.where("name", brandToCreate.name))
@@ -106,6 +108,8 @@ const Dashboard = props => {
       }
       const newBrand = await brandsCollection.create(brand => {
         brand.name = brandToCreate.name;
+        brand.location = brandToCreate.location;
+        brand.phone = brandToCreate.phone;
       });
 
       alert(`Successfully created the brand ${newBrand.name}`);
@@ -221,6 +225,8 @@ const Dashboard = props => {
                                 className={classes.button} className="capitalization"
                                 // onClick={() => history.push(paths.store_summary)}
                                 onClick={async () => {
+                                  // await createCustomer();
+                                  /*
                                   const activeBranch = LocalInfo.branchId;
                                   const userAccess = JSON.parse(LocalInfo.userAccess);
                                   console.log(userAccess);
@@ -228,6 +234,7 @@ const Dashboard = props => {
                                   const userId = userAccess.user.userId;
                                   await SyncService.sync(companyId, activeBranch, userId, database);
                                   console.log("DONE SYNCING");
+                                  */
                                 }}
                             >
                                 Start selling
@@ -246,7 +253,8 @@ const EnhancedDashboard = withDatabase(
     branchProducts: database.collections.get(BranchProduct.table).query(Q.where('branchId', localStorage.getItem('activeBranch'))).observe(),
     brands: database.collections.get(Brand.table).query().observe(),
     manufacturers: database.collections.get(Manufacturer.table).query().observe(),
-    products: database.collections.get(Product.table).query().observe()
+    products: database.collections.get(Product.table).query().observe(),
+    customers: database.collections.get(Customer.table).query().observe()
   }))(withRouter(Dashboard))
 );
 

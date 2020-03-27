@@ -8,9 +8,12 @@ import Product from "./products/Product";
 import BranchProduct from "./branchesProducts/BranchProduct";
 import BranchProductStock from "./branchesProductsStocks/BranchProductStock";
 import BranchProductStockHistory from "./branchesProductsStocksHistories/BranchProductStockHistory";
+import Customer from "./customers/Customer";
+import migrations from "./migrations";
 
 const adapter = new LokiJSAdapter({
-  schema
+  schema,
+  migrations
 });
 
 export default new Database({
@@ -22,7 +25,8 @@ export default new Database({
     Product,
     BranchProduct,
     BranchProductStock,
-    BranchProductStockHistory
+    BranchProductStockHistory,
+    Customer
   ],
   actionsEnabled: true
 });

@@ -6,10 +6,11 @@ import productSchema from "./products/productSchema";
 import branchProductSchema from "./branchesProducts/branchProductSchema";
 import branchProductStockSchema from "./branchesProductsStocks/branchProductStockSchema";
 import branchProductStockHistorySchema from "./branchesProductsStocksHistories/branchProductStockHistorySchema";
+import customerSchema from "./customers/customerSchema";
 
 
 export default appSchema({
-  version: 1,
+  version: 2, // must always match the latest migration number in migrations.js
   tables: [
     tableSchema(brandSchema),
     tableSchema(manufacturerSchema),
@@ -18,6 +19,7 @@ export default appSchema({
     tableSchema(branchProductSchema),
     tableSchema(branchProductSchema),
     tableSchema(branchProductStockSchema),
-    tableSchema(branchProductStockHistorySchema)
+    tableSchema(branchProductStockHistorySchema),
+    tableSchema(customerSchema)
   ]
 });
