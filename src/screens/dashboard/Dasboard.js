@@ -31,6 +31,7 @@ import BranchProduct from "../../models/branchesProducts/BranchProduct";
 import SyncService from "../../services/SyncService";
 import Product from "../../models/products/Product";
 import Customer from "../../models/customers/Customer";
+import Sales from "../../models/sales/Sales";
 
 
 const useStyles = makeStyles(theme => ({
@@ -83,7 +84,7 @@ const Dashboard = props => {
     const username = JSON.parse(localStorage.getItem('userDetails')).firstName;
     console.log(username);
 
-    const { history, branchProducts, brands, manufacturers, products, database, customers } = props;
+    const { history, branchProducts, brands, manufacturers, products, database, customers , sales } = props;
     // const database = useDatabase();
 
 
@@ -93,26 +94,38 @@ const Dashboard = props => {
     console.log(manufacturers);
     console.log(products);
     console.log(customers);
+    console.log(sales);
     console.log("********************************");
 
   const createCustomer = async () => {
-    const brandsCollection = database.collections.get(Customer.table);
-    const brandToCreate = { name: "That guy", location: "Oyibi", phone: "0543344100", createdAt: Date.now(), updatedAt: Date.now() };
+    const brandsCollection = database.collections.get(Sales.table);
+    //const salesCollection = database.collections.get(Sales.table);
+    //const brandToCreate = { name: "That guy", location: "Oyibi", phone: "0543344100", createdAt: Date.now(), updatedAt: Date.now() };
+    const salesToCreate = { note: "That guy", type: "sale", paymentStatus: "part", customerId: 'wqkvpgojy0u9r6nk', branchId: LocalInfo.branchId, receiptNumber: 'asdadsad' , createdBy: LocalInfo.userId ,createdAt: Date.now(), updatedAt: Date.now() };
     database.action(async () => {
-      const existingBrand = await brandsCollection
-        .query(Q.where("name", brandToCreate.name))
+      /*const existingBrand = await salesToCreate
+        .query(Q.where("receiptNumber", salesToCreate.receiptNumber))
         .fetch();
       if (existingBrand[0]) {
-        alert(`The brand ${brandToCreate.name} already exists`);
+        alert(`The brand ${salesToCreate.receiptNumber} already exists`);
         return;
-      }
+      }*/
+      const customer = await database.collections.get(Customer.table).find(customers[0].id);
       const newBrand = await brandsCollection.create(brand => {
-        brand.name = brandToCreate.name;
-        brand.location = brandToCreate.location;
-        brand.phone = brandToCreate.phone;
+        brand.note = salesToCreate.note;
+        brand.type = salesToCreate.type;
+        brand.paymentStatus = salesToCreate.paymentStatus;
+        //brand.customerId = customer;
+        //brand.customer.set(customer);
+        brand.branchId = salesToCreate.branchId;
+        brand.customerId = salesToCreate.customerId;
+        brand.receiptNumber = salesToCreate.receiptNumber;
+        brand.createdBy = salesToCreate.createdBy;
+        brand.createdAt = salesToCreate.createdAt;
+        brand.updatedAt = salesToCreate.updatedAt;
       });
 
-      alert(`Successfully created the brand ${newBrand.name}`);
+      alert(`Successfully created the sales ${newBrand.receiptNumber}`);
     });
   };
 
@@ -225,7 +238,7 @@ const Dashboard = props => {
                                 className={classes.button} className="capitalization"
                                 // onClick={() => history.push(paths.store_summary)}
                                 onClick={async () => {
-                                  // await createCustomer();
+                                    await createCustomer();
                                   /*
                                   const activeBranch = LocalInfo.branchId;
                                   const userAccess = JSON.parse(LocalInfo.userAccess);
@@ -254,7 +267,8 @@ const EnhancedDashboard = withDatabase(
     brands: database.collections.get(Brand.table).query().observe(),
     manufacturers: database.collections.get(Manufacturer.table).query().observe(),
     products: database.collections.get(Product.table).query().observe(),
-    customers: database.collections.get(Customer.table).query().observe()
+    customers: database.collections.get(Customer.table).query().observe(),
+    sales: database.collections.get(Sales.table).query().observe()
   }))(withRouter(Dashboard))
 );
 

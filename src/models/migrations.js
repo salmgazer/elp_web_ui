@@ -4,15 +4,22 @@ import {
   createTable
 } from "@nozbe/watermelondb/Schema/migrations";
 import customerSchema from "./customers/customerSchema";
+import salesSchema from "./sales/salesSchema";
 
 // latest migrations should be at the top entry level of the migrations array
 export default schemaMigrations({
   migrations: [
 		{
+            toVersion: 3,
+            steps: [
+                createTable(salesSchema),
+            ]
+		},
+		{
 			toVersion: 2,
 			steps: [
-				createTable(customerSchema)
-			]
+				createTable(customerSchema),
+            ]
 		},
 	]
 });
