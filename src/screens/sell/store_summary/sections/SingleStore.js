@@ -1,12 +1,15 @@
 import React , {useState} from 'react';
 import Grid from "@material-ui/core/Grid";
-import StorefrontOutlinedIcon from '@material-ui/icons/StorefrontOutlined';
-import Card from "@material-ui/core/Card";
+import StoreMallDirectoryRoundedIcon from '@material-ui/icons/StoreMallDirectoryRounded';
 import {withRouter} from 'react-router-dom';
 import CardDefaultSmall from "../../../../components/Cards/CardDefaultSmall";
 import Typography from "@material-ui/core/Typography/Typography";
 import './singleStore.scss';
 import paths from "../../../../utilities/paths";
+import ExpandMoreRoundedIcon from '@material-ui/icons/ExpandMoreRounded';
+import ExpandLessRoundedIcon from '@material-ui/icons/ExpandLessRounded';
+import Collapsible from 'react-collapsible';
+
 
 
 const SingleStore = props => {
@@ -22,15 +25,15 @@ const SingleStore = props => {
         credit: 5,
         purchases: 1,*/
     return (
-        <div>
-            <Grid container spacing={1} className={`bordered mb-3 py-2 rounded`}>
+        <div className={`bordered rounded mb-3`}>
+            <Grid container spacing={1} className={`px-2`}>
                 <Grid item xs={2}>
                     <div className={`pt-3`}>
-                        <StorefrontOutlinedIcon style={{fontSize: '2.5rem' , color: '#DAAB59'}}/>
+                        <StoreMallDirectoryRoundedIcon style={{fontSize: '2.5rem' , color: '#DAAB59'}}/>
                     </div>
                 </Grid>
                 <Grid item xs={6} style={{display: 'table', height: '60px', margin: '8px 0px'}}>
-                    <div style={{textAlign: 'left', display: 'table-cell', verticalAlign: 'middle'}}
+                    <div style={{textAlign: 'left', display: 'table-cell', verticalAlign: 'middle', fontSize: '14px'}}
                         className={`font-weight-bold text-uppercase`}
                     >
                         {branch.companyName}
@@ -40,20 +43,33 @@ const SingleStore = props => {
                 <Grid item xs={4} style={{height: '60px', margin: '13px 0px'}}>
                     <div style={{textAlign: 'right' , width:'100%'}} className={`pt-2`}>
                         <span
-                            style={{borderRadius: '6px' , fontSize: '13px' , fontWeight: '700', color: '#DAAB59'}}
-                            className={`bordered px-3 py-2`}
+                            style={{borderRadius: '6px' , fontSize: '12px' , fontWeight: '700', color: '#DAAB59'}}
+                            className={`bordered px-2 py-2`}
                             onClick={() => history.push(paths.sell)}
                         >Open store</span>
                     </div>
                 </Grid>
+            </Grid>
 
-                <Grid container spacing={1} className={`mb-3 text-center mx-3`}>
+            <Collapsible
+                trigger={
+                    <div className={`mx-auto w-100`}>
+                        <ExpandMoreRoundedIcon/>
+                    </div>
+                }
+                triggerWhenOpen={
+                    <div className={`mx-auto w-100`}>
+                        <ExpandLessRoundedIcon/>
+                    </div>
+                }
+            >
+                <Grid container spacing={1} className={`px-2 pb-2`}>
                     <Grid item xs={3}>
                         <CardDefaultSmall styles={{width: '85%', marginTop: '10px', borderRadius: '10px'}} >
                             <Typography
                                 component="h6"
                                 variant="h6"
-                                style={{fontWeight: '500', fontSize: '13px' , lineHeight: '1.3'}}
+                                style={{fontWeight: '500', fontSize: '12px' , lineHeight: '1.3'}}
                                 className={`mx-auto`}
                             >
                                 Sales made
@@ -72,7 +88,7 @@ const SingleStore = props => {
                             <Typography
                                 component="h6"
                                 variant="h6"
-                                style={{fontWeight: '500', fontSize: '13px' , lineHeight: '1.3'}}
+                                style={{fontWeight: '500', fontSize: '12px' , lineHeight: '1.3'}}
                                 className={`mx-2`}
                             >
                                 Profit made
@@ -91,7 +107,7 @@ const SingleStore = props => {
                             <Typography
                                 component="h6"
                                 variant="h6"
-                                style={{fontWeight: '500', fontSize: '13px' , lineHeight: '1.3'}}
+                                style={{fontWeight: '500', fontSize: '12px' , lineHeight: '1.3'}}
                                 className={`mx-auto`}
                             >
                                 Credit sales
@@ -113,7 +129,7 @@ const SingleStore = props => {
                                 style={{fontWeight: '500', fontSize: '12px' , lineHeight: '1.3'}}
                                 className={`mx-auto`}
                             >
-                                Purchases made
+                                Purchase made
                             </Typography>
                             <Typography
                                 component="h5"
@@ -125,7 +141,8 @@ const SingleStore = props => {
                         </CardDefaultSmall>
                     </Grid>
                 </Grid>
-            </Grid>
+            </Collapsible>
+
         </div>
     );
 };

@@ -98,9 +98,10 @@ const Dashboard = props => {
     console.log("********************************");
 
   const createCustomer = async () => {
+    //const customersCollection = database.collections.get(Customer.table);
     const brandsCollection = database.collections.get(Sales.table);
     //const salesCollection = database.collections.get(Sales.table);
-    //const brandToCreate = { name: "That guy", location: "Oyibi", phone: "0543344100", createdAt: Date.now(), updatedAt: Date.now() };
+    //const customerToCreate = { name: "That guy", location: "Oyibi", phone: "0543344100", createdAt: Date.now(), updatedAt: Date.now() };
     const salesToCreate = { note: "That guy", type: "sale", paymentStatus: "part", customerId: 'wqkvpgojy0u9r6nk', branchId: LocalInfo.branchId, receiptNumber: 'asdadsad' , createdBy: LocalInfo.userId ,createdAt: Date.now(), updatedAt: Date.now() };
     database.action(async () => {
       /*const existingBrand = await salesToCreate
@@ -110,21 +111,28 @@ const Dashboard = props => {
         alert(`The brand ${salesToCreate.receiptNumber} already exists`);
         return;
       }*/
+        /*const newCustomer = await customersCollection.create(brand => {
+            brand.name = customerToCreate.name;
+            brand.location = customerToCreate.location;
+            brand.phone = customerToCreate.phone;
+            brand.createdAt = customerToCreate.createdAt;
+            brand.updatedAt = customerToCreate.updatedAt;
+        });*/
       const customer = await database.collections.get(Customer.table).find(customers[0].id);
       const newBrand = await brandsCollection.create(brand => {
         brand.note = salesToCreate.note;
         brand.type = salesToCreate.type;
         brand.paymentStatus = salesToCreate.paymentStatus;
         //brand.customerId = customer;
-        //brand.customer.set(customer);
+        brand.customer.set(customer);
         brand.branchId = salesToCreate.branchId;
-        brand.customerId = salesToCreate.customerId;
+        //brand.customerId = salesToCreate.customerId;
         brand.receiptNumber = salesToCreate.receiptNumber;
         brand.createdBy = salesToCreate.createdBy;
         brand.createdAt = salesToCreate.createdAt;
         brand.updatedAt = salesToCreate.updatedAt;
       });
-
+      //alert(`Successfully created the customer ${newCustomer.name}`);
       alert(`Successfully created the sales ${newBrand.receiptNumber}`);
     });
   };
@@ -235,11 +243,10 @@ const Dashboard = props => {
                             <Button
                                 variant="contained"
                                 style={{'width': '70%','backgroundColor': '#DAAB59' , color: '#403C3C', margin: '4px auto',padding: '8px 5px', fontSize: '17px', fontWeight: '700'}}
-                                className={classes.button} className="capitalization"
-                                // onClick={() => history.push(paths.store_summary)}
-                                onClick={async () => {
+                                className={`${classes.button} capitalization`}
+                                onClick={() => history.push(paths.store_summary)}
+                                /*onClick={async () => {
                                     await createCustomer();
-                                  /*
                                   const activeBranch = LocalInfo.branchId;
                                   const userAccess = JSON.parse(LocalInfo.userAccess);
                                   console.log(userAccess);
@@ -247,8 +254,7 @@ const Dashboard = props => {
                                   const userId = userAccess.user.userId;
                                   await SyncService.sync(companyId, activeBranch, userId, database);
                                   console.log("DONE SYNCING");
-                                  */
-                                }}
+                                }}*/
                             >
                                 Start selling
                             </Button>
@@ -261,6 +267,9 @@ const Dashboard = props => {
 };
 
 
+/*
+* @todo why pass through database again?
+* */
 const EnhancedDashboard = withDatabase(
   withObservables([], ({ database }) => ({
     branchProducts: database.collections.get(BranchProduct.table).query(Q.where('branchId', localStorage.getItem('activeBranch'))).observe(),

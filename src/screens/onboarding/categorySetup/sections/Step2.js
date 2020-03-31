@@ -2,11 +2,6 @@ import React, {useState} from 'react';
 import Box from "@material-ui/core/Box/Box";
 import SelectedCategorySingle from "./SelectedCategorySingle";
 import Grid from "@material-ui/core/Grid/Grid";
-import Paper from "@material-ui/core/Paper/Paper";
-import InputBase from "@material-ui/core/InputBase/InputBase";
-import IconButton from "@material-ui/core/IconButton/IconButton";
-import SearchIcon from "@material-ui/core/SvgIcon/SvgIcon";
-import {makeStyles} from "@material-ui/core";
 import SearchInput from "../../../Components/Input/SearchInput";
 
 const Step2 = (props) => {

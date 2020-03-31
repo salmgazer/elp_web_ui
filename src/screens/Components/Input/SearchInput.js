@@ -13,7 +13,6 @@ const useStyles = makeStyles(theme => ({
         alignItems: 'center',
         borderRadius: '30px',
         height: '35px',
-        border: '1px solid #ced4da',
         fontSize: '0.9rem',
         lineHeight: '1.5',
         transition: 'border-color .15s ease-in-out,box-shadow .15s ease-in-out',

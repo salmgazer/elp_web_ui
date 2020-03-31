@@ -17,11 +17,21 @@ import StockSearchMode from "./SearchMode/StockSearchMode";
 import StockBarcodeMode from "./BarcodeMode/StockBarcodeMode";
 import SecondaryButton from "../../../components/Buttons/SecondaryButton";
 import Box from "@material-ui/core/Box";
-
+import BottomDrawer from "../../../components/Drawer/BottomDrawer/BottomDrawer";
+import ListItem from '@material-ui/core/ListItem';
+import ListItemIcon from '@material-ui/core/ListItemIcon';
+import ListItemText from '@material-ui/core/ListItemText';
+import ArrowForwardOutlinedIcon from '@material-ui/icons/ArrowForwardOutlined';
+import LibraryAddIcon from '@material-ui/icons/LibraryAdd';
+import QueryBuilderIcon from '@material-ui/icons/QueryBuilder';
+import KeyboardReturnIcon from '@material-ui/icons/KeyboardReturn';
+import SwapHorizOutlinedIcon from '@material-ui/icons/SwapHorizOutlined';
+import RedeemIcon from '@material-ui/icons/Redeem';
+import ReportProblemOutlinedIcon from '@material-ui/icons/ReportProblemOutlined';
 
 const StockMainPage = props => {
     const [value , setValue] = useState(0);
-
+    const [isShowDrawer , setIsShowDrawer] = useState(false);
 
     const a11yProps = (index) => {
         return {
@@ -56,15 +66,53 @@ const StockMainPage = props => {
                     <SectionNavbars
                         title="Stock"
                         icons={
-                            <MoreVertIcon
-                                style={{fontSize: '2rem'}}
-                            />
+                            <div onClick={() => setIsShowDrawer(!isShowDrawer)}>
+                                <MoreVertIcon
+                                    style={{fontSize: '2rem'}}
+                                />
+                            </div>
                         }
                     >
                         <MenuIcon
                             style={{fontSize: '2.5rem'}}
                         />
                     </SectionNavbars>
+
+                    <div
+                        onClick={() => setIsShowDrawer(false)}
+                        onKeyDown={() => setIsShowDrawer(false)}
+                    >
+                        <BottomDrawer isShow={isShowDrawer}>
+                            <ListItem button key={4}>
+                                <ListItemIcon><SwapHorizOutlinedIcon style={{color: '#707070'}} /></ListItemIcon>
+                                <ListItemText primary="Stock movement" />
+                            </ListItem>
+                            <ListItem button key={5}>
+                                <ListItemIcon><KeyboardReturnIcon style={{color: '#707070'}} /></ListItemIcon>
+                                <ListItemText primary="Return purchase" />
+                            </ListItem>
+                            <ListItem button key={6}>
+                                <ListItemIcon><QueryBuilderIcon style={{color: '#707070'}} /></ListItemIcon>
+                                <ListItemText primary="Purchase history" />
+                            </ListItem>
+                            <ListItem button key={7}>
+                                <ListItemIcon><LibraryAddIcon style={{color: '#707070'}} /></ListItemIcon>
+                                <ListItemText primary="Move stock between branches" />
+                            </ListItem>
+                            <ListItem button key={8}>
+                                <ListItemIcon><ArrowForwardOutlinedIcon style={{color: '#707070'}} /></ListItemIcon>
+                                <ListItemText primary="Request for new product" />
+                            </ListItem>
+                            <ListItem button key={9}>
+                                <ListItemIcon><ReportProblemOutlinedIcon style={{color: '#707070'}} /></ListItemIcon>
+                                <ListItemText primary="View low stock" />
+                            </ListItem>
+                            <ListItem button key={10}>
+                                <ListItemIcon><RedeemIcon style={{color: '#707070'}} /></ListItemIcon>
+                                <ListItemText primary="Others" />
+                            </ListItem>
+                        </BottomDrawer>
+                    </div>
 
                     <Container
                         className={`mt-6`}

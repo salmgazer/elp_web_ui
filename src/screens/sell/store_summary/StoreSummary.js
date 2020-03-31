@@ -7,7 +7,6 @@ import Drawer from "../../../components/Drawer/Drawer";
 import Typography from "@material-ui/core/Typography/Typography";
 import CardGridComponent from "../../dashboard/Sections/CardGridComponent";
 import Grid from '@material-ui/core/Grid';
-import AddedProductSingle from "../../onboarding/addProducts/sections/addedView/AddedSingleView";
 import Box from "@material-ui/core/Box";
 import SingleStore from "./sections/SingleStore";
 import Button from "@material-ui/core/Button/Button";
@@ -107,13 +106,13 @@ const StoreSummary = () => {
                             <Typography
                                 component="h5"
                                 variant="h5"
-                                style={{fontWeight: '500', fontSize: '18px' , margin: '0px 0px', padding: '0px 14px'}}
+                                style={{fontWeight: '500', fontSize: '18px' , margin: '0px 0px', padding: '10px 14px 0px'}}
                                 className={`text-center mx-auto text-dark`}
                             >
                                 Select a shop location to continue
                             </Typography>
 
-                            <Box style={{marginTop: '5px' , paddingBottom: '5px'}} p={1} className={`mt-3 mb-1 mx-1`}>
+                            <Box style={{marginTop: '5px' , paddingBottom: '5px'}} p={1} className={`mt-2 mb-1 mx-1`}>
                                 {state.branchList.map((item) => <SingleStore key={item.branchId} branch={item}/>)}
                             </Box>
                         </div>

@@ -10,6 +10,9 @@ import Paper from "@material-ui/core/Paper";
 import {makeStyles} from "@material-ui/core";
 import SimpleSnackbar from "../../../../components/Snackbar/SimpleSnackbar";
 import ProductServiceHandler from "../../../../services/ProductServiceHandler";
+import {withRouter} from 'react-router-dom';
+import paths from "../../../../utilities/paths";
+import AddShoppingCartOutlinedIcon from '@material-ui/icons/AddShoppingCartOutlined';
 
 const useStyles = makeStyles(theme => ({
     root: {
@@ -36,22 +39,45 @@ const useStyles = makeStyles(theme => ({
 
 
 const AddProductCart = props => {
+    const { history } = props;
+    const product = props.product[0];
     const classes = useStyles();
     const [btnState,setBtnState] = useState(false);
+    const [error , setError] = useState(false);
+    const [errorMsg , setErrorMsg] = useState('');
     const [productAdded , setProductAdded] = useState(false);
-
-    const product = props.product[0];
-    console.log(product);
+    const [unitPrice , setUnitPrice] = useState(0);
+    const [totalPrice , setTotalPrice] = useState(0);
 
     const productHandler = new ProductServiceHandler(product);
+    const [formFields , setFormFields] = useState({
+        quantity: 1,
+        sellingPrice: productHandler.getSellingPrice(),
+        costPrice: productHandler.getCostPrice(),
+        productId: product.id,
+        branchProductId: product.branchProductId,
+        discount: null,
+    });
+
+    console.log(productHandler.getCostPrice())
+
+    const [sellingPrice , setSellingPrice] = useState(productHandler.getSellingPrice());
+    const [quantity , setQuantity] = useState(1);
 
     const image = productHandler.getProductImage();
 
     const setInputValue = (name , value) => {
-        console.log(name , value)
+        setQuantity(value);
+
+        const {...oldFormFields} = formFields;
+
+        oldFormFields[name] = value;
+
+        setFormFields(oldFormFields);
     };
 
     const addProduct = async() => {
+        console.log(formFields);
         await setProductAdded(true);
 
         setTimeout(function(){
@@ -59,10 +85,55 @@ const AddProductCart = props => {
         }, 3000)
     };
 
+    const setTotalPriceHandler = event => {
+        setTotalPrice((parseFloat(event.target.value)));
+        const sp = (parseFloat(event.target.value) / quantity);
+
+        if (sp < productHandler.getCostPrice()) {
+            setErrorMsg('Selling price can not be less than cost price');
+            setError(true);
+            setTimeout(function(){
+                setError(false);
+            }, 3000);
+            return false;
+        }
+        const discount = (parseFloat(formFields.sellingPrice - sp)).toFixed(2);
+        const {...oldFormFields} = formFields;
+
+        oldFormFields['discount'] = discount;
+
+        setFormFields(oldFormFields);
+        setUnitPrice(sp);
+        setSellingPrice(sp.toFixed(2));
+    };
+
+    const setUnitPriceHandler = event => {
+        const sp = (parseFloat(event.target.value));
+
+        if (sp < productHandler.getCostPrice()) {
+            setErrorMsg('Selling price can not be less than cost price');
+            setError(true);
+            setTimeout(function(){
+                setError(false);
+            }, 3000);
+            return false;
+        }
+        const discount = (parseFloat(formFields.sellingPrice - sp)).toFixed(2);
+        const {...oldFormFields} = formFields;
+
+        oldFormFields['discount'] = discount;
+
+        setFormFields(oldFormFields);
+        setUnitPrice(sp);
+        const tp = (parseFloat(event.target.value) * quantity);
+        setTotalPrice(tp);
+        setSellingPrice(sp.toFixed(2));
+    };
+
     return (
         <div>
             <SimpleSnackbar
-                type="default"
+                type="success"
                 openState={productAdded}
                 message={`New product added successfully`}
             >
@@ -70,12 +141,28 @@ const AddProductCart = props => {
                     UNDO
                 </Button>
             </SimpleSnackbar>
+
+            <SimpleSnackbar
+                type="warning"
+                openState={error}
+                message={errorMsg}
+            >
+            </SimpleSnackbar>
             <div className={`p-3 bg-white mx-0 shadow`}>
                 <span
                     className={`back-icon`}
                     onClick={() => props.setView(0)}
                 >
                     <KeyboardBackspaceIcon style={{fontWeight: '700'}}/>
+                </span>
+
+                <span
+                    className={`cart-icon`}
+                    style={{lineHeight: '0.8'}}
+                    onClick={() => props.setView(0)}
+                >
+                    <AddShoppingCartOutlinedIcon style={{fontWeight: '700'}}/>
+                    <div style={{fontSize: '12px'}}>New cart</div>
                 </span>
                 <div className={`w-100 m-2 my-5`}>
                     <img className={`img-fluid mx-auto w-50 h-75`} src={image} alt={`${productHandler.getProductName()}`}/>
@@ -96,7 +183,7 @@ const AddProductCart = props => {
                         { productHandler.getProductName() }
                     </Typography>
 
-                    <SellQuantityInput label={`Quantity`} inputName="quantity" getValue={setInputValue.bind(this)}/>
+                    <SellQuantityInput label={`Quantity`} inputName="quantity" max={productHandler.getProductQuantity()} getValue={setInputValue.bind(this)}/>
 
                     <div
                         className={`text-center mt-3 text-dark font-weight-bold`}
@@ -105,7 +192,7 @@ const AddProductCart = props => {
                         <span
                             className={`text-center mx-auto`}
                         >
-                            Total : GHC {`${productHandler.getSellingPrice()}`}
+                            Total : GHC {`${(sellingPrice * quantity).toFixed(2)}`}
                             <span
                                 className={`mx-2`}
                                 style={{fontSize: '18px'}}
@@ -138,6 +225,8 @@ const AddProductCart = props => {
                                             <InputBase
                                                 className={`${classes.input} search-box text-center`}
                                                 type="tel"
+                                                value={totalPrice || ''}
+                                                onChange={(event) => setTotalPriceHandler(event)}
                                                 placeholder={`Total discount`}
                                                 style={{fontSize: '12px'}}
                                             />
@@ -157,6 +246,8 @@ const AddProductCart = props => {
                                             <InputBase
                                                 className={`${classes.input} search-box text-center`}
                                                 type="tel"
+                                                value={unitPrice || ''}
+                                                onChange={(event) => setUnitPriceHandler(event)}
                                                 placeholder={`Unit discount`}
                                                 style={{fontSize: '12px'}}
                                             />
@@ -197,6 +288,7 @@ const AddProductCart = props => {
                 <Button
                     variant="contained"
                     style={{'backgroundColor': '#DAAB59' , color: '#333333', padding: '5px 30px'}}
+                    onClick={() => history.push(paths.cart)}
                 >
                     View cart
                 </Button>
@@ -205,4 +297,4 @@ const AddProductCart = props => {
     );
 };
 
-export default AddProductCart;
+export default withRouter(AddProductCart);

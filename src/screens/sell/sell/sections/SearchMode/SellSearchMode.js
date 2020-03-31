@@ -1,9 +1,6 @@
 import React , { useState } from 'react';
 import Grid from "@material-ui/core/Grid";
 import Paper from "@material-ui/core/Paper";
-import InputBase from "@material-ui/core/InputBase";
-import IconButton from "@material-ui/core/IconButton";
-import SearchIcon from '@material-ui/icons/Search';
 import {makeStyles} from "@material-ui/core";
 import ShoppingCartOutlinedIcon from '@material-ui/icons/ShoppingCartOutlined';
 import AddIcon from "../../../../../components/ClickableIcons/AddIcon";
@@ -11,6 +8,7 @@ import ProductCard from "../../../../../components/Cards/ProductCard";
 import WarningIcon from "../../../../../components/ClickableIcons/WarningIcon";
 import Typography from "@material-ui/core/Typography/Typography";
 import ProductServiceHandler from "../../../../../services/ProductServiceHandler";
+import SearchInput from "../../../../Components/Input/SearchInput";
 
 const useStyles = makeStyles(theme => ({
     root: {
@@ -46,6 +44,10 @@ const useStyles = makeStyles(theme => ({
 }));
 
 const SellSearchMode = props => {
+    const [searchValue , setSearchValue] = useState({
+        search: ''
+    });
+
     const classes = useStyles();
     const products = new ProductServiceHandler(props.products).getStoreProducts();
 
@@ -58,23 +60,27 @@ const SellSearchMode = props => {
         //props.removeProduct(id);
     };
 
+    const setInputValue = (name , value) => {
+        const {...oldFormFields} = searchValue;
+
+        oldFormFields[name] = value;
+
+        setSearchValue(oldFormFields);
+
+        props.searchHandler(value);
+    };
+
     return (
         <div>
             <Grid container spacing={1} className={`my-1`}>
                 <Grid item xs={7} style={{padding: '4px 8px'}}>
-                    <Paper className={classes.root} >
-                        <InputBase
-                            className={`${classes.input} search-box`}
-                            placeholder="Search for a product"
-                            inputProps={{ 'aria-label': 'Search for a product' }}
-                        />
-                        <IconButton className={classes.iconButton} aria-label="search">
-                            <SearchIcon />
-                        </IconButton>
-                    </Paper>
+                    <SearchInput
+                        inputName="search"
+                        getValue={setInputValue.bind(this)}
+                    />
                 </Grid>
 
-                <Grid item xs={5} style={{padding: '4px 8px'}}>
+                <Grid item xs={5} style={{padding: '4px 8px'}} onClick={() => props.setView(2)}>
                     <Paper className={`${classes.cart} text-center`} >
                         <span className={`mx-auto italize font-weight-light`}
                             style={{fontSize: '15px' , lineHeight: '1.5rem'}}

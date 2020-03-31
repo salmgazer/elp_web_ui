@@ -31,6 +31,7 @@ const useStyles = makeStyles(theme => ({
 }));
 
 const SellQuantityInput = props => {
+    const max = props.max || 0;
     const classes = useStyles();
     const [quantity , setQuantity] = useState(1);
     const inputName = props.inputName;
@@ -40,6 +41,10 @@ const SellQuantityInput = props => {
         {
             setQuantity(1);
             return
+        }
+
+        if(max !== 0 && parseFloat(quantity) >= max){
+            return false;
         }
 
         const qn = parseFloat(quantity) + 1;
@@ -68,6 +73,10 @@ const SellQuantityInput = props => {
         {
             setQuantity();
             return
+        }
+
+        if(max !== 0 && parseFloat(event.target.value) >= max){
+            return false;
         }
 
         setQuantity(event.target.value);

@@ -7,7 +7,6 @@ import Tab from "@material-ui/core/Tab/Tab";
 import AppBar from "@material-ui/core/AppBar/AppBar";
 import TabPanel from "../../../../components/Tabs/TabPanel";
 import SwipeableViews from "react-swipeable-views";
-import Button from "@material-ui/core/Button/Button";
 import Box from "@material-ui/core/Box/Box";
 import {withRouter} from 'react-router-dom';
 import paths from "../../../../utilities/paths";
@@ -15,6 +14,18 @@ import SellSearchMode from "./SearchMode/SellSearchMode";
 import MenuIcon from '@material-ui/icons/Menu';
 import SectionNavbars from "../../../../components/Sections/SectionNavbars";
 import BarcodeMode from "./BarcodeMode/BarcodeMode";
+import MoreVertIcon from '@material-ui/icons/MoreVert';
+import BottomDrawer from "../../../../components/Drawer/BottomDrawer/BottomDrawer";
+import ShoppingCartOutlinedIcon from '@material-ui/icons/ShoppingCartOutlined';
+import SecondaryButton from "../../../../components/Buttons/SecondaryButton";
+import ListItem from "@material-ui/core/ListItem/ListItem";
+import ListItemIcon from "@material-ui/core/ListItemIcon/ListItemIcon";
+import RemoveShoppingCartOutlinedIcon from '@material-ui/icons/RemoveShoppingCartOutlined';
+import ListItemText from "@material-ui/core/ListItemText/ListItemText";
+import CloseOutlinedIcon from '@material-ui/icons/CloseOutlined';
+import Divider from '@material-ui/core/Divider';
+import HistoryOutlinedIcon from '@material-ui/icons/HistoryOutlined';
+import ReceiptIcon from '@material-ui/icons/Receipt';
 
 const SellView = props => {
     const { history } = props;
@@ -23,6 +34,7 @@ const SellView = props => {
     const profitMade = props.profitMade;
     const spCount = props.spCount;
     const [value , setValue] = useState(0);
+    const [isShowDrawer , setIsShowDrawer] = useState(false);
 
     const a11yProps = (index) => {
         return {
@@ -40,17 +52,58 @@ const SellView = props => {
     };
 
     return (
-        <div >
-            <SectionNavbars title={`Sales`}>
+        <div
+        >
+            <SectionNavbars
+                title={`Sales`}
+                icons={
+                    <div onClick={() => setIsShowDrawer(!isShowDrawer)}>
+                        <MoreVertIcon
+                            style={{fontSize: '2rem'}}
+                        />
+                    </div>
+                }
+            >
                 <MenuIcon
-                    onClick={() => this.setState({
+                    /*onClick={() => this.setState({
                         isDrawerShow: true,
-                    })}
+                    })}*/
                     style={{fontSize: '2.5rem'}}
                 />
             </SectionNavbars>
 
-            <div className={`mb-7 mx-0 mt-7`}>
+            <div
+                onClick={() => setIsShowDrawer(false)}
+                onKeyDown={() => setIsShowDrawer(false)}
+            >
+                <BottomDrawer isShow={isShowDrawer}>
+                    <ListItem button key={7}>
+                        <ListItemIcon><RemoveShoppingCartOutlinedIcon/></ListItemIcon>
+                        <ListItemText primary="Sales returns" />
+                    </ListItem>
+                    <ListItem button key={8}>
+                        <ListItemIcon><HistoryOutlinedIcon/></ListItemIcon>
+                        <ListItemText primary="Sales history" />
+                    </ListItem>
+                    <ListItem button key={9}>
+                        <ListItemIcon><ReceiptIcon /></ListItemIcon>
+                        <ListItemText primary="Invoices" />
+                    </ListItem>
+                    <Divider/>
+                    <ListItem
+                        button
+                        key={10}
+                        onClick={() => setIsShowDrawer(false)}
+                    >
+                        <ListItemIcon><CloseOutlinedIcon/></ListItemIcon>
+                        <ListItemText primary="Cancel" />
+                    </ListItem>
+                </BottomDrawer>
+            </div>
+
+            <div
+                className={`mb-7 mx-0 mt-7`}
+            >
                 <SystemDate/>
 
                 <div className={`px-5 mb-3`}>
@@ -88,7 +141,7 @@ const SellView = props => {
                     style={{backgroundColor: '#F3F3F3'}}
                 >
                     <TabPanel value={value} index={0}>
-                        <SellSearchMode productAdd={props.productAdd} products={props.products}/>
+                        <SellSearchMode setView={props.setView} searchHandler={props.searchHandler} productAdd={props.productAdd} products={props.products}/>
                     </TabPanel>
                     <TabPanel value={value} index={1} >
                         <BarcodeMode product={props.product} setView={props.setView} searchBarcode={props.searchBarcode}/>
@@ -102,17 +155,21 @@ const SellView = props => {
                 p={1}
                 style={{ height: '2.5rem', position: "fixed", bottom:"0", width:"100%" }}
             >
-                <Button
-                    variant="contained"
-                    style={{'backgroundColor': '#DAAB59' , color: '#333333', padding: '5px 20px', fontSize: '14px'}}
+                <div
                     onClick={() => history.push(paths.cart)}
-                    className={`capitalization font-weight-bold text-dark`}
                 >
-                    View cart
-                    <span className={`btnPCount`}>
-                        {spCount}
-                    </span>
-                </Button>
+                    <SecondaryButton
+                        classes={`capitalization font-weight-bold text-dark`}
+                    >
+                        View cart
+                        <ShoppingCartOutlinedIcon
+                            style={{paddingLeft: '10px' , fontSize: '16px'}}
+                        />
+                        <span style={{paddingBottom: '10px' , fontSize: '12px', color: '#962C2C'}}>
+                            {spCount}
+                        </span>
+                    </SecondaryButton>
+                </div>
             </Box>
         </div>
     )
