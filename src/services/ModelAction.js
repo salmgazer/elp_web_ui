@@ -1,13 +1,12 @@
-import database from "../models/database";
 import models from "../models/models";
 import { Q } from '@nozbe/watermelondb'
 
 export default class ModelAction {
-    constructor(model) {
-        this.model = models[model];
-        this.table = models[model].table;
+    constructor(modelName , database) {
+        this.model = models[modelName];
+        this.table = models[modelName].table;
         this.database = database;
-        this.columns = models[model].columns;
+        this.columns = models[modelName].columns;
     }
 
     /*
@@ -15,7 +14,7 @@ export default class ModelAction {
     * @return array of items
     * */
     async index(){
-        return database.collections.get(this.table).query().observe();
+        return this.database.collections.get(this.table).query().fetch();
     }
 
     /*
@@ -23,7 +22,7 @@ export default class ModelAction {
     * @return object
     * */
     async findById(id){
-        const dataCollection = database.collections.get(this.table);
+        const dataCollection = this.database.collections.get(this.table);
 
         return dataCollection.findAndObserve(id);
     }
@@ -33,7 +32,7 @@ export default class ModelAction {
     * @return array
     * */
     async findByColumns(columns){
-        const dataCollection = database.collections.get(this.table);
+        const dataCollection = this.database.collections.get(this.table);
 
         return dataCollection.query(
             columns.map(column => this.queryType(column))
@@ -46,9 +45,9 @@ export default class ModelAction {
     * @return object
     * */
     async post(columns){
-        const dataCollection = database.collections.get(this.table);
+        const dataCollection = this.database.collections.get(this.table);
 
-        database.action(async () => {
+        this.database.action(async () => {
             return dataCollection.create(item => {
                 this.columns.map((column) => item[column] = columns[column])
             });
@@ -61,9 +60,9 @@ export default class ModelAction {
     * @return object
     * */
     async update(id , columns){
-        const dataCollection = database.collections.get(this.table).find(id);
+        const dataCollection = this.database.collections.get(this.table).find(id);
 
-        database.action(async () => {
+        this.database.action(async () => {
             return dataCollection.update(item => {
                 this.columns.map((column) => item[column] = columns[column])
             });
@@ -76,9 +75,9 @@ export default class ModelAction {
     * @return object
     * */
     async softDelete(id){
-        const dataCollection = database.collections.get(this.table).find(id);
+        const dataCollection = this.database.collections.get(this.table).find(id);
 
-        await database.action(async () => {
+        await this.database.action(async () => {
             await dataCollection.markAsDeleted() // syncable
         })
     }
@@ -89,9 +88,9 @@ export default class ModelAction {
     * @return object
     * */
     async destroy(id){
-        const dataCollection = database.collections.get(this.table).find(id);
+        const dataCollection = this.database.collections.get(this.table).find(id);
 
-        await database.action(async () => {
+        await this.database.action(async () => {
             await dataCollection.destroyPermanently() // permanent
         })
     }

@@ -304,7 +304,7 @@ const EnhancedDashboard = withDatabase(
     branchProducts: database.collections.get(BranchProduct.table).query(Q.where('branchId', localStorage.getItem('activeBranch'))).observe(),
     brands: database.collections.get(Brand.table).query().observe(),
     manufacturers: database.collections.get(Manufacturer.table).query().observe(),
-    products: new ModelAction('Product').index(),
+    products: new ModelAction('Product' , database).index(),
     customers: database.collections.get(Customer.table).query().observe(),
     sales: database.collections.get(Sales.table).query().observe()
   }))(withRouter(Dashboard))
