@@ -32,6 +32,7 @@ import SyncService from "../../services/SyncService";
 import Product from "../../models/products/Product";
 import Customer from "../../models/customers/Customer";
 import Sales from "../../models/sales/Sales";
+import ModelAction from "../../services/ModelAction";
 
 
 const useStyles = makeStyles(theme => ({
@@ -88,7 +89,23 @@ const Dashboard = props => {
     // const database = useDatabase();
 
 
-    console.log("********************************");
+    const createBrand = () => {
+        const columns = {
+            name: 'Lookman',
+            location: 'Mallam',
+            phone: '0241441749',
+            createdAt: Date.now(),
+            updatedAt: Date.now(),
+        };
+        const mew = new ModelAction('Brand').update(id , columns);
+
+        console.log("********************************");
+
+        console.log(mew);
+        console.log("**************************");
+    }
+
+    console.log(Product.columns);
     console.log(branchProducts);
     console.log(brands);
     console.log(manufacturers);
@@ -244,17 +261,17 @@ const Dashboard = props => {
                                 variant="contained"
                                 style={{'width': '70%','backgroundColor': '#DAAB59' , color: '#403C3C', margin: '4px auto',padding: '8px 5px', fontSize: '17px', fontWeight: '700'}}
                                 className={`${classes.button} capitalization`}
-                                onClick={() => history.push(paths.store_summary)}
-                                /*onClick={async () => {
-                                    await createCustomer();
-                                  const activeBranch = LocalInfo.branchId;
+                                //onClick={() => history.push(paths.store_summary)}
+                                onClick={async () => {
+                                    await createBrand();
+                                  /*const activeBranch = LocalInfo.branchId;
                                   const userAccess = JSON.parse(LocalInfo.userAccess);
                                   console.log(userAccess);
                                   const companyId = userAccess.access[0].id;
                                   const userId = userAccess.user.userId;
                                   await SyncService.sync(companyId, activeBranch, userId, database);
-                                  console.log("DONE SYNCING");
-                                }}*/
+                                  console.log("DONE SYNCING");*/
+                                }}
                             >
                                 Start selling
                             </Button>
