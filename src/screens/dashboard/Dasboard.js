@@ -89,7 +89,7 @@ const Dashboard = props => {
     // const database = useDatabase();
 
 
-    const createBrand = () => {
+    /*const createBrand = (id) => {
         const columns = {
             name: 'Lookman',
             location: 'Mallam',
@@ -103,7 +103,17 @@ const Dashboard = props => {
 
         console.log(mew);
         console.log("**************************");
-    }
+    }*/
+
+   /* console.log(new ModelAction('Product').findByColumns(
+        [
+            {
+                name: "barcode",
+                value: "6928001828376",
+                fxn: "notEq"
+            }
+        ]
+    ));*/
 
     console.log(Product.columns);
     console.log(branchProducts);
@@ -261,17 +271,17 @@ const Dashboard = props => {
                                 variant="contained"
                                 style={{'width': '70%','backgroundColor': '#DAAB59' , color: '#403C3C', margin: '4px auto',padding: '8px 5px', fontSize: '17px', fontWeight: '700'}}
                                 className={`${classes.button} capitalization`}
-                                //onClick={() => history.push(paths.store_summary)}
-                                onClick={async () => {
+                                onClick={() => history.push(paths.store_summary)}
+                                /*onClick={async () => {
                                     await createBrand();
-                                  /*const activeBranch = LocalInfo.branchId;
+                                  const activeBranch = LocalInfo.branchId;
                                   const userAccess = JSON.parse(LocalInfo.userAccess);
                                   console.log(userAccess);
                                   const companyId = userAccess.access[0].id;
                                   const userId = userAccess.user.userId;
                                   await SyncService.sync(companyId, activeBranch, userId, database);
-                                  console.log("DONE SYNCING");*/
-                                }}
+                                  console.log("DONE SYNCING");
+                                }}*/
                             >
                                 Start selling
                             </Button>

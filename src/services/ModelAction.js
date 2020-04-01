@@ -41,7 +41,7 @@ export default class ModelAction {
         const dataCollection = database.collections.get(this.table);
 
         return await dataCollection.query(
-            columns.map(column => Q.where(column.name , column.value))
+            columns.map(column => this.queryType(column))
         ).observe();
     }
 
@@ -105,6 +105,49 @@ export default class ModelAction {
         })
     }
 
+    async queryType(column) {
+        switch (column.fxn) {
+            case '':
+                return Q.where(column.name , column.value);
+                break;
+            case 'notEq':
+                return Q.where(column.name , Q.notEq(column.value));
+                break;
+            case 'gt':
+                return Q.where(column.name , Q.gt(column.value));
+                break;
+            case 'weakGt':
+                return Q.where(column.name , Q.weakGt(column.value));
+                break;
+            case 'gte':
+                return Q.where(column.name , Q.gte(column.value));
+                break;
+            case 'lt':
+                return Q.where(column.name , Q.lt(column.value));
+                break;
+            case 'lte':
+                return Q.where(column.name , Q.lte(column.value));
+                break;
+            case 'between':
+                return Q.where(column.name , Q.between(column.min , column.max));
+                break;
+            case 'oneOf':
+                return Q.where(column.name , Q.oneOf(column.value));
+                break;
+            case 'notIn':
+                return Q.where(column.name , Q.notIn(column.value));
+                break;
+            case 'like':
+                return Q.where(column.name , Q.like(`%${Q.sanitizeLikeString(column.value)}%`));
+                break;
+            case 'notLike':
+                return Q.where(column.name , Q.notLike(`%${Q.sanitizeLikeString(column.value)}%`));
+                break;
+            default:
+                return Q.where(column.name , Q.eq(column.value));
+
+        }
+    }
     /*
     * @todo query like the available query parameters
     * */
