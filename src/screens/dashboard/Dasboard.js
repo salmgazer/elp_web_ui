@@ -78,7 +78,7 @@ const useStyles = makeStyles(theme => ({
 
 const Dashboard = props => {
     const classes = useStyles();
-
+    const [text , setText] = React.useState();
     /*
     * @todo replace user name with localInfo details.
     * */
@@ -89,21 +89,21 @@ const Dashboard = props => {
     // const database = useDatabase();
 
 
-    /*const createBrand = (id) => {
+    const createBrand = async() => {
         const columns = {
-            name: 'Lookman',
+            name: 'Maner',
             location: 'Mallam',
             phone: '0241441749',
             createdAt: Date.now(),
             updatedAt: Date.now(),
         };
-        const mew = new ModelAction('Brand').update(id , columns);
+        const mew = await new ModelAction('Brand').post(columns);
 
         console.log("********************************");
-
+        console.log(new ModelAction('Brand').index())
         console.log(mew);
         console.log("**************************");
-    }*/
+    }
 
    /* console.log(new ModelAction('Product').findByColumns(
         [
@@ -114,12 +114,14 @@ const Dashboard = props => {
             }
         ]
     ));*/
-
+    console.log("********************************");
+    console.log(products);
+    console.log("**************************");
     console.log(Product.columns);
     console.log(branchProducts);
     console.log(brands);
     console.log(manufacturers);
-    console.log(products);
+
     console.log(customers);
     console.log(sales);
     console.log("********************************");
@@ -271,17 +273,17 @@ const Dashboard = props => {
                                 variant="contained"
                                 style={{'width': '70%','backgroundColor': '#DAAB59' , color: '#403C3C', margin: '4px auto',padding: '8px 5px', fontSize: '17px', fontWeight: '700'}}
                                 className={`${classes.button} capitalization`}
-                                onClick={() => history.push(paths.store_summary)}
-                                /*onClick={async () => {
+                                //onClick={() => history.push(paths.store_summary)}
+                                onClick={async () => {
                                     await createBrand();
-                                  const activeBranch = LocalInfo.branchId;
+                                  /*const activeBranch = LocalInfo.branchId;
                                   const userAccess = JSON.parse(LocalInfo.userAccess);
                                   console.log(userAccess);
                                   const companyId = userAccess.access[0].id;
                                   const userId = userAccess.user.userId;
                                   await SyncService.sync(companyId, activeBranch, userId, database);
-                                  console.log("DONE SYNCING");
-                                }}*/
+                                  console.log("DONE SYNCING");*/
+                                }}
                             >
                                 Start selling
                             </Button>
@@ -302,7 +304,7 @@ const EnhancedDashboard = withDatabase(
     branchProducts: database.collections.get(BranchProduct.table).query(Q.where('branchId', localStorage.getItem('activeBranch'))).observe(),
     brands: database.collections.get(Brand.table).query().observe(),
     manufacturers: database.collections.get(Manufacturer.table).query().observe(),
-    products: database.collections.get(Product.table).query().observe(),
+    products: new ModelAction('Product').index(),
     customers: database.collections.get(Customer.table).query().observe(),
     sales: database.collections.get(Sales.table).query().observe()
   }))(withRouter(Dashboard))

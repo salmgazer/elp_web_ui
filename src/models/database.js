@@ -11,6 +11,7 @@ import BranchProductStockHistory from "./branchesProductsStocksHistories/BranchP
 import Customer from "./customers/Customer";
 import migrations from "./migrations";
 import Sales from "./sales/Sales";
+import Carts from "./carts/Carts";
 
 const adapter = new LokiJSAdapter({
   schema,
@@ -28,7 +29,8 @@ export default new Database({
     BranchProductStock,
     BranchProductStockHistory,
     Customer,
-    Sales
+    Sales,
+    Carts
   ],
   actionsEnabled: true
 });

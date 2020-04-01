@@ -15,7 +15,7 @@ export default class ModelAction {
     * @return array of items
     * */
     async index(){
-        return await database.collections.get(this.table).query().observe();
+        return database.collections.get(this.table).query().observe();
     }
 
     /*
@@ -25,7 +25,7 @@ export default class ModelAction {
     async findById(id){
         const dataCollection = database.collections.get(this.table);
 
-        return await dataCollection.findAndObserve(id);
+        return dataCollection.findAndObserve(id);
     }
 
     /*
@@ -35,7 +35,7 @@ export default class ModelAction {
     async findByColumns(columns){
         const dataCollection = database.collections.get(this.table);
 
-        return await dataCollection.query(
+        return dataCollection.query(
             columns.map(column => this.queryType(column))
         ).observe();
     }
@@ -48,12 +48,10 @@ export default class ModelAction {
     async post(columns){
         const dataCollection = database.collections.get(this.table);
 
-        await database.action(async () => {
-            const newItem = await dataCollection.create(item => {
+        database.action(async () => {
+            return dataCollection.create(item => {
                 this.columns.map((column) => item[column] = columns[column])
             });
-
-            return newItem;
         })
     }
 
@@ -65,12 +63,10 @@ export default class ModelAction {
     async update(id , columns){
         const dataCollection = database.collections.get(this.table).find(id);
 
-        await database.action(async () => {
-            const newItem = await dataCollection.update(item => {
+        database.action(async () => {
+            return dataCollection.update(item => {
                 this.columns.map((column) => item[column] = columns[column])
             });
-
-            return newItem;
         })
     }
 
