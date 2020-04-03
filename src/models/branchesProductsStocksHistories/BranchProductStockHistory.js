@@ -13,6 +13,6 @@ export default class BranchProductStock extends Model {
   @field('quantity') quantity;
   @relation('branches_products_stocks', 'branchProductStockId') branchProductStock;
   //@relation('users', 'createdBy') createdBy;
-  @readonly @date('createdAt') createdAt;
-  @readonly @date('updatedAt') updatedAt;
+  @readonly @date('created_at') createdAt;
+  @readonly @date('updated_at') updatedAt;
 }

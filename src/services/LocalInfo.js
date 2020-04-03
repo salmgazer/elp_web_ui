@@ -9,7 +9,9 @@ export default class LocalInfo {
       accessToken: "accessToken",
       branchId: "activeBranch",
       userAccess: "userData",
-      lastSyncedAt: "lastSyncedAt"
+      lastSyncedAt: "lastSyncedAt",
+      branches: "branches",
+      companyId: "companyId",
     };
   }
 
@@ -21,8 +23,17 @@ export default class LocalInfo {
     return localStorage.getItem(this.keys.userId);
   }
 
+  static get companyId() {
+    return localStorage.getItem(this.keys.companyId);
+  }
+
+  static get companies() {
+    console.log(`CompnayID: ${this.companyId}`)
+    return ((JSON.parse(this.userAccess)).access).find(company => company.companyId == this.companyId);
+  }
+
   static get username() {
-      alert(this.keys.username);
+      //alert(this.keys.username);
       return localStorage.getItem(this.keys.username);
   }
 
@@ -36,6 +47,10 @@ export default class LocalInfo {
 
   static get storeName() {
     return localStorage.getItem(this.keys.storeName);
+  }
+
+  static get branches() {
+    return this.companies.branches;
   }
 
   static get storeId() {
@@ -108,6 +123,7 @@ export default class LocalInfo {
     localStorage.removeItem(this.keys.username);
     localStorage.removeItem(this.keys.accessToken);
     localStorage.removeItem(this.keys.branchId);
+    localStorage.removeItem(this.keys.companyId);
     window.location.href = "/";
   }
 }

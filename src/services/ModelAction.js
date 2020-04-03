@@ -1,8 +1,9 @@
 import models from "../models/models";
 import { Q } from '@nozbe/watermelondb'
+import database from '../models/database';
 
 export default class ModelAction {
-    constructor(modelName , database) {
+    constructor(modelName) {
         this.model = models[modelName];
         this.table = models[modelName].table;
         this.database = database;
@@ -13,29 +14,40 @@ export default class ModelAction {
     * @var
     * @return array of items
     * */
-    async index(){
-        return this.database.collections.get(this.table).query().fetch();
+    index(){
+        return this.database.collections.get(this.table).query().observe();
     }
 
     /*
     * @var
     * @return object
     * */
-    async findById(id){
+    findById(id){
         const dataCollection = this.database.collections.get(this.table);
 
         return dataCollection.findAndObserve(id);
+    }
+
+    findByColumn(column){
+        const dataCollection = this.database.collections.get(this.table);
+
+        return dataCollection.query(
+            this.queryType(column)
+        ).observe();
     }
 
     /*
     * @var
     * @return array
     * */
-    async findByColumns(columns){
+    findByColumns(columns){
         const dataCollection = this.database.collections.get(this.table);
 
+        //columns.map(column => console.log(column));
         return dataCollection.query(
             columns.map(column => this.queryType(column))
+            //this.queryType(columns[0])
+            //columns.map(column => this.queryType(column))
         ).observe();
     }
 
@@ -44,7 +56,7 @@ export default class ModelAction {
     * @var
     * @return object
     * */
-    async post(columns){
+    post(columns){
         const dataCollection = this.database.collections.get(this.table);
 
         this.database.action(async () => {
@@ -59,7 +71,7 @@ export default class ModelAction {
     * @var
     * @return object
     * */
-    async update(id , columns){
+    update(id , columns){
         const dataCollection = this.database.collections.get(this.table).find(id);
 
         this.database.action(async () => {
@@ -98,10 +110,11 @@ export default class ModelAction {
     /*
     * @todo query like the available query parameters
     * */
-    async queryType(column) {
+    queryType(column) {
         switch (column.fxn) {
-            case '':
-                return Q.where(column.name , column.value);
+            case 'eq':
+                console.log(column)
+                return Q.where(column.name , Q.eq(column.value));
             case 'notEq':
                 return Q.where(column.name , Q.notEq(column.value));
             case 'gt':

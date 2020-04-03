@@ -33,7 +33,12 @@ import Product from "../../models/products/Product";
 import Customer from "../../models/customers/Customer";
 import Sales from "../../models/sales/Sales";
 import ModelAction from "../../services/ModelAction";
-
+import Carts from "../../models/carts/Carts";
+import CartEntry from "../../models/cartEntry/CartEntry";
+import CompanyService from "../../services/CompanyService";
+import BranchProductStock from "../../models/branchesProductsStocks/BranchProductStock";
+import BranchProductStockHistory from "../../models/branchesProductsStocksHistories/BranchProductStockHistory";
+import { action } from '@nozbe/watermelondb/decorators'
 
 const useStyles = makeStyles(theme => ({
     root: {
@@ -85,7 +90,7 @@ const Dashboard = props => {
     const username = JSON.parse(localStorage.getItem('userDetails')).firstName;
     console.log(username);
 
-    const { history, branchProducts, brands, manufacturers, products, database, customers , sales } = props;
+    const { history, branchProducts, branchProductStock, branchProductStockHistory, brands, manufacturers, products, database, customers , sales , carts , cartEntries, companySales } = props;
     // const database = useDatabase();
 
 
@@ -114,8 +119,18 @@ const Dashboard = props => {
             }
         ]
     ));*/
+    console.log('#####################################')
+    console.log(branchProducts)
+    console.log('#####################################')
+    console.log("********************************");
+    console.log(companySales)
+    console.log(LocalInfo.companies);
+    console.log("**************************");
     console.log("********************************");
     console.log(products);
+    console.log(branchProductStock);
+    console.log(branchProductStockHistory);
+
     console.log("**************************");
     console.log(Product.columns);
     console.log(branchProducts);
@@ -125,7 +140,21 @@ const Dashboard = props => {
     console.log(customers);
     console.log(sales);
     console.log("********************************");
+    console.log(carts);
+    console.log(cartEntries);
+    console.log("********************************");
 
+
+    /*const attachProducts = () => {
+        let m = 0;
+        database.action( async () => {
+            branchProducts.forEach(item => {
+                item.product.set(product[m]);
+                m++;
+            })
+        });
+
+    };*/
   const createCustomer = async () => {
     //const customersCollection = database.collections.get(Customer.table);
     const brandsCollection = database.collections.get(Sales.table);
@@ -273,17 +302,7 @@ const Dashboard = props => {
                                 variant="contained"
                                 style={{'width': '70%','backgroundColor': '#DAAB59' , color: '#403C3C', margin: '4px auto',padding: '8px 5px', fontSize: '17px', fontWeight: '700'}}
                                 className={`${classes.button} capitalization`}
-                                //onClick={() => history.push(paths.store_summary)}
-                                onClick={async () => {
-                                    await createBrand();
-                                  /*const activeBranch = LocalInfo.branchId;
-                                  const userAccess = JSON.parse(LocalInfo.userAccess);
-                                  console.log(userAccess);
-                                  const companyId = userAccess.access[0].id;
-                                  const userId = userAccess.user.userId;
-                                  await SyncService.sync(companyId, activeBranch, userId, database);
-                                  console.log("DONE SYNCING");*/
-                                }}
+                                onClick={() => history.push(paths.store_summary)}
                             >
                                 Start selling
                             </Button>
@@ -299,14 +318,20 @@ const Dashboard = props => {
 /*
 * @todo why pass through database again?
 * */
+
 const EnhancedDashboard = withDatabase(
   withObservables([], ({ database }) => ({
     branchProducts: database.collections.get(BranchProduct.table).query(Q.where('branchId', localStorage.getItem('activeBranch'))).observe(),
+    branchProductStock: database.collections.get(BranchProductStock.table).query().observe(),
+    branchProductStockHistory: database.collections.get(BranchProductStockHistory.table).query().observe(),
     brands: database.collections.get(Brand.table).query().observe(),
-    manufacturers: database.collections.get(Manufacturer.table).query().observe(),
-    products: new ModelAction('Product' , database).index(),
+    manufacturers: new ModelAction('Manufacturer').index(),
+    products: new ModelAction('Product').index(),
     customers: database.collections.get(Customer.table).query().observe(),
-    sales: database.collections.get(Sales.table).query().observe()
+    sales: database.collections.get(Sales.table).query().observe(),
+    carts: database.collections.get(Carts.table).query().observe(),
+    cartEntries: new ModelAction('CartEntry').index(),
+    companySales: CompanyService.sales(),
   }))(withRouter(Dashboard))
 );
 

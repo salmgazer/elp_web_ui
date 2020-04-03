@@ -25,8 +25,8 @@ export default class Product extends Model {
   @relation('brands', 'brandId') brand;
   @relation('product_categories', 'productCategoryId') productCategory;
   @relation('manufacturers', 'manufacturerId') manufacturer;
-  @date('createdAt') createdAt;
-  @date('updatedAt') updatedAt;
+  @date('created_at') createdAt;
+  @date('updated_at') updatedAt;
 
   static columns = productSchema.columns.map(c => c.name);
 

@@ -17,7 +17,7 @@ export default class ProductCategories extends Model {
   @field('name') name;
   @field('parentId') number;
   @relation('product_categories', 'parentId') parentProductCategory;
-  @date('createdAt') createdAt;
-  @date('updatedAt') updatedAt;
+  @date('created_at') createdAt;
+  @date('updated_at') updatedAt;
   @children('products') products;
 }

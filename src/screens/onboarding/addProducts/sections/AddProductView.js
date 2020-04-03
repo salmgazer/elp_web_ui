@@ -17,6 +17,7 @@ import {faCalculator} from "@fortawesome/free-solid-svg-icons";
 import CostCalculator from "../../../../components/Calculator/CostCalculator";
 import CostInput from "../../../Components/Input/CostInput";
 import ProductServiceHandler from '../../../../services/ProductServiceHandler';
+import LocalInfo from "../../../../services/LocalInfo";
 
 
 function Alert(props) {
@@ -32,8 +33,8 @@ const AddProductView = props => {
         quantity: null,
         sellingPrice: null,
         costPrice: null,
-        productId: props.product[0].id,
-        branchId: parseFloat(localStorage.getItem('activeBranch')),
+        productId: props.product[0].uuid,
+        branchId: LocalInfo.branchId,
     });
 
     const product = props.product[0];
@@ -207,7 +208,7 @@ const AddProductView = props => {
                         {(productHistory.length !== 0 ? (
                             <div>
                                 {(productHistory).map((item) =>
-                                    <ProductHistory deleteHistory={props.deleteHistory} key={item.id} item={item}/>
+                                    <ProductHistory deleteHistory={props.deleteHistory} key={item.uuid} item={item}/>
                                 )}
                             </div>
                         ):(

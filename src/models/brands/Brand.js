@@ -15,7 +15,7 @@ export default class Brand extends Model {
   static columns = productSchema.columns.map(c => c.name);
 
   @field('name') name;
-  @date('createdAt') createdAt;
-  @date('updatedAt') updatedAt;
+  @date('created_at') createdAt;
+  @date('updated_at') updatedAt;
   @children('products') products;
 }
