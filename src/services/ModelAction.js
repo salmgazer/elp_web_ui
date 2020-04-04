@@ -13,8 +13,8 @@ export default class ModelAction {
     * @var
     * @return array of items
     * */
-    async index(){
-        return this.database.collections.get(this.table).query().fetch();
+    index(){
+        return this.database.collections.get(this.table).query().observe();
     }
 
     /*

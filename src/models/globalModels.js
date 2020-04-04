@@ -12,4 +12,4 @@ const globalModels = [
   Customer
 ];
 
-export default globalModels;
+module.exports = globalModels;

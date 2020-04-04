@@ -2,7 +2,10 @@ import {synchronize} from "@nozbe/watermelondb/sync";
 import LocalInfo from "./LocalInfo";
 import Api from "./Api";
 import {Q} from "@nozbe/watermelondb";
-import globalModels from '../models/globalModels'
+import globalModels from '../models/globalModels';
+import BranchProduct from "../models/branchesProducts/BranchProduct";
+import BranchProductStockHistory from "../models/branchesProductsStocksHistories/BranchProductStockHistory";
+import BranchProductStock from "../models/branchesProductsStocks/BranchProductStock";
 
 const apiUrl = 'https://elp-core-api-dev.herokuapp.com/v1/client';
 
@@ -31,6 +34,13 @@ export default class SyncService {
           }
 
           const {changes, timestamp, otherChanges} = await response.data;
+          // each change requires a dummy id
+          [BranchProduct.table, BranchProductStock.table, BranchProductStockHistory.table]
+            .forEach(tableName => {
+              changes[tableName].created.forEach(item => {
+                item.id = item.uuid;
+              })
+            });
           LocalInfo.lastSyncedAt = timestamp;
           /*
           console.log(changes.products);
