@@ -2,10 +2,10 @@ const productCategorySchema = {
   name: 'product_categories',
   columns: [
     { name: 'name', type: 'string' },
-    { name: 'parentId', type: 'number' },
+    { name: 'parentId', type: 'string' },
     { name: 'createdBy', type: 'string' },
-    { name: 'createdAt', type: 'number' },
-    { name: 'updatedAt', type: 'number' },
+    {name: 'created_at' , type: 'number'},
+    {name: 'updated_at' , type: 'number'}
   ]
 };
 

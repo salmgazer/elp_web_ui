@@ -5,11 +5,11 @@ const productSchema = {
     { name: 'description', type: 'string', isOptional: true },
     { name: 'measurementUnit', type: 'string', isOptional: true },
     { name: 'barCode', type: 'string' },
-    { name: 'manufacturerId', type: 'number' },
-    { name: 'brandId', type: 'number' },
-    { name: 'productCategoryId', type: 'number' },
-    { name: 'createdAt', type: 'number' },
-    { name: 'updatedAt', type: 'number' },
+    { name: 'manufacturerId', type: 'string' },
+    { name: 'brandId', type: 'string' },
+    { name: 'productCategoryId', type: 'string' },
+    {name: 'created_at' , type: 'number'},
+    {name: 'updated_at' , type: 'number'}
   ]
 };
 

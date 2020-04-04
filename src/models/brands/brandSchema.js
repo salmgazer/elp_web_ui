@@ -3,8 +3,8 @@ const brandSchema = {
   columns: [
     { name: 'name', type: 'string' },
     { name: 'createdBy', type: 'string' },
-    { name: 'createdAt', type: 'number' },
-    { name: 'updatedAt', type: 'number' },
+    { name: 'created_at', type: 'number' },
+    { name: 'updated_at', type: 'number' },
   ]
 };
 

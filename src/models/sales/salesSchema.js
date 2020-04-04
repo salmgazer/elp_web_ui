@@ -10,8 +10,8 @@ const salesSchema = {
         { name: 'branchId', type: 'string' },
         { name: 'receiptNumber', type: 'string' },
         { name: 'createdBy', type: 'string' },
-        { name: 'createdAt', type: 'number' },
-        { name: 'updatedAt', type: 'number' },
+        {name: 'created_at' , type: 'number'},
+        {name: 'updated_at' , type: 'number'}
     ]
 };
 

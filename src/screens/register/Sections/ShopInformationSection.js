@@ -253,7 +253,7 @@ export default function ShopInformationSection(props) {
                         >
                             <option value={0}>Select Category</option>
                             {categories.map((category) =>
-                                <option key={category.uuid} value={category.uuid}>{category.name}</option>
+                                <option key={category.id} value={category.id}>{category.name}</option>
                             )}
                         </ValidationSelectField>
                     </FormControl>

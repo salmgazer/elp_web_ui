@@ -13,12 +13,12 @@ const Step1 = (props) => {
             <p style={{marginTop: '60px', fontSize: '18px', fontWeight: '400', color: '#333333'}}>Select product categories you sell</p>
 
             <div className="scrollWrapper">
-                {categories.map((item) => <CategorySingle _viewSubCategory={props.clickFnc} key={item.uuid} item={item}/>)}
+                {categories.map((item) => <CategorySingle _viewSubCategory={props.clickFnc} key={item.id} item={item}/>)}
             </div>
 
             <Box style={{marginTop: '5px'}} p={1}>
                 <Grid container spacing={1}>
-                    {subcategories.map((item) => <SubCategorySingle key={item.uuid} item={item} _addSubCategoryHandler={props.addSubCategory} _removeSubCategoryHandler={props.removeSubCategory}/>)}
+                    {subcategories.map((item) => <SubCategorySingle key={item.id} item={item} _addSubCategoryHandler={props.addSubCategory} _removeSubCategoryHandler={props.removeSubCategory}/>)}
                 </Grid>
             </Box>
         </div>

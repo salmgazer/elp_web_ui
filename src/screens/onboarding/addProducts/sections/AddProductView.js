@@ -33,7 +33,7 @@ const AddProductView = props => {
         quantity: null,
         sellingPrice: null,
         costPrice: null,
-        productId: props.product[0].uuid,
+        productId: props.product[0].id,
         branchId: LocalInfo.branchId,
     });
 
@@ -208,7 +208,7 @@ const AddProductView = props => {
                         {(productHistory.length !== 0 ? (
                             <div>
                                 {(productHistory).map((item) =>
-                                    <ProductHistory deleteHistory={props.deleteHistory} key={item.uuid} item={item}/>
+                                    <ProductHistory deleteHistory={props.deleteHistory} key={item.id} item={item}/>
                                 )}
                             </div>
                         ):(

@@ -67,7 +67,7 @@ class CategorySetup extends Component{
 
         const old_subcategories = this.state.subcategories;
 
-        const subcategories = old_subcategories.findIndex((item => item.uuid === subCategoryId));
+        const subcategories = old_subcategories.findIndex((item => item.id === subCategoryId));
         const item = {...old_subcategories[subcategories]};
         console.log(item)
         if(item.owned){
@@ -97,7 +97,7 @@ class CategorySetup extends Component{
 
         const old_subcategories = this.state.subcategories;
 
-        const subcategories = old_subcategories.findIndex((item => item.uuid === subCategoryId));
+        const subcategories = old_subcategories.findIndex((item => item.id === subCategoryId));
         const item = {...old_subcategories[subcategories]};
 
         if(item.owned){

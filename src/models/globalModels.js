@@ -16,4 +16,4 @@ const globalModels = [
   CartEntries
 ];
 
-module.exports = globalModels;
+export default globalModels;

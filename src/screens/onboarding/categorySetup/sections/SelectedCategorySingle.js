@@ -46,7 +46,7 @@ const SelectedCategorySingle = props => {
                                     checked={subcategory.owned}
                                     /*onChange={handleChange('checkedG')}*/
                                     value="checkedG"
-                                    onClick={(event) => removeSubCategoryHandler(subcategory.uuid , event)}
+                                    onClick={(event) => removeSubCategoryHandler(subcategory.id , event)}
                                     style={{display: 'table-cell', verticalAlign: 'middle'}}
                                 />
                             }

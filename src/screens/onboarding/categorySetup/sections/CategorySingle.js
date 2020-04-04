@@ -7,10 +7,10 @@ const CategorySingle = props => {
 
     return(
         <span
-            key={props.item.uuid}
+            key={props.item.id}
             className="shadow1"
             style={{cursor: 'pointer'}}
-            onClick={_viewSubCategory.bind(this, props.item.uuid)}
+            onClick={_viewSubCategory.bind(this, props.item.id)}
         >
             {props.item.name}
         </span>

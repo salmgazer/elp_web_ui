@@ -165,10 +165,10 @@ const SearchMode = props => {
 
             <Grid container spacing={1} className='mt-3'>
                 {products.map((item) =>
-                    <Grid key={item.uuid} item xs={4} style={{padding: '4px 8px' , position: 'relative'}} className={`mx-0 px-1`}>
+                    <Grid key={item.id} item xs={4} style={{padding: '4px 8px' , position: 'relative'}} className={`mx-0 px-1`}>
                         { item.owned ?
                             <div
-                                onClick={removeProductHandler.bind(this , item.uuid)}
+                                onClick={removeProductHandler.bind(this , item.id)}
                             >
                                 <AddedIcon
                                     styles={{
@@ -185,7 +185,7 @@ const SearchMode = props => {
                                 />
                             </div>:
                             <div
-                                onClick={addProductHandler.bind(this, item.uuid)}
+                                onClick={addProductHandler.bind(this, item.id)}
                             >
                                 <AddIcon
                                     styles={{
@@ -202,7 +202,7 @@ const SearchMode = props => {
                                 />
                             </div>
                         }
-                        <div onClick={addProductHandler.bind(this, item.uuid)}>
+                        <div onClick={addProductHandler.bind(this, item.id)}>
                         <ProductCard product={item}>
                         </ProductCard>
                         </div>

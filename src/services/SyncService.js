@@ -3,9 +3,6 @@ import LocalInfo from "./LocalInfo";
 import Api from "./Api";
 import {Q} from "@nozbe/watermelondb";
 import globalModels from '../models/globalModels';
-import BranchProduct from "../models/branchesProducts/BranchProduct";
-import BranchProductStockHistory from "../models/branchesProductsStocksHistories/BranchProductStockHistory";
-import BranchProductStock from "../models/branchesProductsStocks/BranchProductStock";
 
 const apiUrl = 'https://elp-core-api-dev.herokuapp.com/v1/client';
 
@@ -35,13 +32,8 @@ export default class SyncService {
           }
 
           const {changes, timestamp, otherChanges} = await response.data;
-          // each change requires a dummy id
-          [BranchProduct.table, BranchProductStock.table, BranchProductStockHistory.table]
-            .forEach(tableName => {
-              changes[tableName].created.forEach(item => {
-                item.id = item.uuid;
-              })
-            });
+          console.log(changes);
+          console.log(otherChanges);
           LocalInfo.lastSyncedAt = timestamp;
           /*
           console.log(changes.products);
@@ -86,21 +78,24 @@ export default class SyncService {
 
           database.action(async () => {
             for (const globalModel of globalModels) {
-              for (const row of otherChanges[globalModel.table]) {
-                const collection = database.collections.get(globalModel.table);
-                const existingRows = await collection
-                  .query(Q.where(globalModel.displayColumn, row[globalModel.displayColumn])).fetch();
+              if (otherChanges[globalModel.table]) {
+                for (const row of otherChanges[globalModel.table]) {
+                  const collection = database.collections.get(globalModel.table);
+                  const existingRows = await collection
+                    .query(Q.where(globalModel.displayColumn, row[globalModel.displayColumn])).fetch();
 
-                for (const existingRow of existingRows) {
-                  await existingRow.destroyPermanently();
-                }
-                await collection.create(aRow => {
-                  globalModel.columns.forEach(column => {
-                    if (row[column]) {
-                      aRow[column] = row[column];
-                    }
+                  for (const existingRow of existingRows) {
+                    await existingRow.destroyPermanently();
+                  }
+                  await collection.create(aRow => {
+                    globalModel.columns.forEach(column => {
+                      if (row[column]) {
+                        aRow[column] = row[column];
+                      }
+                    });
+                    aRow._raw.id = row.id;
                   });
-                });
+                }
               }
             }
           });

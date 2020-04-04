@@ -1,7 +1,7 @@
 import { Model } from '@nozbe/watermelondb';
 import { field, date, readonly, relation} from '@nozbe/watermelondb/decorators';
 
-export default class BranchProductStock extends Model {
+export default class BranchProductStockHistory extends Model {
   static table = 'branches_products_stocks_histories';
   static deletable = false;
 

@@ -129,7 +129,9 @@ const Dashboard = props => {
     console.log("********************************");
     console.log(products);
     console.log(branchProductStock);
+    console.log(11111111111111111111);
     console.log(branchProductStockHistory);
+    console.log(11111111111111111111);
 
     console.log("**************************");
     console.log(Product.columns);

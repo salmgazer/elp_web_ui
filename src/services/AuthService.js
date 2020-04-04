@@ -113,9 +113,9 @@ export default class AuthService {
 
             if( response ){
                 localStorage.setItem('randomString' , data.password);
-                localStorage.setItem('activeBranch' , response.data.branch.uuid);
+                localStorage.setItem('activeBranch' , response.data.branch.id);
                 localStorage.setItem('userDetails' , JSON.stringify(response.data.user));
-                localStorage.setItem('companyId' , JSON.stringify(response.data.company.uuid));
+                localStorage.setItem('companyId' , JSON.stringify(response.data.company.id));
                 localStorage.setItem('userData' , JSON.stringify(response.data.userAccess));
 
                 user = response.data.user;

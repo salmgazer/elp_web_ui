@@ -10,8 +10,8 @@ const saleEntriesSchema = {
         {name: 'costPrice' , type: 'number'},
         {name: 'branchId' , type: 'string'},
         {name: 'branchProductId' , type: 'string'},
-        {name: 'createdAt' , type: 'number'},
-        {name: 'updatedAt' , type: 'number'}
+        {name: 'created_at' , type: 'number'},
+        {name: 'updated_at' , type: 'number'}
     ]
 };
 
