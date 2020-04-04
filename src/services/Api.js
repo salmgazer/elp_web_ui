@@ -35,7 +35,7 @@ export default class Api {
 
     static get headers(){
         return {
-            "X-El-Parah-Hash" : "9IKZKacum7YEmCjD57I53FtW",
+            "X-El-Parah-Hash" : "8opvGdfmc6mJgqH3bcVGsmzj",
             "X-El-Parah-Client" : "elp-pos-web-ui",
             "Content-Type" : "application/json",
             "Accept" : "application/json",

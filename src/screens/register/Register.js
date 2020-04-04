@@ -179,7 +179,7 @@ const Register = props => {
         phone: '',
         companyName: '',
         location: '',
-        storeCategory: 0,
+        businessCategoryId: '',
         storeType: 'Retail',
         username: '',
         password: '',
@@ -235,7 +235,7 @@ const Register = props => {
 
     const handleFinish = async() => {
         setLoading(true);
-        //console.log(data);
+        console.log(data);
         /*
         * Handle registration here...
         * */

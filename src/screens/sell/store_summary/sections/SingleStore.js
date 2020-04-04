@@ -9,6 +9,7 @@ import paths from "../../../../utilities/paths";
 import ExpandMoreRoundedIcon from '@material-ui/icons/ExpandMoreRounded';
 import ExpandLessRoundedIcon from '@material-ui/icons/ExpandLessRounded';
 import Collapsible from 'react-collapsible';
+import LocalInfo from "../../../../services/LocalInfo";
 
 
 
@@ -16,6 +17,7 @@ const SingleStore = props => {
     const { history } = props;
 
     const branch = props.branch;
+
     /*companyName: 'GODS GRACE STORe',
         branchName: 'Adenta Branch',
         companyId: 1,
@@ -24,6 +26,13 @@ const SingleStore = props => {
         profit: 2,
         credit: 5,
         purchases: 1,*/
+
+    const setBranch = (branchId) => {
+        alert(branchId);
+        LocalInfo.setBranchId(branchId)
+        history.push(paths.sell);
+    };
+
     return (
         <div className={`bordered rounded mb-3`}>
             <Grid container spacing={1} className={`px-2`}>
@@ -36,8 +45,8 @@ const SingleStore = props => {
                     <div style={{textAlign: 'left', display: 'table-cell', verticalAlign: 'middle', fontSize: '14px'}}
                         className={`font-weight-bold text-uppercase`}
                     >
-                        {branch.companyName}
-                        <div className="font-weight-light mt-1 text-capitalize text-dark" style={{fontSize: '14px'}}>{branch.branchName}</div>
+                        {props.companyName}
+                        <div className="font-weight-light mt-1 text-capitalize text-dark" style={{fontSize: '14px'}}>{branch.name}</div>
                     </div>
                 </Grid>
                 <Grid item xs={4} style={{height: '60px', margin: '13px 0px'}}>
@@ -45,7 +54,7 @@ const SingleStore = props => {
                         <span
                             style={{borderRadius: '6px' , fontSize: '12px' , fontWeight: '700', color: '#DAAB59'}}
                             className={`bordered px-2 py-2`}
-                            onClick={() => history.push(paths.sell)}
+                            onClick={() => setBranch(branch.branchId)}
                         >Open store</span>
                     </div>
                 </Grid>

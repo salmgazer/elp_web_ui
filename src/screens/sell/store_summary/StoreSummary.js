@@ -10,14 +10,22 @@ import Grid from '@material-ui/core/Grid';
 import Box from "@material-ui/core/Box";
 import SingleStore from "./sections/SingleStore";
 import Button from "@material-ui/core/Button/Button";
+import LocalInfo from "../../../services/LocalInfo";
+import CompanyService from "../../../services/CompanyService";
+import {withDatabase} from "@nozbe/watermelondb/DatabaseProvider";
+import withObservables from "@nozbe/with-observables";
+import ModelAction from "../../../services/ModelAction";
 
-const StoreSummary = () => {
+const StoreSummary = props => {
     const [isDrawerShow , setIsDrawerShow] = useState(false);
 
+    const { history, database, companySales } = props;
+
+    console.log(companySales);
     /*
     * @todo replace user name with localInfo details.
     * */
-    const username = JSON.parse(localStorage.getItem('userDetails')).firstName;
+    const username = LocalInfo.username;
 
     return (
         <div>
@@ -27,28 +35,8 @@ const StoreSummary = () => {
                     salesMade: 0,
                     creditMade: 0,
                     purchaseMade: 0,
-                    branchList: [
-                        {
-                            companyName: 'GODS GRACE STORe',
-                            branchName: 'Lapaz Branch',
-                            companyId: 1,
-                            branchId: 10,
-                            sales: 0,
-                            profit: 0,
-                            credit: 0,
-                            purchases: 0,
-                        },
-                        {
-                            companyName: 'GODS GRACE STORe',
-                            branchName: 'Adenta Branch',
-                            companyId: 1,
-                            branchId: 12,
-                            sales: 10,
-                            profit: 2,
-                            credit: 5,
-                            purchases: 1,
-                        }
-                    ]
+                    branchList: LocalInfo.branches,
+                    companyName: LocalInfo.companies.name
                 }}
             >
                 {({ state, setState }) => (
@@ -113,7 +101,7 @@ const StoreSummary = () => {
                             </Typography>
 
                             <Box style={{marginTop: '5px' , paddingBottom: '5px'}} p={1} className={`mt-2 mb-1 mx-1`}>
-                                {state.branchList.map((item) => <SingleStore key={item.branchId} branch={item}/>)}
+                                {state.branchList.map((item) => <SingleStore key={item.branchId} branch={item} companyName={state.companyName} />)}
                             </Box>
                         </div>
                         <Box
@@ -136,5 +124,11 @@ const StoreSummary = () => {
     );
 };
 
-export default withRouter(StoreSummary);
+const EnhancedStoreSummary = withDatabase(
+    withObservables([], ({ database }) => ({
+        companySales: CompanyService.sales(),
+    }))(withRouter(StoreSummary))
+);
+
+export default EnhancedStoreSummary;
 

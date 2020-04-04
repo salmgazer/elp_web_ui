@@ -155,7 +155,7 @@ export default function ShopInformationSection(props) {
     const [formFields , setFormFields] = useState({
         companyName: userFields.companyName,
         location: userFields.location,
-        storeCategory: userFields.storeCategory,
+        businessCategoryId: userFields.businessCategoryId,
         storeType: userFields.storeType,
     });
 
@@ -185,6 +185,7 @@ export default function ShopInformationSection(props) {
         //console.log(formData.firstName);
         formData[event.target.name] = event.target.value;
         setFormFields(formData);
+        console.log(formData)
         props.collectData(event);
     };
     const handleFormValidation = async(result) => {
@@ -245,14 +246,14 @@ export default function ShopInformationSection(props) {
                             value={formFields.storeCategory}
                             labelWidth={labelWidth}
                             inputProps={{
-                                name: 'storeCategory',
-                                id: 'storeCategory',
+                                name: 'businessCategoryId',
+                                id: 'businessCategoryId',
                             }}
                             className={classes.select}
                         >
                             <option value={0}>Select Category</option>
                             {categories.map((category) =>
-                                <option key={category.id} value={category.id}>{category.name}</option>
+                                <option key={category.uuid} value={category.uuid}>{category.name}</option>
                             )}
                         </ValidationSelectField>
                     </FormControl>

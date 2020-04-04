@@ -18,8 +18,8 @@ export default class Carts extends Model {
     @field('status') status;
     @field('customerId') customerId;
     @field('createdBy') createdBy;
-    @date('createdAt') createdAt;
-    @date('updatedAt') updatedAt;
+    @date('created_at') createdAt;
+    @date('updated_at') updatedAt;
 
     static columns = cartsSchema.columns.map(c => c.name);
 

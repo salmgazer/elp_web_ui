@@ -23,7 +23,7 @@ const SubCategorySingle = props => {
             >
                 { category.owned ?
                     <div
-                        onClick={(event) => removeSubCategoryHandler(category.id , event)}
+                        onClick={(event) => removeSubCategoryHandler(category.uuid , event)}
                     >
                         <AddedIcon
                             styles={{
@@ -39,7 +39,7 @@ const SubCategorySingle = props => {
                         />
                     </div>:
                     <div
-                        onClick={(event) => addSubCategoryHandler(category.id , event)}
+                        onClick={(event) => addSubCategoryHandler(category.uuid , event)}
                     >
                         <AddIcon
                             styles={{

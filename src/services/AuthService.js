@@ -38,6 +38,7 @@ export default class AuthService {
                     localStorage.setItem('username' , response.user.username);
                     localStorage.setItem('activeBranch' , response.access[0].branches[0].branchId);
                     localStorage.setItem('userData', JSON.stringify(response));
+                    localStorage.setItem('companyId', response.access[0].companyId);
 
                     return {
                         success: 200,
@@ -87,7 +88,7 @@ export default class AuthService {
             },
             company: {
                 "name": data.companyName,
-                "businessCategoryId": parseInt(data.storeCategory),
+                "businessCategoryId": data.businessCategoryId,
             },
             branch: {
                 "name": data.companyName,
@@ -102,6 +103,7 @@ export default class AuthService {
         };
 
         try{
+            console.log(params)
             const response = await new Api('others').create(
                 params,
                 {},
@@ -111,8 +113,10 @@ export default class AuthService {
 
             if( response ){
                 localStorage.setItem('randomString' , data.password);
-                localStorage.setItem('activeBranch' , response.data.branch.id);
+                localStorage.setItem('activeBranch' , response.data.branch.uuid);
                 localStorage.setItem('userDetails' , JSON.stringify(response.data.user));
+                localStorage.setItem('companyId' , JSON.stringify(response.data.company.uuid));
+                localStorage.setItem('userData' , JSON.stringify(response.data.userAccess));
 
                 user = response.data.user;
                 console.log(user);

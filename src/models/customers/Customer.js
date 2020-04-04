@@ -13,6 +13,6 @@ export default class Customer extends Model {
   @field('name') name;
   @field('phone') phone; // @todo use phone number on both api and client as search key
   @field('location') location;
-  @date('createdAt') createdAt;
-  @date('updatedAt') updatedAt;
+  @date('created_at') createdAt;
+  @date('updated_at') updatedAt;
 }

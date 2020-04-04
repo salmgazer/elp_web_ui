@@ -8,6 +8,8 @@ import BranchProductStockHistory from "./branchesProductsStocksHistories/BranchP
 import Customer from "./customers/Customer";
 import Sales from "./sales/Sales";
 import Carts from "./carts/Carts";
+import CartEntry from "./cartEntry/CartEntry";
+import SaleEntry from "./saleEntry/SaleEntries";
 
 export default {
     Brand,
@@ -19,5 +21,7 @@ export default {
     BranchProductStockHistory,
     Customer,
     Sales,
-    Carts
+    Carts,
+    CartEntry,
+    SaleEntry,
 }

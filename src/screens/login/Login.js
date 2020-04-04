@@ -149,9 +149,10 @@ const Login = props => {
             const activeBranch = LocalInfo.branchId;
             const userAccess = JSON.parse(LocalInfo.userAccess);
             console.log(userAccess);
-            const companyId = userAccess.access[0].id;
+            const companyId = LocalInfo.companyId;
             const userId = userAccess.user.userId;
             await SyncService.sync(companyId, activeBranch, userId, database);
+            console.log("DONE SYNCING");
             history.push(paths.dashboard)
         }else{
             document.getElementById("loginForm").reset();

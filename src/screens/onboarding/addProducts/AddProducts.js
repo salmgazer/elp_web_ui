@@ -178,28 +178,28 @@ class AddProducts extends Component{
 
     deleteHistory = (historyId) => {
         //console.log(historyId);
-        const productId = this.state.currentProduct[0].id;
+        const productId = this.state.currentProduct[0].uuid;
         console.log(productId);
         let branchDeletedHistory = JSON.parse(localStorage.getItem('branchDeletedHistory')) || [];
         let branchProductsAdded = JSON.parse(localStorage.getItem('branchProductsAdded')) || [];
         let currentProductList = JSON.parse(localStorage.getItem('storeProductsLookup'));
 
-        const productIndex = currentProductList.findIndex((item) => item.id === productId);
-        const productHistoryIndex = ((currentProductList[productIndex]).history).findIndex((history) => history.id === historyId);
+        const productIndex = currentProductList.findIndex((item) => item.uuid === productId);
+        const productHistoryIndex = ((currentProductList[productIndex]).history).findIndex((history) => history.uuid === historyId);
 
         const historySingle = currentProductList[productIndex].history[productHistoryIndex];
 
         let productStock = '';
         if(historySingle.tempId){
-            productStock = (currentProductList[productIndex].stock).filter((stock) => stock.tempId !== historySingle.id);
-            branchProductsAdded = branchProductsAdded.filter((stock) => stock.tempId !== historySingle.id);
+            productStock = (currentProductList[productIndex].stock).filter((stock) => stock.tempId !== historySingle.uuid);
+            branchProductsAdded = branchProductsAdded.filter((stock) => stock.tempId !== historySingle.uuid);
         }else{
             branchDeletedHistory.push(historyId);
             productStock = (currentProductList[productIndex].stock).filter((stock) => stock.tempId !== historySingle.branchProductStockId);
         }
 
-        const productHistory = ((currentProductList[productIndex]).history).filter((history) => history.id !== historyId);
-        const currentProduct = currentProductList.filter((product) => product.id === productId);
+        const productHistory = ((currentProductList[productIndex]).history).filter((history) => history.uuid !== historyId);
+        const currentProduct = currentProductList.filter((product) => product.uuid === productId);
 
         currentProductList[productIndex].history = productHistory;
         currentProductList[productIndex].stock = productStock;
@@ -216,7 +216,7 @@ class AddProducts extends Component{
 
     undoAddProducts = () => {
         let branchProductsAdded = JSON.parse(localStorage.getItem('branchProductsAdded')) || [];
-        branchProductsAdded = branchProductsAdded.filter((item => item.productId !== this.state.currentProduct[0].id));
+        branchProductsAdded = branchProductsAdded.filter((item => item.productId !== this.state.currentProduct[0].uuid));
 
         localStorage.setItem('branchProductsAdded' , JSON.stringify(branchProductsAdded));
 
@@ -224,7 +224,7 @@ class AddProducts extends Component{
 
         let old_list = this.state.productList;
 
-        const productIndex = old_list.findIndex((item => item.id === (this.state.currentProduct)));
+        const productIndex = old_list.findIndex((item => item.uuid === (this.state.currentProduct)));
         const item = {...old_list[productIndex]};
 
         if(item.owned){
@@ -264,7 +264,7 @@ class AddProducts extends Component{
 
                         let old_list = this.state.productList;
 
-                        const productIndex = old_list.findIndex((item => item.id === (productId)));
+                        const productIndex = old_list.findIndex((item => item.uuid === (productId)));
                         const item = {...old_list[productIndex]};
 
                         if(item.owned){
@@ -301,7 +301,7 @@ class AddProducts extends Component{
         const old_list = this.state.productList;
 
         //Find index of specific object using findIndex method.
-        const itemIndex = old_list.filter((item => item.id === productId));
+        const itemIndex = old_list.filter((item => item.uuid === productId));
 
         //console.log(itemIndex)
         this.setState({
@@ -379,7 +379,7 @@ class AddProducts extends Component{
 
         let old_list = this.state.productList;
 
-        const productIndex = old_list.findIndex((item => item.id === (formFields.productId)));
+        const productIndex = old_list.findIndex((item => item.uuid === (formFields.productId)));
         const item = {...old_list[productIndex]};
 
         if(!item.owned){
@@ -437,7 +437,7 @@ class AddProducts extends Component{
                     onClick: () => {
                         let old_list = [...this.state.addedProducts];
 
-                        const result = old_list.filter(item => item.id !== pId);
+                        const result = old_list.filter(item => item.uuid !== pId);
 
                         this.setState({
                             addedProducts: [...result],

@@ -16,11 +16,11 @@ export default class BranchProduct extends Model {
   @field('sellingPrice') sellingPrice;
   @relation('products', 'productId') product;
   //@relation('users', 'createdBy') createdBy;
-  @readonly @date('createdAt') createdAt;
-  @readonly @date('updatedAt') updatedAt;
+  @readonly @date('created_at') createdAt;
+  @readonly @date('updated_at') updatedAt;
 
   async products() {
     return this.collections.get('products')
-      .query(Q.where('id', this.productId));
+      .query(Q.where('id', this.productId)).fetch();
   }
 }

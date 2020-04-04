@@ -4,14 +4,21 @@ import AddProductCart from "./sections/AddProductCart";
 import Api from "../../../services/Api";
 import LocalInfo from "../../../services/LocalInfo";
 import SavedCart from "../cart/sections/savedCart/savedCart";
+import BranchService from "../../../services/BranchService";
+import {withDatabase} from "@nozbe/watermelondb/DatabaseProvider";
+import withObservables from "@nozbe/with-observables";
+import { withRouter } from "react-router-dom";
+import ModelAction from "../../../services/ModelAction";
 
-export default class Sell extends Component {
+class Sell extends Component {
+
     state = {
         isDrawerShow: false,
         salesMade: 175,
         profitMade: 50,
         activeStep: 0,
         spCount: 3,
+        stockNewProduct: [],
         productList: [],
         savedCart: [
             {
@@ -24,8 +31,24 @@ export default class Sell extends Component {
     };
 
     async componentDidMount() {
+        const { history, database , branchProducts , branchProductStock, branchProductsNew} = this.props;
+
         const branchId = LocalInfo.branchId;
         const accessToken = LocalInfo.accessToken;
+        this.state.stockNewProduct = branchProductStock;
+
+        this.state.productList = branchProducts;
+        console.log('********************************')
+        console.log(branchProductsNew)
+        console.log(await branchProducts.product.fetch())
+        console.log(branchProductStock)
+        console.log('********************************')
+        console.log('#####')
+        console.log(branchProducts)
+
+        console.log(await branchProducts[0].product.fetch());
+        console.log('********************************')
+
 
         try {
             let products = await new Api('others').index(
@@ -151,3 +174,17 @@ export default class Sell extends Component {
         );
     }
 }
+
+const EnhancedDashboard = withDatabase(
+    withObservables([], ({ database }) => ({
+        branchProducts: new BranchService(LocalInfo.branchId).getProducts(),
+        branchProductsNew: new ModelAction('BranchProductStock').index(),
+        branchProductStock: new ModelAction('BranchProductStock').findByColumn({
+            name: 'branchId',
+            value: parseFloat(LocalInfo.branchId),
+            fxn: 'eq'
+        }),
+    }))(withRouter(Sell))
+);
+
+export default EnhancedDashboard;
