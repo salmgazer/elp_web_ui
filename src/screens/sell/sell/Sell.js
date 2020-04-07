@@ -9,16 +9,19 @@ import {withDatabase} from "@nozbe/watermelondb/DatabaseProvider";
 import withObservables from "@nozbe/with-observables";
 import { withRouter } from "react-router-dom";
 import ModelAction from "../../../services/ModelAction";
+import CartService from "../../../services/CartService";
+import Carts from "../../../models/carts/Carts";
+import CartEntry from "../../../models/cartEntry/CartEntry";
+import BranchProduct from "../../../models/branchesProducts/BranchProduct";
+import {Q} from "@nozbe/watermelondb";
 
 class Sell extends Component {
-
     state = {
         isDrawerShow: false,
         salesMade: 175,
         profitMade: 50,
         activeStep: 0,
         spCount: 3,
-        stockNewProduct: [],
         productList: [],
         savedCart: [
             {
@@ -27,46 +30,20 @@ class Sell extends Component {
                 cartTotal: '50.00',
                 createdAt: '2020-03-16T08:55:11.851Z'
             }
-        ]
+        ],
+        branchProducts: [],
     };
 
     async componentDidMount() {
-        const { history, database , branchProducts , branchProductStock, branchProductsNew} = this.props;
+        const { history, database , branchProducts , cartQuantity } = this.props;
 
-        const branchId = LocalInfo.branchId;
-        const accessToken = LocalInfo.accessToken;
-        this.state.stockNewProduct = branchProductStock;
-
-        this.state.productList = branchProducts;
-        console.log('********************************')
-        console.log(branchProductsNew)
-        console.log(await branchProducts.product.fetch())
-        console.log(branchProductStock)
-        console.log('********************************')
-        console.log('#####')
-        console.log(branchProducts)
-
-        console.log(await branchProducts[0].product.fetch());
-        console.log('********************************')
-
-
-        try {
-            let products = await new Api('others').index(
-                {},
-                {'Authorization': `Bearer ${accessToken}`},
-                `https://elp-core-api-dev.herokuapp.com/v1/client/branches/${branchId}/products`,
-            );
-
-            localStorage.setItem('storeProductsLookup' , JSON.stringify(products.data.products));
-
-            this.setState({
-                'productList' : products.data.products,
-            });
-
-            console.log(products);
-        }catch (error) {
-            console.log(error)
-        }
+        await this.setState({
+            branchProducts: branchProducts
+        });
+        //this.state.branchProducts = await ;
+        console.log(await new CartService().cartId());
+        console.log(branchProducts);
+        //console.log(await cartQ);
     }
 
     //Steps to select category
@@ -77,9 +54,9 @@ class Sell extends Component {
     getStepContent = step => {
         switch (step) {
             case 0:
-                return <SellView searchHandler={this.searchHandler.bind(this)} productAdd={this.showAddView.bind(this)} products={this.state.productList} spCount={this.state.spCount} salesMade={this.state.salesMade} profitMade={this.state.profitMade} searchBarcode={this.searchBarcode.bind(this)} setView={this.setStepContentView.bind(this)} />;
+                return <SellView branchProducts={this.state.branchProducts} searchHandler={this.searchHandler.bind(this)} productAdd={this.showAddView.bind(this)} spCount={this.state.spCount} salesMade={this.state.salesMade} profitMade={this.state.profitMade} searchBarcode={this.searchBarcode.bind(this)} setView={this.setStepContentView.bind(this)} />;
             case 1:
-                return <AddProductCart setView={this.setStepContentView.bind(this)} product={this.state.currentProduct} spCount={this.state.spCount} salesMade={this.state.salesMade} profitMade={this.state.profitMade}/>;
+                return <AddProductCart addToCart={this.addProductToCartHandler.bind(this)} setView={this.setStepContentView.bind(this)} product={this.state.currentProduct} spCount={this.state.spCount} salesMade={this.state.salesMade} profitMade={this.state.profitMade}/>;
             case 2:
                 return <SavedCart continueSavedCartHandler={this.continueSavedCartHandler.bind(this)} searchSavedCart={this.searchSavedCartHandler.bind(this)} setView={this.setStepContentView.bind(this)} carts={this.state.savedCart} />;
             default:
@@ -91,6 +68,13 @@ class Sell extends Component {
         this.setState({
             activeStep: step
         });
+    };
+
+    /*
+    *Add product to cart
+    * */
+    addProductToCartHandler = (formFields) => {
+        return new CartService().addProductToCart(formFields);
     };
 
     /*
@@ -133,10 +117,10 @@ class Sell extends Component {
 
     /*Add product to cart*/
     showAddView = async (productId , step) => {
-        const old_list = this.state.productList;
+        const old_list = this.state.branchProducts;
 
         //Find index of specific object using findIndex method.
-        const itemIndex = old_list.filter((item => item.id === productId));
+        const itemIndex = old_list.filter((item => item.productId === productId));
 
         //console.log(itemIndex)
         this.setState({
@@ -175,16 +159,13 @@ class Sell extends Component {
     }
 }
 
-const EnhancedDashboard = withDatabase(
+const EnhancedSell = withDatabase(
     withObservables([], ({ database }) => ({
         branchProducts: new BranchService(LocalInfo.branchId).getProducts(),
-        branchProductsNew: new ModelAction('BranchProductStock').index(),
-        branchProductStock: new ModelAction('BranchProductStock').findByColumn({
-            name: 'branchId',
-            value: parseFloat(LocalInfo.branchId),
-            fxn: 'eq'
-        }),
+        cartQuantity: CartService.cartQuantity(),
+        //cartQ: database.collections.get(CartEntry.table).query(Q.where('id', new CartService().cartId())).observe(),
+        //cartQ: database.collections.get(CartEntry.table).find(new CartService().cartId()),
     }))(withRouter(Sell))
 );
 
-export default EnhancedDashboard;
+export default EnhancedSell;

@@ -30,6 +30,8 @@ import ReceiptIcon from '@material-ui/icons/Receipt';
 const SellView = props => {
     const { history } = props;
 
+    const branchProducts = props.branchProducts;
+    console.log(branchProducts)
     const salesMade = props.salesMade;
     const profitMade = props.profitMade;
     const spCount = props.spCount;
@@ -141,7 +143,7 @@ const SellView = props => {
                     style={{backgroundColor: '#F3F3F3'}}
                 >
                     <TabPanel value={value} index={0}>
-                        <SellSearchMode setView={props.setView} searchHandler={props.searchHandler} productAdd={props.productAdd} products={props.products}/>
+                        <SellSearchMode branchProducts={branchProducts} setView={props.setView} searchHandler={props.searchHandler} productAdd={props.productAdd} products={props.products}/>
                     </TabPanel>
                     <TabPanel value={value} index={1} >
                         <BarcodeMode product={props.product} setView={props.setView} searchBarcode={props.searchBarcode}/>

@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import KeyboardBackspaceIcon from '@material-ui/icons/KeyboardBackspace';
 import Typography from "@material-ui/core/Typography";
 import Button from "@material-ui/core/Button";
@@ -13,6 +13,7 @@ import ProductServiceHandler from "../../../../services/ProductServiceHandler";
 import {withRouter} from 'react-router-dom';
 import paths from "../../../../utilities/paths";
 import AddShoppingCartOutlinedIcon from '@material-ui/icons/AddShoppingCartOutlined';
+import BranchProductService from "../../../../services/BranchProductService";
 
 const useStyles = makeStyles(theme => ({
     root: {
@@ -40,34 +41,57 @@ const useStyles = makeStyles(theme => ({
 
 const AddProductCart = props => {
     const { history } = props;
-    const product = props.product[0];
+
+    const branchProduct = props.product[0];
+    const [product , setProduct] = useState('');
+    const [name , setName] = useState('');
+    const [image , setImage] = useState('');
     const classes = useStyles();
     const [btnState,setBtnState] = useState(false);
     const [error , setError] = useState(false);
     const [errorMsg , setErrorMsg] = useState('');
     const [productAdded , setProductAdded] = useState(false);
     const [unitPrice , setUnitPrice] = useState(0);
+    const [quantityProduct , setQuantityProduct] = useState(0);
     const [totalPrice , setTotalPrice] = useState(0);
+    const [sellingPrice , setSellingPrice] = useState(branchProduct.sellingPrice);
+    const [costPrice , setCostPrice] = useState(0);
 
-    const productHandler = new ProductServiceHandler(product);
     const [formFields , setFormFields] = useState({
         quantity: 1,
-        sellingPrice: productHandler.getSellingPrice(),
-        costPrice: productHandler.getCostPrice(),
-        productId: product.id,
-        branchProductId: product.branchProductId,
-        discount: null,
+        sellingPrice: branchProduct.sellingPrice,
+        costPrice: 0,
+        productId: branchProduct.productId,
+        branchProductId: branchProduct.id,
+        discount: 0,
     });
 
-    console.log(productHandler.getCostPrice())
+    useEffect(() => {
+        if (!product) {
+            getProduct();
+        }
+    }, []);
 
-    const [sellingPrice , setSellingPrice] = useState(productHandler.getSellingPrice());
+    const productHandler = new BranchProductService(branchProduct);
+
+    const getProduct = async () => {
+        const newProduct = await branchProduct.product.fetch();
+        setProduct(newProduct);
+        setQuantityProduct(await productHandler.getProductQuantity());
+        setImage(new ProductServiceHandler(product).getProductImage());
+        setName(newProduct.name);
+        setSellingPrice(await productHandler.getSellingPrice());
+        setCostPrice(await productHandler.getCostPrice());
+
+        setInputValue('costPrice' , await productHandler.getCostPrice());
+    };
+
     const [quantity , setQuantity] = useState(1);
 
-    const image = productHandler.getProductImage();
-
     const setInputValue = (name , value) => {
-        setQuantity(value);
+        if(name === 'quantity'){
+            setQuantity(value);
+        }
 
         const {...oldFormFields} = formFields;
 
@@ -77,19 +101,9 @@ const AddProductCart = props => {
     };
 
     const addProduct = async() => {
-        console.log(formFields);
-        await setProductAdded(true);
+        await setInputValue('costPrice' , costPrice);
 
-        setTimeout(function(){
-            setProductAdded(false);
-        }, 3000)
-    };
-
-    const setTotalPriceHandler = event => {
-        setTotalPrice((parseFloat(event.target.value)));
-        const sp = (parseFloat(event.target.value) / quantity);
-
-        if (sp < productHandler.getCostPrice()) {
+        if (sellingPrice * quantity < costPrice * quantity) {
             setErrorMsg('Selling price can not be less than cost price');
             setError(true);
             setTimeout(function(){
@@ -97,10 +111,44 @@ const AddProductCart = props => {
             }, 3000);
             return false;
         }
+
+        const status = props.addToCart(formFields);
+
+        if(status){
+            await setProductAdded(true);
+
+            setTimeout(function(){
+                setProductAdded(false);
+                props.setView(0);
+            }, 3000)
+
+        }else{
+            setErrorMsg('OOPS Something went wrong. Please try again');
+            setError(true);
+            setTimeout(function(){
+                setError(false);
+            }, 3000);
+            return false;
+        }
+    };
+
+    const setTotalPriceHandler = event => {
+        setTotalPrice((parseFloat(event.target.value)));
+        const sp = (parseFloat(event.target.value) / quantity);
+
+        if (sp < costPrice) {
+            setErrorMsg('Selling price can not be less than cost price');
+            setError(true);
+            setTimeout(function(){
+                setError(false);
+            }, 3000);
+            //return false;
+        }
         const discount = (parseFloat(formFields.sellingPrice - sp)).toFixed(2);
         const {...oldFormFields} = formFields;
 
         oldFormFields['discount'] = discount;
+        oldFormFields['sellingPrice'] = sp;
 
         setFormFields(oldFormFields);
         setUnitPrice(sp);
@@ -110,18 +158,19 @@ const AddProductCart = props => {
     const setUnitPriceHandler = event => {
         const sp = (parseFloat(event.target.value));
 
-        if (sp < productHandler.getCostPrice()) {
+        if (sp < costPrice) {
             setErrorMsg('Selling price can not be less than cost price');
             setError(true);
             setTimeout(function(){
                 setError(false);
             }, 3000);
-            return false;
+            //return false;
         }
         const discount = (parseFloat(formFields.sellingPrice - sp)).toFixed(2);
         const {...oldFormFields} = formFields;
 
         oldFormFields['discount'] = discount;
+        oldFormFields['sellingPrice'] = sp;
 
         setFormFields(oldFormFields);
         setUnitPrice(sp);
@@ -165,7 +214,7 @@ const AddProductCart = props => {
                     <div style={{fontSize: '12px'}}>New cart</div>
                 </span>
                 <div className={`w-100 m-2 my-5`}>
-                    <img className={`img-fluid mx-auto w-50 h-75`} src={image} alt={`${productHandler.getProductName()}`}/>
+                    <img className={`img-fluid mx-auto w-50 h-75`} src={image} alt={`${name}`}/>
                 </div>
             </div>
 
@@ -180,7 +229,7 @@ const AddProductCart = props => {
                         style={{fontSize: '18px' , margin: '3px 0px', paddingTop: '5px'}}
                         className={`font-weight-bold text-center text-dark`}
                     >
-                        { productHandler.getProductName() }
+                        { name }
                     </Typography>
 
                     <SellQuantityInput label={`Quantity`} inputName="quantity" max={productHandler.getProductQuantity()} getValue={setInputValue.bind(this)}/>
@@ -196,7 +245,7 @@ const AddProductCart = props => {
                             <span
                                 className={`mx-2`}
                                 style={{fontSize: '18px'}}
-                            >|</span> {`${productHandler.getProductQuantity()} left in stock`}
+                            >|</span> {`${quantityProduct} left in stock`}
                         </span>
                     </div>
 

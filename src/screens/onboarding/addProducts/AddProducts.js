@@ -392,7 +392,7 @@ class AddProducts extends Component{
             branch_stock_id: formFields.branchId,
             id: tempId,
             tempId: tempId,
-            createdAt: new Date(),
+            created_at: (new Date()).getTime(),
         };
 
         formFields = {

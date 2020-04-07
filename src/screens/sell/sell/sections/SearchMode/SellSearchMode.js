@@ -9,6 +9,7 @@ import WarningIcon from "../../../../../components/ClickableIcons/WarningIcon";
 import Typography from "@material-ui/core/Typography/Typography";
 import ProductServiceHandler from "../../../../../services/ProductServiceHandler";
 import SearchInput from "../../../../Components/Input/SearchInput";
+import BranchProductService from "../../../../../services/BranchProductService";
 
 const useStyles = makeStyles(theme => ({
     root: {
@@ -47,9 +48,10 @@ const SellSearchMode = props => {
     const [searchValue , setSearchValue] = useState({
         search: ''
     });
+    const branchProducts = props.branchProducts;
 
     const classes = useStyles();
-    const products = new ProductServiceHandler(props.products).getStoreProducts();
+    //const products = new ProductServiceHandler(props.products).getStoreProducts();
 
     const addProductHandler = (id) => {
         props.productAdd(id , 1);
@@ -102,46 +104,46 @@ const SellSearchMode = props => {
                 </Typography>
 
                 <Grid container spacing={1} className='mt-3'>
-                    {products.map((product) =>
-                        <Grid key={product.id} item xs={4} style={{padding: '4px 8px' , position: 'relative'}} className={`mx-0 px-1`}>
-                            { new ProductServiceHandler(product).getProductQuantity() === null ?
-                                <div
-                                    onClick={removeProductHandler.bind(this , product.id)}
-                                >
-                                    <WarningIcon
-                                        styles={{
-                                            width: '30px',
-                                            height: '30px',
-                                            borderRadius: '50%',
-                                            top: '-2px',
-                                            float: 'right',
-                                            position: 'absolute',
-                                            right: '-2px',
-                                            color: '#DA5959',
-                                        }}
-                                    />
-                                </div>:
-                                <div
-                                    onClick={addProductHandler.bind(this, product.id)}
-                                >
-                                    <AddIcon
-                                        styles={{
-                                            width: '30px',
-                                            height: '30px',
-                                            borderRadius: '50%',
-                                            top: '-2px',
-                                            float: 'right',
-                                            position: 'absolute',
-                                            right: '-2px',
-                                            color: '#DAAB59',
-                                        }}
-                                    />
-                                </div>
-                            }
-                            <ProductCard product={product}>
-                                GHC {new ProductServiceHandler(product).getSellingPrice()}
-                            </ProductCard>
-                        </Grid>
+                    {branchProducts.map((branchProduct) =>
+                    <Grid key={branchProduct.productId} item xs={4} style={{padding: '4px 8px' , position: 'relative'}} className={`mx-0 px-1`}>
+                        { new BranchProductService(branchProduct).isProductSellable() === false ?
+                            <div
+                                onClick={removeProductHandler.bind(this , branchProduct.productId)}
+                            >
+                                <WarningIcon
+                                    styles={{
+                                        width: '30px',
+                                        height: '30px',
+                                        borderRadius: '50%',
+                                        top: '-2px',
+                                        float: 'right',
+                                        position: 'absolute',
+                                        right: '-2px',
+                                        color: '#DA5959',
+                                    }}
+                                />
+                            </div>:
+                            <div
+                                onClick={addProductHandler.bind(this, branchProduct.productId)}
+                            >
+                                <AddIcon
+                                    styles={{
+                                        width: '30px',
+                                        height: '30px',
+                                        borderRadius: '50%',
+                                        top: '-2px',
+                                        float: 'right',
+                                        position: 'absolute',
+                                        right: '-2px',
+                                        color: '#DAAB59',
+                                    }}
+                                />
+                            </div>
+                        }
+                        <ProductCard product={branchProduct.product.fetch()}>
+                             {new BranchProductService(branchProduct).getSellingPrice() ? `GHC ${new BranchProductService(branchProduct).getSellingPrice()}` : `No cost price`}
+                        </ProductCard>
+                    </Grid>
                     )}
                 </Grid>
             </div>

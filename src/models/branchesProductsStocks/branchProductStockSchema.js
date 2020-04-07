@@ -1,7 +1,7 @@
 const branchProductStockSchema = {
   name: 'branches_products_stocks',
   columns: [
-    { name: 'branchProductId', type: 'string' },
+    //{ name: 'branchProductId', type: 'string' },
     { name: 'branchId', type: 'string' },
     { name: 'productId', type: 'string' },
     { name: 'quantity', type: 'number' },

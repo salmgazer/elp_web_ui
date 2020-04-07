@@ -1,5 +1,5 @@
 import { Model } from '@nozbe/watermelondb';
-import { field, date, text, relation} from '@nozbe/watermelondb/decorators';
+import {field, date, text, relation, readonly, children} from '@nozbe/watermelondb/decorators';
 import cartsSchema from './cartsSchema';
 
 export default class Carts extends Model {
@@ -7,7 +7,8 @@ export default class Carts extends Model {
     static deletable = true;
 
     static associations = {
-        cart_entries: { type: 'has_many', key: 'cart_id' },
+        cartEntries: { type: 'has_many', key: 'cartId' },
+        customer: {type: 'belongs_to' , key: 'customerId'},
     };
 
     static displayColumn = 'id';
@@ -18,8 +19,10 @@ export default class Carts extends Model {
     @field('status') status;
     @field('customerId') customerId;
     @field('createdBy') createdBy;
-    @date('created_at') createdAt;
-    @date('updated_at') updatedAt;
+    @children('cartEntries') cart_entries;
+
+    @readonly @date('created_at') createdAt;
+    @readonly @date('updated_at') updatedAt;
 
     static columns = cartsSchema.columns.map(c => c.name);
 

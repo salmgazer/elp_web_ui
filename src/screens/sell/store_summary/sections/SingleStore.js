@@ -28,7 +28,6 @@ const SingleStore = props => {
         purchases: 1,*/
 
     const setBranch = (branchId) => {
-        alert(branchId);
         LocalInfo.setBranchId(branchId)
         history.push(paths.sell);
     };

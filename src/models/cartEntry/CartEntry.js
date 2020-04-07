@@ -7,17 +7,18 @@ export default class CartEntry extends Model {
     static deletable = true;
 
     static associations = {
-        carts: { type: 'belongs_to' , key: 'cart_id'},
-        customers: { type: 'belongs_to' , key: 'customerId'}
+        carts: { type: 'belongs_to' , key: 'cartId'},
+        products: { type: 'belongs_to' , key: 'productId'},
+        branches_products: { type: 'belongs_to' , key: 'branchProductId'},
     };
 
     static displayColumn = 'id';
 
-    static columns = cartEntrySchema.columns.map(c => c.name);
-
-    @relation('customers', 'customerId') customer;
     @relation('carts', 'cart_id') cart;
+    @relation('products', 'productId') product;
+    @relation('branches_products', 'branchProductId') branchProduct;
     @field('branchId') branchId;
+    @field('cartId') cartId;
     @field('branchProductId') branchProductId;
     @field('productId') productId;
     @field('sellingPrice') sellingPrice;
@@ -26,4 +27,6 @@ export default class CartEntry extends Model {
     @field('quantity') quantity;
     @readonly @date('created_at') createdAt;
     @readonly @date('updated_at') updatedAt;
+
+    static columns = cartEntrySchema.columns.map(c => c.name);
 }

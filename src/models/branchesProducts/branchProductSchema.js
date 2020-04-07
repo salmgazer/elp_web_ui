@@ -1,8 +1,8 @@
 const branchProductSchema = {
   name: 'branches_products',
   columns: [
-    { name: 'branchId', type: 'number' },
-    { name: 'productId', type: 'number' },
+    { name: 'branchId', type: 'string' },
+    { name: 'productId', type: 'string' },
     { name: 'lowestStock', type: 'number' },
     { name: 'sellingPrice', type: 'number' },
     { name: 'created_at', type: 'number' },

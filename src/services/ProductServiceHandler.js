@@ -20,7 +20,7 @@ export default class ProductServiceHandler {
     getCostPrice(){
       let mostRecentCostPrice = null;
       this.product.stock.sort(function(stock1,stock2){
-        return new Date(stock2.createdAt) - new Date(stock1.createdAt);
+        return new Date(stock2.created_at) - new Date(stock1.created_at);
       });
       for (let m = this.product.stock.length - 1; m >= 0; m--) {
         if (this.product.stock[m].costPrice) {
@@ -85,5 +85,13 @@ export default class ProductServiceHandler {
     * */
     getStoreProducts(){
         return (this.product).filter((product) => product.owned === true);
+    }
+
+    /*
+    * Return a stores products
+    * @return boolean
+    * */
+    isProductSellable(){
+        return !!(this.getProductQuantity() && this.getCostPrice() && this.getSellingPrice());
     }
 }

@@ -47,8 +47,8 @@ const productHistory = props => {
                     >
                         {`${history.quantity} packs added`}
                     </Typography>
-                    <div>{format(new Date(history.createdAt) , "eeee, MMMM do, yyyy")}</div>
-                    <div>{format(new Date(history.createdAt) , "HH:mm a")}</div>
+                    <div>{format(new Date(history.created_at * 1000) , "eeee, MMMM do, yyyy")}</div>
+                    <div>{format(new Date(history.created_at * 1000) , "HH:mm a")}</div>
                 </Grid>
 
                 <Grid

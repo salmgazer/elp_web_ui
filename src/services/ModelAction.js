@@ -56,13 +56,15 @@ export default class ModelAction {
     * @var
     * @return object
     * */
-    post(columns){
+    async post(columns){
         const dataCollection = this.database.collections.get(this.table);
-
-        this.database.action(async () => {
-            return dataCollection.create(item => {
+        let item = '';
+        await this.database.action(async () => {
+            item = await dataCollection.create(item => {
                 this.columns.map((column) => item[column] = columns[column])
             });
+
+            return item;
         })
     }
 
@@ -71,11 +73,14 @@ export default class ModelAction {
     * @var
     * @return object
     * */
-    update(id , columns){
-        const dataCollection = this.database.collections.get(this.table).find(id);
+    async update(id , columns){
+        const dataCollection = await this.database.collections.get(this.table).find(id);
 
-        this.database.action(async () => {
-            return dataCollection.update(item => {
+        /*let hi = [];
+        hi = this.columns.map((column) => dataCollection[column] = columns[column])
+        console.log(hi)*/
+        await this.database.action(async () => {
+            return await dataCollection.update(item => {
                 this.columns.map((column) => item[column] = columns[column])
             });
         })
@@ -87,7 +92,7 @@ export default class ModelAction {
     * @return object
     * */
     async softDelete(id){
-        const dataCollection = this.database.collections.get(this.table).find(id);
+        const dataCollection = await this.database.collections.get(this.table).find(id);
 
         await this.database.action(async () => {
             await dataCollection.markAsDeleted() // syncable
@@ -100,7 +105,7 @@ export default class ModelAction {
     * @return object
     * */
     async destroy(id){
-        const dataCollection = this.database.collections.get(this.table).find(id);
+        const dataCollection = await this.database.collections.get(this.table).find(id);
 
         await this.database.action(async () => {
             await dataCollection.destroyPermanently() // permanent
@@ -113,7 +118,6 @@ export default class ModelAction {
     queryType(column) {
         switch (column.fxn) {
             case 'eq':
-                console.log(column)
                 return Q.where(column.name , Q.eq(column.value));
             case 'notEq':
                 return Q.where(column.name , Q.notEq(column.value));

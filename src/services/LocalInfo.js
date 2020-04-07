@@ -20,7 +20,8 @@ export default class LocalInfo {
   }
 
   static get userId() {
-    return localStorage.getItem(this.keys.userId);
+    return JSON.parse(localStorage.getItem('userDetails')).userId;
+    //return localStorage.getItem(this.keys.userId);
   }
 
   static get companyId() {
@@ -28,7 +29,6 @@ export default class LocalInfo {
   }
 
   static get companies() {
-    console.log(`CompnayID: ${this.companyId}`)
     return ((JSON.parse(this.userAccess)).access).find(company => company.companyId == this.companyId);
   }
 

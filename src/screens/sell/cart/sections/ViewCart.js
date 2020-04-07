@@ -65,7 +65,7 @@ const useStyles = makeStyles(theme => ({
 const CartView = props => {
     const [mainDialog, setMainDialog] = React.useState(false);
     const [addDialog, setAddDialog] = React.useState(false);
-    const checkUser = React.useState(false);
+    const [checkUser , setCheckUser] = React.useState(false);
     const [user, setUser] = React.useState('Chris Asante');
 
     const handleChange = event => {
@@ -147,7 +147,7 @@ const CartView = props => {
             </Button>
 
             <Box style={{marginTop: '5px' , paddingBottom: '60px'}} p={1} className={`mt-3 mb-5`}>
-                {props.products.map((item) => <AddedProductSingle deleteStoreProduct={deleteProductHandler.bind(this)} key={item.pro_id} item={item}/>)}
+                {props.products.map((item) => <AddedProductSingle deleteStoreProduct={deleteProductHandler.bind(this)} key={item.id} item={item}/>)}
             </Box>
 
             <MainDialog handleDialogClose={closeDialogHandler.bind(this)} states={mainDialog} >

@@ -5,44 +5,40 @@ import CartView from "./sections/ViewCart";
 import {confirmAlert} from "react-confirm-alert";
 import Checkout from "./sections/Checkout";
 import CompleteCart from "./sections/CompleteCart";
+import LocalInfo from "../../../services/LocalInfo";
+import CartService from "../../../services/CartService";
+import Api from "../../../services/Api";
+import {withDatabase} from "@nozbe/watermelondb/DatabaseProvider";
+import withObservables from "@nozbe/with-observables";
+import BranchService from "../../../services/BranchService";
+import Carts from "../../../models/carts/Carts";
+import { Q } from '@nozbe/watermelondb'
+import ModelAction from "../../../services/ModelAction";
+
 
 
 class Cart extends Component{
 
     state={
         isDrawerShow: false,
+        cartId: new CartService().cartId(),
         activeStep: 0,
-        productList: [
-            {
-                "pro_id": "1234",
-                "pro_name": "Bella Vinas Red Wine 5L",
-                "image": "no_image.png",
-                "p_cat_id": "1",
-                "cat_name": "Alcoholic Wine"
-            },
-            {
-                "pro_id": "1233",
-                "pro_name": "Kasapreko 750ml Tonic PB",
-                "image": "no_image.png",
-                "p_cat_id": "1",
-                "cat_name": "Alcoholic Wine"
-            },
-            {
-                "pro_id": "1232",
-                "pro_name": "Pepsi Cola 300ml",
-                "image": "no_image.png",
-                "p_cat_id": "1",
-                "cat_name": "Alcoholic Wine"
-            },
-            {
-                "pro_id": "1231",
-                "pro_name": "Kasapreko 750ml Tonic PB",
-                "image": "no_image.png",
-                "p_cat_id": "1",
-                "cat_name": "Alcoholic Wine"
-            }
-        ]
+        productList: [],
+        cartEntries: this.props.cartEntries,
     };
+
+    async componentDidMount() {
+        const { history, database , cartQuantity , cart , cartEntries} = this.props;
+
+        this.state.cartId = await new CartService().cartId();
+        console.log(await new CartService().cartId());
+        console.log(await cartQuantity);
+        console.log(await cart[0].cart_entries.fetch());
+        this.setState({
+            productList: cartEntries
+        });
+        console.log(cartEntries);
+    }
 
     getStepContent = step => {
         switch (step) {
@@ -63,7 +59,7 @@ class Cart extends Component{
         });
     };
 
-    deleteProduct = (pId , event) => {
+    deleteProduct = async (pId) => {
         console.log(pId);
 
         confirmAlert({
@@ -73,13 +69,10 @@ class Cart extends Component{
                 {
                     label: 'Yes',
                     onClick: () => {
-                        let old_list = [...this.state.productList];
-
-                        const result = old_list.filter(item => item.pro_id !== pId);
-
+                        new ModelAction('CartEntry').softDelete(pId)
                         this.setState({
-                            productList: [...result],
-                        });
+                            productList: this.props.cartEntries
+                        })
                     }
                 },
                 {
@@ -103,4 +96,12 @@ class Cart extends Component{
 
 }
 
-export default withRouter(Cart);
+const EnhancedCart = withDatabase(
+    withObservables([], ({ database }) => ({
+        cartQuantity: CartService.cartQuantity(),
+        cart: database.collections.get('carts').query(Q.where('id' , localStorage.getItem('cartId'))).observe(),
+        cartEntries: database.collections.get('cartEntries').query(Q.where('cartId' , localStorage.getItem('cartId'))).observe(),
+    }))(withRouter(Cart))
+);
+
+export default EnhancedCart;

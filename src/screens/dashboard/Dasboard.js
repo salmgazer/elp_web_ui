@@ -39,6 +39,7 @@ import CompanyService from "../../services/CompanyService";
 import BranchProductStock from "../../models/branchesProductsStocks/BranchProductStock";
 import BranchProductStockHistory from "../../models/branchesProductsStocksHistories/BranchProductStockHistory";
 import { action } from '@nozbe/watermelondb/decorators'
+import CartService from "../../services/CartService";
 
 const useStyles = makeStyles(theme => ({
     root: {
@@ -90,7 +91,7 @@ const Dashboard = props => {
     const username = JSON.parse(localStorage.getItem('userDetails')).firstName;
     console.log(username);
 
-    const { history, branchProducts, branchProductStock, branchProductStockHistory, brands, manufacturers, products, database, customers , sales , carts , cartEntries, companySales } = props;
+    const { history, branchProducts, branchProductStock, branchProductStockHistory, brands, manufacturers, products, database, customers , sales , carts , cartEntries, companySales, testBranch , cartEntriesQ } = props;
     // const database = useDatabase();
 
 
@@ -120,6 +121,7 @@ const Dashboard = props => {
         ]
     ));*/
     console.log('#####################################')
+    console.log(testBranch)
     console.log(branchProducts)
     console.log('#####################################')
     console.log("********************************");
@@ -144,6 +146,7 @@ const Dashboard = props => {
     console.log("********************************");
     console.log(carts);
     console.log(cartEntries);
+    console.log(cartEntriesQ);
     console.log("********************************");
 
 
@@ -292,8 +295,6 @@ const Dashboard = props => {
                             </CardDefault>
                         </BoxDefault>
 
-
-
                         <Box
                             boxShadow={1}
                             bgcolor="background.paper"
@@ -305,6 +306,7 @@ const Dashboard = props => {
                                 style={{'width': '70%','backgroundColor': '#DAAB59' , color: '#403C3C', margin: '4px auto',padding: '8px 5px', fontSize: '17px', fontWeight: '700'}}
                                 className={`${classes.button} capitalization`}
                                 onClick={() => history.push(paths.store_summary)}
+                                //onClick={() => createBrand()}
                             >
                                 Start selling
                             </Button>
@@ -316,14 +318,10 @@ const Dashboard = props => {
     );
 };
 
-
-/*
-* @todo why pass through database again?
-* */
-
 const EnhancedDashboard = withDatabase(
   withObservables([], ({ database }) => ({
     branchProducts: database.collections.get(BranchProduct.table).query(Q.where('branchId', localStorage.getItem('activeBranch'))).observe(),
+    //cartQuantity: database.collections.get(CartEntry.table).query(Q.where('id', new CartService().cartId())).observe(),
     branchProductStock: database.collections.get(BranchProductStock.table).query().observe(),
     branchProductStockHistory: database.collections.get(BranchProductStockHistory.table).query().observe(),
     brands: database.collections.get(Brand.table).query().observe(),
@@ -333,7 +331,13 @@ const EnhancedDashboard = withDatabase(
     sales: database.collections.get(Sales.table).query().observe(),
     carts: database.collections.get(Carts.table).query().observe(),
     cartEntries: new ModelAction('CartEntry').index(),
+    cartEntriesQ: new ModelAction('CartEntry').findById(new CartService().cartId()),
     companySales: CompanyService.sales(),
+    testBranch: new ModelAction('BranchProduct').findByColumn({
+        name: 'branchId',
+        value: LocalInfo.branchId,
+        fxn: 'eq'
+    }),
   }))(withRouter(Dashboard))
 );
 
