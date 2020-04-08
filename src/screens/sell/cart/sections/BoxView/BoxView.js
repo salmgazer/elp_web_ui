@@ -35,6 +35,10 @@ const ViewSingleProduct = props => {
         props.deleteStoreProduct(pId , event);
     };
 
+    const changeQuantityHandler = (cartEntry , event) => {
+        props.changeQuantity(cartEntry , event);
+    };
+
     return(
         <Grid container spacing={1} className={`shadow1 mb-3 borderRadius10 px-3`}>
             <Grid item xs={3}>
@@ -59,7 +63,7 @@ const ViewSingleProduct = props => {
                 </div>
             </Grid>
             <Grid item xs={2} style={{height: '60px', margin: '25px 0px 0px 0px'}}>
-                <input type="number" value={quantity} min="1" style={{width: '50px'}} />
+                <input type="number" defaultValue={quantity} onChange={changeQuantityHandler.bind(this , cartEntry)} min="1" style={{width: '50px'}} />
             </Grid>
             <Grid item xs={2} style={{height: '60px', margin: '20px 0px 0px 0px'}}>                       
                 <DeleteIcon

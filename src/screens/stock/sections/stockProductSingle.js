@@ -9,6 +9,7 @@ import format from 'date-fns/format'
 import LocationProductSingle from "./LocationProductSingle";
 import Box from "@material-ui/core/Box/Box";
 import BottomMenu from "./BottomMenu";
+import Grid from "@material-ui/core/Grid/Grid";
 
 
 const StockProductSingle = props => {
@@ -69,7 +70,7 @@ const StockProductSingle = props => {
                     style={{fontWeight: '300', fontSize: '14px' , margin: '0px 0px', padding: '14px'}}
                     className={`text-center mx-auto text-dark italize`}
                 >
-                    {lastStock ? `Last stock added: ${lastStock.quantity} added on ${format(new Date(lastStock.createdAt) , "dd MMM, yyyy")}` : `No stock added for this product`}
+                    {lastStock ? `Last stock added: ${lastStock.quantity} added on ${format(new Date(lastStock.created_at * 1000) , "dd MMM, yyyy")}` : `No stock added for this product`}
                 </Typography>
 
                 <div className={`rounded bordered mb-3 mx-3 px-3 py-3`} style={{display: 'flex'}}>

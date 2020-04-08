@@ -18,6 +18,9 @@ import Box from "@material-ui/core/Box/Box";
 import AddedProductSingle from "./BoxView/BoxView";
 import MainDialog from "../../../../components/Dialog/MainDialog";
 import { withRouter } from "react-router-dom";
+import paths from "../../../../utilities/paths";
+import RoomIcon from "@material-ui/core/SvgIcon/SvgIcon";
+import CustomersModal from "../../../../components/Modal/Customer/CustomersModal";
 
 const useStyles = makeStyles(theme => ({
     root: {
@@ -68,6 +71,8 @@ const CartView = props => {
     const [checkUser , setCheckUser] = React.useState(false);
     const [user, setUser] = React.useState('Chris Asante');
 
+    //console.log(props.products);
+    //console.log(props.entries);
     const handleChange = event => {
         setUser(event.target.value);
     };
@@ -105,10 +110,14 @@ const CartView = props => {
                         onClick={openDialogHandler.bind(this)}
                     />}
             >
-                <ArrowBackIosIcon
-                    style={{fontSize: '2rem'}}
-                />
-                 
+                <div
+                    onClick={() => props.history.push(paths.sell)}
+                >
+                    <ArrowBackIosIcon
+                        style={{fontSize: '2rem'}}
+                    />
+                </div>
+
             </SectionNavbars>
 
             <Grid container spacing={1}>
@@ -118,7 +127,7 @@ const CartView = props => {
                             QUANTITY
                         </Typography>
                         <Typography variant="h6" component="h2" >
-                            12 items
+                            {`${props.cartTotalProducts} ${props.cart > 1 ? 'items' : 'item'}`}
                         </Typography>
                     </Paper>
                 </Grid>
@@ -129,7 +138,7 @@ const CartView = props => {
                             TOTAL
                         </Typography>
                         <Typography variant="h6" component="h2" >
-                            GHC 70.00
+                            {`GHC ${props.cartTotalAmount}`}
                         </Typography>
                     </Paper>
                 </Grid>
@@ -147,67 +156,35 @@ const CartView = props => {
             </Button>
 
             <Box style={{marginTop: '5px' , paddingBottom: '60px'}} p={1} className={`mt-3 mb-5`}>
-                {props.products.map((item) => <AddedProductSingle deleteStoreProduct={deleteProductHandler.bind(this)} key={item.id} item={item}/>)}
+                {props.products.length === 0
+                    ?
+                    <div className={`rounded mx-1 my-2 p-2 bordered`}>
+                        <Grid container spacing={1} className={`py-1`}>
+                            <Grid
+                                item xs={12}
+                                className={`text-left pl-2`}
+                            >
+                                <Typography
+                                    component="h6"
+                                    variant="h6"
+                                    style={{fontSize: '16px'}}
+                                    className={`text-center text-dark`}
+                                >
+                                    No item in cart
+                                </Typography>
+                            </Grid>
+                        </Grid>
+                    </div>
+                    :
+                    props.products.map((item) => <AddedProductSingle changeQuantity={props.changeQuantity} deleteStoreProduct={deleteProductHandler.bind(this)} key={item.id} item={item}/>)
+                }
             </Box>
 
-            <MainDialog handleDialogClose={closeDialogHandler.bind(this)} states={mainDialog} >
-                <div className="row p-3 pt-0 mx-auto text-center w-100" >
-                   
-                    <Typography
-                        component="h2"
-                        variant="h5"
-                        style={{fontSize: '18px' , paddingBottom: '20px'}}
-                        className={`text-center mb-2 mx-auto w-100 text-dark font-weight-bold`}
-                    >
-                        Assign customer to cart
-                    </Typography>
-
-                    <div className="text-center mx-auto">
-                        
-                        <TextField
-                            id="outlined-select-currency-native"
-                            select
-                            label="Select customer"
-                            value={user}
-                            style={{width: '250px', marginBottom: '15px'}}
-                            onChange={handleChange}
-                            color="#DAAB59"
-                            SelectProps={{
-                                native: true,
-                            }}
-                            variant="outlined"
-                            >
-                            {users.map(option => (
-                                <option key={option.value} value={option.value}>
-                                {option.label}
-                                </option>
-                            ))}
-                        </TextField>
-                    </div>
-
-                    <div className="text-center mx-auto my-3">
-                        <Button
-                            variant="outlined"
-                            style={{border: '1px solid #DAAB59', color: '#DAAB59', padding: '5px 30px', marginBottom: '15px', textTransform: 'none', fontSize:'18px'}}
-                            onClick={openAddDialog.bind(this)}
-                        >
-                            Add new customer
-                        </Button>
-                    </div>
-
-                    <div className="text-center mx-auto my-3">
-                        <Button
-                                variant="outlined"
-                                style={{'backgroundColor': '#DAAB59' , color: '#333333', padding: '7px 58px', textTransform: 'none', fontSize:'17px'}}
-                                onClick={closeDialogHandler.bind(this)}
-                            >
-                                Finish
-                        </Button>
-                    </div>
-
-                </div>
-            </MainDialog>
-
+            <CustomersModal
+                customers={props.customers}
+                openState={mainDialog}
+                handleClose={setMainDialog(false)}
+            />
             <MainDialog handleDialogClose={closeDialogHandler.bind(this)} states={addDialog}>
                 <div className="row p-3 pt-0 mx-auto text-center w-100" >
 

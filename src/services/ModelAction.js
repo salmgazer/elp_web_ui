@@ -22,6 +22,16 @@ export default class ModelAction {
     * @var
     * @return object
     * */
+    findByIdNotObserve(id){
+        const dataCollection = this.database.collections.get(this.table);
+
+        return dataCollection.find(id);
+    }
+
+    /*
+    * @var
+    * @return object
+    * */
     findById(id){
         const dataCollection = this.database.collections.get(this.table);
 
@@ -34,6 +44,14 @@ export default class ModelAction {
         return dataCollection.query(
             this.queryType(column)
         ).observe();
+    }
+
+    findByColumnNotObserve(column){
+        const dataCollection = this.database.collections.get(this.table);
+
+        return dataCollection.query(
+            this.queryType(column)
+        ).fetch();
     }
 
     /*

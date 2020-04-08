@@ -3,6 +3,8 @@ import ModelAction from "./ModelAction";
 import LocalInfo from "./LocalInfo";
 import { Q } from '@nozbe/watermelondb'
 import CartEntry from "../models/cartEntry/CartEntry";
+import BranchProductService from "./BranchProductService";
+import {v4 as uuid} from 'uuid';
 
 export default class CartService {
     async cartId() {
@@ -15,6 +17,7 @@ export default class CartService {
                     cart.branchId = LocalInfo.branchId;
                     cart.status = 'active';
                     cart.createdBy = LocalInfo.userId;
+                    cart.id = uuid()
                 });
 
                 await database.adapter.setLocal("cartId" , await newCart.id);
@@ -34,16 +37,74 @@ export default class CartService {
         return await quantity;
     }
 
-    getCartProducts(){
-        this.cartId();
-        const cartId = localStorage.getItem('cartId');
-        const cartCollection = database.collections.get(CartEntry.table);
+    async getCartProducts(){
+        const cartId = await new CartService().cartId();
 
-        //return cartCollection.find(cartId);
+        try {
+            let cartCollection = new ModelAction('CartEntry').findByColumnNotObserve({
+                name: 'cartId',
+                value: cartId,
+                fxn: 'eq'
+            });
+            cartCollection = await cartCollection;
+
+            return cartCollection;
+        }catch (e) {
+            return e;
+        }
     }
 
+    /*
+    *
+    * Get cart individual items total
+    * */
     getCartEntryTotal(product){
-        return ((product.sellingPrice * product.quantity) - product.discount).toFixed(2);
+        return parseFloat(((product.sellingPrice * product.quantity) - product.discount)).toFixed(2);
+    }
+
+    /*
+    * Get cart total amount
+    * */
+    static async getCartEntryAmount(){
+        return ((await new CartService().getCartProducts())).reduce((a, b) => parseFloat(a) + parseFloat(new CartService().getCartEntryTotal(b) || 0), 0).toFixed(2);
+    }
+
+    /*
+    * @var cartEntry
+    * @var new quantity
+    * @return new cartEntry
+    * */
+    async updateCartEntryDetails(cartEntry , quantity){
+        //1. Check if quantity of product is valid
+        //2. Update quantity of entry
+        const branchProduct = await cartEntry.branchProduct.fetch();
+        let branchProductQuantity = new BranchProductService(branchProduct).getProductQuantity();
+        branchProductQuantity = await branchProductQuantity;
+        if(branchProductQuantity >= quantity){
+            console.log(quantity);
+            try {
+                new ModelAction('CartEntry').update(cartEntry.id , {
+                    cartId: cartEntry.cartId,
+                    branchId: cartEntry.branchId,
+                    productId: cartEntry.productId,
+                    branchProductId: cartEntry.branchProductId,
+                    sellingPrice: cartEntry.sellingPrice,
+                    costPrice: cartEntry.costPrice,
+                    discount: cartEntry.discount,
+                    quantity: parseFloat(quantity),
+                });
+
+                return true;
+            } catch (e) {
+                return false;
+            }
+        }else{
+            return false
+        }
+    }
+
+    static async getCartProductQuantity(){
+        return ((await new CartService().getCartProducts())).reduce((a, b) => a + (b['quantity'] || 0), 0);
     }
 
     async addProductToCart(data) {
@@ -87,6 +148,7 @@ export default class CartService {
             costPrice: data.costPrice,
             discount: data.discount,
             quantity: data.quantity,
+            id: uuid(),
         };
 
         try {

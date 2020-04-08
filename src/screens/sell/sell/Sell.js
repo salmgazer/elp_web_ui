@@ -38,12 +38,19 @@ class Sell extends Component {
         const { history, database , branchProducts , cartQuantity } = this.props;
 
         await this.setState({
-            branchProducts: branchProducts
+            branchProducts: branchProducts,
+            spCount: cartQuantity
         });
-        //this.state.branchProducts = await ;
-        console.log(await new CartService().cartId());
-        console.log(branchProducts);
-        //console.log(await cartQ);
+    }
+
+    async componentDidUpdate(prevProps) {
+        const { history, database , branchProducts , cartQuantity } = this.props;
+
+        if(this.props.cartQuantity !== prevProps.cartQuantity){
+            this.setState({
+                spCount: cartQuantity
+            });
+        }
     }
 
     //Steps to select category
@@ -54,7 +61,7 @@ class Sell extends Component {
     getStepContent = step => {
         switch (step) {
             case 0:
-                return <SellView branchProducts={this.state.branchProducts} searchHandler={this.searchHandler.bind(this)} productAdd={this.showAddView.bind(this)} spCount={this.state.spCount} salesMade={this.state.salesMade} profitMade={this.state.profitMade} searchBarcode={this.searchBarcode.bind(this)} setView={this.setStepContentView.bind(this)} />;
+                return <SellView  branchProducts={this.state.branchProducts} searchHandler={this.searchHandler.bind(this)} productAdd={this.showAddView.bind(this)} spCount={this.state.spCount} salesMade={this.state.salesMade} profitMade={this.state.profitMade} searchBarcode={this.searchBarcode.bind(this)} setView={this.setStepContentView.bind(this)} />;
             case 1:
                 return <AddProductCart addToCart={this.addProductToCartHandler.bind(this)} setView={this.setStepContentView.bind(this)} product={this.state.currentProduct} spCount={this.state.spCount} salesMade={this.state.salesMade} profitMade={this.state.profitMade}/>;
             case 2:
@@ -101,18 +108,15 @@ class Sell extends Component {
     * */
     searchHandler = (search) => {
         /*
-        * @todo
-        * Work on fetching data from source
+        * @todo make sure it works...
         * */
-        let storeProducts = JSON.parse(localStorage.getItem('storeProductsLookup'));
-
-        const searchResults = storeProducts.filter(function(item) {
-            return ((item.name).toLowerCase().indexOf(search.toLowerCase()) !== -1 && item.owned === true)
-        });
-
-        this.setState({
-            productList: searchResults
-        });
+        try {
+            this.setState({
+                productList: new BranchService().searchBranchProduct(search)
+            });
+        }catch (e) {
+            return false
+        }
     };
 
     /*Add product to cart*/
@@ -160,9 +164,9 @@ class Sell extends Component {
 }
 
 const EnhancedSell = withDatabase(
-    withObservables([], ({ database }) => ({
+    withObservables(['branchProducts'], ({ branchProducts , database }) => ({
         branchProducts: new BranchService(LocalInfo.branchId).getProducts(),
-        cartQuantity: CartService.cartQuantity(),
+        cartQuantity: database.collections.get('cartEntries').query(Q.where('cartId' , localStorage.getItem('cartId'))).observeCount(),
         //cartQ: database.collections.get(CartEntry.table).query(Q.where('id', new CartService().cartId())).observe(),
         //cartQ: database.collections.get(CartEntry.table).find(new CartService().cartId()),
     }))(withRouter(Sell))

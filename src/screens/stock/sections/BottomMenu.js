@@ -26,6 +26,7 @@ const BottomMenu = props => {
                     component="h6"
                     variant="h6"
                     style={{fontSize: '12px'}}
+                    onClick={() => setView(5)}
                 >
                     Add stock
                 </Typography>
@@ -42,6 +43,7 @@ const BottomMenu = props => {
                     component="h6"
                     variant="h6"
                     style={{fontSize: '12px'}}
+                    onClick={() => setView(6)}
                 >
                     Move stock
                 </Typography>

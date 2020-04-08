@@ -40,6 +40,7 @@ import BranchProductStock from "../../models/branchesProductsStocks/BranchProduc
 import BranchProductStockHistory from "../../models/branchesProductsStocksHistories/BranchProductStockHistory";
 import { action } from '@nozbe/watermelondb/decorators'
 import CartService from "../../services/CartService";
+import {v4 as uuid} from 'uuid';
 
 const useStyles = makeStyles(theme => ({
     root: {
@@ -97,13 +98,14 @@ const Dashboard = props => {
 
     const createBrand = async() => {
         const columns = {
-            name: 'Maner',
+            id: uuid(),
+            name: 'Mane',
             location: 'Mallam',
-            phone: '0241441749',
+            phone: '0241441748',
             createdAt: Date.now(),
             updatedAt: Date.now(),
         };
-        const mew = await new ModelAction('Brand').post(columns);
+        const mew = await new ModelAction('Customer').post(columns);
 
         console.log("********************************");
         console.log(new ModelAction('Brand').index())
@@ -111,15 +113,6 @@ const Dashboard = props => {
         console.log("**************************");
     }
 
-   /* console.log(new ModelAction('Product').findByColumns(
-        [
-            {
-                name: "barcode",
-                value: "6928001828376",
-                fxn: "notEq"
-            }
-        ]
-    ));*/
     console.log('#####################################')
     console.log(testBranch)
     console.log(branchProducts)
@@ -146,7 +139,7 @@ const Dashboard = props => {
     console.log("********************************");
     console.log(carts);
     console.log(cartEntries);
-    console.log(cartEntriesQ);
+    //console.log(cartEntriesQ);
     console.log("********************************");
 
 
@@ -162,41 +155,27 @@ const Dashboard = props => {
     };*/
   const createCustomer = async () => {
     //const customersCollection = database.collections.get(Customer.table);
-    const brandsCollection = database.collections.get(Sales.table);
+    //const brandsCollection = database.collections.get(Sales.table);
     //const salesCollection = database.collections.get(Sales.table);
-    //const customerToCreate = { name: "That guy", location: "Oyibi", phone: "0543344100", createdAt: Date.now(), updatedAt: Date.now() };
-    const salesToCreate = { note: "That guy", type: "sale", paymentStatus: "part", customerId: 'wqkvpgojy0u9r6nk', branchId: LocalInfo.branchId, receiptNumber: 'asdadsad' , createdBy: LocalInfo.userId ,createdAt: Date.now(), updatedAt: Date.now() };
+    const customerToCreate = { id: uuid(), name: "That guy", location: "Oyibi", phone: "0543344100", createdAt: Date.now(), updatedAt: Date.now() };
+    //const salesToCreate = { note: "That guy", type: "sale", paymentStatus: "part", customerId: 'wqkvpgojy0u9r6nk', branchId: LocalInfo.branchId, receiptNumber: 'asdadsad' , createdBy: LocalInfo.userId ,createdAt: Date.now(), updatedAt: Date.now() };
     database.action(async () => {
-      /*const existingBrand = await salesToCreate
-        .query(Q.where("receiptNumber", salesToCreate.receiptNumber))
-        .fetch();
-      if (existingBrand[0]) {
-        alert(`The brand ${salesToCreate.receiptNumber} already exists`);
-        return;
-      }*/
-        /*const newCustomer = await customersCollection.create(brand => {
-            brand.name = customerToCreate.name;
-            brand.location = customerToCreate.location;
-            brand.phone = customerToCreate.phone;
-            brand.createdAt = customerToCreate.createdAt;
-            brand.updatedAt = customerToCreate.updatedAt;
-        });*/
-      const customer = await database.collections.get(Customer.table).find(customers[0].id);
-      const newBrand = await brandsCollection.create(brand => {
-        brand.note = salesToCreate.note;
-        brand.type = salesToCreate.type;
-        brand.paymentStatus = salesToCreate.paymentStatus;
+      const brand = await database.collections.get(Customer.table);
+      const newBrand = await customerToCreate.create(brand => {
+        brand.name = customerToCreate.name;
+        brand.id = customerToCreate.id;
+        brand.location = customerToCreate.paymentStatus;
         //brand.customerId = customer;
-        brand.customer.set(customer);
-        brand.branchId = salesToCreate.branchId;
+        //brand.phone.set(customer);
+        brand.phone = customerToCreate.phone;
         //brand.customerId = salesToCreate.customerId;
-        brand.receiptNumber = salesToCreate.receiptNumber;
-        brand.createdBy = salesToCreate.createdBy;
-        brand.createdAt = salesToCreate.createdAt;
-        brand.updatedAt = salesToCreate.updatedAt;
+        //brand.receiptNumber = salesToCreate.receiptNumber;
+        //brand.createdBy = customerToCreate.createdBy;
+        brand.createdAt = customerToCreate.createdAt;
+        brand.updatedAt = customerToCreate.updatedAt;
       });
       //alert(`Successfully created the customer ${newCustomer.name}`);
-      alert(`Successfully created the sales ${newBrand.receiptNumber}`);
+      alert(`Successfully created the sales ${newBrand.id}`);
     });
   };
 
@@ -331,7 +310,7 @@ const EnhancedDashboard = withDatabase(
     sales: database.collections.get(Sales.table).query().observe(),
     carts: database.collections.get(Carts.table).query().observe(),
     cartEntries: new ModelAction('CartEntry').index(),
-    cartEntriesQ: new ModelAction('CartEntry').findById(new CartService().cartId()),
+    //cartEntriesQ: new ModelAction('CartEntry').findById(new CartService().cartId()),
     companySales: CompanyService.sales(),
     testBranch: new ModelAction('BranchProduct').findByColumn({
         name: 'branchId',

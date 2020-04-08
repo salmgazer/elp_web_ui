@@ -14,6 +14,7 @@ import BranchService from "../../../services/BranchService";
 import Carts from "../../../models/carts/Carts";
 import { Q } from '@nozbe/watermelondb'
 import ModelAction from "../../../services/ModelAction";
+import Customer from "../../../models/customers/Customer";
 
 
 
@@ -24,26 +25,53 @@ class Cart extends Component{
         cartId: new CartService().cartId(),
         activeStep: 0,
         productList: [],
+        cartTotalProduct: 0,
+        cartTotalAmount: 0,
         cartEntries: this.props.cartEntries,
+        customers: []
     };
 
     async componentDidMount() {
-        const { history, database , cartQuantity , cart , cartEntries} = this.props;
+        const { history, database , cartQuantity , cart , cartEntries , customers} = this.props;
 
         this.state.cartId = await new CartService().cartId();
-        console.log(await new CartService().cartId());
+        //console.log(await new CartService().cartId());
         console.log(await cartQuantity);
-        console.log(await cart[0].cart_entries.fetch());
+        console.log(this.state.cartTotalProduct);
+        //console.log(await cart[0].cart_entries.fetch());
         this.setState({
-            productList: cartEntries
+            productList: cartEntries,
+            cartTotalProduct: await CartService.getCartProductQuantity(),
+            cartTotalAmount: await CartService.getCartEntryAmount(),
+            customers: customers
         });
+    }
+
+    async componentDidUpdate(prevProps) {
+        const { history, database , cartQuantity , cart , cartEntries , customers} = this.props;
+
         console.log(cartEntries);
+        //this.state.cartId = await new CartService().cartId();
+        //console.log(await new CartService().cartId());
+        //console.log(await cartQuantity);
+        //console.log(await cart[0].cart_entries.fetch());
+        console.log(this.state.cartTotalProduct);
+        console.log(await CartService.getCartProductQuantity());
+
+        if(this.props.cartEntries !== prevProps.cartEntries || this.state.cartTotalProduct !== await CartService.getCartProductQuantity()){
+            this.setState({
+                productList: this.props.cartEntries,
+                cartTotalProduct: await CartService.getCartProductQuantity(),
+                cartTotalAmount: await CartService.getCartEntryAmount(),
+                customers: customers
+            });
+        }
     }
 
     getStepContent = step => {
         switch (step) {
             case 0:
-                return <CartView setView={this.setStepContentView.bind(this)} products={this.state.productList} deleteProduct={this.deleteProduct.bind(this)} />;
+                return <CartView customers={this.state.customers} cartTotalAmount={this.state.cartTotalAmount} cartTotalProducts={this.state.cartTotalProduct} changeQuantity={this.changeProductQuantityHandler.bind(this)} entries={this.state.cartEntries} setView={this.setStepContentView.bind(this)} products={this.state.productList} deleteProduct={this.deleteProduct.bind(this)} />;
             case 1:
                 return <Checkout setView={this.setStepContentView.bind(this)} />;
             case 2:
@@ -60,19 +88,14 @@ class Cart extends Component{
     };
 
     deleteProduct = async (pId) => {
-        console.log(pId);
-
-        confirmAlert({
+        await confirmAlert({
             title: 'Confirm to delete',
             message: 'Are you sure you want to delete this product.',
             buttons: [
                 {
                     label: 'Yes',
                     onClick: () => {
-                        new ModelAction('CartEntry').softDelete(pId)
-                        this.setState({
-                            productList: this.props.cartEntries
-                        })
+                        new ModelAction('CartEntry').destroy(pId);
                     }
                 },
                 {
@@ -84,6 +107,21 @@ class Cart extends Component{
             ]
         })
     };
+
+    async changeProductQuantityHandler(cartEntry , event){
+        try {
+            let status = new CartService().updateCartEntryDetails(cartEntry , event.target.value);
+            status = await status;
+
+            if(status){
+                return true;
+            }
+            alert('Invalid quantity');
+            return false;
+        }catch (e) {
+            return false;
+        }
+    }
 
     render(){
         return(
@@ -97,9 +135,10 @@ class Cart extends Component{
 }
 
 const EnhancedCart = withDatabase(
-    withObservables([], ({ database }) => ({
+    withObservables(['cartEntries'], ({ database , cartEntries }) => ({
         cartQuantity: CartService.cartQuantity(),
         cart: database.collections.get('carts').query(Q.where('id' , localStorage.getItem('cartId'))).observe(),
+        customers: database.collections.get(Customer.table).query().observe(),
         cartEntries: database.collections.get('cartEntries').query(Q.where('cartId' , localStorage.getItem('cartId'))).observe(),
     }))(withRouter(Cart))
 );
