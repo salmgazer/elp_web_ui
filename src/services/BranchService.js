@@ -19,6 +19,17 @@ export default class BranchService {
     }
 
     /*
+    * Get a branches customers
+    * */
+    getCustomers() {
+        return new ModelAction('BranchCustomer').findByColumnNotObserve({
+            name: 'branchId',
+            value: this.branchId,
+            fxn: 'eq'
+        });
+    }
+
+    /*
     * Search for a branch product
     * */
     async searchBranchProduct(searchValue) {

@@ -3,15 +3,20 @@ import TextField from "@material-ui/core/TextField/TextField";
 import Button from "@material-ui/core/Button/Button";
 import MainDialog from "../../Dialog/MainDialog";
 import React from "react";
+import CustomerOption from "../option/CustomerOption";
 
 const CustomersModal = props => {
     const customers = props.customers;
     const openState = props.openState;
 
-    const [selectedCustomer , setSelectedCustomer] = React.useState(customers[0]);
+    console.log(customers);
 
-    const changeCustomerHandler = () => {
-        props.setCustomer(selectedCustomer)
+    const [selectedCustomer , setSelectedCustomer] = React.useState(0);
+
+    const changeCustomerHandler = (event) => {
+        setSelectedCustomer(event.target.value);
+        console.log(event.target.value)
+        props.setCustomer(event.target.value);
     };
 
     return (
@@ -31,23 +36,20 @@ const CustomersModal = props => {
                     <div className="text-center mx-auto">
 
                         <TextField
-                            id="outlined-select-currency-native"
                             select
                             label="Select customer"
-                            defaultValue={customers[0].id}
+                            defaultValue={selectedCustomer}
                             style={{width: '250px', marginBottom: '15px'}}
-                            onChange={() => changeCustomerHandler.bind(this)}
-                            color="#DAAB59"
+                            onChange={changeCustomerHandler.bind(this)}
                             SelectProps={{
                                 native: true,
                             }}
                             variant="outlined"
                         >
-                            {customers.map(option => (
-                                <option key={option.id} value={option.id}>
-                                    {option.name}
-                                </option>
-                            ))}
+                            <option value={0}>Cash Customer</option>
+                            {customers.map(option =>
+                                <CustomerOption key={option.id} customer={option}/>
+                            )}
                         </TextField>
                     </div>
 
@@ -55,7 +57,7 @@ const CustomersModal = props => {
                         <Button
                             variant="outlined"
                             style={{border: '1px solid #DAAB59', color: '#DAAB59', padding: '5px 30px', marginBottom: '15px', textTransform: 'none', fontSize:'18px'}}
-                            //onClick={openAddDialog.bind(this)}
+                            onClick={props.openAddCustomerModal}
                         >
                             Add new customer
                         </Button>

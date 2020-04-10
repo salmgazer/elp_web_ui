@@ -1,26 +1,20 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import { makeStyles } from '@material-ui/core/styles';
-import MenuIcon from '@material-ui/icons/Menu';
 import AddShoppingCartIcon from '@material-ui/icons/AddShoppingCart';
 import ArrowBackIosIcon from '@material-ui/icons/ArrowBackIos';
 import SectionNavbars from "../../../../components/Sections/SectionNavbars";
 import Paper from '@material-ui/core/Paper';
-import InputAdornment from '@material-ui/core/InputAdornment';
-import PersonIcon from '@material-ui/icons/Person';
-import CallIcon from '@material-ui/icons/Call';
-import LocationOnIcon from '@material-ui/icons/LocationOn';
-import TextField from '@material-ui/core/TextField';
 import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
 import Button from "@material-ui/core/Button/Button";
 import PersonAddIcon from '@material-ui/icons/PersonAdd';
 import Box from "@material-ui/core/Box/Box";
 import AddedProductSingle from "./BoxView/BoxView";
-import MainDialog from "../../../../components/Dialog/MainDialog";
 import { withRouter } from "react-router-dom";
 import paths from "../../../../utilities/paths";
-import RoomIcon from "@material-ui/core/SvgIcon/SvgIcon";
 import CustomersModal from "../../../../components/Modal/Customer/CustomersModal";
+import AddCustomerModal from "../../../../components/Modal/Customer/AddCustomerModal";
+import CustomerService from "../../../../services/CustomerService";
 
 const useStyles = makeStyles(theme => ({
     root: {
@@ -46,33 +40,41 @@ const useStyles = makeStyles(theme => ({
     }
   }));
 
-  const users = [
-    {
-      value: 'USD',
-      label: 'Chris Asante',
-    },
-    {
-      value: 'EUR',
-      label: 'Pearl Gemegah',
-    },
-    {
-      value: 'BTC',
-      label: 'Joshua Odoi',
-    },
-    {
-      value: 'JPY',
-      label: 'Fred Yeboah',
-    },
-  ];
-
 const CartView = props => {
     const [mainDialog, setMainDialog] = React.useState(false);
     const [addDialog, setAddDialog] = React.useState(false);
     const [checkUser , setCheckUser] = React.useState(false);
-    const [user, setUser] = React.useState('Chris Asante');
+    const [user , setUser] = React.useState(false);
+    const [customerName, setCustomerName] = React.useState('Assign customer');
 
-    //console.log(props.products);
-    //console.log(props.entries);
+    console.log(props.customers);
+
+    useEffect(() => {
+        // You need to restrict it at some point
+        // This is just dummy code and should be replaced by actual
+        if (!customerName) {
+            getCustomerName();
+        }
+    }, []);
+
+    const getCustomerName = async () => {
+        console.log(props.currentCustomer);
+
+        if(await props.currentCustomer === 0){
+            setCustomerName('Assign customer');
+            return false;
+        }
+        const customers = await props.customers;
+        const currentCustomer = customers.filter((customer) => customer.customerId === props.currentCustomer)[0];
+
+        const newCustomer = await new CustomerService().getCustomerName(currentCustomer);
+        //const newCustomer =
+        await setCustomerName(newCustomer);
+    };
+
+    //const customerName = props.currentCustomer === 0 ? 'Assign customer' : new CustomerService().getCustomerName((props.customers.filter(customer => customer.customerId === props.currentCustomer))[0]);
+
+
     const handleChange = event => {
         setUser(event.target.value);
     };
@@ -98,6 +100,17 @@ const CartView = props => {
 
     const openCheckoutHandler = (event) => {
         props.setView(1);
+    };
+
+    const setCustomerHandler = (customer) => {
+        props.setCustomerHandler(customer);
+    };
+
+    const setAddCustomerHandler = async() => {
+        const lastCustomer = await new CustomerService().getLastCustomer();
+        props.setCustomerHandler(lastCustomer.id);
+        setAddDialog(false);
+        setMainDialog(false);
     };
 
     return(
@@ -151,8 +164,8 @@ const CartView = props => {
                 className={classes.button}
                 onClick={openDialogHandler.bind(this)}
             >
-                <PersonAddIcon />
-                &nbsp; Assign customer
+                {props.currentCustomer === 0 ? <PersonAddIcon /> : ''}
+                {customerName}
             </Button>
 
             <Box style={{marginTop: '5px' , paddingBottom: '60px'}} p={1} className={`mt-3 mb-5`}>
@@ -183,79 +196,39 @@ const CartView = props => {
             <CustomersModal
                 customers={props.customers}
                 openState={mainDialog}
-                handleClose={setMainDialog(false)}
+                setCustomer={setCustomerHandler.bind(this)}
+                handleClose={() => setMainDialog(false)}
+                openAddCustomerModal={openAddDialog.bind(this)}
             />
-            <MainDialog handleDialogClose={closeDialogHandler.bind(this)} states={addDialog}>
-                <div className="row p-3 pt-0 mx-auto text-center w-100" >
 
-                    <Typography
-                        component="h2"
-                        variant="h5"
-                        style={{fontSize: '18px' , paddingBottom: '20px'}}
-                        className={`text-center mb-2 mx-auto w-100 text-dark font-weight-bold`}
-                    >
-                        Add new customer
-                    </Typography>
+            <AddCustomerModal
+                openCustomerAddState={addDialog}
+                setCustomer={setAddCustomerHandler.bind(this)}
+                handleClose={() => setAddDialog(false)}
+            />
 
-                    <div className="text-center mx-auto">
-                        <TextField
-                            id="input-with-icon-textfield"
-                            label="Name"
-                            variant="outlined"
-                            InputProps={{
-                            startAdornment: (
-                                <InputAdornment position="start">
-                                <PersonIcon style={{color: '#DAAB59'}} />
-                                </InputAdornment>
-                            ),
-                            }}
-                        />
-                    </div>
-
-                    <div className="text-center mx-auto my-3">
-                    <TextField
-                        type="number"
-                        variant="outlined"
-                        id="input-with-icon-textfield"
-                        label="Contact"
-                        InputProps={{
-                        startAdornment: (
-                            <InputAdornment position="start">
-                            <CallIcon style={{color: '#DAAB59'}} />
-                            </InputAdornment>
-                        ),
-                        }}
-                    />
-                    </div>
-
-                    <div className="text-center mx-auto my-3">
-                        <TextField
-                            id="input-with-icon-textfield"
-                            label="Location"
-                            variant="outlined"
-                            InputProps={{
-                            startAdornment: (
-                                <InputAdornment position="start">
-                                <LocationOnIcon style={{color: '#DAAB59'}} />
-                                </InputAdornment>
-                            ),
-                            }}
-                        />
-                    </div>
-
-                    <div className="text-center mx-auto my-3">
-                        <Button
-                                variant="outlined"
-                                style={{'backgroundColor': '#DAAB59' , color: '#333333', padding: '7px 58px', textTransform: 'none', fontSize:'17px'}}
-                                onClick={closeDialogHandler.bind(this)}
-                            >
-                                Finish
-                        </Button>
-                    </div>
-
+            {/*<Box
+                className="shadow1"
+                bgcolor="background.paper"
+                p={1}
+                style={{ height: '2.5rem', position: "fixed", bottom:"0", width:"100%", display: 'flex', alignContent: 'center' }}
+            >
+                <div
+                    onClick={() => props.history.push(paths.sell)}
+                >
+                    <PrimaryButton>
+                        Add product
+                    </PrimaryButton>
                 </div>
-            </MainDialog>
 
+                <div
+                    onClick={openCheckoutHandler.bind(this)}
+                >
+                    <SecondaryButton>
+                        Checkout
+                    </SecondaryButton>
+                </div>
+            </Box>*/}
 
             <Box
                 className="shadow1"
@@ -265,9 +238,10 @@ const CartView = props => {
             >
                 <Button
                     variant="outlined"
+                    onClick={() => props.history.push(paths.sell)}
                     style={{border: '1px solid #DAAB59', color: '#333333', padding: '5px 30px', marginRight: '10px', textTransform: 'none', fontSize:'17px'}}
                 >
-                    Add product   
+                    Add product
                 </Button>
                 <Button
                     variant="contained"

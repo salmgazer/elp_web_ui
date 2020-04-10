@@ -41,6 +41,7 @@ import BranchProductStockHistory from "../../models/branchesProductsStocksHistor
 import { action } from '@nozbe/watermelondb/decorators'
 import CartService from "../../services/CartService";
 import {v4 as uuid} from 'uuid';
+import BranchCustomer from "../../models/branchesCustomer/BranchCustomer";
 
 const useStyles = makeStyles(theme => ({
     root: {
@@ -92,7 +93,7 @@ const Dashboard = props => {
     const username = JSON.parse(localStorage.getItem('userDetails')).firstName;
     console.log(username);
 
-    const { history, branchProducts, branchProductStock, branchProductStockHistory, brands, manufacturers, products, database, customers , sales , carts , cartEntries, companySales, testBranch , cartEntriesQ } = props;
+    const { history, branchProducts, branchProductStock, branchProductStockHistory, brands, manufacturers, products, database, customers, branchCustomers , sales , carts , cartEntries, companySales, testBranch , cartEntriesQ } = props;
     // const database = useDatabase();
 
 
@@ -135,6 +136,7 @@ const Dashboard = props => {
     console.log(manufacturers);
 
     console.log(customers);
+    console.log(branchCustomers);
     console.log(sales);
     console.log("********************************");
     console.log(carts);
@@ -154,23 +156,14 @@ const Dashboard = props => {
 
     };*/
   const createCustomer = async () => {
-    //const customersCollection = database.collections.get(Customer.table);
-    //const brandsCollection = database.collections.get(Sales.table);
-    //const salesCollection = database.collections.get(Sales.table);
-    const customerToCreate = { id: uuid(), name: "That guy", location: "Oyibi", phone: "0543344100", createdAt: Date.now(), updatedAt: Date.now() };
-    //const salesToCreate = { note: "That guy", type: "sale", paymentStatus: "part", customerId: 'wqkvpgojy0u9r6nk', branchId: LocalInfo.branchId, receiptNumber: 'asdadsad' , createdBy: LocalInfo.userId ,createdAt: Date.now(), updatedAt: Date.now() };
+    const customerToCreate = { id: uuid(), name: "New guy", location: "Oyibi", phone: "0543344100", createdAt: Date.now(), updatedAt: Date.now() };
     database.action(async () => {
-      const brand = await database.collections.get(Customer.table);
-      const newBrand = await customerToCreate.create(brand => {
+      const customerCollection = await database.collections.get(Customer.table);
+      const newBrand = customerCollection.create(brand => {
         brand.name = customerToCreate.name;
-        brand.id = customerToCreate.id;
+        brand._raw.id = customerToCreate.id;
         brand.location = customerToCreate.paymentStatus;
-        //brand.customerId = customer;
-        //brand.phone.set(customer);
         brand.phone = customerToCreate.phone;
-        //brand.customerId = salesToCreate.customerId;
-        //brand.receiptNumber = salesToCreate.receiptNumber;
-        //brand.createdBy = customerToCreate.createdBy;
         brand.createdAt = customerToCreate.createdAt;
         brand.updatedAt = customerToCreate.updatedAt;
       });
@@ -285,7 +278,7 @@ const Dashboard = props => {
                                 style={{'width': '70%','backgroundColor': '#DAAB59' , color: '#403C3C', margin: '4px auto',padding: '8px 5px', fontSize: '17px', fontWeight: '700'}}
                                 className={`${classes.button} capitalization`}
                                 onClick={() => history.push(paths.store_summary)}
-                                //onClick={() => createBrand()}
+                                //onClick={() => createCustomer()}
                             >
                                 Start selling
                             </Button>
@@ -317,6 +310,8 @@ const EnhancedDashboard = withDatabase(
         value: LocalInfo.branchId,
         fxn: 'eq'
     }),
+    branchCustomers: database.collections.get(BranchCustomer.table).query().observe(),
+
   }))(withRouter(Dashboard))
 );
 

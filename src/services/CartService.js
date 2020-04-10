@@ -5,6 +5,7 @@ import { Q } from '@nozbe/watermelondb'
 import CartEntry from "../models/cartEntry/CartEntry";
 import BranchProductService from "./BranchProductService";
 import {v4 as uuid} from 'uuid';
+import Carts from "../models/carts/Carts";
 
 export default class CartService {
     async cartId() {
@@ -17,7 +18,7 @@ export default class CartService {
                     cart.branchId = LocalInfo.branchId;
                     cart.status = 'active';
                     cart.createdBy = LocalInfo.userId;
-                    cart.id = uuid()
+                    cart._raw.id = uuid()
                 });
 
                 await database.adapter.setLocal("cartId" , await newCart.id);
@@ -148,7 +149,6 @@ export default class CartService {
             costPrice: data.costPrice,
             discount: data.discount,
             quantity: data.quantity,
-            id: uuid(),
         };
 
         try {
@@ -156,6 +156,33 @@ export default class CartService {
 
             return true;
         } catch (e) {
+            return false;
+        }
+    }
+
+    /*
+    * Suspend a cart
+    * */
+
+    async suspendCart(){
+        const customerId = await database.adapter.getLocal("activeCustomer");
+        const cartId = await database.adapter.getLocal("cartId");
+
+        const dataCollection = await this.database.collections.get(Carts.table).find(cartId);
+
+        console.log(customerId)
+
+        try {
+            await database.action(async () => {
+                await dataCollection.update(cart => {
+                    cart.status = 'suspend'
+                })
+            });
+
+            await database.adapter.removeLocal("activeCustomer");
+            await database.adapter.removeLocal("cartId");
+            return true;
+        }catch (e) {
             return false;
         }
     }

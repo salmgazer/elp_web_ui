@@ -1,19 +1,16 @@
 import React, {Component} from 'react';
 import SellView from "./sections/SellView";
 import AddProductCart from "./sections/AddProductCart";
-import Api from "../../../services/Api";
 import LocalInfo from "../../../services/LocalInfo";
 import SavedCart from "../cart/sections/savedCart/savedCart";
 import BranchService from "../../../services/BranchService";
 import {withDatabase} from "@nozbe/watermelondb/DatabaseProvider";
 import withObservables from "@nozbe/with-observables";
 import { withRouter } from "react-router-dom";
-import ModelAction from "../../../services/ModelAction";
 import CartService from "../../../services/CartService";
-import Carts from "../../../models/carts/Carts";
-import CartEntry from "../../../models/cartEntry/CartEntry";
-import BranchProduct from "../../../models/branchesProducts/BranchProduct";
 import {Q} from "@nozbe/watermelondb";
+import database from "../../../models/database";
+import BranchCustomer from "../../../models/branchesCustomer/BranchCustomer";
 
 class Sell extends Component {
     state = {
@@ -32,23 +29,26 @@ class Sell extends Component {
             }
         ],
         branchProducts: [],
+        customers: []
     };
 
     async componentDidMount() {
-        const { history, database , branchProducts , cartQuantity } = this.props;
+        const { history, database , branchProducts , cartQuantity , branchCustomers } = this.props;
 
         await this.setState({
             branchProducts: branchProducts,
-            spCount: cartQuantity
+            spCount: cartQuantity,
+            customers: branchCustomers,
         });
     }
 
     async componentDidUpdate(prevProps) {
-        const { history, database , branchProducts , cartQuantity } = this.props;
+        const { history, database , branchProducts , cartQuantity , branchCustomers } = this.props;
 
-        if(this.props.cartQuantity !== prevProps.cartQuantity){
+        if(this.props.cartQuantity !== prevProps.cartQuantity || branchCustomers.length !== prevProps.branchCustomers.length){
             this.setState({
-                spCount: cartQuantity
+                spCount: cartQuantity,
+                customers: branchCustomers,
             });
         }
     }
@@ -63,7 +63,7 @@ class Sell extends Component {
             case 0:
                 return <SellView  branchProducts={this.state.branchProducts} searchHandler={this.searchHandler.bind(this)} productAdd={this.showAddView.bind(this)} spCount={this.state.spCount} salesMade={this.state.salesMade} profitMade={this.state.profitMade} searchBarcode={this.searchBarcode.bind(this)} setView={this.setStepContentView.bind(this)} />;
             case 1:
-                return <AddProductCart addToCart={this.addProductToCartHandler.bind(this)} setView={this.setStepContentView.bind(this)} product={this.state.currentProduct} spCount={this.state.spCount} salesMade={this.state.salesMade} profitMade={this.state.profitMade}/>;
+                return <AddProductCart setCustomerHandler={this.setSavedCartCustomerHandler.bind(this)} customers={this.state.customers} addToCart={this.addProductToCartHandler.bind(this)} setView={this.setStepContentView.bind(this)} product={this.state.currentProduct} spCount={this.state.spCount} salesMade={this.state.salesMade} profitMade={this.state.profitMade}/>;
             case 2:
                 return <SavedCart continueSavedCartHandler={this.continueSavedCartHandler.bind(this)} searchSavedCart={this.searchSavedCartHandler.bind(this)} setView={this.setStepContentView.bind(this)} carts={this.state.savedCart} />;
             default:
@@ -82,6 +82,10 @@ class Sell extends Component {
     * */
     addProductToCartHandler = (formFields) => {
         return new CartService().addProductToCart(formFields);
+    };
+
+    setSavedCartCustomerHandler = async(customer) => {
+        await database.adapter.setLocal("activeCustomer" , customer);
     };
 
     /*
@@ -139,7 +143,6 @@ class Sell extends Component {
 
     //Search product barcode
     searchBarcode = async (barcode) => {
-        //console.log(`${proId} from addProduct`);
 
         const old_list = JSON.parse(localStorage.getItem('storeProductsLookup'));
 
@@ -164,9 +167,10 @@ class Sell extends Component {
 }
 
 const EnhancedSell = withDatabase(
-    withObservables(['branchProducts'], ({ branchProducts , database }) => ({
+    withObservables(['branchProducts' , 'branchCustomers'], ({ branchProducts , database , branchCustomers }) => ({
         branchProducts: new BranchService(LocalInfo.branchId).getProducts(),
         cartQuantity: database.collections.get('cartEntries').query(Q.where('cartId' , localStorage.getItem('cartId'))).observeCount(),
+        branchCustomers: database.collections.get(BranchCustomer.table).query().observe(),
         //cartQ: database.collections.get(CartEntry.table).query(Q.where('id', new CartService().cartId())).observe(),
         //cartQ: database.collections.get(CartEntry.table).find(new CartService().cartId()),
     }))(withRouter(Sell))

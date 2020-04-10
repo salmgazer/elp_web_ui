@@ -20,7 +20,10 @@ import ViewCash from './ViewCash';
 import MainDialog from "../../../../components/Dialog/MainDialog";
 import ErrorImage from '../../../../assets/img/error.png';
 import CancelIcon from '@material-ui/icons/Cancel';
-
+import CustomersModal from "../../../../components/Modal/Customer/CustomersModal";
+import AddCustomerModal from "../../../../components/Modal/Customer/AddCustomerModal";
+import CustomerService from "../../../../services/CustomerService";
+import SaleService from "../../../../services/SaleService";
 
 const useStyles = makeStyles(theme => ({
     root: {
@@ -50,15 +53,15 @@ const useStyles = makeStyles(theme => ({
         textTransform: 'none',
     }
   }));
-  
-
-
 
 const CheckoutView = props => {
-
+    const [cartData , setCartData] = React.useState('');
     const classes = useStyles();
+    const [addDialog, setAddDialog] = React.useState(false);
     const [mainDialog, setMainDialog] = React.useState(false);
     const [value, setValue] = React.useState(0);
+    let customerName = props.currentCustomer === 0 ? 'Guest' : (props.customers.filter(customer => customer.id === props.currentCustomer))[0].name;
+
     function a11yProps(index) {
         return {
             id: `full-width-tab-${index}`,
@@ -87,8 +90,34 @@ const CheckoutView = props => {
         props.setView(0);
     };
 
-    const openSuccessHandler = (event) => {
+    /*const openSuccessHandler = () => {
         props.setView(2);
+    };*/
+
+    const setAddCustomerHandler = async() => {
+        const lastCustomer = await new CustomerService().getLastCustomer();
+        props.setCustomerHandler(lastCustomer.id);
+        customerName = lastCustomer.name;
+        setAddDialog(false);
+    };
+
+    const openAddDialog = () => {
+        setAddDialog(true);
+    };
+
+    const paymentDetails = (formFields) => {
+        setCartData(formFields)
+        console.log(formFields);
+    };
+
+    const completeSellHandler = () => {
+        console.log(cartData)
+        try {
+            new SaleService().makeSell(cartData , value);
+            //props.setView(2);
+        }catch (e) {
+
+        }
     };
 
 
@@ -107,7 +136,7 @@ const CheckoutView = props => {
                             Amount due
                         </Typography>
                         <Typography className='text-dark font-weight-bold' style={{ fontSize: '25px' }} >
-                            GHC 70.00
+                            {`GHC ${props.cartTotalAmount}`}
                         </Typography>
                 </Grid>
             </Box>
@@ -133,7 +162,13 @@ const CheckoutView = props => {
                 onChangeIndex={handleChangeIndex}
             >
                 <TabPanel value={value} index={0} >
-                    <ViewCash />
+                    <ViewCash
+                        currentCustomer={customerName}
+                        openAddCustomerModal={openAddDialog.bind(this)}
+                        cartAmount={props.cartTotalAmount}
+                        customerId={props.currentCustomer}
+                        getFormFields={paymentDetails.bind(this)}
+                    />
                 </TabPanel>
                 <TabPanel value={value} index={1}  >
                     
@@ -145,6 +180,12 @@ const CheckoutView = props => {
                     
                 </TabPanel>
             </SwipeableViews>
+
+            <AddCustomerModal
+                openCustomerAddState={addDialog}
+                setCustomer={setAddCustomerHandler.bind(this)}
+                handleClose={() => setAddDialog(false)}
+            />
 
             <MainDialog handleDialogClose={closeDialogHandler.bind(this)} states={mainDialog} >
                 <div className="row p-3 pt-0 mx-auto text-center w-100" >
@@ -213,7 +254,7 @@ const CheckoutView = props => {
                         textTransform: 'none', 
                         fontSize: '20px', 
                     }}
-                    onClick={openSuccessHandler.bind(this)}
+                    onClick={completeSellHandler.bind(this)}
                 >
                     Finish
                 </Button>

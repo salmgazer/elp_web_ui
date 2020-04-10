@@ -1,7 +1,9 @@
 const customerSchema = {
   name: 'customers',
   columns: [
-    { name: 'name', type: 'string' },
+    { name: 'firstName', type: 'string' },
+    { name: 'otherNames', type: 'string' , isOptional: true},
+    { name: 'email', type: 'string' , isOptional: true },
     { name: 'createdBy', type: 'string' },
     { name: 'phone', type: 'string' },
     { name: 'location', type: 'string' },

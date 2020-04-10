@@ -10,9 +10,11 @@ export default class Customer extends Model {
 
   static columns = customerSchema.columns.map(c => c.name);
 
-  @field('name') name;
+  @field('firstName') firstName;
+  @field('otherNames') otherNames;
   @field('phone') phone; // @todo use phone number on both api and client as search key
   @field('location') location;
+  @field('email') email;
   @date('created_at') createdAt;
   @date('updated_at') updatedAt;
 }

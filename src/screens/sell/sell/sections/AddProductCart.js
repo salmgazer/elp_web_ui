@@ -14,6 +14,10 @@ import {withRouter} from 'react-router-dom';
 import paths from "../../../../utilities/paths";
 import AddShoppingCartOutlinedIcon from '@material-ui/icons/AddShoppingCartOutlined';
 import BranchProductService from "../../../../services/BranchProductService";
+import CustomersModal from "../../../../components/Modal/Customer/CustomersModal";
+import CustomerService from "../../../../services/CustomerService";
+import AddShoppingCartIcon from "@material-ui/core/SvgIcon/SvgIcon";
+import AddCustomerModal from "../../../../components/Modal/Customer/AddCustomerModal";
 
 const useStyles = makeStyles(theme => ({
     root: {
@@ -56,6 +60,8 @@ const AddProductCart = props => {
     const [totalPrice , setTotalPrice] = useState(0);
     const [sellingPrice , setSellingPrice] = useState(branchProduct.sellingPrice);
     const [costPrice , setCostPrice] = useState(0);
+    const [mainDialog, setMainDialog] = React.useState(false);
+    const [addDialog, setAddDialog] = React.useState(false);
 
     const [formFields , setFormFields] = useState({
         quantity: 1,
@@ -71,6 +77,8 @@ const AddProductCart = props => {
             getProduct();
         }
     }, []);
+
+    console.log(sellingPrice , costPrice);
 
     const productHandler = new BranchProductService(branchProduct);
 
@@ -179,6 +187,26 @@ const AddProductCart = props => {
         setSellingPrice(sp.toFixed(2));
     };
 
+    const openDialogHandler = (event) => {
+        setMainDialog(true);
+    };
+
+    const openAddDialog = (event) => {
+        setAddDialog(true);
+    };
+
+    const setCustomerHandler = (customer) => {
+        props.setCustomerHandler(customer);
+    };
+
+    const setAddCustomerHandler = async() => {
+        const lastCustomer = await new CustomerService().getLastCustomer();
+        props.setCustomerHandler(lastCustomer.id);
+        setAddDialog(false);
+        setMainDialog(false);
+        props.setView(0);
+    };
+
     return (
         <div>
             <SimpleSnackbar
@@ -197,6 +225,21 @@ const AddProductCart = props => {
                 message={errorMsg}
             >
             </SimpleSnackbar>
+
+            <CustomersModal
+                customers={props.customers}
+                openState={mainDialog}
+                setCustomer={setCustomerHandler.bind(this)}
+                handleClose={() => setMainDialog(false)}
+                openAddCustomerModal={openAddDialog.bind(this)}
+            />
+
+            <AddCustomerModal
+                openCustomerAddState={addDialog}
+                setCustomer={setAddCustomerHandler.bind(this)}
+                handleClose={() => setAddDialog(false)}
+            />
+
             <div className={`p-3 bg-white mx-0 shadow`}>
                 <span
                     className={`back-icon`}
@@ -208,10 +251,13 @@ const AddProductCart = props => {
                 <span
                     className={`cart-icon`}
                     style={{lineHeight: '0.8'}}
-                    onClick={() => props.setView(0)}
                 >
-                    <AddShoppingCartOutlinedIcon style={{fontWeight: '700'}}/>
-                    <div style={{fontSize: '12px'}}>New cart</div>
+                    <div
+                        onClick={openDialogHandler.bind(this)}
+                    >
+                        <AddShoppingCartOutlinedIcon style={{fontWeight: '700'}}/>
+                        <div style={{fontSize: '12px'}}>New cart</div>
+                    </div>
                 </span>
                 <div className={`w-100 m-2 my-5`}>
                     <img className={`img-fluid mx-auto w-50 h-75`} src={image} alt={`${name}`}/>

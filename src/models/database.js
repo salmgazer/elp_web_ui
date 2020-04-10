@@ -14,6 +14,7 @@ import Sales from "./sales/Sales";
 import Carts from "./carts/Carts";
 import CartEntry from "./cartEntry/CartEntry";
 import SaleEntry from "./saleEntry/SaleEntries";
+import BranchCustomer from "./branchesCustomer/BranchCustomer";
 
 const adapter = new LokiJSAdapter({
   schema,
@@ -35,6 +36,7 @@ export default new Database({
     Carts,
     CartEntry,
     SaleEntry,
+    BranchCustomer,
   ],
   actionsEnabled: true
 });
