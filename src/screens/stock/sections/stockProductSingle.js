@@ -26,11 +26,15 @@ const StockProductSingle = props => {
 
     console.log(product);
 
+    const backHandler = () => {
+        props.setView(0);
+    };
+
     return (
         <div className={`mt-6`}>
             <SectionNavbars title="Stock" >
                 <ArrowBackIcon
-                    //onClick={() => )}
+                    onClick={backHandler.bind(this)}
                     style={{fontSize: '2.5rem'}}
                 />
             </SectionNavbars>
@@ -88,7 +92,7 @@ const StockProductSingle = props => {
                             variant="h5"
                             style={{fontWeight: '700', fontSize: '16px' , lineHeight: '1.5'}}
                         >
-                            2000
+                            {productHandler.getProductQuantity()}
                         </Typography>
                     </div>
 
@@ -106,7 +110,7 @@ const StockProductSingle = props => {
                             variant="h5"
                             style={{fontWeight: '700', fontSize: '16px' , lineHeight: '1.5'}}
                         >
-                            GHC 40,000
+                           GHC {productHandler.getProductQuantity() * productHandler.getSellingPrice()}.00
                         </Typography>
                     </div>
                 </div>
@@ -118,7 +122,7 @@ const StockProductSingle = props => {
                         style={{fontWeight: '600', fontSize: '15px' , margin: '0px 0px', padding: '3px'}}
                         className={`text-center mx-auto text-dark w-100`}
                     >
-                        Quantities Per Locations
+                        Quantities Per Location(s)
                     </Typography>
 
                     {locations.map((location) =>

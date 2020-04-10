@@ -23,7 +23,7 @@ const StockSummaryPage = props => {
         <div className={`mt-6`}>
             <SectionNavbars title="Stock" >
                 <ArrowBackIcon
-                    //onClick={() => )}
+                    onClick={backHandler.bind(this)}
                     style={{fontSize: '2.5rem'}}
                 />
             </SectionNavbars>
