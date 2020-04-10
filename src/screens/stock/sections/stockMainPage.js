@@ -150,7 +150,7 @@ const StockMainPage = props => {
 
                         <Grid
                             item xs={4}
-                            onClick={setView.bind(this , 3)}
+                            onClick={setView.bind(this , 4)}
                         >
                             <CardDefault
                                 styles={{width: '100%', marginTop: '10px', borderRadius: '10px'}}
@@ -175,7 +175,7 @@ const StockMainPage = props => {
 
                         <Grid
                             item xs={4}
-                            onClick={setView.bind(this , 4)}
+                            onClick={setView.bind(this , 3)}
                         >
                             <CardDefault
                                 styles={{width: '100%', marginTop: '10px', borderRadius: '10px'}}

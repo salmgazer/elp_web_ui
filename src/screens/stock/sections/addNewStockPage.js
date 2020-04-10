@@ -206,13 +206,17 @@ const AddNewStockPage = props => {
         setFormFields(oldFormFields);
     };
 
+    const backHandler = () => {
+        props.setView(1);
+    };
+
     console.log(product);
 
     return(
         <div className={`mt-6`}>
             <SectionNavbars title="Stock" >
                 <ArrowBackIcon
-                    //onClick={() => )}
+                    onClick={backHandler.bind(this)}
                     style={{fontSize: '2.5rem'}}
                 />
             </SectionNavbars>
