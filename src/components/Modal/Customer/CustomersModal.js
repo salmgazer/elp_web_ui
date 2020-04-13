@@ -9,13 +9,10 @@ const CustomersModal = props => {
     const customers = props.customers;
     const openState = props.openState;
 
-    console.log(customers);
-
     const [selectedCustomer , setSelectedCustomer] = React.useState(0);
 
     const changeCustomerHandler = (event) => {
         setSelectedCustomer(event.target.value);
-        console.log(event.target.value)
         props.setCustomer(event.target.value);
     };
 

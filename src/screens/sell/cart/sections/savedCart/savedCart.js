@@ -56,7 +56,7 @@ const SavedCart = props => {
                 maxWidth="sm"
                 style={{width: '100%'}}
             >
-                {carts.map((cart) => <SingleSavedCart key={cart.id} cartDetails={cart} continueSavedCartHandler={props.continueSavedCartHandler}/>)}
+                {carts.map((cart) => <SingleSavedCart key={cart.id} cartDetails={cart} cartCustomer={cart.customer.fetch()} continueSavedCartHandler={props.continueSavedCartHandler}/>)}
             </Container>
 
             <Box

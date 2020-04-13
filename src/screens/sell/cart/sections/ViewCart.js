@@ -15,6 +15,7 @@ import paths from "../../../../utilities/paths";
 import CustomersModal from "../../../../components/Modal/Customer/CustomersModal";
 import AddCustomerModal from "../../../../components/Modal/Customer/AddCustomerModal";
 import CustomerService from "../../../../services/CustomerService";
+import CartService from "../../../../services/CartService";
 
 const useStyles = makeStyles(theme => ({
     root: {
@@ -45,35 +46,23 @@ const CartView = props => {
     const [addDialog, setAddDialog] = React.useState(false);
     const [checkUser , setCheckUser] = React.useState(false);
     const [user , setUser] = React.useState(false);
-    const [customerName, setCustomerName] = React.useState('Assign customer');
-
-    console.log(props.customers);
+    const [customerName, setCustomerName] = React.useState('');
+    const [customerId , setCustomerId] = React.useState('');
+    //console.log(props.currentCustomer)
+    //console.log(customerName)
 
     useEffect(() => {
         // You need to restrict it at some point
         // This is just dummy code and should be replaced by actual
-        if (!customerName) {
+        if (customerId !== props.currentCustomer) {
+            setCustomerId(props.currentCustomer);
             getCustomerName();
         }
-    }, []);
+    });
 
     const getCustomerName = async () => {
-        console.log(props.currentCustomer);
-
-        if(await props.currentCustomer === 0){
-            setCustomerName('Assign customer');
-            return false;
-        }
-        const customers = await props.customers;
-        const currentCustomer = customers.filter((customer) => customer.customerId === props.currentCustomer)[0];
-
-        const newCustomer = await new CustomerService().getCustomerName(currentCustomer);
-        //const newCustomer =
-        await setCustomerName(newCustomer);
+        setCustomerName(await new CartService().getCartCustomer(props.currentCustomer));
     };
-
-    //const customerName = props.currentCustomer === 0 ? 'Assign customer' : new CustomerService().getCustomerName((props.customers.filter(customer => customer.customerId === props.currentCustomer))[0]);
-
 
     const handleChange = event => {
         setUser(event.target.value);
@@ -103,7 +92,9 @@ const CartView = props => {
     };
 
     const setCustomerHandler = (customer) => {
+        console.log(customer)
         props.setCustomerHandler(customer);
+        //console.log(props.currentCustomer)
     };
 
     const setAddCustomerHandler = async() => {

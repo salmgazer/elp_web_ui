@@ -10,8 +10,7 @@ import withObservables from "@nozbe/with-observables";
 import { Q } from '@nozbe/watermelondb'
 import ModelAction from "../../../services/ModelAction";
 import BranchCustomer from "../../../models/branchesCustomer/BranchCustomer";
-
-
+import LocalInfo from "../../../services/LocalInfo";
 
 class Cart extends Component{
 
@@ -28,7 +27,7 @@ class Cart extends Component{
     };
 
     async componentDidMount() {
-        const { history, database , cartQuantity , cart , cartEntries , branchCustomers} = this.props;
+        const { history, database , cartQuantity , cart , cartEntries , branchCustomers ,currentCustomer} = this.props;
         //new ModelAction('Customer').destroy('b08d6c51-f93a-4a9e-b03f-2fa07f026919');
         //new ModelAction('BranchCustomer').destroy('62124785-3095-4707-82b1-76ea4bc10fec');
         this.state.cartId = await new CartService().cartId();
@@ -37,16 +36,18 @@ class Cart extends Component{
         //console.log(customers);
         //console.log(this.state.cartTotalProduct);
         //console.log(await cart[0].cart_entries.fetch());
+        //console.log(currentCustomer);
         await this.setState({
             productList: cartEntries,
             cartTotalProduct: await CartService.getCartProductQuantity(),
             cartTotalAmount: await CartService.getCartEntryAmount(),
-            customers: branchCustomers
+            customers: branchCustomers,
+            currentCustomer: await CartService.getCartCustomerId(),
         });
     }
 
     async componentDidUpdate(prevProps) {
-        const { history, database , cartQuantity , cart , cartEntries , branchCustomers} = this.props;
+        const { history, database , cartQuantity , cart , cartEntries , branchCustomers , currentCustomer} = this.props;
 
         //console.log(cartEntries);
         //console.log(customers);
@@ -56,13 +57,15 @@ class Cart extends Component{
         //console.log(await cart[0].cart_entries.fetch());
         //console.log(this.state.cartTotalProduct);
         //console.log(await CartService.getCartProductQuantity());
+        //console.log(currentCustomer);
 
-        if(this.props.cartEntries !== prevProps.cartEntries || branchCustomers.length !== prevProps.branchCustomers.length || this.state.cartTotalProduct !== await CartService.getCartProductQuantity()){
+        if(this.state.currentCustomer !== await CartService.getCartCustomerId() || this.props.cartEntries !== prevProps.cartEntries || branchCustomers.length !== prevProps.branchCustomers.length || this.state.cartTotalProduct !== await CartService.getCartProductQuantity()){
             await this.setState({
                 productList: this.props.cartEntries,
                 cartTotalProduct: await CartService.getCartProductQuantity(),
                 cartTotalAmount: await CartService.getCartEntryAmount(),
-                customers: branchCustomers
+                customers: branchCustomers,
+                currentCustomer: await CartService.getCartCustomerId(),
             });
         }
     }
@@ -122,7 +125,10 @@ class Cart extends Component{
         }
     }
 
-    setCustomerHandler(customer){
+    async setCustomerHandler(customer){
+        await new CartService().setCustomer(customer);
+
+        console.log(customer)
         this.setState({
             customers: this.props.branchCustomers,
             currentCustomer: customer
@@ -143,8 +149,9 @@ class Cart extends Component{
 const EnhancedCart = withDatabase(
     withObservables(['cartEntries' , 'branchCustomers'], ({ database , cartEntries, branchCustomers }) => ({
         cartQuantity: CartService.cartQuantity(),
+        currentCustomer: database.adapter.getLocal("activeCustomer") === null || 0 ? 0 : database.adapter.getLocal("activeCustomer"),
         cart: database.collections.get('carts').query(Q.where('id' , localStorage.getItem('cartId'))).observe(),
-        branchCustomers: database.collections.get(BranchCustomer.table).query().observe(),
+        branchCustomers: database.collections.get(BranchCustomer.table).query(Q.where('branchId' , LocalInfo.branchId)).observe(),
         cartEntries: database.collections.get('cartEntries').query(Q.where('cartId' , localStorage.getItem('cartId'))).observe(),
     }))(withRouter(Cart))
 );

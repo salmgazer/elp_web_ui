@@ -18,6 +18,7 @@ import CustomersModal from "../../../../components/Modal/Customer/CustomersModal
 import CustomerService from "../../../../services/CustomerService";
 import AddShoppingCartIcon from "@material-ui/core/SvgIcon/SvgIcon";
 import AddCustomerModal from "../../../../components/Modal/Customer/AddCustomerModal";
+import CartService from "../../../../services/CartService";
 
 const useStyles = makeStyles(theme => ({
     root: {
@@ -77,8 +78,6 @@ const AddProductCart = props => {
             getProduct();
         }
     }, []);
-
-    console.log(sellingPrice , costPrice);
 
     const productHandler = new BranchProductService(branchProduct);
 
@@ -187,16 +186,52 @@ const AddProductCart = props => {
         setSellingPrice(sp.toFixed(2));
     };
 
-    const openDialogHandler = (event) => {
-        setMainDialog(true);
+    const openDialogHandler = async() => {
+        if(props.currentCustomer === 0){
+            setMainDialog(true);
+        }else{
+            const response = await new CartService().suspendCart();
+
+            if (response) {
+                setErrorMsg('Cart saved');
+                setError(true);
+                setTimeout(function(){
+                    props.setView(0);
+                    setError(false);
+                }, 2000);
+            }else{
+                setErrorMsg('Cart was not saved. Please try again');
+                setError(true);
+                setTimeout(function(){
+                    props.setView(0);
+                    setError(false);
+                }, 3000);
+            }
+        }
     };
 
     const openAddDialog = (event) => {
         setAddDialog(true);
     };
 
-    const setCustomerHandler = (customer) => {
+    const setCustomerHandler = async (customer) => {
         props.setCustomerHandler(customer);
+        const response = await new CartService().suspendCart();
+
+        if (response) {
+            setErrorMsg('Cart saved');
+            setError(true);
+            setTimeout(function(){
+                props.setView(0);
+                setError(false);
+            }, 2000);
+        }else{
+            setErrorMsg('Cart was not saved. Please set a customer');
+            setError(true);
+            setTimeout(function(){
+                setError(false);
+            }, 3000);
+        }
     };
 
     const setAddCustomerHandler = async() => {
@@ -204,7 +239,7 @@ const AddProductCart = props => {
         props.setCustomerHandler(lastCustomer.id);
         setAddDialog(false);
         setMainDialog(false);
-        props.setView(0);
+        props.setView(1);
     };
 
     return (

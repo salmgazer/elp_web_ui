@@ -11,6 +11,7 @@ import CartService from "../../../services/CartService";
 import {Q} from "@nozbe/watermelondb";
 import database from "../../../models/database";
 import BranchCustomer from "../../../models/branchesCustomer/BranchCustomer";
+import Carts from "../../../models/carts/Carts";
 
 class Sell extends Component {
     state = {
@@ -18,37 +19,35 @@ class Sell extends Component {
         salesMade: 175,
         profitMade: 50,
         activeStep: 0,
-        spCount: 3,
+        spCount: 0,
         productList: [],
-        savedCart: [
-            {
-                id: '123456',
-                customerName: 'Pearl Anim',
-                cartTotal: '50.00',
-                createdAt: '2020-03-16T08:55:11.851Z'
-            }
-        ],
+        savedCart: [],
         branchProducts: [],
-        customers: []
+        customers: [],
+        currentCustomer: 0,
     };
 
     async componentDidMount() {
-        const { history, database , branchProducts , cartQuantity , branchCustomers } = this.props;
+        const { history, database , branchProducts , cartQuantity , branchCustomers , savedCarts} = this.props;
 
         await this.setState({
             branchProducts: branchProducts,
             spCount: cartQuantity,
             customers: branchCustomers,
+            currentCustomer: await CartService.getCartCustomerId(),
+            savedCart: savedCarts,
         });
     }
 
     async componentDidUpdate(prevProps) {
-        const { history, database , branchProducts , cartQuantity , branchCustomers } = this.props;
+        const { history, database , branchProducts , cartQuantity , branchCustomers , savedCarts } = this.props;
 
-        if(this.props.cartQuantity !== prevProps.cartQuantity || branchCustomers.length !== prevProps.branchCustomers.length){
+        if(this.state.savedCart.length !== savedCarts.length || this.state.currentCustomer !== await CartService.getCartCustomerId() || this.props.cartQuantity !== prevProps.cartQuantity || branchCustomers.length !== prevProps.branchCustomers.length){
             this.setState({
                 spCount: cartQuantity,
                 customers: branchCustomers,
+                currentCustomer: await CartService.getCartCustomerId(),
+                savedCart: savedCarts,
             });
         }
     }
@@ -61,9 +60,9 @@ class Sell extends Component {
     getStepContent = step => {
         switch (step) {
             case 0:
-                return <SellView  branchProducts={this.state.branchProducts} searchHandler={this.searchHandler.bind(this)} productAdd={this.showAddView.bind(this)} spCount={this.state.spCount} salesMade={this.state.salesMade} profitMade={this.state.profitMade} searchBarcode={this.searchBarcode.bind(this)} setView={this.setStepContentView.bind(this)} />;
+                return <SellView branchProducts={this.state.branchProducts} searchHandler={this.searchHandler.bind(this)} productAdd={this.showAddView.bind(this)} spCount={this.state.spCount} savedCartCount={this.state.savedCart.length} salesMade={this.state.salesMade} profitMade={this.state.profitMade} searchBarcode={this.searchBarcode.bind(this)} setView={this.setStepContentView.bind(this)} />;
             case 1:
-                return <AddProductCart setCustomerHandler={this.setSavedCartCustomerHandler.bind(this)} customers={this.state.customers} addToCart={this.addProductToCartHandler.bind(this)} setView={this.setStepContentView.bind(this)} product={this.state.currentProduct} spCount={this.state.spCount} salesMade={this.state.salesMade} profitMade={this.state.profitMade}/>;
+                return <AddProductCart currentCustomer={this.state.currentCustomer} setCustomerHandler={this.setSavedCartCustomerHandler.bind(this)} customers={this.state.customers} addToCart={this.addProductToCartHandler.bind(this)} setView={this.setStepContentView.bind(this)} product={this.state.currentProduct} spCount={this.state.spCount} salesMade={this.state.salesMade} profitMade={this.state.profitMade}/>;
             case 2:
                 return <SavedCart continueSavedCartHandler={this.continueSavedCartHandler.bind(this)} searchSavedCart={this.searchSavedCartHandler.bind(this)} setView={this.setStepContentView.bind(this)} carts={this.state.savedCart} />;
             default:
@@ -138,7 +137,15 @@ class Sell extends Component {
     };
 
     continueSavedCartHandler = async (cartId) => {
-        console.log(cartId);
+        await this.setState({
+            spCount: 0,
+        });
+
+        if(CartService.activateCart(cartId)){
+            this.setStepContentView(0);
+        }else{
+            alert('Please try again.');
+        }
     };
 
     //Search product barcode
@@ -167,10 +174,14 @@ class Sell extends Component {
 }
 
 const EnhancedSell = withDatabase(
-    withObservables(['branchProducts' , 'branchCustomers'], ({ branchProducts , database , branchCustomers }) => ({
+    withObservables(['branchProducts' , 'branchCustomers' , 'savedCarts'], ({ branchProducts , database , branchCustomers , savedCarts }) => ({
         branchProducts: new BranchService(LocalInfo.branchId).getProducts(),
         cartQuantity: database.collections.get('cartEntries').query(Q.where('cartId' , localStorage.getItem('cartId'))).observeCount(),
         branchCustomers: database.collections.get(BranchCustomer.table).query().observe(),
+        savedCarts: database.collections.get(Carts.table).query(
+            Q.where('status' , 'suspend'),
+            Q.where('branchId' , LocalInfo.branchId)
+        ).observe(),
         //cartQ: database.collections.get(CartEntry.table).query(Q.where('id', new CartService().cartId())).observe(),
         //cartQ: database.collections.get(CartEntry.table).find(new CartService().cartId()),
     }))(withRouter(Sell))

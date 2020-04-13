@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect , useState} from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import ArrowBackIcon from '@material-ui/icons/ArrowBack';
 import Box from "@material-ui/core/Box/Box";
@@ -8,6 +8,9 @@ import Paper from '@material-ui/core/Paper';
 import Button from "@material-ui/core/Button/Button";
 import LocalPrintshopIcon from '@material-ui/icons/LocalPrintshop';
 import { withRouter } from "react-router-dom";
+import SaleService from "../../../../services/SaleService";
+import database from "../../../../models/database";
+import paths from "../../../../utilities/paths";
 
 const useStyles = makeStyles(theme => ({
     root: {
@@ -44,6 +47,27 @@ const useStyles = makeStyles(theme => ({
   }));
 
 const CheckoutView = props => {
+    const { history } = props;
+    const [salesId , setSalesId] = useState(0);
+    const [salesTotal , setSalesTotal] = useState(0);
+    const [amountPaid , setAmountPaid] = useState(0);
+
+    useEffect(() => {
+        // You need to restrict it at some point
+        // This is just dummy code and should be replaced by actual
+        if (salesId === 0) {
+            getSalesId();
+        }
+    });
+
+    const getSalesId = async () => {
+        const sale = await database.adapter.getLocal("saleId");
+        const paid = await SaleService.getSaleEntryAmountPaidById(sale);
+        const total = await SaleService.getSaleEntryAmountById(sale);
+        setSalesId(sale);
+        setAmountPaid((parseFloat(paid)).toFixed(2));
+        setSalesTotal((parseFloat(total)).toFixed(2));
+    };
 
     const classes = useStyles();
 
@@ -76,15 +100,15 @@ const CheckoutView = props => {
                 <table className={classes.table} align='center'> 
                     <tr>
                         <td className={classes.td}>Total :</td>
-                        <td className={classes.td}>GHC 70.00</td>
-                    </tr>
-                    <tr>
-                        <td className={classes.td}>Paid :</td>
-                        <td className={classes.td}>GHC 80.00</td>
+                        <td className={classes.td}>{`GHC ${salesTotal}`}</td>
                     </tr>
                     <tr>
                         <td className={classes.td}> Change :</td>
-                        <td className={classes.td}>GHC 10.00</td>
+                        <td className={classes.td}>{`GHC ${amountPaid - salesTotal}`}</td>
+                    </tr>
+                    <tr>
+                        <td className={classes.td}>Paid :</td>
+                        <td className={classes.td}>{`GHC ${amountPaid}`}</td>
                     </tr>
                 </table>
 
@@ -100,20 +124,25 @@ const CheckoutView = props => {
 
             </Paper>
 
-            <Button
-                variant="contained"
-                className='text-dark font-weight-bold'
-                style={{
-                    backgroundColor: '#DAAB59', 
-                    color: '#333333', 
-                    padding: '5px 40px', 
-                    textTransform: 'none', 
-                    fontSize: '20px', 
-                    marginTop: '10px'
-                }}       
+            <div
+                onClick={() => history.push(paths.sell)}
             >
+                <Button
+                    variant="contained"
+                    className='text-dark font-weight-bold'
+                    style={{
+                        backgroundColor: '#DAAB59',
+                        color: '#333333',
+                        padding: '5px 40px',
+                        textTransform: 'none',
+                        fontSize: '20px',
+                        marginTop: '10px'
+                    }}
+                >
                     Continue selling
-            </Button>
+                </Button>
+            </div>
+
 
         </div>
     )

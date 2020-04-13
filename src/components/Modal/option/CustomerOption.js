@@ -5,7 +5,6 @@ const CustomerOption = props => {
     const branchCustomer = props.customer;
     const [customer , setCustomer] = useState('');
 
-    console.log(branchCustomer)
     useEffect(() => {
         // You need to restrict it at some point
         // This is just dummy code and should be replaced by actual

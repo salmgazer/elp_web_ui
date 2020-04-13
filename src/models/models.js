@@ -11,6 +11,7 @@ import Carts from "./carts/Carts";
 import CartEntry from "./cartEntry/CartEntry";
 import SaleEntry from "./saleEntry/SaleEntries";
 import BranchCustomer from "./branchesCustomer/BranchCustomer";
+import SaleInstallment from "./saleInstallments/SaleInstallment";
 
 export default {
     Brand,
@@ -26,4 +27,5 @@ export default {
     CartEntry,
     SaleEntry,
     BranchCustomer,
+    SaleInstallment,
 }

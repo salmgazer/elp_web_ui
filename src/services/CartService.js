@@ -6,11 +6,13 @@ import CartEntry from "../models/cartEntry/CartEntry";
 import BranchProductService from "./BranchProductService";
 import {v4 as uuid} from 'uuid';
 import Carts from "../models/carts/Carts";
+import BranchService from "./BranchService";
+import CustomerService from "./CustomerService";
 
 export default class CartService {
     async cartId() {
         if(!await database.adapter.getLocal("cartId")){
-            const dataCollection = database.collections.get('carts');
+            const dataCollection = database.collections.get(Carts.table);
 
             await database.action(async () => {
                 const newCart = await dataCollection.create(cart => {
@@ -56,6 +58,24 @@ export default class CartService {
     }
 
     /*
+    * Get Cart products by Id
+    */
+    async getCartProductsById(cartId){
+        try {
+            let cartCollection = new ModelAction('CartEntry').findByColumnNotObserve({
+                name: 'cartId',
+                value: cartId,
+                fxn: 'eq'
+            });
+            cartCollection = await cartCollection;
+
+            return cartCollection;
+        }catch (e) {
+            return e;
+        }
+    }
+
+    /*
     *
     * Get cart individual items total
     * */
@@ -68,6 +88,13 @@ export default class CartService {
     * */
     static async getCartEntryAmount(){
         return ((await new CartService().getCartProducts())).reduce((a, b) => parseFloat(a) + parseFloat(new CartService().getCartEntryTotal(b) || 0), 0).toFixed(2);
+    }
+
+    /*
+    * Get cart total amount by Id
+    * */
+    static async getCartEntryAmountById(cartId){
+        return ((await new CartService().getCartProductsById(cartId))).reduce((a, b) => parseFloat(a) + parseFloat(new CartService().getCartEntryTotal(b) || 0), 0).toFixed(2);
     }
 
     /*
@@ -125,7 +152,7 @@ export default class CartService {
             try {
                 new ModelAction('CartEntry').update(product.id , {
                     cartId: product.cartId,
-                    branchId: product.branchId,
+                    branchId: LocalInfo.branchId,
                     productId: product.productId,
                     branchProductId: product.branchProductId,
                     sellingPrice: data.sellingPrice,
@@ -161,26 +188,113 @@ export default class CartService {
     }
 
     /*
-    * Suspend a cart
+    * Set cart customer
     * */
-
-    async suspendCart(){
-        const customerId = await database.adapter.getLocal("activeCustomer");
+    async setCustomer(customer){
+        await database.adapter.setLocal("activeCustomer" , customer);
         const cartId = await database.adapter.getLocal("cartId");
 
-        const dataCollection = await this.database.collections.get(Carts.table).find(cartId);
-
-        console.log(customerId)
+        const dataCollection = await database.collections.get(Carts.table).find(cartId);
 
         try {
             await database.action(async () => {
                 await dataCollection.update(cart => {
-                    cart.status = 'suspend'
+                    cart.customerId = customer;
+                })
+            });
+
+            return true;
+        }catch (e) {
+            return false;
+        }
+    }
+
+    /*
+    * Get cart customer
+    * */
+    async getCartCustomer(){
+        const currentCustomer = await database.adapter.getLocal("activeCustomer");
+
+        if(typeof currentCustomer === 'undefined' || currentCustomer === null || currentCustomer == 0){
+            return 'Assign Customer';
+        }
+        const customers = await new BranchService().getCustomers();
+
+        const searchCustomer = customers.filter((customer) => customer.customerId === currentCustomer)[0];
+
+        return new CustomerService().getCustomerName(searchCustomer);
+    }
+
+    /*
+    * Get cart customerId
+    * */
+    static async getCartCustomerId(){
+        const currentCustomer = await database.adapter.getLocal("activeCustomer");
+
+        if(typeof currentCustomer === 'undefined' || currentCustomer === null || currentCustomer == 0){
+            return 0;
+        }
+
+        const customers = await new BranchService().getCustomers();
+        const searchCustomer = customers.filter((customer) => customer.customerId === currentCustomer)[0];
+
+        return searchCustomer.customerId;
+    }
+
+
+    /*
+    * Suspend a cart
+    * */
+    async suspendCart(){
+        const customerId = await database.adapter.getLocal("activeCustomer");
+        const cartId = await database.adapter.getLocal("cartId");
+
+        if(customerId == 0){
+            return false;
+        }
+        const dataCollection = await database.collections.get(Carts.table).find(cartId);
+
+        try {
+            await database.action(async () => {
+                await dataCollection.update(cart => {
+                    cart.status = 'suspend';
+                    cart.customerId = customerId;
                 })
             });
 
             await database.adapter.removeLocal("activeCustomer");
             await database.adapter.removeLocal("cartId");
+            localStorage.removeItem("cartId");
+            return true;
+        }catch (e) {
+            return false;
+        }
+    }
+
+    /*
+    * Make a cart active
+    * */
+    static async activateCart(cartId){
+        /*
+        * @todo suspend current cart
+        * */
+        /*
+            const cartId = await database.adapter.getLocal("cartId");
+            if(cartId === 0 || typeof cartId === 'undefined' || cartId === null){}
+        */
+
+        const dataCollection = await database.collections.get(Carts.table).find(cartId);
+
+        try {
+            await database.action(async () => {
+                await dataCollection.update(cart => {
+                    cart.status = 'active';
+                })
+            });
+
+            await database.adapter.setLocal("activeCustomer" , dataCollection.customerId);
+            await database.adapter.setLocal("cartId" , dataCollection.id);
+            localStorage.setItem("cartId" , dataCollection.id);
             return true;
         }catch (e) {
             return false;

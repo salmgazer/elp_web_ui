@@ -42,6 +42,7 @@ import { action } from '@nozbe/watermelondb/decorators'
 import CartService from "../../services/CartService";
 import {v4 as uuid} from 'uuid';
 import BranchCustomer from "../../models/branchesCustomer/BranchCustomer";
+import SaleInstallments from "../../models/saleInstallments/SaleInstallment";
 
 const useStyles = makeStyles(theme => ({
     root: {
@@ -93,7 +94,7 @@ const Dashboard = props => {
     const username = JSON.parse(localStorage.getItem('userDetails')).firstName;
     console.log(username);
 
-    const { history, branchProducts, branchProductStock, branchProductStockHistory, brands, manufacturers, products, database, customers, branchCustomers , sales , carts , cartEntries, companySales, testBranch , cartEntriesQ } = props;
+    const { history, branchProducts, branchProductStock, branchProductStockHistory, brands, manufacturers, products, database, customers, branchCustomers , sales , saleEntries , saleInstallments , carts , cartEntries, companySales, testBranch , cartEntriesQ } = props;
     // const database = useDatabase();
 
 
@@ -138,6 +139,8 @@ const Dashboard = props => {
     console.log(customers);
     console.log(branchCustomers);
     console.log(sales);
+    console.log(saleEntries);
+    console.log(saleInstallments);
     console.log("********************************");
     console.log(carts);
     console.log(cartEntries);
@@ -301,8 +304,11 @@ const EnhancedDashboard = withDatabase(
     products: new ModelAction('Product').index(),
     customers: database.collections.get(Customer.table).query().observe(),
     sales: database.collections.get(Sales.table).query().observe(),
+    saleEntries: new ModelAction('SaleEntry').index(),
     carts: database.collections.get(Carts.table).query().observe(),
     cartEntries: new ModelAction('CartEntry').index(),
+    saleInstallments: database.collections.get(SaleInstallments.table).query().observe(),
+    //saleInstallments: new ModelAction('SaleInstallment').index(),
     //cartEntriesQ: new ModelAction('CartEntry').findById(new CartService().cartId()),
     companySales: CompanyService.sales(),
     testBranch: new ModelAction('BranchProduct').findByColumn({

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import SectionNavbars from "../../../../components/Sections/SectionNavbars";
 import Tabs from "@material-ui/core/Tabs/Tabs";
@@ -24,6 +24,7 @@ import CustomersModal from "../../../../components/Modal/Customer/CustomersModal
 import AddCustomerModal from "../../../../components/Modal/Customer/AddCustomerModal";
 import CustomerService from "../../../../services/CustomerService";
 import SaleService from "../../../../services/SaleService";
+import CartService from "../../../../services/CartService";
 
 const useStyles = makeStyles(theme => ({
     root: {
@@ -60,7 +61,24 @@ const CheckoutView = props => {
     const [addDialog, setAddDialog] = React.useState(false);
     const [mainDialog, setMainDialog] = React.useState(false);
     const [value, setValue] = React.useState(0);
-    let customerName = props.currentCustomer === 0 ? 'Guest' : (props.customers.filter(customer => customer.id === props.currentCustomer))[0].name;
+
+    const [customerName, setCustomerName] = React.useState('');
+    const [customerId , setCustomerId] = React.useState('');
+    //console.log(props.currentCustomer)
+    //console.log(customerName)
+
+    useEffect(() => {
+        // You need to restrict it at some point
+        // This is just dummy code and should be replaced by actual
+        if (customerId !== props.currentCustomer) {
+            setCustomerId(props.currentCustomer);
+            getCustomerName();
+        }
+    });
+
+    const getCustomerName = async () => {
+        setCustomerName(await new CartService().getCartCustomer(props.currentCustomer));
+    };
 
     function a11yProps(index) {
         return {
@@ -94,11 +112,17 @@ const CheckoutView = props => {
         props.setView(2);
     };*/
 
+    const setCustomerHandler = (customer) => {
+        console.log(customer)
+        props.setCustomerHandler(customer);
+        //console.log(props.currentCustomer)
+    };
+
     const setAddCustomerHandler = async() => {
         const lastCustomer = await new CustomerService().getLastCustomer();
         props.setCustomerHandler(lastCustomer.id);
-        customerName = lastCustomer.name;
         setAddDialog(false);
+        setMainDialog(false);
     };
 
     const openAddDialog = () => {
@@ -107,14 +131,13 @@ const CheckoutView = props => {
 
     const paymentDetails = (formFields) => {
         setCartData(formFields)
-        console.log(formFields);
     };
 
-    const completeSellHandler = () => {
-        console.log(cartData)
+    const completeSellHandler = async() => {
+        //console.log(cartData)
         try {
-            new SaleService().makeSell(cartData , value);
-            //props.setView(2);
+            await new SaleService().makeSell(cartData , value);
+            props.setView(2);
         }catch (e) {
 
         }

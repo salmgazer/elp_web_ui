@@ -3,7 +3,7 @@ const salesSchema = {
     columns: [
         { name: 'note', type: 'string', isOptional: true },
         { name: 'type', type: 'string' },
-        { name: 'paymentStatus', type: 'string' },
+        //{ name: 'paymentStatus', type: 'string' },
         { name: 'paymentType', type: 'string' },
         { name: 'customerId', type: 'string' },
         { name: 'discount', type: 'number' },

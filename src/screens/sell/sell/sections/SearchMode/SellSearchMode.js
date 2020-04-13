@@ -89,6 +89,21 @@ const SellSearchMode = props => {
                         >
                             <ShoppingCartOutlinedIcon style={{fontSize: '16px'}}/>
                             Saved Cart
+                            <span style={{
+                                    fontSize: '12px',
+                                    color: '#000000',
+                                    position: 'absolute',
+                                    top: 0,
+                                    right: '5%',
+                                    backgroundColor: '#daab59',
+                                    width: '20px',
+                                    height: '20px',
+                                    borderRadius: '50%',
+                                    fontWeight: '500'
+                                }}
+                            >
+                                {props.savedCartCount}
+                            </span>
                         </span>
                     </Paper>
                 </Grid>

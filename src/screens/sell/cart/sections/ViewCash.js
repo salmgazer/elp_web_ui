@@ -3,6 +3,7 @@ import Paper from '@material-ui/core/Paper';
 import TextField from '@material-ui/core/TextField';
 import Tooltip from '@material-ui/core/Tooltip';
 import PersonAddIcon from '@material-ui/icons/PersonAdd';
+import InputBase from "@material-ui/core/InputBase/InputBase";
 
 const ViewCash = props => {
     const [formFields , setFormFields] = useState({
@@ -23,8 +24,7 @@ const ViewCash = props => {
         oldFormFields['changeDue'] = changeDue;
 
         setFormFields(oldFormFields);
-        console.log(formFields)
-        props.getFormFields(formFields);
+        props.getFormFields(oldFormFields);
     };
 
     return(
@@ -48,7 +48,7 @@ const ViewCash = props => {
                         label="Amount Paid"
                         variant="outlined"
                         size="small"
-                        onChange={setInputValue.bind(this)}
+                        onChange={(event) => setInputValue(event)}
                         name={`amountPaid`}
                         value={formFields['amountPaid']}
                         style={{margin: '25px'}}
