@@ -31,8 +31,8 @@ const SellView = props => {
     const { history } = props;
 
     const branchProducts = props.branchProducts;
-    const salesMade = props.salesMade;
-    const profitMade = props.profitMade;
+    const salesMade = (parseFloat(props.salesTodayDetails.total)).toFixed(2);
+    const profitMade = (parseFloat(props.salesTodayDetails.profit)).toFixed(2);
     const spCount = props.spCount;
     const [value , setValue] = useState(0);
     const [isShowDrawer , setIsShowDrawer] = useState(false);

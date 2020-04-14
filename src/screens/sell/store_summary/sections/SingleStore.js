@@ -1,4 +1,4 @@
-import React , {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import Grid from "@material-ui/core/Grid";
 import StoreMallDirectoryRoundedIcon from '@material-ui/icons/StoreMallDirectoryRounded';
 import {withRouter} from 'react-router-dom';
@@ -10,14 +10,28 @@ import ExpandMoreRoundedIcon from '@material-ui/icons/ExpandMoreRounded';
 import ExpandLessRoundedIcon from '@material-ui/icons/ExpandLessRounded';
 import Collapsible from 'react-collapsible';
 import LocalInfo from "../../../../services/LocalInfo";
+import BranchService from "../../../../services/BranchService";
 
 
 
 const SingleStore = props => {
     const { history } = props;
+    const [companySales , setCompanySales] = useState(false);
 
     const branch = props.branch;
 
+    useEffect(() => {
+        // You need to restrict it at some point
+        // This is just dummy code and should be replaced by actual
+        if (!companySales) {
+            getCompanyDetails();
+        }
+    });
+
+    const getCompanyDetails = async () => {
+        const response = await new BranchService().getSalesDetails('month' , branch.id);
+        setCompanySales(response);
+    };
     /*companyName: 'GODS GRACE STORe',
         branchName: 'Adenta Branch',
         companyId: 1,
@@ -87,7 +101,7 @@ const SingleStore = props => {
                                 variant="h5"
                                 style={{fontWeight: '700', fontSize: '15px' , lineHeight: '1.2'}}
                             >
-                                GHC {branch.sales}
+                                GHC {companySales.total}
                             </Typography>
                         </CardDefaultSmall>
                     </Grid>
@@ -106,7 +120,7 @@ const SingleStore = props => {
                                 variant="h5"
                                 style={{fontWeight: '700', fontSize: '15px' , lineHeight: '1.2'}}
                             >
-                                GHC {branch.profit}
+                                GHC {companySales.profit}
                             </Typography>
                         </CardDefaultSmall>
                     </Grid>
@@ -125,7 +139,7 @@ const SingleStore = props => {
                                 variant="h5"
                                 style={{fontWeight: '700', fontSize: '15px' , lineHeight: '1.2'}}
                             >
-                                GHC {branch.credit}
+                                GHC {companySales.credit}
                             </Typography>
                         </CardDefaultSmall>
                     </Grid>
@@ -144,7 +158,7 @@ const SingleStore = props => {
                                 variant="h5"
                                 style={{fontWeight: '700', fontSize: '15px' , lineHeight: '1.2'}}
                             >
-                                GHC {branch.purchases}
+                                GHC {companySales.purchases}
                             </Typography>
                         </CardDefaultSmall>
                     </Grid>

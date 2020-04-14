@@ -13,7 +13,6 @@ import BranchCustomer from "../../../models/branchesCustomer/BranchCustomer";
 import LocalInfo from "../../../services/LocalInfo";
 
 class Cart extends Component{
-
     state={
         isDrawerShow: false,
         cartId: new CartService().cartId(),

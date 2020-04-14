@@ -97,19 +97,14 @@ const BarcodeMode = props => {
             await setErrorMessage('Barcode empty. Please try again.');
             await setErrorDialog(true);
         }
-        const prod = await props.searchBarcode(barcodeNumber);
+        const product = await props.searchBarcode(barcodeNumber);
 
-        if(prod.length === 1){
-            const product = prod[0];
-            console.log(product);
-            const productHandler = new ProductServiceHandler(product);
-
-            if( prod.length === 1) {
+        if(product.length === 1){
+            if( product.length === 1) {
                 props.setView(1);
             }
             return true
-        }else if(prod.length === 0) {
-            console.log('me')
+        }else if(product.length === 0) {
             await setErrorMessage('Product with this barcode does not exist');
             await setErrorDialog(true);
         }

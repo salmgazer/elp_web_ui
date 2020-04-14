@@ -12,6 +12,7 @@ import {Q} from "@nozbe/watermelondb";
 import database from "../../../models/database";
 import BranchCustomer from "../../../models/branchesCustomer/BranchCustomer";
 import Carts from "../../../models/carts/Carts";
+import SaleService from "../../../services/SaleService";
 
 class Sell extends Component {
     state = {
@@ -25,10 +26,13 @@ class Sell extends Component {
         branchProducts: [],
         customers: [],
         currentCustomer: 0,
+        salesTodayDetails: {},
     };
 
     async componentDidMount() {
         const { history, database , branchProducts , cartQuantity , branchCustomers , savedCarts} = this.props;
+
+        const salesTodayDetails = await new SaleService().getTodaySalesDetails();
 
         await this.setState({
             branchProducts: branchProducts,
@@ -36,11 +40,14 @@ class Sell extends Component {
             customers: branchCustomers,
             currentCustomer: await CartService.getCartCustomerId(),
             savedCart: savedCarts,
+            salesTodayDetails: salesTodayDetails,
         });
     }
 
     async componentDidUpdate(prevProps) {
         const { history, database , branchProducts , cartQuantity , branchCustomers , savedCarts } = this.props;
+
+        const salesTodayDetails = await new SaleService().getTodaySalesDetails();
 
         if(this.state.savedCart.length !== savedCarts.length || this.state.currentCustomer !== await CartService.getCartCustomerId() || this.props.cartQuantity !== prevProps.cartQuantity || branchCustomers.length !== prevProps.branchCustomers.length){
             this.setState({
@@ -48,6 +55,7 @@ class Sell extends Component {
                 customers: branchCustomers,
                 currentCustomer: await CartService.getCartCustomerId(),
                 savedCart: savedCarts,
+                salesTodayDetails: salesTodayDetails,
             });
         }
     }
@@ -60,7 +68,7 @@ class Sell extends Component {
     getStepContent = step => {
         switch (step) {
             case 0:
-                return <SellView branchProducts={this.state.branchProducts} searchHandler={this.searchHandler.bind(this)} productAdd={this.showAddView.bind(this)} spCount={this.state.spCount} savedCartCount={this.state.savedCart.length} salesMade={this.state.salesMade} profitMade={this.state.profitMade} searchBarcode={this.searchBarcode.bind(this)} setView={this.setStepContentView.bind(this)} />;
+                return <SellView salesTodayDetails={this.state.salesTodayDetails} branchProducts={this.state.branchProducts} searchHandler={this.searchHandler.bind(this)} productAdd={this.showAddView.bind(this)} spCount={this.state.spCount} savedCartCount={this.state.savedCart.length} salesMade={this.state.salesMade} profitMade={this.state.profitMade} searchBarcode={this.searchBarcode.bind(this)} setView={this.setStepContentView.bind(this)} />;
             case 1:
                 return <AddProductCart currentCustomer={this.state.currentCustomer} setCustomerHandler={this.setSavedCartCustomerHandler.bind(this)} customers={this.state.customers} addToCart={this.addProductToCartHandler.bind(this)} setView={this.setStepContentView.bind(this)} product={this.state.currentProduct} spCount={this.state.spCount} salesMade={this.state.salesMade} profitMade={this.state.profitMade}/>;
             case 2:
@@ -150,18 +158,13 @@ class Sell extends Component {
 
     //Search product barcode
     searchBarcode = async (barcode) => {
+        const products = await new BranchService().searchBarcodeProduct(barcode);
 
-        const old_list = JSON.parse(localStorage.getItem('storeProductsLookup'));
-
-        //Find index of specific object using findIndex method.
-        const itemIndex = old_list.filter((product => product.barCode === barcode));
-
-        console.log(itemIndex);
         await this.setState({
-            currentProduct: itemIndex,
+            currentProduct: products[0],
         });
 
-        return itemIndex;
+        return products[0];
     };
 
     render(){
