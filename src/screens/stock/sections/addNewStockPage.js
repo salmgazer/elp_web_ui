@@ -28,6 +28,8 @@ import FormControlLabel from '@material-ui/core/FormControlLabel';
 import FormControl from '@material-ui/core/FormControl';
 import clsx from 'clsx';
 import Switch from '@material-ui/core/Switch';
+import { confirmAlert } from 'react-confirm-alert';
+import UnitCost from '../../Components/Input/UnitCost';
 
 const useStyles = makeStyles(theme => ({
     root: {
@@ -156,6 +158,52 @@ const AddNewStockPage = props => {
         rememberChoice: false,
         branchId: parseFloat(localStorage.getItem('activeBranch')),
     });
+
+    const saveStock = (event) => {
+        setLoading(true);
+        if((formFields.costPrice !== "" || parseFloat(formFields.costPrice !== 0)) && (formFields.sellingPrice !== "" || parseFloat(formFields.sellingPrice !== 0))){
+            if(parseFloat(formFields.costPrice) >= parseFloat(formFields.sellingPrice)){
+                setErrorDialog(true);
+                setLoading(false);
+                setTimeout(function(){
+                    setErrorDialog(false);
+                }, 3000);
+
+                return false;
+            }
+        }
+
+        props.addNewProduct(formFields);
+
+        setSuccessDialog(true);
+
+        setTimeout(function(){
+            setSuccessDialog(false);
+            setLoading(false);
+            props.setView(0, event)
+        }, 2000);
+    };
+
+    const cancelAddProduct = (event) => {
+        confirmAlert({
+            title: 'Confirm to cancel',
+            message: 'You risk losing the details added for this product.',
+            buttons: [
+                {
+                    label: 'Yes',
+                    onClick: () => {
+                        props.setView(1);
+                    }
+                },
+                {
+                    label: 'No',
+                    onClick: () => {
+                        return false;
+                    }
+                }
+            ]
+        });
+    };
 
     const getCalculatorValue = (value) => {
         const {...oldFormFields} = formFields;
@@ -292,26 +340,9 @@ const AddNewStockPage = props => {
                         <Grid
                             item xs={5}
                         >
-                            <label className={`text-dark py-2 text-center`} style={{fontSize: '18px', fontWeight: '600'}}> Unit cost</label>
-
-                            <Paper className={classes.root} >
-                                <InputBase
-                                    className={`${classes.input} search-box text-center`}
-                                    type="tel"
-                                    value=""
-                                    name="Unit Cost"
-                                    endAdornment={
-                                        <InputAdornment position="end">
-                                            <IconButton
-                                                aria-label="toggle password visibility"
-                                                edge="end"
-                                            >
-                                                <FontAwesomeIcon onClick={openCalculator.bind(this)} icon={faCalculator} fixedWidth />
-                                            </IconButton>
-                                        </InputAdornment>
-                                    }
-                                />
-                            </Paper>
+                            <UnitCost label={`Unit price`} inputName="unitPrice" initialValue={formFields.costPrice || ''} getValue={setInputValue.bind(this)} >
+                                <FontAwesomeIcon onClick={openCalculator.bind(this)} icon={faCalculator} fixedWidth />
+                            </UnitCost>
                         </Grid>
                     </Grid>
 
@@ -330,7 +361,11 @@ const AddNewStockPage = props => {
                 states={moneySourceDialog}
                 handleClose={changeSourceModalState.bind(this)}
                 title={`Money source`}
-                footer={<SecondaryButton>Save</SecondaryButton>}
+                footer={
+                <SecondaryButton onClick={saveStock.bind(this)} >
+                    Save
+                </SecondaryButton>
+                }
             >
                 <Container className={`mx-3`} style={{width: '100%'}}>
                     <Typography
@@ -371,29 +406,31 @@ const AddNewStockPage = props => {
                                 label="Remember my choice"
                             />
                         </div>
-
+                        
                     </Grid>
                 </Container>
             </Modal>
             <Box
-                className="shadow1 mx-auto"
+                className="shadow1"
                 bgcolor="background.paper"
                 p={1}
                 style={{ height: '2.5rem', position: "fixed", bottom:"0", width:"100%" }}
             >
-                <div style={{ display: 'flex'}}>
-                    <div>
-                        <PrimaryButton classes={`mr-2`}>
-                            Cancel
-                        </PrimaryButton>
-                    </div>
-
-                    <div onClick={() => setMoneySourceDialog(true)}>
-                        <SecondaryButton>
-                            Save
-                        </SecondaryButton>
-                    </div>
-                </div>
+                <Button
+                    variant="outlined"
+                    style={{border: '1px solid #DAAB59', color: '#DAAB59', padding: '5px 50px', marginRight: '10px'}}
+                    onClick={cancelAddProduct.bind(this)}
+                >
+                    Cancel
+                </Button>
+                <Button
+                    variant="contained"
+                    style={{'backgroundColor': '#DAAB59' , color: '#333333', padding: '5px 50px'}}
+                    onClick={() => setMoneySourceDialog(true)}
+                    disabled={loading}
+                >
+                    Save
+                </Button>
             </Box>
         </div>
     );
