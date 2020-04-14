@@ -180,7 +180,7 @@ const AddNewStockPage = props => {
         setTimeout(function(){
             setSuccessDialog(false);
             setLoading(false);
-            props.setView(0, event)
+            props.setView(1, event)
         }, 2000);
     };
 
@@ -340,7 +340,7 @@ const AddNewStockPage = props => {
                         <Grid
                             item xs={5}
                         >
-                            <UnitCost label={`Unit price`} inputName="unitPrice" initialValue={formFields.costPrice || ''} getValue={setInputValue.bind(this)} >
+                            <UnitCost label={`Unit price`} inputName="costPrice" initialValue={formFields.costPrice || ''} getValue={setInputValue.bind(this)} >
                                 <FontAwesomeIcon onClick={openCalculator.bind(this)} icon={faCalculator} fixedWidth />
                             </UnitCost>
                         </Grid>
