@@ -62,10 +62,10 @@ const CheckoutView = props => {
 
     const getSalesId = async () => {
         const sale = await database.adapter.getLocal("saleId");
-        const paid = await SaleService.getSaleEntryAmountPaidById(sale);
-        const total = await SaleService.getSaleEntryAmountById(sale);
-        setSalesId(sale);
-        setAmountPaid((parseFloat(paid)).toFixed(2));
+        const total = await SaleService.getSaleEntryAmountPaidById(sale);
+        //const total = await SaleService.getSaleEntryAmountById(sale);
+        setSalesId(total);
+        setAmountPaid((parseFloat(localStorage.getItem('amountPaid'))).toFixed(2));
         setSalesTotal((parseFloat(total)).toFixed(2));
     };
 
@@ -103,12 +103,12 @@ const CheckoutView = props => {
                         <td className={classes.td}>{`GHC ${salesTotal}`}</td>
                     </tr>
                     <tr>
-                        <td className={classes.td}> Change :</td>
-                        <td className={classes.td}>{`GHC ${amountPaid - salesTotal}`}</td>
-                    </tr>
-                    <tr>
                         <td className={classes.td}>Paid :</td>
                         <td className={classes.td}>{`GHC ${amountPaid}`}</td>
+                    </tr>
+                    <tr>
+                        <td className={classes.td}> Change :</td>
+                        <td className={classes.td}>{`GHC ${amountPaid - salesTotal}`}</td>
                     </tr>
                 </table>
 

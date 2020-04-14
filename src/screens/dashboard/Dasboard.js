@@ -1,9 +1,7 @@
-import React from "react";
+import React, {useEffect , useState} from "react";
 import { withRouter } from "react-router-dom";
 import { withDatabase } from "@nozbe/watermelondb/DatabaseProvider";
 import withObservables from "@nozbe/with-observables";
-import Component from "@reactions/component";
-import { useDatabase } from "@nozbe/watermelondb/hooks";
 import { Q } from "@nozbe/watermelondb";
 import './Dashboard.scss';
 
@@ -28,21 +26,18 @@ import LocalInfo from '../../services/LocalInfo';
 import Manufacturer from "../../models/manufacturers/Manufacturer";
 import Brand from "../../models/brands/Brand";
 import BranchProduct from "../../models/branchesProducts/BranchProduct";
-import SyncService from "../../services/SyncService";
 import Product from "../../models/products/Product";
 import Customer from "../../models/customers/Customer";
 import Sales from "../../models/sales/Sales";
 import ModelAction from "../../services/ModelAction";
 import Carts from "../../models/carts/Carts";
 import CartEntry from "../../models/cartEntry/CartEntry";
-import CompanyService from "../../services/CompanyService";
 import BranchProductStock from "../../models/branchesProductsStocks/BranchProductStock";
 import BranchProductStockHistory from "../../models/branchesProductsStocksHistories/BranchProductStockHistory";
-import { action } from '@nozbe/watermelondb/decorators'
-import CartService from "../../services/CartService";
 import {v4 as uuid} from 'uuid';
 import BranchCustomer from "../../models/branchesCustomer/BranchCustomer";
 import SaleInstallments from "../../models/saleInstallments/SaleInstallment";
+import CompanyService from "../../services/CompanyService";
 
 const useStyles = makeStyles(theme => ({
     root: {
@@ -87,14 +82,30 @@ const useStyles = makeStyles(theme => ({
 
 const Dashboard = props => {
     const classes = useStyles();
-    const [text , setText] = React.useState();
+    const [text , setText] = useState();
+    const [companySales , setCompanySales] = useState(false);
+    const [isDrawerShow , setIsDrawerShow] = useState(false);
+
+    useEffect(() => {
+        // You need to restrict it at some point
+        // This is just dummy code and should be replaced by actual
+        if (!companySales) {
+            getCompanyDetails();
+        }
+    });
+
+    const getCompanyDetails = async () => {
+        const response = await new CompanyService().getSalesDetails('today');
+
+        setCompanySales(response);
+    };
     /*
     * @todo replace user name with localInfo details.
     * */
     const username = JSON.parse(localStorage.getItem('userDetails')).firstName;
     console.log(username);
 
-    const { history, branchProducts, branchProductStock, branchProductStockHistory, brands, manufacturers, products, database, customers, branchCustomers , sales , saleEntries , saleInstallments , carts , cartEntries, companySales, testBranch , cartEntriesQ } = props;
+    const { history, branchProducts, branchProductStock, branchProductStockHistory, brands, manufacturers, products, database, customers, branchCustomers , sales , saleEntries , saleInstallments , carts , cartEntries, testBranch , cartEntriesQ } = props;
     // const database = useDatabase();
 
 
@@ -116,11 +127,11 @@ const Dashboard = props => {
     }
 
     console.log('#####################################')
+    console.log(companySales);
     console.log(testBranch)
     console.log(branchProducts)
     console.log('#####################################')
     console.log("********************************");
-    console.log(companySales)
     console.log(LocalInfo.companies);
     console.log("**************************");
     console.log("********************************");
@@ -182,113 +193,101 @@ const Dashboard = props => {
 
     return (
         <div style={{height: '100vh'}}>
-            <Component
-                initialState={{
-                    profitMade: 0,
-                    salesMade: 0,
-                    creditSales: 0,
-                    purchaseMade: 0,
-                    isDrawerShow: false,
-                }}
-            >
-                {({ state, setState }) => (
-                    <React.Fragment>
-                        <CssBaseline />
+            <React.Fragment>
+                <CssBaseline />
 
 
-                        <SectionNavbars title={`Welcome ${username}`}>
-                            <MenuIcon
-                                onClick={() => setState({isDrawerShow: true})}
-                                style={{fontSize: '2.5rem'}}
-                            />
-                        </SectionNavbars>
+                <SectionNavbars title={`Welcome ${username}`}>
+                    <MenuIcon
+                        onClick={() => setIsDrawerShow(true)}
+                        style={{fontSize: '2.5rem'}}
+                    />
+                </SectionNavbars>
 
-                        <Drawer isShow={state.isDrawerShow} />
-                        <BoxDefault
-                            bgcolor="background.paper"
-                            p={1}
-                            className={'boxDefault'}
-                            styles={{marginTop: '90px'}}
+                <Drawer isShow={isDrawerShow} />
+                <BoxDefault
+                    bgcolor="background.paper"
+                    p={1}
+                    className={'boxDefault'}
+                    styles={{marginTop: '90px'}}
+                >
+                    <Typography
+                        component="p"
+                        variant="h6"
+                        style={{fontWeight: '700', fontSize: '1.20rem'}}
+                    >
+                        Company summary
+                    </Typography>
+
+                    <Grid container spacing={1}>
+                        <CardGridComponent
+                            title="Sales made today"
+                            amount={companySales.total}
+                        />
+                        <CardGridComponent
+                            title="Profit made today"
+                            amount={companySales.profit}
+                        />
+                        <CardGridComponent
+                            title="Credit sales made"
+                            amount={companySales.credit}
                         >
-                            <Typography
-                                component="p"
-                                variant="h6"
-                                style={{fontWeight: '700', fontSize: '1.20rem'}}
-                            >
-                                Store summary
-                            </Typography>
-
-                            <Grid container spacing={1}>
-                                <CardGridComponent
-                                    title="Sales made today"
-                                    amount={state.salesMade}
-                                />
-                                <CardGridComponent
-                                    title="Profit made today"
-                                    amount={state.profitMade}
-                                />
-                                <CardGridComponent
-                                    title="Credit sales made"
-                                    amount={state.creditSales}
-                                >
-                                    <br/><a  href="#" style={{'marginTop': '1px', color: '#DAAB59', fontSize: '14px', fontWeight: '300'}}>View credit sales</a>
-                                </CardGridComponent>
-                                <CardGridComponent
-                                    title="Purchases made today"
-                                    amount={state.purchaseMade}
-                                >
-                                    <br/><a  href="#" style={{'marginTop': '1px', color: '#DAAB59', fontSize: '14px', fontWeight: '300'}}>View stock</a>
-                                </CardGridComponent>
-                            </Grid>
-                        </BoxDefault>
-                        <BoxDefault
-                            bgcolor="background.paper"
-                            p={1}
-                            className={'boxDefault'}
-                            styles={{marginBottom: '90px'}}
+                            <br/><a  href="#" style={{'marginTop': '1px', color: '#DAAB59', fontSize: '14px', fontWeight: '300'}}>View credit sales</a>
+                        </CardGridComponent>
+                        <CardGridComponent
+                            title="Purchases made today"
+                            amount={companySales.purchases}
                         >
-                            <CardDefault styles={{width: '85%', marginTop: '10px'}}>
-                                <HomeIcon style={{fontSize: '2rem'}}/>
-                                <Typography
-                                    component="p"
-                                    variant="h6"
-                                    style={{fontWeight: '700', fontSize: '1.00rem'}}
-                                >
-                                    Go to Homepage
-                                </Typography>
-                            </CardDefault>
-
-                            <CardDefault styles={{width: '85%', marginTop: '20px'}}>
-                                <SettingsIcon style={{fontSize: '2rem'}}/>
-                                <Typography
-                                    component="p"
-                                    variant="h6"
-                                    style={{fontWeight: '700', fontSize: '1.00rem'}}
-                                >
-                                    Go to Settings
-                                </Typography>
-                            </CardDefault>
-                        </BoxDefault>
-
-                        <Box
-                            boxShadow={1}
-                            bgcolor="background.paper"
-                            p={1}
-                            style={{ height: '4.5rem', position: "fixed", bottom:"0", width:"100%" }}
+                            <br/><a  href="#" style={{'marginTop': '1px', color: '#DAAB59', fontSize: '14px', fontWeight: '300'}}>View stock</a>
+                        </CardGridComponent>
+                    </Grid>
+                </BoxDefault>
+                <BoxDefault
+                    bgcolor="background.paper"
+                    p={1}
+                    className={'boxDefault'}
+                    styles={{marginBottom: '90px'}}
+                >
+                    <CardDefault styles={{width: '85%', marginTop: '10px'}}>
+                        <HomeIcon style={{fontSize: '2rem'}}/>
+                        <Typography
+                            component="p"
+                            variant="h6"
+                            style={{fontWeight: '700', fontSize: '1.00rem'}}
                         >
-                            <Button
-                                variant="contained"
-                                style={{'width': '70%','backgroundColor': '#DAAB59' , color: '#403C3C', margin: '4px auto',padding: '8px 5px', fontSize: '17px', fontWeight: '700'}}
-                                className={`${classes.button} capitalization`}
-                                onClick={() => history.push(paths.store_summary)}
-                                //onClick={() => createCustomer()}
-                            >
-                                Start selling
-                            </Button>
-                        </Box>
-                    </React.Fragment>
-                )}
-            </Component>
+                            Go to Homepage
+                        </Typography>
+                    </CardDefault>
+
+                    <CardDefault styles={{width: '85%', marginTop: '20px'}}>
+                        <SettingsIcon style={{fontSize: '2rem'}}/>
+                        <Typography
+                            component="p"
+                            variant="h6"
+                            style={{fontWeight: '700', fontSize: '1.00rem'}}
+                        >
+                            Go to Settings
+                        </Typography>
+                    </CardDefault>
+                </BoxDefault>
+
+                <Box
+                    boxShadow={1}
+                    bgcolor="background.paper"
+                    p={1}
+                    style={{ height: '4.5rem', position: "fixed", bottom:"0", width:"100%" }}
+                >
+                    <Button
+                        variant="contained"
+                        style={{'width': '70%','backgroundColor': '#DAAB59' , color: '#403C3C', margin: '4px auto',padding: '8px 5px', fontSize: '17px', fontWeight: '700'}}
+                        className={`${classes.button} capitalization`}
+                        onClick={() => history.push(paths.store_summary)}
+                        //onClick={() => createCustomer()}
+                    >
+                        Start selling
+                    </Button>
+                </Box>
+            </React.Fragment>
         </div>
     );
 };
@@ -310,7 +309,6 @@ const EnhancedDashboard = withDatabase(
     saleInstallments: database.collections.get(SaleInstallments.table).query().observe(),
     //saleInstallments: new ModelAction('SaleInstallment').index(),
     //cartEntriesQ: new ModelAction('CartEntry').findById(new CartService().cartId()),
-    companySales: CompanyService.sales(),
     testBranch: new ModelAction('BranchProduct').findByColumn({
         name: 'branchId',
         value: LocalInfo.branchId,

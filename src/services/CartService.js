@@ -80,7 +80,7 @@ export default class CartService {
     * Get cart individual items total
     * */
     getCartEntryTotal(product){
-        return parseFloat(((product.sellingPrice * product.quantity) - product.discount)).toFixed(2);
+        return parseFloat(((product.sellingPrice * product.quantity) - (product.discount * product.quantity))).toFixed(2);
     }
 
     /*
@@ -157,7 +157,7 @@ export default class CartService {
                     branchProductId: product.branchProductId,
                     sellingPrice: data.sellingPrice,
                     costPrice: data.costPrice,
-                    discount: data.discount + product.discount,
+                    discount: parseFloat(data.discount),
                     quantity: data.quantity + product.quantity,
                 });
 
@@ -169,12 +169,12 @@ export default class CartService {
 
         const columns = {
             cartId: cartId,
-            branchId: data.branchId,
+            branchId: LocalInfo.branchId,
             productId: data.productId,
             branchProductId: data.branchProductId,
             sellingPrice: data.sellingPrice,
             costPrice: data.costPrice,
-            discount: data.discount,
+            discount: parseFloat(data.discount),
             quantity: data.quantity,
         };
 

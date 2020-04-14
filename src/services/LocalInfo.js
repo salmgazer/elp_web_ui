@@ -62,7 +62,8 @@ export default class LocalInfo {
   }
 
   static get userRole() {
-    return localStorage.getItem(this.keys.userRole);
+      return ((JSON.parse(this.userAccess)).access[0].role);
+      //return localStorage.getItem(this.keys.userRole);
   }
 
     static get accessToken() {

@@ -4,17 +4,15 @@ import Carts from "../models/carts/Carts";
 import {v4 as uuid} from 'uuid';
 import LocalInfo from "./LocalInfo";
 import ModelAction from "./ModelAction";
-import SaleInstallments from "../models/saleInstallments/SaleInstallment";
+import BranchService from "./BranchService";
 
 export default class SaleService {
     async makeSell(data , paymentType){
-        console.log(data , paymentType)
         const cartId = await new CartService().cartId();
-        console.log(cartId)
+
         try {
             const cartCollection = await database.collections.get(Carts.table);
             const cart = await cartCollection.find(cartId);
-            console.log(cart);
             const salesColumn = {
                 type: 'sales',
                 paymentType: SaleService.getPaymentType(paymentType),
@@ -25,12 +23,10 @@ export default class SaleService {
                 createdBy: LocalInfo.userId,
             };
 
-            console.log(salesColumn);
             await new ModelAction('Sales').post(salesColumn);
             const sale = await SaleService.getLastSale();
             await database.adapter.setLocal("saleId" , sale.id);
 
-            console.log(sale);
             try {
                 SaleService.importCartToSales(cartId , sale);
                 SaleService.makePayment(sale , data);
@@ -63,12 +59,12 @@ export default class SaleService {
     }
 
     static async makePayment(sales , data){
-        console.log(sales , data)
+        localStorage.setItem('amountPaid' , data.amountPaid);
         const salePaymentColumns = {
             saleId: sales.id,
             customerId: sales.customerId,
             createdBy: LocalInfo.userId,
-            amount: parseFloat(data.amountPaid),
+            amount: parseFloat(data.amountPaid - data.changeDue),
         };
 
         try {
@@ -118,11 +114,19 @@ export default class SaleService {
     * Get cart individual items total
     * */
     getSaleEntryTotal(product){
-        return parseFloat(((product.sellingPrice * product.quantity) - product.discount)).toFixed(2);
+        return parseFloat(((product.sellingPrice * product.quantity) - (product.discount * product.quantity))).toFixed(2);
     }
 
     /*
-    * Get Cart products by Id
+    *
+    * Get cart individual items total
+    * */
+    getSaleEntryProfit(product){
+        return parseFloat(((product.sellingPrice * product.quantity) - ((product.costPrice * product.quantity) + (product.discount * product.quantity)))).toFixed(2);
+    }
+
+    /*
+    * Get Sale products by Id
     */
     async getSaleProductsById(saleId){
         try {
@@ -140,6 +144,7 @@ export default class SaleService {
 
     /*
     * Get Sale payment by Id
+    * @todo hwy does it return only the first product...?
     */
     async getSalePaymentById(saleId){
         try {
@@ -162,10 +167,50 @@ export default class SaleService {
         return ((await new SaleService().getSaleProductsById(saleId))).reduce((a, b) => parseFloat(a) + parseFloat(new SaleService().getSaleEntryTotal(b) || 0), 0).toFixed(2);
     }
 
+    static async getCartEntryAmount(){
+        return ((await new CartService().getCartProducts())).reduce((a, b) => parseFloat(a) + parseFloat(new CartService().getCartEntryTotal(b) || 0), 0).toFixed(2);
+    }
+
+    /*
+    * Get sale total profit by Id
+    * */
+    static async getSaleEntryProfitById(saleId){
+        return ((await new SaleService().getSaleProductsById(saleId))).reduce((a, b) => parseFloat(a) + parseFloat(new SaleService().getSaleEntryProfit(b) || 0), 0).toFixed(2);
+    }
+
     /*
     * Get sale total amountPaid by Id
     * */
     static async getSaleEntryAmountPaidById(saleId){
         return ((await new SaleService().getSalePaymentById(saleId))).reduce((a, b) => parseFloat(a) + parseFloat(b.amount || 0), 0).toFixed(2);
+    }
+
+    /*
+    * Get sale credit left
+    * */
+    static async getSaleEntryCreditById(saleId){
+        return ((await this.getSaleEntryAmountPaidById(saleId)) - (await this.getSaleEntryAmountById(saleId)))
+    }
+
+    /*
+    * Get today sales total amount
+    * @return number - promise
+    * */
+    async getTodaySalesDetails() {
+        const todaySales = await new BranchService().getTodaySales();
+
+        let total = 0;
+        let profit = 0;
+        for (let step = 0; step < todaySales.length; step++) {
+            total += parseFloat(await SaleService.getSaleEntryAmountById(todaySales[step].id));
+        }
+
+        for (let step = 0; step < todaySales.length; step++) {
+            profit += parseFloat(await SaleService.getSaleEntryProfitById(todaySales[step].id));
+        }
+
+        return {
+            total,profit
+        };
     }
 }

@@ -151,11 +151,13 @@ const AddProductCart = props => {
             }, 3000);
             //return false;
         }
+
+
         const discount = (parseFloat(formFields.sellingPrice - sp)).toFixed(2);
         const {...oldFormFields} = formFields;
+        console.log(sp , formFields.sellingPrice , discount)
 
         oldFormFields['discount'] = discount;
-        oldFormFields['sellingPrice'] = sp;
 
         setFormFields(oldFormFields);
         setUnitPrice(sp);
@@ -163,6 +165,7 @@ const AddProductCart = props => {
     };
 
     const setUnitPriceHandler = event => {
+        console.log(formFields.sellingPrice , branchProduct.sellingPrice)
         const sp = (parseFloat(event.target.value));
 
         if (sp < costPrice) {
@@ -171,13 +174,24 @@ const AddProductCart = props => {
             setTimeout(function(){
                 setError(false);
             }, 3000);
-            //return false;
         }
         const discount = (parseFloat(formFields.sellingPrice - sp)).toFixed(2);
+        console.log(sp , formFields.sellingPrice , discount)
+
+        /*
+        * @todo how to handle increase not discount...
+        * */
+        /*if(discount < 0) {
+            setErrorMsg('Discount can');
+            setError(true);
+            setTimeout(function(){
+                setError(false);
+            }, 3000);
+            return false;
+        }*/
         const {...oldFormFields} = formFields;
 
         oldFormFields['discount'] = discount;
-        oldFormFields['sellingPrice'] = sp;
 
         setFormFields(oldFormFields);
         setUnitPrice(sp);
