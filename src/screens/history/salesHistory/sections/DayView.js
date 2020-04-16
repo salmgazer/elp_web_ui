@@ -40,7 +40,7 @@ const useStyles = makeStyles(theme => ({
     }
   }));
 
-  const DayView = props => {
+const DayView = props => {
     
     const classes = useStyles();
     const [selectedDate, setSelectedDate] = React.useState(new Date());
@@ -69,7 +69,6 @@ const useStyles = makeStyles(theme => ({
                     <Button
                         variant="contained"
                         style={{'backgroundColor': '#DAAB59' , color: 'white', padding: '5px 10px', textTransform: 'none', fontSize:'10px'}}
-
                     >
                         Day
                     </Button>
@@ -180,12 +179,8 @@ const useStyles = makeStyles(theme => ({
             <Box style={{marginTop: '5px' , paddingBottom: '60px'}} p={1} className={`mt-3 mb-5`}>
                 {props.products.map((item) => <SingleDayView  key={item.pro_id} item={item}/>)}
             </Box>
-
-
-
         </div>
     )
+}
 
-  }
-
-  export default withRouter(DayView);
+export default withRouter(DayView);

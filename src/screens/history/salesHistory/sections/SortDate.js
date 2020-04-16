@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {withRouter} from "react-router";
+import { withRouter } from "react-router-dom";
 
 import DayView from './DayView';
 import WeekView from './WeekView';
@@ -8,7 +8,6 @@ import YearView from './YearView';
 
 
 class SortDate extends Component{
-
     state={
         isDrawerShow: false,
         activeStep: 0,
@@ -139,13 +138,10 @@ class SortDate extends Component{
         });
     };
 
-
     render(){
         return(
             <div>
-
                 {this.getStepContent(this.state.activeStep)}
-
             </div>
         )
     }
