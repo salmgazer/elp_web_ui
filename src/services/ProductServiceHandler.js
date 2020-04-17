@@ -1,3 +1,5 @@
+import ModelAction from "./ModelAction";
+
 export default class ProductServiceHandler {
     constructor(product){
         this.product = product;
@@ -94,4 +96,32 @@ export default class ProductServiceHandler {
     isProductSellable(){
         return !!(this.getProductQuantity() && this.getCostPrice() && this.getSellingPrice());
     }
+
+    /*
+    * @var stockEntry
+    * @var new quantity
+    * @return new stockEntry
+    * */
+   async updateStockEntryDetails(stockEntry ){
+    //1. Check if quantity of product is valid
+    //2. Update quantity of entry
+      
+        try {
+            new ModelAction('BranchProduct').update(stockEntry.productId , {
+                branchId: stockEntry.branchId,
+                productId: stockEntry.productId,
+                sellingPrice: stockEntry.sellingPrice,
+                costPrice: stockEntry.costPrice,
+                moneySource: stockEntry.moneySource,
+                rememberChoice: stockEntry.rememberChoice,
+                quantity: stockEntry.quantity,
+            });
+
+            return true;
+        } catch (e) {
+            return false;
+        }
+   
+}
+
 }

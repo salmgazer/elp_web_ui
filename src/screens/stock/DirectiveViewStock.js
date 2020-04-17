@@ -10,6 +10,10 @@ import ItemsOutOfStock from "./sections/outOfStock/itemsOutOfStock";
 import ItemsLowStock from "./sections/lowStock/itemsLowStock";
 import AddNewStockPage from "./sections/addNewStockPage";
 import MoveStock from "./sections/moveStock/moveStock";
+import ProductServiceHandler from '../../services/ProductServiceHandler';
+import {withDatabase} from "@nozbe/watermelondb/DatabaseProvider";
+import withObservables from "@nozbe/with-observables";
+import { v1 as uuidv1 } from 'uuid';
 
 class DirectiveViewStock extends Component{
     state = {
@@ -47,6 +51,7 @@ class DirectiveViewStock extends Component{
     async componentDidMount() {
         const branchId = LocalInfo.branchId;
         const accessToken = LocalInfo.accessToken;
+        const { branchProductStock, branchProductStockHistory} = this.props;
 
         try {
             let products = await new Api('others').index(
@@ -88,7 +93,7 @@ class DirectiveViewStock extends Component{
             case 4:
                 return <ItemsLowStock addNewProductStockView={this.addNewProductStockView.bind(this)} stock={this.state.stockList} storeDetails={this.state.storeDetails} setView={this.setStepContentView.bind(this)}/>;
             case 5:
-                return <AddNewStockPage product={this.state.currentProduct} setView={this.setStepContentView.bind(this)}/>;
+                return <AddNewStockPage product={this.state.currentProduct} updateProduct={this.updateNewProduct.bind(this)} setView={this.setStepContentView.bind(this)}/>;
             case 6:
                 return <MoveStock product={this.state.currentProduct} setView={this.setStepContentView.bind(this)}/>;
             default:
@@ -158,6 +163,21 @@ class DirectiveViewStock extends Component{
         });
     };
 
+    async updateNewProduct(formFields){
+        try {
+            let status = new ProductServiceHandler().updateStockEntryDetails(formFields );
+            status = await status;
+
+            if(status){
+                return true;
+            }
+            alert('Invalid quantity');
+            return false;
+        }catch (e) {
+            return false;
+        }
+    }
+
     render(){
         return (
             <div>{this.getStepContent(this.state.activeStep)}</div>
@@ -165,4 +185,13 @@ class DirectiveViewStock extends Component{
     }
 }
 
-export default withRouter(DirectiveViewStock);
+const EnhancedStock = withDatabase(
+    withObservables(['BranchProductStock', 'BranchProductStockHistory' ], ({ database , BranchProductStock, BranchProductStockHistory }) => ({
+        
+        
+        
+    }))(withRouter(DirectiveViewStock))
+);
+
+export default EnhancedStock;
+

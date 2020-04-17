@@ -159,7 +159,7 @@ const AddNewStockPage = props => {
         branchId: parseFloat(localStorage.getItem('activeBranch')),
     });
 
-    const saveStock = (event) => {
+    const saveStock = (formFields, event) => {
         setLoading(true);
         if((formFields.costPrice !== "" || parseFloat(formFields.costPrice !== 0)) && (formFields.sellingPrice !== "" || parseFloat(formFields.sellingPrice !== 0))){
             if(parseFloat(formFields.costPrice) >= parseFloat(formFields.sellingPrice)){
@@ -173,7 +173,7 @@ const AddNewStockPage = props => {
             }
         }
 
-        props.addNewProduct(formFields);
+        props.updateProduct(formFields);
 
         setSuccessDialog(true);
 
@@ -362,9 +362,14 @@ const AddNewStockPage = props => {
                 handleClose={changeSourceModalState.bind(this)}
                 title={`Money source`}
                 footer={
-                <SecondaryButton onClick={saveStock.bind(this)} >
+                <Button
+                    variant="contained"
+                    style={{'backgroundColor': '#DAAB59' , color: '#333333', padding: '5px 50px'}}
+                    onClick={saveStock.bind(this)}
+                    disabled={loading}
+                >
                     Save
-                </SecondaryButton>
+                </Button>
                 }
             >
                 <Container className={`mx-3`} style={{width: '100%'}}>
