@@ -573,3 +573,23 @@ button.Mui-disabled {
 .icon-color{
   color: #333232;
 }
+
+.activeButton{
+  color: #FFFFFF;
+  padding: 5px 10px;
+  font-size: 10px;
+  border: 1px solid #DAAB59;
+  text-transform: none;
+  background-color: #DAAB59;
+  width: 100%;
+}
+
+.inactiveButton{
+  border: 1px solid #DAAB59;
+  color: #DAAB59;
+  padding: 5px 10px;
+  font-size: 10px;
+  background-color: #FFFFFF;
+  text-transform: none;
+  width: 100%;
+}

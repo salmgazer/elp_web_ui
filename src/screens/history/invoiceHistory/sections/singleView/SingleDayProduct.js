@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect , useState} from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import Card from "@material-ui/core/Card/Card";
 import Grid from "@material-ui/core/Grid/Grid";
@@ -15,6 +15,9 @@ import InputAdornment from '@material-ui/core/InputAdornment';
 import StayPrimaryPortraitIcon from '@material-ui/icons/StayPrimaryPortrait';
 import Button from "@material-ui/core/Button/Button";
 import TextField from '@material-ui/core/TextField';
+import ProductServiceHandler from "../../../../../services/ProductServiceHandler";
+import SaleService from "../../../../../services/SaleService";
+import format from "date-fns/format";
 
 
 const useStyles = makeStyles(theme => ({
@@ -26,12 +29,15 @@ const useStyles = makeStyles(theme => ({
   }));
 
 const SingleDayProduct = props => {
-    const product = props.prod;
+    const saleEntry = props.saleEntry;
     const classes = useStyles();
-    const [mainDialog, setMainDialog] = React.useState(false);
-    const [value, setValue] = React.useState(0);
+    const [mainDialog, setMainDialog] = useState(false);
+    const [value, setValue] = useState(0);
+    const [product, setProduct] = useState('');
+    const [name , setName] = useState('');
+    const [image , setImage] = useState('');
+    const [totalPrice , setTotalPrice] = useState('');
 
-    const image = `https://elparah.store/admin/upload/${product.image}`;
 
     function a11yProps(index) {
         return {
@@ -39,6 +45,22 @@ const SingleDayProduct = props => {
             'aria-controls': `full-width-tabpanel-${index}`,
         };
     }
+
+    useEffect(() => {
+        // You need to restrict it at some point
+        // This is just dummy code and should be replaced by actual
+        if (!product) {
+            getProduct();
+        }
+    });
+
+    const getProduct = async () => {
+        const newProduct = await props.saleEntry.product.fetch();
+        setProduct(newProduct);
+        setImage(new ProductServiceHandler(product).getProductImage());
+        setTotalPrice(new SaleService().getSaleEntrySellingPrice(props.saleEntry));
+        setName((newProduct.name).length > 20 ? (newProduct.name).slice(0 , 20) + '...' : newProduct.name);
+    };
 
     const closeDialogHandler = (event) => {
         setMainDialog(false);
@@ -76,14 +98,14 @@ const SingleDayProduct = props => {
                 </Grid>
                 <Grid item xs={6} style={{display: 'table', height: '60px', margin: '8px 0px'}}>
                     <div style={{textAlign: 'left', display: 'table-cell', verticalAlign: 'middle'}}>
-                        <span className='text-dark font-weight-bold' style={{ fontSize: '14px'}} >{product.name}</span>
-                        <div className="font-weight-light mt-1" style={{ fontSize: '13px'}}>Quantity: {product.quantity}</div>
-                        <div className="font-weight-light mt-1" style={{ fontSize: '13px', color: 'red'}}>Cost: GHC {product.cost}</div>
+                        <span className='text-dark font-weight-bold' style={{ fontSize: '14px'}} >{name}</span>
+                        <div className="font-weight-light mt-1" style={{ fontSize: '13px'}}>Quantity: {saleEntry.quantity}</div>
+                        <div className="font-weight-light mt-1" style={{ fontSize: '13px', color: 'red'}}>Total Price: GHC {totalPrice}</div>
                     </div>
                 </Grid>
 
                 <Grid item xs={3} style={{height: '60px', margin: '10px 0px 0px 0px'}}>  
-                    <span className='text-dark font-weight-bold' style={{ fontSize: '13px'}} >7:00 pm</span>                     
+                    <span className='text-dark font-weight-bold' style={{ fontSize: '13px'}} >{format(new Date(saleEntry.createdAt) , "HH:mm a")}</span>
                     <EditIcon
                         onClick={openDialogHandler.bind(this)}
                         style={{fontSize: '20px', color: '#DAAB59', textAlign: 'right'}}
@@ -112,8 +134,8 @@ const SingleDayProduct = props => {
                         <Grid item xs={6} style={{display: 'table', height: '60px', margin: '8px 0px'}}>
                             <div style={{textAlign: 'left', display: 'table-cell', verticalAlign: 'middle'}}>
                                 <span className='text-dark font-weight-bold' >{product.name}</span>
-                                <div className="font-weight-light mt-1" style={{ fontSize: '13px'}}>Quantity: {product.quantity}</div>
-                                <div className="font-weight-light mt-1" style={{ fontSize: '13px'}}>Sales: GHC {product.sales}</div>
+                                <div className="font-weight-light mt-1" style={{ fontSize: '13px'}}>Quantity: {saleEntry.quantity}</div>
+                                <div className="font-weight-light mt-1" style={{ fontSize: '13px'}}>Sales: GHC {totalPrice}</div>
                                 <div className="font-weight-light mt-1" style={{ fontSize: '13px', color: '#DAAB59'}}>Audit sale</div>
                             </div>
                         </Grid>
@@ -155,7 +177,7 @@ const SingleDayProduct = props => {
                             <TextField 
                                 id="outlined-basic" 
                                 label="Quantity" 
-                                value={product.quantity}
+                                value={saleEntry.quantity}
                                 variant="outlined" 
                                 size="small" 
                                 style={{margin: '50px'}} 

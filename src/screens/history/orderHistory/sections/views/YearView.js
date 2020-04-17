@@ -79,7 +79,7 @@ const useStyles = makeStyles(theme => ({
 
     return(
         <div className={classes.root}>
-            <Grid container spacing={1}>
+            {/*<Grid container spacing={1}>
 
                 <Grid item xs={3}>
                     <Button
@@ -119,7 +119,7 @@ const useStyles = makeStyles(theme => ({
                         Year  
                     </Button>
                 </Grid>
-            </Grid>
+            </Grid>*/}
 
             <Grid container spacing={1}>
                 <Typography style={{fontSize: '14px', paddingTop: '20px', marginRight: '50px'}} >

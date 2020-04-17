@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import Grid from '@material-ui/core/Grid';
 import Button from "@material-ui/core/Button/Button";
@@ -16,6 +16,9 @@ import Box from "@material-ui/core/Box/Box";
 import { withRouter } from "react-router-dom";
 
 import SingleDayInvoice from './singleView/SingleDayInvoice';
+import BranchService from "../../../../services/BranchService";
+import InvoiceService from "../../../../services/InvoiceService";
+import AddedProductSingle from "../../../sell/cart/sections/BoxView/BoxView";
 
 const useStyles = makeStyles(theme => ({
     root: {
@@ -64,27 +67,36 @@ const useStyles = makeStyles(theme => ({
   const DayView = props => {
     
     const classes = useStyles();
-    const [selectedDate, setSelectedDate] = React.useState(new Date());
+    const [selectedDate, setSelectedDate] = useState(new Date());
+    //const [day , setDay] = useState(new Date());
 
     const handleDateChange = date => {
         setSelectedDate(date);
-      };
-
-    const openWeek = (event) => {
-        props.setView(2);
+        getInvoiceDetails(date);
     };
 
-    const openMonth = (event) => {
-        props.setView(3);
-    };
+    const [invoiceDetails , setInvoiceDetails] = useState(false);
+    const [invoices , setInvoices] = useState([]);
 
-    const openYear = (event) => {
-        props.setView(4);
+    useEffect(() => {
+      // You need to restrict it at some point
+      // This is just dummy code and should be replaced by actual
+        if (!invoiceDetails) {
+            getInvoiceDetails(selectedDate);
+        }
+    });
+
+    const getInvoiceDetails = async (date) => {
+        const response = await new InvoiceService().getInvoiceDetails('day' , date);
+        setInvoiceDetails(response);
+        setInvoices(response.invoices);
+        console.log(response)
     };
 
     return(
         <div className={classes.root}>
-            <Grid container spacing={1}>
+            {console.log(invoiceDetails.invoices)}
+            {/*<Grid container spacing={1}>
 
                 <Grid item xs={3}>
                     <Button
@@ -124,7 +136,7 @@ const useStyles = makeStyles(theme => ({
                         Year  
                     </Button>
                 </Grid>
-            </Grid>
+            </Grid>*/}
 
             <Grid container spacing={1}>
             
@@ -170,7 +182,7 @@ const useStyles = makeStyles(theme => ({
                             Quantity
                         </Typography>
                         <Typography className={classes.text} >
-                            5 items
+                            {invoiceDetails.quantity} items
                         </Typography>
                     </Paper>
                 </Grid>
@@ -181,7 +193,7 @@ const useStyles = makeStyles(theme => ({
                             Cost price
                         </Typography>
                         <Typography className={classes.text} >
-                            GHC 500
+                            GHC {invoiceDetails.costPrice}
                         </Typography>
                     </Paper>
                 </Grid>
@@ -192,7 +204,7 @@ const useStyles = makeStyles(theme => ({
                             Selling price
                         </Typography>
                         <Typography className={classes.text} >
-                            GHC 600
+                            GHC {invoiceDetails.sellingPrice}
                         </Typography>
                     </Paper>
                 </Grid>
@@ -200,10 +212,10 @@ const useStyles = makeStyles(theme => ({
                 <Grid item xs={3}>
                     <Paper className={classes.paper}>
                         <Typography className={classes.title} component="p" >
-                            {props.profitName}
+                            Amount Owned
                         </Typography>
                         <Typography className={classes.text} >
-                            GHC 100
+                            GHC {invoiceDetails.credit}
                         </Typography>
                     </Paper>
                 </Grid>
@@ -211,11 +223,30 @@ const useStyles = makeStyles(theme => ({
             </Grid>
 
             <Box style={{marginTop: '5px' , paddingBottom: '60px'}} p={1} className={`mt-3 mb-5`}>
-                {props.invoices.map((item) => <SingleDayInvoice  key={item.inv_id} item={item} products={props.prod} />)}
+                {invoices.length === 0
+                    ?
+                    <div className={`rounded mx-1 my-2 p-2 bordered`}>
+                        <Grid container spacing={1} className={`py-1`}>
+                            <Grid
+                                item xs={12}
+                                className={`text-left pl-2`}
+                            >
+                                <Typography
+                                    component="h6"
+                                    variant="h6"
+                                    style={{fontSize: '16px'}}
+                                    className={`text-center text-dark`}
+                                >
+                                    No sales made
+                                </Typography>
+                            </Grid>
+                        </Grid>
+                    </div>
+                    :
+
+                    invoices.map((invoice) => <SingleDayInvoice  key={invoice.id} invoice={invoice} products={props.prod} />)
+                }
             </Box>
-
-
-
         </div>
     )
 

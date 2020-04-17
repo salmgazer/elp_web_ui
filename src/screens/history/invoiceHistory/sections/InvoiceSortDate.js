@@ -6,6 +6,7 @@ import WeekView from '../../orderHistory/sections/views/WeekView';
 import MonthView from '../../orderHistory/sections/views/MonthView';
 import YearView from '../../orderHistory/sections/views/YearView';
 import Payment from '../../orderHistory/sections/views/Payment';
+import DateToggle from "../../../../components/DateToggle/DateToggle";
 
 class InvoiceSortDate extends Component {
 
@@ -146,6 +147,14 @@ class InvoiceSortDate extends Component {
         }
     };
 
+    async componentDidUpdate(prevProps) {
+        const {...props} = this.props;
+
+        if(prevProps.activeStep !== props.activeStep){
+            console.log('me')
+        }
+    }
+
     setStepContentView = step => {
         this.setState({
             activeStep: step
@@ -153,12 +162,12 @@ class InvoiceSortDate extends Component {
     };
 
     render() {
-
         return(
             <div>
-
+                <DateToggle
+                    setView={this.setStepContentView.bind(this)}
+                />
                 {this.getStepContent(this.state.activeStep)}
-
             </div>
         )
     }

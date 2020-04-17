@@ -64,7 +64,7 @@ export default class SaleService {
             saleId: sales.id,
             customerId: sales.customerId,
             createdBy: LocalInfo.userId,
-            amount: parseFloat(data.amountPaid - data.changeDue),
+            amount: data.changeDue >= 0 ? parseFloat(data.amountPaid - data.changeDue) : parseFloat(data.amountPaid),
         };
 
         try {
@@ -126,6 +126,23 @@ export default class SaleService {
     }
 
     /*
+    *
+    * Get sale individual items cost price
+    * */
+    getSaleEntryCostPrice(product){
+        return parseFloat(product.costPrice * product.quantity).toFixed(2);
+    }
+
+    /*
+    *
+    * Get sale individual items selling price
+    * */
+    getSaleEntrySellingPrice(product){
+        console.log(product)
+        return parseFloat((product.sellingPrice * product.quantity) - (product.discount * product.quantity)).toFixed(2);
+    }
+
+    /*
     * Get Sale products by Id
     */
     async getSaleProductsById(saleId){
@@ -171,11 +188,29 @@ export default class SaleService {
         return ((await new CartService().getCartProducts())).reduce((a, b) => parseFloat(a) + parseFloat(new CartService().getCartEntryTotal(b) || 0), 0).toFixed(2);
     }
 
+    static async getSaleProductQuantity(saleId){
+        return ((await new SaleService().getSaleProductsById(saleId))).reduce((a, b) => a + (b['quantity'] || 0), 0);
+    }
+
     /*
     * Get sale total profit by Id
     * */
     static async getSaleEntryProfitById(saleId){
         return ((await new SaleService().getSaleProductsById(saleId))).reduce((a, b) => parseFloat(a) + parseFloat(new SaleService().getSaleEntryProfit(b) || 0), 0).toFixed(2);
+    }
+
+    /*
+    * Get sale total cost price by Id
+    * */
+    static async getSaleEntryCostPriceById(saleId){
+        return ((await new SaleService().getSaleProductsById(saleId))).reduce((a, b) => parseFloat(a) + parseFloat(new SaleService().getSaleEntryCostPrice(b) || 0), 0).toFixed(2);
+    }
+
+    /*
+    * Get sale total cost price by Id
+    * */
+    static async getSaleEntrySellingPriceById(saleId){
+        return ((await new SaleService().getSaleProductsById(saleId))).reduce((a, b) => parseFloat(a) + parseFloat(new SaleService().getSaleEntrySellingPrice(b) || 0), 0).toFixed(2);
     }
 
     /*
@@ -189,7 +224,7 @@ export default class SaleService {
     * Get sale credit left
     * */
     static async getSaleEntryCreditById(saleId){
-        return ((await this.getSaleEntryAmountPaidById(saleId)) - (await this.getSaleEntryAmountById(saleId)))
+        return ((await this.getSaleEntryAmountById(saleId)) - (await this.getSaleEntryAmountPaidById(saleId)))
     }
 
     /*
@@ -212,5 +247,20 @@ export default class SaleService {
         return {
             total,profit
         };
+    }
+
+    /*
+    * Get sale payment status
+    * */
+
+    static async getSalePaymentStatus(saleId){
+        const saleAmount = await SaleService.getSaleEntryAmountById(saleId);
+        const saleAmountPaid = await SaleService.getSaleEntryAmountPaidById(saleId);
+
+        if(saleAmountPaid >= saleAmount){
+            return 'Full payment';
+        }else{
+            return `Owes GHC ${saleAmount - saleAmountPaid}`;
+        }
     }
 }

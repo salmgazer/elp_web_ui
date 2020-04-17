@@ -8,7 +8,8 @@ export default class SaleEntries extends Model {
 
     static associations = {
         sales: { type: 'belongs_to' , key: 'saleId'},
-        customers: { type: 'belongs_to' , key: 'customerId'}
+        customers: { type: 'belongs_to' , key: 'customerId'},
+        products: { type: 'belongs_to' , key: 'productId'}
     };
 
     static displayColumn = 'id';
@@ -17,6 +18,7 @@ export default class SaleEntries extends Model {
 
     @relation('customers', 'customerId') customer;
     @relation('sales', 'saleId') sale;
+    @relation('products', 'productId') product;
     @field('branchId') branchId;
     @field('branchProductId') branchProductId;
     @field('productId') productId;

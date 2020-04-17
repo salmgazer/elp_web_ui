@@ -9,7 +9,7 @@ export default class Sales extends Model {
     static associations = {
         saleEntries: { type: 'has_many', key: 'saleId' },
         saleInstallments: { type: 'has_many', key: 'saleId' },
-        customer: {type: 'belongs_to' , key: 'customerId'},
+        customers: {type: 'belongs_to' , key: 'customerId'},
     };
 
     static displayColumn = 'id';
