@@ -2,6 +2,7 @@ import LocalInfo from "./LocalInfo";
 import ModelAction from "./ModelAction";
 import database from '../models/database';
 import { Q } from '@nozbe/watermelondb'
+import BranchProductService from "./BranchProductService";
 
 export default class BranchStockService{
     constructor(){
@@ -291,10 +292,101 @@ export default class BranchStockService{
 
             //console.log(countStock , (countSales + countMovement))
 
-            return (countStock >= (countSales + countMovement))
+            return (countStock <= (countSales + countMovement))
         });
 
-        console.log(outOfStock)
         return outOfStock;
+    }
+
+    async getTotalCostPrice(){
+        const companyStock = await new ModelAction('BranchProductStock').findByColumnNotObserve({
+            name: 'branchId',
+            value: this.branchId,
+            fxn: 'eq'
+        });
+
+        const companySaleEntries = await new ModelAction('SaleEntry').findByColumnNotObserve({
+            name: 'branchId',
+            value: this.branchId,
+            fxn: 'eq'
+        });
+
+        const companyStockMovement = await new ModelAction('StockMovement').findByColumnNotObserve({
+            name: 'branchFrom',
+            value: this.branchId,
+            fxn: 'eq'
+        });
+
+        const branchProducts = await new ModelAction('BranchProduct').findByColumnNotObserve({
+            name: 'branchId',
+            value: this.branchId,
+            fxn: 'eq'
+        });
+
+        const stockCostValue = branchProducts.map(async (product) => {
+            const stock = companyStock.filter((item) => item.productId === product.productId && item.branchId === this.branchId);
+            const sales = companySaleEntries.filter((item) => item.productId === product.productId && item.branchId === this.branchId);
+            const movement = companyStockMovement.filter((item) => item.productId === product.productId && item.branchId === this.branchId);
+
+            const countStock = ((stock).reduce((a, b) => a + (b['quantity'] || 0), 0));
+            const countSales = ((sales).reduce((a, b) => a + (b['quantity'] || 0), 0));
+            const countMovement = ((movement).reduce((a, b) => a + (b['quantity'] || 0), 0));
+
+            //console.log(countStock , (countSales + countMovement))
+            //console.log(await new BranchProductService(product).getCostPrice())
+            return ((countStock - (countSales + countMovement)) * await new BranchProductService(product).getCostPrice())
+        });
+        console.log(stockCostValue)
+
+        return stockCostValue.reduce(async function(a,b){
+            return await a + await b
+        }, 0);
+    }
+
+    async getTotalSellingPrice(){
+        const companyStock = await new ModelAction('BranchProductStock').findByColumnNotObserve({
+            name: 'branchId',
+            value: this.branchId,
+            fxn: 'eq'
+        });
+
+        const companySaleEntries = await new ModelAction('SaleEntry').findByColumnNotObserve({
+            name: 'branchId',
+            value: this.branchId,
+            fxn: 'eq'
+        });
+
+        const companyStockMovement = await new ModelAction('StockMovement').findByColumnNotObserve({
+            name: 'branchFrom',
+            value: this.branchId,
+            fxn: 'eq'
+        });
+
+        const branchProducts = await new ModelAction('BranchProduct').findByColumnNotObserve({
+            name: 'branchId',
+            value: this.branchId,
+            fxn: 'eq'
+        });
+
+        const stockValue = branchProducts.map((product) => {
+            const stock = companyStock.filter((item) => item.productId === product.productId && item.branchId === this.branchId);
+            const sales = companySaleEntries.filter((item) => item.productId === product.productId && item.branchId === this.branchId);
+            const movement = companyStockMovement.filter((item) => item.productId === product.productId && item.branchId === this.branchId);
+
+            const countStock = ((stock).reduce((a, b) => a + (b['quantity'] || 0), 0));
+            const countSales = ((sales).reduce((a, b) => a + (b['quantity'] || 0), 0));
+            const countMovement = ((movement).reduce((a, b) => a + (b['quantity'] || 0), 0));
+
+            //console.log(countStock , (countSales + countMovement))
+            return ((countStock - (countSales + countMovement)) * product.sellingPrice)
+        });
+
+        return stockValue.reduce(function(a,b){
+            return a + b
+        }, 0);
+    }
+
+    async getTotalExpectedProfit(){
+        return await this.getTotalSellingPrice() - await this.getTotalCostPrice();
     }
 }

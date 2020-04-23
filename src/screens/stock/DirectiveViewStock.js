@@ -53,6 +53,12 @@ class DirectiveViewStock extends Component{
             itemsLeft: await new BranchStockService().getCompanyItemsLeft(),
             lowestStockItems: await new BranchStockService().getLowStockItems(),
             outOfStockItems: await new BranchStockService().getItemsOutOfStock(),
+            storeDetails: {
+                itemsInStore: await new BranchStockService().getCompanyItemsLeft(),
+                totalCostPrice: await new BranchStockService().getTotalCostPrice(),
+                totalSellingPrice: await new BranchStockService().getTotalSellingPrice(),
+                totalExpectedProfit: await new BranchStockService().getTotalExpectedProfit(),
+            },
         });
     }
 
@@ -85,11 +91,11 @@ class DirectiveViewStock extends Component{
             case 1:
                 return <StockProductSingle product={this.state.currentProduct} setView={this.setStepContentView.bind(this)}/>;
             case 2:
-                return <StockSummaryPage storeDetails={this.state.storeDetails} setView={this.setStepContentView.bind(this)}/>;
+                return <StockSummaryPage itemsLeft={this.state.itemsLeft} storeDetails={this.state.storeDetails} setView={this.setStepContentView.bind(this)}/>;
             case 3:
-                return <ItemsOutOfStock addNewProductStockView={this.addNewProductStockView.bind(this)} stock={this.state.outOfStockItems} storeDetails={this.state.storeDetails} setView={this.setStepContentView.bind(this)}/>;
+                return <ItemsOutOfStock addNewProductStockView={this.showProductStockView.bind(this)} stock={this.state.outOfStockItems} storeDetails={this.state.storeDetails} setView={this.setStepContentView.bind(this)}/>;
             case 4:
-                return <ItemsLowStock addNewProductStockView={this.addNewProductStockView.bind(this)} stock={this.state.stockList} storeDetails={this.state.storeDetails} setView={this.setStepContentView.bind(this)}/>;
+                return <ItemsLowStock addNewProductStockView={this.showProductStockView.bind(this)} stock={this.state.lowestStockItems} storeDetails={this.state.storeDetails} setView={this.setStepContentView.bind(this)}/>;
             case 5:
                 return <AddNewStockPage product={this.state.currentProduct} updateProduct={this.updateNewProduct.bind(this)} setView={this.setStepContentView.bind(this)}/>;
             case 6:
@@ -136,7 +142,7 @@ class DirectiveViewStock extends Component{
 
         //Find index of specific object using findIndex method.
         const itemIndex = old_list.filter((item => item.id === productId));
-        //console.log(itemIndex)
+        console.log(itemIndex)
 
         this.setState({
             currentProduct: itemIndex,
