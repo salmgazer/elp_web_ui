@@ -10,10 +10,24 @@ import cartEntrySchema from "./cartEntry/cartEntrySchema";
 import saleEntrySchema from "./saleEntry/saleEntriesSchema";
 import branchCustomerSchema from "./branchesCustomer/branchCustomerSchema";
 import saleInstallmentSchema from "./saleInstallments/saleInstallmentSchema";
+import purchaseSchema from "./branchPurchases/purchaseSchema";
+import stockMovementSchema from "./stockMovements/stockMovementSchema";
 
 // latest migrations should be at the top entry level of the migrations array
 export default schemaMigrations({
   migrations: [
+      {
+          toVersion: 10,
+          steps: [
+              createTable(stockMovementSchema),
+          ]
+      },
+      {
+          toVersion: 9,
+          steps: [
+              createTable(purchaseSchema),
+          ]
+      },
       {
           toVersion: 8,
           steps: [

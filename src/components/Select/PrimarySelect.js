@@ -22,7 +22,7 @@ const useStyles = makeStyles(theme => ({
 const PrimarySelect = props => {
     const classes = useStyles();
     const selectData = props.data;
-    const [value,setValue] = useState(selectData[0].value)
+    const [value,setValue] = useState(props.initialValue ? props.initialValue.value : selectData[0].value);
 
     const handleChange = event => {
         setValue(event.target.value);

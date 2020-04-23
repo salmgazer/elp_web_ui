@@ -45,14 +45,16 @@ const SingleDayInvoice = props => {
         /*
         * @todo get entries via query on model
         * */
-        const entries = await new SaleService().getSaleProductsById(invoice.id);
+        const entries = await invoice.sale_entries.fetch(); //await new SaleService().getSaleProductsById(invoice.id);
         const saleTotal = await SaleService.getSaleEntryAmountById(invoice.id);
         const paymentStatus = await SaleService.getSalePaymentStatus(invoice.id);
         setCustomer(response);
         setTotal(saleTotal);
         setPayment(paymentStatus);
         setSaleEntries(entries);
-        console.log(entries)
+
+        console.log('$$$$$$$$$$$$$$$$$$$$$$$$$$$$$')
+        console.log(invoice.saleEntries.fetch())
     };
 
     return(

@@ -14,29 +14,20 @@ import ProductServiceHandler from '../../services/ProductServiceHandler';
 import {withDatabase} from "@nozbe/watermelondb/DatabaseProvider";
 import withObservables from "@nozbe/with-observables";
 import { v1 as uuidv1 } from 'uuid';
+import BranchService from "../../services/BranchService";
+import * as Q from "@nozbe/watermelondb/QueryDescription";
+import CartService from "../../services/CartService";
+import BranchStockService from "../../services/BranchStockService";
+import SaleService from "../../services/SaleService";
+import BranchProductStock from "../../models/branchesProductsStocks/BranchProductStock";
 
 class DirectiveViewStock extends Component{
     state = {
         activeStep: 0,
         stockList: [],
+        branchProducts: [],
+        companyBranches: [],
         currentProduct: {},
-        locations: [
-            {
-                name: 'Adenta',
-                status: true,
-                quantity: 500
-            },
-            {
-                name: 'Lapaz',
-                status: false,
-                quantity: 500
-            },
-            {
-                name: 'Warehouse',
-                status: false,
-                quantity: 1000
-            }
-        ],
         storeDetails: {
             itemsInStore: '2000',
             totalCostPrice: '50,000',
@@ -49,26 +40,24 @@ class DirectiveViewStock extends Component{
     * Fetch all products when component is mounted
     * */
     async componentDidMount() {
-        const branchId = LocalInfo.branchId;
-        const accessToken = LocalInfo.accessToken;
-        const { branchProductStock, branchProductStockHistory} = this.props;
 
-        try {
-            let products = await new Api('others').index(
-                {},
-                {'Authorization': `Bearer ${accessToken}`},
-                `https://elp-core-api-dev.herokuapp.com/v1/client/branches/${branchId}/products`,
-            );
+        const { branchProducts } = this.props;
+        console.log(branchProducts);
 
-            localStorage.setItem('storeProductsLookup' , JSON.stringify(products.data.products));
+        await this.setState({
+            branchProducts: branchProducts,
+            companyBranches: LocalInfo.branches,
+        });
+    }
 
+    async componentDidUpdate(prevProps) {
+        const { branchProducts , branchProductStock } = this.props;
+
+        if(prevProps.branchProductStock.length !== branchProductStock.length){
             this.setState({
-                'stockList' : products.data.products,
+                branchProducts: branchProducts,
+                companyBranches: LocalInfo.branches,
             });
-
-            console.log(products);
-        }catch (error) {
-            console.log(error)
         }
     }
 
@@ -83,9 +72,9 @@ class DirectiveViewStock extends Component{
     getStepContent = step => {
         switch (step) {
             case 0:
-                return <StockMainPage stock={this.state.stockList} setView={this.setStepContentView.bind(this)} addProductStockView={this.showProductStockView.bind(this)}/> ;
+                return <StockMainPage branchProducts={this.state.branchProducts} stock={this.state.stockList} setView={this.setStepContentView.bind(this)} addProductStockView={this.showProductStockView.bind(this)}/> ;
             case 1:
-                return <StockProductSingle locations={this.state.locations} product={this.state.currentProduct} setView={this.setStepContentView.bind(this)}/>;
+                return <StockProductSingle product={this.state.currentProduct} setView={this.setStepContentView.bind(this)}/>;
             case 2:
                 return <StockSummaryPage storeDetails={this.state.storeDetails} setView={this.setStepContentView.bind(this)}/>;
             case 3:
@@ -95,7 +84,7 @@ class DirectiveViewStock extends Component{
             case 5:
                 return <AddNewStockPage product={this.state.currentProduct} updateProduct={this.updateNewProduct.bind(this)} setView={this.setStepContentView.bind(this)}/>;
             case 6:
-                return <MoveStock product={this.state.currentProduct} setView={this.setStepContentView.bind(this)}/>;
+                return <MoveStock product={this.state.currentProduct} setView={this.setStepContentView.bind(this)} moveStock={this.moveStock.bind(this)} />;
             default:
                 return 'Complete';
         }
@@ -132,16 +121,17 @@ class DirectiveViewStock extends Component{
     * View a products stock
     * */
     showProductStockView = (productId) => {
-        console.log(`${productId} from addProduct`);
-        const old_list = this.state.stockList;
+        const old_list = this.state.branchProducts;
+
+        const newStep = this.state.companyBranches.length > 1 ? 1 : 5;
 
         //Find index of specific object using findIndex method.
-        const product = old_list.filter((product => product.id === productId));
-
+        const itemIndex = old_list.filter((item => item.id === productId));
         //console.log(itemIndex)
+
         this.setState({
-            currentProduct: product[0],
-            activeStep: 1
+            currentProduct: itemIndex,
+            activeStep: newStep
         });
     };
 
@@ -164,14 +154,29 @@ class DirectiveViewStock extends Component{
     };
 
     async updateNewProduct(formFields){
+        console.log(formFields)
         try {
-            let status = new ProductServiceHandler().updateStockEntryDetails(formFields );
-            status = await status;
-
+            const status = await new BranchStockService().addStock(formFields);
+            console.log(status)
             if(status){
                 return true;
             }
-            alert('Invalid quantity');
+            alert('Something went wrong');
+            return false;
+        }catch (e) {
+            return false;
+        }
+    }
+
+    async moveStock(formFields){
+        try {
+            const status = await new BranchStockService().moveStock(formFields);
+            console.log(status)
+            if(status){
+                return true;
+            }
+
+            alert('Something went wrong');
             return false;
         }catch (e) {
             return false;
@@ -185,13 +190,12 @@ class DirectiveViewStock extends Component{
     }
 }
 
-const EnhancedStock = withDatabase(
-    withObservables(['BranchProductStock', 'BranchProductStockHistory' ], ({ database , BranchProductStock, BranchProductStockHistory }) => ({
-        
-        
-        
+const EnhancedDirectiveViewStock = withDatabase(
+    withObservables(['branchProducts' , 'branchProductStock'], ({ branchProducts , branchProductStock, database }) => ({
+        branchProducts: new BranchService(LocalInfo.branchId).getProducts(),
+        branchProductStock: database.collections.get(BranchProductStock.table).query(Q.where('branchId' , LocalInfo.branchId)).observe(),
     }))(withRouter(DirectiveViewStock))
 );
 
-export default EnhancedStock;
+export default withRouter(EnhancedDirectiveViewStock);
 

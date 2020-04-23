@@ -15,11 +15,10 @@ export default class SyncService {
         pullChanges: async ({lastPulledAt}) => {
           let queryString = '';
 
-          console.log(lastPulledAt);
           queryString = `${queryString}company_id=${companyId}&branch_id=${branchId}`;
-          if (LocalInfo.lastSyncedAt) {
+          /*if (LocalInfo.lastSyncedAt) {
             queryString = `last_pulled_at=${LocalInfo.lastSyncedAt}&${queryString}`;
-          }
+          }*/
 
           const response = await new Api('others').index(
             {},

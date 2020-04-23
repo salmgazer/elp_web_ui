@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import ProductServiceHandler from "../../../services/ProductServiceHandler";
 import SectionNavbars from "../../../components/Sections/SectionNavbars";
 import ArrowBackIcon from '@material-ui/icons/ArrowBack';
@@ -13,14 +13,10 @@ import InputBase from "@material-ui/core/InputBase/InputBase";
 import Paper from "@material-ui/core/Paper/Paper";
 import '../../../screens/Components/Input/styles/SellInput.scss';
 import {makeStyles} from "@material-ui/core";
-import InputAdornment from '@material-ui/core/InputAdornment';
-import IconButton from '@material-ui/core/IconButton';
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faCalculator} from "@fortawesome/free-solid-svg-icons";
-import SecondaryButton from "../../../components/Buttons/SecondaryButton";
 import Box from "@material-ui/core/Box/Box";
 import Container from "@material-ui/core/Container";
-import PrimaryButton from "../../../components/Buttons/PrimaryButton";
 import Modal from "../../../components/Modal/Modal";
 import Radio from '@material-ui/core/Radio';
 import RadioGroup from '@material-ui/core/RadioGroup';
@@ -30,6 +26,10 @@ import clsx from 'clsx';
 import Switch from '@material-ui/core/Switch';
 import { confirmAlert } from 'react-confirm-alert';
 import UnitCost from '../../Components/Input/UnitCost';
+import LocalInfo from "../../../services/LocalInfo";
+import BranchProductService from "../../../services/BranchProductService";
+import Snackbar from '@material-ui/core/Snackbar';
+import MuiAlert from '@material-ui/lab/Alert';
 
 const useStyles = makeStyles(theme => ({
     root: {
@@ -139,31 +139,69 @@ function StyledRadio(props) {
         />
     );
 }
+
+function Alert(props) {
+    return <MuiAlert elevation={6} variant="filled" {...props} />;
+}
+
 const AddNewStockPage = props => {
     const classes = useStyles();
     const optionGroupClasses = optionGroupStyles();
+    const branchProduct = props.product[0];
+
+    const [product , setProduct] = useState('');
+    const [name , setName] = useState('');
+    const [image , setImage] = useState('');
+    const [sellingPrice , setSellingPrice] = useState(branchProduct.sellingPrice);
+    const [costPrice , setCostPrice] = useState(0);
+    const [quantityProduct , setQuantityProduct] = useState(0);
+    const [totalPrice , setTotalPrice] = useState("");
+    const [unitPrice , setUnitPrice] = useState(0);
+
 
     const [calculatorDialog, setCalculatorDialog] = useState(false);
     const [moneySourceDialog, setMoneySourceDialog] = useState(false);
+    const [sellingPriceDialog, setSellingPriceDialog] = useState(false);
     const [loading , setLoading] = useState(false);
     const [successDialog, setSuccessDialog] = useState(false);
     const [errorDialog, setErrorDialog] = useState(false);
+    const [errorMsg, setErrorMsg] = useState('');
 
     const [formFields , setFormFields] = useState({
-        quantity: null,
-        sellingPrice: null,
-        costPrice: null,
-        moneySource: 'sales',
-        productId: props.product.id,
+        quantity: 1,
+        sellingPrice: branchProduct.sellingPrice,
+        costPrice: "",
+        paymentSource: 'sales',
+        productId: branchProduct.productId,
+        branchProductId: branchProduct.id,
         rememberChoice: false,
-        branchId: parseFloat(localStorage.getItem('activeBranch')),
+        branchId: LocalInfo.branchId,
     });
 
-    const saveStock = (formFields, event) => {
+    const [changePriceFields , setChangePriceFields] = useState({
+        costPrice: "",
+        sellingPrice: "",
+    });
+
+    const saveStock = () => {
+        console.log(formFields)
+        console.log('me')
         setLoading(true);
-        if((formFields.costPrice !== "" || parseFloat(formFields.costPrice !== 0)) && (formFields.sellingPrice !== "" || parseFloat(formFields.sellingPrice !== 0))){
+        if((formFields.quantity === "" || formFields.quantity === null || parseFloat(formFields.quantity === 0)) || (formFields.costPrice === "" || formFields.costPrice === null || parseFloat(formFields.costPrice === 0)) || (formFields.sellingPrice === "" || parseFloat(formFields.sellingPrice === 0))) {
+            setErrorDialog(true);
+            setErrorMsg('Please fill all stock details');
+            setLoading(false);
+            setTimeout(function(){
+                setErrorDialog(false);
+            }, 3000);
+
+            return false;
+        }
+
+        if((formFields.quantity !== "" || parseFloat(formFields.quantity !== 0)) && (formFields.costPrice !== "" || parseFloat(formFields.costPrice !== 0)) && (formFields.sellingPrice !== "" || parseFloat(formFields.sellingPrice !== 0))){
             if(parseFloat(formFields.costPrice) >= parseFloat(formFields.sellingPrice)){
                 setErrorDialog(true);
+                setErrorMsg('Cost price can not be more than selling price');
                 setLoading(false);
                 setTimeout(function(){
                     setErrorDialog(false);
@@ -180,7 +218,7 @@ const AddNewStockPage = props => {
         setTimeout(function(){
             setSuccessDialog(false);
             setLoading(false);
-            props.setView(1, event)
+            props.setView(0)
         }, 2000);
     };
 
@@ -192,7 +230,7 @@ const AddNewStockPage = props => {
                 {
                     label: 'Yes',
                     onClick: () => {
-                        props.setView(1);
+                        props.setView(0);
                     }
                 },
                 {
@@ -206,12 +244,7 @@ const AddNewStockPage = props => {
     };
 
     const getCalculatorValue = (value) => {
-        const {...oldFormFields} = formFields;
-
-        oldFormFields['costPrice'] = parseFloat(value);
-
-        setFormFields(oldFormFields);
-        console.log(oldFormFields);
+        setInputValue('costPrice' , value);
     };
 
     const openCalculator = (event) => {
@@ -223,42 +256,112 @@ const AddNewStockPage = props => {
     };
 
     const OptionChangeHandler = (event) => {
-        console.log(event.target.value);
+        setInputValue('moneySource' , event.target.value);
+
+        //console.log(event.target.value);
     };
 
-    const product = props.product;
-    const productHandler = new ProductServiceHandler(product);
-    const locations = props.locations;
 
-    let lastStock = productHandler.getProductHistory();
-    lastStock = lastStock[(lastStock.length - 1)];
+    useEffect(() => {
+        if (!product) {
+            getProduct();
+        }
+    }, []);
 
+    const productHandler = new BranchProductService(branchProduct);
 
+    const getProduct = async () => {
+        const newProduct = await branchProduct.product.fetch();
+        setProduct(newProduct);
+        setQuantityProduct(await productHandler.getProductQuantity());
+        setImage(new ProductServiceHandler(product).getProductImage());
+        setName(newProduct.name);
+        setSellingPrice(await productHandler.getSellingPrice());
+        setCostPrice(await productHandler.getCostPrice());
+        console.log(formFields)
+    };
 
     const setInputValue = (name , value) => {
+        console.log(formFields)
         const {...oldFormFields} = formFields;
+
+        if(name === 'costPrice'){
+            setTotalPrice((value * formFields.quantity).toFixed(2));
+        }else if(name === 'quantity'){
+            setTotalPrice((value * formFields.costPrice).toFixed(2));
+        }
 
         oldFormFields[name] = value;
 
         setFormFields(oldFormFields);
     };
 
+    const changePriceFieldsHandler = (event) => {
+        const {...oldFormFields} = changePriceFields;
+
+        if(event.target.name === 'costPrice'){
+            setTotalPrice(formFields.quantity * event.target.value);
+        }
+
+        oldFormFields[event.target.name] = event.target.value;
+
+        setChangePriceFields(oldFormFields);
+    };
+
     const changeSourceModalState = () => {
         setMoneySourceDialog(!moneySourceDialog);
     };
 
-    const handleSwitchChange = event => {
-        const {...oldFormFields} = formFields;
-        oldFormFields[event.target.name] = event.target.checked;
+    const changeSellingPriceModalState = () => {
+        setSellingPriceDialog(!sellingPriceDialog);
+    };
 
-        setFormFields(oldFormFields);
+    const handleSwitchChange = event => {
+        setInputValue(event.target.name , event.target.value);
     };
 
     const backHandler = () => {
-        props.setView(1);
+        props.setView(0);
     };
 
-    console.log(product);
+    const setTotalPriceHandler = event => {
+        if(event.target.value === ""){
+            setTotalPrice("");
+            return true;
+        }
+        setTotalPrice((parseFloat(event.target.value)));
+        const cp = (parseFloat(event.target.value) / formFields.quantity);
+
+        const {...oldFormFields} = formFields;
+
+        oldFormFields['costPrice'] = cp;
+
+        setFormFields(oldFormFields);
+        setUnitPrice(cp.toFixed(2));
+    };
+
+    const saveChangePrice = () => {
+        const {...oldFormFields} = formFields;
+
+        oldFormFields['costPrice'] = changePriceFields['costPrice'];
+        oldFormFields['sellingPrice'] = changePriceFields['sellingPrice'];
+
+        setFormFields(oldFormFields);
+        setChangePriceFields({
+            costPrice: "",
+            sellingPrice: ""
+        });
+
+        changeSellingPriceModalState();
+    };
+
+    const handleCloseSnack = (event, reason) => {
+        if (reason === 'clickaway') {
+            return;
+        }
+
+        setErrorDialog(false);
+    };
 
     return(
         <div className={`mt-6`}>
@@ -279,6 +382,11 @@ const AddNewStockPage = props => {
                     UNDO
                 </Button>
             </SimpleSnackbar>
+            <Snackbar open={errorDialog} autoHideDuration={3000} onClose={handleCloseSnack}>
+                <Alert onClose={handleCloseSnack} severity="error">
+                    {errorMsg}
+                </Alert>
+            </Snackbar>
 
             <CostCalculator product={product} calculatedPrice={getCalculatorValue.bind(this)} closeModal={getCalculatorModalState.bind(this)} calculatorDialog={calculatorDialog}/>
 
@@ -289,11 +397,11 @@ const AddNewStockPage = props => {
                     style={{fontSize: '18px' , margin: '0px 0px', padding: '8px'}}
                     className={`text-center mx-auto text-dark font-weight-bold`}
                 >
-                    {productHandler.getProductName()}
+                    {name}
                 </Typography>
             </div>
             <div>
-                <img className={`img-fluid imageProduct mx-auto d-block pt-2`} src={productHandler.getProductImage()} alt={productHandler.getProductName()}/>
+                <img className={`img-fluid imageProduct mx-auto d-block pt-2`} src={image} alt={name}/>
             </div>
 
             <div
@@ -303,10 +411,10 @@ const AddNewStockPage = props => {
                 <Typography
                     component="h5"
                     variant="h5"
-                    style={{fontWeight: '300', fontSize: '14px' , margin: '0px 0px', padding: '14px'}}
-                    className={`text-center mx-auto text-dark italize`}
+                    style={{fontWeight: '500', fontSize: '18px' , margin: '0px 0px', padding: '14px'}}
+                    className={`text-center mx-auto text-dark`}
                 >
-                    {lastStock ? `Available stock: ${lastStock.quantity}` : `No stock added for this product`}
+                    {quantityProduct ? `Available stock: ${quantityProduct}` : `No stock added for this product`}
                 </Typography>
 
                 <div className={`rounded bordered mb-3 mx-3 px-3 py-3`}>
@@ -323,8 +431,9 @@ const AddNewStockPage = props => {
                                 <InputBase
                                     className={`${classes.input} search-box text-center`}
                                     type="tel"
-                                    value=""
+                                    value={totalPrice}
                                     name="totalCost"
+                                    onChange={(event) => setTotalPriceHandler(event)}
                                 />
 
                             </Paper>
@@ -340,7 +449,7 @@ const AddNewStockPage = props => {
                         <Grid
                             item xs={5}
                         >
-                            <UnitCost label={`Unit price`} inputName="costPrice" initialValue={formFields.costPrice || ''} getValue={setInputValue.bind(this)} >
+                            <UnitCost label={`Unit price`} inputName="costPrice" initialValue={formFields.costPrice} getValue={setInputValue.bind(this)} >
                                 <FontAwesomeIcon onClick={openCalculator.bind(this)} icon={faCalculator} fixedWidth />
                             </UnitCost>
                         </Grid>
@@ -351,6 +460,7 @@ const AddNewStockPage = props => {
                         variant="h5"
                         style={{fontWeight: '300', color: '#daab59', fontSize: '18px' , margin: '0px 0px', padding: '14px', textDecoration: 'underline'}}
                         className={`text-center mx-auto`}
+                        onClick={() => setSellingPriceDialog(true)}
                     >
                         Change Selling Price
                     </Typography>
@@ -365,7 +475,7 @@ const AddNewStockPage = props => {
                 <Button
                     variant="contained"
                     style={{'backgroundColor': '#DAAB59' , color: '#333333', padding: '5px 50px'}}
-                    onClick={saveStock.bind(this)}
+                    onClick={saveStock}
                     disabled={loading}
                 >
                     Save
@@ -387,9 +497,9 @@ const AddNewStockPage = props => {
                             <RadioGroup
                                 className={optionGroupClasses.margin}
                                 onChange={OptionChangeHandler}
-                                aria-label="moneySource"
-                                name="moneySource"
-                                defaultValue={formFields.moneySource}
+                                aria-label="paymentSource"
+                                name="paymentSource"
+                                defaultValue={formFields.paymentSource}
                             >
                                 <FormControlLabel value="sales" control={<StyledRadio />} label="Sales" />
                                 <FormControlLabel value="owner" control={<StyledRadio />} label="Owner" />
@@ -411,7 +521,75 @@ const AddNewStockPage = props => {
                                 label="Remember my choice"
                             />
                         </div>
-                        
+
+                    </Grid>
+                </Container>
+            </Modal>
+
+            <Modal
+                states={sellingPriceDialog}
+                handleClose={changeSellingPriceModalState.bind(this)}
+                title={`Change price`}
+                footer={
+                    <Button
+                        variant="contained"
+                        style={{'backgroundColor': '#DAAB59' , color: '#333333', padding: '5px 50px'}}
+                        onClick={saveChangePrice}
+                        disabled={loading}
+                    >
+                        Save
+                    </Button>
+                }
+            >
+                <Container className={`mx-3 my-3`} style={{width: '100%'}}>
+                    <Grid item xs={12} className={optionGroupClasses.margin}>
+                        <Typography
+                            component="h5"
+                            variant="h5"
+                            style={{fontWeight: '300', fontSize: '17px' , margin: '0px 0px', padding: '4px'}}
+                            className={`text-center mx-auto`}
+                        >
+                            Current cost price: GHC {costPrice}
+                        </Typography>
+
+                        <label className={`text-dark py-2 text-left`} style={{fontSize: '18px'}}> New cost price</label>
+
+                        <Paper className={classes.root} >
+                            <InputBase
+                                className={`${classes.input} search-box text-center`}
+                                type="tel"
+                                initialValue=""
+                                value={changePriceFields.costPrice}
+                                name="costPrice"
+                                onChange={(event) => changePriceFieldsHandler(event)}
+                            />
+
+                        </Paper>
+                    </Grid>
+
+                    <Grid item xs={12} className={optionGroupClasses.margin}>
+                        <Typography
+                            component="h5"
+                            variant="h5"
+                            style={{fontWeight: '300', fontSize: '17px' , margin: '0px 0px', padding: '4px'}}
+                            className={`text-left mx-auto mt-3`}
+                        >
+                            Current selling price: GHC {sellingPrice}
+                        </Typography>
+
+                        <label className={`text-dark py-2 text-left`} style={{fontSize: '18px'}}> New selling price</label>
+
+                        <Paper className={classes.root} >
+                            <InputBase
+                                className={`${classes.input} search-box text-center`}
+                                type="tel"
+                                initialValue=""
+                                value={changePriceFields.sellingPrice}
+                                name="sellingPrice"
+                                onChange={(event) => changePriceFieldsHandler(event)}
+                            />
+
+                        </Paper>
                     </Grid>
                 </Container>
             </Modal>

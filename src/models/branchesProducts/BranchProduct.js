@@ -1,7 +1,7 @@
 import { Model } from '@nozbe/watermelondb';
 import { field, date, children, readonly, relation} from '@nozbe/watermelondb/decorators';
 import * as Q from "@nozbe/watermelondb/QueryDescription";
-import cartsSchema from "../carts/cartsSchema";
+import branchProductSchema from "./branchProductSchema";
 
 export default class BranchProduct extends Model {
   static table = 'branches_products';
@@ -47,6 +47,6 @@ export default class BranchProduct extends Model {
   * @todo add product id to history
   * */
 
-  static columns = cartsSchema.columns.map(c => c.name);
+  static columns = branchProductSchema.columns.map(c => c.name);
 
 }

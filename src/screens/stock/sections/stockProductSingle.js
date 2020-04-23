@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import SectionNavbars from "../../../components/Sections/SectionNavbars";
 import ArrowBackIcon from '@material-ui/icons/ArrowBack';
 import Button from "@material-ui/core/Button";
@@ -10,21 +10,44 @@ import LocationProductSingle from "./LocationProductSingle";
 import Box from "@material-ui/core/Box/Box";
 import BottomMenu from "./BottomMenu";
 import Grid from "@material-ui/core/Grid/Grid";
+import BranchProductService from "../../../services/BranchProductService";
+import BranchStockService from "../../../services/BranchStockService";
 
 
 const StockProductSingle = props => {
-    const product = props.product;
-    const productHandler = new ProductServiceHandler(product);
-    const locations = props.locations;
+    const branchProduct = props.product[0];
+    const [product , setProduct] = useState('');
+    const [lastHistory , setLastHistory] = useState('');
+    const [name , setName] = useState('');
+    const [image , setImage] = useState('');
+    const [productQuantity , setProductQuantity] = useState(0);
+    const [companyStocks , setCompanyStocks] = useState([]);
 
-    let lastStock = productHandler.getProductHistory();
-    lastStock = lastStock[(lastStock.length - 1)];
+    useEffect(() => {
+        if (!product) {
+            getProduct();
+        }
+    }, []);
+
+    const productHandler = new BranchProductService(branchProduct);
+
+    const getProduct = async () => {
+        const newProduct = await branchProduct.product.fetch();
+        const fetchLastHistory = await new BranchStockService().getLastProductStock(branchProduct.productId);
+        setProduct(newProduct);
+        setLastHistory(fetchLastHistory);
+        setName(newProduct.name);
+        setImage(new ProductServiceHandler(product).getProductImage());
+        setProductQuantity(await new BranchStockService().getProductStockQuantity(branchProduct.productId));
+        setCompanyStocks(await new BranchStockService().getBranchStockQuantities(branchProduct.productId));
+    };
+
+    /*let lastStock = productHandler.getProductHistory();
+    lastStock = lastStock[(lastStock.length - 1)];*/
 
     const [loading , setLoading] = useState(false);
     const [successDialog, setSuccessDialog] = useState(false);
     const [errorDialog, setErrorDialog] = useState(false);
-
-    console.log(product);
 
     const backHandler = () => {
         props.setView(0);
@@ -57,11 +80,11 @@ const StockProductSingle = props => {
                     style={{fontSize: '18px' , margin: '0px 0px', padding: '8px'}}
                     className={`text-center mx-auto text-dark font-weight-bold`}
                 >
-                    {productHandler.getProductName()}
+                    {name}
                 </Typography>
             </div>
             <div>
-                <img className={`img-fluid imageProduct mx-auto d-block pt-2`} src={productHandler.getProductImage()} alt={productHandler.getProductName()}/>
+                <img className={`img-fluid imageProduct mx-auto d-block pt-2`} src={image} alt={name}/>
             </div>
 
             <div
@@ -74,7 +97,7 @@ const StockProductSingle = props => {
                     style={{fontWeight: '300', fontSize: '14px' , margin: '0px 0px', padding: '14px'}}
                     className={`text-center mx-auto text-dark italize`}
                 >
-                    {lastStock ? `Last stock added: ${lastStock.quantity} added on ${format(new Date(lastStock.created_at * 1000) , "dd MMM, yyyy")}` : `No stock added for this product`}
+                    {lastHistory ? `Last stock added: ${lastHistory.quantity} added on ${format(new Date(lastHistory.createdAt) , "dd MMM, yyyy")}` : `No stock added for this product`}
                 </Typography>
 
                 <div className={`rounded bordered mb-3 mx-3 px-3 py-3`} style={{display: 'flex'}}>
@@ -92,7 +115,7 @@ const StockProductSingle = props => {
                             variant="h5"
                             style={{fontWeight: '700', fontSize: '16px' , lineHeight: '1.5'}}
                         >
-                            {productHandler.getProductQuantity()}
+                            {productQuantity}
                         </Typography>
                     </div>
 
@@ -110,7 +133,7 @@ const StockProductSingle = props => {
                             variant="h5"
                             style={{fontWeight: '700', fontSize: '16px' , lineHeight: '1.5'}}
                         >
-                           GHC {productHandler.getProductQuantity() * productHandler.getSellingPrice()}.00
+                           GHC {parseFloat(productQuantity * branchProduct.sellingPrice).toFixed(2)}
                         </Typography>
                     </div>
                 </div>
@@ -125,8 +148,8 @@ const StockProductSingle = props => {
                         Quantities Per Location(s)
                     </Typography>
 
-                    {locations.map((location) =>
-                        <LocationProductSingle location={location}/>
+                    {companyStocks.map((location) =>
+                        <LocationProductSingle key={location.id} location={location}/>
                     )}
                 </div>
 

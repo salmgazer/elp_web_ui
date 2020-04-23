@@ -81,7 +81,6 @@ export default class SaleService {
             fxn: 'eq',
         });
 
-        console.log(sales)
         return sales[sales.length - 1];
     }
 
@@ -138,7 +137,6 @@ export default class SaleService {
     * Get sale individual items selling price
     * */
     getSaleEntrySellingPrice(product){
-        console.log(product)
         return parseFloat((product.sellingPrice * product.quantity) - (product.discount * product.quantity)).toFixed(2);
     }
 
@@ -177,6 +175,7 @@ export default class SaleService {
             return e;
         }
     }
+
     /*
     * Get sale total amount by Id
     * */
@@ -262,5 +261,17 @@ export default class SaleService {
         }else{
             return `Owes GHC ${saleAmount - saleAmountPaid}`;
         }
+    }
+
+    static async getAllSalesQuantity(){
+        const branchId = LocalInfo.branchId;
+
+        const sales = new ModelAction('Sales').findByColumnNotObserve({
+            name: 'branchId',
+            value: branchId,
+            fxn: 'eq'
+        });
+
+
     }
 }

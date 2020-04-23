@@ -13,9 +13,11 @@ import cartEntrySchema from "./cartEntry/cartEntrySchema";
 import saleEntrySchema from "./saleEntry/saleEntriesSchema";
 import branchCustomerSchema from "./branchesCustomer/branchCustomerSchema";
 import saleInstallmentSchema from "./saleInstallments/saleInstallmentSchema";
+import purchaseSchema from "./branchPurchases/purchaseSchema";
+import stockMovementSchema from "./stockMovements/stockMovementSchema";
 
 export default appSchema({
-  version: 8, // must always match the latest migration number in migrations.js
+  version: 10, // must always match the latest migration number in migrations.js
   tables: [
     tableSchema(brandSchema),
     tableSchema(manufacturerSchema),
@@ -31,5 +33,7 @@ export default appSchema({
     tableSchema(saleEntrySchema),
     tableSchema(branchCustomerSchema),
     tableSchema(saleInstallmentSchema),
+    tableSchema(purchaseSchema),
+    tableSchema(stockMovementSchema),
   ]
 });

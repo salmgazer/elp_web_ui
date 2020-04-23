@@ -4,7 +4,8 @@ import SearchInput from "../../../Components/Input/SearchInput";
 import SingleProductBox from "../../../../components/Product/SingleProductBox";
 
 const StockSearchMode = props => {
-    const products = props.stock;
+    //const products = props.stock;
+    const branchProducts = props.branchProducts;
 
     const [searchValue , setSearchValue] = useState({
         search: ''
@@ -42,8 +43,8 @@ const StockSearchMode = props => {
                 className={`shadow1 boxMain mx-auto rounded mt-2`}
                 style={{width: '100%', padding: '10px 2% 20px' , marginBottom: '60px'}}
             >
-                {products.map((product) =>
-                    <SingleProductBox product={product} key={product.id} addProductHandler={addProductHandler.bind(this, product.id)}/>
+                {branchProducts.map((branchProduct) =>
+                    <SingleProductBox product={branchProduct} key={branchProduct.id} addProductHandler={addProductHandler.bind(this, branchProduct.id)}/>
                 )}
             </Grid>
         </div>

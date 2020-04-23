@@ -32,6 +32,7 @@ import ReportProblemOutlinedIcon from '@material-ui/icons/ReportProblemOutlined'
 const StockMainPage = props => {
     const [value , setValue] = useState(0);
     const [isShowDrawer , setIsShowDrawer] = useState(false);
+    const branchProducts = props.branchProducts;
 
     const a11yProps = (index) => {
         return {
@@ -218,7 +219,7 @@ const StockMainPage = props => {
                         onChangeIndex={handleChangeIndex}
                     >
                         <TabPanel value={value} index={0}>
-                            <StockSearchMode addProductStockView={props.addProductStockView} stock={props.stock}/>
+                            <StockSearchMode branchProducts={branchProducts} addProductStockView={props.addProductStockView} stock={props.stock}/>
                         </TabPanel>
                         <TabPanel value={value} index={1}>
                             <StockBarcodeMode/>

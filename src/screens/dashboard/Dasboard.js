@@ -38,6 +38,8 @@ import {v4 as uuid} from 'uuid';
 import BranchCustomer from "../../models/branchesCustomer/BranchCustomer";
 import SaleInstallments from "../../models/saleInstallments/SaleInstallment";
 import CompanyService from "../../services/CompanyService";
+import BranchPurchases from "../../models/branchPurchases/BranchPurchases";
+import StockMovement from "../../models/stockMovements/StockMovement";
 
 const useStyles = makeStyles(theme => ({
     root: {
@@ -105,7 +107,7 @@ const Dashboard = props => {
     const username = JSON.parse(localStorage.getItem('userDetails')).firstName;
     console.log(username);
 
-    const { history, branchProducts, branchProductStock, branchProductStockHistory, brands, manufacturers, products, database, customers, branchCustomers , sales , saleEntries , saleInstallments , carts , cartEntries, testBranch , cartEntriesQ } = props;
+    const { history, testProducts, stockMovements, purchases, branchProducts, branchProductStock, branchProductStockHistory, brands, manufacturers, products, database, customers, branchCustomers , sales , saleEntries , saleInstallments , carts , cartEntries, testBranch , cartEntriesQ } = props;
     // const database = useDatabase();
 
 
@@ -127,6 +129,9 @@ const Dashboard = props => {
     }
 
     console.log('#####################################')
+    console.log(stockMovements);
+    console.log(testProducts);
+    console.log(purchases);
     console.log(companySales);
     console.log(testBranch)
     console.log(branchProducts)
@@ -295,6 +300,8 @@ const Dashboard = props => {
 const EnhancedDashboard = withDatabase(
   withObservables([], ({ database }) => ({
     branchProducts: database.collections.get(BranchProduct.table).query(Q.where('branchId', localStorage.getItem('activeBranch'))).observe(),
+    stockMovements: database.collections.get(StockMovement.table).query(Q.where('branchId', LocalInfo.branchId)).observe(),
+    testProducts: database.collections.get(BranchProduct.table).query().observe(),
     //cartQuantity: database.collections.get(CartEntry.table).query(Q.where('id', new CartService().cartId())).observe(),
     branchProductStock: database.collections.get(BranchProductStock.table).query().observe(),
     branchProductStockHistory: database.collections.get(BranchProductStockHistory.table).query().observe(),
@@ -305,6 +312,7 @@ const EnhancedDashboard = withDatabase(
     sales: database.collections.get(Sales.table).query().observe(),
     saleEntries: new ModelAction('SaleEntry').index(),
     carts: database.collections.get(Carts.table).query().observe(),
+    purchases: database.collections.get(BranchPurchases.table).query().observe(),
     cartEntries: new ModelAction('CartEntry').index(),
     saleInstallments: database.collections.get(SaleInstallments.table).query().observe(),
     //saleInstallments: new ModelAction('SaleInstallment').index(),

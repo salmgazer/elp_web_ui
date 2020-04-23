@@ -1,52 +1,85 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import ArrowBackIcon from '@material-ui/icons/ArrowBack';
 import Button from "@material-ui/core/Button";
 import Typography from "@material-ui/core/Typography";
 import Box from "@material-ui/core/Box/Box";
-import PrimaryButton from "../../../../components/Buttons/PrimaryButton";
-import SecondaryButton from "../../../../components/Buttons/SecondaryButton";
 import QuantityInput from "../../../Components/Input/QuantityInput";
 import PrimarySelect from "../../../../components/Select/PrimarySelect";
 import ProductServiceHandler from "../../../../services/ProductServiceHandler";
 import SectionNavbars from "../../../../components/Sections/SectionNavbars";
 import SimpleSnackbar from "../../../../components/Snackbar/SimpleSnackbar";
 import Grid from "@material-ui/core/Grid/Grid";
+import BranchStockService from "../../../../services/BranchStockService";
+import {confirmAlert} from "react-confirm-alert";
+import LocalInfo from "../../../../services/LocalInfo";
+import Snackbar from '@material-ui/core/Snackbar';
+import MuiAlert from '@material-ui/lab/Alert';
+import BranchProductService from "../../../../services/BranchProductService";
 
+function Alert(props) {
+    return <MuiAlert elevation={6} variant="filled" {...props} />;
+}
 
 const MoveStock = props => {
-    const warehouse = [
-        {
-            value: 1,
-            name: 'Warehouse'
-        },
-        {
-            value: 2,
-            name: 'Adenta'
-        },
-    ];
-
-    const branches = [
-        {
-            value: 1,
-            name: 'Lapaz Branch'
-        },
-        {
-            value: 2,
-            name: 'Oyibi Branch'
-        },
-    ];
-    const product = props.product;
-    const productHandler = new ProductServiceHandler(product);
+    const branchProduct = props.product[0];
+    const [product , setProduct] = useState('');
+    const [lastHistory , setLastHistory] = useState('');
+    const [name , setName] = useState('');
+    const [image , setImage] = useState('');
+    const [productQuantity , setProductQuantity] = useState(0);
+    const [companyStocks , setCompanyStocks] = useState([]);
+    const [branches , setBranches] = useState([]);
+    const [activeBranch , setActiveBranch] = useState();
+    const [errorMsg, setErrorMsg] = useState('');
 
     const [formFields , setFormFields] = useState({
-        quantity: null,
+        quantity: 1,
+        sellingPrice: branchProduct.sellingPrice,
+        costPrice: "",
+        paymentSource: 'stock',
+        productId: branchProduct.productId,
+        branchProductId: branchProduct.id,
+        rememberChoice: false,
+        branchId: null,
         moveFrom: null,
         moveTo: null,
-        branchId: parseFloat(localStorage.getItem('activeBranch')),
     });
 
-    let lastStock = productHandler.getProductHistory();
-    lastStock = lastStock[(lastStock.length - 1)];
+
+    useEffect(() => {
+        if (!product || branches.length === 0) {
+            getProduct();
+        }
+    }, []);
+
+    const getProduct = async () => {
+        const newProduct = await branchProduct.product.fetch();
+        const fetchLastHistory = await new BranchStockService().getLastProductStock(branchProduct.productId);
+        setProduct(newProduct);
+        setLastHistory(fetchLastHistory);
+        setName(newProduct.name);
+        setImage(new ProductServiceHandler(product).getProductImage());
+        setProductQuantity(await new BranchStockService().getProductStockQuantity(branchProduct.productId));
+        let newBranches = await new BranchStockService().getBranchStockQuantities(branchProduct.productId);
+        newBranches = newBranches.map(m1 => {
+            return {
+                value: m1.id,
+                name: m1.name,
+            }
+        });
+        const nr = newBranches.filter(item => item.id === LocalInfo.branchId);
+        const pr = nr.map(m1 => {
+            return {
+                value: m1.id,
+                name: m1.name,
+            }
+        });
+        setActiveBranch(pr[0]);
+
+        setInputValue('costPrice' , await new BranchProductService(branchProduct).getCostPrice());
+        setBranches(newBranches);
+        setCompanyStocks(await new BranchStockService().getBranchStockQuantities(branchProduct.productId));
+    };
 
     const [loading , setLoading] = useState(false);
     const [successDialog, setSuccessDialog] = useState(false);
@@ -55,12 +88,90 @@ const MoveStock = props => {
     const setInputValue = (name , value) => {
         const {...oldFormFields} = formFields;
 
+        if(name === 'moveTo'){
+            oldFormFields['branchId'] = value;
+        }
         oldFormFields[name] = value;
 
         setFormFields(oldFormFields);
     };
 
-    console.log(product);
+    const backHandler = (event) => {
+        confirmAlert({
+            title: 'Confirm to cancel',
+            message: 'You risk losing the details added for this product.',
+            buttons: [
+                {
+                    label: 'Yes',
+                    onClick: () => {
+                        props.setView(0);
+                    }
+                },
+                {
+                    label: 'No',
+                    onClick: () => {
+                        return false;
+                    }
+                }
+            ]
+        });
+    };
+
+    const moveStock = () => {
+        console.log(formFields)
+        setLoading(true);
+        if((formFields.quantity === "" || formFields.quantity === null || parseFloat(formFields.quantity === 0)) || (formFields.moveFrom === "" || formFields.moveFrom === null) || (formFields.moveTo === "" || parseFloat(formFields.moveTo === null))) {
+            setErrorDialog(true);
+            setErrorMsg('Please fill all stock details');
+            setLoading(false);
+            setTimeout(function(){
+                setErrorDialog(false);
+            }, 3000);
+
+            return false;
+        }
+
+        if((formFields.moveTo === formFields.moveFrom)){
+            setErrorDialog(true);
+            setErrorMsg('You can not move products to the same branch');
+            setLoading(false);
+            setTimeout(function(){
+                setErrorDialog(false);
+            }, 3000);
+
+            return false;
+        }
+
+        const moveFromQuantity = companyStocks.filter(item => item.id === formFields.moveFrom);
+        if(moveFromQuantity[0].quantity <= formFields.quantity){
+            setErrorDialog(true);
+            setErrorMsg('Branch quantity must be greater than your quantity');
+            setLoading(false);
+            setTimeout(function(){
+                setErrorDialog(false);
+            }, 3000);
+
+            return false;
+        }
+
+        props.moveStock(formFields);
+
+        setSuccessDialog(true);
+
+        setTimeout(function(){
+            setSuccessDialog(false);
+            setLoading(false);
+            props.setView(0)
+        }, 2000);
+    };
+
+    const handleCloseSnack = (event, reason) => {
+        if (reason === 'clickaway') {
+            return;
+        }
+
+        setErrorDialog(false);
+    };
 
     return (
         <div className={`mt-6`}>
@@ -82,6 +193,12 @@ const MoveStock = props => {
                 </Button>
             </SimpleSnackbar>
 
+            <Snackbar open={errorDialog} autoHideDuration={6000} onClose={handleCloseSnack}>
+                <Alert onClose={handleCloseSnack} severity="error">
+                    {errorMsg}
+                </Alert>
+            </Snackbar>
+
             <div className="row p-0 pt-0 mx-0 text-center shadow1">
                 <Typography
                     component="p"
@@ -89,11 +206,11 @@ const MoveStock = props => {
                     style={{fontSize: '18px' , margin: '0px 0px', padding: '8px'}}
                     className={`text-center mx-auto text-dark font-weight-bold`}
                 >
-                    {productHandler.getProductName()}
+                    {name}
                 </Typography>
             </div>
             <div>
-                <img className={`img-fluid imageProduct mx-auto d-block pt-2`} src={productHandler.getProductImage()} alt={productHandler.getProductName()}/>
+                <img className={`img-fluid imageProduct mx-auto d-block pt-2`} src={image} alt={name}/>
             </div>
 
             <div
@@ -107,9 +224,6 @@ const MoveStock = props => {
                     className={`text-center mx-auto text-dark`}
                 >
                     Warehouse : 50 | Lapaz stock : 20
-{/*
-                    {lastStock ? `Last stock added: ${lastStock.quantity} added on ${format(new Date(lastStock.createdAt) , "dd MMM, yyyy")}` : `No stock added for this product`}
-*/}
                 </Typography>
 
                 <div className={`rounded bordered mb-3 mx-3 px-3 py-3`}>
@@ -126,7 +240,11 @@ const MoveStock = props => {
                             item xs={12}
                         >
                             <div className={`my-2 mx-auto`}>
-                                <PrimarySelect label="Move from" data={warehouse} getValue={setInputValue.bind(this)} name="moveFrom"/>
+                                {branches.length > 0 ?
+                                    <PrimarySelect label="Move from" data={branches} initialValue={branches[1]} getValue={setInputValue.bind(this)} name="moveFrom"/>
+                                    :
+                                    ''
+                                }
                             </div>
                         </Grid>
                     </Grid>
@@ -136,12 +254,15 @@ const MoveStock = props => {
                             item xs={12}
                         >
                             <div className={`my-2 mx-auto`}>
-                                <PrimarySelect label="Move to" data={branches} getValue={setInputValue.bind(this)} name="moveTo"/>
+                                {branches.length > 0 ?
+                                    <PrimarySelect label="Move to" data={branches} initialValue={activeBranch} getValue={setInputValue.bind(this)} name="moveTo"/>
+                                    :
+                                    ''
+                                }
                             </div>
                         </Grid>
                     </Grid>
                 </div>
-
             </div>
 
             <Box
@@ -150,12 +271,21 @@ const MoveStock = props => {
                 p={1}
                 style={{ height: '2.5rem', position: "fixed", bottom:"0", width:"100%" }}
             >
-                <PrimaryButton classes={`mr-2`}>
+                <Button
+                    variant="outlined"
+                    style={{border: '1px solid #DAAB59', color: '#DAAB59', padding: '5px 50px', marginRight: '10px'}}
+                    onClick={backHandler.bind(this)}
+                >
                     Cancel
-                </PrimaryButton>
-                <SecondaryButton>
+                </Button>
+                <Button
+                    variant="contained"
+                    style={{'backgroundColor': '#DAAB59' , color: '#333333', padding: '5px 50px'}}
+                    onClick={moveStock.bind(this)}
+                    disabled={loading}
+                >
                     Save
-                </SecondaryButton>
+                </Button>
             </Box>
 
         </div>

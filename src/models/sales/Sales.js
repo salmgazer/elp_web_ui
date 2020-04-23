@@ -1,6 +1,7 @@
 import { Model } from '@nozbe/watermelondb';
 import {field, date, text, relation, children, readonly} from '@nozbe/watermelondb/decorators';
 import salesSchema from "./salesSchema";
+import { Q } from '@nozbe/watermelondb';
 
 export default class Sales extends Model {
     static table = 'sales';
@@ -29,10 +30,9 @@ export default class Sales extends Model {
     @readonly @date('created_at') createdAt;
     @readonly @date('updated_at') updatedAt;
 
-    /*@lazy
     salesEntries = this.collections
-        .get('saleEntires')
-        .query(Q.on('saleEntries' , 'saleId' , this.id));*/
+        .get('saleEntries')
+        .query(Q.where('saleId' , this.id));
 
     static columns = salesSchema.columns.map(c => c.name);
 }

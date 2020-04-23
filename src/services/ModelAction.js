@@ -76,6 +76,7 @@ export default class ModelAction {
     * @return object
     * */
     async post(columns){
+        console.log(columns , this.table , this.columns)
         const dataCollection = this.database.collections.get(this.table);
         let item = '';
         await this.database.action(async () => {
@@ -84,6 +85,7 @@ export default class ModelAction {
                 this.columns.map((column) => item[column] = columns[column])
             });
 
+            console.log(item)
             return item;
         })
     }
@@ -95,13 +97,19 @@ export default class ModelAction {
     * */
     async update(id , columns){
         const dataCollection = await this.database.collections.get(this.table).find(id);
-
+        console.log(this.columns , this.table)
         /*let hi = [];
         hi = this.columns.map((column) => dataCollection[column] = columns[column])
         console.log(hi)*/
         await this.database.action(async () => {
             return await dataCollection.update(item => {
-                this.columns.map((column) => item[column] = columns[column])
+                this.columns.map((column) => {
+                    console.log(column);
+                    if(columns.hasOwnProperty(column)){
+                        console.log('new');
+                        item[column] = columns[column]
+                    }
+                })
             });
         })
     }

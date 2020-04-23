@@ -2,19 +2,21 @@ import React from 'react';
 import Grid from "@material-ui/core/Grid";
 import Typography from "@material-ui/core/Typography";
 import RoomIcon from '@material-ui/icons/Room';
+import LocalInfo from "../../../services/LocalInfo";
 
 const LocationProductSingle = props => {
     const location = props.location;
+    const active = location.id === LocalInfo.branchId;
 
     return(
-        <div className={`rounded mx-1 my-2 p-2 bordered`}>
+        <div className={`rounded mx-1 my-2 p-2 ${active ? 'activeBorder' : 'bordered'}`}>
             <Grid container spacing={1} className={`py-1`}>
                 <Grid
                     item xs={2}
                     className={`text-left pl-2`}
                 >
                     <RoomIcon
-                        style={{fontSize: '30px', color: '#DAAB59'}}
+                        style={{fontSize: '30px', color: `${active ? '#DAAB59' : '#333333'}`}}
                     />
                 </Grid>
 
@@ -25,8 +27,8 @@ const LocationProductSingle = props => {
                     <Typography
                         component="h6"
                         variant="h6"
-                        style={{fontSize: '16px'}}
-                        className={`text-left text-dark`}
+                        style={{fontSize: '14px', color: `${active ? '#DAAB59' : '#333333'}`}}
+                        className={`text-left`}
                     >
                         {location.name}
                     </Typography>
@@ -39,8 +41,8 @@ const LocationProductSingle = props => {
                     <Typography
                         component="h6"
                         variant="h6"
-                        style={{fontSize: '16px'}}
-                        className={`text-center text-dark`}
+                        style={{fontSize: '15px', color: `${active ? '#DAAB59' : '#333333'}`}}
+                        className={`text-center`}
                     >
                         {location.quantity}
                     </Typography>
@@ -53,10 +55,10 @@ const LocationProductSingle = props => {
                     <Typography
                         component="h6"
                         variant="h6"
-                        style={{fontSize: '14px', color: '#DAAB59'}}
-                        className={`text-right text-dark font-weight-light`}
+                        style={{fontSize: '14px', color: `${active ? '#DAAB59' : '#333333'}`}}
+                        className={`text-right font-weight-light`}
                     >
-                        {location.status ? 'current' : ''}
+                        {location.id === LocalInfo.branchId ? 'current' : ''}
                     </Typography>
                 </Grid>
             </Grid>
