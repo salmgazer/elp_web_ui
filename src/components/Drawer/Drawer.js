@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import SwipeableDrawer from '@material-ui/core/SwipeableDrawer';
 import List from '@material-ui/core/List';
@@ -29,11 +29,14 @@ const useStyles = makeStyles({
 
 const Drawer = props => {
     const { history } = props;
-
-    console.log(props);
+console.log(props.isShow)
     const classes = useStyles();
     const [state, setState] = React.useState({
         left: props.isShow,
+    });
+
+    useEffect(() => {
+        toggleDrawer('left' , props.isShow);
     });
 
     const toggleDrawer = (side, open) => event => {
@@ -41,7 +44,7 @@ const Drawer = props => {
             return;
         }
 
-        setState({ ...state, [side]: open });
+        setState({ ['left']: open });
     };
 
     const sideList = side => (
@@ -114,9 +117,9 @@ const Drawer = props => {
     return (
         <div>
             <SwipeableDrawer
-                open={state.left}
+                open={props.isShow}
                 onClose={toggleDrawer('left', false)}
-                onOpen={toggleDrawer('left', true)}
+                onOpen={toggleDrawer('left', props.isShow)}
             >
                 {sideList('left')}
             </SwipeableDrawer>

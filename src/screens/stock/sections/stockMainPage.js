@@ -67,7 +67,7 @@ const StockMainPage = props => {
                     <SectionNavbars
                         title="Stock"
                         icons={
-                            <div onClick={() => setIsShowDrawer(!isShowDrawer)}>
+                            <div onClick={() => setIsShowDrawer(true)}>
                                 <MoreVertIcon
                                     style={{fontSize: '2rem'}}
                                 />

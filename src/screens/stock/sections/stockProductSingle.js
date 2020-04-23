@@ -55,12 +55,14 @@ const StockProductSingle = props => {
 
     return (
         <div className={`mt-6`}>
-            <SectionNavbars title="Stock" >
-                <ArrowBackIcon
-                    onClick={backHandler.bind(this)}
-                    style={{fontSize: '2.5rem'}}
-                />
-            </SectionNavbars>
+            <SectionNavbars title="Stock"
+                leftIcon= {
+                    <ArrowBackIcon
+                        onClick={backHandler.bind(this)}
+                        style={{fontSize: '2.5rem'}}
+                    />
+                }
+            />
 
             <SimpleSnackbar
                 openState={successDialog}

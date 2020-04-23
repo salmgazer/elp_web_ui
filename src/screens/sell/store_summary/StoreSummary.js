@@ -46,14 +46,23 @@ const StoreSummary = props => {
     return (
         <div>
             <React.Fragment>
-                <SectionNavbars title={`Welcome ${username}`}>
-                    <MenuIcon
-                        onClick={() => setIsDrawerShow(true)}
-                        style={{fontSize: '2.5rem'}}
-                    />
-                </SectionNavbars>
+                <SectionNavbars
+                    title={`Welcome ${username}`}
+                    leftIcon={
+                        <div onClick={() => setIsDrawerShow(true)}>
+                            <MenuIcon
+                                style={{fontSize: '2rem'}}
+                            />
+                        </div>
+                    }
+                />
 
-                <Drawer isShow={isDrawerShow} />
+                <div
+                    onClick={() => setIsDrawerShow(false)}
+                    onKeyDown={() => setIsDrawerShow(false)}
+                >
+                    <Drawer isShow={isDrawerShow} />
+                </div>
 
                 <div className={`rounded bordered mb-3 mx-2 px-5 py-3 mt-7`}>
                     <Typography

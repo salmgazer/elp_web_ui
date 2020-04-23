@@ -28,8 +28,8 @@ export default function SectionNavbars(props) {
         <div className={classes.root}>
             <AppBar position="fixed" style={{ background: '#DAAB59' , color: '#343a40'}}>
                 <Toolbar variant="dense">
-                    <IconButton style={{color: '#000000'}} edge="start" className={classes.menuButton} aria-label="menu">
-                        {props.children}
+                    <IconButton color="inherit" style={{color: '#000000'}} edge="start" className={classes.menuButton} aria-label="menu">
+                        {props.leftIcon}
                     </IconButton>
                     <Typography variant="h6" color="inherit" style={{'fontWeight': 700, 'color': '#3d3d3d', textAlign: 'center', margin: '0 auto'}} >
                         {props.title}

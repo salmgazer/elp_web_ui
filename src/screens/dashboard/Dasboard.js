@@ -202,14 +202,23 @@ const Dashboard = props => {
                 <CssBaseline />
 
 
-                <SectionNavbars title={`Welcome ${username}`}>
-                    <MenuIcon
-                        onClick={() => setIsDrawerShow(true)}
-                        style={{fontSize: '2.5rem'}}
-                    />
-                </SectionNavbars>
+                <SectionNavbars
+                    title={`Welcome ${username}`}
+                    leftIcon={
+                        <div onClick={() => setIsDrawerShow(true)}>
+                            <MenuIcon
+                                style={{fontSize: '2rem'}}
+                            />
+                        </div>
+                    }
+                />
 
-                <Drawer isShow={isDrawerShow} />
+                <div
+                    onClick={() => setIsDrawerShow(false)}
+                    onKeyDown={() => setIsDrawerShow(false)}
+                >
+                    <Drawer isShow={isDrawerShow} />
+                </div>
                 <BoxDefault
                     bgcolor="background.paper"
                     p={1}
