@@ -167,7 +167,7 @@ export default class BranchStockService{
                 quantity: (branchStock).reduce((a, b) => a + (b['quantity'] || 0), 0),
                 id: branch.id,
                 productId: productId,
-                branchProductId: branchProduct,
+                branchProductId: branchStock.length > 0 ? branchStock[branchStock.length - 1].branchProductId : null,
             }
         });
         console.log(response)
@@ -184,15 +184,117 @@ export default class BranchStockService{
 
     }
 
-    async getBranchItemsLeft(){
+    async getCompanyItemsLeft(){
+        const branches = (LocalInfo.branches).map(branch => branch.branchId);
 
+        const companyStock = await new ModelAction('BranchProductStock').findByColumnNotObserve({
+            name: 'branchId',
+            value: this.branchId,
+            fxn: 'eq'
+        });
+
+        const companySaleEntries = await new ModelAction('SaleEntry').findByColumnNotObserve({
+            name: 'branchId',
+            value: this.branchId,
+            fxn: 'eq'
+        });
+
+        const companyStockMovement = await new ModelAction('StockMovement').findByColumnNotObserve({
+            name: 'branchFrom',
+            value: this.branchId,
+            fxn: 'eq'
+        });
+
+        const stock = (companyStock).reduce((a, b) => a + (b['quantity'] || 0), 0);
+        const sales = (companySaleEntries).reduce((a, b) => a + (b['quantity'] || 0), 0);
+        const stockMovement = (companyStockMovement).reduce((a, b) => a + (b['quantity'] || 0), 0);
+
+        return parseFloat(stock - (sales + stockMovement));
     }
 
     async getLowStockItems(){
+        const companyStock = await new ModelAction('BranchProductStock').findByColumnNotObserve({
+            name: 'branchId',
+            value: this.branchId,
+            fxn: 'eq'
+        });
 
+        const companySaleEntries = await new ModelAction('SaleEntry').findByColumnNotObserve({
+            name: 'branchId',
+            value: this.branchId,
+            fxn: 'eq'
+        });
+
+        const companyStockMovement = await new ModelAction('StockMovement').findByColumnNotObserve({
+            name: 'branchFrom',
+            value: this.branchId,
+            fxn: 'eq'
+        });
+
+        const branchProducts = await new ModelAction('BranchProduct').findByColumnNotObserve({
+            name: 'branchId',
+            value: this.branchId,
+            fxn: 'eq'
+        });
+
+        const outOfStock = branchProducts.filter((product) => {
+            const stock = companyStock.filter((item) => item.productId === product.productId && item.branchId === this.branchId);
+            const sales = companySaleEntries.filter((item) => item.productId === product.productId && item.branchId === this.branchId);
+            const movement = companyStockMovement.filter((item) => item.productId === product.productId && item.branchId === this.branchId);
+
+            const countStock = ((stock).reduce((a, b) => a + (b['quantity'] || 0), 0));
+            const countSales = ((sales).reduce((a, b) => a + (b['quantity'] || 0), 0));
+            const countMovement = ((movement).reduce((a, b) => a + (b['quantity'] || 0), 0));
+
+            //console.log(product.lowestStock , (countStock - (countSales + countMovement)))
+            return product.lowestStock >= (countStock - (countSales + countMovement))
+
+        });
+
+        console.log(outOfStock)
+        return outOfStock;
     }
 
     async getItemsOutOfStock(){
+        const companyStock = await new ModelAction('BranchProductStock').findByColumnNotObserve({
+            name: 'branchId',
+            value: this.branchId,
+            fxn: 'eq'
+        });
 
+        const companySaleEntries = await new ModelAction('SaleEntry').findByColumnNotObserve({
+            name: 'branchId',
+            value: this.branchId,
+            fxn: 'eq'
+        });
+
+        const companyStockMovement = await new ModelAction('StockMovement').findByColumnNotObserve({
+            name: 'branchFrom',
+            value: this.branchId,
+            fxn: 'eq'
+        });
+
+        const branchProducts = await new ModelAction('BranchProduct').findByColumnNotObserve({
+            name: 'branchId',
+            value: this.branchId,
+            fxn: 'eq'
+        });
+
+        const outOfStock = branchProducts.filter((product) => {
+            const stock = companyStock.filter((item) => item.productId === product.productId && item.branchId === this.branchId);
+            const sales = companySaleEntries.filter((item) => item.productId === product.productId && item.branchId === this.branchId);
+            const movement = companyStockMovement.filter((item) => item.productId === product.productId && item.branchId === this.branchId);
+
+            const countStock = ((stock).reduce((a, b) => a + (b['quantity'] || 0), 0));
+            const countSales = ((sales).reduce((a, b) => a + (b['quantity'] || 0), 0));
+            const countMovement = ((movement).reduce((a, b) => a + (b['quantity'] || 0), 0));
+
+            //console.log(countStock , (countSales + countMovement))
+
+            return (countStock >= (countSales + countMovement))
+        });
+
+        console.log(outOfStock)
+        return outOfStock;
     }
 }

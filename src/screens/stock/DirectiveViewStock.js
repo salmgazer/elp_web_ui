@@ -34,6 +34,9 @@ class DirectiveViewStock extends Component{
             totalSellingPrice: '60,000',
             totalExpectedProfit: '10,000',
         },
+        itemsLeft: 0,
+        lowestStockItems: [],
+        outOfStockItems: [],
     };
 
     /*
@@ -47,6 +50,9 @@ class DirectiveViewStock extends Component{
         await this.setState({
             branchProducts: branchProducts,
             companyBranches: LocalInfo.branches,
+            itemsLeft: await new BranchStockService().getCompanyItemsLeft(),
+            lowestStockItems: await new BranchStockService().getLowStockItems(),
+            outOfStockItems: await new BranchStockService().getItemsOutOfStock(),
         });
     }
 
@@ -57,6 +63,9 @@ class DirectiveViewStock extends Component{
             this.setState({
                 branchProducts: branchProducts,
                 companyBranches: LocalInfo.branches,
+                itemsLeft: await new BranchStockService().getCompanyItemsLeft(),
+                lowestStockItems: await new BranchStockService().getLowStockItems(),
+                outOfStockItems: await new BranchStockService().getItemsOutOfStock(),
             });
         }
     }
@@ -72,13 +81,13 @@ class DirectiveViewStock extends Component{
     getStepContent = step => {
         switch (step) {
             case 0:
-                return <StockMainPage branchProducts={this.state.branchProducts} stock={this.state.stockList} setView={this.setStepContentView.bind(this)} addProductStockView={this.showProductStockView.bind(this)}/> ;
+                return <StockMainPage outOfStockItems={this.state.outOfStockItems} lowestStockItems={this.state.lowestStockItems}  itemsLeft={this.state.itemsLeft} branchProducts={this.state.branchProducts} stock={this.state.stockList} setView={this.setStepContentView.bind(this)} addProductStockView={this.showProductStockView.bind(this)}/> ;
             case 1:
                 return <StockProductSingle product={this.state.currentProduct} setView={this.setStepContentView.bind(this)}/>;
             case 2:
                 return <StockSummaryPage storeDetails={this.state.storeDetails} setView={this.setStepContentView.bind(this)}/>;
             case 3:
-                return <ItemsOutOfStock addNewProductStockView={this.addNewProductStockView.bind(this)} stock={this.state.stockList} storeDetails={this.state.storeDetails} setView={this.setStepContentView.bind(this)}/>;
+                return <ItemsOutOfStock addNewProductStockView={this.addNewProductStockView.bind(this)} stock={this.state.outOfStockItems} storeDetails={this.state.storeDetails} setView={this.setStepContentView.bind(this)}/>;
             case 4:
                 return <ItemsLowStock addNewProductStockView={this.addNewProductStockView.bind(this)} stock={this.state.stockList} storeDetails={this.state.storeDetails} setView={this.setStepContentView.bind(this)}/>;
             case 5:

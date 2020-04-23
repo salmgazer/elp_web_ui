@@ -144,7 +144,7 @@ const StockMainPage = props => {
                                     variant="h5"
                                     style={{fontWeight: '700', fontSize: '14px' , lineHeight: '1.2'}}
                                 >
-                                    2000 items
+                                    {props.itemsLeft} items
                                 </Typography>
                             </CardDefault>
                         </Grid>
@@ -169,7 +169,7 @@ const StockMainPage = props => {
                                     variant="h5"
                                     style={{fontWeight: '700', fontSize: '14px' , lineHeight: '1.2'}}
                                 >
-                                    50 items
+                                    {props.lowestStockItems.length} items
                                 </Typography>
                             </CardDefault>
                         </Grid>
@@ -194,7 +194,7 @@ const StockMainPage = props => {
                                     variant="h5"
                                     style={{fontWeight: '700', fontSize: '14px' , lineHeight: '1.2'}}
                                 >
-                                    100 items
+                                    {props.outOfStockItems.length} items
                                 </Typography>
                             </CardDefault>
                         </Grid>
