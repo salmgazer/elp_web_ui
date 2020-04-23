@@ -31,6 +31,8 @@ const MoveStock = props => {
     const [branches , setBranches] = useState([]);
     const [activeBranch , setActiveBranch] = useState();
     const [errorMsg, setErrorMsg] = useState('');
+    const [moveTo, setMoveTo] = useState('');
+    const [moveFrom, setMoveFrom] = useState('');
 
     const [formFields , setFormFields] = useState({
         quantity: 1,
@@ -38,7 +40,7 @@ const MoveStock = props => {
         costPrice: "",
         paymentSource: 'stock',
         productId: branchProduct.productId,
-        branchProductId: branchProduct.id,
+        branchProductId: null,
         rememberChoice: false,
         branchId: null,
         moveFrom: null,
@@ -78,6 +80,7 @@ const MoveStock = props => {
 
         setInputValue('costPrice' , await new BranchProductService(branchProduct).getCostPrice());
         setBranches(newBranches);
+
         setCompanyStocks(await new BranchStockService().getBranchStockQuantities(branchProduct.productId));
     };
 
@@ -87,9 +90,16 @@ const MoveStock = props => {
 
     const setInputValue = (name , value) => {
         const {...oldFormFields} = formFields;
-
+        console.log(name , value)
         if(name === 'moveTo'){
+            const nr = companyStocks.filter(item => (item.id === value && item.productId === product.id));
+            setMoveTo(nr[0]);
+            console.log(nr[0])
             oldFormFields['branchId'] = value;
+            oldFormFields['branchProductId'] = nr[0].branchProductId;
+        }else if(name === 'moveFrom'){
+            const nr = companyStocks.filter(item => item.id === value);
+            setMoveFrom(nr[0]);
         }
         oldFormFields[name] = value;
 
@@ -120,7 +130,7 @@ const MoveStock = props => {
     const moveStock = () => {
         console.log(formFields)
         setLoading(true);
-        if((formFields.quantity === "" || formFields.quantity === null || parseFloat(formFields.quantity === 0)) || (formFields.moveFrom === "" || formFields.moveFrom === null) || (formFields.moveTo === "" || parseFloat(formFields.moveTo === null))) {
+        if((formFields.quantity === "" || formFields.quantity === null || parseFloat(formFields.quantity === 0)) || (formFields.moveFrom === "" || formFields.moveFrom === null) || (formFields.moveTo === "" || (formFields.moveTo === null))) {
             setErrorDialog(true);
             setErrorMsg('Please fill all stock details');
             setLoading(false);
@@ -154,15 +164,26 @@ const MoveStock = props => {
             return false;
         }
 
-        props.moveStock(formFields);
+        console.log(formFields)
 
-        setSuccessDialog(true);
+        if(props.moveStock(formFields)){
+            setSuccessDialog(true);
 
-        setTimeout(function(){
-            setSuccessDialog(false);
+            setTimeout(function(){
+                setSuccessDialog(false);
+                setLoading(false);
+                props.setView(0)
+            }, 2000);
+        }else{
+            setErrorDialog(true);
+            setErrorMsg('OOPS Something went wrong');
             setLoading(false);
-            props.setView(0)
-        }, 2000);
+            setTimeout(function(){
+                setErrorDialog(false);
+            }, 2000);
+
+            return false;
+        }
     };
 
     const handleCloseSnack = (event, reason) => {
@@ -223,7 +244,7 @@ const MoveStock = props => {
                     style={{fontWeight: '500', fontSize: '16px' , margin: '0px 0px', padding: '14px'}}
                     className={`text-center mx-auto text-dark`}
                 >
-                    Warehouse : 50 | Lapaz stock : 20
+                    {moveTo ? `${moveTo.name} : ${moveTo.quantity}` : 'No branch set'} | {moveFrom ? `${moveFrom.name} : ${moveFrom.quantity}` : 'No branch set'}
                 </Typography>
 
                 <div className={`rounded bordered mb-3 mx-3 px-3 py-3`}>

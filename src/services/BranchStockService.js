@@ -12,7 +12,7 @@ export default class BranchStockService{
     async addStock(formFields){
         const stockColumns = {
             quantity: parseFloat(formFields.quantity),
-            branchId: this.branchId,
+            branchId: formFields.branchId,
             productId: formFields.productId,
             branchProductId: formFields.branchProductId,
             costPrice: parseFloat(formFields.costPrice),
@@ -37,18 +37,18 @@ export default class BranchStockService{
 
     async moveStock(formFields){
         const response = await this.addStock(formFields);
-
+        alert(await formFields.branchProductId[0].id)
         if(response){
-            const lastStock = await BranchStockService.getLastStock();
+            const lastStock = await BranchStockService.getLastStock(formFields.branchId);
 
             const stockMovementColumns = {
                 quantity: parseFloat(formFields.quantity),
                 branchId: formFields.moveTo,
                 productId: formFields.productId,
-                branchProductId: formFields.branchProductId,
+                branchProductId: (await formFields.branchProductId[0].id),
                 costPrice: parseFloat(formFields.costPrice),
-                moveFrom: formFields.moveFrom,
-                moveTo: formFields.moveTo,
+                branchFrom: formFields.moveFrom,
+                branchTo: formFields.moveTo,
                 createdBy: LocalInfo.userId,
                 branchProductStockId: lastStock.id,
             };
@@ -66,10 +66,10 @@ export default class BranchStockService{
         }
     }
 
-    static async getLastStock(){
+    static async getLastStock(branchId = LocalInfo.branchId){
         const lastStock = await new ModelAction('BranchProductStock').findByColumnNotObserve({
             name: 'branchId',
-            value: LocalInfo.branchId,
+            value: branchId,
             fxn: 'eq',
         });
 
@@ -149,16 +149,25 @@ export default class BranchStockService{
 
     async getBranchStockQuantities(productId){
         const branches = LocalInfo.branches;
+        const dataCollection = await database.collections.get('branches_products');
 
         const stocks = await this.getCompanyProductStock(productId);
         console.log(stocks)
         const response = branches.map((branch) => {
             const branchStock = stocks.filter(stock => stock.branchId === branch.id);
             console.log(branchStock)
+
+            let branchProduct = dataCollection.query(
+                Q.where('productId' , productId),
+                Q.where('branchId' , branch.id)
+            ).fetch();
+
             return {
                 name: branch.name,
                 quantity: (branchStock).reduce((a, b) => a + (b['quantity'] || 0), 0),
-                id: branch.id
+                id: branch.id,
+                productId: productId,
+                branchProductId: branchProduct,
             }
         });
         console.log(response)

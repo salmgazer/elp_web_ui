@@ -300,7 +300,7 @@ const Dashboard = props => {
 const EnhancedDashboard = withDatabase(
   withObservables([], ({ database }) => ({
     branchProducts: database.collections.get(BranchProduct.table).query(Q.where('branchId', localStorage.getItem('activeBranch'))).observe(),
-    stockMovements: database.collections.get(StockMovement.table).query(Q.where('branchId', LocalInfo.branchId)).observe(),
+    stockMovements: database.collections.get(StockMovement.table).query().fetch(),
     testProducts: database.collections.get(BranchProduct.table).query().observe(),
     //cartQuantity: database.collections.get(CartEntry.table).query(Q.where('id', new CartService().cartId())).observe(),
     branchProductStock: database.collections.get(BranchProductStock.table).query().observe(),

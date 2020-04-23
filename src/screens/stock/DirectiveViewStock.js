@@ -52,7 +52,7 @@ class DirectiveViewStock extends Component{
 
     async componentDidUpdate(prevProps) {
         const { branchProducts , branchProductStock } = this.props;
-
+        console.log(branchProducts);
         if(prevProps.branchProductStock.length !== branchProductStock.length){
             this.setState({
                 branchProducts: branchProducts,
