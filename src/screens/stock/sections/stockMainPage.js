@@ -28,11 +28,13 @@ import KeyboardReturnIcon from '@material-ui/icons/KeyboardReturn';
 import SwapHorizOutlinedIcon from '@material-ui/icons/SwapHorizOutlined';
 import RedeemIcon from '@material-ui/icons/Redeem';
 import ReportProblemOutlinedIcon from '@material-ui/icons/ReportProblemOutlined';
+import Drawer from "../../../components/Drawer/Drawer";
 
 const StockMainPage = props => {
     const [value , setValue] = useState(0);
     const [isShowDrawer , setIsShowDrawer] = useState(false);
     const branchProducts = props.branchProducts;
+    const [isDrawerShow , setIsDrawerShow] = useState(false);
 
     const a11yProps = (index) => {
         return {
@@ -73,11 +75,21 @@ const StockMainPage = props => {
                                 />
                             </div>
                         }
+                        leftIcon={
+                            <div onClick={() => setIsDrawerShow(true)}>
+                                <MenuIcon
+                                    style={{fontSize: '2rem'}}
+                                />
+                            </div>
+                        }
+                    />
+
+                    <div
+                        onClick={() => setIsDrawerShow(false)}
+                        onKeyDown={() => setIsDrawerShow(false)}
                     >
-                        <MenuIcon
-                            style={{fontSize: '2.5rem'}}
-                        />
-                    </SectionNavbars>
+                        <Drawer isShow={isDrawerShow} />
+                    </div>
 
                     <div
                         onClick={() => setIsShowDrawer(false)}

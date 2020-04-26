@@ -1,4 +1,4 @@
-import React, {useEffect} from 'react';
+import React, {useEffect, useState} from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import SectionNavbars from "../../../../components/Sections/SectionNavbars";
 import Tabs from "@material-ui/core/Tabs/Tabs";
@@ -25,6 +25,8 @@ import AddCustomerModal from "../../../../components/Modal/Customer/AddCustomerM
 import CustomerService from "../../../../services/CustomerService";
 import SaleService from "../../../../services/SaleService";
 import CartService from "../../../../services/CartService";
+import paths from "../../../../utilities/paths";
+import SimpleSnackbar from "../../../../components/Snackbar/SimpleSnackbar";
 
 const useStyles = makeStyles(theme => ({
     root: {
@@ -37,8 +39,8 @@ const useStyles = makeStyles(theme => ({
     paper: {
       padding: theme.spacing(1),
       textAlign: 'center',
-      
-     
+
+
     },
     tabs: {
         textTransform: 'none',
@@ -61,7 +63,9 @@ const CheckoutView = props => {
     const [addDialog, setAddDialog] = React.useState(false);
     const [mainDialog, setMainDialog] = React.useState(false);
     const [value, setValue] = React.useState(0);
-
+    const [error , setError] = useState(false);
+    const [errorMsg , setErrorMsg] = useState('');
+    const [btnValue , setBtnValue] = React.useState(false);
     const [customerName, setCustomerName] = React.useState('');
     const [customerId , setCustomerId] = React.useState('');
     //console.log(props.currentCustomer)
@@ -130,6 +134,17 @@ const CheckoutView = props => {
     };
 
     const paymentDetails = (formFields) => {
+        console.log(formFields.amountPaid , props.cartTotalAmount)
+        if(value === 0 && parseFloat(formFields.amountPaid) >= parseFloat(props.cartTotalAmount)){
+            setBtnValue(true);
+        }else{
+            setErrorMsg(`Amount paid must be greater than ${props.cartTotalAmount}`);
+            setError(true);
+            setTimeout(function(){
+                setError(false);
+            }, 1000);
+            setBtnValue(false);
+        }
         setCartData(formFields)
     };
 
@@ -153,13 +168,20 @@ const CheckoutView = props => {
                 />
             </SectionNavbars>
 
+            <SimpleSnackbar
+                type="warning"
+                openState={error}
+                message={errorMsg}
+            >
+            </SimpleSnackbar>
+
             <Box style={{marginTop: '5px' , paddingBottom: '60px'}} p={1} className={`mt-3 mb-5`}>
                 <Grid container spacing={1} className={`shadow1 mb-3 borderRadius10`} style={{display: 'table', height: '90px', margin: '8px 0px'}} >
                     <Typography component="p" style={{ margin: '20px 0px 0px 0px', fontSize: '18px' }} >
                             Amount due
                         </Typography>
-                        <Typography className='text-dark font-weight-bold' style={{ fontSize: '25px' }} >
-                            {`GHC ${props.cartTotalAmount}`}
+                            <Typography className='text-dark font-weight-bold' style={{ fontSize: '25px' }} >
+                                {`GHC ${props.cartTotalAmount}`}
                         </Typography>
                 </Grid>
             </Box>
@@ -194,13 +216,13 @@ const CheckoutView = props => {
                     />
                 </TabPanel>
                 <TabPanel value={value} index={1}  >
-                    
+
                 </TabPanel>
                 <TabPanel value={value} index={2}  >
-                   
+
                 </TabPanel>
                 <TabPanel value={value} index={3}  >
-                    
+
                 </TabPanel>
             </SwipeableViews>
 
@@ -265,24 +287,47 @@ const CheckoutView = props => {
                 className="shadow1"
                 bgcolor="background.paper"
                 p={1}
+                style={{ height: '2.5rem', position: "fixed", bottom:"0px", width:"100%" }}
+            >
+                <Button
+                    variant="outlined"
+                    onClick={() => props.setView(0)}
+                    style={{border: '1px solid #DAAB59', color: '#333333', padding: '5px 40px', marginRight: '10px', textTransform: 'none', fontSize:'17px'}}
+                >
+                    Back
+                </Button>
+                <Button
+                    variant="contained"
+                    style={{'backgroundColor': '#DAAB59' , color: '#333333', padding: '5px 40px', textTransform: 'none', fontSize:'17px'}}
+                    onClick={completeSellHandler.bind(this)}
+                    disabled={!btnValue}
+                >
+                    Finish
+                </Button>
+            </Box>
+
+            {/*<Box
+                className="shadow1"
+                bgcolor="background.paper"
+                p={1}
                 style={{ height: '2.5rem', position: "fixed", bottom:"0", width:"100%" }}
             >
                 <Button
                     variant="contained"
                     className='text-dark font-weight-bold'
                     style={{
-                        backgroundColor: '#DAAB59', 
-                        color: '#333333', 
+                        backgroundColor: '#DAAB59',
+                        color: '#333333',
                         padding: '5px 60px',
-                        textTransform: 'none', 
-                        fontSize: '20px', 
+                        textTransform: 'none',
+                        fontSize: '20px',
                     }}
                     onClick={completeSellHandler.bind(this)}
                 >
                     Finish
                 </Button>
-            </Box>
-           
+            </Box>*/}
+
         </div>
     )
 }

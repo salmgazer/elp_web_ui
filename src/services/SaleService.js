@@ -19,6 +19,7 @@ export default class SaleService {
                 customerId: cart.customerId,
                 discount: cart.discount,
                 branchId: cart.branchId,
+                salesDate: cart.cartDate,
                 receiptNumber: uuid(),
                 createdBy: LocalInfo.userId,
             };

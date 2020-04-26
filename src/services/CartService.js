@@ -13,11 +13,13 @@ export default class CartService {
     async cartId() {
         if(!await database.adapter.getLocal("cartId")){
             const dataCollection = database.collections.get(Carts.table);
+            const workingDate = await database.adapter.getLocal("workingDate");
 
             await database.action(async () => {
                 const newCart = await dataCollection.create(cart => {
                     cart.discount = 0;
                     cart.branchId = LocalInfo.branchId;
+                    cart.cartDate = LocalInfo.workingDate;
                     cart.status = 'active';
                     cart.createdBy = LocalInfo.userId;
                     cart._raw.id = uuid()

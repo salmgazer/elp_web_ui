@@ -43,4 +43,22 @@ export default class CustomerService {
 
         return `${newCustomer.firstName} ${newCustomer.otherNames}`;
     }
+
+    async getCustomerExist(phone){
+        try {
+            const customer = await new ModelAction('Customer').findByColumnNotObserve({
+                name: 'phone',
+                value: phone,
+                fxn: 'eq'
+            });
+            if(customer.length > 0){
+                return false;
+            }else{
+                return true;
+            }
+        }catch (e) {
+            console.log(e);
+            return false;
+        }
+    }
 }

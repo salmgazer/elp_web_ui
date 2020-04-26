@@ -23,6 +23,7 @@ export default class Sales extends Model {
     @field('paymentType') paymentType;
     @field('customerId') customerId;
     @field('createdBy') createdBy;
+    @field('salesDate') salesDate;
     @field('receiptNumber') receiptNumber;
     @children('saleEntries') sale_entries;
     @children('saleInstallments') saleInstallments;

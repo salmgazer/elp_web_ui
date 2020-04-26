@@ -166,6 +166,7 @@ const AddNewStockPage = props => {
     const [successDialog, setSuccessDialog] = useState(false);
     const [errorDialog, setErrorDialog] = useState(false);
     const [errorMsg, setErrorMsg] = useState('');
+    const [btnState , setBtnState] = useState(false);
 
     const [formFields , setFormFields] = useState({
         quantity: 1,
@@ -183,14 +184,13 @@ const AddNewStockPage = props => {
         sellingPrice: "",
     });
 
-    const saveStock = () => {
-        console.log(formFields)
-        console.log('me')
+    const checkProduct = () => {
         setLoading(true);
         if((formFields.quantity === "" || formFields.quantity === null || parseFloat(formFields.quantity === 0)) || (formFields.costPrice === "" || formFields.costPrice === null || parseFloat(formFields.costPrice === 0)) || (formFields.sellingPrice === "" || parseFloat(formFields.sellingPrice === 0))) {
             setErrorDialog(true);
             setErrorMsg('Please fill all stock details');
             setLoading(false);
+            setBtnState(true);
             setTimeout(function(){
                 setErrorDialog(false);
             }, 3000);
@@ -203,6 +203,38 @@ const AddNewStockPage = props => {
                 setErrorDialog(true);
                 setErrorMsg('Cost price can not be more than selling price');
                 setLoading(false);
+                setBtnState(true);
+                setTimeout(function(){
+                    setErrorDialog(false);
+                }, 3000);
+
+                return false;
+            }
+        }
+
+        setMoneySourceDialog(true);
+    }
+
+    const saveStock = () => {
+        setLoading(true);
+        if((formFields.quantity === "" || formFields.quantity === null || parseFloat(formFields.quantity === 0)) || (formFields.costPrice === "" || formFields.costPrice === null || parseFloat(formFields.costPrice === 0)) || (formFields.sellingPrice === "" || parseFloat(formFields.sellingPrice === 0))) {
+            setErrorDialog(true);
+            setErrorMsg('Please fill all stock details');
+            setLoading(false);
+            setBtnState(true);
+            setTimeout(function(){
+                setErrorDialog(false);
+            }, 3000);
+
+            return false;
+        }
+
+        if((formFields.quantity !== "" || parseFloat(formFields.quantity !== 0)) && (formFields.costPrice !== "" || parseFloat(formFields.costPrice !== 0)) && (formFields.sellingPrice !== "" || parseFloat(formFields.sellingPrice !== 0))){
+            if(parseFloat(formFields.costPrice) >= parseFloat(formFields.sellingPrice)){
+                setErrorDialog(true);
+                setErrorMsg('Cost price can not be more than selling price');
+                setLoading(false);
+                setBtnState(true);
                 setTimeout(function(){
                     setErrorDialog(false);
                 }, 3000);
@@ -611,7 +643,7 @@ const AddNewStockPage = props => {
                 <Button
                     variant="contained"
                     style={{'backgroundColor': '#DAAB59' , color: '#333333', padding: '5px 50px'}}
-                    onClick={() => setMoneySourceDialog(true)}
+                    onClick={checkProduct.bind(this)}
                     disabled={loading}
                 >
                     Save

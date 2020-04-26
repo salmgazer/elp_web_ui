@@ -12,11 +12,16 @@ export default class LocalInfo {
       lastSyncedAt: "lastSyncedAt",
       branches: "branches",
       companyId: "companyId",
+      workingDate: "workingDate",
     };
   }
 
   static get userAccess() {
     return localStorage.getItem(this.keys.userAccess);
+  }
+
+  static get workingDate() {
+    return localStorage.getItem(this.keys.workingDate);
   }
 
   static get userId() {
@@ -82,6 +87,10 @@ export default class LocalInfo {
     localStorage.setItem(this.keys.storeName, storeName);
   }
 
+  static setWorkingDate(workingDate) {
+    localStorage.setItem(this.keys.workingDate, workingDate);
+  }
+
   static setStoreId(storeId) {
     localStorage.setItem(this.keys.storeId, storeId);
   }
@@ -125,6 +134,7 @@ export default class LocalInfo {
     localStorage.removeItem(this.keys.accessToken);
     localStorage.removeItem(this.keys.branchId);
     localStorage.removeItem(this.keys.companyId);
+    localStorage.removeItem(this.keys.workingDate);
     window.location.href = "/";
   }
 }

@@ -19,7 +19,15 @@ export default class BranchProductService {
     }
 
     async getProductQuantity(){
-        return ((await this.getProductStock())).reduce((a, b) => a + (b['quantity'] || 0), 0);
+        const stock = await this.branchProduct.stocks();
+        const saleEntries = await this.branchProduct.saleEntries();
+        const stockMovement = await this.branchProduct.stockMovements();
+
+        const stockQuantity = (stock).reduce((a, b) => a + (b['quantity'] || 0), 0);
+        const salesQuantity = (saleEntries).reduce((a, b) => a + (b['quantity'] || 0), 0);
+        const stockMovementQuantity = (stockMovement).reduce((a, b) => a + (b['quantity'] || 0), 0);
+
+        return (stockQuantity - (salesQuantity + stockMovementQuantity));
     }
 
     async getProductImage(){

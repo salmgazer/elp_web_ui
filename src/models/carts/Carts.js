@@ -17,6 +17,7 @@ export default class Carts extends Model {
     @field('discount') discount;
     @field('branchId') branchId;
     @field('status') status;
+    @field('cartDate') cartDate;
     @field('customerId') customerId;
     @field('createdBy') createdBy;
     @children('cartEntries') cart_entries;

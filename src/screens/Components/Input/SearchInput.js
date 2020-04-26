@@ -1,9 +1,10 @@
 import React , {useState} from 'react';
-import InputBase from '@material-ui/core/InputBase';
+import TextField from '@material-ui/core/TextField';
 import SearchIcon from '@material-ui/icons/Search';
 import IconButton from '@material-ui/core/IconButton';
 import Paper from '@material-ui/core/Paper';
 import {makeStyles} from "@material-ui/core";
+import InputAdornment from "@material-ui/core/InputAdornment";
 
 const useStyles = makeStyles(theme => ({
     root: {
@@ -40,17 +41,25 @@ const SearchInput = (props) => {
     return (
         <div>
             <Paper className={classes.root} >
-                <InputBase
+                <TextField
                     className={`${classes.input} search-box`}
-                    placeholder="Search for a product"
-                    inputProps={{ 'aria-label': 'Search for a product' }}
+                    placeholder="Search"
+                    InputProps={{
+                        startAdornment: (
+                            <InputAdornment>
+                                <IconButton className={classes.iconButton}>
+                                    <SearchIcon />
+                                </IconButton>
+                            </InputAdornment>
+                        )
+                    }}
                     defaultValue={value}
                     name={props.inputName}
                     onChange={(event) => setValueHandler(event)}
                 />
-                <IconButton className={classes.iconButton} aria-label="search">
+                {/*<IconButton className={classes.iconButton} aria-label="search">
                     <SearchIcon />
-                </IconButton>
+                </IconButton>*/}
             </Paper>
         </div>
     );

@@ -1,4 +1,4 @@
-import localInfo from './LocalInfo';
+import LocalInfo from "../services/LocalInfo";
 import Api from './Api';
 import GenerateOTP from './GenerateString';
 const jwt = require('jsonwebtoken');
@@ -24,7 +24,7 @@ export default class AuthService {
                 params,
                 {},
                 {},
-                'https://elp-core-api-dev.herokuapp.com/v1/client/users/login'
+                'http://elpcoreapidev.us-east-2.elasticbeanstalk.com/v1/client/users/login'
             );
 
             if( user ){
@@ -39,6 +39,7 @@ export default class AuthService {
                     localStorage.setItem('activeBranch' , response.access[0].branches[0].branchId);
                     localStorage.setItem('userData', JSON.stringify(response));
                     localStorage.setItem('companyId', response.access[0].companyId);
+                    LocalInfo.setWorkingDate(new Date());
 
                     return {
                         success: 200,
@@ -108,7 +109,7 @@ export default class AuthService {
                 params,
                 {},
                 {},
-                'https://elp-core-api-dev.herokuapp.com/v1/client/users/register'
+                'http://elpcoreapidev.us-east-2.elasticbeanstalk.com/v1/client/users/register'
             );
 
             if( response ){

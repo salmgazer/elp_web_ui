@@ -1,4 +1,4 @@
-import React, {useEffect} from 'react';
+import React, {useEffect, useState} from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import AddShoppingCartIcon from '@material-ui/icons/AddShoppingCart';
 import ArrowBackIosIcon from '@material-ui/icons/ArrowBackIos';
@@ -16,6 +16,7 @@ import CustomersModal from "../../../../components/Modal/Customer/CustomersModal
 import AddCustomerModal from "../../../../components/Modal/Customer/AddCustomerModal";
 import CustomerService from "../../../../services/CustomerService";
 import CartService from "../../../../services/CartService";
+import SimpleSnackbar from "../../../../components/Snackbar/SimpleSnackbar";
 
 const useStyles = makeStyles(theme => ({
     root: {
@@ -28,8 +29,8 @@ const useStyles = makeStyles(theme => ({
     paper: {
       padding: theme.spacing(1),
       textAlign: 'center',
-      
-     
+
+
     },
     button: {
         border: '1px solid #DAAB59',
@@ -48,6 +49,9 @@ const CartView = props => {
     const [user , setUser] = React.useState(false);
     const [customerName, setCustomerName] = React.useState('');
     const [customerId , setCustomerId] = React.useState('');
+    const [error , setError] = useState(false);
+    const [errorMsg , setErrorMsg] = useState('');
+    const counter = props.cartTotalProducts;
     //console.log(props.currentCustomer)
     //console.log(customerName)
 
@@ -75,8 +79,28 @@ const CartView = props => {
         setAddDialog(false);
     };
 
-    const openDialogHandler = (event) => {
-        setMainDialog(true);
+    const openDialogHandler = async() => {
+        if(props.currentCustomer === 0){
+            setMainDialog(true);
+        }else{
+            const response = await new CartService().suspendCart();
+
+            if (response) {
+                setErrorMsg('Cart saved');
+                setError(true);
+                setTimeout(function(){
+                    props.history.push(paths.sell);
+                    setError(false);
+                }, 2000);
+            }else{
+                setErrorMsg('Cart was not saved. Please try again');
+                setError(true);
+                setTimeout(function(){
+                    props.setView(0);
+                    setError(false);
+                }, 3000);
+            }
+        }
     };
 
     const openAddDialog = (event) => {
@@ -106,10 +130,10 @@ const CartView = props => {
 
     return(
         <div className={classes.root}>
-            <SectionNavbars 
-                title="Cart"  
+            <SectionNavbars
+                title="Cart"
                 icons={
-                    <AddShoppingCartIcon 
+                    <AddShoppingCartIcon
                         style={{fontSize: '2rem'}}
                         onClick={openDialogHandler.bind(this)}
                     />}
@@ -123,6 +147,12 @@ const CartView = props => {
                 </div>
 
             </SectionNavbars>
+            <SimpleSnackbar
+                type="warning"
+                openState={error}
+                message={errorMsg}
+            >
+            </SimpleSnackbar>
 
             <Grid container spacing={1}>
                 <Grid item xs={6}>
@@ -135,7 +165,7 @@ const CartView = props => {
                         </Typography>
                     </Paper>
                 </Grid>
-                
+
                 <Grid item xs={6}>
                     <Paper className={classes.paper}>
                         <Typography className={classes.title} component="p" >
@@ -147,7 +177,7 @@ const CartView = props => {
                     </Paper>
                 </Grid>
             </Grid>
-            
+
 
             <Button
                 variant="outlined"
@@ -224,8 +254,7 @@ const CartView = props => {
             <Box
                 className="shadow1"
                 bgcolor="background.paper"
-                p={1}
-                style={{ height: '2.5rem', position: "fixed", bottom:"0", width:"100%" }}
+                style={{ height: '2.5rem', position: "fixed", bottom:"10px", width:"100%" }}
             >
                 <Button
                     variant="outlined"
@@ -238,11 +267,12 @@ const CartView = props => {
                     variant="contained"
                     style={{'backgroundColor': '#DAAB59' , color: '#333333', padding: '5px 40px', textTransform: 'none', fontSize:'17px'}}
                     onClick={openCheckoutHandler.bind(this)}
+                    disabled={!counter}
                 >
                     Checkout
                 </Button>
             </Box>
-           
+
         </div>
     )
 }

@@ -19,6 +19,7 @@ import CustomerService from "../../../../services/CustomerService";
 import AddShoppingCartIcon from "@material-ui/core/SvgIcon/SvgIcon";
 import AddCustomerModal from "../../../../components/Modal/Customer/AddCustomerModal";
 import CartService from "../../../../services/CartService";
+import SwapHorizOutlinedIcon from '@material-ui/icons/SwapHorizOutlined';
 
 const useStyles = makeStyles(theme => ({
     root: {
@@ -140,8 +141,8 @@ const AddProductCart = props => {
     };
 
     const setTotalPriceHandler = event => {
-        setTotalPrice((parseFloat(event.target.value)));
-        const sp = (parseFloat(event.target.value) / quantity);
+        setTotalPrice(((event.target.value)));
+        const sp = ((event.target.value) / quantity);
 
         if (sp < costPrice) {
             setErrorMsg('Selling price can not be less than cost price');
@@ -155,12 +156,12 @@ const AddProductCart = props => {
 
         const discount = (parseFloat(formFields.sellingPrice - sp)).toFixed(2);
         const {...oldFormFields} = formFields;
-        console.log(sp , formFields.sellingPrice , discount)
+        //console.log(sp , formFields.sellingPrice , discount)
 
         oldFormFields['discount'] = discount;
 
         setFormFields(oldFormFields);
-        setUnitPrice(sp);
+        setUnitPrice(sp.toFixed(2));
         setSellingPrice(sp.toFixed(2));
     };
 
@@ -196,7 +197,7 @@ const AddProductCart = props => {
         setFormFields(oldFormFields);
         setUnitPrice(sp);
         const tp = (parseFloat(event.target.value) * quantity);
-        setTotalPrice(tp);
+        setTotalPrice(tp.toFixed(2));
         setSellingPrice(sp.toFixed(2));
     };
 
@@ -327,7 +328,7 @@ const AddProductCart = props => {
                         { name }
                     </Typography>
 
-                    <SellQuantityInput label={`Quantity`} inputName="quantity" max={productHandler.getProductQuantity()} getValue={setInputValue.bind(this)}/>
+                    <SellQuantityInput label={`Quantity`} inputName="quantity" max={quantityProduct} min={1} getValue={setInputValue.bind(this)}/>
 
                     <div
                         className={`text-center mt-3 text-dark font-weight-bold`}
@@ -358,7 +359,8 @@ const AddProductCart = props => {
                         </div>
                         :
                         <div
-                            className={`mb-3 text-center mt-3 text-dark mx-auto w-75`}
+                            className={`mb-3 text-center mt-3 text-dark mx-auto`}
+                            style={{width: '85%'}}
                         >
                             <div className={`mb-5 mx-auto pb-2 w-100`}>
                                 <Grid container spacing={1} className='mt-3 mx-0'>
@@ -371,16 +373,22 @@ const AddProductCart = props => {
                                                 type="tel"
                                                 value={totalPrice || ''}
                                                 onChange={(event) => setTotalPriceHandler(event)}
-                                                placeholder={`Total discount`}
                                                 style={{fontSize: '12px'}}
                                             />
                                         </Paper>
                                     </Grid>
 
-                                    <Grid item xs={2} className={`pt-4`}
+                                    {/*<Grid item xs={2} className={`pt-4`}
                                           style={{fontSize: '16px', color: '#daab59'}}
                                     >
                                         or
+                                    </Grid>*/}
+                                    <Grid
+                                        item xs={2}
+                                    >
+                                        <SwapHorizOutlinedIcon
+                                            style={{fontSize: '25px' , marginTop: '25px'}}
+                                        />
                                     </Grid>
 
                                     <Grid item xs={5} className={`pr-0`}>
@@ -392,7 +400,6 @@ const AddProductCart = props => {
                                                 type="tel"
                                                 value={unitPrice || ''}
                                                 onChange={(event) => setUnitPriceHandler(event)}
-                                                placeholder={`Unit discount`}
                                                 style={{fontSize: '12px'}}
                                             />
                                         </Paper>

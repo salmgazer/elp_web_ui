@@ -166,9 +166,24 @@ const SellView = props => {
                         <ShoppingCartOutlinedIcon
                             style={{paddingLeft: '10px' , fontSize: '16px'}}
                         />
-                        <span style={{paddingBottom: '10px' , fontSize: '12px', color: '#962C2C'}}>
+                        <span style={{
+                            fontSize: '12px',
+                            color: '#000000',
+                            position: 'absolute',
+                            top: -10,
+                            right: '5%',
+                            backgroundColor: '#FFFFFF',
+                            width: '20px',
+                            height: '20px',
+                            borderRadius: '50%',
+                            fontWeight: '500'
+                        }}
+                        >
                             {spCount}
                         </span>
+                        {/*<span style={{paddingBottom: '10px' , fontSize: '12px', color: '#962C2C'}}>
+                            {spCount}
+                        </span>*/}
                     </SecondaryButton>
                 </div>
             </Box>

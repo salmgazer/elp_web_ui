@@ -155,9 +155,19 @@ const SellSearchMode = props => {
                                 />
                             </div>
                         }
-                        <ProductCard product={branchProduct.product.fetch()}>
-                             {new BranchProductService(branchProduct).getSellingPrice() ? `GHC ${new BranchProductService(branchProduct).getSellingPrice()}` : `No cost price`}
-                        </ProductCard>
+                        <div
+                            onClick={
+                                new BranchProductService(branchProduct).isProductSellable() === false ?
+                                    removeProductHandler.bind(this , branchProduct.productId)
+                                :
+                                    addProductHandler.bind(this, branchProduct.productId)
+
+                            }
+                        >
+                            <ProductCard product={branchProduct.product.fetch()}>
+                                 {new BranchProductService(branchProduct).getSellingPrice() ? `GHC ${new BranchProductService(branchProduct).getSellingPrice()}` : `No cost price`}
+                            </ProductCard>
+                        </div>
                     </Grid>
                     )}
                 </Grid>
