@@ -83,13 +83,6 @@ const StockMainPage = props => {
                                 />
                             </div>
                         }
-                        leftIcon={
-                            <div onClick={() => setIsDrawerShow(true)}>
-                                <MenuIcon
-                                    style={{fontSize: '2rem'}}
-                                />
-                            </div>
-                        }
                     />
 
                     <div
