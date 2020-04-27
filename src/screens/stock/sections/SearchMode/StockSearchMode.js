@@ -19,7 +19,7 @@ const StockSearchMode = props => {
         oldFormFields[name] = value;
 
         setSearchValue(oldFormFields);
-        const products = await new BranchService().searchBranchProduct();
+        const products = await new BranchService().searchBranchProduct(value);
         //const products = await BranchProductService.searchProduct(value);
         console.log(products);
     };
