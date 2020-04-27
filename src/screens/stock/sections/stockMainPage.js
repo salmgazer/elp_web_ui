@@ -28,10 +28,12 @@ import KeyboardReturnIcon from '@material-ui/icons/KeyboardReturn';
 import SwapHorizOutlinedIcon from '@material-ui/icons/SwapHorizOutlined';
 import RedeemIcon from '@material-ui/icons/Redeem';
 import ReportProblemOutlinedIcon from '@material-ui/icons/ReportProblemOutlined';
+import Drawer from '../../../components/Drawer/Drawer';
 
 const StockMainPage = props => {
     const [value , setValue] = useState(0);
     const [isShowDrawer , setIsShowDrawer] = useState(false);
+    const [isDrawerShow , setIsDrawerShow] = useState(false);
     const branchProducts = props.branchProducts;
 
     const a11yProps = (index) => {
@@ -66,6 +68,13 @@ const StockMainPage = props => {
                 >
                     <SectionNavbars
                         title="Stock"
+                        leftIcon={
+                            <div onClick={() => setIsDrawerShow(true)}>
+                                <MenuIcon
+                                    style={{fontSize: '2rem'}}
+                                />
+                            </div>
+                        }
                         icons={
                             <div onClick={() => setIsShowDrawer(true)}>
                                 <MoreVertIcon
@@ -74,10 +83,14 @@ const StockMainPage = props => {
                             </div>
                         }
                     >
-                        <MenuIcon
-                            style={{fontSize: '2.5rem'}}
-                        />
                     </SectionNavbars>
+
+                    <div
+                        onClick={() => setIsDrawerShow(false)}
+                        onKeyDown={() => setIsDrawerShow(false)}
+                    >
+                        <Drawer isShow={isDrawerShow} />
+                    </div>
 
                     <div
                         onClick={() => setIsShowDrawer(false)}

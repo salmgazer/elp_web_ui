@@ -1,9 +1,9 @@
 import LocalInfo from "./LocalInfo";
 import ModelAction from "./ModelAction";
 import isSameDay from "date-fns/isSameDay";
-import isWeek from "date-fns/isThisWeek";
-import isThisMonth from "date-fns/isThisMonth";
-import isYear from "date-fns/isThisYear";
+import isSameWeek from "date-fns/isSameWeek";
+import isSameMonth from "date-fns/isSameMonth";
+import isSameYear from "date-fns/isSameYear";
 import SaleService from "./SaleService";
 
 export default class InvoiceService {
@@ -25,11 +25,11 @@ export default class InvoiceService {
                 const day = new Date(date);
                 return sales.filter(sale => isSameDay(sale.createdAt , day));
             case 'week':
-                return sales.filter(sale => isWeek(sale.createdAt));
+                return sales.filter(sale => isSameWeek(sale.createdAt, date));
             case 'month':
-                return sales.filter(sale => isThisMonth(sale.createdAt));
+                return sales.filter(sale => isSameMonth(sale.createdAt));
             case 'year':
-                return sales.filter(sale => isYear(sale.createdAt));
+                return sales.filter(sale => isSameYear(sale.createdAt));
         }
     }
 

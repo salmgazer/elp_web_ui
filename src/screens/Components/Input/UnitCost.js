@@ -52,10 +52,11 @@ const CostInput = props => {
         <div>
             <label className={`text-dark py-2 text-center`} style={{fontSize: '18px', fontWeight: '600'}}> {props.label}</label>
 
-            <Paper className={classes.root} >
+            <Paper className={classes.root} id={props.id} >
                 <InputBase
                     className={`${classes.input} search-box text-center`}
                     type="tel"
+                   
                     value={props.initialValue}
                     name={inputName}
                     onChange={(event) => setValueHandler(event)}

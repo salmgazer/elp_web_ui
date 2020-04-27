@@ -1,24 +1,24 @@
 import React, {useEffect, useState} from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import Grid from '@material-ui/core/Grid';
-import Button from "@material-ui/core/Button/Button";
 import SearchIcon from '@material-ui/icons/Search';
 import IconButton from '@material-ui/core/IconButton';
 import InputBase from '@material-ui/core/InputBase';
-import DateFnsUtils from '@date-io/date-fns';
-import {
-  MuiPickersUtilsProvider,
-  KeyboardDatePicker,
-} from '@material-ui/pickers'; 
+// import DateFnsUtils from '@date-io/date-fns';
+// import {
+//   MuiPickersUtilsProvider,
+//   KeyboardDatePicker,
+// } from '@material-ui/pickers'; 
 import Paper from '@material-ui/core/Paper';
 import Typography from '@material-ui/core/Typography';
 import Box from "@material-ui/core/Box/Box";
 import { withRouter } from "react-router-dom";
 
 import SingleDayInvoice from './singleView/SingleDayInvoice';
-import BranchService from "../../../../services/BranchService";
+// import BranchService from "../../../../services/BranchService";
 import InvoiceService from "../../../../services/InvoiceService";
-import AddedProductSingle from "../../../sell/cart/sections/BoxView/BoxView";
+// import AddedProductSingle from "../../../sell/cart/sections/BoxView/BoxView";
+import CardsSection from '../../../../components/Sections/CardsSection';
 
 const useStyles = makeStyles(theme => ({
     root: {
@@ -96,47 +96,6 @@ const useStyles = makeStyles(theme => ({
     return(
         <div className={classes.root}>
             {console.log(invoiceDetails.invoices)}
-            {/*<Grid container spacing={1}>
-
-                <Grid item xs={3}>
-                    <Button
-                        variant="contained"
-                        style={{'backgroundColor': '#DAAB59' , color: 'white', padding: '5px 10px', textTransform: 'none', fontSize:'10px'}}
-                    >
-                        Day
-                    </Button>
-                </Grid>
-
-                <Grid item xs={3}>
-                    <Button
-                        variant="outlined"
-                        style={{border: '1px solid #DAAB59', color: '#DAAB59', padding: '5px 10px', textTransform: 'none', fontSize:'10px'}}
-                        onClick={openWeek.bind(this)}
-                    >
-                        Week  
-                    </Button>
-                </Grid>
-
-                <Grid item xs={3}>
-                    <Button
-                        variant="outlined"
-                        style={{border: '1px solid #DAAB59', color: '#DAAB59', padding: '5px 10px', textTransform: 'none', fontSize:'10px'}}
-                        onClick={openMonth.bind(this)}
-                    >
-                        Month  
-                    </Button>
-                </Grid>
-
-                <Grid item xs={3}>
-                    <Button
-                        variant="outlined"
-                        style={{border: '1px solid #DAAB59', color: '#DAAB59', padding: '5px 10px', textTransform: 'none', fontSize:'10px'}}
-                        onClick={openYear.bind(this)}
-                    >
-                        Year  
-                    </Button>
-                </Grid>
-            </Grid>*/}
 
             <Grid container spacing={1}>
             
@@ -155,7 +114,7 @@ const useStyles = makeStyles(theme => ({
                 </Grid>
             
                 <Grid item xs={6} >
-                    <MuiPickersUtilsProvider utils={DateFnsUtils}>
+                    {/* <MuiPickersUtilsProvider utils={DateFnsUtils}>
                         <KeyboardDatePicker
                             disableToolbar
                             variant="outlined"
@@ -171,56 +130,11 @@ const useStyles = makeStyles(theme => ({
                                 'aria-label': 'change date',
                             }}
                         />
-                    </MuiPickersUtilsProvider>
+                    </MuiPickersUtilsProvider> */}
                 </Grid>
             </Grid>
 
-            <Grid container spacing={1}>
-                <Grid item xs={3}>
-                    <Paper className={classes.paper}>
-                        <Typography className={classes.title} component="p" >
-                            Quantity
-                        </Typography>
-                        <Typography className={classes.text} >
-                            {invoiceDetails.quantity} items
-                        </Typography>
-                    </Paper>
-                </Grid>
-                
-                <Grid item xs={3}>
-                    <Paper className={classes.paper}>
-                        <Typography className={classes.title} component="p" >
-                            Cost price
-                        </Typography>
-                        <Typography className={classes.text} >
-                            GHC {invoiceDetails.costPrice}
-                        </Typography>
-                    </Paper>
-                </Grid>
-
-                <Grid item xs={3}>
-                    <Paper className={classes.paper}>
-                        <Typography className={classes.title} component="p" >
-                            Selling price
-                        </Typography>
-                        <Typography className={classes.text} >
-                            GHC {invoiceDetails.sellingPrice}
-                        </Typography>
-                    </Paper>
-                </Grid>
-
-                <Grid item xs={3}>
-                    <Paper className={classes.paper}>
-                        <Typography className={classes.title} component="p" >
-                            Amount Owned
-                        </Typography>
-                        <Typography className={classes.text} >
-                            GHC {invoiceDetails.credit}
-                        </Typography>
-                    </Paper>
-                </Grid>
-                
-            </Grid>
+            <CardsSection quantity={invoiceDetails.quantity} costPrice={invoiceDetails.costPrice} sellingPrice={invoiceDetails.sellingPrice} profit={invoiceDetails.credit} profitName="Amount owed" />
 
             <Box style={{marginTop: '5px' , paddingBottom: '60px'}} p={1} className={`mt-3 mb-5`}>
                 {invoices.length === 0

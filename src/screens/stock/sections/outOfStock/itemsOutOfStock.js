@@ -1,6 +1,6 @@
 import React from 'react';
 import SectionNavbars from "../../../../components/Sections/SectionNavbars";
-import ArrowBackIcon from "@material-ui/core/SvgIcon/SvgIcon";
+import ArrowBackIcon from '@material-ui/icons/ArrowBack';
 import Typography from "@material-ui/core/Typography/Typography";
 import Container from "@material-ui/core/Container/Container";
 import Box from "@material-ui/core/Box/Box";

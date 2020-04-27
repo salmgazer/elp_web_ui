@@ -166,6 +166,7 @@ const AddNewStockPage = props => {
     const [successDialog, setSuccessDialog] = useState(false);
     const [errorDialog, setErrorDialog] = useState(false);
     const [errorMsg, setErrorMsg] = useState('');
+    const [swapItem, setSwapItem] = useState(true);
 
     const [formFields , setFormFields] = useState({
         quantity: 1,
@@ -201,7 +202,7 @@ const AddNewStockPage = props => {
         if((formFields.quantity !== "" || parseFloat(formFields.quantity !== 0)) && (formFields.costPrice !== "" || parseFloat(formFields.costPrice !== 0)) && (formFields.sellingPrice !== "" || parseFloat(formFields.sellingPrice !== 0))){
             if(parseFloat(formFields.costPrice) >= parseFloat(formFields.sellingPrice)){
                 setErrorDialog(true);
-                setErrorMsg('Cost price can not be more than selling price');
+                // setErrorMsg('Cost price can not be more than selling price');
                 setLoading(false);
                 setTimeout(function(){
                     setErrorDialog(false);
@@ -260,6 +261,24 @@ const AddNewStockPage = props => {
 
         //console.log(event.target.value);
     };
+
+    const swap = () => {
+        let left = document.getElementById('left_input');
+        let right = document.getElementById('right_input');
+        let leftSRC = left.src;
+        let rightSRC = right.src;
+        left.src = rightSRC;
+        right.src = leftSRC;
+    };
+
+    const swapText = () => {
+        if (swapItem) {
+            setSwapItem(false);
+        }
+        else {
+            setSwapItem(true);
+        }
+    }
 
 
     useEffect(() => {
@@ -330,6 +349,7 @@ const AddNewStockPage = props => {
             return true;
         }
         setTotalPrice((parseFloat(event.target.value)));
+        setInputValue(event.target.name , event.target.value);
         const cp = (parseFloat(event.target.value) / formFields.quantity);
 
         const {...oldFormFields} = formFields;
@@ -355,13 +375,13 @@ const AddNewStockPage = props => {
         changeSellingPriceModalState();
     };
 
-    const handleCloseSnack = (event, reason) => {
-        if (reason === 'clickaway') {
-            return;
-        }
+    // const handleCloseSnack = (event, reason) => {
+    //     if (reason === 'clickaway') {
+    //         return;
+    //     }
 
-        setErrorDialog(false);
-    };
+    //     setErrorDialog(false);
+    // };
 
     return(
         <div className={`mt-6`}>
@@ -384,11 +404,16 @@ const AddNewStockPage = props => {
                     UNDO
                 </Button>
             </SimpleSnackbar>
-            <Snackbar open={errorDialog} autoHideDuration={3000} onClose={handleCloseSnack}>
+            <SimpleSnackbar
+                openState={errorDialog}
+                message={`Cost price can not be more than selling price`}
+            >
+            </SimpleSnackbar>
+            {/* <Snackbar open={errorDialog} autoHideDuration={3000} onClose={handleCloseSnack}>
                 <Alert onClose={handleCloseSnack} severity="error">
                     {errorMsg}
                 </Alert>
-            </Snackbar>
+            </Snackbar> */}
 
             <CostCalculator product={product} calculatedPrice={getCalculatorValue.bind(this)} closeModal={getCalculatorModalState.bind(this)} calculatorDialog={calculatorDialog}/>
 
@@ -422,40 +447,83 @@ const AddNewStockPage = props => {
                 <div className={`rounded bordered mb-3 mx-3 px-3 py-3`}>
                     <QuantityInput style={{width: '100%'}} label={`Quantity to add`} inputName="quantity" getValue={setInputValue.bind(this)}/>
 
+                    {swapItem ? 
+                        <Grid container spacing={1} className={`my-2`}>
+                            <Grid
+                                item xs={5}
+                            >
+                                <label className={`text-dark py-2 text-center`} style={{fontSize: '18px', fontWeight: '600'}}> Total cost</label>
 
-                    <Grid container spacing={1} className={`my-2`}>
-                        <Grid
-                            item xs={5}
-                        >
-                            <label className={`text-dark py-2 text-center`} style={{fontSize: '18px', fontWeight: '600'}}> Total cost</label>
+                                <Paper className={classes.root} id="left_input" >
+                                    <InputBase
+                                        className={`${classes.input} search-box text-center`}
+                                        type="tel"
+                                        
+                                        defaultValue=''
+                                        value={totalPrice}
+                                        name="totalCost"
+                                        onChange={(event) => setTotalPriceHandler(event)}
+                                    />
 
-                            <Paper className={classes.root} >
-                                <InputBase
-                                    className={`${classes.input} search-box text-center`}
-                                    type="tel"
-                                    value={totalPrice}
-                                    name="totalCost"
-                                    onChange={(event) => setTotalPriceHandler(event)}
+                                </Paper>
+                            </Grid>
+                            <Grid
+                                item xs={2}
+                            >
+                                <SwapHorizOutlinedIcon
+                                    className={`mt-4`}
+                                    onclick={swapText}
+                                    style={{fontSize: '25px'}} 
                                 />
+                            </Grid>
+                            <Grid
+                                item xs={5}
+                            >
+                                <UnitCost id="right_input" label={`Unit price`} inputName="costPrice" initialValue={formFields.costPrice} getValue={setInputValue.bind(this)} >
+                                    <FontAwesomeIcon onClick={openCalculator.bind(this)} icon={faCalculator} fixedWidth />
+                                </UnitCost>
+                            </Grid>
+                        </Grid>
+                        :
+                    
+                        <Grid container spacing={1} className={`my-2`}>
+                            <Grid
+                                item xs={5}
+                            >
+                                <UnitCost id="right_input" label={`Unit price`} inputName="costPrice" initialValue={formFields.costPrice} getValue={setInputValue.bind(this)} >
+                                    <FontAwesomeIcon onClick={openCalculator.bind(this)} icon={faCalculator} fixedWidth />
+                                </UnitCost>
+                            </Grid>
+                            <Grid
+                                item xs={2}
+                            >
+                                <SwapHorizOutlinedIcon
+                                    className={`mt-4`}
+                                    onclick={swapText}
+                                    style={{fontSize: '25px'}} 
+                                />
+                            </Grid>
+                            <Grid
+                                item xs={5}
+                            >
+                                <label className={`text-dark py-2 text-center`} style={{fontSize: '18px', fontWeight: '600'}}> Total cost</label>
 
-                            </Paper>
+                                <Paper className={classes.root} id="left_input" >
+                                    <InputBase
+                                        className={`${classes.input} search-box text-center`}
+                                        type="tel"
+                                        
+                                        defaultValue=''
+                                        value={totalPrice}
+                                        name="totalCost"
+                                        onChange={(event) => setTotalPriceHandler(event)}
+                                    />
+
+                                </Paper>
+                            </Grid>
                         </Grid>
-                        <Grid
-                            item xs={2}
-                        >
-                            <SwapHorizOutlinedIcon
-                                className={`mt-4`}
-                                style={{fontSize: '25px'}}
-                            />
-                        </Grid>
-                        <Grid
-                            item xs={5}
-                        >
-                            <UnitCost label={`Unit price`} inputName="costPrice" initialValue={formFields.costPrice} getValue={setInputValue.bind(this)} >
-                                <FontAwesomeIcon onClick={openCalculator.bind(this)} icon={faCalculator} fixedWidth />
-                            </UnitCost>
-                        </Grid>
-                    </Grid>
+                    }
+                    
 
                     <Typography
                         component="h5"

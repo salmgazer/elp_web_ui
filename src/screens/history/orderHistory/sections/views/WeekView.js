@@ -1,14 +1,16 @@
-import React from 'react';
+import React, {useEffect, useState}  from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import Grid from '@material-ui/core/Grid';
-import Button from "@material-ui/core/Button/Button";
-import Paper from '@material-ui/core/Paper';
+import Box from "@material-ui/core/Box/Box";
 import Typography from '@material-ui/core/Typography';
 import TextField from '@material-ui/core/TextField';
-import Box from "@material-ui/core/Box/Box";
 import { withRouter } from "react-router-dom";
 
 import SingleWeekView from './singleView/SingleWeekView';
+import BoxDefault from '../../../../../components/Box/BoxDefault';
+import HistoryDrawer from '../../../../../components/Drawer/HistoryDrawer'; 
+import CardsSection from '../../../../../components/Sections/CardsSection';
+import InvoiceService from '../../../../../services/InvoiceService';
 
 const useStyles = makeStyles(theme => ({
     root: {
@@ -38,15 +40,15 @@ const useStyles = makeStyles(theme => ({
 
   const values = [
     {
-      value: 'Week 1',
+      value: '21/01/2020 - 7/01/2020',
       label: 'Week 1: 1/01/2020 - 7/01/2020',
     },
     {
-      value: 'Week 2',
+      value: '8/01/2020',
       label: 'Week 2: 8/01/2020 - 14/01/2020',
     },
     {
-      value: 'Week 3',
+      value: '15/01/2020',
       label: 'Week 3: 15/01/2020 - 21/01/2020',
     },
     {
@@ -58,160 +60,117 @@ const useStyles = makeStyles(theme => ({
   const WeekView = props => {
     
     const classes = useStyles();
-    const [user, setUser] = React.useState('2020');
+    const [selectedWeek, setSelectedWeek] = React.useState('1/01/2020 - 7/01/2020');
 
     const handleChange = event => {
-        setUser(event.target.value);
+        setSelectedWeek(event.target.value);
+        getInvoiceDetails(event.target.value);
     };
 
+    const [invoiceDetails , setInvoiceDetails] = useState(false);
+    const [invoices , setInvoices] = useState([]);
 
-    const openDay = (event) => {
-        props.setView(0);
-    };
+    useEffect(() => {
+      // You need to restrict it at some point
+      // This is just dummy code and should be replaced by actual
+        if (!invoiceDetails) {
+            getInvoiceDetails(selectedWeek);
+        }
+    });
 
-    const openMonth = (event) => {
-        props.setView(3);
-    };
-
-    const openYear = (event) => {
-        props.setView(4);
+    const getInvoiceDetails = async (date) => {
+        console.log(date);
+        const response = await new InvoiceService().getInvoiceDetails('week' , date);
+        
+        setInvoiceDetails(response);
+        setInvoices(response.invoices);
+        console.log(response)
     };
 
     return(
         <div className={classes.root}>
-            {/*<Grid container spacing={1}>
-
-                <Grid item xs={3}>
-                    <Button
-                        variant="outlined"
-                        style={{border: '1px solid #DAAB59', color: '#DAAB59', padding: '5px 10px', textTransform: 'none', fontSize:'10px'}}
-                        onClick={openDay.bind(this)}
-                    >
-                        Day
-                    </Button>
-                </Grid>
-
-                <Grid item xs={3}>
-                    <Button
-                        variant="contained"
-                        style={{'backgroundColor': '#DAAB59' , color: 'white', padding: '5px 10px', textTransform: 'none', fontSize:'10px'}}
-                    >
-                        Week  
-                    </Button>
-                </Grid>
-
-                <Grid item xs={3}>
-                    <Button
-                        variant="outlined"
-                        style={{border: '1px solid #DAAB59', color: '#DAAB59', padding: '5px 10px', textTransform: 'none', fontSize:'10px'}}
-                        onClick={openMonth.bind(this)}
-                    >
-                        Month  
-                    </Button>
-                </Grid>
-
-                <Grid item xs={3}>
-                    <Button
-                        variant="outlined"
-                        style={{border: '1px solid #DAAB59', color: '#DAAB59', padding: '5px 10px', textTransform: 'none', fontSize:'10px'}}
-                        onClick={openYear.bind(this)}
-                    >
-                        Year  
-                    </Button>
-                </Grid>
-            </Grid>*/}
 
             <Grid container spacing={1}>
-                <Typography style={{fontSize: '14px', paddingTop: '20px', marginRight: '50px'}} >
-                    {props.pageName}
-                </Typography>
+                <Grid item xs={6}>
+                    <Typography style={{fontSize: '14px', paddingTop: '20px', marginRight: '50px'}} >
+                        Purchased items
+                    </Typography>
+                </Grid>
 
-                <TextField
-                    id="outlined-select-receive-native"
-                    select
-                    size="small"
-                    value={user}
-                    style={{width: '190px', float: 'right', margin: '10px 0px', fontSize: '7px'}}
-                    onChange={handleChange}
-                    color="#DAAB59"
-                    SelectProps={{
-                        native: true,
-                    }}
-                    variant="outlined"
-                    >
-                    {values.map(option => (
-                        <option key={option.value} value={option.value}>
-                        {option.label}
-                        </option>
-                    ))}
-                </TextField>
+                <Grid item xs={6}>
+                    <TextField
+                        id="outlined-select-receive-native"
+                        select
+                        size="small"
+                        value={selectedWeek}
+                        style={{width: '150px',  margin: '10px 0px', fontSize: '7px'}}
+                        onChange={handleChange}
+                        color="#DAAB59"
+                        SelectProps={{
+                            native: true,
+                        }}
+                        variant="outlined"
+                        >
+                        {values.map(option => (
+                            <option key={option.value} value={option.value}>
+                            {option.label}
+                            </option>
+                        ))}
+                    </TextField>
+                </Grid>
 
             </Grid>
 
-            <Grid container spacing={1}>
-                <Grid item xs={3}>
-                    <Paper className={classes.paper}>
-                        <Typography className={classes.title} component="p" >
-                            Quantity
-                        </Typography>
-                        <Typography className={classes.text} >
-                            5 items
-                        </Typography>
-                    </Paper>
-                </Grid>
-                
-                <Grid item xs={3}>
-                    <Paper className={classes.paper}>
-                        <Typography className={classes.title} component="p" >
-                            Cost price
-                        </Typography>
-                        <Typography className={classes.text} >
-                            GHC 500
-                        </Typography>
-                    </Paper>
-                </Grid>
-
-                <Grid item xs={3}>
-                    <Paper className={classes.paper}>
-                        <Typography className={classes.title} component="p" >
-                            Selling price
-                        </Typography>
-                        <Typography className={classes.text} >
-                            GHC 600
-                        </Typography>
-                    </Paper>
-                </Grid>
-
-                <Grid item xs={3}>
-                    <Paper className={classes.paper}>
-                        <Typography className={classes.title} component="p" >
-                            {props.profitName}
-                        </Typography>
-                        <Typography className={classes.text} >
-                            GHC 100
-                        </Typography>
-                    </Paper>
-                </Grid>
-                
-            </Grid>
+            <CardsSection quantity={invoiceDetails.quantity} costPrice={invoiceDetails.costPrice} sellingPrice={invoiceDetails.sellingPrice} profit={invoiceDetails.credit} profitName="Amount owed" />
 
             <Box style={{marginTop: '5px' , paddingBottom: '60px'}} p={1} className={`mt-3 mb-5`}>
-                
-                <Grid container spacing={1} className={`shadow1 mb-3 borderRadius10`}>
-                    <Grid item xs={8}>
-                        <span className='text-dark font-weight-bold' style={{ fontSize: '13px'}} >Monday, 16th March 2020</span>
-                    </Grid>
 
-                    <Grid item xs={4}>
-                        <span className="font-weight-light mt-1" style={{ fontSize: '13px'}}>Total : GHC 100</span>
-                    </Grid>
-                </Grid>
-    
-                {props.weekItem.map((item) => <SingleWeekView  key={item.day_id} weekSuppliers={item}/>)}
+                {invoices.length === 0
+                    ?
+                    <div className={`rounded mx-1 my-2 p-2 bordered`}>
+                        <Grid container spacing={1} className={`py-1`}>
+                            <Grid
+                                item xs={12}
+                                className={`text-left pl-2`}
+                            >
+                                <Typography
+                                    component="h6"
+                                    variant="h6"
+                                    style={{fontSize: '16px'}}
+                                    className={`text-center text-dark`}
+                                >
+                                    No sales made this week
+                                </Typography>
+                            </Grid>
+                        </Grid>
+                    </div>
+                    :
+
+                    <BoxDefault
+                        bgcolor="background.paper"
+                        p={1}
+                        className={'boxDefault'}
+                        style={{marginTop: '5px' }}
+                    >
+                        <Grid container className={`bordered`}>
+                            <Grid item xs={8}>
+                                <span className='text-dark font-weight-bold' style={{ fontSize: '13px'}} >Week 1: 01/03/20 - 07/03/20</span>
+                            </Grid>
+
+                            <Grid item xs={4}>
+                                <span className="font-weight-light mt-1" style={{ fontSize: '13px'}}>Total : GHC 100</span>
+                            </Grid>
+                        </Grid>
+            
+                        { invoices.map((invoice) => <SingleWeekView  key={invoice.id} invoice={invoice} />)}
+
+                    </BoxDefault>
+                }
+                
             
             </Box>
 
-            <Box style={{marginTop: '5px' , paddingBottom: '60px'}} p={1} className={`mt-3 mb-5`}>
+            {/* <Box style={{marginTop: '5px' , paddingBottom: '60px'}} p={1} className={`mt-3 mb-5`}>
                 
                 <Grid container spacing={1} className={`shadow1 mb-3 borderRadius10`}>
                     <Grid item xs={8}>
@@ -225,7 +184,7 @@ const useStyles = makeStyles(theme => ({
     
                 {props.weekItem.map((item) => <SingleWeekView  key={item.day_id} weekSuppliers={item}/>)}
             
-            </Box>
+            </Box> */}
 
 
         </div>
