@@ -39,6 +39,24 @@ export default class BranchService {
     * */
     async searchBranchProduct(searchValue) {
         const branchProducts = await this.getProducts();
+        const products = await new ModelAction('Product').findByColumnNotObserve({
+            name: 'name',
+            value: searchValue,
+            fxn: 'like'
+        });
+
+        //const products = database.collections.get('products').query(Q.where('name', Q.like(`%${Q.sanitizeLikeString(searchValue)}%`))).fetch();
+
+
+        console.log(products)
+        return  database.collections.get('branches_products').query(Q.where('productId', Q.oneOf(products.map(p => p.id)))).fetch();
+
+        // branch products
+        // search value, name of product
+        // search products
+        // search branch products where productId is in list of ids of products returned, and branchId is activeBranch
+
+        /*
 
         const searchResults = branchProducts.map(async function(item) {
             return await item.product.fetch().name === searchValue;
@@ -48,6 +66,7 @@ export default class BranchService {
 
         console.log(searchResults)
         return searchResults;
+        */
 
         //console.log(await searchResults);
     }
