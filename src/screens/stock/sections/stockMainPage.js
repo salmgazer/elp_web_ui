@@ -28,18 +28,13 @@ import KeyboardReturnIcon from '@material-ui/icons/KeyboardReturn';
 import SwapHorizOutlinedIcon from '@material-ui/icons/SwapHorizOutlined';
 import RedeemIcon from '@material-ui/icons/Redeem';
 import ReportProblemOutlinedIcon from '@material-ui/icons/ReportProblemOutlined';
-<<<<<<< HEAD
-import Drawer from '../../../components/Drawer/Drawer';
-=======
 import Drawer from "../../../components/Drawer/Drawer";
->>>>>>> eb25d74c14d93a5a14033cc84060bd717214aed6
 
 const StockMainPage = props => {
     const [value , setValue] = useState(0);
     const [isShowDrawer , setIsShowDrawer] = useState(false);
     const [isDrawerShow , setIsDrawerShow] = useState(false);
     const branchProducts = props.branchProducts;
-    const [isDrawerShow , setIsDrawerShow] = useState(false);
 
     const a11yProps = (index) => {
         return {
@@ -87,25 +82,14 @@ const StockMainPage = props => {
                                 />
                             </div>
                         }
-                        leftIcon={
-                            <div onClick={() => setIsDrawerShow(true)}>
-                                <MenuIcon
-                                    style={{fontSize: '2rem'}}
-                                />
-                            </div>
-                        }
                     />
 
                     <div
                         onClick={() => setIsDrawerShow(false)}
                         onKeyDown={() => setIsDrawerShow(false)}
                     >
-<<<<<<< HEAD
-                    </SectionNavbars>
-=======
                         <Drawer isShow={isDrawerShow} />
                     </div>
->>>>>>> eb25d74c14d93a5a14033cc84060bd717214aed6
 
                     <div
                         onClick={() => setIsDrawerShow(false)}

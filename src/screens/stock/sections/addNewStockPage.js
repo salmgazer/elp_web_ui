@@ -166,11 +166,8 @@ const AddNewStockPage = props => {
     const [successDialog, setSuccessDialog] = useState(false);
     const [errorDialog, setErrorDialog] = useState(false);
     const [errorMsg, setErrorMsg] = useState('');
-<<<<<<< HEAD
     const [swapItem, setSwapItem] = useState(true);
-=======
     const [btnState , setBtnState] = useState(false);
->>>>>>> eb25d74c14d93a5a14033cc84060bd717214aed6
 
     const [formFields , setFormFields] = useState({
         quantity: 1,
