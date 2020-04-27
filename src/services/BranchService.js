@@ -6,6 +6,8 @@ import isWeek from "date-fns/isThisWeek";
 import isThisMonth from "date-fns/isThisMonth";
 import isYear from "date-fns/isThisYear";
 import SaleService from "./SaleService";
+import database from "../models/database";
+import * as Q from "@nozbe/watermelondb/QueryDescription";
 
 export default class BranchService {
     constructor (branchId = LocalInfo.branchId) {
@@ -38,13 +40,13 @@ export default class BranchService {
     async searchBranchProduct(searchValue) {
         const branchProducts = await this.getProducts();
 
-        const searchResults = branchProducts.filter(async function(item) {
-            //console.log(searchValue.toLowerCase());
-            //console.log(((await item.product.fetch()).name).toLowerCase());
-
-            return (((await item.product.fetch()).name).toLowerCase().indexOf(searchValue.toLowerCase()) !== -1)
+        const searchResults = branchProducts.map(async function(item) {
+            return await item.product.fetch().name === searchValue;
+            //return database.collections.get('products').query(Q.where('name', Q.like(`%${Q.sanitizeLikeString(search)}%`))).fetch()
+            //return (((await item.product.fetch()).name).toLowerCase().indexOf(searchValue.toLowerCase()) !== -1)
         });
 
+        console.log(searchResults)
         return searchResults;
 
         //console.log(await searchResults);

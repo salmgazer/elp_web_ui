@@ -2,6 +2,8 @@ import React, {useState} from 'react';
 import Grid from "@material-ui/core/Grid/Grid";
 import SearchInput from "../../../Components/Input/SearchInput";
 import SingleProductBox from "../../../../components/Product/SingleProductBox";
+import BranchProductService from "../../../../services/BranchProductService";
+import BranchService from "../../../../services/BranchService";
 
 const StockSearchMode = props => {
     //const products = props.stock;
@@ -11,14 +13,15 @@ const StockSearchMode = props => {
         search: ''
     });
 
-    const setInputValue = (name , value) => {
+    const setInputValue = async (name , value) => {
         const {...oldFormFields} = searchValue;
 
         oldFormFields[name] = value;
 
         setSearchValue(oldFormFields);
-
-        //props.searchHandler(value);
+        const products = await new BranchService().searchBranchProduct();
+        //const products = await BranchProductService.searchProduct(value);
+        console.log(products);
     };
 
     const addProductHandler = (id) => {

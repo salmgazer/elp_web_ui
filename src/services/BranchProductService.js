@@ -1,5 +1,8 @@
 import ModelAction from "./ModelAction";
 import BranchService from "./BranchService";
+import { Q } from '@nozbe/watermelondb'
+import database from '../models/database';
+import LocalInfo from "./LocalInfo";
 
 export default class BranchProductService {
     constructor(branchProduct){
@@ -33,6 +36,17 @@ export default class BranchProductService {
     async getProductImage(){
         const product = await this.product();
         return product.image ? `https://elparah.store/admin/upload/${this.product.image}` : 'https://elparah.store/admin/upload/no_image.png';
+    }
+
+    /*
+    *
+    * Search a product of a branch
+    * @var search term
+    * @return array
+    * */
+    static async searchProduct(search){
+        console.log(search)
+        return database.collections.get('products').query(Q.where('name', Q.like(`%${Q.sanitizeLikeString(search)}%`))).fetch()
     }
 
     async getCostPrice(){

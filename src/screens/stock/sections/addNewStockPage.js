@@ -166,11 +166,9 @@ const AddNewStockPage = props => {
     const [successDialog, setSuccessDialog] = useState(false);
     const [errorDialog, setErrorDialog] = useState(false);
     const [errorMsg, setErrorMsg] = useState('');
-<<<<<<< HEAD
+
     const [swapItem, setSwapItem] = useState(true);
-=======
     const [btnState , setBtnState] = useState(false);
->>>>>>> eb25d74c14d93a5a14033cc84060bd717214aed6
 
     const [formFields , setFormFields] = useState({
         quantity: 1,
@@ -482,7 +480,7 @@ const AddNewStockPage = props => {
                 <div className={`rounded bordered mb-3 mx-3 px-3 py-3`}>
                     <QuantityInput style={{width: '100%'}} label={`Quantity to add`} inputName="quantity" getValue={setInputValue.bind(this)}/>
 
-                    {swapItem ? 
+                    {swapItem ?
                         <Grid container spacing={1} className={`my-2`}>
                             <Grid
                                 item xs={5}
@@ -493,7 +491,7 @@ const AddNewStockPage = props => {
                                     <InputBase
                                         className={`${classes.input} search-box text-center`}
                                         type="tel"
-                                        
+
                                         defaultValue=''
                                         value={totalPrice}
                                         name="totalCost"
@@ -508,7 +506,7 @@ const AddNewStockPage = props => {
                                 <SwapHorizOutlinedIcon
                                     className={`mt-4`}
                                     onclick={swapText}
-                                    style={{fontSize: '25px'}} 
+                                    style={{fontSize: '25px'}}
                                 />
                             </Grid>
                             <Grid
@@ -520,7 +518,7 @@ const AddNewStockPage = props => {
                             </Grid>
                         </Grid>
                         :
-                    
+
                         <Grid container spacing={1} className={`my-2`}>
                             <Grid
                                 item xs={5}
@@ -535,7 +533,7 @@ const AddNewStockPage = props => {
                                 <SwapHorizOutlinedIcon
                                     className={`mt-4`}
                                     onclick={swapText}
-                                    style={{fontSize: '25px'}} 
+                                    style={{fontSize: '25px'}}
                                 />
                             </Grid>
                             <Grid
@@ -547,7 +545,7 @@ const AddNewStockPage = props => {
                                     <InputBase
                                         className={`${classes.input} search-box text-center`}
                                         type="tel"
-                                        
+
                                         defaultValue=''
                                         value={totalPrice}
                                         name="totalCost"
@@ -558,7 +556,7 @@ const AddNewStockPage = props => {
                             </Grid>
                         </Grid>
                     }
-                    
+
 
                     <Typography
                         component="h5"
