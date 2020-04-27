@@ -8,6 +8,7 @@ import LocationOnIcon from '@material-ui/icons/LocationOn';
 import Button from "@material-ui/core/Button/Button";
 import React, {useState} from "react";
 import CustomerService from "../../../services/CustomerService";
+import SimpleSnackbar from "../../Snackbar/SimpleSnackbar";
 
 const AddCustomerModal = props => {
     const [formFields , setFormFields] = useState({
@@ -16,8 +17,11 @@ const AddCustomerModal = props => {
         otherNames: '',
         phone: '',
     });
+    const [btnState , setBtnState] = useState(false);
+    const [error , setError] = useState(false);
+    const [errorMsg , setErrorMsg] = useState('');
 
-    const setInputValue = (event) => {
+    const setInputValue = async(event) => {
         const name = event.target.name;
         const value = event.target.value;
 
@@ -29,6 +33,22 @@ const AddCustomerModal = props => {
             oldFormFields['firstName'] = nameSplit[0];
         }else{
             oldFormFields[name] = value;
+        }
+
+        if(name === 'phone'){
+            if(!await new CustomerService().getCustomerExist(event.target.value)){
+                setErrorMsg('Customer already exist');
+                setError(true);
+                setTimeout(function(){
+                    setError(false);
+                }, 3000);
+                setBtnState(false);
+                return false;
+            }
+        }
+
+        if((oldFormFields.firstName !== '' || oldFormFields.firstName !== null) && (oldFormFields.phone !== '' && oldFormFields.phone !== null)){
+            setBtnState(true);
         }
 
         setFormFields(oldFormFields);
@@ -46,7 +66,12 @@ const AddCustomerModal = props => {
         <div>
             <MainDialog handleDialogClose={props.handleClose} states={openState} >
                 <div className="row p-3 pt-0 mx-auto text-center w-100" >
-
+                    <SimpleSnackbar
+                        type="warning"
+                        openState={error}
+                        message={errorMsg}
+                    >
+                    </SimpleSnackbar>
                     <Typography
                         component="h2"
                         variant="h5"
@@ -113,6 +138,7 @@ const AddCustomerModal = props => {
                             variant="outlined"
                             style={{'backgroundColor': '#DAAB59' , color: '#333333', padding: '7px 58px', textTransform: 'none', fontSize:'17px'}}
                             onClick={addCustomerHandler.bind(this)}
+                            disabled={!btnState}
                         >
                             Finish
                         </Button>

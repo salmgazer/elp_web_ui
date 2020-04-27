@@ -4,7 +4,7 @@ import Api from "./Api";
 import {Q} from "@nozbe/watermelondb";
 import globalModels from '../models/globalModels';
 
-const apiUrl = 'https://elp-core-api-dev.herokuapp.com/v1/client';
+const apiUrl = 'http://elpcoreapidev.us-east-2.elasticbeanstalk.com/v1/client';
 
 export default class SyncService {
   static async sync(companyId, branchId, userId, database) {

@@ -2,8 +2,8 @@
   "elp-core-api" : {
     "development": {
       "v1": {
-        "basePath" : "elp-core-api-dev.herokuapp.com",
-        "protocol" : "https",
+        "basePath" : "elpcoreapidev.us-east-2.elasticbeanstalk.com",
+        "protocol" : "http",
         "prefix" : "client"
       }
     }
