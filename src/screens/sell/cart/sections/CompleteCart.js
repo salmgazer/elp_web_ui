@@ -1,4 +1,4 @@
-import React, {useEffect , useState} from 'react';
+import React, {useEffect , useState, useRef} from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import ArrowBackIcon from '@material-ui/icons/ArrowBack';
 import Box from "@material-ui/core/Box/Box";
@@ -11,6 +11,130 @@ import { withRouter } from "react-router-dom";
 import SaleService from "../../../../services/SaleService";
 import database from "../../../../models/database";
 import paths from "../../../../utilities/paths";
+import Grid from '@material-ui/core/Grid';
+import ReactToPrint from "react-to-print";
+
+class PrintRec extends React.Component {
+    props= {
+        products: []
+    }
+
+    render() {
+        const style={
+            td: {
+                border: 'none',
+                textAlign: 'right',
+                padding: '8px',
+            }
+        }
+      return (
+
+        
+          <div>
+            <Grid container spacing={1}>
+                <Grid item xs={12}>
+                    <Paper >
+                        <Typography style={{backgroundColor: 'black', color: 'white', textAlign: 'center', fontSize: '30px'}}>
+                            Shop Name
+                        </Typography>
+                    </Paper>
+                </Grid>
+            </Grid>
+            <Grid container spacing={1}>
+            <Grid item xs={12}>
+                <Typography style={{textAlign: 'center', fontSize: '15px'}}>
+                    Shop Address
+                </Typography>
+                   </Grid>
+            </Grid>
+            <Grid container spacing={1}>
+            <Grid item xs={12}>
+                <Typography style={{textAlign: 'center', fontSize: '15px'}}>
+                    Shop Phone number
+                </Typography>
+                   </Grid>
+            </Grid>
+
+            <Grid container spacing={1} style={{ marginBottom: '30px'}} >
+                <Grid item xs={2}>
+                </Grid>
+                <Grid item xs={8}>
+                    <table style={{borderCollapse: 'collapse', width: '100%',}} align='center'> 
+                        <tr>
+                            <td className={style.td}>Receipt No. :</td>
+                            <td className={style.td}>#234</td>
+                        </tr>
+                        <tr>
+                            <td className={style.td}>Date :</td>
+                            <td className={style.td}>28/04/2020</td>
+                        </tr>
+                        <tr>
+                            <td className={style.td}> Seller :</td>
+                            <td className={style.td}>Kofi</td>
+                        </tr>
+                        <tr>
+                            <td className={style.td}> Customer :</td>
+                            <td className={style.td}>Cash customer</td>
+                        </tr>
+                    </table>
+                </Grid>
+                <Grid item xs={2}>
+                </Grid>
+            </Grid>
+
+            <table style={{borderCollapse: 'collapse', width: '100%', marginBottom: '30px', border: 'solid',}} align='center'>
+                <thead style={{border: 'solid'}}>
+                    <th style={{border: 'solid'}}>Item</th>
+                    <th style={{border: 'solid'}}>Unit</th>
+                    <th style={{border: 'solid'}}>Quantity</th>
+                    <th style={{border: 'solid'}}>Total</th>
+                </thead>
+                {this.props.products.map((item) => 
+                    <tbody style={{border: 'solid'}}>
+                        <tr>
+                        <td style={{border: 'solid'}}>{item.pro_name}</td>
+                        <td style={{border: 'solid'}}>3</td>
+                        <td style={{border: 'solid'}}>4</td>
+                        <td style={{border: 'solid'}}>34</td>
+                        </tr>
+                    </tbody>
+                )}
+            </table>
+
+            <Grid container spacing={1}>
+                <Grid item xs={2}>
+                </Grid>
+                <Grid item xs={8}>
+                    <table style={{borderCollapse: 'collapse', width: '100%',}} align='center'> 
+                        <tr>
+                            <td className={style.td}>Item count :</td>
+                            <td className={style.td}>4</td>
+                        </tr>
+                        <tr>
+                            <td className={style.td}>Total :</td>
+                            <td className={style.td}>GHC 35.00</td>
+                        </tr>
+                        <tr>
+                            <td className={style.td}>Amount paid :</td>
+                            <td className={style.td}>GHC 50.00</td>
+                        </tr>
+                        <tr>
+                            <td className={style.td}>Change :</td>
+                            <td className={style.td}>GHC 15.00</td>
+                        </tr>
+                    </table>
+                </Grid>
+                <Grid item xs={2}>
+                </Grid>
+            </Grid>
+            
+
+
+          </div>
+
+      );
+    }
+  }
 
 const useStyles = makeStyles(theme => ({
     root: {
@@ -47,6 +171,7 @@ const useStyles = makeStyles(theme => ({
   }));
 
 const CheckoutView = props => {
+    const componentRef = useRef();
     const { history } = props;
     const [salesId , setSalesId] = useState(0);
     const [salesTotal , setSalesTotal] = useState(0);
@@ -74,6 +199,10 @@ const CheckoutView = props => {
     const backHandler = (event) => {
         props.setView(1);
     };
+
+    // const print = () => {
+    //     window.print();
+    // };
 
     return(
         <div className={classes.root} >
@@ -112,15 +241,30 @@ const CheckoutView = props => {
                     </tr>
                 </table>
 
-                <Button
+                {/* <Button
                     variant="outlined"
                     style={{fontSize: '16px', }}
                     className={classes.button}
-                    
+                    onclick={print}
                 >
                     <LocalPrintshopIcon />
                     &nbsp; Print reciept
-                </Button>
+                </Button> */}
+                <ReactToPrint
+                    trigger={() => 
+                    <Button
+                        variant="outlined"
+                        style={{fontSize: '16px', }}
+                        className={classes.button}
+                        // onClick={print}
+                    >
+                        <LocalPrintshopIcon />
+                        &nbsp; Print reciept
+                    </Button> }
+
+                    content={() => componentRef.current}
+                />
+                <div style={{ display: "none" }}><PrintRec ref={componentRef} products={props.products} /></div>
 
             </Paper>
 
