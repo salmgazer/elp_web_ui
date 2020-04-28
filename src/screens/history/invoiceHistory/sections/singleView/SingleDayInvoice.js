@@ -53,8 +53,8 @@ const SingleDayInvoice = props => {
         setPayment(paymentStatus);
         setSaleEntries(entries);
 
-        console.log('$$$$$$$$$$$$$$$$$$$$$$$$$$$$$')
-        console.log(invoice.saleEntries.fetch())
+        /*console.log('$$$$$$$$$$$$$$$$$$$$$$$$$$$$$')
+        console.log(invoice.saleEntries.fetch())*/
     };
 
     return(
@@ -69,17 +69,17 @@ const SingleDayInvoice = props => {
                     </div>
                 </Grid>
 
-                <Grid item xs={4} style={{height: '60px', margin: '10px 0px 0px 0px'}} onClick={openDialogHandler.bind(this)} >  
+                <Grid item xs={4} style={{height: '60px', margin: '10px 0px 0px 0px'}} onClick={openDialogHandler.bind(this)} >
                     <div style={{textAlign: 'right', display: 'table-cell', verticalAlign: 'middle'}}>
                         <div className="font-weight-light mt-1" style={{ fontSize: '13px'}}>INV. {invoice.receiptNumber.slice(0,8)}</div>
                         <div className="font-weight-light mt-1" style={{ fontSize: '13px', color: 'red'}}> {payment}</div>
-                    </div> 
+                    </div>
                 </Grid>
 
             </Grid>
 
-            <MainDialog 
-                handleDialogClose={closeDialogHandler.bind(this)} 
+            <MainDialog
+                handleDialogClose={closeDialogHandler.bind(this)}
                 states={mainDialog}
                 title={
 
@@ -93,7 +93,7 @@ const SingleDayInvoice = props => {
                             </div>
                         </Grid>
 
-                        <Grid item xs={5} style={{height: '60px', margin: '15px 0px'}}>  
+                        <Grid item xs={5} style={{height: '60px', margin: '15px 0px'}}>
                             <div style={{textAlign: 'right', display: 'table-cell', verticalAlign: 'right'}}>
                                 <div className="text-dark font-weight-bold" style={{ fontSize: '13px', color: 'red'}}>GHC {total}</div>
                                 {payment !== 'Full payment'
@@ -116,17 +116,17 @@ const SingleDayInvoice = props => {
                                     :
                                     ''
                                 }
-                            </div>  
+                            </div>
                         </Grid>
                     </Grid>
                 }
-                action={ 
+                action={
 
                     <Grid container spacing={1} className={`shadow1 mb-3`}>
 
                         <Grid item xs={12} style={{display: 'table', height: '60px', margin: '8px 0px'}}>
                             <div style={{textAlign: 'center', display: 'table-cell', verticalAlign: 'middle'}}>
-                                <div className="text-dark font-weight-bold" style={{ fontSize: '15px'}}>Total cost </div> 
+                                <div className="text-dark font-weight-bold" style={{ fontSize: '15px'}}>Total cost </div>
                                 <div className="font-weight-light mt-1" style={{ fontSize: '20px'}}>GHC {parseFloat(total).toFixed(2)}</div>
                             </div>
                         </Grid>
@@ -140,17 +140,17 @@ const SingleDayInvoice = props => {
                                 <Link href="#" onClick={preventDefault}  style={{ color: '#DAAB59', marginRight: '30px'}}>
                                     Change date
                                 </Link>
-                            
+
                                 <Link href="#/invoice-history" onClick={closeDialogHandler.bind(this)}  style={{textAlign: 'right', color: '#DAAB59'}} >
                                     Close
                                 </Link>
                             </Typography>
                         </Grid>
 
-                    </Grid>                    
+                    </Grid>
 
                 }
-            
+
             >
                 <Box style={{marginTop: '5px' , paddingBottom: '60px'}} p={1} className={`mt-3 mb-5`}>
                     {saleEntries.map((item) => <SingleDayProduct  key={item.id} saleEntry={item}  />)}

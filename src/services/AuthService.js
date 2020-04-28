@@ -2,6 +2,7 @@ import LocalInfo from "../services/LocalInfo";
 import Api from './Api';
 import GenerateOTP from './GenerateString';
 const jwt = require('jsonwebtoken');
+var format = require('date-fns/format');
 
 export default class AuthService {
     /*constructor() {
@@ -33,13 +34,14 @@ export default class AuthService {
 
                     const response = decoded.data;
 
+                    LocalInfo.setWorkingDate(format(new Date(), 'MM/dd/yyyy'));
+                    localStorage.setItem('workingDate' , format(new Date(), 'MM/dd/yyyy'));
                     localStorage.setItem('accessToken' , user.data.token);
                     localStorage.setItem('userDetails' , JSON.stringify(response.user));
                     localStorage.setItem('username' , response.user.username);
                     localStorage.setItem('activeBranch' , response.access[0].branches[0].branchId);
                     localStorage.setItem('userData', JSON.stringify(response));
                     localStorage.setItem('companyId', response.access[0].companyId);
-                    LocalInfo.setWorkingDate(new Date());
 
                     return {
                         success: 200,

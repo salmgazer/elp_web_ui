@@ -1,6 +1,7 @@
 import React from 'react';
 import Typography from "@material-ui/core/Typography";
 import DateFnsUtils from '@date-io/date-fns';
+import format from "date-fns/format";
 
 import {
     MuiPickersUtilsProvider,
@@ -13,7 +14,7 @@ const SystemDate = props => {
     const [selectedDate, setSelectedDate] = React.useState(getDate);
 
     const handleDateChange = date => {
-        LocalInfo.setWorkingDate(new Date(date));
+        LocalInfo.setWorkingDate(format(new Date(), 'MM/dd/yyyy'));
         setSelectedDate(new Date(date));
     };
 

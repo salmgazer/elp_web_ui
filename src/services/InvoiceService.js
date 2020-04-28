@@ -20,22 +20,25 @@ export default class InvoiceService {
             }
         );
 
+        const day = new Date(date);
+
+        console.log(day)
         switch (duration) {
             case 'day':
-                const day = new Date(date);
-                return sales.filter(sale => isSameDay(sale.createdAt , day));
+                return sales.filter(sale => isSameDay(new Date(sale.salesDate) , day));
             case 'week':
-                return sales.filter(sale => isSameWeek(sale.createdAt, date));
+                //console.log(isSameWeek(sale.salesDate, day))
+                return sales.filter(sale => isSameWeek(new Date(sale.salesDate), day));
             case 'month':
-                return sales.filter(sale => isSameMonth(sale.createdAt));
+                return sales.filter(sale => isSameMonth(new Date(sale.salesDate), day));
             case 'year':
-                return sales.filter(sale => isSameYear(sale.createdAt));
+                return sales.filter(sale => isSameYear(new Date(sale.salesDate), day));
         }
     }
 
     async getInvoiceDetails(duration , date) {
         const invoice = await InvoiceService.getInvoiceHistory(duration , date);
-
+        console.log(invoice);
         let costPrice = 0;
         let profit = 0;
         let credit = 0;

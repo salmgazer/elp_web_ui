@@ -8,9 +8,10 @@ import { withRouter } from "react-router-dom";
 
 import SingleWeekView from './singleView/SingleWeekView';
 import BoxDefault from '../../../../../components/Box/BoxDefault';
-import HistoryDrawer from '../../../../../components/Drawer/HistoryDrawer'; 
+import HistoryDrawer from '../../../../../components/Drawer/HistoryDrawer';
 import CardsSection from '../../../../../components/Sections/CardsSection';
 import InvoiceService from '../../../../../services/InvoiceService';
+import DateServiceHandler from "../../../../../services/DateServiceHandler";
 
 const useStyles = makeStyles(theme => ({
     root: {
@@ -26,7 +27,7 @@ const useStyles = makeStyles(theme => ({
     },
     paper: {
       padding: theme.spacing(1),
-      textAlign: 'center', 
+      textAlign: 'center',
     },
     button: {
         border: '1px solid #DAAB59',
@@ -38,29 +39,12 @@ const useStyles = makeStyles(theme => ({
     }
   }));
 
-  const values = [
-    {
-      value: '21/01/2020 - 7/01/2020',
-      label: 'Week 1: 1/01/2020 - 7/01/2020',
-    },
-    {
-      value: '8/01/2020',
-      label: 'Week 2: 8/01/2020 - 14/01/2020',
-    },
-    {
-      value: '15/01/2020',
-      label: 'Week 3: 15/01/2020 - 21/01/2020',
-    },
-    {
-      value: 'Week 4',
-      label: 'Week 4: 22/01/2020 - 28/01/2020',
-    }
-  ];
+  const values = new DateServiceHandler().getStoreWeeks()
 
   const WeekView = props => {
-    
+    console.log(new DateServiceHandler().getStoreWeeks())
     const classes = useStyles();
-    const [selectedWeek, setSelectedWeek] = React.useState('1/01/2020 - 7/01/2020');
+    const [selectedWeek, setSelectedWeek] = React.useState(values[0].value);
 
     const handleChange = event => {
         setSelectedWeek(event.target.value);
@@ -81,7 +65,7 @@ const useStyles = makeStyles(theme => ({
     const getInvoiceDetails = async (date) => {
         console.log(date);
         const response = await new InvoiceService().getInvoiceDetails('week' , date);
-        
+
         setInvoiceDetails(response);
         setInvoices(response.invoices);
         console.log(response)
@@ -161,17 +145,17 @@ const useStyles = makeStyles(theme => ({
                                 <span className="font-weight-light mt-1" style={{ fontSize: '13px'}}>Total : GHC 100</span>
                             </Grid>
                         </Grid>
-            
+
                         { invoices.map((invoice) => <SingleWeekView  key={invoice.id} invoice={invoice} />)}
 
                     </BoxDefault>
                 }
-                
-            
+
+
             </Box>
 
             {/* <Box style={{marginTop: '5px' , paddingBottom: '60px'}} p={1} className={`mt-3 mb-5`}>
-                
+
                 <Grid container spacing={1} className={`shadow1 mb-3 borderRadius10`}>
                     <Grid item xs={8}>
                         <span className='text-dark font-weight-bold' style={{ fontSize: '13px'}} >Tuesday, 17th March 2020</span>
@@ -181,9 +165,9 @@ const useStyles = makeStyles(theme => ({
                         <span className="font-weight-light mt-1" style={{ fontSize: '13px'}}>Total : GHC 100</span>
                     </Grid>
                 </Grid>
-    
+
                 {props.weekItem.map((item) => <SingleWeekView  key={item.day_id} weekSuppliers={item}/>)}
-            
+
             </Box> */}
 
 
