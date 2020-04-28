@@ -19,9 +19,9 @@ const StockSearchMode = props => {
         oldFormFields[name] = value;
 
         setSearchValue(oldFormFields);
-        const products = await new BranchService().searchBranchProduct();
         //const products = await BranchProductService.searchProduct(value);
-        console.log(products);
+        //console.log(products);
+        props.searchProduct(value);
     };
 
     const addProductHandler = (id) => {

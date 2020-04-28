@@ -87,7 +87,7 @@ class DirectiveViewStock extends Component{
     getStepContent = step => {
         switch (step) {
             case 0:
-                return <StockMainPage outOfStockItems={this.state.outOfStockItems} lowestStockItems={this.state.lowestStockItems}  itemsLeft={this.state.itemsLeft} branchProducts={this.state.branchProducts} stock={this.state.stockList} setView={this.setStepContentView.bind(this)} addProductStockView={this.showProductStockView.bind(this)}/> ;
+                return <StockMainPage searchProduct={this.searchProductHandler.bind(this)} outOfStockItems={this.state.outOfStockItems} lowestStockItems={this.state.lowestStockItems}  itemsLeft={this.state.itemsLeft} branchProducts={this.state.branchProducts} stock={this.state.stockList} setView={this.setStepContentView.bind(this)} addProductStockView={this.showProductStockView.bind(this)}/> ;
             case 1:
                 return <StockProductSingle product={this.state.currentProduct} setView={this.setStepContentView.bind(this)}/>;
             case 2:
@@ -193,6 +193,17 @@ class DirectiveViewStock extends Component{
 
             alert('Something went wrong');
             return false;
+        }catch (e) {
+            return false;
+        }
+    }
+
+    async searchProductHandler(searchValue){
+        try{
+            const products = await new BranchService().searchBranchProduct(searchValue);
+            this.setState({
+                branchProducts: products,
+            });
         }catch (e) {
             return false;
         }

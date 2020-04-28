@@ -232,7 +232,7 @@ const StockMainPage = props => {
                         onChangeIndex={handleChangeIndex}
                     >
                         <TabPanel value={value} index={0}>
-                            <StockSearchMode branchProducts={branchProducts} addProductStockView={props.addProductStockView} stock={props.stock}/>
+                            <StockSearchMode searchProduct={props.searchProduct} branchProducts={branchProducts} addProductStockView={props.addProductStockView} stock={props.stock}/>
                         </TabPanel>
                         <TabPanel value={value} index={1}>
                             <StockBarcodeMode/>
