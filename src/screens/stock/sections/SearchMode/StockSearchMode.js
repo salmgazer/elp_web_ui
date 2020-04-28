@@ -4,6 +4,8 @@ import SearchInput from "../../../Components/Input/SearchInput";
 import SingleProductBox from "../../../../components/Product/SingleProductBox";
 import BranchProductService from "../../../../services/BranchProductService";
 import BranchService from "../../../../services/BranchService";
+import Typography from "@material-ui/core/Typography/Typography";
+import AddedProductSingle from "../../../sell/cart/sections/BoxView/BoxView";
 
 const StockSearchMode = props => {
     //const products = props.stock;
@@ -19,6 +21,7 @@ const StockSearchMode = props => {
         oldFormFields[name] = value;
 
         setSearchValue(oldFormFields);
+
         //const products = await BranchProductService.searchProduct(value);
         //console.log(products);
         props.searchProduct(value);
@@ -46,9 +49,29 @@ const StockSearchMode = props => {
                 className={`shadow1 boxMain mx-auto rounded mt-2`}
                 style={{width: '100%', padding: '10px 2% 20px' , marginBottom: '60px'}}
             >
-                {branchProducts.map((branchProduct) =>
-                    <SingleProductBox product={branchProduct} key={branchProduct.id} addProductHandler={addProductHandler.bind(this, branchProduct.id)}/>
-                )}
+                {branchProducts.length === 0
+                    ?
+                    <Grid
+                        item xs={12}
+                        className={`text-left pl-2`}
+                    >
+                        <div className={`rounded mx-1 my-2 p-2 bordered`}>
+                            <Typography
+                                component="h6"
+                                variant="h6"
+                                style={{fontSize: '16px'}}
+                                className={`text-center text-dark w-100`}
+                            >
+                                No product found
+                            </Typography>
+                        </div>
+                    </Grid>
+                    :
+                    branchProducts.map((branchProduct) =>
+                        <SingleProductBox product={branchProduct} key={branchProduct.id} addProductHandler={addProductHandler.bind(this, branchProduct.id)}/>
+                    )
+                }
+
             </Grid>
         </div>
     );

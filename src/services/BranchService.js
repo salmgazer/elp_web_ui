@@ -38,37 +38,14 @@ export default class BranchService {
     * Search for a branch product
     * */
     async searchBranchProduct(searchValue) {
-        const branchProducts = await this.getProducts();
         const products = await new ModelAction('Product').findByColumnNotObserve({
             name: 'name',
             value: searchValue,
             fxn: 'like'
         });
 
-        //const products = database.collections.get('products').query(Q.where('name', Q.like(`%${Q.sanitizeLikeString(searchValue)}%`))).fetch();
-
-
-        console.log(products)
-        return  database.collections.get('branches_products').query(Q.where('productId', Q.oneOf(products.map(p => p.id)))).fetch();
-
-        // branch products
-        // search value, name of product
-        // search products
-        // search branch products where productId is in list of ids of products returned, and branchId is activeBranch
-
-        /*
-
-        const searchResults = branchProducts.map(async function(item) {
-            return await item.product.fetch().name === searchValue;
-            //return database.collections.get('products').query(Q.where('name', Q.like(`%${Q.sanitizeLikeString(search)}%`))).fetch()
-            //return (((await item.product.fetch()).name).toLowerCase().indexOf(searchValue.toLowerCase()) !== -1)
-        });
-
-        console.log(searchResults)
-        return searchResults;
-        */
-
-        //console.log(await searchResults);
+        return  database.collections.get('branches_products').query(Q.where('productId',
+          Q.oneOf(products.map(p => p.id))), Q.where('branchId', LocalInfo.branchId)).fetch();
     }
 
     /*
@@ -96,10 +73,7 @@ export default class BranchService {
     static async filterProduct(column , value , item){
         const product = await new BranchProductService(item).product();
         console.log(product)
-        if(product[column] === value){
-            return true;
-        }
-        return false;
+        return product[column] === value;
     }
 
     /*

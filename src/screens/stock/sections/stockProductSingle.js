@@ -22,6 +22,7 @@ const StockProductSingle = props => {
     const [image , setImage] = useState('');
     const [productQuantity , setProductQuantity] = useState(0);
     const [companyStocks , setCompanyStocks] = useState([]);
+    const [costPrice , setCostPrice] = useState(0);
 
     useEffect(() => {
         if (!product) {
@@ -40,6 +41,7 @@ const StockProductSingle = props => {
         setImage(new ProductServiceHandler(product).getProductImage());
         setProductQuantity(await new BranchStockService().getProductStockQuantity(branchProduct.productId));
         setCompanyStocks(await new BranchStockService().getBranchStockQuantities(branchProduct.productId));
+        setCostPrice(await productHandler.getCostPrice());
     };
 
     /*let lastStock = productHandler.getProductHistory();
@@ -91,70 +93,146 @@ const StockProductSingle = props => {
 
             <div
                 className={`row shadow1 pb-3`}
-                style={{'borderTopLeftRadius': '15px', 'borderTopRightRadius': '15px', marginBottom: '60px'}}
+                style={{'borderTopLeftRadius': '15px', 'borderTopRightRadius': '15px', marginBottom: '60px', position: 'fixed' , bottom: 0, right: 0, left: 0, minHeight: '250px'}}
             >
-                <Typography
-                    component="h5"
-                    variant="h5"
-                    style={{fontWeight: '300', fontSize: '14px' , margin: '0px 0px', padding: '14px'}}
-                    className={`text-center mx-auto text-dark italize`}
-                >
-                    {lastHistory ? `Last stock added: ${lastHistory.quantity} added on ${format(new Date(lastHistory.createdAt) , "dd MMM, yyyy")}` : `No stock added for this product`}
-                </Typography>
-
-                <div className={`rounded bordered mb-3 mx-3 px-3 py-3`} style={{display: 'flex'}}>
-                    <div className={`stockQuantityCount w-50 p-1`}>
-                        <Typography
-                            component="h6"
-                            variant="h6"
-                            style={{fontWeight: '300', fontSize: '14px' , lineHeight: '1.5'}}
-                            className={`mx-2`}
-                        >
-                            Total Quantity
-                        </Typography>
-                        <Typography
-                            component="h5"
-                            variant="h5"
-                            style={{fontWeight: '700', fontSize: '16px' , lineHeight: '1.5'}}
-                        >
-                            {productQuantity}
-                        </Typography>
-                    </div>
-
-                    <div className={`w-50 p-1`}>
-                        <Typography
-                            component="h6"
-                            variant="h6"
-                            style={{fontWeight: '300', fontSize: '14px' , lineHeight: '1.5'}}
-                            className={`mx-2`}
-                        >
-                            Sales value
-                        </Typography>
-                        <Typography
-                            component="h5"
-                            variant="h5"
-                            style={{fontWeight: '700', fontSize: '16px' , lineHeight: '1.5'}}
-                        >
-                           GHC {parseFloat(productQuantity * branchProduct.sellingPrice).toFixed(2)}
-                        </Typography>
-                    </div>
-                </div>
-
-                <div className={`rounded bordered mb-3 mx-3 px-3 py-3`}>
+                {props.companyBranches > 1 ?
                     <Typography
                         component="h5"
                         variant="h5"
-                        style={{fontWeight: '600', fontSize: '15px' , margin: '0px 0px', padding: '3px'}}
-                        className={`text-center mx-auto text-dark w-100`}
+                        style={{fontWeight: '300', fontSize: '14px', margin: '0px 0px', padding: '14px'}}
+                        className={`text-center mx-auto text-dark italize`}
                     >
-                        Quantities Per Location(s)
+                        {lastHistory ? `Last stock added: ${lastHistory.quantity} added on ${format(new Date(lastHistory.createdAt), "dd MMM, yyyy")}` : `No stock added for this product`}
                     </Typography>
+                    :''
+                }
 
-                    {companyStocks.map((location) =>
-                        <LocationProductSingle key={location.id} location={location}/>
-                    )}
-                </div>
+                {props.companyBranches > 1 ?
+                    <div className={`rounded bordered mb-3 mx-3 px-3 py-3`} style={{display: 'flex'}}>
+                        <div className={`stockQuantityCount w-50 p-1`}>
+                            <Typography
+                                component="h6"
+                                variant="h6"
+                                style={{fontWeight: '300', fontSize: '14px', lineHeight: '1.5'}}
+                                className={`mx-2`}
+                            >
+                                Total Quantity
+                            </Typography>
+                            <Typography
+                                component="h5"
+                                variant="h5"
+                                style={{fontWeight: '700', fontSize: '16px', lineHeight: '1.5'}}
+                            >
+                                {productQuantity}
+                            </Typography>
+                        </div>
 
+                        <div className={`w-50 p-1`}>
+                            <Typography
+                                component="h6"
+                                variant="h6"
+                                style={{fontWeight: '300', fontSize: '14px', lineHeight: '1.5'}}
+                                className={`mx-2`}
+                            >
+                                Sales value
+                            </Typography>
+                            <Typography
+                                component="h5"
+                                variant="h5"
+                                style={{fontWeight: '700', fontSize: '16px', lineHeight: '1.5'}}
+                            >
+                                GHC {parseFloat(productQuantity * branchProduct.sellingPrice).toFixed(2)}
+                            </Typography>
+                        </div>
+                    </div>
+                    :
+                    <div className={`rounded bordered mb-3 mx-3 px-3 py-3`} style={{display: 'flex', marginTop: '50px'}}>
+                        <div className={`w-50 p-1`}>
+                            <Typography
+                                component="h6"
+                                variant="h6"
+                                style={{fontWeight: '300', fontSize: '16px', lineHeight: '1.5'}}
+                                className={`mx-2`}
+                            >
+                                Unit selling price
+                            </Typography>
+                            <Typography
+                                component="h5"
+                                variant="h5"
+                                style={{fontWeight: '700', fontSize: '18px', lineHeight: '1.5'}}
+                            >
+                                GHC {(branchProduct.sellingPrice).toFixed(2)}
+                            </Typography>
+
+                            <Typography
+                                component="h6"
+                                variant="h6"
+                                style={{fontWeight: '300', fontSize: '16px', lineHeight: '1.5'}}
+                                className={`mx-2 mt-3`}
+                            >
+                                Total Quantity
+                            </Typography>
+                            <Typography
+                                component="h5"
+                                variant="h5"
+                                style={{fontWeight: '700', fontSize: '18px', lineHeight: '1.5'}}
+                            >
+                                {productQuantity}
+                            </Typography>
+                        </div>
+
+                        <div className={`w-50 p-1`}>
+                            <Typography
+                                component="h6"
+                                variant="h6"
+                                style={{fontWeight: '300', fontSize: '16px', lineHeight: '1.5'}}
+                                className={`mx-2`}
+                            >
+                                Unit cost price
+                            </Typography>
+                            <Typography
+                                component="h5"
+                                variant="h5"
+                                style={{fontWeight: '700', fontSize: '18px', lineHeight: '1.5'}}
+                            >
+                                GHC {parseFloat(costPrice).toFixed(2)}
+                            </Typography>
+                            <Typography
+                                component="h6"
+                                variant="h6"
+                                style={{fontWeight: '300', fontSize: '16px', lineHeight: '1.5'}}
+                                className={`mx-2 mt-3`}
+                            >
+                                Sales value
+                            </Typography>
+                            <Typography
+                                component="h5"
+                                variant="h5"
+                                style={{fontWeight: '700', fontSize: '18px', lineHeight: '1.5'}}
+                            >
+                                GHC {parseFloat(productQuantity * branchProduct.sellingPrice).toFixed(2)}
+                            </Typography>
+                        </div>
+                    </div>
+                    }
+
+                {props.companyBranches.length > 1 ?
+                    <div className={`rounded bordered mb-3 mx-3 px-3 py-3`}>
+                        <Typography
+                            component="h5"
+                            variant="h5"
+                            style={{fontWeight: '600', fontSize: '15px' , margin: '0px 0px', padding: '3px'}}
+                            className={`text-center mx-auto text-dark w-100`}
+                        >
+                            Quantities Per Location(s)
+                        </Typography>
+
+                        {companyStocks.map((location) =>
+                            <LocationProductSingle key={location.id} location={location}/>
+                        )}
+                    </div>
+                : ''
+                }
             </div>
 
             <Box

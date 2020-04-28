@@ -45,7 +45,6 @@ export default class BranchProductService {
     * @return array
     * */
     static async searchProduct(search){
-        console.log(search)
         return database.collections.get('products').query(Q.where('name', Q.like(`%${Q.sanitizeLikeString(search)}%`))).fetch()
     }
 

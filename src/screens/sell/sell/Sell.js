@@ -117,13 +117,15 @@ class Sell extends Component {
     /*
     * Search products handler...
     * */
-    searchHandler = (search) => {
+    searchHandler = async (searchValue) => {
         /*
         * @todo make sure it works...
         * */
         try {
+            const products = await new BranchService().searchBranchProduct(searchValue);
+
             this.setState({
-                productList: new BranchService().searchBranchProduct(search)
+                branchProducts: products,
             });
         }catch (e) {
             return false

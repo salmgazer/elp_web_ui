@@ -252,7 +252,6 @@ export default class BranchStockService{
 
         });
 
-        console.log(outOfStock)
         return outOfStock;
     }
 
@@ -336,7 +335,6 @@ export default class BranchStockService{
             //console.log(await new BranchProductService(product).getCostPrice())
             return ((countStock - (countSales + countMovement)) * await new BranchProductService(product).getCostPrice())
         });
-        console.log(stockCostValue)
 
         return stockCostValue.reduce(async function(a,b){
             return await a + await b

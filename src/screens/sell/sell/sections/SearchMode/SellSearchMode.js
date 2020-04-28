@@ -10,6 +10,7 @@ import Typography from "@material-ui/core/Typography/Typography";
 import ProductServiceHandler from "../../../../../services/ProductServiceHandler";
 import SearchInput from "../../../../Components/Input/SearchInput";
 import BranchProductService from "../../../../../services/BranchProductService";
+import SingleProductBox from "../../../../../components/Product/SingleProductBox";
 
 const useStyles = makeStyles(theme => ({
     root: {
@@ -119,57 +120,77 @@ const SellSearchMode = props => {
                 </Typography>
 
                 <Grid container spacing={1} className='mt-3'>
-                    {branchProducts.map((branchProduct) =>
-                    <Grid key={branchProduct.productId} item xs={4} style={{padding: '4px 8px' , position: 'relative'}} className={`mx-0 px-1`}>
-                        { new BranchProductService(branchProduct).isProductSellable() === false ?
-                            <div
-                                onClick={removeProductHandler.bind(this , branchProduct.productId)}
-                            >
-                                <WarningIcon
-                                    styles={{
-                                        width: '30px',
-                                        height: '30px',
-                                        borderRadius: '50%',
-                                        top: '-2px',
-                                        float: 'right',
-                                        position: 'absolute',
-                                        right: '-2px',
-                                        color: '#DA5959',
-                                    }}
-                                />
-                            </div>:
-                            <div
-                                onClick={addProductHandler.bind(this, branchProduct.productId)}
-                            >
-                                <AddIcon
-                                    styles={{
-                                        width: '30px',
-                                        height: '30px',
-                                        borderRadius: '50%',
-                                        top: '-2px',
-                                        float: 'right',
-                                        position: 'absolute',
-                                        right: '-2px',
-                                        color: '#DAAB59',
-                                    }}
-                                />
-                            </div>
-                        }
-                        <div
-                            onClick={
-                                new BranchProductService(branchProduct).isProductSellable() === false ?
-                                    removeProductHandler.bind(this , branchProduct.productId)
-                                :
-                                    addProductHandler.bind(this, branchProduct.productId)
-
-                            }
+                    {branchProducts.length === 0
+                        ?
+                        <Grid
+                            item xs={12}
+                            className={`text-left pl-2`}
                         >
-                            <ProductCard product={branchProduct.product.fetch()}>
-                                 {new BranchProductService(branchProduct).getSellingPrice() ? `GHC ${new BranchProductService(branchProduct).getSellingPrice()}` : `No cost price`}
-                            </ProductCard>
-                        </div>
-                    </Grid>
-                    )}
+                            <div className={`rounded mx-1 my-2 p-2 bordered`}>
+                                <Typography
+                                    component="h6"
+                                    variant="h6"
+                                    style={{fontSize: '16px'}}
+                                    className={`text-center text-dark w-100`}
+                                >
+                                    No product found
+                                </Typography>
+                            </div>
+                        </Grid>
+                        :
+                        branchProducts.map((branchProduct) =>
+                            <Grid key={branchProduct.productId} item xs={4} style={{padding: '4px 8px' , position: 'relative'}} className={`mx-0 px-1`}>
+                                { new BranchProductService(branchProduct).isProductSellable() === false ?
+                                    <div
+                                        onClick={removeProductHandler.bind(this , branchProduct.productId)}
+                                    >
+                                        <WarningIcon
+                                            styles={{
+                                                width: '30px',
+                                                height: '30px',
+                                                borderRadius: '50%',
+                                                top: '-2px',
+                                                float: 'right',
+                                                position: 'absolute',
+                                                right: '-2px',
+                                                color: '#DA5959',
+                                            }}
+                                        />
+                                    </div>:
+                                    <div
+                                        onClick={addProductHandler.bind(this, branchProduct.productId)}
+                                    >
+                                        <AddIcon
+                                            styles={{
+                                                width: '30px',
+                                                height: '30px',
+                                                borderRadius: '50%',
+                                                top: '-2px',
+                                                float: 'right',
+                                                position: 'absolute',
+                                                right: '-2px',
+                                                color: '#DAAB59',
+                                            }}
+                                        />
+                                    </div>
+                                }
+                                <div
+                                    onClick={
+                                        new BranchProductService(branchProduct).isProductSellable() === false ?
+                                            removeProductHandler.bind(this , branchProduct.productId)
+                                            :
+                                            addProductHandler.bind(this, branchProduct.productId)
+
+                                    }
+                                >
+                                    <ProductCard product={branchProduct.product.fetch()}>
+                                        {new BranchProductService(branchProduct).getSellingPrice() ? `GHC ${new BranchProductService(branchProduct).getSellingPrice()}` : `No cost price`}
+                                    </ProductCard>
+                                </div>
+                            </Grid>
+                        )
+                    }
+
                 </Grid>
             </div>
         </div>

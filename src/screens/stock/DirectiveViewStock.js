@@ -43,9 +43,7 @@ class DirectiveViewStock extends Component{
     * Fetch all products when component is mounted
     * */
     async componentDidMount() {
-
         const { branchProducts } = this.props;
-        console.log(branchProducts);
 
         await this.setState({
             branchProducts: branchProducts,
@@ -64,7 +62,7 @@ class DirectiveViewStock extends Component{
 
     async componentDidUpdate(prevProps) {
         const { branchProducts , branchProductStock } = this.props;
-        console.log(branchProducts);
+
         if(prevProps.branchProductStock.length !== branchProductStock.length){
             this.setState({
                 branchProducts: branchProducts,
@@ -89,7 +87,7 @@ class DirectiveViewStock extends Component{
             case 0:
                 return <StockMainPage searchProduct={this.searchProductHandler.bind(this)} outOfStockItems={this.state.outOfStockItems} lowestStockItems={this.state.lowestStockItems}  itemsLeft={this.state.itemsLeft} branchProducts={this.state.branchProducts} stock={this.state.stockList} setView={this.setStepContentView.bind(this)} addProductStockView={this.showProductStockView.bind(this)}/> ;
             case 1:
-                return <StockProductSingle product={this.state.currentProduct} setView={this.setStepContentView.bind(this)}/>;
+                return <StockProductSingle companyBranches={this.state.companyBranches} product={this.state.currentProduct} setView={this.setStepContentView.bind(this)}/>;
             case 2:
                 return <StockSummaryPage itemsLeft={this.state.itemsLeft} storeDetails={this.state.storeDetails} setView={this.setStepContentView.bind(this)}/>;
             case 3:
@@ -142,11 +140,10 @@ class DirectiveViewStock extends Component{
 
         //Find index of specific object using findIndex method.
         const itemIndex = old_list.filter((item => item.id === productId));
-        console.log(itemIndex)
 
         this.setState({
             currentProduct: itemIndex,
-            activeStep: newStep
+            activeStep: 1
         });
     };
 
