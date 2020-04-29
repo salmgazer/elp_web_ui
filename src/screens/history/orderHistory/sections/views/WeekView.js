@@ -40,9 +40,10 @@ const useStyles = makeStyles(theme => ({
   }));
 
   const values = new DateServiceHandler().getStoreWeeks()
-
+  
   const WeekView = props => {
-    console.log(new DateServiceHandler().getStoreWeeks())
+    console.log(new DateServiceHandler().getStoreWeeks());
+
     const classes = useStyles();
     const [selectedWeek, setSelectedWeek] = React.useState(values[0].value);
 
@@ -136,7 +137,7 @@ const useStyles = makeStyles(theme => ({
                         className={'boxDefault'}
                         style={{marginTop: '5px' }}
                     >
-                        <Grid container className={`bordered`}>
+                        {/* <Grid container className={`bordered`}>
                             <Grid item xs={8}>
                                 <span className='text-dark font-weight-bold' style={{ fontSize: '13px'}} >Week 1: 01/03/20 - 07/03/20</span>
                             </Grid>
@@ -144,7 +145,7 @@ const useStyles = makeStyles(theme => ({
                             <Grid item xs={4}>
                                 <span className="font-weight-light mt-1" style={{ fontSize: '13px'}}>Total : GHC 100</span>
                             </Grid>
-                        </Grid>
+                        </Grid> */}
 
                         { invoices.map((invoice) => <SingleWeekView  key={invoice.id} invoice={invoice} />)}
 

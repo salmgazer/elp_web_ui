@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import Grid from '@material-ui/core/Grid';
 import Button from "@material-ui/core/Button/Button";
@@ -11,6 +11,9 @@ import CardsSection from '../../../../../components/Sections/CardsSection';
 import { withRouter } from "react-router-dom";
 
 import SingleYearView from './singleView/SingleYearView';
+import InvoiceService from '../../../../../services/InvoiceService';
+import DateServiceHandler from "../../../../../services/DateServiceHandler";
+import BoxDefault from '../../../../../components/Box/BoxDefault';
 
 const useStyles = makeStyles(theme => ({
     root: {
@@ -38,37 +41,113 @@ const useStyles = makeStyles(theme => ({
     }
   }));
 
-  const values = [
-    {
-      value: '2020',
-      label: '2020',
-    },
-    {
-      value: '2019',
-      label: '2019',
-    },
-    {
-      value: '2018',
-      label: '2018',
-    },
-    {
-      value: '2017',
-      label: '2017',
-    }
-  ];
+  const values = new DateServiceHandler().getStoreYears()
 
   const YearView = props => {
+    console.log(new DateServiceHandler().getStoreYears());
     
     const classes = useStyles();
+    const [selectedYear, setSelectedYear] = React.useState(values[0].value);
+
+    const handleChange = event => {
+      setSelectedYear(event.target.value);
+      getInvoiceDetails(event.target.value);
+    };
+
+    const [invoiceDetails , setInvoiceDetails] = useState(false);
+    const [invoices , setInvoices] = useState([]);
+
+    useEffect(() => {
+      // You need to restrict it at some point
+      // This is just dummy code and should be replaced by actual
+        if (!invoiceDetails) {
+            getInvoiceDetails(selectedYear);
+        }
+    });
+
+    const getInvoiceDetails = async (date) => {
+        console.log(date);
+        const response = await new InvoiceService().getInvoiceDetails('year' , date);
+
+        setInvoiceDetails(response);
+        setInvoices(response.invoices);
+        console.log(response)
+    };
 
     return(
         <div className={classes.root}>
 
-            <HistoryDrawer pageName="Purchased items" user='2020' values={values} />
+            {/* <HistoryDrawer pageName="Purchased items" user='2020' values={values} /> */}
+            <Grid container spacing={1}>
+                <Grid item xs={6}>
+                    <Typography style={{fontSize: '14px', paddingTop: '20px', marginRight: '50px'}} >
+                        Purchased items
+                    </Typography>
+                </Grid>
+
+                <Grid item xs={6}>
+                    <TextField
+                        id="outlined-select-receive-native"
+                        select
+                        size="small"
+                        value={selectedYear}
+                        style={{width: '150px',  margin: '10px 0px', fontSize: '7px'}}
+                        onChange={handleChange}
+                        color="#DAAB59"
+                        SelectProps={{
+                            native: true,
+                        }}
+                        variant="outlined"
+                        >
+                        {values.map(option => (
+                            <option key={option.value} value={option.value}>
+                            {option.label}
+                            </option>
+                        ))}
+                    </TextField>
+                </Grid>
+
+            </Grid>
 
             <CardsSection quantity='5' costPrice='500' sellingPrice='600' profit='100' profitName="Amount owed" />
 
             <Box style={{marginTop: '5px' , paddingBottom: '60px'}} p={1} className={`mt-3 mb-5`}>
+
+                {invoices.length === 0
+                    ?
+                    <div className={`rounded mx-1 my-2 p-2 bordered`}>
+                        <Grid container spacing={1} className={`py-1`}>
+                            <Grid
+                                item xs={12}
+                                className={`text-left pl-2`}
+                            >
+                                <Typography
+                                    component="h6"
+                                    variant="h6"
+                                    style={{fontSize: '16px'}}
+                                    className={`text-center text-dark`}
+                                >
+                                    No sales made this year
+                                </Typography>
+                            </Grid>
+                        </Grid>
+                    </div>
+                    :
+
+                    <BoxDefault
+                        bgcolor="background.paper"
+                        p={1}
+                        className={'boxDefault'}
+                        style={{marginTop: '5px' }}
+                    >
+
+                      { invoices.map((invoice) => <SingleYearView  key={invoice.id} invoice={invoice} />)}
+
+                    </BoxDefault>
+                }
+            </Box>
+
+            {/* <Box style={{marginTop: '5px' , paddingBottom: '60px'}} p={1} className={`mt-3 mb-5`}>
                 
                 <Grid container spacing={1} className={`shadow1 mb-3 borderRadius10`}>
                     <Grid item xs={8}>
@@ -82,7 +161,7 @@ const useStyles = makeStyles(theme => ({
     
                 {props.yearItem.map((item) => <SingleYearView  key={item.month_id} yearSuppliers={item}/>)}
                 
-            </Box>
+            </Box> */}
 
 
         </div>
