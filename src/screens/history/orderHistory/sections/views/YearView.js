@@ -109,7 +109,7 @@ const useStyles = makeStyles(theme => ({
 
             </Grid>
 
-            <CardsSection quantity='5' costPrice='500' sellingPrice='600' profit='100' profitName="Amount owed" />
+            <CardsSection quantity={invoiceDetails.quantity} costPrice={invoiceDetails.costPrice} sellingPrice={invoiceDetails.sellingPrice} profit={invoiceDetails.credit} profitName="Amount owed" />
 
             <Box style={{marginTop: '5px' , paddingBottom: '60px'}} p={1} className={`mt-3 mb-5`}>
 
