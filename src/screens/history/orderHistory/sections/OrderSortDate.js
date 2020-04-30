@@ -7,12 +7,11 @@ import MonthView from './views/MonthView';
 import YearView from './views/YearView';
 import Payment from './views/Payment';
 import DaySupplierView from './views/DaySupplierView';
-
+import DateToggle from "../../../../components/DateToggle/DateToggle";
 
 class OrderSortDate extends Component{
 
     state={
-        isDrawerShow: false,
         activeStep: 0,
         suppliers: [
             {
@@ -75,99 +74,23 @@ class OrderSortDate extends Component{
                 "cost": "100",
                 "sales": "200"
             }
-        ],
-        weekList: [ 
-            {
-                "day_id": "1",
-                "name": "Niko's Enterprise",
-                "image": "no_image.png",
-                "owed": "20",
-                "worth": "200"
-            },
-            {
-                "day_id": "2",
-                "name": "Kwame Despite Enterprise",
-                "image": "no_image.png",
-                "owed": "0",
-                "worth": "500"
-            }
-        ],
-        monthList: [ 
-            {
-                "week_id": "1",
-                "name": "Niko's Enterprise",
-                "image": "no_image.png",
-                "owed": "20",
-                "worth": "200"
-            },
-            {
-                "week_id": "2",
-                "name": "Kwame Despite Enterprise",
-                "image": "no_image.png",
-                "owed": "0",
-                "worth": "500"
-            },
-            {
-                "week_id": "3",
-                "name": "Hisense Enterprise",
-                "image": "no_image.png",
-                "owed": "0",
-                "worth": "260"
-            },
-            {
-                "week_id": "4",
-                "name": "Melcom Enterprise",
-                "image": "no_image.png",
-                "owed": "10",
-                "worth": "40"
-            }
-        ],
-        yearList: [ 
-            {
-                "month_id": "1",
-                "name": "Niko's Enterprise",
-                "image": "no_image.png",
-                "owed": "20",
-                "worth": "200"
-            },
-            {
-                "month_id": "2",
-                "name": "Kwame Despite Enterprise",
-                "image": "no_image.png",
-                "owed": "0",
-                "worth": "500"
-            },
-            {
-                "month_id": "3",
-                "name": "Hisense Enterprise",
-                "image": "no_image.png",
-                "owed": "0",
-                "worth": "260"
-            },
-            {
-                "month_id": "4",
-                "name": "Melcom Enterprise",
-                "image": "no_image.png",
-                "owed": "10",
-                "worth": "40"
-            }
         ]
     }
 
     getStepContent = step => {
         switch (step) {
             case 1:
-                return <DayView setView={this.setStepContentView.bind(this)} suppliers={this.state.suppliersInfo} products={this.state.productList} supplierDetails={this.state.suppliers}  pageName="Purchased items" profitName="Expected Profit" />;
+                return <DayView setView={this.setStepContentView.bind(this)} suppliers={this.state.suppliersInfo} products={this.state.productList} supplierDetails={this.state.suppliers} />;
             case 2:
-                return <WeekView setView={this.setStepContentView.bind(this)} weekItem={this.state.weekList} pageName="Purchased items" profitName="Expected Profit" />;
+                return <WeekView setView={this.setStepContentView.bind(this)} />;
             case 3:
-                return <MonthView setView={this.setStepContentView.bind(this)} monthItem={this.state.monthList} pageName="Purchased items" profitName="Expected Profit" />;
+                return <MonthView setView={this.setStepContentView.bind(this)} />;
             case 4:
-                return <YearView setView={this.setStepContentView.bind(this)} yearItem={this.state.yearList} pageName="Purchased items" profitName="Expected Profit" />;
+                return <YearView setView={this.setStepContentView.bind(this)} />;
             case 5:
                 return <Payment setView={this.setStepContentView.bind(this)}  />;
             case 0:
-                return <DaySupplierView setView={this.setStepContentView.bind(this)} supplierDetails={this.state.suppliers}  pageName="Purchased items" profitName="Expected Profit" />;
+                return <DaySupplierView setView={this.setStepContentView.bind(this)} supplierDetails={this.state.suppliers} />;
     
             default:
                 return 'Complete';
@@ -180,13 +103,22 @@ class OrderSortDate extends Component{
         });
     };
 
+    async componentDidUpdate(prevProps) {
+        const {...props} = this.props;
+
+        if(prevProps.activeStep !== props.activeStep){
+            console.log('me')
+        }
+    }
+
 
     render(){
         return(
             <div>
-
+                <DateToggle
+                    setView={this.setStepContentView.bind(this)}
+                />
                 {this.getStepContent(this.state.activeStep)}
-
             </div>
         )
     }

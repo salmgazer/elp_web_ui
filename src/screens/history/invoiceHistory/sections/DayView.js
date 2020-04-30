@@ -4,32 +4,23 @@ import Grid from '@material-ui/core/Grid';
 import SearchIcon from '@material-ui/icons/Search';
 import IconButton from '@material-ui/core/IconButton';
 import InputBase from '@material-ui/core/InputBase';
-// import DateFnsUtils from '@date-io/date-fns';
-// import {
-//   MuiPickersUtilsProvider,
-//   KeyboardDatePicker,
-// } from '@material-ui/pickers'; 
+import DateFnsUtils from '@date-io/date-fns';
+import {
+  MuiPickersUtilsProvider,
+  KeyboardDatePicker,
+} from '@material-ui/pickers'; 
 import Paper from '@material-ui/core/Paper';
 import Typography from '@material-ui/core/Typography';
 import Box from "@material-ui/core/Box/Box";
 import { withRouter } from "react-router-dom";
 
 import SingleDayInvoice from './singleView/SingleDayInvoice';
-// import BranchService from "../../../../services/BranchService";
 import InvoiceService from "../../../../services/InvoiceService";
-// import AddedProductSingle from "../../../sell/cart/sections/BoxView/BoxView";
 import CardsSection from '../../../../components/Sections/CardsSection';
 
 const useStyles = makeStyles(theme => ({
     root: {
       flexGrow: 1,
-    },
-    title: {
-        fontSize: 9,
-    },
-    text: {
-        fontSize: 15,
-        fontWeight: 'bold',
     },
     search: {
         width: '100%',
@@ -49,18 +40,6 @@ const useStyles = makeStyles(theme => ({
     },
     iconButton: {
         padding: 10,
-    },
-    paper: {
-      padding: theme.spacing(1),
-      textAlign: 'center', 
-    },
-    button: {
-        border: '1px solid #DAAB59',
-        color: '#DAAB59',
-        padding: '5px 50px',
-        marginRight: '10px',
-        marginTop: '10px',
-        textTransform: 'none',
     }
   }));
 
@@ -114,7 +93,7 @@ const useStyles = makeStyles(theme => ({
                 </Grid>
             
                 <Grid item xs={6} >
-                    {/* <MuiPickersUtilsProvider utils={DateFnsUtils}>
+                    <MuiPickersUtilsProvider utils={DateFnsUtils}>
                         <KeyboardDatePicker
                             disableToolbar
                             variant="outlined"
@@ -130,7 +109,7 @@ const useStyles = makeStyles(theme => ({
                                 'aria-label': 'change date',
                             }}
                         />
-                    </MuiPickersUtilsProvider> */}
+                    </MuiPickersUtilsProvider>
                 </Grid>
             </Grid>
 
@@ -158,7 +137,7 @@ const useStyles = makeStyles(theme => ({
                     </div>
                     :
 
-                    invoices.map((invoice) => <SingleDayInvoice  key={invoice.id} invoice={invoice} products={props.prod} />)
+                    invoices.map((invoice) => <SingleDayInvoice  key={invoice.id} invoice={invoice} />)
                 }
             </Box>
         </div>

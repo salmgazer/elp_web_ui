@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect , useState} from 'react';
 import Grid from "@material-ui/core/Grid/Grid";
 import AccessTimeIcon from '@material-ui/icons/AccessTime';
 import Button from "@material-ui/core/Button/Button";
@@ -8,10 +8,18 @@ import Link from '@material-ui/core/Link';
 import Typography from '@material-ui/core/Typography';
 
 import DaySupplier from './DaySupplier';
-
+import format from "date-fns/format";
+import SaleService from "../../../../../../services/SaleService";
 
 const SingleDayView = props => {
-    const supplier = props.supp;
+    /*
+    * @todo format receipt number as required...
+    * */
+    const order = props.order;
+    const [customer , setCustomer] = useState(false);
+    const [saleEntries , setSaleEntries] = useState([]);
+    const [total , setTotal] = useState(false);
+    const [payment , setPayment] = useState(false);
     const [mainDialog, setMainDialog] = React.useState(false);
 
     const preventDefault = event => event.preventDefault();
@@ -24,8 +32,33 @@ const SingleDayView = props => {
         setMainDialog(true);
     };
 
-    const openPayment = (event) => {
-       props.setView(5);
+    // const openPayment = (event) => {
+    //    props.setView(5);
+    // };
+
+    useEffect(() => {
+        // You need to restrict it at some point
+        // This is just dummy code and should be replaced by actual
+        if (!customer || !payment || !total) {
+            getSupplier();
+        }
+    });
+
+    const getSupplier = async () => {
+        const response = await order.supplier.fetch();
+        /*
+        * @todo get entries via query on model
+        * */
+        const entries = await order.sale_entries.fetch(); //await new SaleService().getSaleProductsById(invoice.id);
+        const saleTotal = await SaleService.getSaleEntryAmountById(order.id);
+        const paymentStatus = await SaleService.getSalePaymentStatus(order.id);
+        setCustomer(response);
+        setTotal(saleTotal);
+        setPayment(paymentStatus);
+        setSaleEntries(entries);
+
+        /*console.log('$$$$$$$$$$$$$$$$$$$$$$$$$$$$$')
+        console.log(invoice.saleEntries.fetch())*/
     };
 
     return(
@@ -37,9 +70,9 @@ const SingleDayView = props => {
 
                 <Grid item xs={6} style={{display: 'table', height: '60px', margin: '8px 0px'}}>
                     <div style={{textAlign: 'left', display: 'table-cell', verticalAlign: 'middle'}}>
-                        <span className='text-dark font-weight-bold' >{supplier.name}</span>
-                        <div className="font-weight-light mt-1" style={{ fontSize: '13px'}}> {supplier.date}</div>
-                        <div className="font-weight-light mt-1" style={{ fontSize: '13px'}}>GHC {supplier.worth}</div>
+                        <span className='text-dark font-weight-bold' >{`${customer.firstName} ${customer.otherNames}`}</span>
+                        <div className="font-weight-light mt-1" style={{ fontSize: '13px'}}> {format(new Date(order.createdAt) , "eeee, MMMM do, yyyy")} | {format(new Date(order.createdAt) , "HH:mm a")}</div>
+                        <div className="font-weight-light mt-1" style={{ fontSize: '13px'}}>GHC {total}</div>
                     </div>
                 </Grid>
 
@@ -63,23 +96,34 @@ const SingleDayView = props => {
 
                         <Grid item xs={7} style={{display: 'table', height: '60px', margin: '8px 0px'}}>
                             <div style={{textAlign: 'left', display: 'table-cell', verticalAlign: 'middle'}}>
-                                <span className='text-dark font-weight-bold' style={{ fontSize: '15px'}} >{supplier.name}</span>
-                                <div className="font-weight-light mt-1" style={{ fontSize: '13px'}}> {supplier.date}</div> 
+                                <span className='text-dark font-weight-bold' style={{ fontSize: '15px'}} >{`${customer.firstName} ${customer.otherNames}`}</span>
+                                <div className="font-weight-light mt-1" style={{ fontSize: '13px'}}> {format(new Date(order.createdAt) , "eeee, MMMM do, yyyy")} | {format(new Date(order.createdAt) , "HH:mm a")}</div> 
                             </div>
                         </Grid>
         
                         <Grid item xs={5} style={{height: '60px', margin: '15px 0px'}}>  
                             <div style={{textAlign: 'right', display: 'table-cell', verticalAlign: 'right'}}>
-                                <div className="text-dark font-weight-bold" style={{ fontSize: '13px', color: 'red'}}>GHC {supplier.worth} owed</div>
-                                <div>
-                                    <Button
-                                        variant="outlined"
-                                        style={{border: '1px solid #DAAB59', color: '#DAAB59', padding: '5px 5px',  textTransform: 'none', fontSize:'10px'}}
-                                        onClick={openPayment.bind(this)}
-                                    >
-                                        Enter payment  
-                                    </Button>
-                                </div>
+                                <div className="text-dark font-weight-bold" style={{ fontSize: '13px', color: 'red'}}>GHC  {total}</div>
+                                {payment !== 'Full payment'
+                                    ?
+                                    <div>
+                                        <Button
+                                            variant="outlined"
+                                            style={{
+                                                border: '1px solid #DAAB59',
+                                                color: '#DAAB59',
+                                                padding: '5px 5px',
+                                                textTransform: 'none',
+                                                fontSize: '10px'
+                                            }}
+                                            // onClick={openPayment.bind(this)}
+                                        >
+                                            Enter payment
+                                        </Button>
+                                    </div>
+                                    :
+                                    ''
+                                }
                             </div>  
                         </Grid>
                     </Grid>
@@ -91,7 +135,7 @@ const SingleDayView = props => {
                         <Grid item xs={12} style={{display: 'table', height: '60px', margin: '8px 0px'}}>
                             <div style={{textAlign: 'center', display: 'table-cell', verticalAlign: 'middle'}}>
                                 <div className="text-dark font-weight-bold" style={{ fontSize: '15px'}}>Total cost </div> 
-                                <div className="font-weight-light mt-1" style={{ fontSize: '20px'}}>GHC {supplier.worth}.00</div> 
+                                <div className="font-weight-light mt-1" style={{ fontSize: '20px'}}>GHC {parseFloat(total).toFixed(2)}</div> 
                             </div>
                         </Grid>
 
@@ -117,7 +161,8 @@ const SingleDayView = props => {
                 }
             >
                 <Box style={{marginTop: '5px' , paddingBottom: '60px'}} p={1} className={`mt-3 mb-5`}>
-                    {props.indProducts.map((item) => <DaySupplier  key={item.pro_id} prod={item}  />)}
+                    {/* {props.indProducts.map((item) => <DaySupplier  key={item.pro_id} prod={item}  />)} */}
+                    {saleEntries.map((item) => <DaySupplier  key={item.id} saleEntry={item}  />)}
                 </Box>
 
             </MainDialog>

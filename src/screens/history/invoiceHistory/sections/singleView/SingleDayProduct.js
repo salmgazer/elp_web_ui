@@ -142,7 +142,7 @@ const SingleDayProduct = props => {
 
                         <Grid item xs={3} style={{height: '60px', margin: '10px 0px 0px 0px'}}>                     
                             <DeleteIcon
-                                onClick={openDialogHandler.bind(this)}
+                                //onClick={openDialogHandler.bind(this)}
                                 style={{fontSize: '30px', color: '#DAAB59', textAlign: 'right'}}
                             /> 
                         </Grid>
