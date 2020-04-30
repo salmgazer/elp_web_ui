@@ -39,38 +39,90 @@ const useStyles = makeStyles(theme => ({
     }
   }));
 
-  const values = new DateServiceHandler().getStoreMonths()
+//   const values = new DateServiceHandler().getStoreMonths()
+const values = [
+    {
+      value: 'January',
+      label: 'January',
+    },
+    {
+      value: 'February',
+      label: 'February',
+    },
+    {
+      value: 'March',
+      label: 'March',
+    },
+    {
+      value: 'April',
+      label: 'April',
+    },
+    {
+      value: 'May',
+      label: 'May',
+    },
+    {
+      value: 'June',
+      label: 'June',
+    },
+    {
+      value: 'July',
+      label: 'July',
+    },
+    {
+      value: 'August',
+      label: 'August',
+    },
+    {
+      value: 'September',
+      label: 'September',
+    },
+    {
+      value: 'October',
+      label: 'October',
+    },
+    {
+      value: 'November',
+      label: 'November',
+    },
+    {
+      value: 'December',
+      label: 'December',
+    }
+
+  ];
+
 
   const MonthView = props => {
-    console.log(new DateServiceHandler().getStoreMonths());
+    // console.log(new DateServiceHandler().getStoreMonths());
     
     const classes = useStyles();
     const [selectedMonth, setSelectedMonth] = React.useState(values[0].value);
 
     const handleChange = event => {
       setSelectedMonth(event.target.value);
-      getInvoiceDetails(event.target.value);
+    //   getInvoiceDetails(event.target.value);
     };
 
-    const [invoiceDetails , setInvoiceDetails] = useState(false);
-    const [invoices , setInvoices] = useState([]);
+    // const [invoiceDetails , setInvoiceDetails] = useState(false);
+    // const [invoices , setInvoices] = useState([]);
 
-    useEffect(() => {
-      // You need to restrict it at some point
-      // This is just dummy code and should be replaced by actual
-        if (!invoiceDetails) {
-            getInvoiceDetails(selectedMonth);
-        }
-    });
+    // useEffect(() => {
+    //   // You need to restrict it at some point
+    //   // This is just dummy code and should be replaced by actual
+    //     if (!invoiceDetails) {
+    //         getInvoiceDetails(selectedMonth);
+    //     }
+    // });
 
-    const getInvoiceDetails = async (date) => {
-        console.log(date);
-        const response = await new InvoiceService().getInvoiceDetails('month' , date);
+    // const getInvoiceDetails = async (date) => {
+    //     console.log(date);
+    //     const response = await new InvoiceService().getInvoiceDetails('month' , date);
 
-        setInvoiceDetails(response);
-        setInvoices(response.invoices);
-        console.log(response)
-    };
+    //     setInvoiceDetails(response);
+    //     setInvoices(response.invoices);
+    //     console.log(response)
+    // };
 
     return(
         <div className={classes.root}>
@@ -107,9 +159,10 @@ const useStyles = makeStyles(theme => ({
 
             </Grid>
 
-            <CardsSection quantity={invoiceDetails.quantity} costPrice={invoiceDetails.costPrice} sellingPrice={invoiceDetails.sellingPrice} profit={invoiceDetails.credit} profitName="Amount owed" />
+            {/* <CardsSection quantity={invoiceDetails.quantity} costPrice={invoiceDetails.costPrice} sellingPrice={invoiceDetails.sellingPrice} profit={invoiceDetails.credit} profitName="Amount owed" /> */}
+            <CardsSection quantity='4' costPrice='300' sellingPrice='400' profit='100' profitName="Amount owed" />
 
-            <Box style={{marginTop: '5px' , paddingBottom: '60px'}} p={1} className={`mt-3 mb-5`}>
+            {/* <Box style={{marginTop: '5px' , paddingBottom: '60px'}} p={1} className={`mt-3 mb-5`}>
 
                 {invoices.length === 0
                     ?
@@ -143,7 +196,7 @@ const useStyles = makeStyles(theme => ({
 
                     </BoxDefault>
                 }
-            </Box>
+            </Box> */} 
             {/* <BoxDefault
                 bgcolor="background.paper"
                 p={1}

@@ -12,7 +12,7 @@ import { withRouter } from "react-router-dom";
 
 import SingleDaySupplierView from './singleView/SingleDaySupplier';
 import CardsSection from '../../../../../components/Sections/CardsSection';
-import OrderService from "../../../../../services/OrderService";
+// import OrderService from "../../../../../services/OrderService";
 
 const useStyles = makeStyles(theme => ({
     root: {
@@ -24,28 +24,28 @@ const useStyles = makeStyles(theme => ({
     
     const classes = useStyles();
     const [selectedDate, setSelectedDate] = React.useState(new Date());
-    const [orderDetails , setOrderDetails] = useState(false);
-    const [orders , setOrders] = useState([]);
+    // const [orderDetails , setOrderDetails] = useState(false);
+    // const [orders , setOrders] = useState([]);
 
     const handleDateChange = date => {
         setSelectedDate(date);
-        getOrderDetails(date);
+        // getOrderDetails(date);
     };
 
-    useEffect(() => {
-        // You need to restrict it at some point
-        // This is just dummy code and should be replaced by actual
-          if (!orderDetails) {
-            getOrderDetails(selectedDate);
-          }
-      });
+    // useEffect(() => {
+    //     // You need to restrict it at some point
+    //     // This is just dummy code and should be replaced by actual
+    //       if (!orderDetails) {
+    //         getOrderDetails(selectedDate);
+    //       }
+    //   });
   
-      const getOrderDetails = async (date) => {
-          const response = await new OrderService().getOrderDetails('day' , date);
-          setOrderDetails(response);
-          setOrders(response.invoices);
-          console.log(response)
-      };
+    //   const getOrderDetails = async (date) => {
+    //       const response = await new OrderService().getOrderDetails('day' , date);
+    //       setOrderDetails(response);
+    //       setOrders(response.invoices);
+    //       console.log(response)
+    //   };
 
     return(
         <div className={classes.root}>
@@ -78,9 +78,11 @@ const useStyles = makeStyles(theme => ({
                 </Grid>
             </Grid>
                 
-            <CardsSection quantity={orderDetails.quantity} costPrice={orderDetails.costPrice} sellingPrice={orderDetails.sellingPrice} profit={orderDetails.credit} profitName="Amount owed" />
+            {/* <CardsSection quantity={orderDetails.quantity} costPrice={orderDetails.costPrice} sellingPrice={orderDetails.sellingPrice} profit={orderDetails.credit} profitName="Amount owed" /> */}
+            <CardsSection quantity='4' costPrice='300' sellingPrice='400' profit='100' profitName="Amount owed" />
 
-            <Box style={{marginTop: '5px' , paddingBottom: '60px'}} p={1} className={`mt-3 mb-5`}>
+            
+            {/* <Box style={{marginTop: '5px' , paddingBottom: '60px'}} p={1} className={`mt-3 mb-5`}>
                 {orders.length === 0
                     ?
                     <div className={`rounded mx-1 my-2 p-2 bordered`}>
@@ -105,10 +107,10 @@ const useStyles = makeStyles(theme => ({
                     // orders.map((order) => <SingleDaySupplierView  key={order.id} order={order} />)
                     props.suppliers.map((item) => <SingleDaySupplierView  key={item.supp_id} supp={item} indProducts={props.products} setView={props.setView}/>)
                 }
-            </Box>
-            {/* <Box style={{ paddingBottom: '60px'}} p={1} className={`mt-3 mb-5`}>
-                {props.suppliers.map((item) => <SingleDaySupplierView  key={item.supp_id} supp={item} indProducts={props.products} setView={props.setView}/>)}
             </Box> */}
+            <Box style={{ paddingBottom: '60px'}} p={1} className={`mt-3 mb-5`}>
+                {props.suppliers.map((item) => <SingleDaySupplierView  key={item.supp_id} supp={item} indProducts={props.products} setView={props.setView}/>)}
+            </Box>
 
         </div>
     )

@@ -10,8 +10,8 @@ import SingleWeekView from './singleView/SingleWeekView';
 import BoxDefault from '../../../../../components/Box/BoxDefault';
 import HistoryDrawer from '../../../../../components/Drawer/HistoryDrawer';
 import CardsSection from '../../../../../components/Sections/CardsSection';
-import InvoiceService from '../../../../../services/InvoiceService';
-import DateServiceHandler from "../../../../../services/DateServiceHandler";
+// import InvoiceService from '../../../../../services/InvoiceService';
+// import DateServiceHandler from "../../../../../services/DateServiceHandler";
 
 const useStyles = makeStyles(theme => ({
     root: {
@@ -39,38 +39,56 @@ const useStyles = makeStyles(theme => ({
     }
   }));
 
-  const values = new DateServiceHandler().getStoreWeeks()
+//   const values = new DateServiceHandler().getStoreWeeks()
+const values = [
+    {
+      value: 'Week 1: 1/01/2020 - 7/01/2020',
+      label: 'Week 1: 1/01/2020 - 7/01/2020',
+    },
+    {
+      value: 'Week 2: 8/01/2020 - 14/01/2020',
+      label: 'Week 2: 8/01/2020 - 14/01/2020',
+    },
+    {
+      value: 'Week 3: 15/01/2020 - 21/01/2020',
+      label: 'Week 3: 15/01/2020 - 21/01/2020',
+    },
+    {
+      value: 'Week 4: 22/01/2020 - 28/01/2020',
+      label: 'Week 4: 22/01/2020 - 28/01/2020',
+    }
+  ];
   
   const WeekView = props => {
-    console.log(new DateServiceHandler().getStoreWeeks());
+    // console.log(new DateServiceHandler().getStoreWeeks());
 
     const classes = useStyles();
     const [selectedWeek, setSelectedWeek] = React.useState(values[0].value);
 
     const handleChange = event => {
         setSelectedWeek(event.target.value);
-        getInvoiceDetails(event.target.value);
+        // getInvoiceDetails(event.target.value);
     };
 
-    const [invoiceDetails , setInvoiceDetails] = useState(false);
-    const [invoices , setInvoices] = useState([]);
+    // const [invoiceDetails , setInvoiceDetails] = useState(false);
+    // const [invoices , setInvoices] = useState([]);
 
-    useEffect(() => {
-      // You need to restrict it at some point
-      // This is just dummy code and should be replaced by actual
-        if (!invoiceDetails) {
-            getInvoiceDetails(selectedWeek);
-        }
-    });
+    // useEffect(() => {
+    //   // You need to restrict it at some point
+    //   // This is just dummy code and should be replaced by actual
+    //     if (!invoiceDetails) {
+    //         getInvoiceDetails(selectedWeek);
+    //     }
+    // });
 
-    const getInvoiceDetails = async (date) => {
-        console.log(date);
-        const response = await new InvoiceService().getInvoiceDetails('week' , date);
+    // const getInvoiceDetails = async (date) => {
+    //     console.log(date);
+    //     const response = await new InvoiceService().getInvoiceDetails('week' , date);
 
-        setInvoiceDetails(response);
-        setInvoices(response.invoices);
-        console.log(response)
-    };
+    //     setInvoiceDetails(response);
+    //     setInvoices(response.invoices);
+    //     console.log(response)
+    // };
 
     return(
         <div className={classes.root}>
@@ -106,9 +124,9 @@ const useStyles = makeStyles(theme => ({
 
             </Grid>
 
-            <CardsSection quantity={invoiceDetails.quantity} costPrice={invoiceDetails.costPrice} sellingPrice={invoiceDetails.sellingPrice} profit={invoiceDetails.credit} profitName="Amount owed" />
-
-            <Box style={{marginTop: '5px' , paddingBottom: '60px'}} p={1} className={`mt-3 mb-5`}>
+            {/* <CardsSection quantity={invoiceDetails.quantity} costPrice={invoiceDetails.costPrice} sellingPrice={invoiceDetails.sellingPrice} profit={invoiceDetails.credit} profitName="Amount owed" /> */}
+            <CardsSection quantity='4' costPrice='300' sellingPrice='400' profit='100' profitName="Amount owed" />
+            {/* <Box style={{marginTop: '5px' , paddingBottom: '60px'}} p={1} className={`mt-3 mb-5`}>
 
                 {invoices.length === 0
                     ?
@@ -137,7 +155,7 @@ const useStyles = makeStyles(theme => ({
                         className={'boxDefault'}
                         style={{marginTop: '5px' }}
                     >
-                        {/* <Grid container className={`bordered`}>
+                        <Grid container className={`bordered`}>
                             <Grid item xs={8}>
                                 <span className='text-dark font-weight-bold' style={{ fontSize: '13px'}} >Week 1: 01/03/20 - 07/03/20</span>
                             </Grid>
@@ -145,7 +163,7 @@ const useStyles = makeStyles(theme => ({
                             <Grid item xs={4}>
                                 <span className="font-weight-light mt-1" style={{ fontSize: '13px'}}>Total : GHC 100</span>
                             </Grid>
-                        </Grid> */}
+                        </Grid>
 
                         { invoices.map((invoice) => <SingleWeekView  key={invoice.id} invoice={invoice} />)}
 
@@ -153,7 +171,7 @@ const useStyles = makeStyles(theme => ({
                 }
 
 
-            </Box>
+            </Box> */}
 
             {/* <Box style={{marginTop: '5px' , paddingBottom: '60px'}} p={1} className={`mt-3 mb-5`}>
 

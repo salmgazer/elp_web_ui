@@ -41,38 +41,56 @@ const useStyles = makeStyles(theme => ({
     }
   }));
 
-  const values = new DateServiceHandler().getStoreYears()
+//   const values = new DateServiceHandler().getStoreYears()
+const values = [
+    {
+      value: '2020',
+      label: '2020',
+    },
+    {
+      value: '2019',
+      label: '2019',
+    },
+    {
+      value: '2018',
+      label: '2018',
+    },
+    {
+      value: '2017',
+      label: '2017',
+    }
+  ];
 
   const YearView = props => {
-    console.log(new DateServiceHandler().getStoreYears());
+    // console.log(new DateServiceHandler().getStoreYears());
     
     const classes = useStyles();
     const [selectedYear, setSelectedYear] = React.useState(values[0].value);
 
     const handleChange = event => {
       setSelectedYear(event.target.value);
-      getInvoiceDetails(event.target.value);
+    //   getInvoiceDetails(event.target.value);
     };
 
-    const [invoiceDetails , setInvoiceDetails] = useState(false);
-    const [invoices , setInvoices] = useState([]);
+    // const [invoiceDetails , setInvoiceDetails] = useState(false);
+    // const [invoices , setInvoices] = useState([]);
 
-    useEffect(() => {
-      // You need to restrict it at some point
-      // This is just dummy code and should be replaced by actual
-        if (!invoiceDetails) {
-            getInvoiceDetails(selectedYear);
-        }
-    });
+    // useEffect(() => {
+    //   // You need to restrict it at some point
+    //   // This is just dummy code and should be replaced by actual
+    //     if (!invoiceDetails) {
+    //         getInvoiceDetails(selectedYear);
+    //     }
+    // });
 
-    const getInvoiceDetails = async (date) => {
-        console.log(date);
-        const response = await new InvoiceService().getInvoiceDetails('year' , date);
+    // const getInvoiceDetails = async (date) => {
+    //     console.log(date);
+    //     const response = await new InvoiceService().getInvoiceDetails('year' , date);
 
-        setInvoiceDetails(response);
-        setInvoices(response.invoices);
-        console.log(response)
-    };
+    //     setInvoiceDetails(response);
+    //     setInvoices(response.invoices);
+    //     console.log(response)
+    // };
 
     return(
         <div className={classes.root}>
@@ -109,9 +127,11 @@ const useStyles = makeStyles(theme => ({
 
             </Grid>
 
-            <CardsSection quantity={invoiceDetails.quantity} costPrice={invoiceDetails.costPrice} sellingPrice={invoiceDetails.sellingPrice} profit={invoiceDetails.credit} profitName="Amount owed" />
+            {/* <CardsSection quantity={invoiceDetails.quantity} costPrice={invoiceDetails.costPrice} sellingPrice={invoiceDetails.sellingPrice} profit={invoiceDetails.credit} profitName="Amount owed" /> */}
+            <CardsSection quantity='4' costPrice='300' sellingPrice='400' profit='100' profitName="Amount owed" />
 
-            <Box style={{marginTop: '5px' , paddingBottom: '60px'}} p={1} className={`mt-3 mb-5`}>
+
+            {/* <Box style={{marginTop: '5px' , paddingBottom: '60px'}} p={1} className={`mt-3 mb-5`}>
 
                 {invoices.length === 0
                     ?
@@ -145,7 +165,7 @@ const useStyles = makeStyles(theme => ({
 
                     </BoxDefault>
                 }
-            </Box>
+            </Box> */}
 
             {/* <Box style={{marginTop: '5px' , paddingBottom: '60px'}} p={1} className={`mt-3 mb-5`}>
                 
