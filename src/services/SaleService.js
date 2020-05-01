@@ -5,6 +5,10 @@ import {v4 as uuid} from 'uuid';
 import LocalInfo from "./LocalInfo";
 import ModelAction from "./ModelAction";
 import BranchService from "./BranchService";
+import isSameDay from "date-fns/isSameDay";
+import isSameWeek from "date-fns/isSameWeek";
+import isSameMonth from "date-fns/isSameMonth";
+import isSameYear from "date-fns/isSameYear";
 
 export default class SaleService {
     async makeSell(data , paymentType){
@@ -273,7 +277,69 @@ export default class SaleService {
             value: branchId,
             fxn: 'eq'
         });
+    }
 
+    static async getSalesHistory(duration , date){
+        const sales = await new ModelAction('Sales').findByColumnNotObserve(
+            {
+                name: 'branchId',
+                value: LocalInfo.branchId,
+                fxn: 'eq'
+            }
+        );
 
+        const day = new Date(date);
+
+        console.log(day)
+        switch (duration) {
+            case 'day':
+                return sales.filter(sale => isSameDay(new Date(sale.salesDate) , day));
+            case 'week':
+                //console.log(isSameWeek(sale.salesDate, day))
+                return sales.filter(sale => isSameWeek(new Date(sale.salesDate), day));
+            case 'month':
+                return sales.filter(sale => isSameMonth(new Date(sale.salesDate), day));
+            case 'year':
+                return sales.filter(sale => isSameYear(new Date(sale.salesDate), day));
+        }
+    }
+
+    async getSalesDetails(duration , date) {
+        const sale = await SaleService.getSalesHistory(duration , date);
+        console.log(sale);
+        let costPrice = 0;
+        let profit = 0;
+        let credit = 0;
+        let sellingPrice = 0;
+        let quantity = 0;
+
+        for (let step = 0; step < sale.length; step++) {
+            costPrice += parseFloat(await SaleService.getSaleEntryCostPriceById(sale[step].id));
+        }
+
+        for (let step = 0; step < sale.length; step++) {
+            profit += parseFloat(await SaleService.getSaleEntryProfitById(sale[step].id));
+        }
+
+        for (let step = 0; step < sale.length; step++) {
+            credit += parseFloat(await SaleService.getSaleEntryCreditById(sale[step].id));
+        }
+
+        for (let step = 0; step < sale.length; step++) {
+            sellingPrice += parseFloat(await SaleService.getSaleEntrySellingPriceById(sale[step].id));
+        }
+
+        for (let step = 0; step < sale.length; step++) {
+            quantity += parseFloat(await SaleService.getSaleProductQuantity(sale[step].id));
+        }
+
+        return {
+            sales: sale,
+            costPrice,
+            profit,
+            credit,
+            sellingPrice,
+            quantity
+        }
     }
 }
