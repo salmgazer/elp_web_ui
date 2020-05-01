@@ -10,7 +10,7 @@ import SingleYearView from './singleView/SingleYearView';
 import BoxDefault from '../../../../components/Box/BoxDefault';
 import CardsSection from '../../../../components/Sections/CardsSection';
 import InvoiceService from '../../../../services/InvoiceService';
-import DateServiceHandler from "../../../../services/DateServiceHandler";
+import SystemDateHandler from "../../../../services/SystemDateHandler";
 
 const useStyles = makeStyles(theme => ({
     root: {
@@ -26,7 +26,7 @@ const useStyles = makeStyles(theme => ({
     },
     paper: {
       padding: theme.spacing(1),
-      textAlign: 'center', 
+      textAlign: 'center',
     },
     button: {
         border: '1px solid #DAAB59',
@@ -38,11 +38,11 @@ const useStyles = makeStyles(theme => ({
     }
   }));
 
-  const values = new DateServiceHandler().getStoreYears()
+  const values = new SystemDateHandler().getStoreYears()
 
   const YearView = props => {
-    console.log(new DateServiceHandler().getStoreYears());
-    
+    console.log(new SystemDateHandler().getStoreYears());
+
     const classes = useStyles();
     const [selectedYear, setSelectedYear] = React.useState(values[0].value);
 

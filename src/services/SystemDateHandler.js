@@ -1,17 +1,18 @@
-import LocalInfo from "./LocalInfo";
 import fromUnixTime from "date-fns/fromUnixTime";
 import eachWeekOfInterval from "date-fns/eachWeekOfInterval";
 import eachMonthOfInterval from "date-fns/eachMonthOfInterval"
 import eachYearOfInterval from "date-fns/eachYearOfInterval"
 import lastDayOfMonth from "date-fns/lastDayOfMonth";
-import startOfMonth from "date-fns/startOfMonth";
 import startOfYear from "date-fns/startOfYear";
 import format from "date-fns/format";
+import LocalInfo from "./LocalInfo";
+import getUnixTime from 'date-fns/getUnixTime';
 
-export default class DateServiceHandler{
+export default class SystemDateHandler {
     constructor(){
-        //this.type = type;
-        this.branchCreated = (LocalInfo.branches.filter(branch => branch.id === LocalInfo.branchId)[0]).created_at;
+        const branchCreated = LocalInfo.branches.filter(branch => branch.id === LocalInfo.branchId);
+
+        this.branchCreated = branchCreated.length > 0 ? branchCreated[0].created_at : getUnixTime(new Date());
     }
 
     getStoreWeeks(startDate = new Date(fromUnixTime(this.branchCreated)) , endDate = new Date()){

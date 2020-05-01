@@ -40,7 +40,7 @@ const SearchInput = (props) => {
 
     return (
         <div>
-            <Paper className={classes.root} >
+            <Paper className={classes.root} style={{...props.styles}}>
                 <TextField
                     className={`${classes.input} search-box`}
                     placeholder="Search"

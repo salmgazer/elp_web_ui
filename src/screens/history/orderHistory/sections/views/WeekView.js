@@ -11,7 +11,7 @@ import BoxDefault from '../../../../../components/Box/BoxDefault';
 import HistoryDrawer from '../../../../../components/Drawer/HistoryDrawer';
 import CardsSection from '../../../../../components/Sections/CardsSection';
 // import InvoiceService from '../../../../../services/InvoiceService';
-// import DateServiceHandler from "../../../../../services/DateServiceHandler";
+// import SystemDateHandler from "../../../../../services/SystemDateHandler";
 
 const useStyles = makeStyles(theme => ({
     root: {
@@ -39,7 +39,7 @@ const useStyles = makeStyles(theme => ({
     }
   }));
 
-//   const values = new DateServiceHandler().getStoreWeeks()
+//   const values = new SystemDateHandler().getStoreWeeks()
 const values = [
     {
       value: 'Week 1: 1/01/2020 - 7/01/2020',
@@ -58,9 +58,9 @@ const values = [
       label: 'Week 4: 22/01/2020 - 28/01/2020',
     }
   ];
-  
+
   const WeekView = props => {
-    // console.log(new DateServiceHandler().getStoreWeeks());
+    // console.log(new SystemDateHandler().getStoreWeeks());
 
     const classes = useStyles();
     const [selectedWeek, setSelectedWeek] = React.useState(values[0].value);

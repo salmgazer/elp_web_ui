@@ -1,8 +1,9 @@
 import LocalInfo from "../services/LocalInfo";
 import Api from './Api';
+import format from "date-fns/format";
 import GenerateOTP from './GenerateString';
+
 const jwt = require('jsonwebtoken');
-var format = require('date-fns/format');
 
 export default class AuthService {
     /*constructor() {

@@ -11,6 +11,7 @@ export default {
     verify_sms: "/verify_sms",
     dashboard: "/dashboard",
     get_started: "/get-started",
+    get_startedAudit: "/get-audit-started",
     category_setup: "/add-store-category",
     add_products: "/add-products",
     forgot_password: "/forgot-password",
@@ -18,4 +19,5 @@ export default {
     store_summary: "/store-summary",
     sell: "/sell",
     stock: "/stock",
+    audit: "/audit",
 };

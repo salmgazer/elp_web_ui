@@ -8,10 +8,10 @@ import { withRouter } from "react-router-dom";
 
 import SingleMonthView from './singleView/SingleMonthView';
 import BoxDefault from '../../../../../components/Box/BoxDefault';
-// import HistoryDrawer from '../../../../../components/Drawer/HistoryDrawer'; 
+// import HistoryDrawer from '../../../../../components/Drawer/HistoryDrawer';
 import CardsSection from '../../../../../components/Sections/CardsSection';
 import InvoiceService from '../../../../../services/InvoiceService';
-import DateServiceHandler from "../../../../../services/DateServiceHandler";
+import SystemDateHandler from "../../../../../services/SystemDateHandler";
 
 const useStyles = makeStyles(theme => ({
     root: {
@@ -27,7 +27,7 @@ const useStyles = makeStyles(theme => ({
     },
     paper: {
       padding: theme.spacing(1),
-      textAlign: 'center', 
+      textAlign: 'center',
     },
     button: {
         border: '1px solid #DAAB59',
@@ -39,7 +39,7 @@ const useStyles = makeStyles(theme => ({
     }
   }));
 
-//   const values = new DateServiceHandler().getStoreMonths()
+//   const values = new SystemDateHandler().getStoreMonths()
 const values = [
     {
       value: 'January',
@@ -94,8 +94,8 @@ const values = [
 
 
   const MonthView = props => {
-    // console.log(new DateServiceHandler().getStoreMonths());
-    
+    // console.log(new SystemDateHandler().getStoreMonths());
+
     const classes = useStyles();
     const [selectedMonth, setSelectedMonth] = React.useState(values[0].value);
 
@@ -196,7 +196,7 @@ const values = [
 
                     </BoxDefault>
                 }
-            </Box> */} 
+            </Box> */}
             {/* <BoxDefault
                 bgcolor="background.paper"
                 p={1}
@@ -212,7 +212,7 @@ const values = [
                         <span className="font-weight-light mt-1" style={{ fontSize: '13px'}}>Total : GHC 100</span>
                     </Grid>
                 </Grid>
-    
+
                 {props.monthItem.map((item) => <SingleMonthView  key={item.week_id} monthSuppliers={item}/>)}
 
               </BoxDefault> */}

@@ -110,7 +110,6 @@ const Dashboard = props => {
     const { history, testProducts, stockMovements, purchases, branchProducts, branchProductStock, branchProductStockHistory, brands, manufacturers, products, database, customers, branchCustomers , sales , saleEntries , saleInstallments , carts , cartEntries, testBranch , cartEntriesQ } = props;
     // const database = useDatabase();
 
-
     const createBrand = async() => {
         const columns = {
             id: uuid(),

@@ -6,6 +6,7 @@ import Divider from '@material-ui/core/Divider';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
+import VisibilityIcon from '@material-ui/icons/Visibility';
 import StoreIcon from '@material-ui/icons/Store';
 import ShoppingCartIcon from '@material-ui/icons/ShoppingCart';
 import ListAltIcon from '@material-ui/icons/ListAlt';
@@ -100,12 +101,17 @@ console.log(props.isShow)
                     <ListItemText primary="Admin" />
                 </ListItem>
                 <Divider />
-                <ListItem button key={7}>
+                <ListItem button key={7} onClick={() => history.push(paths.get_startedAudit)}>
+                    <ListItemIcon><VisibilityIcon style={{color: '#FFFFFF'}} /></ListItemIcon>
+                    <ListItemText primary="Audit" />
+                </ListItem>
+                <Divider />
+                <ListItem button key={8}>
                     <ListItemIcon><SettingsIcon style={{color: '#FFFFFF'}} /></ListItemIcon>
                     <ListItemText primary="Settings" />
                 </ListItem>
                 <Divider />
-                <ListItem button key={8}>
+                <ListItem button key={9}>
                     <ListItemIcon><ExitToAppIcon style={{color: '#FFFFFF'}} /></ListItemIcon>
                     <ListItemText primary="Logout" />
                 </ListItem>

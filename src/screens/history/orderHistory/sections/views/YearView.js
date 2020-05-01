@@ -6,13 +6,13 @@ import Paper from '@material-ui/core/Paper';
 import Typography from '@material-ui/core/Typography';
 import TextField from '@material-ui/core/TextField';
 import Box from "@material-ui/core/Box/Box";
-import HistoryDrawer from '../../../../../components/Drawer/HistoryDrawer'; 
+import HistoryDrawer from '../../../../../components/Drawer/HistoryDrawer';
 import CardsSection from '../../../../../components/Sections/CardsSection';
 import { withRouter } from "react-router-dom";
 
 import SingleYearView from './singleView/SingleYearView';
 import InvoiceService from '../../../../../services/InvoiceService';
-import DateServiceHandler from "../../../../../services/DateServiceHandler";
+import SystemDateHandler from "../../../../../services/SystemDateHandler";
 import BoxDefault from '../../../../../components/Box/BoxDefault';
 
 const useStyles = makeStyles(theme => ({
@@ -29,7 +29,7 @@ const useStyles = makeStyles(theme => ({
     },
     paper: {
       padding: theme.spacing(1),
-      textAlign: 'center', 
+      textAlign: 'center',
     },
     button: {
         border: '1px solid #DAAB59',
@@ -41,7 +41,7 @@ const useStyles = makeStyles(theme => ({
     }
   }));
 
-//   const values = new DateServiceHandler().getStoreYears()
+//   const values = new SystemDateHandler().getStoreYears()
 const values = [
     {
       value: '2020',
@@ -62,8 +62,8 @@ const values = [
   ];
 
   const YearView = props => {
-    // console.log(new DateServiceHandler().getStoreYears());
-    
+    // console.log(new SystemDateHandler().getStoreYears());
+
     const classes = useStyles();
     const [selectedYear, setSelectedYear] = React.useState(values[0].value);
 
@@ -168,7 +168,7 @@ const values = [
             </Box> */}
 
             {/* <Box style={{marginTop: '5px' , paddingBottom: '60px'}} p={1} className={`mt-3 mb-5`}>
-                
+
                 <Grid container spacing={1} className={`shadow1 mb-3 borderRadius10`}>
                     <Grid item xs={8}>
                         <span className='text-dark font-weight-bold' style={{ fontSize: '13px'}} >January 2020</span>
@@ -178,9 +178,9 @@ const values = [
                         <span className="font-weight-light mt-1" style={{ fontSize: '13px'}}>Total : GHC 900</span>
                     </Grid>
                 </Grid>
-    
+
                 {props.yearItem.map((item) => <SingleYearView  key={item.month_id} yearSuppliers={item}/>)}
-                
+
             </Box> */}
 
 

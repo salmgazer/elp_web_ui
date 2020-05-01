@@ -33,6 +33,8 @@ import ForgottenPassword from "./screens/forgotPassword/ForgottenPassword";
 import StoreSummary from "./screens/sell/store_summary/StoreSummary";
 import Sell from "./screens/sell/sell/Sell";
 import MainViewStock from "./screens/stock/DirectiveViewStock";
+import GetStartedAudit from "./screens/audit/getStarted/getStartedAudit";
+import Audit from "./screens/audit/Audit";
 
 function NoMatch() {
   let location = useLocation();
@@ -178,6 +180,22 @@ class App extends React.Component {
                         setPageBackground();
                         this.setTitle(`Getting Started | ${appName}`);
                         return <GetStarted/>;
+                    }}
+                />
+                <Route
+                    path={paths.audit}
+                    render={() => {
+                        setPageBackground();
+                        this.setTitle(`Audit | ${appName}`);
+                        return <Audit/>;
+                    }}
+                />
+                <Route
+                    path={paths.get_startedAudit}
+                    render={() => {
+                        setPageBackground();
+                        this.setTitle(`Getting Started Audit | ${appName}`);
+                        return <GetStartedAudit/>;
                     }}
                 />
                 <Route

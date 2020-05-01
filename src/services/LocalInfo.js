@@ -34,7 +34,10 @@ export default class LocalInfo {
   }
 
   static get companies() {
-    return ((JSON.parse(this.userAccess)).access).find(company => company.companyId == this.companyId);
+    if (this.userAccess) {
+      return ((JSON.parse(this.userAccess)).access).find(company => company.companyId == this.companyId);
+    }
+    return null;
   }
 
   static get username() {
@@ -55,7 +58,10 @@ export default class LocalInfo {
   }
 
   static get branches() {
-    return this.companies.branches;
+    if (this.companies) {
+        return this.companies.branches;
+    }
+    return [];
   }
 
   static get storeId() {

@@ -10,7 +10,7 @@ import SingleMonthView from './singleView/SingleMonthView';
 import BoxDefault from '../../../../components/Box/BoxDefault';
 import CardsSection from '../../../../components/Sections/CardsSection';
 import InvoiceService from '../../../../services/InvoiceService';
-import DateServiceHandler from "../../../../services/DateServiceHandler";
+import SystemDateHandler from "../../../../services/SystemDateHandler";
 
 const useStyles = makeStyles(theme => ({
     root: {
@@ -25,7 +25,7 @@ const useStyles = makeStyles(theme => ({
     },
     paper: {
       padding: theme.spacing(1),
-      textAlign: 'center', 
+      textAlign: 'center',
     },
     button: {
         border: '1px solid #DAAB59',
@@ -37,11 +37,11 @@ const useStyles = makeStyles(theme => ({
     }
   }));
 
-  const values = new DateServiceHandler().getStoreMonths()
+  const values = new SystemDateHandler().getStoreMonths()
 
   const MonthView = props => {
-    console.log(new DateServiceHandler().getStoreMonths());
-    
+    console.log(new SystemDateHandler().getStoreMonths());
+
     const classes = useStyles();
     const [selectedMonth, setSelectedMonth] = React.useState(values[0].value);
 
