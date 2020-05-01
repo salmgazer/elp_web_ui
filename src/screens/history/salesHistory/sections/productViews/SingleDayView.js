@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect , useState} from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import Card from "@material-ui/core/Card/Card";
 import Grid from "@material-ui/core/Grid/Grid";
@@ -16,6 +16,10 @@ import StayPrimaryPortraitIcon from '@material-ui/icons/StayPrimaryPortrait';
 import Button from "@material-ui/core/Button/Button";
 import TextField from '@material-ui/core/TextField';
 
+import ProductServiceHandler from "../../../../../services/ProductServiceHandler";
+import format from "date-fns/format";
+
+
 const useStyles = makeStyles(theme => ({
     tabs: {
         textTransform: 'none',
@@ -26,9 +30,15 @@ const useStyles = makeStyles(theme => ({
 
 const SingleDayView = props => {
     const classes = useStyles();
-    const product = props.item;
+    const sale = props.sale;
     const [mainDialog, setMainDialog] = React.useState(false);
     const [value, setValue] = React.useState(0);
+    const [product, setProduct] = useState('');
+    const [name , setName] = useState('');
+    const [image , setImage] = useState('');
+    const [quantity , setQuantity] = useState('');
+    const [profit , setProfit] = useState('');
+    const [totalPrice , setTotalPrice] = useState('');
 
     function a11yProps(index) {
         return {
@@ -37,7 +47,26 @@ const SingleDayView = props => {
         };
     }
 
-    const image = `https://elparah.store/admin/upload/${product.image}`;
+    useEffect(() => {
+        // You need to restrict it at some point
+        // This is just dummy code and should be replaced by actual
+        if (!product) {
+            getProduct();
+        }
+    });
+
+    const getProduct = async () => {
+        const newProduct = await sale.product.fetch();
+        const name = new ProductServiceHandler(product).getProductName();
+        setName((name).length > 20 ? (name).slice(0 , 20) + '...' : name);
+        setProduct(newProduct);
+        setImage(new ProductServiceHandler(product).getProductImage());
+        setTotalPrice(sale.total);
+        
+        setQuantity(sale.quantity);
+        setProfit(sale.profit);
+        
+    };
 
     const closeDialogHandler = (event) => {
         setMainDialog(false);
@@ -75,15 +104,15 @@ const SingleDayView = props => {
                 </Grid>
                 <Grid item xs={6} style={{display: 'table', height: '60px', margin: '8px 0px'}}>
                     <div style={{textAlign: 'left', display: 'table-cell', verticalAlign: 'middle'}}>
-                        <span className='text-dark font-weight-bold' >{product.name}</span>
-                        <div className="font-weight-light mt-1" style={{ fontSize: '13px'}}>Quantity: {product.quantity}</div>
-                        <div className="font-weight-light mt-1" style={{ fontSize: '13px'}}>Sales: GHC {product.sales}</div>
-                        <div className="font-weight-light mt-1" style={{ fontSize: '13px'}}>Profit: GHC {product.profit}</div>
+                        <span className='text-dark font-weight-bold' >{name}</span>
+                        <div className="font-weight-light mt-1" style={{ fontSize: '13px'}}>Quantity: {quantity}</div>
+                        <div className="font-weight-light mt-1" style={{ fontSize: '13px'}}>Sales: GHC {totalPrice}</div>
+                        <div className="font-weight-light mt-1" style={{ fontSize: '13px'}}>Profit: GHC {profit}</div>
                     </div>
                 </Grid>
 
                 <Grid item xs={3} style={{height: '60px', margin: '10px 0px 0px 0px'}}>  
-                    <span className='text-dark font-weight-bold' >7:00 pm</span>                     
+                    <span className='text-dark font-weight-bold' >{format(new Date(sale.createdAt) , "HH:mm a")}</span>                     
                     <EditIcon
                         onClick={openDialogHandler.bind(this)}
                         style={{fontSize: '30px', color: '#DAAB59', textAlign: 'right'}}
@@ -111,9 +140,9 @@ const SingleDayView = props => {
                         </Grid>
                         <Grid item xs={6} style={{display: 'table', height: '60px', margin: '8px 0px'}}>
                             <div style={{textAlign: 'left', display: 'table-cell', verticalAlign: 'middle'}}>
-                                <span className='text-dark font-weight-bold' >{product.name}</span>
-                                <div className="font-weight-light mt-1" style={{ fontSize: '13px'}}>Quantity: {product.quantity}</div>
-                                <div className="font-weight-light mt-1" style={{ fontSize: '13px'}}>Cost: GHC {product.sales}</div>
+                                <span className='text-dark font-weight-bold' >{name}</span>
+                                <div className="font-weight-light mt-1" style={{ fontSize: '13px'}}>Quantity: {quantity}</div>
+                                <div className="font-weight-light mt-1" style={{ fontSize: '13px'}}>Cost: GHC {totalPrice}</div>
                                 <div className="font-weight-light mt-1" style={{ fontSize: '13px'}}>Audit sale</div>
                             </div>
                         </Grid>

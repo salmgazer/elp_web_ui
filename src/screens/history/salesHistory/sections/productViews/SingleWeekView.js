@@ -1,10 +1,27 @@
-import React from 'react';
+import React, {useEffect , useState} from 'react';
 import Card from "@material-ui/core/Card/Card";
 import Grid from "@material-ui/core/Grid/Grid";
 import EventIcon from '@material-ui/icons/Event';
 
+import format from "date-fns/format";
+
 const SingleWeekView = props => {
-    const product = props.weekItems;
+    const sale = props.sale;
+    const [total , setTotal] = useState(false);
+    const [profit , setProfit] = useState(false);
+
+    useEffect(() => {
+        // You need to restrict it at some point
+        // This is just dummy code and should be replaced by actual
+        if ( !profit || !total) {
+            getProfit();
+        }
+    });
+
+    const getProfit = async () => {
+        setTotal(sale.total);
+        setProfit(sale.profit);
+    };
 
     return(
         <Grid container spacing={1} className={`shadow1 mb-3 borderRadius10`}>
@@ -26,9 +43,9 @@ const SingleWeekView = props => {
             </Grid>
             <Grid item xs={9} style={{display: 'table', height: '60px', margin: '8px 0px'}}>
                 <div style={{textAlign: 'left', display: 'table-cell', verticalAlign: 'middle'}}>
-                    <span className='text-dark font-weight-bold' >{product.day}</span>
-                    <div className="font-weight-light mt-1" style={{ fontSize: '13px'}}>Sales made : GHC {product.sales}</div>
-                    <div className="font-weight-light mt-1" style={{ fontSize: '13px'}}>Profit made : GHC {product.profit}</div>
+                    <span className='text-dark font-weight-bold' > {format(new Date(sale.createdAt) , "eeee, MMMM do, yyyy")}</span>
+                    <div className="font-weight-light mt-1" style={{ fontSize: '13px'}}>Sales made : GHC {total}</div>
+                    <div className="font-weight-light mt-1" style={{ fontSize: '13px'}}>Profit made : GHC {profit}</div>
                 </div>
             </Grid>
         </Grid>

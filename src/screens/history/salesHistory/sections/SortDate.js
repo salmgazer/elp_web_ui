@@ -5,6 +5,7 @@ import DayView from './DayView';
 import WeekView from './WeekView';
 import MonthView from './MonthView';
 import YearView from './YearView';
+import DateToggle from "../../../../components/DateToggle/DateToggle";
 
 
 class SortDate extends Component{
@@ -120,17 +121,25 @@ class SortDate extends Component{
     getStepContent = step => {
         switch (step) {
             case 0:
-                return <DayView setView={this.setStepContentView.bind(this)} products={this.state.productList} pageName="Sold items" profitName="Profit" />;
+                return <DayView setView={this.setStepContentView.bind(this)} products={this.state.productList} pageName="Sold items" />;
             case 1:
-                return <WeekView setView={this.setStepContentView.bind(this)} weekItem={this.state.weekList} pageName="Sold items" profitName="Profit" />;
+                return <WeekView setView={this.setStepContentView.bind(this)} weekItem={this.state.weekList} pageName="Sold items" />;
             case 2:
-                return <MonthView setView={this.setStepContentView.bind(this)} monthItem={this.state.monthList} pageName="Sold items" profitName="Profit" />;
+                return <MonthView setView={this.setStepContentView.bind(this)} monthItem={this.state.monthList} pageName="Sold items" />;
             case 3:
-                return <YearView setView={this.setStepContentView.bind(this)} yearItem={this.state.yearList} pageName="Sold items" profitName="Profit" />;
+                return <YearView setView={this.setStepContentView.bind(this)} yearItem={this.state.yearList} pageName="Sold items" />;
             default:
                 return 'Complete';
         }
     };
+
+    async componentDidUpdate(prevProps) {
+        const {...props} = this.props;
+
+        if(prevProps.activeStep !== props.activeStep){
+            console.log('me')
+        }
+    }
 
     setStepContentView = step => {
         this.setState({
@@ -141,6 +150,9 @@ class SortDate extends Component{
     render(){
         return(
             <div>
+                <DateToggle
+                    setView={this.setStepContentView.bind(this)}
+                />
                 {this.getStepContent(this.state.activeStep)}
             </div>
         )

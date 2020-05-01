@@ -1,42 +1,22 @@
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import Grid from '@material-ui/core/Grid';
-import Button from "@material-ui/core/Button/Button";
 import DateFnsUtils from '@date-io/date-fns';
 import {
   MuiPickersUtilsProvider,
   KeyboardDatePicker,
 } from '@material-ui/pickers'; 
-import Paper from '@material-ui/core/Paper';
 import Typography from '@material-ui/core/Typography';
 import Box from "@material-ui/core/Box/Box";
 import { withRouter } from "react-router-dom";
 
 import SingleDayView from './productViews/SingleDayView';
+import CardsSection from '../../../../components/Sections/CardsSection';
+import BranchService from "../../../../services/BranchService";
 
 const useStyles = makeStyles(theme => ({
     root: {
       flexGrow: 1,
-
-    },
-    title: {
-        fontSize: 9,
-    },
-    text: {
-        fontSize: 15,
-        fontWeight: 'bold',
-    },
-    paper: {
-      padding: theme.spacing(1),
-      textAlign: 'center', 
-    },
-    button: {
-        border: '1px solid #DAAB59',
-        color: '#DAAB59',
-        padding: '5px 50px',
-        marginRight: '10px',
-        marginTop: '10px',
-        textTransform: 'none',
     }
   }));
 
@@ -47,138 +27,91 @@ const DayView = props => {
 
     const handleDateChange = date => {
         setSelectedDate(date);
+        getSaleDetails(date);
       };
 
-    const openWeek = (event) => {
-        props.setView(1);
-    };
+    const [saleDetails , setSaleDetails] = useState(false);
+    const [sales , setSales] = useState([]);
 
-    const openMonth = (event) => {
-        props.setView(2);
-    };
+    useEffect(() => {
+    // You need to restrict it at some point
+    // This is just dummy code and should be replaced by actual
+        if (!saleDetails) {
+            getSaleDetails(selectedDate);
+        }
+    });
 
-    const openYear = (event) => {
-        props.setView(3);
+    const getSaleDetails = async (date) => {
+        const response = await new BranchService().getSalesDetails('day', date);
+        setSaleDetails(response);
+        setSales(response.sales);
+        console.log(response)
     };
 
     return(
         <div className={classes.root}>
+            {console.log(saleDetails.sales)}
+
             <Grid container spacing={1}>
-
-                <Grid item xs={3}>
-                    <Button
-                        variant="contained"
-                        style={{'backgroundColor': '#DAAB59' , color: 'white', padding: '5px 10px', textTransform: 'none', fontSize:'10px'}}
-                    >
-                        Day
-                    </Button>
+                <Grid item xs={6} >
+                    <Typography style={{fontSize: '14px', paddingTop: '20px', marginRight: '50px'}} >
+                        {props.pageName}
+                    </Typography>
                 </Grid>
 
-                <Grid item xs={3}>
-                    <Button
-                        variant="outlined"
-                        style={{border: '1px solid #DAAB59', color: '#DAAB59', padding: '5px 10px', textTransform: 'none', fontSize:'10px'}}
-                        onClick={openWeek.bind(this)}
-                    >
-                        Week  
-                    </Button>
-                </Grid>
-
-                <Grid item xs={3}>
-                    <Button
-                        variant="outlined"
-                        style={{border: '1px solid #DAAB59', color: '#DAAB59', padding: '5px 10px', textTransform: 'none', fontSize:'10px'}}
-                        onClick={openMonth.bind(this)}
-                    >
-                        Month  
-                    </Button>
-                </Grid>
-
-                <Grid item xs={3}>
-                    <Button
-                        variant="outlined"
-                        style={{border: '1px solid #DAAB59', color: '#DAAB59', padding: '5px 10px', textTransform: 'none', fontSize:'10px'}}
-                        onClick={openYear.bind(this)}
-                    >
-                        Year  
-                    </Button>
+                <Grid item xs={6} >
+                    <MuiPickersUtilsProvider utils={DateFnsUtils}>
+                        <KeyboardDatePicker
+                            disableToolbar
+                            variant="outlined"
+                            format="dd/MM/yyyy"
+                            margin="normal"
+                            id="date-picker"
+                            className='text-dark font-weight-bold'
+                            style={{float: 'right', width: '170px'}}
+                            size='small'
+                            value={selectedDate}
+                            onChange={handleDateChange}
+                            KeyboardButtonProps={{
+                                'aria-label': 'change date',
+                            }}
+                        />
+                    </MuiPickersUtilsProvider>
                 </Grid>
             </Grid>
 
-            <Grid container spacing={1}>
-                <Typography style={{fontSize: '14px', paddingTop: '20px', marginRight: '50px'}} >
-                    {props.pageName}
-                </Typography>
-
-                <MuiPickersUtilsProvider utils={DateFnsUtils}>
-                    <KeyboardDatePicker
-                        disableToolbar
-                        variant="outlined"
-                        format="dd/MM/yyyy"
-                        margin="normal"
-                        id="date-picker"
-                        className='text-dark font-weight-bold'
-                        style={{float: 'right', width: '170px'}}
-                        size='small'
-                        value={selectedDate}
-                        onChange={handleDateChange}
-                        KeyboardButtonProps={{
-                            'aria-label': 'change date',
-                        }}
-                    />
-                </MuiPickersUtilsProvider>
-            </Grid>
-
-            <Grid container spacing={1}>
-                <Grid item xs={3}>
-                    <Paper className={classes.paper}>
-                        <Typography className={classes.title} component="p" >
-                            Quantity
-                        </Typography>
-                        <Typography className={classes.text} >
-                            5 items
-                        </Typography>
-                    </Paper>
-                </Grid>
-                
-                <Grid item xs={3}>
-                    <Paper className={classes.paper}>
-                        <Typography className={classes.title} component="p" >
-                            Cost price
-                        </Typography>
-                        <Typography className={classes.text} >
-                            GHC 500
-                        </Typography>
-                    </Paper>
-                </Grid>
-
-                <Grid item xs={3}>
-                    <Paper className={classes.paper}>
-                        <Typography className={classes.title} component="p" >
-                            Selling price
-                        </Typography>
-                        <Typography className={classes.text} >
-                            GHC 600
-                        </Typography>
-                    </Paper>
-                </Grid>
-
-                <Grid item xs={3}>
-                    <Paper className={classes.paper}>
-                        <Typography className={classes.title} component="p" >
-                            {props.profitName}
-                        </Typography>
-                        <Typography className={classes.text} >
-                            GHC 100
-                        </Typography>
-                    </Paper>
-                </Grid>
-                
-            </Grid>
+            <CardsSection quantity={saleDetails.quantity} costPrice={saleDetails.costPrice} sellingPrice={saleDetails.sellingPrice} profit={saleDetails.profit} profitName="Profit" />
+            {/* <CardsSection quantity='4' costPrice='20' sellingPrice='50' profit='30' profitName="Profit" /> */}
 
             <Box style={{marginTop: '5px' , paddingBottom: '60px'}} p={1} className={`mt-3 mb-5`}>
-                {props.products.map((item) => <SingleDayView  key={item.pro_id} item={item}/>)}
+                {sales.length === 0
+                    ?
+                    <div className={`rounded mx-1 my-2 p-2 bordered`}>
+                        <Grid container spacing={1} className={`py-1`}>
+                            <Grid
+                                item xs={12}
+                                className={`text-left pl-2`}
+                            >
+                                <Typography
+                                    component="h6"
+                                    variant="h6"
+                                    style={{fontSize: '16px'}}
+                                    className={`text-center text-dark`}
+                                >
+                                    No sales made this day
+                                </Typography>
+                            </Grid>
+                        </Grid>
+                    </div>
+                    :
+
+                    sales.map((sale) => <SingleDayView  key={sale.id} sale={sale} />)
+                }
             </Box>
+
+            {/* <Box style={{marginTop: '5px' , paddingBottom: '60px'}} p={1} className={`mt-3 mb-5`}>
+                {props.products.map((item) => <SingleDayView  key={item.pro_id} item={item}/>)}
+            </Box> */}
         </div>
     )
 }

@@ -5,6 +5,10 @@ import isToday from 'date-fns/isToday'
 import isWeek from "date-fns/isThisWeek";
 import isThisMonth from "date-fns/isThisMonth";
 import isYear from "date-fns/isThisYear";
+import isSameDay from "date-fns/isSameDay";
+import isSameWeek from "date-fns/isSameWeek";
+import isSameMonth from "date-fns/isSameMonth";
+import isSameYear from "date-fns/isSameYear";
 import SaleService from "./SaleService";
 import database from "../models/database";
 import * as Q from "@nozbe/watermelondb/QueryDescription";
@@ -103,7 +107,7 @@ export default class BranchService {
         return todaySales;
     }
 
-    static async getSales(duration) {
+    static async getSales(duration, date) {
         const branches = (LocalInfo.branches).map(branch => branch.branchId);
 
         const sales = await new ModelAction('Sales').findByColumnNotObserve(
@@ -114,15 +118,28 @@ export default class BranchService {
             }
         );
 
+        const day = new Date(date);
+
+        // switch (duration) {
+        //     case 'today':
+        //         return sales.filter(sale => isToday(sale.createdAt));
+        //     case 'week':
+        //         return sales.filter(sale => isWeek(sale.createdAt));
+        //     case 'month':
+        //         return sales.filter(sale => isThisMonth(sale.createdAt));
+        //     case 'year':
+        //         return sales.filter(sale => isYear(sale.createdAt));
+        // }
         switch (duration) {
-            case 'today':
-                return sales.filter(sale => isToday(sale.createdAt));
+            case 'day':
+                return sales.filter(sale => isSameDay(new Date(sale.createdAt) , day));
             case 'week':
-                return sales.filter(sale => isWeek(sale.createdAt));
+                //console.log(isSameWeek(sale.salesDate, day))
+                return sales.filter(sale => isSameWeek(new Date(sale.createdAt), day));
             case 'month':
-                return sales.filter(sale => isThisMonth(sale.createdAt));
+                return sales.filter(sale => isSameMonth(new Date(sale.createdAt), day));
             case 'year':
-                return sales.filter(sale => isYear(sale.createdAt));
+                return sales.filter(sale => isSameYear(new Date(sale.createdAt), day));
         }
 
     }
@@ -131,13 +148,28 @@ export default class BranchService {
     * Get today sales total details
     * @return number - promise
     * */
-    async getSalesDetails(duration , branchId = LocalInfo.branchId) {
-        const sales = await BranchService.getSales(duration , branchId);
+    async getSalesDetails(duration , date) {
+        const sales = await BranchService.getSales(duration , date);
 
         let total = 0;
+        let costPrice = 0;
         let profit = 0;
         let credit = 0;
+        let sellingPrice = 0;
+        let quantity = 0;
         let purchases = 0;
+
+        for (let step = 0; step < sales.length; step++) {
+            costPrice += parseFloat(await SaleService.getSaleEntryCostPriceById(sales[step].id));
+        }
+
+        for (let step = 0; step < sales.length; step++) {
+            sellingPrice += parseFloat(await SaleService.getSaleEntrySellingPriceById(sales[step].id));
+        }
+
+        for (let step = 0; step < sales.length; step++) {
+            quantity += parseFloat(await SaleService.getSaleProductQuantity(sales[step].id));
+        }
 
         for (let step = 0; step < sales.length; step++) {
             total += parseFloat(await SaleService.getSaleEntryAmountById(sales[step].id));
@@ -152,7 +184,14 @@ export default class BranchService {
         }
 
         return {
-            total,profit,credit,purchases
+            sales:sales, 
+            total,
+            profit,
+            credit,
+            purchases,
+            sellingPrice,
+            quantity,
+            costPrice
         };
     }
 }

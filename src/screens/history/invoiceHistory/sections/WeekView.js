@@ -15,25 +15,6 @@ import SystemDateHandler from "../../../../services/SystemDateHandler";
 const useStyles = makeStyles(theme => ({
     root: {
       flexGrow: 1,
-    },
-    title: {
-        fontSize: 9,
-    },
-    text: {
-        fontSize: 15,
-        fontWeight: 'bold',
-    },
-    paper: {
-      padding: theme.spacing(1),
-      textAlign: 'center',
-    },
-    button: {
-        border: '1px solid #DAAB59',
-        color: '#DAAB59',
-        padding: '5px 50px',
-        marginRight: '10px',
-        marginTop: '10px',
-        textTransform: 'none',
     }
   }));
 
@@ -75,7 +56,7 @@ const useStyles = makeStyles(theme => ({
 
             <Grid container spacing={1}>
                 <Grid item xs={6}>
-                    <Typography style={{fontSize: '14px', paddingTop: '20px', marginRight: '50px'}} >
+                    <Typography style={{fontSize: '14px', paddingTop: '20px'}} >
                         Purchased items
                     </Typography>
                 </Grid>

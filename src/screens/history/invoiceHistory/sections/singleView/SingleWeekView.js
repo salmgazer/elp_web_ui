@@ -2,7 +2,7 @@ import React, {useEffect , useState} from 'react';
 import Grid from "@material-ui/core/Grid/Grid";
 
 import SaleService from '../../../../../services/SaleService';
-import format from "date-fns/format";
+
 
 const SingleWeekView = props => {
     /*
