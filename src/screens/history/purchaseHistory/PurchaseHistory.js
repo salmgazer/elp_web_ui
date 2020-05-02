@@ -1,5 +1,6 @@
 import React, {Component} from 'react';
 import SectionNavbars from "../../../components/Sections/SectionNavbars";
+import Drawer from "../../../components/Drawer/Drawer";
 import MenuIcon from '@material-ui/icons/Menu';
 import MoreVertIcon from '@material-ui/icons/MoreVert';
 import AppBar from '@material-ui/core/AppBar';
@@ -17,7 +18,8 @@ import PurchaseSortProduct from './sections/PurchaseSortProduct';
 class PurchaseHistory extends Component {
 
     state={
-        value: 0
+        value: 0,
+        isDrawerShow: false
     }
 
     handleChange = (event, newValue) => {
@@ -46,12 +48,22 @@ class PurchaseHistory extends Component {
                         <MoreVertIcon 
                             style={{fontSize: '2rem'}}
                         />}
-                >
-                    <MenuIcon
-                        style={{fontSize: '2rem'}}
-                    />
-                    
+                    leftIcon={
+                        <div onClick={() => this.setState({isDrawerShow: true})}>
+                            <MenuIcon
+                                style={{fontSize: '2rem'}}
+                            />
+                        </div>
+                    }
+                >  
                 </SectionNavbars>
+
+                <div
+                    onClick={() => this.setState({isDrawerShow: false})}
+                    onKeyDown={() => this.setState({isDrawerShow: false})}
+                >
+                    <Drawer isShow={this.isDrawerShow} />
+                </div>
 
                 <AppBar position="static" color="white">
                     <Tabs

@@ -1,56 +1,52 @@
 import React, {useEffect, useState} from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import Grid from '@material-ui/core/Grid';
-import Button from "@material-ui/core/Button/Button";
-import Paper from '@material-ui/core/Paper';
 import Typography from '@material-ui/core/Typography';
 import TextField from '@material-ui/core/TextField';
 import Box from "@material-ui/core/Box/Box";
 import { withRouter } from "react-router-dom";
 
-import SingleYearView from './productViews/SingleYearView';
+import SingleMonthView from './singleViews/SingleMonthView';
 import CardsSection from '../../../../components/Sections/CardsSection';
 import DateServiceHandler from "../../../../services/SystemDateHandler";
-import BranchService from "../../../../services/BranchService";
+import PurchaseService from "../../../../services/PurchaseService";
 
 const useStyles = makeStyles(theme => ({
     root: {
-      flexGrow: 1,
+    flexGrow: 1,
     }
-  }));
+}));
 
-  const values = new DateServiceHandler().getStoreYears()
+const values = new DateServiceHandler().getStoreMonths()
 
-  const YearView = props => {
-    console.log(new DateServiceHandler().getStoreYears());
-
+const WeekView = props => {
+    console.log(new DateServiceHandler().getStoreMonths());
     
     const classes = useStyles();
-    const [selectedYear, setSelectedYear] = React.useState(values[0].value);
-    const [saleDetails , setSaleDetails] = useState(false);
-    const [sales , setSales] = useState([]);
+    const [selectedMonth, setSelectedMonth] = React.useState(values[0].value);
 
     const handleChange = event => {
-        setSelectedYear(event.target.value);
-        getSaleDetails(event.target.value);
+        setSelectedMonth(event.target.value);
+        getPurchaseDetails(event.target.value);
     };
 
+    const [purchaseDetails , setPurchaseDetails] = useState(false);
+    const [purchases , setPurchases] = useState([]);
+
     useEffect(() => {
-        // You need to restrict it at some point
-        // This is just dummy code and should be replaced by actual
-          if (!saleDetails) {
-              getSaleDetails(selectedYear);
-          }
-      });
-  
-      const getSaleDetails = async (date) => {
-          console.log(date);
-          const response = await new BranchService().getSalesDetails('year', date);
-  
-          setSaleDetails(response);
-          setSales(response.sales);
-          console.log(response)
-      };
+    // You need to restrict it at some point
+    // This is just dummy code and should be replaced by actual
+        if (!purchaseDetails) {
+            getPurchaseDetails(selectedMonth);
+        }
+    });
+
+    const getPurchaseDetails = async (date) => {
+        const response = await new PurchaseService().getPurchaseDetails('month', date);
+        setPurchaseDetails(response);
+        setPurchases(response.sales);
+        console.log(response)
+    };
 
 
     return(
@@ -69,7 +65,7 @@ const useStyles = makeStyles(theme => ({
                         id="outlined-select-receive-native"
                         select
                         size="small"
-                        value={selectedYear}
+                        value={selectedMonth}
                         style={{width: '150px',  margin: '10px 0px', fontSize: '7px'}}
                         onChange={handleChange}
                         color="#DAAB59"
@@ -87,10 +83,12 @@ const useStyles = makeStyles(theme => ({
                 </Grid>
             </Grid>
 
-            <CardsSection quantity={saleDetails.quantity} costPrice={saleDetails.costPrice} sellingPrice={saleDetails.sellingPrice} profit={saleDetails.profit} profitName="Profit" />
+            {/* <CardsSection quantity={purchaseDetails.quantity} costPrice={purchaseDetails.costPrice} sellingPrice={purchaseDetails.sellingPrice} profit={purchaseDetails.profit} profitName="Expected Profit" /> */}
+            <CardsSection quantity='4' costPrice='20' sellingPrice='50' profit='30' profitName="Expected Profit" />
 
-            <Box style={{marginTop: '5px' , paddingBottom: '60px'}} p={1} className={`mt-3 mb-5`}>
-                {sales.length === 0
+
+            {/* <Box style={{marginTop: '5px' , paddingBottom: '60px'}} p={1} className={`mt-3 mb-5`}>
+                {purchases.length === 0
                     ?
                     <div className={`rounded mx-1 my-2 p-2 bordered`}>
                         <Grid container spacing={1} className={`py-1`}>
@@ -104,26 +102,25 @@ const useStyles = makeStyles(theme => ({
                                     style={{fontSize: '16px'}}
                                     className={`text-center text-dark`}
                                 >
-                                    No sales made this year
+                                    No purchases made this day
                                 </Typography>
                             </Grid>
                         </Grid>
                     </div>
                     :
 
-                    sales.map((sale) => <SingleYearView  key={sale.id} sale={sale} />)
+                    purchases.map((purchase) => <SingleMonthView  key={purchase.id} purchase={purchase} date={selectedMonth} />)
                 }
-            </Box>
+            </Box> */}
 
-            
             {/* <Box style={{marginTop: '5px' , paddingBottom: '60px'}} p={1} className={`mt-3 mb-5`}>
-                {props.yearItem.map((item) => <SingleYearView  key={item.day_id} yearItems={item}/>)}
+                {props.weekItem.map((item) => <SingleMonthView  key={item.day_id} weekItems={item}/>)}
             </Box> */}
 
 
         </div>
     )
 
-  }
+}
 
-  export default withRouter(YearView);
+export default withRouter(WeekView);

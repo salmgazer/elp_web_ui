@@ -8,7 +8,7 @@ import { withRouter } from "react-router-dom";
 
 import SingleMonthView from './productViews/SingleMonthView';
 import CardsSection from '../../../../components/Sections/CardsSection';
-import DateServiceHandler from "../../../../services/DateServiceHandler";
+import DateServiceHandler from "../../../../services/SystemDateHandler";
 import BranchService from "../../../../services/BranchService";
 
 const useStyles = makeStyles(theme => ({
