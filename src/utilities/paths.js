@@ -10,4 +10,11 @@ export default {
     add_products: "/add-products",
     forgot_password: "/forgot-password",
     reset_password: "/reset-password",
+    admin: "/admin",
+    add_warehouse: "/add-warehouse",
+    change_store_info: "/store-information",
+    account_info: "/account-information",
+    verify_phone: "/verify-phone",
+    change_price: "/change-price",
+    generate_barcode: "/generate-barcode",
 };

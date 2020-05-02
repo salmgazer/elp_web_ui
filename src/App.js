@@ -21,6 +21,12 @@ import CategorySetup from "./screens/onboarding/categorySetup/CategorySetup";
 import Cart from "./screens/sell/cart/Cart";
 import ResetPassword from "./screens/forgotPassword/sections/ResetPassword";
 import ForgottenPassword from "./screens/forgotPassword/ForgottenPassword";
+import Admin from "./screens/admin/Admin";
+import AddWarehouse from "./screens/admin/warehouse/AddWarehouse";
+import ChangeStoreInformation from "./screens/admin/storeInformation/ChangeStoreInformation";
+import AccountInformation from "./screens/admin/accountInformation/AccountInformation";
+import VerifyPhone from "./screens/admin/accountInformation/VerifyPhone";
+import ChangePrice from "./screens/admin/changePrice/ChangePrice";
 
 
 function NoMatch() {
@@ -143,6 +149,62 @@ class App extends React.Component {
                         setPageBackground();
                         this.setTitle(`Add products | ${appName}`);
                         return <AddProducts/>;
+                    }}
+                />
+                <Route
+                    path={paths.admin}
+                    render={() => {
+                        setPageBackground();
+                        this.setTitle(`Admin | ${appName}`);
+                        return <Admin />;
+                    }}
+                />
+                <Route
+                    path={paths.add_warehouse}
+                    render={() => {
+                        setPageBackground();
+                        this.setTitle(`Admin | ${appName}`);
+                        return <AddWarehouse />;
+                    }}
+                />
+                <Route
+                    path={paths.change_store_info}
+                    render={() => {
+                        setPageBackground();
+                        this.setTitle(`Admin | ${appName}`);
+                        return <ChangeStoreInformation />;
+                    }}
+                />
+                <Route
+                    path={paths.account_info}
+                    render={() => {
+                        setPageBackground();
+                        this.setTitle(`Admin | ${appName}`);
+                        return <AccountInformation />;
+                    }}
+                />
+                <Route
+                    path={paths.verify_phone}
+                    render={() => {
+                        setPageBackground();
+                        this.setTitle(`Admin | ${appName}`);
+                        return <VerifyPhone />;
+                    }}
+                />
+                <Route
+                    path={paths.change_price}
+                    render={() => {
+                        setPageBackground();
+                        this.setTitle(`Admin | ${appName}`);
+                        return <ChangePrice />;
+                    }}
+                />
+                <Route
+                    path={paths.generate_barcode}
+                    render={() => {
+                        setPageBackground();
+                        this.setTitle(`Admin | ${appName}`);
+                        return <ChangePrice />;
                     }}
                 />
               <Route path="*">
