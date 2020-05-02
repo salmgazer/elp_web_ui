@@ -18,6 +18,8 @@ import BranchCustomer from "./branchesCustomer/BranchCustomer";
 import SaleInstallment from "./saleInstallments/SaleInstallment";
 import BranchPurchases from "./branchPurchases/BranchPurchases";
 import StockMovement from "./stockMovements/StockMovement";
+import Audits from "./audit/Audit";
+import AuditEntries from "./auditEntry/AuditEntries";
 
 const adapter = new LokiJSAdapter({
   schema,
@@ -43,6 +45,8 @@ export default new Database({
     SaleInstallment,
     BranchPurchases,
     StockMovement,
+    Audits,
+    AuditEntries,
   ],
   actionsEnabled: true
 });

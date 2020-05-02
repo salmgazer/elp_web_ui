@@ -175,6 +175,7 @@ const AddNewStockPage = props => {
         sellingPrice: branchProduct.sellingPrice,
         costPrice: "",
         paymentSource: 'sales',
+        type: 'stock',
         productId: branchProduct.productId,
         branchProductId: branchProduct.id,
         rememberChoice: false,

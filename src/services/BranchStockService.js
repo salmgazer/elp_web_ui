@@ -15,6 +15,7 @@ export default class BranchStockService{
             quantity: parseFloat(formFields.quantity),
             branchId: formFields.branchId,
             productId: formFields.productId,
+            type: formFields.type,
             branchProductId: formFields.branchProductId,
             costPrice: parseFloat(formFields.costPrice),
             createdBy: LocalInfo.userId,

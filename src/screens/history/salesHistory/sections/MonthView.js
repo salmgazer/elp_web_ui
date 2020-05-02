@@ -8,7 +8,7 @@ import { withRouter } from "react-router-dom";
 
 import SingleMonthView from './productViews/SingleMonthView';
 import CardsSection from '../../../../components/Sections/CardsSection';
-import DateServiceHandler from "../../../../services/DateServiceHandler";
+import SystemDateHandler from "../../../../services/SystemDateHandler";
 import BranchService from "../../../../services/BranchService";
 
 const useStyles = makeStyles(theme => ({
@@ -17,11 +17,11 @@ const useStyles = makeStyles(theme => ({
     }
   }));
 
-  const values = new DateServiceHandler().getStoreMonths()
+  const values = new SystemDateHandler().getStoreMonths()
 
   const MonthView = props => {
-    console.log(new DateServiceHandler().getStoreMonths());
-    
+    console.log(new SystemDateHandler().getStoreMonths());
+
     const classes = useStyles();
     const [selectedMonth, setSelectedMonth] = React.useState(values[0].value);
     const [saleDetails , setSaleDetails] = useState(false);
@@ -39,11 +39,11 @@ const useStyles = makeStyles(theme => ({
               getSaleDetails(selectedMonth);
           }
       });
-  
+
       const getSaleDetails = async (date) => {
           console.log(date);
           const response = await new BranchService().getSalesDetails('month', date);
-  
+
           setSaleDetails(response);
           setSales(response.sales);
           console.log(response)
@@ -51,7 +51,7 @@ const useStyles = makeStyles(theme => ({
 
     return(
         <div className={classes.root}>
-            
+
 
             <Grid container spacing={1}>
                 <Grid item xs={6}>

@@ -26,6 +26,7 @@ import CloseOutlinedIcon from '@material-ui/icons/CloseOutlined';
 import Divider from '@material-ui/core/Divider';
 import HistoryOutlinedIcon from '@material-ui/icons/HistoryOutlined';
 import ReceiptIcon from '@material-ui/icons/Receipt';
+import Drawer from "../../../../components/Drawer/Drawer";
 
 const SellView = props => {
     const { history } = props;
@@ -36,6 +37,7 @@ const SellView = props => {
     const spCount = props.spCount;
     const [value , setValue] = useState(0);
     const [isShowDrawer , setIsShowDrawer] = useState(false);
+    const [isDrawerShow , setIsDrawerShow] = useState(false);
 
     const a11yProps = (index) => {
         return {
@@ -64,14 +66,21 @@ const SellView = props => {
                         />
                     </div>
                 }
+                leftIcon={
+                    <div onClick={() => setIsDrawerShow(true)}>
+                        <MenuIcon
+                            style={{fontSize: '2rem'}}
+                        />
+                    </div>
+                }
+            />
+
+            <div
+                onClick={() => setIsDrawerShow(false)}
+                onKeyDown={() => setIsDrawerShow(false)}
             >
-                <MenuIcon
-                    /*onClick={() => this.setState({
-                        isDrawerShow: true,
-                    })}*/
-                    style={{fontSize: '2.5rem'}}
-                />
-            </SectionNavbars>
+                <Drawer isShow={isDrawerShow} />
+            </div>
 
             <div
                 onClick={() => setIsShowDrawer(false)}

@@ -33,7 +33,7 @@ const useStyles = makeStyles(theme => ({
 
 const QuantityInput = props => {
     const classes = useStyles();
-    const [quantity , setQuantity] = useState(1);
+    const [quantity , setQuantity] = useState(props.startValue || 1);
     const inputName = props.inputName;
 
     const increaseQ = () => {

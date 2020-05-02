@@ -12,10 +12,19 @@ import branchCustomerSchema from "./branchesCustomer/branchCustomerSchema";
 import saleInstallmentSchema from "./saleInstallments/saleInstallmentSchema";
 import purchaseSchema from "./branchPurchases/purchaseSchema";
 import stockMovementSchema from "./stockMovements/stockMovementSchema";
+import auditSchema from "./audit/auditSchema";
+import auditEntriesSchema from "./auditEntry/auditEntriesSchema";
 
 // latest migrations should be at the top entry level of the migrations array
 export default schemaMigrations({
   migrations: [
+      {
+          toVersion: 11,
+          steps: [
+              createTable(auditSchema),
+              createTable(auditEntriesSchema),
+          ]
+      },
       {
           toVersion: 10,
           steps: [
