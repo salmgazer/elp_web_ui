@@ -14,6 +14,7 @@ import AuditedProductsView from "./sections/auditedProductsView";
 import AuditEntries from "../../models/auditEntry/AuditEntries";
 import {confirmAlert} from "react-confirm-alert";
 import ModelAction from "../../services/ModelAction";
+import Audits from "../../models/audit/Audit";
 
 class Audit extends Component {
     state = {
@@ -137,24 +138,13 @@ class Audit extends Component {
     };
 
     balanceAllHandler = async () => {
-        await confirmAlert({
-            title: 'Confirm to balance all',
-            message: 'Are you sure you want to balance all products.',
-            buttons: [
-                {
-                    label: 'Yes',
-                    onClick: async () => {
-                        await new AuditService().balanceAllProducts();
-                    }
-                },
-                {
-                    label: 'No',
-                    onClick: () => {
-                        return false;
-                    }
-                }
-            ]
-        })
+        if(await new AuditService().balanceAllProducts()){
+            this.setState({
+                spCount: 0,
+            });
+            return true;
+        }
+        return false;
     };
 
     /*
@@ -178,7 +168,7 @@ const EnhancedAudit = withDatabase(
         branchProducts: new BranchService(LocalInfo.branchId).getProducts(),
         auditEntriesQuantity: AuditService.auditEntryQuantity(),
         cartQuantity: database.collections.get('cartEntries').query(Q.where('cartId' , localStorage.getItem('cartId'))).observeCount(),
-        audits: database.collections.get(BranchCustomer.table).query().observe(),
+        audits: database.collections.get(Audits.table).query().observe(),
         auditedEntries: database.collections.get(AuditEntries.table).query(Q.where('auditId' , localStorage.getItem('auditId'))).observe(),
         branchCustomers: database.collections.get(BranchCustomer.table).query().observe(),
         savedCarts: database.collections.get(Carts.table).query(
