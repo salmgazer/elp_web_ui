@@ -17,6 +17,7 @@ import Button from "@material-ui/core/Button/Button";
 import TextField from '@material-ui/core/TextField';
 
 import ProductServiceHandler from "../../../../../services/ProductServiceHandler";
+import SaleService from "../../../../../services/SaleService";
 import format from "date-fns/format";
 
 
@@ -33,12 +34,12 @@ const SingleDayView = props => {
     const sale = props.sale;
     const [mainDialog, setMainDialog] = React.useState(false);
     const [value, setValue] = React.useState(0);
-    const [product, setProduct] = useState('');
-    const [name , setName] = useState('');
-    const [image , setImage] = useState('');
-    const [quantity , setQuantity] = useState('');
-    const [profit , setProfit] = useState('');
-    const [totalPrice , setTotalPrice] = useState('');
+    //const [product, setProduct] = useState(false);
+    const [name , setName] = useState(false);
+    const [image , setImage] = useState(false);
+    const [quantity , setQuantity] = useState(false);
+    const [profit , setProfit] = useState(false);
+    const [totalPrice , setTotalPrice] = useState(false);
 
     function a11yProps(index) {
         return {
@@ -50,21 +51,26 @@ const SingleDayView = props => {
     useEffect(() => {
         // You need to restrict it at some point
         // This is just dummy code and should be replaced by actual
-        if (!product) {
+        if (!quantity) {
             getProduct();
         }
     });
 
     const getProduct = async () => {
-        const newProduct = await sale.product.fetch();
-        const name = new ProductServiceHandler(product).getProductName();
-        setName((name).length > 20 ? (name).slice(0 , 20) + '...' : name);
-        setProduct(newProduct);
-        setImage(new ProductServiceHandler(product).getProductImage());
-        setTotalPrice(sale.total);
+        //const newProduct = await sale.product.fetch();
+        const prod = await new SaleService().getSaleProductsById(sale.id);
+        console.log(prod);
+        const name = new ProductServiceHandler(prod.productId).getProductName();
+        const profit = await SaleService.getSaleEntryProfitById(sale.id);
+        const quant = await SaleService.getSaleProductQuantity(sale.id);
+        const total = await SaleService.getSaleEntryAmountById(sale.id);
         
-        setQuantity(sale.quantity);
-        setProfit(sale.profit);
+        setName((name).length > 20 ? (name).slice(0 , 20) + '...' : name);
+        //setProduct(newProduct);
+        //setImage(new ProductServiceHandler(product).getProductImage());
+        setTotalPrice(total);
+        setQuantity(quant);
+        setProfit(profit);
         
     };
 
@@ -104,7 +110,7 @@ const SingleDayView = props => {
                 </Grid>
                 <Grid item xs={6} style={{display: 'table', height: '60px', margin: '8px 0px'}}>
                     <div style={{textAlign: 'left', display: 'table-cell', verticalAlign: 'middle'}}>
-                        <span className='text-dark font-weight-bold' >{name}</span>
+                    <span className='text-dark font-weight-bold' >{name}</span>
                         <div className="font-weight-light mt-1" style={{ fontSize: '13px'}}>Quantity: {quantity}</div>
                         <div className="font-weight-light mt-1" style={{ fontSize: '13px'}}>Sales: GHC {totalPrice}</div>
                         <div className="font-weight-light mt-1" style={{ fontSize: '13px'}}>Profit: GHC {profit}</div>
@@ -184,7 +190,7 @@ const SingleDayView = props => {
                             <TextField 
                                 id="outlined-basic" 
                                 label="Quantity" 
-                                value={product.quantity}
+                                value={quantity}
                                 variant="outlined" 
                                 size="small" 
                                 style={{margin: '50px'}} 

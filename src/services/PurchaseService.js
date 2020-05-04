@@ -4,7 +4,6 @@ import isSameDay from "date-fns/isSameDay";
 import isSameWeek from "date-fns/isSameWeek";
 import isSameMonth from "date-fns/isSameMonth";
 import isSameYear from "date-fns/isSameYear";
-import SaleService from "./SaleService";
 import BranchStockService from './BranchStockService';
 
 export default class PurchaseService {
@@ -44,11 +43,11 @@ export default class PurchaseService {
         let quantity = 0;
 
         for (let step = 0; step < purchase.length; step++) {
-            costPrice += parseFloat(await SaleService.getSaleEntryCostPriceById(purchase[step].id));
+            costPrice += parseFloat(await BranchStockService.getStockEntryCostPriceById(purchase[step].id));
         }
 
         for (let step = 0; step < purchase.length; step++) {
-            quantity += parseFloat(await SaleService.getSaleProductQuantity(purchase[step].id));
+            quantity += parseFloat(await BranchStockService.getStockProductQuantity(purchase[step].id));
         }
 
         return {

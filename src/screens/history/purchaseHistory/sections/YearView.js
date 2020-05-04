@@ -6,10 +6,11 @@ import TextField from '@material-ui/core/TextField';
 import Box from "@material-ui/core/Box/Box";
 import { withRouter } from "react-router-dom";
 
-import SingleMonthView from './singleViews/SingleMonthView';
+import SingleYearView from './singleViews/SingleYearView';
 import CardsSection from '../../../../components/Sections/CardsSection';
 import DateServiceHandler from "../../../../services/SystemDateHandler";
 import PurchaseService from "../../../../services/PurchaseService";
+import BranchStockService from "../../../../services/BranchStockService";
 
 const useStyles = makeStyles(theme => ({
     root: {
@@ -32,6 +33,10 @@ const WeekView = props => {
 
     const [purchaseDetails , setPurchaseDetails] = useState(false);
     const [purchases , setPurchases] = useState([]);
+    const [quantity , setQuantity] = useState(false);
+    const [costPrice , setCostPrice] = useState(false);
+    const [sellingPrice , setSellingPrice] = useState(false);
+    const [expProfit , setExpProfit] = useState(false);
 
     useEffect(() => {
     // You need to restrict it at some point
@@ -43,8 +48,16 @@ const WeekView = props => {
 
     const getPurchaseDetails = async (date) => {
         const response = await new PurchaseService().getPurchaseDetails('year', date);
+        const q = await new BranchStockService().getCompanyItemsLeft();
+        const c = await new BranchStockService().getTotalCostPrice();
+        const s = await new BranchStockService().getTotalSellingPrice();
+        const e = await new BranchStockService().getTotalExpectedProfit();
+        setQuantity(q);
+        setCostPrice(c);
+        setSellingPrice(s);
+        setExpProfit(e);
         setPurchaseDetails(response);
-        setPurchases(response.sales);
+        setPurchases(response.purchases);
         console.log(response)
     };
 
@@ -83,11 +96,11 @@ const WeekView = props => {
                 </Grid>
             </Grid>
 
-            {/* <CardsSection quantity={purchaseDetails.quantity} costPrice={purchaseDetails.costPrice} sellingPrice={purchaseDetails.sellingPrice} profit={purchaseDetails.profit} profitName="Expected Profit" /> */}
-            <CardsSection quantity='4' costPrice='20' sellingPrice='50' profit='30' profitName="Expected Profit" />
+            <CardsSection quantity={quantity} costPrice={costPrice} sellingPrice={sellingPrice} profit={expProfit} profitName="Expected Profit" />
+            {/* <CardsSection quantity='4' costPrice='20' sellingPrice='50' profit='30' profitName="Expected Profit" /> */}
 
 
-            {/* <Box style={{marginTop: '5px' , paddingBottom: '60px'}} p={1} className={`mt-3 mb-5`}>
+            <Box style={{marginTop: '5px' , paddingBottom: '60px'}} p={1} className={`mt-3 mb-5`}>
                 {purchases.length === 0
                     ?
                     <div className={`rounded mx-1 my-2 p-2 bordered`}>
@@ -102,7 +115,7 @@ const WeekView = props => {
                                     style={{fontSize: '16px'}}
                                     className={`text-center text-dark`}
                                 >
-                                    No purchases made this day
+                                    No purchases made this year
                                 </Typography>
                             </Grid>
                         </Grid>
@@ -111,7 +124,7 @@ const WeekView = props => {
 
                     purchases.map((purchase) => <SingleYearView  key={purchase.id} purchase={purchase} date={selectedYear} />)
                 }
-            </Box> */}
+            </Box>
 
             {/* <Box style={{marginTop: '5px' , paddingBottom: '60px'}} p={1} className={`mt-3 mb-5`}>
                 {props.weekItem.map((item) => <SingleYearView  key={item.day_id} weekItems={item}/>)}

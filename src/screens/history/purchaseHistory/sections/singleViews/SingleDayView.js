@@ -34,11 +34,11 @@ const SingleDayView = props => {
     const [mainDialog, setMainDialog] = React.useState(false);
     const [value, setValue] = React.useState(0);
     const purchase = props.purchase;
-    const [quantity , setQuantity] = useState('');
-    const [costPrice , setCostPrice] = useState('');
-    const [name , setName] = useState('');
-    const [image , setImage] = useState('');
-    const [product, setProduct] = useState('');
+    const [quantity , setQuantity] = useState(false);
+    const [costPrice , setCostPrice] = useState(false);
+    const [name , setName] = useState(false);
+    const [image , setImage] = useState(false);
+    // const [product, setProduct] = useState(false);
 
     function a11yProps(index) {
         return {
@@ -68,21 +68,21 @@ const SingleDayView = props => {
     useEffect(() => {
         // You need to restrict it at some point
         // This is just dummy code and should be replaced by actual
-        if (!product) {
+        if (!quantity) {
             getProduct();
         }
     });
 
     const getProduct = async () => {
-        const newProduct = await purchase.product.fetch();
+        //const newProduct = await purchase.product.fetch();
         /*
         * @todo get entries via query on model
         * */
-        const costP = await BranchStockService.getCostPriceById(purchase.id);
-        const quant = await BranchStockService.getQuantityById(purchase.id);
-        setProduct(newProduct);
-        setName(new ProductServiceHandler(product).getProductName());
-        setImage(new ProductServiceHandler(product).getProductImage());
+        const costP = await BranchStockService.getStockEntryCostPriceById(purchase.id);
+        const quant = await BranchStockService.getStockProductQuantity(purchase.id);
+        // setProduct(newProduct);
+        // setName(new ProductServiceHandler(product).getProductName());
+        // setImage(new ProductServiceHandler(product).getProductImage());
         setCostPrice(costP);
         setQuantity(quant);
 

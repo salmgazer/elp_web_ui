@@ -4,6 +4,8 @@ import Grid from "@material-ui/core/Grid/Grid";
 import EventIcon from '@material-ui/icons/Event';
 
 import format from "date-fns/format";
+import SaleService from '../../../../../services/SaleService';
+
 
 const SingleYearView = props => {
     const sale = props.sale;
@@ -19,8 +21,11 @@ const SingleYearView = props => {
     });
 
     const getProfit = async () => {
-        setTotal(sale.total);
-        setProfit(sale.profit);
+        const total = await SaleService.getSaleEntryAmountById(sale.id);
+        const profit = await SaleService.getSaleEntryProfitById(sale.id);
+
+        setTotal(total);
+        setProfit(profit);
     };
 
     return(

@@ -388,4 +388,41 @@ export default class BranchStockService{
     async getTotalExpectedProfit(){
         return await this.getTotalSellingPrice() - await this.getTotalCostPrice();
     }
+
+    /*
+    * Get Stock products by Id
+    */
+    async getStockProductsById(id){
+        try {
+            const stockCollection = await new ModelAction('BranchProductStock').findByColumnNotObserve({
+                name: 'id',
+                value: id,
+                fxn: 'eq',
+            });
+
+            return stockCollection;
+        }catch (e) {
+            return e;
+        }
+    } 
+    
+    /*
+    *
+    * Get sale individual items cost price
+    * */
+    getStockEntryCostPrice(product){
+        return parseFloat(product.costPrice * product.quantity).toFixed(2);
+    }
+
+    static async getStockProductQuantity(id){
+        return ((await new BranchStockService().getStockProductsById(id))).reduce((a, b) => a + (b['quantity'] || 0), 0);
+    }
+
+    /*
+    * Get sale total cost price by Id
+    * */
+   static async getStockEntryCostPriceById(id){
+        return ((await new BranchStockService().getStockProductsById(id))).reduce((a, b) => parseFloat(a) + parseFloat(new BranchStockService().getStockEntryCostPrice(b) || 0), 0).toFixed(2);
+}
+
 }

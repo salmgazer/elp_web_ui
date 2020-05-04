@@ -114,6 +114,12 @@ export default class SaleService {
         });
     }
 
+    static async updateSaleEntryQuantity(formFields){
+        await new ModelAction('SaleEntry').update(formFields.saleId,{
+            quantity: parseFloat(formFields.quantity)
+        })
+    }
+
     /*
     *
     * Get cart individual items total

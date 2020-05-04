@@ -13,6 +13,7 @@ import { withRouter } from "react-router-dom";
 import SingleDayView from './singleViews/SingleDayView';
 import CardsSection from '../../../../components/Sections/CardsSection';
 import PurchaseService from "../../../../services/PurchaseService";
+import BranchStockService from "../../../../services/BranchStockService";
 
 const useStyles = makeStyles(theme => ({
     root: {
@@ -31,6 +32,10 @@ const DayView = props => {
       };
 
     const [purchaseDetails , setPurchaseDetails] = useState(false);
+    const [quantity , setQuantity] = useState(false);
+    const [costPrice , setCostPrice] = useState(false);
+    const [sellingPrice , setSellingPrice] = useState(false);
+    const [expProfit , setExpProfit] = useState(false);
     const [purchases , setPurchases] = useState([]);
 
     useEffect(() => {
@@ -43,8 +48,16 @@ const DayView = props => {
 
     const getPurchaseDetails = async (date) => {
         const response = await new PurchaseService().getPurchaseDetails('day', date);
+        const q = await new BranchStockService().getCompanyItemsLeft();
+        const c = await new BranchStockService().getTotalCostPrice();
+        const s = await new BranchStockService().getTotalSellingPrice();
+        const e = await new BranchStockService().getTotalExpectedProfit();
+        setQuantity(q);
+        setCostPrice(c);
+        setSellingPrice(s);
+        setExpProfit(e);
         setPurchaseDetails(response);
-        setPurchases(response.sales);
+        setPurchases(response.purchases);
         console.log(response)
     };
 
@@ -80,10 +93,10 @@ const DayView = props => {
                 </Grid>
             </Grid>
 
-            {/* <CardsSection quantity={purchaseDetails.quantity} costPrice={purchaseDetails.costPrice} sellingPrice={purchaseDetails.sellingPrice} profit={purchaseDetails.profit} profitName="Expected Profit" /> */}
-            <CardsSection quantity='4' costPrice='20' sellingPrice='50' profit='30' profitName="Expected Profit" />
+            <CardsSection quantity={quantity} costPrice={costPrice} sellingPrice={sellingPrice} profit={expProfit} profitName="Expected Profit" />
+            {/* <CardsSection quantity='4' costPrice='20' sellingPrice='50' profit='30' profitName="Expected Profit" /> */}
 
-            {/* <Box style={{marginTop: '5px' , paddingBottom: '60px'}} p={1} className={`mt-3 mb-5`}>
+            <Box style={{marginTop: '5px' , paddingBottom: '60px'}} p={1} className={`mt-3 mb-5`}>
                 {purchases.length === 0
                     ?
                     <div className={`rounded mx-1 my-2 p-2 bordered`}>
@@ -107,7 +120,7 @@ const DayView = props => {
 
                     purchases.map((purchase) => <SingleDayView  key={purchase.id} purchase={purchase} />)
                 }
-            </Box> */}
+            </Box>
 
             {/* <Box style={{marginTop: '5px' , paddingBottom: '60px'}} p={1} className={`mt-3 mb-5`}>
                 {props.products.map((item) => <SingleDayView  key={item.pro_id} item={item}/>)}
