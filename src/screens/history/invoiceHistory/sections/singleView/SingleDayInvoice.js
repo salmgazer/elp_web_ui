@@ -63,7 +63,7 @@ const SingleDayInvoice = props => {
 
                 <Grid item xs={8} style={{display: 'table', height: '60px', margin: '8px 0px'}} onClick={openDialogHandler.bind(this)} >
                     <div style={{textAlign: 'left', display: 'table-cell', verticalAlign: 'middle'}}>
-                    <span className='text-dark font-weight-bold' ></span>
+                    <span className='text-dark font-weight-bold' >{`${customer.firstName} ${customer.otherNames}`}</span>
                         <div className="font-weight-light mt-1" style={{ fontSize: '13px'}}> {format(new Date(invoice.createdAt) , "eeee, MMMM do, yyyy")} | {format(new Date(invoice.createdAt) , "HH:mm a")}</div>
                         <div className="font-weight-light mt-1" style={{ fontSize: '13px'}}>GHC {total}</div>
                     </div>
