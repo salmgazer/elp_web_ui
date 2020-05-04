@@ -40,6 +40,8 @@ import SaleInstallments from "../../models/saleInstallments/SaleInstallment";
 import CompanyService from "../../services/CompanyService";
 import BranchPurchases from "../../models/branchPurchases/BranchPurchases";
 import StockMovement from "../../models/stockMovements/StockMovement";
+import AuditEntries from "../../models/auditEntry/AuditEntries";
+import Audits from "../../models/audit/Audit";
 
 const useStyles = makeStyles(theme => ({
     root: {
@@ -107,7 +109,7 @@ const Dashboard = props => {
     const username = JSON.parse(localStorage.getItem('userDetails')).firstName;
     console.log(username);
 
-    const { history, testProducts, stockMovements, purchases, branchProducts, branchProductStock, branchProductStockHistory, brands, manufacturers, products, database, customers, branchCustomers , sales , saleEntries , saleInstallments , carts , cartEntries, testBranch , cartEntriesQ } = props;
+    const { audits, auditedEntries, history, testProducts, stockMovements, purchases, branchProducts, branchProductStock, branchProductStockHistory, brands, manufacturers, products, database, customers, branchCustomers , sales , saleEntries , saleInstallments , carts , cartEntries, testBranch , cartEntriesQ } = props;
     // const database = useDatabase();
 
     const createBrand = async() => {
@@ -128,6 +130,8 @@ const Dashboard = props => {
     }
 
     console.log('#####################################')
+    console.log(audits);
+    console.log(auditedEntries);
     console.log(stockMovements);
     console.log(testProducts);
     console.log(purchases);
@@ -307,6 +311,8 @@ const Dashboard = props => {
 
 const EnhancedDashboard = withDatabase(
   withObservables([], ({ database }) => ({
+    audits: database.collections.get(Audits.table).query().observe(),
+    auditedEntries: database.collections.get(AuditEntries.table).query().observe(),
     branchProducts: database.collections.get(BranchProduct.table).query(Q.where('branchId', localStorage.getItem('activeBranch'))).observe(),
     stockMovements: database.collections.get(StockMovement.table).query().fetch(),
     testProducts: database.collections.get(BranchProduct.table).query().observe(),

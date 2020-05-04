@@ -16,6 +16,8 @@ import SectionNavbars from "../../../components/Sections/SectionNavbars";
 import ArrowBackIosIcon from '@material-ui/icons/ArrowBackIos';
 import Drawer from "../../../components/Drawer/Drawer";
 import SimpleSnackbar from "../../../components/Snackbar/SimpleSnackbar";
+import {confirmAlert} from "react-confirm-alert";
+import AuditService from "../../../services/AuditService";
 
 const useStyles = makeStyles(theme => ({
     root: {
@@ -57,6 +59,8 @@ const AuditedProductsView = props => {
     const [isDrawerShow , setIsDrawerShow] = useState(false);
     const [successDialog, setSuccessDialog] = useState(false);
     const [loading , setLoading] = useState(false);
+    const [errorMsg , setErrorMsg] = useState('');
+    const [error , setError] = useState(false);
 
     const handleTypeChange = event => {
         setType(event.target.value);
@@ -66,8 +70,44 @@ const AuditedProductsView = props => {
         props.setView(0);
     };
 
-    const balanceAll = (event) => {
-        props.balanceAllHandler();
+    const balanceAll = async (event) => {
+        setLoading(true);
+
+        await confirmAlert({
+            title: 'Confirm to balance all',
+            message: 'Are you sure you want to balance all products.',
+            buttons: [
+                {
+                    label: 'Yes',
+                    onClick: async () => {
+                        if(await props.balanceAllHandler()){
+                            setSuccessDialog(true);
+
+                            setTimeout(function(){
+                                setSuccessDialog(false);
+                                setLoading(false);
+                                props.setView(0)
+                            }, 2000);
+                        }else{
+                            setErrorMsg('OOPS. Something went wrong please try again');
+                            setError(true);
+                            setTimeout(function(){
+                                setError(false);
+                            }, 3000);
+                        }
+                    }
+                },
+                {
+                    label: 'No',
+                    onClick: () => {
+                        setLoading(false);
+                        return false;
+                    }
+                }
+            ]
+        })
+
+       /* await props.balanceAllHandler();
 
         setSuccessDialog(true);
 
@@ -75,7 +115,16 @@ const AuditedProductsView = props => {
             setSuccessDialog(false);
             setLoading(false);
             props.setView(0)
-        }, 2000);
+        }, 2000);*/
+        /*if(status){
+
+        }else{
+            setErrorMsg('OOPS. Something went wrong please try again');
+            setError(true);
+            setTimeout(function(){
+                setError(false);
+            }, 3000);
+        }*/
     };
 
     const editProductHandler = (pId , event) => {
@@ -107,6 +156,13 @@ const AuditedProductsView = props => {
             <SimpleSnackbar
                 openState={successDialog}
                 message={`Audit successfully completed`}
+            >
+            </SimpleSnackbar>
+
+            <SimpleSnackbar
+                type="warning"
+                openState={error}
+                message={errorMsg}
             >
             </SimpleSnackbar>
 
@@ -176,6 +232,7 @@ const AuditedProductsView = props => {
                     variant="contained"
                     style={{'backgroundColor': '#DAAB59' , color: '#333333', padding: '5px 50px'}}
                     onClick={balanceAll.bind(this)}
+                    disabled={loading}
                 >
                     Balance all
                 </Button>
