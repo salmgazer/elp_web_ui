@@ -91,11 +91,19 @@ const SellView = props => {
                         <ListItemIcon><RemoveShoppingCartOutlinedIcon/></ListItemIcon>
                         <ListItemText primary="Sales returns" />
                     </ListItem>
-                    <ListItem button key={8}>
+                    <ListItem
+                        button
+                        key={8}
+                        onClick={() => history.push(paths.sales_history)}
+                    >
                         <ListItemIcon><HistoryOutlinedIcon/></ListItemIcon>
                         <ListItemText primary="Sales history" />
                     </ListItem>
-                    <ListItem button key={9}>
+                    <ListItem
+                        button
+                        key={9}
+                        onClick={() => history.push(paths.invoice_history)}
+                    >
                         <ListItemIcon><ReceiptIcon /></ListItemIcon>
                         <ListItemText primary="Invoices" />
                     </ListItem>
