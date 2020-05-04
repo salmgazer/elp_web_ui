@@ -4,7 +4,7 @@ import Api from "./Api";
 import {Q} from "@nozbe/watermelondb";
 import globalModels from '../models/globalModels';
 
-const apiUrl = 'http://elpcoreapidev.us-east-2.elasticbeanstalk.com/v1/client';
+const apiUrl = 'https://core-api-dev.mystoreaid.net/v1/client';
 
 export default class SyncService {
   static async sync(companyId, branchId, userId, database) {
