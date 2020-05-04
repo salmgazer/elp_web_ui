@@ -36,7 +36,7 @@ const SingleDayView = props => {
     const sale = props.sale;
     const [mainDialog, setMainDialog] = React.useState(false);
     const [value, setValue] = React.useState(0);
-    //const [product, setProduct] = useState(false);
+    const [product, setProduct] = useState(false);
     const [name , setName] = useState(false);
     const [image , setImage] = useState(false);
     const [quantity , setQuantity] = useState(false);
@@ -60,11 +60,13 @@ const SingleDayView = props => {
 
     const getProduct = async () => {
         //const newProduct = await sale.product.fetch();
-        const prod= await new BranchService(LocalInfo.branchId).getProducts();
+        const newProduct = await props.saleEntry.product.fetch();
+        setProduct(newProduct);
+        setImage(new ProductServiceHandler(product).getProductImage());
 
-        //const prod = await new SaleService().getSaleProductsById(sale.id);
-        console.log(prod);
-        const name = new ProductServiceHandler(prod).getProductName();
+        // const name = new ProductServiceHandler(prod).getProductName();
+        setName((newProduct.name).length > 20 ? (newProduct.name).slice(0 , 20) + '...' : newProduct.name);
+
         const profit = await SaleService.getSaleEntryProfitById(sale.id);
         const quant = await SaleService.getSaleProductQuantity(sale.id);
         const total = await SaleService.getSaleEntryAmountById(sale.id);

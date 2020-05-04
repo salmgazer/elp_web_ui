@@ -105,7 +105,7 @@ const DayView = props => {
                     </div>
                     :
 
-                    sales.map((sale) => <SingleDayView  key={sale.id} sale={sale} />)
+                    sales.map((sale) => <SingleDayView  key={sale.id} sale={sale} saleEntry={sale} />)
                 }
             </Box>
 
