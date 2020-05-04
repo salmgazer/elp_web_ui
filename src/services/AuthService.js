@@ -26,7 +26,7 @@ export default class AuthService {
                 params,
                 {},
                 {},
-                'http://elpcoreapidev.us-east-2.elasticbeanstalk.com/v1/client/users/login'
+                'https://core-api-dev.mystoreaid.net/v1/client/users/login'
             );
 
             if( user ){
@@ -112,7 +112,7 @@ export default class AuthService {
                 params,
                 {},
                 {},
-                'http://elpcoreapidev.us-east-2.elasticbeanstalk.com/v1/client/users/register'
+                'https://core-api-dev.mystoreaid.net/v1/client/users/register'
             );
 
             if( response ){

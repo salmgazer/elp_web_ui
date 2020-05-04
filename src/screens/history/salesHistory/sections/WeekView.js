@@ -8,7 +8,8 @@ import { withRouter } from "react-router-dom";
 
 import SingleWeekView from './productViews/SingleWeekView';
 import CardsSection from '../../../../components/Sections/CardsSection';
-import DateServiceHandler from "../../../../services/SystemDateHandler";
+import SystemDateHandler from "../../../../services/SystemDateHandler";
+
 import BranchService from "../../../../services/BranchService";
 
 const useStyles = makeStyles(theme => ({
@@ -18,11 +19,11 @@ const useStyles = makeStyles(theme => ({
     }
 }));
 
-const values = new DateServiceHandler().getStoreWeeks()
+const values = new SystemDateHandler().getStoreWeeks()
 
 const WeekView = props => {
-    console.log(new DateServiceHandler().getStoreWeeks());
-    
+    console.log(new SystemDateHandler().getStoreWeeks());
+
     const classes = useStyles();
     const [selectedWeek, setSelectedWeek] = React.useState(values[0].value);
 

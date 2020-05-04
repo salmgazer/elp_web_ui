@@ -31,7 +31,7 @@ class CategorySetup extends Component{
             let newCategory = await new Api('others').index(
                 {},
                 {'Authorization': `Bearer ${accessToken}`},
-                `https://elp-core-api-dev.herokuapp.com/v1/client/branches/${branchId}/product_categories`,
+                `https://core-api-dev.mystoreaid.net/v1/client/branches/${branchId}/product_categories`,
             );
             localStorage.setItem('categoryLookup' , JSON.stringify(newCategory.data.allChildren));
 
@@ -184,7 +184,7 @@ class CategorySetup extends Component{
                 {},
                 {'Authorization': `Bearer ${accessToken}`},
                 {},
-                `https://elp-core-api-dev.herokuapp.com/v1/client/branches/${branchId}/product_categories?product_category_ids=${branchAddedCategories}`,
+                `https://core-api-dev.mystoreaid.net/v1/client/branches/${branchId}/product_categories?product_category_ids=${branchAddedCategories}`,
             );
 
             if(branchCategories){

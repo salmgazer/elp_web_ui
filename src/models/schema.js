@@ -15,9 +15,11 @@ import branchCustomerSchema from "./branchesCustomer/branchCustomerSchema";
 import saleInstallmentSchema from "./saleInstallments/saleInstallmentSchema";
 import purchaseSchema from "./branchPurchases/purchaseSchema";
 import stockMovementSchema from "./stockMovements/stockMovementSchema";
+import auditSchema from "./audit/auditSchema";
+import auditEntriesSchema from "./auditEntry/auditEntriesSchema";
 
 export default appSchema({
-  version: 10, // must always match the latest migration number in migrations.js
+  version: 11, // must always match the latest migration number in migrations.js
   tables: [
     tableSchema(brandSchema),
     tableSchema(manufacturerSchema),
@@ -35,5 +37,7 @@ export default appSchema({
     tableSchema(saleInstallmentSchema),
     tableSchema(purchaseSchema),
     tableSchema(stockMovementSchema),
+    tableSchema(auditSchema),
+    tableSchema(auditEntriesSchema),
   ]
 });

@@ -30,7 +30,6 @@ const useStyles = makeStyles({
 
 const Drawer = props => {
     const { history } = props;
-console.log(props.isShow)
     const classes = useStyles();
     const [state, setState] = React.useState({
         left: props.isShow,

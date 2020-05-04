@@ -5,6 +5,7 @@ const branchProductStockSchema = {
     { name: 'branchId', type: 'string' },
     { name: 'productId', type: 'string' },
     { name: 'createdBy', type: 'string' },
+    { name: 'type', type: 'string' },
     { name: 'quantity', type: 'number' },
     { name: 'costPrice', type: 'number' },
     { name: 'created_at', type: 'number' },

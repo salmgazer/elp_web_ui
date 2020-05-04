@@ -10,7 +10,8 @@ import { withRouter } from "react-router-dom";
 
 import SingleYearView from './productViews/SingleYearView';
 import CardsSection from '../../../../components/Sections/CardsSection';
-import DateServiceHandler from "../../../../services/SystemDateHandler";
+import SystemDateHandler from "../../../../services/SystemDateHandler";
+
 import BranchService from "../../../../services/BranchService";
 
 const useStyles = makeStyles(theme => ({
@@ -19,12 +20,12 @@ const useStyles = makeStyles(theme => ({
     }
   }));
 
-  const values = new DateServiceHandler().getStoreYears()
+  const values = new SystemDateHandler().getStoreYears()
 
   const YearView = props => {
-    console.log(new DateServiceHandler().getStoreYears());
+    console.log(new SystemDateHandler().getStoreYears());
 
-    
+
     const classes = useStyles();
     const [selectedYear, setSelectedYear] = React.useState(values[0].value);
     const [saleDetails , setSaleDetails] = useState(false);
@@ -42,11 +43,11 @@ const useStyles = makeStyles(theme => ({
               getSaleDetails(selectedYear);
           }
       });
-  
+
       const getSaleDetails = async (date) => {
           console.log(date);
           const response = await new BranchService().getSalesDetails('year', date);
-  
+
           setSaleDetails(response);
           setSales(response.sales);
           console.log(response)
@@ -115,7 +116,7 @@ const useStyles = makeStyles(theme => ({
                 }
             </Box>
 
-            
+
             {/* <Box style={{marginTop: '5px' , paddingBottom: '60px'}} p={1} className={`mt-3 mb-5`}>
                 {props.yearItem.map((item) => <SingleYearView  key={item.day_id} yearItems={item}/>)}
             </Box> */}

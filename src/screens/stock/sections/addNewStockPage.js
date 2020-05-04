@@ -28,7 +28,6 @@ import { confirmAlert } from 'react-confirm-alert';
 import UnitCost from '../../Components/Input/UnitCost';
 import LocalInfo from "../../../services/LocalInfo";
 import BranchProductService from "../../../services/BranchProductService";
-import Snackbar from '@material-ui/core/Snackbar';
 import MuiAlert from '@material-ui/lab/Alert';
 
 const useStyles = makeStyles(theme => ({
@@ -162,7 +161,7 @@ const AddNewStockPage = props => {
     const [calculatorDialog, setCalculatorDialog] = useState(false);
     const [moneySourceDialog, setMoneySourceDialog] = useState(false);
     const [sellingPriceDialog, setSellingPriceDialog] = useState(false);
-    const [loading , setLoading] = useState(false);
+    const [loading , setLoading] = useState(true);
     const [successDialog, setSuccessDialog] = useState(false);
     const [errorDialog, setErrorDialog] = useState(false);
     const [errorMsg, setErrorMsg] = useState('');
@@ -175,6 +174,7 @@ const AddNewStockPage = props => {
         sellingPrice: branchProduct.sellingPrice,
         costPrice: "",
         paymentSource: 'sales',
+        type: 'stock',
         productId: branchProduct.productId,
         branchProductId: branchProduct.id,
         rememberChoice: false,
@@ -339,6 +339,7 @@ const AddNewStockPage = props => {
 
         if(name === 'costPrice'){
             setTotalPrice((value * formFields.quantity).toFixed(2));
+            setLoading(false);
         }else if(name === 'quantity'){
             setTotalPrice((value * formFields.costPrice).toFixed(2));
         }
@@ -369,7 +370,8 @@ const AddNewStockPage = props => {
     };
 
     const handleSwitchChange = event => {
-        setInputValue(event.target.name , event.target.value);
+        const name = event.target.name;
+        setInputValue(event.target.name , !formFields[name]);
     };
 
     const backHandler = () => {
@@ -391,6 +393,7 @@ const AddNewStockPage = props => {
 
         setFormFields(oldFormFields);
         setUnitPrice(cp.toFixed(2));
+        setLoading(false);
     };
 
     const saveChangePrice = () => {
@@ -579,7 +582,6 @@ const AddNewStockPage = props => {
                     variant="contained"
                     style={{'backgroundColor': '#DAAB59' , color: '#333333', padding: '5px 50px'}}
                     onClick={saveStock}
-                    disabled={loading}
                 >
                     Save
                 </Button>

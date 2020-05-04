@@ -9,7 +9,6 @@ import {withRouter} from 'react-router-dom';
 import paths from "../../../utilities/paths";
 import MenuIcon from '@material-ui/icons/Menu';
 import SectionNavbars from "../../../components/Sections/SectionNavbars";
-import ShoppingCartOutlinedIcon from '@material-ui/icons/ShoppingCartOutlined';
 import SecondaryButton from "../../../components/Buttons/SecondaryButton";
 import AuditSearchMode from "./searchMode/AuditSearchMode";
 import AuditBarcodeMode from "./barcodeMode/AuditBarcodeMode";
@@ -96,15 +95,12 @@ const MainAuditView = props => {
                 style={{ height: '2.5rem', position: "fixed", bottom:"0", width:"100%" }}
             >
                 <div
-                    onClick={() => history.push(paths.cart)}
+                    onClick={() => props.setView(2)}
                 >
                     <SecondaryButton
                         classes={`capitalization font-weight-bold text-dark`}
                     >
-                        View cart
-                        <ShoppingCartOutlinedIcon
-                            style={{paddingLeft: '10px' , fontSize: '16px'}}
-                        />
+                        View counted products
                         <span style={{
                             fontSize: '12px',
                             color: '#000000',

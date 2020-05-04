@@ -2,12 +2,15 @@ import React , { useState, useEffect } from 'react';
 import Paper from "@material-ui/core/Paper/Paper";
 import Typography from "@material-ui/core/Typography/Typography";
 import ProductServiceHandler from "../../services/ProductServiceHandler";
+import AuditService from "../../services/AuditService";
 
 
 const ProductCard = (props) => {
     const [product , setProduct] = useState('');
     const [name , setName] = useState('');
     const [image , setImage] = useState('');
+    const [quantityProduct , setQuantityProduct] = useState(0);
+    const [productAuditDetials , setProductAuditDetials] = useState(false);
 
     useEffect(() => {
         // You need to restrict it at some point
@@ -20,6 +23,8 @@ const ProductCard = (props) => {
     const getProduct = async () => {
         const newProduct = await props.product;
         setProduct(newProduct);
+        setQuantityProduct(await props.storeCounted);
+        setProductAuditDetials(await props.appCounted);
         setImage(new ProductServiceHandler(product).getProductImage());
         setName((newProduct.name).length > 20 ? (newProduct.name).slice(0 , 20) + '...' : newProduct.name);
     };
@@ -36,9 +41,15 @@ const ProductCard = (props) => {
                 {name}
             </Typography>
 
-            <span className={`text-center font-weight-lighter text-dark`} style={{fontSize: '12px'}}>
-                {props.children}
-            </span>
+            {props.audit ?
+                <span className={`text-center font-weight-lighter text-dark`} style={{fontSize: '12px'}}>
+                    App: {quantityProduct ? `${quantityProduct}` : 0} | Count: {productAuditDetials ? `${productAuditDetials.quantityCounted}` : 0}
+                </span> :
+                <span className={`text-center font-weight-lighter text-dark`} style={{fontSize: '12px'}}>
+                    {props.children}
+                </span>
+            }
+
         </Paper>
     );
 };

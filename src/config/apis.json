@@ -2,8 +2,8 @@
   "elp-core-api" : {
     "development": {
       "v1": {
-        "basePath" : "elpcoreapidev.us-east-2.elasticbeanstalk.com",
-        "protocol" : "http",
+        "basePath" : "core-api-dev.mystoreaid.net",
+        "protocol" : "https",
         "prefix" : "client"
       }
     }
