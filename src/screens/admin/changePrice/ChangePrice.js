@@ -12,25 +12,23 @@ import EditProductView from "./sections/EditProductView";
 import CompleteView from "./sections/CompleteView";
 import './changePrice.scss';
 
+import LocalInfo from "../../../services/LocalInfo";
+import BranchService from "../../../services/BranchService";
+import {withDatabase} from "@nozbe/watermelondb/DatabaseProvider";
+import withObservables from "@nozbe/with-observables";
+import {Q} from "@nozbe/watermelondb";
+import database from "../../../models/database";
+import SaleService from "../../../services/SaleService";
+
+
 class ChangePrice extends Component{
     state = {
         isDrawerShow: false,
         value: 0,
         storeProducts: 1,
         activeStep: 0,
+        branchProducts: [],
         currentProduct: 0,
-        productList: [
-            {
-                "pro_id": "1126",
-                "pro_name": "Sangria Don Simon Red Wine 1L Tetrapak",
-                "image": " Sangria Don Simon Red Wine 1L Tetrapak.jpg",
-                "p_cat_id": "1",
-                "cat_name": "Alcoholic Wine",
-                "Cost_Price": "12",
-                "Selling_Price": "13",
-                "status": true,
-            },
-        ],
         addedProducts: [
             {
                 "store_id": "1",
@@ -59,17 +57,28 @@ class ChangePrice extends Component{
         ]
     };
 
+    async componentDidMount() {
+        const { history, database , branchProducts } = this.props;
+
+        await this.setState({
+            branchProducts: branchProducts,
+        });
+    }
+
+    async componentDidUpdate(prevProps) {
+        const { history, database , branchProducts  } = this.props;
+    }
+
     //Steps to select category
     getSteps = () => {
         return ['Main View' , 'Product Details View'];
     };
 
     getStepContent = step => {
-        const shop_products = (this.state.productList).filter((item) => item['status'] === true);
 
         switch (step) {
             case 0:
-                return <MainView setView={this.setStepContentView.bind(this)} viewAddedProducts={this.viewAddedProducts(this)} products={this.state.productList} productAdd={this.showAddView.bind(this)} removeProduct={this.removeProduct.bind(this)} spCount={shop_products.length} />;
+                return <MainView setView={this.setStepContentView.bind(this)} viewAddedProducts={this.viewAddedProducts(this)} products={this.state.productList} branchProducts={this.state.branchProducts} searchHandler={this.searchHandler.bind(this)} productAdd={this.showAddView.bind(this)} removeProduct={this.removeProduct.bind(this)} />;
             case 1:
                 return <AddProductView addNewProduct={this.addNewProduct.bind(this)} setView={this.setStepContentView.bind(this)} product={this.state.currentProduct}/>;
             case 2:
@@ -125,15 +134,32 @@ class ChangePrice extends Component{
         });
     };
 
+    /*
+    * Search products handler...
+    * */
+    searchHandler = async (searchValue) => {
+        /*
+        * @todo make sure it works...
+        * */
+        try {
+            const products = await new BranchService().searchBranchProduct(searchValue);
 
-    showAddView = (proId , step) => {
-        console.log(`${proId} from addProduct`);
-        const old_list = this.state.productList;
+            this.setState({
+                branchProducts: products,
+            });
+        }catch (e) {
+            return false
+        }
+    };
+
+
+    showAddView = async (productId , step) => {
+        const old_list = this.state.branchProducts;
 
         //Find index of specific object using findIndex method.
-        const itemIndex = old_list.filter((item => item.pro_id === proId));
-        //Assign current object to new variable
+        const itemIndex = old_list.filter((item => item.productId === productId));
 
+        //console.log(itemIndex)
         this.setState({
             currentProduct: itemIndex,
             activeStep: step
@@ -194,4 +220,13 @@ class ChangePrice extends Component{
     }
 }
 
-export default withRouter(ChangePrice);
+const EnhancedChangePrice = withDatabase(
+    withObservables(['branchProducts' ], ({ branchProducts , database  }) => ({
+        branchProducts: new BranchService(LocalInfo.branchId).getProducts(),
+        //cartQ: database.collections.get(CartEntry.table).query(Q.where('id', new CartService().cartId())).observe(),
+        //cartQ: database.collections.get(CartEntry.table).find(new CartService().cartId()),
+    }))(withRouter(ChangePrice))
+);
+
+export default EnhancedChangePrice;
+

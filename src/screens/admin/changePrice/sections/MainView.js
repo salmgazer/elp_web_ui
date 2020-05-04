@@ -13,6 +13,7 @@ import {makeStyles} from "@material-ui/core";
 import paths from "../../../../utilities/paths";
 
 const MainView = props => {
+    const branchProducts = props.branchProducts;
     const [value , setValue] = useState(0);
     const { history } = props;
     const a11yProps = (index) => {
@@ -73,7 +74,7 @@ const MainView = props => {
                 onChangeIndex={handleChangeIndex}
             >
                 <TabPanel value={value} index={0}>
-                    <SearchMode products={props.products} productAdd={addProduct.bind(this)} removeProduct={removeProduct.bind(this)}/>
+                    <SearchMode branchProducts={branchProducts} searchHandler={props.searchHandler} productAdd={props.productAdd} />
                 </TabPanel>
                 <TabPanel value={value} index={1} >
                     <BarcodeMode/>

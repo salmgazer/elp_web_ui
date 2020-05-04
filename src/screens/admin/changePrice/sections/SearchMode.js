@@ -7,12 +7,15 @@ import InputBase from '@material-ui/core/InputBase';
 import Paper from '@material-ui/core/Paper';
 import { makeStyles } from '@material-ui/core/styles';
 import Grid from "@material-ui/core/Grid/Grid";
+import SearchInput from "../../../Components/Input/SearchInput";
 // import Select from '@material-ui/core/Select';
 // import MenuItem from '@material-ui/core/MenuItem';
 // import ProductCard from "../../../../Components/Cards/ProductCard";
 // import AddedIcon from "../../../Components/ClickableIcons/AddedIcon";
 // import AddIcon from "../../../Components/ClickableIcons/AddIcon";
 import ProductCardHorizontal from "../../../../components/Cards/ProductCardHorizontal";
+import BranchProductService from "../../../../services/BranchProductService";
+
 
 
 const useStyles = makeStyles(theme => ({
@@ -38,28 +41,27 @@ const useStyles = makeStyles(theme => ({
 }));
 
 const SearchMode = props => {
-    const [type, setType] = useState(10);
-
-    const handleTypeChange = event => {
-        setType(event.target.value);
-    };
-
-    const addProduct = (pId , event) => {
-        props.productAdd(pId);
-    };
-
-    const products = props.products;
-
-    const classes = useStyles();
 
     const addProductHandler = (id) => {
         console.log(id);
-        props.productAdd(id);
+        props.productAdd(id, 1);
     };
 
-    const removeProductHandler = (id) => {
-        console.log(id);
-        props.removeProduct(id);
+    const [searchValue , setSearchValue] = useState({
+        search: ''
+    });
+
+    const branchProducts = props.branchProducts;
+
+
+    const setInputValue = (name , value) => {
+        const {...oldFormFields} = searchValue;
+
+        oldFormFields[name] = value;
+
+        setSearchValue(oldFormFields);
+
+        props.searchHandler(value);
     };
 
     return(
@@ -67,32 +69,56 @@ const SearchMode = props => {
 
             <Grid container spacing={1}>
                 <Grid item xs={12} style={{marginTop: '5px', padding: '4px 4px'}}>
-                    <Paper className={classes.root} style={{width: '96%'}}>
-                        <InputBase
-                            className={`${classes.input} search-box`}
-                            placeholder="Search for a product"
-                            inputProps={{ 'aria-label': 'Search for a product' }}
-                        />
-                        <IconButton className={classes.iconButton} aria-label="search">
-                            <SearchIcon />
-                        </IconButton>
-                    </Paper>
+                    <SearchInput
+                        inputName="search"
+                        getValue={setInputValue.bind(this)}
+                        styles={{width: '95%'}}
+                    />
                 </Grid>
 
 
             </Grid>
 
             <Grid container spacing={1} className='mt-3'>
-                {products.map((item) =>
-                    <Grid key={item.pro_id} item xs={12} style={{padding: '4px 8px' , position: 'relative'}} className={`mx-0 px-1`}>
-                        <div onClick={addProductHandler.bind(this, item.pro_id)}>
-                        <ProductCardHorizontal product={item}>
-                        </ProductCardHorizontal>
+                {branchProducts.length === 0
+                    ?
+                    <Grid
+                        item xs={12}
+                        className={`text-left pl-2`}
+                    >
+                        <div className={`rounded mx-1 my-2 p-2 bordered`}>
+                            <Typography
+                                component="h6"
+                                variant="h6"
+                                style={{fontSize: '16px'}}
+                                className={`text-center text-dark w-100`}
+                            >
+                                No product found
+                            </Typography>
                         </div>
+                    </Grid>
+                    :
+                    branchProducts.map((branchProduct) =>
+                    <Grid key={branchProduct.productId} item xs={12} style={{padding: '4px 8px' , position: 'relative'}} className={`mx-0 px-1`}>
+                        <div
+                            onClick={addProductHandler.bind(this, branchProduct.productId)}
+                        >
+                            <ProductCardHorizontal product={branchProduct.product.fetch()}>
+                                {new BranchProductService(branchProduct).getSellingPrice() ? `GHC ${new BranchProductService(branchProduct).getSellingPrice()}` : `No selling price`}
+                            </ProductCardHorizontal>
 
-
+                        </div>
                     </Grid>
                 )}
+                
+                {/* {products.map((item) =>
+                    <Grid key={item.pro_id} item xs={12} style={{padding: '4px 8px' , position: 'relative'}} className={`mx-0 px-1`}>
+                        <div onClick={addProductHandler.bind(this, item.pro_id)}>
+                        <ProductCardHorizontal product={item} />
+                        </div>
+
+                    </Grid>
+                )} */}
             </Grid>
         </div>
     );

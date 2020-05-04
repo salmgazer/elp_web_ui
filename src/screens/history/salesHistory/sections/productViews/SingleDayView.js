@@ -18,6 +18,8 @@ import TextField from '@material-ui/core/TextField';
 
 import ProductServiceHandler from "../../../../../services/ProductServiceHandler";
 import SaleService from "../../../../../services/SaleService";
+import BranchService from "../../../../../services/BranchService";
+import LocalInfo from "../../../../../services/LocalInfo";
 import format from "date-fns/format";
 
 
@@ -58,9 +60,11 @@ const SingleDayView = props => {
 
     const getProduct = async () => {
         //const newProduct = await sale.product.fetch();
-        const prod = await new SaleService().getSaleProductsById(sale.id);
+        const prod= await new BranchService(LocalInfo.branchId).getProducts();
+
+        //const prod = await new SaleService().getSaleProductsById(sale.id);
         console.log(prod);
-        const name = new ProductServiceHandler(prod.productId).getProductName();
+        const name = new ProductServiceHandler(prod).getProductName();
         const profit = await SaleService.getSaleEntryProfitById(sale.id);
         const quant = await SaleService.getSaleProductQuantity(sale.id);
         const total = await SaleService.getSaleEntryAmountById(sale.id);
