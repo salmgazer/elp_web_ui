@@ -52,7 +52,7 @@ const SingleMonthView = props => {
             </Grid>
             <Grid item xs={9} style={{display: 'table', height: '60px', margin: '8px 0px'}}>
                 <div style={{textAlign: 'left', display: 'table-cell', verticalAlign: 'middle'}}>
-                    <span className='text-dark font-weight-bold' >{format(new Date(props.date) , "eeee, MMMM do, yyyy")} </span>
+                    <span className='text-dark font-weight-bold' >{format(new Date(purchase.createdAt) , "eeee, MMMM do, yyyy")} </span>
                     <div className="font-weight-light mt-1" style={{ fontSize: '13px'}}>Quantity {quantity}</div>
                     <div className="font-weight-light mt-1" style={{ fontSize: '13px'}}>Cost : GHC {costPrice}</div>
                 </div>
