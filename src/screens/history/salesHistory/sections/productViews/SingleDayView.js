@@ -58,8 +58,9 @@ const SingleDayView = props => {
 
     const getProduct = async () => {
         //const newProduct = await sale.product.fetch();
-        //const prod = await SaleService.getSaleProductsById(sale.id);
-        //const name = new ProductServiceHandler(prod.product).getProductName();
+        const prod = await new SaleService().getSaleProductsById(sale.id);
+        console.log(prod);
+        const name = new ProductServiceHandler(prod.productId).getProductName();
         const profit = await SaleService.getSaleEntryProfitById(sale.id);
         const quant = await SaleService.getSaleProductQuantity(sale.id);
         const total = await SaleService.getSaleEntryAmountById(sale.id);
