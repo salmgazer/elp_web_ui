@@ -78,17 +78,16 @@ const BarcodeMode = props => {
                 codeReader
                     .decodeOnceFromVideoDevice(selectedDeviceId, 'video')
                     .then(result => {
-                        alert(result.text);
                         beepSound.play();
                         setBarcodeNumber(result.text);
                         barcodeSearchHandler();
-                        codeReader.reset();
                         document.getElementById('barOverlay').style.display = 'block';
                     })
                     .catch(err => {
                         //document.getElementById('barError').textContent = err;
                         console.log(err)
                     });
+                    codeReader.reset();
             });
         })
         .catch(err => console.error(err));
