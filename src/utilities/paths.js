@@ -20,4 +20,10 @@ export default {
     sell: "/sell",
     stock: "/stock",
     audit: "/audit",
+    admin: "/admin",
+    add_warehouse: "/add-warehouse",
+    change_store_info: "/store-information",
+    account_info: "/account-information",
+    verify_phone: "/verify-phone",
+    change_price: "/change-price",
 };

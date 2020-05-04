@@ -26,8 +26,8 @@ const SingleWeekView = props => {
         /*
         * @todo get entries via query on model
         * */
-       const costP = await BranchStockService.getCostPriceById(purchase.id);
-       const quant = await BranchStockService.getQuantityById(purchase.id);
+       const costP = await BranchStockService.getStockEntryCostPriceById(purchase.id);
+       const quant = await BranchStockService.getStockProductQuantity(purchase.id);
        setCostPrice(costP);
        setQuantity(quant);
     };

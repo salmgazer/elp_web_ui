@@ -35,6 +35,12 @@ import Sell from "./screens/sell/sell/Sell";
 import MainViewStock from "./screens/stock/DirectiveViewStock";
 import GetStartedAudit from "./screens/audit/getStarted/getStartedAudit";
 import Audit from "./screens/audit/Audit";
+import Admin from "./screens/admin/Admin";
+import AddWarehouse from "./screens/admin/warehouse/AddWarehouse";
+import ChangeStoreInformation from "./screens/admin/storeInformation/ChangeStoreInformation";
+import AccountInformation from "./screens/admin/accountInformation/AccountInformation";
+import VerifyPhone from "./screens/admin/accountInformation/VerifyPhone";
+import ChangePrice from "./screens/admin/changePrice/ChangePrice";
 
 function NoMatch() {
   let location = useLocation();
@@ -241,6 +247,55 @@ class App extends React.Component {
                         return <MainViewStock/>;
                     }}
                 />
+                <Route
+                    path={paths.admin}
+                    render={() => {
+                        setPageBackground();
+                        this.setTitle(`Admin | ${appName}`);
+                        return <Admin />;
+                    }}
+                />
+                <Route
+                    path={paths.add_warehouse}
+                    render={() => {
+                        setPageBackground();
+                        this.setTitle(`Admin | ${appName}`);
+                        return <AddWarehouse />;
+                    }}
+                />
+                <Route
+                    path={paths.change_store_info}
+                    render={() => {
+                        setPageBackground();
+                        this.setTitle(`Admin | ${appName}`);
+                        return <ChangeStoreInformation />;
+                    }}
+                />
+                <Route
+                    path={paths.account_info}
+                    render={() => {
+                        setPageBackground();
+                        this.setTitle(`Admin | ${appName}`);
+                        return <AccountInformation />;
+                    }}
+                />
+                <Route
+                    path={paths.verify_phone}
+                    render={() => {
+                        setPageBackground();
+                        this.setTitle(`Admin | ${appName}`);
+                        return <VerifyPhone />;
+                    }}
+                />
+                <Route
+                    path={paths.change_price}
+                    render={() => {
+                        setPageBackground();
+                        this.setTitle(`Admin | ${appName}`);
+                        return <ChangePrice />;
+                    }}
+                />
+
               <Route path="*">
                 <NoMatch />
               </Route>
