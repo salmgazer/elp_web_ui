@@ -90,7 +90,7 @@ const ForgotPassword = props => {
             let response = await new Api('others').index(
                 {},
                 {},
-                `https://elp-core-api-dev.herokuapp.com/v1/client/users/verify_password_reset?phone=${contact}`,
+                `https://core-api-dev.mystoreaid.net/v1/client/users/verify_password_reset?phone=${contact}`,
                 {}
             );
 
