@@ -9,8 +9,7 @@ import { withRouter } from "react-router-dom";
 import SingleMonthView from './productViews/SingleMonthView';
 import CardsSection from '../../../../components/Sections/CardsSection';
 import SystemDateHandler from "../../../../services/SystemDateHandler";
-
-import BranchService from "../../../../services/BranchService";
+import SaleService from "../../../../services/SaleService";
 
 const useStyles = makeStyles(theme => ({
     root: {
@@ -43,7 +42,7 @@ const useStyles = makeStyles(theme => ({
 
       const getSaleDetails = async (date) => {
           console.log(date);
-          const response = await new BranchService().getSalesDetails('month', date);
+          const response = await new SaleService().getSalesDetails('month', date);
 
           setSaleDetails(response);
           setSales(response.sales);

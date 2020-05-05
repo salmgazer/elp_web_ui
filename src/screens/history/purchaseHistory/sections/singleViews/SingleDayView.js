@@ -38,7 +38,7 @@ const SingleDayView = props => {
     const [costPrice , setCostPrice] = useState(false);
     const [name , setName] = useState(false);
     const [image , setImage] = useState(false);
-    // const [product, setProduct] = useState(false);
+    const [product, setProduct] = useState(false);
 
     function a11yProps(index) {
         return {
@@ -78,6 +78,12 @@ const SingleDayView = props => {
         /*
         * @todo get entries via query on model
         * */
+        const newProduct = await props.purchaseEntry.product.fetch();
+        setProduct(newProduct);
+        setImage(new ProductServiceHandler(product).getProductImage());
+        setName((newProduct.name).length > 20 ? (newProduct.name).slice(0 , 20) + '...' : newProduct.name);
+
+
         const costP = await BranchStockService.getStockEntryCostPriceById(purchase.id);
         const quant = await BranchStockService.getStockProductQuantity(purchase.id);
         // setProduct(newProduct);

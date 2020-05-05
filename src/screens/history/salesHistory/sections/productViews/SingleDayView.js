@@ -117,9 +117,9 @@ const SingleDayView = props => {
                 <Grid item xs={6} style={{display: 'table', height: '60px', margin: '8px 0px'}}>
                     <div style={{textAlign: 'left', display: 'table-cell', verticalAlign: 'middle'}}>
                     <span className='text-dark font-weight-bold' >{name}</span>
-                        <div className="font-weight-light mt-1" style={{ fontSize: '13px'}}>Quantity: {quantity}</div>
-                        <div className="font-weight-light mt-1" style={{ fontSize: '13px'}}>Sales: GHC {totalPrice}</div>
-                        <div className="font-weight-light mt-1" style={{ fontSize: '13px'}}>Profit: GHC {profit}</div>
+                        <div className="font-weight-light mt-1" style={{ fontSize: '13px'}}>Quantity: {sale.quantity}</div>
+                        <div className="font-weight-light mt-1" style={{ fontSize: '13px'}}>Sales: GHC {(sale.sellingPrice * sale.quantity)}</div>
+                        <div className="font-weight-light mt-1" style={{ fontSize: '13px'}}>Profit: GHC {(sale.sellingPrice * sale.quantity) - (sale.costPrice * sale.quantity)}</div>
                     </div>
                 </Grid>
 
@@ -153,8 +153,8 @@ const SingleDayView = props => {
                         <Grid item xs={6} style={{display: 'table', height: '60px', margin: '8px 0px'}}>
                             <div style={{textAlign: 'left', display: 'table-cell', verticalAlign: 'middle'}}>
                                 <span className='text-dark font-weight-bold' >{name}</span>
-                                <div className="font-weight-light mt-1" style={{ fontSize: '13px'}}>Quantity: {quantity}</div>
-                                <div className="font-weight-light mt-1" style={{ fontSize: '13px'}}>Cost: GHC {totalPrice}</div>
+                                <div className="font-weight-light mt-1" style={{ fontSize: '13px'}}>Quantity: {sale.quantity}</div>
+                                <div className="font-weight-light mt-1" style={{ fontSize: '13px'}}>Cost: GHC {sale.sellingPrice* sale.quantity}</div>
                                 <div className="font-weight-light mt-1" style={{ fontSize: '13px'}}>Audit sale</div>
                             </div>
                         </Grid>
@@ -196,7 +196,7 @@ const SingleDayView = props => {
                             <TextField 
                                 id="outlined-basic" 
                                 label="Quantity" 
-                                value={quantity}
+                                value={sale.quantity}
                                 variant="outlined" 
                                 size="small" 
                                 style={{margin: '50px'}} 

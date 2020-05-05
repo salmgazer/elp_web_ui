@@ -16,9 +16,7 @@ import withObservables from "@nozbe/with-observables";
 import { v1 as uuidv1 } from 'uuid';
 import BranchService from "../../services/BranchService";
 import * as Q from "@nozbe/watermelondb/QueryDescription";
-import CartService from "../../services/CartService";
 import BranchStockService from "../../services/BranchStockService";
-import SaleService from "../../services/SaleService";
 import BranchProductStock from "../../models/branchesProductsStocks/BranchProductStock";
 
 class DirectiveViewStock extends Component{

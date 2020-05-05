@@ -286,7 +286,7 @@ export default class SaleService {
     }
 
     static async getSalesHistory(duration , date){
-        const sales = await new ModelAction('Sales').findByColumnNotObserve(
+        const sales = await new ModelAction('SaleEntry').findByColumnNotObserve(
             {
                 name: 'branchId',
                 value: LocalInfo.branchId,
@@ -299,14 +299,14 @@ export default class SaleService {
         console.log(day)
         switch (duration) {
             case 'day':
-                return sales.filter(sale => isSameDay(new Date(sale.salesDate) , day));
+                return sales.filter(sale => isSameDay(new Date(sale.createdAt) , day));
             case 'week':
                 //console.log(isSameWeek(sale.salesDate, day))
-                return sales.filter(sale => isSameWeek(new Date(sale.salesDate), day));
+                return sales.filter(sale => isSameWeek(new Date(sale.createdAt), day));
             case 'month':
-                return sales.filter(sale => isSameMonth(new Date(sale.salesDate), day));
+                return sales.filter(sale => isSameMonth(new Date(sale.createdAt), day));
             case 'year':
-                return sales.filter(sale => isSameYear(new Date(sale.salesDate), day));
+                return sales.filter(sale => isSameYear(new Date(sale.createdAt), day));
         }
     }
 
@@ -320,23 +320,23 @@ export default class SaleService {
         let quantity = 0;
 
         for (let step = 0; step < sale.length; step++) {
-            costPrice += parseFloat(await SaleService.getSaleEntryCostPriceById(sale[step].id));
+            costPrice += parseFloat(await SaleService.getSaleEntryCostPriceById(sale[step].saleId));
         }
 
         for (let step = 0; step < sale.length; step++) {
-            profit += parseFloat(await SaleService.getSaleEntryProfitById(sale[step].id));
+            profit += parseFloat(await SaleService.getSaleEntryProfitById(sale[step].saleId));
         }
 
         for (let step = 0; step < sale.length; step++) {
-            credit += parseFloat(await SaleService.getSaleEntryCreditById(sale[step].id));
+            credit += parseFloat(await SaleService.getSaleEntryCreditById(sale[step].saleId));
         }
 
         for (let step = 0; step < sale.length; step++) {
-            sellingPrice += parseFloat(await SaleService.getSaleEntrySellingPriceById(sale[step].id));
+            sellingPrice += parseFloat(await SaleService.getSaleEntrySellingPriceById(sale[step].saleId));
         }
 
         for (let step = 0; step < sale.length; step++) {
-            quantity += parseFloat(await SaleService.getSaleProductQuantity(sale[step].id));
+            quantity += parseFloat(await SaleService.getSaleProductQuantity(sale[step].saleId));
         }
 
         return {

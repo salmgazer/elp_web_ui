@@ -96,7 +96,7 @@ const WeekView = props => {
                 </Grid>
             </Grid>
 
-            <CardsSection quantity={quantity} costPrice={costPrice} sellingPrice={sellingPrice} profit={expProfit} profitName="Expected Profit" />
+            <CardsSection quantity={purchaseDetails.quantity} costPrice={purchaseDetails.costPrice} sellingPrice={sellingPrice} profit={expProfit} profitName="Expected Profit" />
             {/* <CardsSection quantity='4' costPrice='20' sellingPrice='50' profit='30' profitName="Expected Profit" /> */}
 
 

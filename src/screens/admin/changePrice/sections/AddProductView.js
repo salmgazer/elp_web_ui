@@ -1,19 +1,24 @@
-import React , {useState} from 'react';
+import React , {useState, useEffect} from 'react';
 import Typography from "@material-ui/core/Typography/Typography";
 import Button from "@material-ui/core/Button/Button";
 import Box from "@material-ui/core/Box/Box";
 import {makeStyles} from "@material-ui/core";
 import { confirmAlert } from 'react-confirm-alert';
+import InputBase from "@material-ui/core/InputBase/InputBase";
+import Paper from "@material-ui/core/Paper/Paper";
 import 'react-confirm-alert/src/react-confirm-alert.css';
 import SuccessDialog from "../../../../components/Dialog/SuccessDialog";
 import Snackbar from '@material-ui/core/Snackbar';
 import MuiAlert from '@material-ui/lab/Alert';
-import ChangePriceInput from "../../../../components/Input/ChangePriceInput";
 
+import BranchProductService from "../../../../services/BranchProductService";
+import BranchStockService from "../../../../services/BranchStockService";
+import ProductServiceHandler from "../../../../services/ProductServiceHandler";
+import LocalInfo from "../../../../services/LocalInfo";
 
 const useStyles = makeStyles(theme => ({
     root: {
-        width: '92%',
+        width: '90%',
         display: 'flex',
         padding: '2px 5px',
         alignItems: 'center',
@@ -39,68 +44,47 @@ function Alert(props) {
 }
 
 const AddProductView = props => {
-    const [history , setHistory] = useState([{"st_id":"20766","st_date":"2020-02-18","st_quantity":"3","st_product":"32","st_store_id":"1","timestamps":"2020-02-18 11:27:05"},{"st_id":"17451","st_date":"2020-01-09","st_quantity":"1","st_product":"32","st_store_id":"1","timestamps":"2020-01-09 13:40:05"}]);
+    // const [history , setHistory] = useState([{"st_id":"20766","st_date":"2020-02-18","st_quantity":"3","st_product":"32","st_store_id":"1","timestamps":"2020-02-18 11:27:05"},{"st_id":"17451","st_date":"2020-01-09","st_quantity":"1","st_product":"32","st_store_id":"1","timestamps":"2020-01-09 13:40:05"}]);
+    const classes = useStyles();
     const [successDialog, setSuccessDialog] = React.useState(false);
+    const branchProduct = props.product[0];
+    const [name , setName] = useState('');
+    const [image , setImage] = useState('');
+    const [product , setProduct] = useState('');
+    const [lastHistory , setLastHistory] = useState('');
+    const [costPrice , setCostPrice] = useState(0);
+    const [sellingPrice , setSellingPrice] = useState(branchProduct.sellingPrice);
     const [errorDialog, setErrorDialog] = useState(false);
-    const [formFields , setFormFields] = React.useState({
-        quantity: '',
-        sellingPrice: '',
-        costPrice: '',
-        pro_id: props.product[0].pro_id,
+    const [formFields , setFormFields] = useState({
+        sellingPrice: branchProduct.sellingPrice,
+        costPrice: "",
+        productId: branchProduct.productId,
+        branchProductId: branchProduct.id,
+        branchId: LocalInfo.branchId,
     });
 
-    const classes = useStyles();
+    const [changePriceFields , setChangePriceFields] = useState({
+        costPrice: "",
+        sellingPrice: "",
+    });   
 
-    const product = props.product[0];
-    const image = `https://elparah.store/admin/upload/${product.image}`;
-
-    const deleteHistory = (historyId , event) => {
-        console.log(historyId);
-
-        confirmAlert({
-            title: 'Confirm to delete',
-            message: 'Are you sure you want to delete this item.',
-            buttons: [
-                {
-                    label: 'Yes',
-                    onClick: () => {
-                        let old_list = [...history];
-
-                        const result = old_list.filter(item => item.st_id !== historyId);
-
-                        setHistory([...result]);
-                    }
-                },
-                {
-                    label: 'No',
-                    onClick: () => {
-                        return false;
-                    }
-                }
-            ]
-        })
-    };
-
-    const saveStock = (event) => {
-        if((formFields.costPrice !== "" || parseFloat(formFields.costPrice !== 0)) && (formFields.sellingPrice !== "" || parseFloat(formFields.sellingPrice !== 0))){
-            if(parseFloat(formFields.costPrice) >= parseFloat(formFields.sellingPrice)){
-                setErrorDialog(true);
-                setTimeout(function(){
-                    setErrorDialog(false);
-                }, 3000);
-                return false;
-            }
-
+    useEffect(() => {
+        if (!product) {
+            getProduct();
         }
+    }, []);
 
-        props.addNewProduct(formFields);
+    const productHandler = new BranchProductService(branchProduct);
 
-        setSuccessDialog(true);
-
-        setTimeout(function(){
-            setSuccessDialog(false);
-            props.setView(0, event)
-        }, 2000);
+    const getProduct = async () => {
+        const newProduct = await branchProduct.product.fetch();
+        const fetchLastHistory = await new BranchStockService().getLastProductStock(branchProduct.productId);
+        setProduct(newProduct);
+        setLastHistory(fetchLastHistory);
+        setName(newProduct.name);
+        setImage(new ProductServiceHandler(product).getProductImage());
+        setCostPrice(await productHandler.getCostPrice());
+        setSellingPrice(await productHandler.getSellingPrice());
     };
 
     const backHandler = (event) => {
@@ -124,15 +108,57 @@ const AddProductView = props => {
         });
     };
 
-    const setInputValue = (name , value) => {
-        console.log(name , value)
+    const changePriceFieldsHandler = (event) => {
+        const {...oldFormFields} = changePriceFields;
+
+        oldFormFields[event.target.name] = event.target.value;
+
+        setChangePriceFields(oldFormFields);
+    };
+
+    const saveChangePrice = () => {
         const {...oldFormFields} = formFields;
 
-        oldFormFields[name] = value;
-        console.log(oldFormFields)
+        oldFormFields['costPrice'] = changePriceFields['costPrice'];
+        oldFormFields['sellingPrice'] = changePriceFields['sellingPrice'];
 
         setFormFields(oldFormFields);
+
+        setChangePriceFields({
+            costPrice: "",
+            sellingPrice: ""
+        });
+
+        if((formFields.costPrice !== "" || parseFloat(formFields.costPrice !== 0)) && (formFields.sellingPrice !== "" || parseFloat(formFields.sellingPrice !== 0))){
+            if(parseFloat(formFields.costPrice) >= parseFloat(formFields.sellingPrice)){
+                setErrorDialog(true);
+                setTimeout(function(){
+                    setErrorDialog(false);
+                }, 3000);
+                return false;
+            }
+
+        }
+
+        props.updateProduct(formFields);
+
+        setSuccessDialog(true);
+
+        setTimeout(function(){
+            setSuccessDialog(false);
+            props.setView(0)
+        }, 2000);
     };
+
+    // const setInputValue = (name , value) => {
+    //     console.log(name , value)
+    //     const {...oldFormFields} = formFields;
+
+    //     oldFormFields[name] = value;
+    //     console.log(oldFormFields)
+
+    //     setFormFields(oldFormFields);
+    // };
 
     const handleCloseSnack = (event, reason) => {
         if (reason === 'clickaway') {
@@ -154,11 +180,11 @@ const AddProductView = props => {
                     style={{fontSize: '18px' , margin: '0px 0px', padding: '16px'}}
                     className={`text-center mx-auto text-dark font-weight-bold`}
                 >
-                    {product.pro_name}
+                    {name}
                 </Typography>
             </div>
             <div>
-                <img className={`img-fluid imageProduct mx-auto d-block pt-2`} src={image} alt={`${product.pro_name}`}/>
+                <img className={`img-fluid imageProduct mx-auto d-block pt-2`} src={image} alt={name} />
             </div>
 
             <Snackbar open={errorDialog} autoHideDuration={6000} onClose={handleCloseSnack}>
@@ -178,18 +204,42 @@ const AddProductView = props => {
                         style={{fontSize: '15px' , margin: '0px 0px', paddingBottom: '7px'}}
                         className={`text-left text-dark`}
                     >
-                        Current cost price : Ghc {product.Cost_Price}
+                        Current cost price : GHC {costPrice}
                     </Typography>
-                    <ChangePriceInput label={`New cost price`} inputName="costPrice" getValue={setInputValue.bind(this)} style={{width:'80%'}}/>
+                    <label className={`text-dark py-2 text-left`} style={{fontSize: '18px'}}> New cost price</label>
 
+                    <Paper className={classes.root} >
+                        <InputBase
+                            className={`${classes.input} search-box text-center`}
+                            type="tel"
+                            initialValue=""
+                            value={changePriceFields.costPrice}
+                            name="costPrice"
+                            onChange={(event) => changePriceFieldsHandler(event)}
+                        />
+
+                    </Paper>
                     <Typography
                         component="p"
                         style={{fontSize: '15px' , margin: '0px 0px' , paddingBottom: '7px' , paddingTop: '20px'}}
                         className={`text-left text-dark`}
                     >
-                        Current selling price : Ghc {product.Selling_Price}
+                        Current selling price : GHC {sellingPrice}
                     </Typography>
-                    <ChangePriceInput label={`New selling price`} inputName="sellingPrice" getValue={setInputValue.bind(this)}/>
+
+                    <label className={`text-dark py-2 text-left`} style={{fontSize: '18px'}}> New selling price</label>
+
+                    <Paper className={classes.root} >
+                        <InputBase
+                            className={`${classes.input} search-box text-center`}
+                            type="tel"
+                            initialValue=""
+                            value={changePriceFields.sellingPrice}
+                            name="sellingPrice"
+                            onChange={(event) => changePriceFieldsHandler(event)}
+                        />
+
+                    </Paper>              
                 </div>
 
 
@@ -212,7 +262,7 @@ const AddProductView = props => {
                 <Button
                     variant="contained"
                     style={{'backgroundColor': '#DAAB59' , color: '#333333', padding: '5px 50px'}}
-                    onClick={saveStock.bind(this)}
+                    onClick={saveChangePrice.bind(this)}
                 >
                     Save
                 </Button>

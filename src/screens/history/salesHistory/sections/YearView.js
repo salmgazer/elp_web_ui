@@ -11,8 +11,7 @@ import { withRouter } from "react-router-dom";
 import SingleYearView from './productViews/SingleYearView';
 import CardsSection from '../../../../components/Sections/CardsSection';
 import SystemDateHandler from "../../../../services/SystemDateHandler";
-
-import BranchService from "../../../../services/BranchService";
+import SaleService from "../../../../services/SaleService";
 
 const useStyles = makeStyles(theme => ({
     root: {
@@ -46,7 +45,7 @@ const useStyles = makeStyles(theme => ({
 
       const getSaleDetails = async (date) => {
           console.log(date);
-          const response = await new BranchService().getSalesDetails('year', date);
+          const response = await new SaleService().getSalesDetails('year', date);
 
           setSaleDetails(response);
           setSales(response.sales);

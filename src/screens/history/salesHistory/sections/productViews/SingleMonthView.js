@@ -20,8 +20,8 @@ const SingleMonthView = props => {
     });
 
     const getProfit = async () => {
-        const total = await SaleService.getSaleEntryAmountById(sale.id);
-        const profit = await SaleService.getSaleEntryProfitById(sale.id);
+        const total = await SaleService.getSaleEntryAmountById(sale.saleId);
+        const profit = await SaleService.getSaleEntryProfitById(sale.saleId);
 
         setTotal(total);
         setProfit(profit);

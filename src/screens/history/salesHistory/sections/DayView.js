@@ -13,6 +13,7 @@ import { withRouter } from "react-router-dom";
 import SingleDayView from './productViews/SingleDayView';
 import CardsSection from '../../../../components/Sections/CardsSection';
 import BranchService from "../../../../services/BranchService";
+import SaleService from "../../../../services/SaleService";
 
 const useStyles = makeStyles(theme => ({
     root: {
@@ -42,7 +43,7 @@ const DayView = props => {
     });
 
     const getSaleDetails = async (date) => {
-        const response = await new BranchService().getSalesDetails('day', date);
+        const response = await new SaleService().getSalesDetails('day', date);
         setSaleDetails(response);
         setSales(response.sales);
         console.log(response)
