@@ -11,8 +11,8 @@ import Box from "@material-ui/core/Box/Box";
 import { withRouter } from "react-router-dom";
 
 import SingleDayView from './productViews/SingleDayView';
+import SingleProductDay from './productViews/SingleProductDay';
 import CardsSection from '../../../../components/Sections/CardsSection';
-import BranchService from "../../../../services/BranchService";
 import SaleService from "../../../../services/SaleService";
 
 const useStyles = makeStyles(theme => ({
@@ -25,14 +25,16 @@ const DayView = props => {
     
     const classes = useStyles();
     const [selectedDate, setSelectedDate] = React.useState(new Date());
+    const [saleDetails , setSaleDetails] = useState(false);
+    const [sales , setSales] = useState([]);
+    const pageName = props.pageName;
+    
+    const [name , setName] = useState('');
 
     const handleDateChange = date => {
         setSelectedDate(date);
         getSaleDetails(date);
       };
-
-    const [saleDetails , setSaleDetails] = useState(false);
-    const [sales , setSales] = useState([]);
 
     useEffect(() => {
     // You need to restrict it at some point
@@ -44,6 +46,12 @@ const DayView = props => {
 
     const getSaleDetails = async (date) => {
         const response = await new SaleService().getSalesDetails('day', date);
+        if (pageName === true){
+            const branchProduct = props.product[0];
+            const newProduct = await branchProduct.product.fetch();
+            setName(newProduct.name);
+        }
+
         setSaleDetails(response);
         setSales(response.sales);
         console.log(response)
@@ -55,9 +63,26 @@ const DayView = props => {
 
             <Grid container spacing={1}>
                 <Grid item xs={6} >
-                    <Typography style={{fontSize: '14px', paddingTop: '20px', marginRight: '50px'}} >
-                        {props.pageName}
-                    </Typography>
+
+                        {pageName === false
+                            ?
+                            <Typography
+                                style={{fontSize: '14px', paddingTop: '20px', marginRight: '50px'}}
+                                className={`text-center text-dark`}
+                            >
+                                Sold items
+                            </Typography>
+                            :
+                            <Typography
+
+                                style={{fontSize: '14px', paddingTop: '20px', marginRight: '50px'}}
+                                className={`text-center text-dark`}
+                            >
+                            {name}
+                            </Typography>
+
+                        }
+                    
                 </Grid>
 
                 <Grid item xs={6} >
@@ -106,7 +131,12 @@ const DayView = props => {
                     </div>
                     :
 
+                    pageName === false ?
+
                     sales.map((sale) => <SingleDayView  key={sale.id} sale={sale} saleEntry={sale} />)
+                    :
+                    sales.map((sale) => <SingleProductDay  key={sale.id} sale={sale} saleEntry={sale} prodName={name} />)
+
                 }
             </Box>
 

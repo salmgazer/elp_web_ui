@@ -12,18 +12,19 @@ class SortDate extends Component{
 
     state={
         activeStep: 0,
+        pageName: false,
     }
 
     getStepContent = step => {
         switch (step) {
             case 0:
-                return <DayView setView={this.setStepContentView.bind(this)} pageName="Purchased items" />;
+                return <DayView setView={this.setStepContentView.bind(this)} pageName={this.state.pageName} />;
             case 2:
-                return <WeekView setView={this.setStepContentView.bind(this)} weekItem={this.state.weekList} pageName="Purchased items" />;
+                return <WeekView setView={this.setStepContentView.bind(this)} pageName={this.state.pageName} />;
             case 3:
-                return <MonthView setView={this.setStepContentView.bind(this)} monthItem={this.state.monthList} pageName="Purchased items" />;
+                return <MonthView setView={this.setStepContentView.bind(this)} pageName={this.state.pageName} />;
             case 4:
-                return <YearView setView={this.setStepContentView.bind(this)} yearItem={this.state.yearList} pageName="Purchased items" />;
+                return <YearView setView={this.setStepContentView.bind(this)} pageName={this.state.pageName} />;
             default:
                 return 'Complete';
         }

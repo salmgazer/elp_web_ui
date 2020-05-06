@@ -1,85 +1,51 @@
 import React, {Component} from 'react';
 import {withRouter} from "react-router";
+import {withDatabase} from "@nozbe/watermelondb/DatabaseProvider";
+import withObservables from "@nozbe/with-observables";
+import BranchService from "../../../../services/BranchService";
+import LocalInfo from "../../../../services/LocalInfo";
+import DateToggle from "../../../../components/DateToggle/DateToggle";
 
-import DayView from '../../salesHistory/sections/DayView';
-import WeekView from '../../salesHistory/sections/WeekView';
-import MonthView from '../../salesHistory/sections/MonthView';
-import YearView from '../../salesHistory/sections/YearView';
-import SProductView from '../../salesHistory/sections/SProductView';
+import DayView from './DayView';
+import WeekView from './WeekView';
+import MonthView from './MonthView';
+import YearView from './YearView';
+import SProductView from './SProductView';
 
 
 class SortProduct extends Component{
 
     state={
         isDrawerShow: false,
-        activeStep: 4,
-        productList: [
-            {
-                "pro_id": "1234",
-                "name": "Bella Vinas Red Wine",
-                "pro_name": "Bella Vinas",
-                "image": "no_image.png",
-                "quantity": "5",
-                "sales": "500",
-                "profit": "100"
-            }
-        ],
-        weekList: [ 
-            {
-                'day': 'Monday, 9th Mar, 2020',
-                'sales': '800',
-                'profit': '500'
-            },
-            {
-                'day': 'Tuesday, 10th Mar, 2020',
-                'sales': '900',
-                'profit': '200'
-            }
-            
-        ],
-        monthList: [ 
-            {
-                'week': 'Week 5: 17/02/2020 - 21/02/2020',
-                'sales': '800',
-                'profit': '500'
-            },
-            {
-                'week': 'Week 6: 24/02/2020 - 28/02/2020',
-                'sales': '900',
-                'profit': '200'
-            }
-        ],
-        yearList: [ 
-            {
-                'month': 'January 2020',
-                'sales': '800',
-                'profit': '500'
-            },
-            {
-                'month': 'February 2020',
-                'sales': '900',
-                'profit': '200'
-            },
-            {
-                'month': 'March 2020',
-                'sales': '700',
-                'profit': '300'
-            }
-        ]
+        activeStep: 1,
+        branchProducts: [],
+        currentProduct: {},
+        pageName: true
+    }
+
+    /*
+    * Fetch all products when component is mounted
+    * */
+    async componentDidMount() {
+        const { branchProducts } = this.props;
+
+        await this.setState({
+            branchProducts: branchProducts,
+        });
     }
 
     getStepContent = step => {
         switch (step) {
-            case 4:
-                return <SProductView setView={this.setStepContentView.bind(this)} products={this.state.productList} />;
-            case 0:
-                return <DayView setView={this.setStepContentView.bind(this)} products={this.state.productList} pageName="Bella sold" profitName="Expected Profit" />;
             case 1:
-                return <WeekView setView={this.setStepContentView.bind(this)} weekItem={this.state.weekList} pageName="Bella sold" profitName="Expected Profit" />;
+                return <SProductView setView={this.setStepContentView.bind(this)} searchProduct={this.searchProductHandler.bind(this)} branchProducts={this.state.branchProducts} productAdd={this.showAddView.bind(this)} />;
+            case 0:
+                return <DayView setView={this.setStepContentView.bind(this)} product={this.state.currentProduct} pageName={this.state.pageName} />;
             case 2:
-                return <MonthView setView={this.setStepContentView.bind(this)} monthItem={this.state.monthList} pageName="Bella sold" profitName="Expected Profit" />;
+                return <WeekView setView={this.setStepContentView.bind(this)} product={this.state.currentProduct} pageName={this.state.pageName} />;
             case 3:
-                return <YearView setView={this.setStepContentView.bind(this)} yearItem={this.state.yearList} pageName="Bella sold" profitName="Expected Profit" />;
+                return <MonthView setView={this.setStepContentView.bind(this)}product={this.state.currentProduct} pageName={this.state.pageName} />;
+            case 4:
+                return <YearView setView={this.setStepContentView.bind(this)} product={this.state.currentProduct} pageName={this.state.pageName} />;
             default:
                 return 'Complete';
         }
@@ -91,11 +57,37 @@ class SortProduct extends Component{
         });
     };
 
+    async searchProductHandler(searchValue){
+        try{
+            const products = await new BranchService().searchBranchProduct(searchValue);
+            this.setState({
+                branchProducts: products,
+            });
+        }catch (e) {
+            return false;
+        }
+    }
+
+    showAddView = async (productId , step) => {
+        const old_list = this.state.branchProducts;
+
+        //Find index of specific object using findIndex method.
+        const itemIndex = old_list.filter((item => item.productId === productId));
+
+        console.log(itemIndex)
+        this.setState({
+            currentProduct: itemIndex,
+            activeStep: step
+        });
+    };
+
 
     render(){
         return(
             <div>
-
+                <DateToggle
+                    setView={this.setStepContentView.bind(this)}
+                />
                 {this.getStepContent(this.state.activeStep)}
 
             </div>
@@ -103,4 +95,11 @@ class SortProduct extends Component{
     }
 }
 
-export default withRouter(SortProduct);
+const EnhancedDirectiveViewStock = withDatabase(
+    withObservables(['branchProducts'], ({ branchProducts ,  database }) => ({
+        branchProducts: new BranchService(LocalInfo.branchId).getProducts(),
+    }))(withRouter(SortProduct))
+);
+
+export default withRouter(EnhancedDirectiveViewStock);
+

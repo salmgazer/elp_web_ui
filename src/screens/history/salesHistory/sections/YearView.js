@@ -9,6 +9,7 @@ import Box from "@material-ui/core/Box/Box";
 import { withRouter } from "react-router-dom";
 
 import SingleYearView from './productViews/SingleYearView';
+import ProductYear from './productViews/ProductYear';
 import CardsSection from '../../../../components/Sections/CardsSection';
 import SystemDateHandler from "../../../../services/SystemDateHandler";
 import SaleService from "../../../../services/SaleService";
@@ -29,6 +30,8 @@ const useStyles = makeStyles(theme => ({
     const [selectedYear, setSelectedYear] = React.useState(values[0].value);
     const [saleDetails , setSaleDetails] = useState(false);
     const [sales , setSales] = useState([]);
+    const pageName = props.pageName;
+    const [name , setName] = useState('');
 
     const handleChange = event => {
         setSelectedYear(event.target.value);
@@ -43,14 +46,18 @@ const useStyles = makeStyles(theme => ({
           }
       });
 
-      const getSaleDetails = async (date) => {
-          console.log(date);
-          const response = await new SaleService().getSalesDetails('year', date);
-
-          setSaleDetails(response);
-          setSales(response.sales);
-          console.log(response)
-      };
+    const getSaleDetails = async (date) => {
+        console.log(date);
+        const response = await new SaleService().getSalesDetails('year', date);
+        if (pageName === true){
+            const branchProduct = props.product[0];
+            const newProduct = await branchProduct.product.fetch();
+            setName(newProduct.name);
+        }
+        setSaleDetails(response);
+        setSales(response.sales);
+        console.log(response)
+    };
 
 
     return(
@@ -59,9 +66,24 @@ const useStyles = makeStyles(theme => ({
 
             <Grid container spacing={1}>
                 <Grid item xs={6}>
-                    <Typography style={{fontSize: '14px', paddingTop: '20px'}} >
-                        {props.pageName}
-                    </Typography>
+                    {pageName === false
+                        ?
+                        <Typography
+                            style={{fontSize: '14px', paddingTop: '20px', marginRight: '50px'}}
+                            className={`text-center text-dark`}
+                        >
+                            Sold items
+                        </Typography>
+                        :
+                        <Typography
+
+                            style={{fontSize: '14px', paddingTop: '20px', marginRight: '50px'}}
+                            className={`text-center text-dark`}
+                        >
+                        {name}
+                        </Typography>
+
+                    }
                 </Grid>
 
                 <Grid item xs={6}>
@@ -110,8 +132,12 @@ const useStyles = makeStyles(theme => ({
                         </Grid>
                     </div>
                     :
+                    pageName === false ?
 
                     sales.map((sale) => <SingleYearView  key={sale.id} sale={sale} />)
+                    :
+                    sales.map((sale) => <ProductYear  key={sale.id} sale={sale} saleEntry={sale} prodName={name} />)
+                    
                 }
             </Box>
 
