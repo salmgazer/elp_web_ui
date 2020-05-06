@@ -77,7 +77,7 @@ const VerifySMS = props => {
                     params,
                     {},
                     {},
-                    `https://elp-core-api-dev.herokuapp.com/v1/client/users/verify`,
+                    `https://core-api-dev.mystoreaid.net/v1/client/users/verify`,
                 );
 
                 if(user){
@@ -118,7 +118,7 @@ const VerifySMS = props => {
                 {},
                 {},
                 {},
-                `https://elp-core-api-dev.herokuapp.com/v1/client/users/${userId}/resendOTP`
+                `https://core-api-dev.mystoreaid.net/v1/client/users/${userId}/resendOTP`
             );
 
             setSuccessMsg('Your verification code has been sent.');
