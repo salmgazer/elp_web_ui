@@ -131,7 +131,7 @@ const DayView = props => {
 
                     purchases.map((purchase) => <SingleDayView  key={purchase.id} purchase={purchase} purchaseEntry={purchase} />)
                     :
-                    purchases.map((purchase) => <SingleDayView  key={purchase.id} purchase={purchase} purchaseEntry={purchase} prodName={name} />)
+                    purchases.map((purchase) => <ProductDay  key={purchase.id} purchase={purchase} purchaseEntry={purchase} prodName={name} />)
 
                 }
             </Box>

@@ -7,6 +7,7 @@ import Box from "@material-ui/core/Box/Box";
 import { withRouter } from "react-router-dom";
 
 import SingleWeekView from './singleViews/SingleWeekView';
+import ProductWeek from './singleViews/ProductWeek';
 import CardsSection from '../../../../components/Sections/CardsSection';
 import DateServiceHandler from "../../../../services/SystemDateHandler";
 import PurchaseService from "../../../../services/PurchaseService";
@@ -33,10 +34,8 @@ const WeekView = props => {
 
     const [purchaseDetails , setPurchaseDetails] = useState(false);
     const [purchases , setPurchases] = useState([]);
-    const [quantity , setQuantity] = useState(false);
-    const [costPrice , setCostPrice] = useState(false);
-    const [sellingPrice , setSellingPrice] = useState(false);
-    const [expProfit , setExpProfit] = useState(false);
+    const pageName = props.pageName;
+    const [name , setName] = useState('');
 
     useEffect(() => {
     // You need to restrict it at some point
@@ -48,14 +47,11 @@ const WeekView = props => {
 
     const getPurchaseDetails = async (date) => {
         const response = await new PurchaseService().getPurchaseDetails('week', date);
-        const q = await new BranchStockService().getCompanyItemsLeft();
-        const c = await new BranchStockService().getTotalCostPrice();
-        const s = await new BranchStockService().getTotalSellingPrice();
-        const e = await new BranchStockService().getTotalExpectedProfit();
-        setQuantity(q);
-        setCostPrice(c);
-        setSellingPrice(s);
-        setExpProfit(e);
+        if (pageName === true){
+            const branchProduct = props.product[0];
+            const newProduct = await branchProduct.product.fetch();
+            setName(newProduct.name);
+        }
         setPurchaseDetails(response);
         setPurchases(response.purchases);
         console.log(response)
@@ -65,12 +61,26 @@ const WeekView = props => {
     return(
         <div className={classes.root}>
 
-
             <Grid container spacing={1}>
                 <Grid item xs={6}>
-                    <Typography style={{fontSize: '14px', paddingTop: '20px'}} >
-                        {props.pageName}
-                    </Typography>
+                    {pageName === false
+                        ?
+                        <Typography
+                            style={{fontSize: '14px', paddingTop: '20px', marginRight: '50px'}}
+                            className={`text-center text-dark`}
+                        >
+                            Purchased items
+                        </Typography>
+                        :
+                        <Typography
+
+                            style={{fontSize: '14px', paddingTop: '20px', marginRight: '50px'}}
+                            className={`text-center text-dark`}
+                        >
+                        {name}
+                        </Typography>
+
+                    } 
                 </Grid>
 
                 <Grid item xs={6}>
@@ -96,7 +106,7 @@ const WeekView = props => {
                 </Grid>
             </Grid>
 
-            <CardsSection quantity={purchaseDetails.quantity} costPrice={purchaseDetails.costPrice} sellingPrice={sellingPrice} profit={expProfit} profitName="Expected Profit" />
+            <CardsSection quantity={purchaseDetails.quantity} costPrice={purchaseDetails.costPrice} sellingPrice={purchaseDetails.sellingPrice} profit={purchaseDetails.profit} profitName="Expected Profit" />
             {/* <CardsSection quantity='4' costPrice='20' sellingPrice='50' profit='30' profitName="Expected Profit" /> */}
 
 
@@ -121,8 +131,11 @@ const WeekView = props => {
                         </Grid>
                     </div>
                     :
+                    pageName === false ?
 
-                    purchases.map((purchase) => <SingleWeekView  key={purchase.id} purchase={purchase} date={selectedWeek} />)
+                    purchases.map((purchase) => <SingleWeekView  key={purchase.id} purchase={purchase} purchaseEntry={purchase}  />)
+                    :
+                    purchases.map((purchase) => <ProductWeek  key={purchase.id} purchase={purchase} purchaseEntry={purchase} prodName={name} />)
                 }
             </Box>
 

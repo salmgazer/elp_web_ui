@@ -1,106 +1,52 @@
 import React, {Component} from 'react';
 import {withRouter} from "react-router";
+import {withDatabase} from "@nozbe/watermelondb/DatabaseProvider";
+import withObservables from "@nozbe/with-observables";
+import BranchService from "../../../../services/BranchService";
+import LocalInfo from "../../../../services/LocalInfo";
 
 import DayView from './DayView';
-import WeekView from '../../orderHistory/sections/views/WeekView';
-import MonthView from '../../orderHistory/sections/views/MonthView';
-import YearView from '../../orderHistory/sections/views/YearView';
+import WeekView from './WeekView';
+import MonthView from './MonthView';
+import YearView from './YearView';
 import Payment from '../../orderHistory/sections/views/Payment';
-import SortCustomerView from '../../orderHistory/sections/views/SortSupplierView';
+import DateToggle from "../../../../components/DateToggle/DateToggle";
+import SortCustomerView from './SortCustomerView';
+import CustomerService from '../../../../services/CustomerService';
 
-
-
-
-class SortProduct extends Component{
+class SortCustomer extends Component{
 
     state={
         isDrawerShow: false,
-        activeStep: 6,
-        invoiceList: [
-            {
-                "inv_id": "5678",
-                "name": "Chris Asante",
-                "date": "Friday, 13th March 2020 | 4:00pm",
-                "worth": "400",
-                "number": "7654321",
-                "status": "Owes GHC 400"
-            },
-        ],
-        productList: [
-            {
-                "pro_id": "1",
-                "name": "Nido Milk Sachet",
-                "image": "no_image.png",
-                "quantity": "10",
-                "cost": "100",
-                "sales": "200"
-            },
-            {
-                "pro_id": "2",
-                "name": "Milo Sachet 50g",
-                "image": "no_image.png",
-                "quantity": "10",
-                "cost": "100",
-                "sales": "200"
-            },
-            {
-                "pro_id": "3",
-                "name": "Ideal Milk 50g",
-                "image": "no_image.png",
-                "quantity": "10",
-                "cost": "100",
-                "sales": "200"
-            },
-            {
-                "pro_id": "4",
-                "name": "Beta Malt 500ml PB",
-                "image": "no_image.png",
-                "quantity": "10",
-                "cost": "100",
-                "sales": "200"
-            }
-        ],
-        weekList: [ 
-            {
-                "day_id": "1",
-                "name": "Chris Asante",
-                "image": "no_image.png",
-                "owed": "20",
-                "worth": "200"
-            }
-        ],
-        monthList: [ 
-            {
-                "week_id": "1",
-                "name": "Chris Asante",
-                "image": "no_image.png",
-                "owed": "20",
-                "worth": "200"
-            }
-        ],
-        yearList: [ 
-            {
-                "month_id": "1",
-                "name": "Chris Asante",
-                "image": "no_image.png",
-                "owed": "20",
-                "worth": "200"
-            }
-        ]
+        activeStep: 1,
+        branchCustomers: [],
+        currentCustomer: {},
+        pageName: true
+    }
+
+    /*
+    * Fetch all products when component is mounted
+    * */
+    async componentDidMount() {
+        const { branchCustomers } = this.props;
+
+        await this.setState({
+            branchCustomers: branchCustomers,
+        });
     }
 
     getStepContent = step => {
         switch (step) {
-            case 6:
-                return <SortCustomerView setView={this.setStepContentView.bind(this)} cellName="Chris Asante" pageName="Search for a customer to view history" />;
+            case 1:
+                return <SortCustomerView setView={this.setStepContentView.bind(this)} searchCustomer={this.searchCustomerHandler.bind(this)} branchCustomers={this.state.branchCustomers} customerAdd={this.showAddView.bind(this)} />;
             case 0:
-                return <DayView setView={this.setStepContentView.bind(this)} prod={this.state.productList}  invoices={this.state.invoiceList} profitName="Amount owed" />;
+                return <DayView setView={this.setStepContentView.bind(this)} customer={this.state.currentCustomer} pageName={this.state.pageName}  />;
             case 2:
-                return <WeekView setView={this.setStepContentView.bind(this)} weekItem={this.state.weekList} pageName="Chris Asante" profitName="Amount owed" />;
+                return <WeekView setView={this.setStepContentView.bind(this)} customer={this.state.currentCustomer} pageName={this.state.pageName}  />;
             case 3:
-                return <MonthView setView={this.setStepContentView.bind(this)} monthItem={this.state.monthList} pageName="Chris Asante" profitName="Amount owed" />;
+                return <MonthView setView={this.setStepContentView.bind(this)} customer={this.state.currentCustomer} pageName={this.state.pageName}  />;
             case 4:
-                return <YearView setView={this.setStepContentView.bind(this)} yearItem={this.state.yearList} pageName="Chris Asante" profitName="Amount owed" />;
+                return <YearView setView={this.setStepContentView.bind(this)} customer={this.state.currentCustomer} pageName={this.state.pageName}  />;
             case 5:
                 return <Payment setView={this.setStepContentView.bind(this)}  />;
             default:
@@ -114,11 +60,37 @@ class SortProduct extends Component{
         });
     };
 
+    async searchCustomerHandler(searchValue){
+        try{
+            const customers = await new CustomerService().searchBranchCustomer(searchValue);
+            this.setState({
+                branchCustomers: customers,
+            });
+        }catch (e) {
+            return false;
+        }
+    };
+
+    showAddView = async (customerId , step) => {
+        const old_list = this.state.branchCustomers;
+
+        //Find index of specific object using findIndex method.
+        const itemIndex = old_list.filter((item => item.customerId === customerId));
+
+        console.log(itemIndex)
+        this.setState({
+            currentCustomer: itemIndex,
+            activeStep: step
+        });
+    };
+
 
     render(){
         return(
             <div>
-
+                <DateToggle
+                    setView={this.setStepContentView.bind(this)}
+                />
                 {this.getStepContent(this.state.activeStep)}
 
             </div>
@@ -126,4 +98,10 @@ class SortProduct extends Component{
     }
 }
 
-export default withRouter(SortProduct);
+const EnhancedDirectiveViewStock = withDatabase(
+    withObservables(['branchCustomers'], ({ branchCustomers ,  database }) => ({
+        branchCustomers: new BranchService(LocalInfo.branchId).getCustomers(),
+    }))(withRouter(SortCustomer))
+);
+
+export default withRouter(EnhancedDirectiveViewStock);

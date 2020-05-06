@@ -12,18 +12,19 @@ class InvoiceSortDate extends Component {
 
     state={
         activeStep: 0,
+        pageName: false,
     }
 
     getStepContent = step => {
         switch (step) {
             case 0:
-                return <DayView setView={this.setStepContentView.bind(this)} />;
+                return <DayView setView={this.setStepContentView.bind(this)} pageName={this.state.pageName} />;
             case 2:
-                return <WeekView setView={this.setStepContentView.bind(this)} />;
+                return <WeekView setView={this.setStepContentView.bind(this)} pageName={this.state.pageName} />;
             case 3:
-                return <MonthView setView={this.setStepContentView.bind(this)} />;
+                return <MonthView setView={this.setStepContentView.bind(this)} pageName={this.state.pageName} />;
             case 4:
-                return <YearView setView={this.setStepContentView.bind(this)} />;
+                return <YearView setView={this.setStepContentView.bind(this)} pageName={this.state.pageName} />;
             case 5:
                 return <Payment setView={this.setStepContentView.bind(this)}  />;
             default:
