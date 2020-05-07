@@ -7,6 +7,7 @@ import TextField from '@material-ui/core/TextField';
 import { withRouter } from "react-router-dom";
 
 import SingleWeekView from './singleView/SingleWeekView';
+import CustomerWeek from './singleView/CustomerWeek';
 import BoxDefault from '../../../../components/Box/BoxDefault';
 import CardsSection from '../../../../components/Sections/CardsSection';
 import InvoiceService from '../../../../services/InvoiceService';
@@ -25,6 +26,8 @@ const useStyles = makeStyles(theme => ({
 
     const classes = useStyles();
     const [selectedWeek, setSelectedWeek] = React.useState(values[0].value);
+    const pageName = props.pageName;
+    const [name , setName] = useState('');
 
     const handleChange = event => {
         setSelectedWeek(event.target.value);
@@ -45,7 +48,11 @@ const useStyles = makeStyles(theme => ({
     const getInvoiceDetails = async (date) => {
         console.log(date);
         const response = await new InvoiceService().getInvoiceDetails('week' , date);
-
+        if (pageName === true){
+            const branchCustomer= props.customer[0];
+            const newCustomer = await branchCustomer.customer.fetch();
+            setName(newCustomer.firstName);
+        }
         setInvoiceDetails(response);
         setInvoices(response.invoices);
         console.log(response)
@@ -56,9 +63,23 @@ const useStyles = makeStyles(theme => ({
 
             <Grid container spacing={1}>
                 <Grid item xs={6}>
-                    <Typography style={{fontSize: '14px', paddingTop: '20px'}} >
-                        Purchased items
-                    </Typography>
+                    {pageName === false
+                        ?
+                        <Typography
+                            style={{fontSize: '14px', paddingTop: '20px', marginRight: '50px'}}
+                            className={`text-center text-dark`}
+                        >
+                            Purchased items
+                        </Typography>
+                        :
+                        <Typography
+
+                            style={{fontSize: '14px', paddingTop: '20px', marginRight: '50px'}}
+                            className={`text-center text-dark`}
+                        >
+                            {name}
+                        </Typography>
+                    }
                 </Grid>
 
                 <Grid item xs={6}>
@@ -87,10 +108,14 @@ const useStyles = makeStyles(theme => ({
 
             <CardsSection quantity={invoiceDetails.quantity} costPrice={invoiceDetails.costPrice} sellingPrice={invoiceDetails.sellingPrice} profit={invoiceDetails.credit} profitName="Amount owed" />
 
-            <Box style={{marginTop: '5px' , paddingBottom: '60px'}} p={1} className={`mt-3 mb-5`}>
-
-                {invoices.length === 0
-                    ?
+            {invoices.length === 0
+                ?
+                <BoxDefault
+                    bgcolor="background.paper"
+                    p={1}
+                    className={'boxDefault'}
+                    style={{marginTop: '5px' }}
+                >
                     <div className={`rounded mx-1 my-2 p-2 bordered`}>
                         <Grid container spacing={1} className={`py-1`}>
                             <Grid
@@ -108,31 +133,15 @@ const useStyles = makeStyles(theme => ({
                             </Grid>
                         </Grid>
                     </div>
-                    :
+                </BoxDefault>
+                :
+                pageName === false ?
 
-                    <BoxDefault
-                        bgcolor="background.paper"
-                        p={1}
-                        className={'boxDefault'}
-                        style={{marginTop: '5px' }}
-                    >
-                        {/* <Grid container className={`bordered`}>
-                            <Grid item xs={8}>
-                                <span className='text-dark font-weight-bold' style={{ fontSize: '13px'}} >Week 1: 01/03/20 - 07/03/20</span>
-                            </Grid>
-
-                            <Grid item xs={4}>
-                                <span className="font-weight-light mt-1" style={{ fontSize: '13px'}}>Total : GHC 100</span>
-                            </Grid>
-                        </Grid> */}
-
-                        { invoices.map((invoice) => <SingleWeekView  key={invoice.id} invoice={invoice} />)}
-
-                    </BoxDefault>
-                }
-
-
-            </Box>
+                invoices.map((invoice) => <SingleWeekView  key={invoice.id} invoice={invoice} />)
+                :
+                invoices.map((invoice) => <CustomerWeek  key={invoice.id} invoice={invoice} prodName={name} />)
+                
+            }
 
         </div>
     )
