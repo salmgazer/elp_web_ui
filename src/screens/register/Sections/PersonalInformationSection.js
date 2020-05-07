@@ -7,6 +7,8 @@ import Paper from '@material-ui/core/Paper';
 import Grid from '@material-ui/core/Grid';
 import { ValidatorForm, TextValidator} from 'react-material-ui-form-validator';
 import phoneFormat from '../../../services/phoneFormatter';
+import Api from "../../../services/Api";
+import paths from "../../../utilities/paths";
 
 const useStyles = makeStyles(theme => ({
     root: {
@@ -50,6 +52,8 @@ const ValidationTextField = withStyles({
 
 export default function PersonalInformationSection(props) {
     const PersonalInformationForm = useRef(null);
+    const [error , setError] = useState('none');
+    const [errorMsg , setErrorMsg] = useState('');
 
     const userFields = props.formData;
     const classes = useStyles();
@@ -73,12 +77,78 @@ export default function PersonalInformationSection(props) {
     /*
     * Add dashes to contact
     * */
-    const addDashes = event => {
+    const addDashes = async (event) => {
+        event.persist();
+
+        const value = event.target.value;
         if(event.target.value.length <= 12){
             event.target.value = phoneFormat(event.target.value);
-            handleChange(event);
-            return true;
+
+            await handleChange(event);
+
+            setError('none');
+            setErrorMsg('');
+
+            if(value.length === 12){
+                try {
+                    let response = await new Api('others').index(
+                        {},
+                        {},
+                        `https://core-api-dev.mystoreaid.net/v1/client/users/exists?phone=${value}`,
+                        {},
+                    );
+
+                    if(response.data.valid === false){
+                        props.isValid(false);
+                        setError('block');
+                        setErrorMsg('Number exists in database. Use another number');
+                    }else{
+                        setError('none');
+                        setErrorMsg('');
+                        return true;
+                    }
+                } catch (error) {
+                    console.log('Could not check username. Please enter again!');
+                }
+            }
+
         }
+
+        return false;
+        /*event.persist();
+        const value = event.target.value;
+        if(event.target.value.length <= 12){
+            event.target.value = phoneFormat(event.target.value);
+            console.log(event.target.value , value)
+            await handleChange(event);
+
+            setError('none');
+            setErrorMsg('');
+            console.log(formFields , userFields)
+            if(value.length === 12){
+                try {
+                    let response = await new Api('others').index(
+                        {},
+                        {},
+                        `https://core-api-dev.mystoreaid.net/v1/client/users/exists?phone=${value}`,
+                        {},
+                    );
+
+                    if(response.data.valid === false){
+                        props.isValid(false);
+                        setError('block');
+                        setErrorMsg('Number exists in database. Use another number');
+                    }else{
+                        props.isValid(true);
+                        setError('none');
+                        setErrorMsg('');
+                    }
+                } catch (error) {
+                    console.log('Could not check username. Please enter again!');
+                }
+            }
+            return true;
+        }*/
 
         return false;
     };
@@ -143,6 +213,7 @@ export default function PersonalInformationSection(props) {
                         }
                         value={formFields.phone}
                     />
+                    <span style={{display: `${error}` , color: 'red' , fontSize: '10px' , textAlign: 'center'}}>{errorMsg}</span>
                 </Grid>
             </ValidatorForm>
         </Paper>

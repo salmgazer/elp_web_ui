@@ -211,6 +211,7 @@ const Register = props => {
         /*if (event.target.name === 'password') {
             this.form.isFormValid(false);
         }*/
+        console.log(formData)
         setData(formData);
     };
 

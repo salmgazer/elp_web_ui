@@ -12,12 +12,28 @@ export default class LocalInfo {
       lastSyncedAt: "lastSyncedAt",
       branches: "branches",
       companyId: "companyId",
+      company: "company",
       workingDate: "workingDate",
+      branch: "branch",
+      userFullName: "userFullName",
     };
   }
 
   static get userAccess() {
     return localStorage.getItem(this.keys.userAccess);
+  }
+
+  static get branch() {
+    return this.branches.filter((branch) => branch.branchId === this.branchId)[0];
+  }
+
+  static get company() {
+    return ((JSON.parse(this.userAccess)).access).filter((company) => company.companyId === this.companyId)[0];
+  }
+
+  static get userFullName() {
+    const userDetails = JSON.parse(localStorage.getItem('userDetails'));
+    return `${userDetails.firstName} ${userDetails.otherNames}`;
   }
 
   static get workingDate() {

@@ -264,7 +264,7 @@ const AddProductCart = props => {
                 openState={productAdded}
                 message={`New product added successfully`}
             >
-                <Button color="secondary" size="small">
+                <Button color="secondary" size="small" onClick={props.undoProductAdd}>
                     UNDO
                 </Button>
             </SimpleSnackbar>

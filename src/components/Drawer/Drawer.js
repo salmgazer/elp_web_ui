@@ -18,6 +18,8 @@ import SettingsIcon from '@material-ui/icons/Settings';
 import ExitToAppIcon from '@material-ui/icons/ExitToApp';
 import { withRouter } from "react-router-dom";
 import paths from "../../utilities/paths";
+import LocalInfo from "../../services/LocalInfo";
+import AccountBalanceWalletIcon from '@material-ui/icons/AccountBalanceWallet';
 
 const useStyles = makeStyles({
     list: {
@@ -61,20 +63,20 @@ const Drawer = props => {
                         <StoreIcon style={{fontSize: '70px', color: '#000000'}}/>
                     </div>
                     <div className="" style={{ padding:'10px 16px'}}>
-                        <span className="large" id="s_name">GODS GRACE STORE</span><br/>
-                        <span className="small" id="b_name">Lapaz branch</span><br/>
-                        <span className="medium" id="u_name">Pearl Gemegah</span>
+                        <span className="large" id="s_name">{ LocalInfo.company.name }</span><br/>
+                        <span className="small" id="b_name">{ LocalInfo.branch.name }</span><br/>
+                        <span className="medium" id="u_name">{ LocalInfo.userFullName }</span>
                     </div>
 		        </div>
             </span>
 
             <List className="drawerDefault" style={{background:'#403C3C', color: '#FFFFFF'}}>
                 <Divider />
-                <ListItem button key={1}>
+                {/*<ListItem button key={1}>
                     <ListItemIcon><StoreIcon style={{color: '#FFFFFF'}} /></ListItemIcon>
                     <ListItemText primary="My stores" />
                 </ListItem>
-                <Divider />
+                <Divider />*/}
                 <ListItem button key={2} onClick={() => history.push(paths.sell)}>
                     <ListItemIcon><ShoppingCartIcon style={{color: '#FFFFFF'}} /></ListItemIcon>
                     <ListItemText primary="Sell" />
@@ -106,15 +108,19 @@ const Drawer = props => {
                 </ListItem>
                 <Divider />
                 <ListItem button key={8}>
-                    <ListItemIcon><SettingsIcon style={{color: '#FFFFFF'}} /></ListItemIcon>
-                    <ListItemText primary="Settings" />
+                    <ListItemIcon><AccountBalanceWalletIcon style={{color: '#FFFFFF'}} /></ListItemIcon>
+                    <ListItemText primary="Reconcilation" />
                 </ListItem>
                 <Divider />
-                <ListItem button key={9}>
+                <ListItem button key={10}>
+                    <ListItemIcon><SettingsIcon style={{color: '#FFFFFF'}} /></ListItemIcon>
+                    <ListItemText primary="Help" />
+                </ListItem>
+                <Divider />
+                <ListItem button key={11}>
                     <ListItemIcon><ExitToAppIcon style={{color: '#FFFFFF'}} /></ListItemIcon>
                     <ListItemText primary="Logout" />
                 </ListItem>
-                <Divider />
             </List>
         </div>
     );

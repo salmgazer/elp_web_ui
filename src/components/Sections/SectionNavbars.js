@@ -12,6 +12,8 @@ const useStyles = makeStyles(theme => ({
     },
     menuButton: {
         marginRight: theme.spacing(0),
+        marginLeft: '0px',
+        marginTop: '5px'
     },
 
     header: {

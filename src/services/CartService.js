@@ -243,6 +243,15 @@ export default class CartService {
         return searchCustomer.customerId;
     }
 
+    static async getLastCartEntry(){
+        const cartEntries = await new ModelAction('CartEntry').findByColumnNotObserve({
+            name: 'branchId',
+            value: LocalInfo.branchId,
+            fxn: 'eq',
+        });
+
+        return cartEntries[cartEntries.length - 1];
+    }
 
     /*
     * Suspend a cart

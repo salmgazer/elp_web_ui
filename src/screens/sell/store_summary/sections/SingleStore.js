@@ -30,16 +30,9 @@ const SingleStore = props => {
 
     const getCompanyDetails = async () => {
         const response = await new BranchService().getSalesDetails('month' , branch.id);
+        console.log(response)
         setCompanySales(response);
     };
-    /*companyName: 'GODS GRACE STORe',
-        branchName: 'Adenta Branch',
-        companyId: 1,
-        branchId: 12,
-        sales: 10,
-        profit: 2,
-        credit: 5,
-        purchases: 1,*/
 
     const setBranch = (branchId) => {
         LocalInfo.setBranchId(branchId)
@@ -85,84 +78,88 @@ const SingleStore = props => {
                     </div>
                 }
             >
-                <Grid container spacing={1} className={`px-2 pb-2`}>
-                    <Grid item xs={3}>
-                        <CardDefaultSmall styles={{width: '85%', marginTop: '10px', borderRadius: '10px'}} >
-                            <Typography
-                                component="h6"
-                                variant="h6"
-                                style={{fontWeight: '500', fontSize: '12px' , lineHeight: '1.3'}}
-                                className={`mx-auto`}
-                            >
-                                Sales made
-                            </Typography>
-                            <Typography
-                                component="h5"
-                                variant="h5"
-                                style={{fontWeight: '700', fontSize: '15px' , lineHeight: '1.2'}}
-                            >
-                                GHC {companySales.total}
-                            </Typography>
-                        </CardDefaultSmall>
-                    </Grid>
-                    <Grid item xs={3}>
-                        <CardDefaultSmall styles={{width: '85%', marginTop: '10px', borderRadius: '10px'}} >
-                            <Typography
-                                component="h6"
-                                variant="h6"
-                                style={{fontWeight: '500', fontSize: '12px' , lineHeight: '1.3'}}
-                                className={`mx-2`}
-                            >
-                                Profit made
-                            </Typography>
-                            <Typography
-                                component="h5"
-                                variant="h5"
-                                style={{fontWeight: '700', fontSize: '15px' , lineHeight: '1.2'}}
-                            >
-                                GHC {companySales.profit}
-                            </Typography>
-                        </CardDefaultSmall>
-                    </Grid>
-                    <Grid item xs={3}>
-                        <CardDefaultSmall styles={{width: '85%', marginTop: '10px', borderRadius: '10px'}} >
-                            <Typography
-                                component="h6"
-                                variant="h6"
-                                style={{fontWeight: '500', fontSize: '12px' , lineHeight: '1.3'}}
-                                className={`mx-auto`}
-                            >
-                                Credit sales
-                            </Typography>
-                            <Typography
-                                component="h5"
-                                variant="h5"
-                                style={{fontWeight: '700', fontSize: '15px' , lineHeight: '1.2'}}
-                            >
-                                GHC {companySales.credit}
-                            </Typography>
-                        </CardDefaultSmall>
-                    </Grid>
-                    <Grid item xs={3}>
-                        <CardDefaultSmall styles={{width: '85%', marginTop: '10px', borderRadius: '10px'}} >
-                            <Typography
-                                component="h6"
-                                variant="h6"
-                                style={{fontWeight: '500', fontSize: '12px' , lineHeight: '1.3'}}
-                                className={`mx-auto`}
-                            >
-                                Purchase made
-                            </Typography>
-                            <Typography
-                                component="h5"
-                                variant="h5"
-                                style={{fontWeight: '700', fontSize: '15px' , lineHeight: '1.2'}}
-                            >
-                                GHC {companySales.purchases}
-                            </Typography>
-                        </CardDefaultSmall>
-                    </Grid>
-                </Grid>
+                <div
+                    style={{
+                        display: 'flex',
+                        width: '95%',
+                        alignItems: 'center',
+                        marginBottom: '5px' ,
+                        margin: 'auto',
+                        paddingBottom: '10px'
+                    }}
+                >
+                    <CardDefaultSmall styles={{width: '85%',margin: '1%', marginTop: '10px', borderRadius: '10px'}} >
+                        <Typography
+                            component="h6"
+                            variant="h6"
+                            style={{fontWeight: '500', fontSize: '12px' , lineHeight: '1.3'}}
+                            className={`mx-auto`}
+                        >
+                            Sales made
+                        </Typography>
+                        <Typography
+                            component="h5"
+                            variant="h5"
+                            style={{fontWeight: '700', fontSize: '15px' , lineHeight: '1.2'}}
+                        >
+                            GHC {companySales.total}
+                        </Typography>
+                    </CardDefaultSmall>
+
+                    <CardDefaultSmall styles={{width: '85%', margin: '1%', marginTop: '10px', borderRadius: '10px'}} >
+                        <Typography
+                            component="h6"
+                            variant="h6"
+                            style={{fontWeight: '500', fontSize: '12px' , lineHeight: '1.3'}}
+                            className={`mx-2`}
+                        >
+                            Profit made
+                        </Typography>
+                        <Typography
+                            component="h5"
+                            variant="h5"
+                            style={{fontWeight: '700', fontSize: '15px' , lineHeight: '1.2'}}
+                        >
+                            GHC {companySales.profit}
+                        </Typography>
+                    </CardDefaultSmall>
+
+                    <CardDefaultSmall styles={{width: '85%', margin: '1%', marginTop: '10px', borderRadius: '10px'}} >
+                        <Typography
+                            component="h6"
+                            variant="h6"
+                            style={{fontWeight: '500', fontSize: '12px' , lineHeight: '1.3'}}
+                            className={`mx-auto`}
+                        >
+                            Credit sales
+                        </Typography>
+                        <Typography
+                            component="h5"
+                            variant="h5"
+                            style={{fontWeight: '700', fontSize: '15px' , lineHeight: '1.2'}}
+                        >
+                            GHC {companySales.credit}
+                        </Typography>
+                    </CardDefaultSmall>
+
+                    <CardDefaultSmall styles={{width: '85%', margin: '1%', marginTop: '10px', borderRadius: '10px'}} >
+                        <Typography
+                            component="h6"
+                            variant="h6"
+                            style={{fontWeight: '500', fontSize: '12px' , lineHeight: '1.3'}}
+                            className={`mx-auto`}
+                        >
+                            Purchase made
+                        </Typography>
+                        <Typography
+                            component="h5"
+                            variant="h5"
+                            style={{fontWeight: '700', fontSize: '15px' , lineHeight: '1.2'}}
+                        >
+                            GHC {companySales.purchases}
+                        </Typography>
+                    </CardDefaultSmall>
+                </div>
             </Collapsible>
 
         </div>

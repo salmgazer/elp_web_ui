@@ -1,7 +1,6 @@
 import React, {useEffect, useState} from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import AddShoppingCartIcon from '@material-ui/icons/AddShoppingCart';
-import ArrowBackIosIcon from '@material-ui/icons/ArrowBackIos';
 import SectionNavbars from "../../../../components/Sections/SectionNavbars";
 import Paper from '@material-ui/core/Paper';
 import Grid from '@material-ui/core/Grid';
@@ -17,6 +16,7 @@ import AddCustomerModal from "../../../../components/Modal/Customer/AddCustomerM
 import CustomerService from "../../../../services/CustomerService";
 import CartService from "../../../../services/CartService";
 import SimpleSnackbar from "../../../../components/Snackbar/SimpleSnackbar";
+import ArrowBackIcon from '@material-ui/icons/ArrowBack';
 
 const useStyles = makeStyles(theme => ({
     root: {
@@ -103,6 +103,10 @@ const CartView = props => {
         }
     };
 
+    const getCustomerDialog = async() => {
+        setMainDialog(true);
+    };
+
     const openAddDialog = (event) => {
         setAddDialog(true);
     };
@@ -136,17 +140,17 @@ const CartView = props => {
                     <AddShoppingCartIcon
                         style={{fontSize: '2rem'}}
                         onClick={openDialogHandler.bind(this)}
-                    />}
-            >
-                <div
-                    onClick={() => props.history.push(paths.sell)}
-                >
-                    <ArrowBackIosIcon
-                        style={{fontSize: '2rem'}}
                     />
-                </div>
+                }
+                leftIcon={
+                    <div onClick={() => props.history.push(paths.sell)}>
+                        <ArrowBackIcon
+                            style={{fontSize: '2rem'}}
+                        />
+                    </div>
+                }
+            />
 
-            </SectionNavbars>
             <SimpleSnackbar
                 type="warning"
                 openState={error}
@@ -161,7 +165,7 @@ const CartView = props => {
                             QUANTITY
                         </Typography>
                         <Typography variant="h6" component="h2" >
-                            {`${props.cartTotalProducts} ${props.cart > 1 ? 'items' : 'item'}`}
+                            {`${props.cartTotalProducts} ${props.cartTotalProducts > 1 ? 'items' : 'item'}`}
                         </Typography>
                     </Paper>
                 </Grid>
@@ -183,7 +187,7 @@ const CartView = props => {
                 variant="outlined"
                 style={{fontSize: '16px'}}
                 className={classes.button}
-                onClick={openDialogHandler.bind(this)}
+                onClick={getCustomerDialog.bind(this)}
             >
                 {props.currentCustomer === 0 ? <PersonAddIcon /> : ''}
                 {customerName}

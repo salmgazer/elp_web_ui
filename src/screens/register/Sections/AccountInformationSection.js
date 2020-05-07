@@ -13,6 +13,7 @@ import VisibilityOff from '@material-ui/icons/VisibilityOff';
 import Checkbox from '@material-ui/core/Checkbox';
 import FormControlLabel from "@material-ui/core/FormControlLabel/FormControlLabel";
 import { ValidatorForm, TextValidator} from 'react-material-ui-form-validator';
+import Api from "../../../services/Api";
 
 
 const GreenCheckbox = withStyles({
@@ -90,6 +91,8 @@ const PasswordTextField = withStyles({
 
 export default function AccountInformationSection(props) {
     const PersonalInformationForm = useRef(null);
+    const [error , setError] = useState('none');
+    const [errorMsg , setErrorMsg] = useState('');
 
     const userFields = props.formData;
     const [showPassword, setShowPassword] = useState({
@@ -136,8 +139,11 @@ export default function AccountInformationSection(props) {
             const {...fakeEvent} = event;
             fakeEvent.target.name = "username";
             fakeEvent.target.value = f;
-            setFormFields(formData);
-            props.collectData(fakeEvent);
+
+            //await usernameFormatter(fakeEvent);
+            /*setFormFields(formData);
+            props.collectData(fakeEvent);*/
+            await usernameFormatter(fakeEvent);
         }else{
             const { ...formData }  = formFields;
 
@@ -162,9 +168,37 @@ export default function AccountInformationSection(props) {
         event.preventDefault();
     };
 
-    const usernameFormatter = (event) => {
+    const usernameFormatter = async (event) => {
         event.target.value = ((event.target.value).replace(" " , "")).toLowerCase();
         handleChange(event);
+
+        setError('none');
+        setErrorMsg('');
+
+        const userData = {
+            username: event.target.value
+        };
+
+        try{
+            let response = await new Api('others').index(
+                {},
+                {},
+                `https://core-api-dev.mystoreaid.net/v1/client/users/exists?username=${userData.username}`,
+                {},
+            );
+
+            if(response.data.valid === false){
+                props.isValid(false);
+                setError('block');
+                setErrorMsg('Username exists in database. Use another username');
+            }else{
+                setError('none');
+                setErrorMsg('');
+            }
+        } catch (error) {
+            console.log('Could not check username. Please enter again!');
+        }
+
     };
 
     const handleChangeHandler = (event) => {
@@ -230,6 +264,8 @@ export default function AccountInformationSection(props) {
                         helperText=""
                         id="username"
                     />
+
+                    <span style={{display: `${error}` , color: 'red' , fontSize: '10px' , textAlign: 'center'}}>{errorMsg}</span>
                 </Grid>
                 <Grid item xs={12}>
                     <ValidationTextField
@@ -258,7 +294,7 @@ export default function AccountInformationSection(props) {
                                     {showPassword.showPassword ? <Visibility /> : <VisibilityOff />}
                                     </IconButton>
                                 </InputAdornment>
-                            
+
                         }}
                     />
                 </Grid>

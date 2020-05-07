@@ -38,14 +38,14 @@ const CostInput = props => {
 
     const setValueHandler = (event) => {
         event.persist();
-        if(isNaN(event.target.value) || (event.target.value).length <= 0)
-        {
+
+        if(event.target.value === "" && typeof event.target.value !== 'number'){
             setQuantity();
             return
         }
 
         setQuantity((parseFloat(event.target.value)).toFixed(2));
-        props.getValue(inputName , (parseFloat(event.target.value)).toFixed(2));
+        props.getValue(inputName , (event.target.value));
     };
 
     return(
@@ -56,7 +56,7 @@ const CostInput = props => {
                 <InputBase
                     className={`${classes.input} search-box text-center`}
                     type="tel"
-                   
+
                     value={props.initialValue}
                     name={inputName}
                     onChange={(event) => setValueHandler(event)}

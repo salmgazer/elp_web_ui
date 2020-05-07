@@ -5,9 +5,12 @@ import AddShoppingCartOutlinedIcon from '@material-ui/icons/AddShoppingCartOutli
 import SwapHorizOutlinedIcon from '@material-ui/icons/SwapHorizOutlined';
 import AccessTimeIcon from '@material-ui/icons/AccessTime';
 import CreateOutlinedIcon from '@material-ui/icons/CreateOutlined';
+import { withRouter } from "react-router-dom";
+import paths from "../../../utilities/paths";
+import LocalInfo from "../../../services/LocalInfo";
 
 const BottomMenu = props => {
-
+    const { history } = props;
     const setView = (step) => {
         props.setView(step);
     };
@@ -31,26 +34,30 @@ const BottomMenu = props => {
                     Add stock
                 </Typography>
             </Grid>
-            <Grid
-                item xs={3}
-                onClick={setView.bind(this, 6)}
-                className={`text-center icon-color`}
-            >
-                <SwapHorizOutlinedIcon
-                    style={{fontSize: '25px'}}
-                />
-                <Typography
-                    component="h6"
-                    variant="h6"
-                    style={{fontSize: '12px'}}
-                    onClick={() => setView(6)}
+
+            {LocalInfo.branches.length > 1 ?
+                <Grid
+                    item xs={3}
+                    onClick={setView.bind(this, 6)}
+                    className={`text-center icon-color`}
                 >
-                    Move stock
-                </Typography>
-            </Grid>
+                    <SwapHorizOutlinedIcon
+                        style={{fontSize: '25px'}}
+                    />
+                    <Typography
+                        component="h6"
+                        variant="h6"
+                        style={{fontSize: '12px'}}
+                        onClick={() => setView(6)}
+                    >
+                        Move stock
+                    </Typography>
+                </Grid>
+            : ''}
             <Grid
                 item xs={2}
                 className={`text-center icon-color`}
+                onClick={() => history.push(paths.purchase_history)}
             >
                 <AccessTimeIcon
                     style={{fontSize: '25px'}}
@@ -84,4 +91,4 @@ const BottomMenu = props => {
     );
 };
 
-export default BottomMenu;
+export default withRouter(BottomMenu);

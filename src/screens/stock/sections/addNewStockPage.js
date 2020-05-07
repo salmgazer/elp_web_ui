@@ -182,7 +182,6 @@ const AddNewStockPage = props => {
     });
 
     const [changePriceFields , setChangePriceFields] = useState({
-        costPrice: "",
         sellingPrice: "",
     });
 
@@ -352,9 +351,9 @@ const AddNewStockPage = props => {
     const changePriceFieldsHandler = (event) => {
         const {...oldFormFields} = changePriceFields;
 
-        if(event.target.name === 'costPrice'){
+        /*if(event.target.name === 'costPrice'){
             setTotalPrice(formFields.quantity * event.target.value);
-        }
+        }*/
 
         oldFormFields[event.target.name] = event.target.value;
 
@@ -379,17 +378,17 @@ const AddNewStockPage = props => {
     };
 
     const setTotalPriceHandler = event => {
-        if(event.target.value === ""){
+        if(event.target.value === "" && typeof event.target.value !== 'number'){
             setTotalPrice("");
             return true;
         }
-        setTotalPrice((parseFloat(event.target.value)));
+        setTotalPrice((event.target.value));
         setInputValue(event.target.name , event.target.value);
         const cp = (parseFloat(event.target.value) / formFields.quantity);
 
         const {...oldFormFields} = formFields;
 
-        oldFormFields['costPrice'] = cp;
+        oldFormFields['costPrice'] = cp.toFixed(2);
 
         setFormFields(oldFormFields);
         setUnitPrice(cp.toFixed(2));
@@ -636,14 +635,24 @@ const AddNewStockPage = props => {
                 handleClose={changeSellingPriceModalState.bind(this)}
                 title={`Change price`}
                 footer={
-                    <Button
-                        variant="contained"
-                        style={{'backgroundColor': '#DAAB59' , color: '#333333', padding: '5px 50px'}}
-                        onClick={saveChangePrice}
-                        disabled={loading}
-                    >
-                        Save
-                    </Button>
+                    <div>
+                        <Button
+                            variant="contained"
+                            style={{'backgroundColor': '#FFFFFF', border: '1px solid #DAAB59', color: '#DAAB59', padding: '5px 50px'}}
+                            onClick={changeSellingPriceModalState.bind(this)}
+                            disabled={loading}
+                        >
+                            Cancel
+                        </Button>
+                        <Button
+                            variant="contained"
+                            style={{'backgroundColor': '#DAAB59' , color: '#333333', padding: '5px 50px'}}
+                            onClick={saveChangePrice}
+                            disabled={loading}
+                        >
+                            Save
+                        </Button>
+                    </div>
                 }
             >
                 <Container className={`mx-3 my-3`} style={{width: '100%'}}>
@@ -659,7 +668,7 @@ const AddNewStockPage = props => {
 
                         <label className={`text-dark py-2 text-left`} style={{fontSize: '18px'}}> New cost price</label>
 
-                        <Paper className={classes.root} >
+                        {/*<Paper className={classes.root} >
                             <InputBase
                                 className={`${classes.input} search-box text-center`}
                                 type="tel"
@@ -669,7 +678,7 @@ const AddNewStockPage = props => {
                                 onChange={(event) => changePriceFieldsHandler(event)}
                             />
 
-                        </Paper>
+                        </Paper>*/}
                     </Grid>
 
                     <Grid item xs={12} className={optionGroupClasses.margin}>

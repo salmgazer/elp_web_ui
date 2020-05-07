@@ -93,7 +93,7 @@ const ResetPassword = props => {
                 userData,
                 {},
                 {},
-                `https://elp-core-api-dev.herokuapp.com/v1/client/users/reset_password`,
+                `https://core-api-dev.mystoreaid.net/v1/client/users/reset_password`,
             );
 
             setSuccessMsg('Your password has been changed successfully. Please login to your account');

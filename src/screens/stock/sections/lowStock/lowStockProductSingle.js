@@ -30,7 +30,7 @@ const LowStockProductSingle = props => {
         setLastHistory(fetchLastHistory);
         setName(newProduct.name);
         setImage(new ProductServiceHandler(product).getProductImage());
-        setProductQuantity(await new BranchStockService().getProductStockQuantity(branchProduct.productId));
+        setProductQuantity(await productHandler.getProductQuantity());
         setCompanyStocks(await new BranchStockService().getBranchStockQuantities(branchProduct.productId));
     };
     const addProductHandler = (id) => {

@@ -37,6 +37,7 @@ const MainView = props => {
 
     const handleChange = (event, newValue) => {
         setValue(newValue);
+        props.searchHandler(' ');
     };
 
     const handleChangeIndex = index => {

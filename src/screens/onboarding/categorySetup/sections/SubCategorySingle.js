@@ -19,7 +19,7 @@ const SubCategorySingle = props => {
         <Grid item xs={4}>
             <Card
                 className="shadow1"
-                style={{margin: '5px auto' ,backgroundImage: `url(${category.image})` , backgroundPosition: 'center', backgroundSize: 'cover' , width: '100%' , height: '160px', padding: '0px', position: 'relative'}}
+                style={{margin: '5px auto' ,backgroundImage: `url(${category.image ? `https://elparah.store/admin/upload/${category.image}` : 'https://elparah.store/admin/upload/no_image.png'})` , backgroundPosition: 'center top', backgroundSize: '100%', backgroundRepeat: 'no-repeat' , width: '100%' , height: '160px', padding: '0px', position: 'relative'}}
             >
                 { category.owned ?
                     <div
@@ -55,7 +55,7 @@ const SubCategorySingle = props => {
                         />
                     </div>
                 }
-                <div style={{width: '100%', backgroundColor: '#3333338c', color: '#ffffff', position: 'relative', top: '70%', left:'0', right: '0', padding: '14px 0px'}}>
+                <div style={{fontSize: '14px', width: '100%', backgroundColor: '#3333338c', color: '#ffffff', position: 'relative', top: '70%', left:'0', right: '0', padding: '14px 0px'}}>
                     {category.name}
                 </div>
             </Card>

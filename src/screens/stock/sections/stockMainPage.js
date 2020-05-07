@@ -30,6 +30,7 @@ import RedeemIcon from '@material-ui/icons/Redeem';
 import ReportProblemOutlinedIcon from '@material-ui/icons/ReportProblemOutlined';
 
 import Drawer from "../../../components/Drawer/Drawer";
+import BarcodeMode from "../../sell/sell/sections/BarcodeMode/BarcodeMode";
 
 const StockMainPage = props => {
     const [value , setValue] = useState(0);
@@ -97,27 +98,27 @@ const StockMainPage = props => {
                         onKeyDown={() => setIsShowDrawer(false)}
                     >
                         <BottomDrawer isShow={isShowDrawer}>
-                            <ListItem button key={4}>
+                            {/*<ListItem button key={4}>
                                 <ListItemIcon><SwapHorizOutlinedIcon style={{color: '#707070'}} /></ListItemIcon>
                                 <ListItemText primary="Stock movement" />
-                            </ListItem>
+                            </ListItem>*/}
                             <ListItem button key={5}>
                                 <ListItemIcon><KeyboardReturnIcon style={{color: '#707070'}} /></ListItemIcon>
                                 <ListItemText primary="Return purchase" />
                             </ListItem>
-                            <ListItem button key={6}>
+                            {/*<ListItem button key={6}>
                                 <ListItemIcon><QueryBuilderIcon style={{color: '#707070'}} /></ListItemIcon>
                                 <ListItemText primary="Purchase history" />
-                            </ListItem>
-                            <ListItem button key={7}>
+                            </ListItem>*/}
+                            {/*<ListItem button key={7}>
                                 <ListItemIcon><LibraryAddIcon style={{color: '#707070'}} /></ListItemIcon>
                                 <ListItemText primary="Move stock between branches" />
-                            </ListItem>
+                            </ListItem>*/}
                             <ListItem button key={8}>
                                 <ListItemIcon><ArrowForwardOutlinedIcon style={{color: '#707070'}} /></ListItemIcon>
                                 <ListItemText primary="Request for new product" />
                             </ListItem>
-                            <ListItem button key={9}>
+                            <ListItem button key={9} onClick={setView.bind(this , 4)}>
                                 <ListItemIcon><ReportProblemOutlinedIcon style={{color: '#707070'}} /></ListItemIcon>
                                 <ListItemText primary="View low stock" />
                             </ListItem>
@@ -129,11 +130,95 @@ const StockMainPage = props => {
                     </div>
 
                     <Container
-                        className={`mt-6`}
+                        className={`mt-7`}
                     >
                         <SystemDate/>
                     </Container>
-                    <Grid
+
+                    <div
+                        style={{
+                            display: 'flex',
+                            width: '95%',
+                            alignItems: 'center',
+                            marginBottom: '5px' ,
+                            margin: 'auto'
+                        }}
+                    >
+                        <div
+                            onClick={setView.bind(this , 2)}
+                            style={{width: '100%', marginRight: '2%', marginTop: '0px'}}
+                        >
+                            <CardDefault
+                                styles={{width: '100%' , borderRadius: '10px'}}
+                            >
+                                <Typography
+                                    component="h6"
+                                    variant="h6"
+                                    style={{fontWeight: '500', fontSize: '12px' , lineHeight: '1.3'}}
+                                    className={`mx-2`}
+                                >
+                                    Items Left
+                                </Typography>
+                                <Typography
+                                    component="h5"
+                                    variant="h5"
+                                    style={{fontWeight: '700', fontSize: '14px' , lineHeight: '1.2'}}
+                                >
+                                    {props.branchProducts.length - props.outOfStockItems.length} items
+                                </Typography>
+                            </CardDefault>
+                        </div>
+
+                        <div
+                            onClick={setView.bind(this , 4)}
+                            style={{width: '100%', marginRight: '2%', marginTop: '0px'}}
+                        >
+                            <CardDefault
+                                styles={{width: '100%', borderRadius: '10px'}}
+                            >
+                                <Typography
+                                    component="h6"
+                                    variant="h6"
+                                    style={{fontWeight: '500', fontSize: '12px' , lineHeight: '1.3'}}
+                                    className={`mx-2`}
+                                >
+                                    Low stock
+                                </Typography>
+                                <Typography
+                                    component="h5"
+                                    variant="h5"
+                                    style={{fontWeight: '700', fontSize: '14px' , lineHeight: '1.2'}}
+                                >
+                                    {props.lowestStockItems.length} items
+                                </Typography>
+                            </CardDefault>
+                        </div>
+                        <div
+                            onClick={setView.bind(this , 3)}
+                            style={{width: '100%', marginTop: '0px'}}
+                        >
+                            <CardDefault
+                                styles={{width: '100%', borderRadius: '10px'}}
+                            >
+                                <Typography
+                                    component="h6"
+                                    variant="h6"
+                                    style={{fontWeight: '500', fontSize: '12px' , lineHeight: '1.3'}}
+                                    className={`mx-2`}
+                                >
+                                    Out of stock
+                                </Typography>
+                                <Typography
+                                    component="h5"
+                                    variant="h5"
+                                    style={{fontWeight: '700', fontSize: '14px' , lineHeight: '1.2'}}
+                                >
+                                    {props.outOfStockItems.length} items
+                                </Typography>
+                            </CardDefault>
+                        </div>
+                    </div>
+                    {/*<Grid
                         container
                         spacing={1}
                         style={{paddingRight: '10px', paddingLeft: '10px' , width: '100%', margin: 'auto'}}
@@ -211,7 +296,7 @@ const StockMainPage = props => {
                                 </Typography>
                             </CardDefault>
                         </Grid>
-                    </Grid>
+                    </Grid>*/}
 
                     <AppBar position="static" color="default" className={`mt-2`}>
                         <Tabs
@@ -235,7 +320,7 @@ const StockMainPage = props => {
                             <StockSearchMode searchProduct={props.searchProduct} branchProducts={branchProducts} addProductStockView={props.addProductStockView} stock={props.stock}/>
                         </TabPanel>
                         <TabPanel value={value} index={1}>
-                            <StockBarcodeMode/>
+                            <StockBarcodeMode product={props.product} setView={props.setView} searchBarcode={props.searchBarcode}/>
                         </TabPanel>
                     </SwipeableViews>
 

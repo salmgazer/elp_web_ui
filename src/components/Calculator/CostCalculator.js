@@ -18,8 +18,6 @@ const CostCalculator = (props) => {
         oldFormFields[name] = value;
 
         setFormFields(oldFormFields);
-        console.log(oldFormFields);
-
     };
 
     const calculatePrice = async () => {

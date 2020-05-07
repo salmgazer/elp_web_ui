@@ -10,7 +10,6 @@ import 'react-confirm-alert/src/react-confirm-alert.css';
 import Snackbar from '@material-ui/core/Snackbar';
 import MuiAlert from '@material-ui/lab/Alert';
 import SimpleSnackbar from "../../../../components/Snackbar/SimpleSnackbar";
-import MenuIcon from '@material-ui/icons/Menu';
 import SectionNavbars from "../../../../components/Sections/SectionNavbars";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faCalculator} from "@fortawesome/free-solid-svg-icons";
@@ -18,6 +17,7 @@ import CostCalculator from "../../../../components/Calculator/CostCalculator";
 import CostInput from "../../../Components/Input/CostInput";
 import ProductServiceHandler from '../../../../services/ProductServiceHandler';
 import LocalInfo from "../../../../services/LocalInfo";
+import ArrowBackIcon from '@material-ui/icons/ArrowBack';
 
 
 function Alert(props) {
@@ -30,7 +30,7 @@ const AddProductView = props => {
     const [errorDialog, setErrorDialog] = useState(false);
     const [calculatorDialog, setCalculatorDialog] = useState(false);
     const [formFields , setFormFields] = useState({
-        quantity: null,
+        quantity: 0,
         sellingPrice: null,
         costPrice: null,
         productId: props.product[0].id,
@@ -77,6 +77,7 @@ const AddProductView = props => {
                 {
                     label: 'Yes',
                     onClick: () => {
+                        props.searchHandler('');
                         props.setView(0);
                     }
                 },
@@ -131,12 +132,19 @@ const AddProductView = props => {
 
     return(
         <div style={{paddingTop: '60px'}}>
-            <SectionNavbars title="Stock" >
-                <MenuIcon
+            <SectionNavbars title="Stock"
+                leftIcon= {
+                    <ArrowBackIcon
+                        onClick={backHandler.bind(this)}
+                        style={{fontSize: '2.5rem'}}
+                    />
+                }
+            />
+                {/*<MenuIcon
                     onClick={() => this.setState({isDrawerShow: true})}
                     style={{fontSize: '2.5rem'}}
-                />
-            </SectionNavbars>
+                />*/}
+
             <SimpleSnackbar
                 openState={successDialog}
                 message={`New product added successfully`}
@@ -184,7 +192,7 @@ const AddProductView = props => {
                 </Typography>
 
                 <div className={`rounded bordered mb-3 mx-3 px-3 py-3`}>
-                    <QuantityInput label={`Quantity counted`} inputName="quantity" getValue={setInputValue.bind(this)}/>
+                    <QuantityInput startValue={1} label={`Quantity counted`} inputName="quantity" getValue={setInputValue.bind(this)}/>
 
                     <CostInput label={`Cost price`} inputName="costPrice" initialValue={formFields.costPrice || ''} getValue={setInputValue.bind(this)} >
                         <FontAwesomeIcon onClick={openCalculator.bind(this)} icon={faCalculator} fixedWidth />

@@ -41,8 +41,10 @@ const CostInput = props => {
             return
         }
 
-        setQuantity((parseFloat(event.target.value)).toFixed(2));
-        props.getValue(inputName , (parseFloat(event.target.value)).toFixed(2));
+        if(typeof event.target.value !== 'number') {
+            setQuantity((parseFloat(event.target.value)).toFixed(2));
+            props.getValue(inputName , (event.target.value));
+        }
     };
 
     return(

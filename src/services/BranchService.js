@@ -107,7 +107,10 @@ export default class BranchService {
         return todaySales;
     }
 
-    static async getSales(duration, date) {
+    /*
+    * @todo Chris before you change a function check if it is being used. I am sorry for your punishment I have to claim my function cos i spend almost 2 hours to find the issues...
+    * */
+    /*static async getSales(duration, date) {
         const branches = (LocalInfo.branches).map(branch => branch.branchId);
 
         const sales = await new ModelAction('Sales').findByColumnNotObserve(
@@ -144,10 +147,10 @@ export default class BranchService {
 
     }
 
-    /*
+    /!*
     * Get today sales total details
     * @return number - promise
-    * */
+    * *!/
     async getSalesDetails(duration , date) {
         const sale = await BranchService.getSales(duration , date);
         console.log(sale);
@@ -184,7 +187,7 @@ export default class BranchService {
         }
 
         return {
-            sales:sale, 
+            sales:sale,
             total,
             profit,
             credit,
@@ -192,6 +195,59 @@ export default class BranchService {
             sellingPrice,
             quantity,
             costPrice
+        };
+    }*/
+
+    static async getSales(duration) {
+        const branches = (LocalInfo.branches).map(branch => branch.branchId);
+
+        const sales = await new ModelAction('Sales').findByColumnNotObserve(
+            {
+                name: 'branchId',
+                value: branches,
+                fxn: 'oneOf'
+            }
+        );
+
+        switch (duration) {
+            case 'today':
+                return sales.filter(sale => isToday(sale.createdAt));
+            case 'week':
+                return sales.filter(sale => isWeek(sale.createdAt));
+            case 'month':
+                return sales.filter(sale => isThisMonth(sale.createdAt));
+            case 'year':
+                return sales.filter(sale => isYear(sale.createdAt));
+        }
+
+    }
+
+    /*
+    * Get today sales total details
+    * @return number - promise
+    * */
+    async getSalesDetails(duration , branchId = LocalInfo.branchId) {
+        const sales = await BranchService.getSales(duration , branchId);
+
+        let total = 0;
+        let profit = 0;
+        let credit = 0;
+        let purchases = 0;
+
+        for (let step = 0; step < sales.length; step++) {
+            total += parseFloat(await SaleService.getSaleEntryAmountById(sales[step].id));
+        }
+
+        for (let step = 0; step < sales.length; step++) {
+            profit += parseFloat(await SaleService.getSaleEntryProfitById(sales[step].id));
+        }
+
+        for (let step = 0; step < sales.length; step++) {
+            credit += parseFloat(await SaleService.getSaleEntryCreditById(sales[step].id));
+        }
+
+        return {
+            total,profit,credit,purchases
         };
     }
 }

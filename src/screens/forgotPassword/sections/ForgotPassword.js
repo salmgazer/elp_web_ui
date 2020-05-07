@@ -76,7 +76,7 @@ const ForgotPassword = props => {
 
     //Logic for sending SMS
     const submit = async ({ phone , btnState }) => {
-        if (phone.length < 10 ) {
+        if (phone.length < 12 ) {
             alert("Phone number is incorrect");
             return;
         }
@@ -90,7 +90,7 @@ const ForgotPassword = props => {
             let response = await new Api('others').index(
                 {},
                 {},
-                `https://elp-core-api-dev.herokuapp.com/v1/client/users/verify_password_reset?phone=${contact}`,
+                `https://core-api-dev.mystoreaid.net/v1/client/users/verify_password_reset?phone=${contact}`,
                 {}
             );
 
@@ -119,6 +119,19 @@ const ForgotPassword = props => {
         }
 
         setErrorDialog(false);
+    };
+
+    /*
+    * Add dashes to contact
+    * */
+    const addDashes = value => {
+        if(value.length <= 12){
+            const phone = phoneFormat(value);
+            //handleChange(event);
+            return phone;
+        }
+
+        return false;
     };
 
 
@@ -180,14 +193,16 @@ const ForgotPassword = props => {
                                             className={classes.margin}
                                             validatorListener={result => setState({btnState: result})}
                                             name="phone"
-                                            onChange={event => setState({ phone: event.target.value })}
+                                            //onChange={addDashes}
+                                            onChange={event => setState({ phone: addDashes(event.target.value) })}
                                             value={state.phone}
                                             label="Phone number"
                                             required
                                             type="tel"
                                             variant="outlined"
                                             id="contact"
-                                            validators={['required', 'isNumber' , 'minStringLength:10' , 'maxStringLength:10']}
+                                            pattern="^(?:\(\d{3}\)|\d{3})[- ]?\d{3}[- ]?\d{4}$"
+                                            validators={['required', 'minStringLength:12' , 'maxStringLength:12']}
                                             errorMessages={
                                                 [
                                                     'Contact is a required field',
