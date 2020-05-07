@@ -16,9 +16,9 @@ import LocalInfo from "../../../services/LocalInfo";
 import BranchService from "../../../services/BranchService";
 import {withDatabase} from "@nozbe/watermelondb/DatabaseProvider";
 import withObservables from "@nozbe/with-observables";
-import {Q} from "@nozbe/watermelondb";
-import database from "../../../models/database";
-import SaleService from "../../../services/SaleService";
+import BranchStockService from "../../../services/BranchStockService";
+import BranchProductStock from "../../../models/branchesProductsStocks/BranchProductStock";
+import * as Q from "@nozbe/watermelondb/QueryDescription";
 
 
 class ChangePrice extends Component{
@@ -28,7 +28,7 @@ class ChangePrice extends Component{
         storeProducts: 1,
         activeStep: 0,
         branchProducts: [],
-        currentProduct: 0,
+        currentProduct: {},
         addedProducts: [
             {
                 "store_id": "1",
@@ -58,15 +58,23 @@ class ChangePrice extends Component{
     };
 
     async componentDidMount() {
-        const { history, database , branchProducts } = this.props;
+        const { branchProducts } = this.props;
 
         await this.setState({
             branchProducts: branchProducts,
+            companyBranches: LocalInfo.branches,
         });
     }
 
     async componentDidUpdate(prevProps) {
-        const { history, database , branchProducts  } = this.props;
+        const { branchProducts , branchProductStock } = this.props;
+
+        if(prevProps.branchProductStock.length !== branchProductStock.length){
+            this.setState({
+                branchProducts: branchProducts,
+                companyBranches: LocalInfo.branches,
+            });
+        }
     }
 
     //Steps to select category
@@ -80,7 +88,7 @@ class ChangePrice extends Component{
             case 0:
                 return <MainView setView={this.setStepContentView.bind(this)} viewAddedProducts={this.viewAddedProducts(this)} products={this.state.productList} branchProducts={this.state.branchProducts} searchHandler={this.searchHandler.bind(this)} productAdd={this.showAddView.bind(this)} removeProduct={this.removeProduct.bind(this)} />;
             case 1:
-                return <AddProductView addNewProduct={this.addNewProduct.bind(this)} setView={this.setStepContentView.bind(this)} product={this.state.currentProduct}/>;
+                return <AddProductView updateProduct={this.updateNewProduct.bind(this)} setView={this.setStepContentView.bind(this)} product={this.state.currentProduct}/>;
             case 2:
                 return <AddedProductView deleteProduct={this.deleteProduct.bind(this)} products={this.state.addedProducts} setView={this.setStepContentView.bind(this)} pro_quantity={this.state.storeProducts} productEdit={this.showEditView.bind(this)}/>;
             case 3:
@@ -133,6 +141,21 @@ class ChangePrice extends Component{
             ]
         });
     };
+
+    async updateNewProduct(formFields){
+        console.log(formFields)
+        try {
+            const status = await new BranchStockService().addStock(formFields);
+            console.log(status)
+            if(status){
+                return true;
+            }
+            alert('Something went wrong');
+            return false;
+        }catch (e) {
+            return false;
+        }
+    }
 
     /*
     * Search products handler...
@@ -220,13 +243,12 @@ class ChangePrice extends Component{
     }
 }
 
-const EnhancedChangePrice = withDatabase(
-    withObservables(['branchProducts' ], ({ branchProducts , database  }) => ({
+const EnhancedDirectiveViewStock = withDatabase(
+    withObservables(['branchProducts' , 'branchProductStock'], ({ branchProducts , branchProductStock, database }) => ({
         branchProducts: new BranchService(LocalInfo.branchId).getProducts(),
-        //cartQ: database.collections.get(CartEntry.table).query(Q.where('id', new CartService().cartId())).observe(),
-        //cartQ: database.collections.get(CartEntry.table).find(new CartService().cartId()),
+        branchProductStock: database.collections.get(BranchProductStock.table).query(Q.where('branchId' , LocalInfo.branchId)).observe(),
     }))(withRouter(ChangePrice))
 );
 
-export default EnhancedChangePrice;
+export default withRouter(EnhancedDirectiveViewStock);
 

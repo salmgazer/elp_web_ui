@@ -2,6 +2,7 @@ import ModelAction from "./ModelAction";
 import database from "../models/database";
 import Customer from "../models/customers/Customer";
 import LocalInfo from "./LocalInfo";
+import * as Q from "@nozbe/watermelondb/QueryDescription";
 
 export default class CustomerService {
     getCustomers(){
@@ -30,6 +31,20 @@ export default class CustomerService {
             console.log(e);
             return false;
         }
+    }
+
+    /*
+    * Search for a branch customer
+    * */
+    async searchBranchCustomer(searchValue) {
+        const customers = await new ModelAction('Customer').findByColumnNotObserve({
+            name: 'firstName',
+            value: searchValue,
+            fxn: 'like'
+        });
+
+        return  database.collections.get('branches_customers').query(Q.where('customerId',
+        Q.oneOf(customers.map(c => c.id))), Q.where('branchId', LocalInfo.branchId)).fetch();
     }
 
     async getLastCustomer(){

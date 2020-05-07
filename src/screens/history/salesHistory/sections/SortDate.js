@@ -11,18 +11,19 @@ import DateToggle from "../../../../components/DateToggle/DateToggle";
 class SortDate extends Component{
     state={
         activeStep: 0,
+        pageName: false,
     }
 
     getStepContent = step => {
         switch (step) {
             case 0:
-                return <DayView setView={this.setStepContentView.bind(this)} pageName="Sold items" />;
+                return <DayView setView={this.setStepContentView.bind(this)} pageName={this.state.pageName} />;
             case 2:
-                return <WeekView setView={this.setStepContentView.bind(this)} pageName="Sold items" />;
+                return <WeekView setView={this.setStepContentView.bind(this)} pageName={this.state.pageName} />;
             case 3:
-                return <MonthView setView={this.setStepContentView.bind(this)} pageName="Sold items" />;
+                return <MonthView setView={this.setStepContentView.bind(this)} pageName={this.state.pageName} />;
             case 4:
-                return <YearView setView={this.setStepContentView.bind(this)} pageName="Sold items" />;
+                return <YearView setView={this.setStepContentView.bind(this)} pageName={this.state.pageName} />;
             default:
                 return 'Complete';
         }

@@ -16,6 +16,7 @@ const SingleDayInvoice = props => {
     * @todo format receipt number as required...
     * */
     const invoice = props.invoice;
+    const prodName = props.prodName;
     const [customer , setCustomer] = useState(false);
     const [saleEntries , setSaleEntries] = useState([]);
     const [total , setTotal] = useState(false);
@@ -59,7 +60,9 @@ const SingleDayInvoice = props => {
 
     return(
         <div>
-            <Grid container spacing={1} className={`shadow1 mb-3 borderRadius10`}>
+            {prodName === `${customer.firstName}`
+                ?
+                <Grid container spacing={1} className={`shadow1 mb-3 borderRadius10`}>
 
                 <Grid item xs={1}></Grid>
                 <Grid item xs={7} style={{display: 'table', height: '60px', margin: '8px 0px'}} onClick={openDialogHandler.bind(this)} >
@@ -78,6 +81,10 @@ const SingleDayInvoice = props => {
                 </Grid>
 
             </Grid>
+                :
+                ''
+            }
+
 
             <MainDialog
                 handleDialogClose={closeDialogHandler.bind(this)}

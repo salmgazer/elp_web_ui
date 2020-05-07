@@ -41,6 +41,8 @@ export default class PurchaseService {
         console.log(purchase);
         let costPrice = 0;
         let quantity = 0;
+        let profit = 0;
+        let sellingPrice = 0;
 
         for (let step = 0; step < purchase.length; step++) {
             costPrice += parseFloat(await BranchStockService.getStockEntryCostPriceById(purchase[step].id));
@@ -50,10 +52,20 @@ export default class PurchaseService {
             quantity += parseFloat(await BranchStockService.getStockProductQuantity(purchase[step].id));
         }
 
+        for (let step = 0; step < purchase.length; step++) {
+            sellingPrice += parseFloat(await BranchStockService.getStockEntrySellingPriceById(purchase[step].id));
+        }
+
+        for (let step = 0; step < purchase.length; step++) {
+            profit += parseFloat(await BranchStockService.getStockEntryProfitById(purchase[step].id));
+        }
+
         return {
             purchases: purchase,
             costPrice,
-            quantity
+            quantity,
+            profit,
+            sellingPrice
         }
     }
 }

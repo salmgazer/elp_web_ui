@@ -47,7 +47,8 @@ const useStyles = makeStyles(theme => ({
     
     const classes = useStyles();
     const [selectedDate, setSelectedDate] = useState(new Date());
-    //const [day , setDay] = useState(new Date());
+    const pageName = props.pageName;
+    const [name , setName] = useState('');
 
     const handleDateChange = date => {
         setSelectedDate(date);
@@ -67,6 +68,11 @@ const useStyles = makeStyles(theme => ({
 
     const getInvoiceDetails = async (date) => {
         const response = await new InvoiceService().getInvoiceDetails('day' , date);
+        if (pageName === true){
+            const branchCustomer= props.customer[0];
+            const newCustomer = await branchCustomer.customer.fetch();
+            setName(newCustomer.firstName);
+        }
         setInvoiceDetails(response);
         setInvoices(response.invoices);
         console.log(response)
@@ -136,8 +142,12 @@ const useStyles = makeStyles(theme => ({
                         </Grid>
                     </div>
                     :
+                    pageName === false ?
 
                     invoices.map((invoice) => <SingleDayInvoice  key={invoice.id} invoice={invoice} />)
+                    :
+                    invoices.map((invoice) => <SingleDayInvoice  key={invoice.id} invoice={invoice} prodName={name} />)
+
                 }
             </Box>
         </div>

@@ -1,25 +1,24 @@
 import React, {useState, useEffect} from 'react';
 import Typography from '@material-ui/core/Typography';
-import './View.scss';
 import { makeStyles } from '@material-ui/core/styles';
 import Button from "@material-ui/core/Button/Button";
 import Grid from "@material-ui/core/Grid/Grid";
 
-import ProductCard from "../../../../components/Cards/ProductCard";
+import CustomerCard from "../../../../components/Cards/CustomerCard";
 import SearchInput from "../../../Components/Input/SearchInput";
 
-const ProductView = props => {
+const CustomerView = props => {
 
-    const addProductHandler = (id) => {
+    const addCustomerHandler = (id) => {
         console.log(id);
-        props.productAdd(id, 0);
+        props.customerAdd(id, 0);
     };
 
     const [searchValue , setSearchValue] = useState({
         search: ''
     });
 
-    const branchProducts = props.branchProducts;
+    const branchCustomers = props.branchCustomers;
 
 
     const setInputValue = (name , value) => {
@@ -29,13 +28,13 @@ const ProductView = props => {
 
         setSearchValue(oldFormFields);
 
-        props.searchProduct(value);
+        props.searchCustomer(value);
     };
 
     return(
         <div>
             <Typography className='text-dark font-weight-bold' style={{ fontSize: '15px', margin: '5px 0px' }} >
-                Search for a product to view history
+                Search for a customer to view history
             </Typography>
 
             <Grid container spacing={1}>
@@ -54,7 +53,7 @@ const ProductView = props => {
                 className={`shadow1 boxMain mx-auto rounded mt-2`}
                 style={{width: '100%', padding: '10px 2% 20px' , marginBottom: '60px'}}
             >
-                {branchProducts.length === 0
+                {branchCustomers.length === 0
                     ?
                     <Grid
                         item xs={12}
@@ -67,19 +66,19 @@ const ProductView = props => {
                                 style={{fontSize: '16px'}}
                                 className={`text-center text-dark w-100`}
                             >
-                                No product found
+                                No customer found
                             </Typography>
                         </div>
                     </Grid>
                     :
-                    branchProducts.map((branchProduct) =>
-                    <Grid key={branchProduct.productId} item xs={4} style={{padding: '4px 8px' , position: 'relative'}} className={`mx-0 px-1`}>
+                    branchCustomers.map((branchCustomer) =>
+                    <Grid key={branchCustomer.customerId} item xs={4} style={{padding: '4px 8px' , position: 'relative'}} className={`mx-0 px-1`}>
                     <div
-                        onClick={addProductHandler.bind(this, branchProduct.productId)}
+                        onClick={addCustomerHandler.bind(this, branchCustomer.customerId)}
                     >
-                        <ProductCard product={branchProduct.product.fetch()}>
+                        <CustomerCard customer={branchCustomer.customer.fetch()}>
                             
-                        </ProductCard>
+                        </CustomerCard>
                     </div>
                     </Grid>
                     )
@@ -106,4 +105,4 @@ const ProductView = props => {
     );
 };
 
-export default ProductView;
+export default CustomerView;

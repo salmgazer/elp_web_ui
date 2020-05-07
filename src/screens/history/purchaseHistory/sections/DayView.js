@@ -11,6 +11,7 @@ import Box from "@material-ui/core/Box/Box";
 import { withRouter } from "react-router-dom";
 
 import SingleDayView from './singleViews/SingleDayView';
+import ProductDay from './singleViews/ProductDay';
 import CardsSection from '../../../../components/Sections/CardsSection';
 import PurchaseService from "../../../../services/PurchaseService";
 import BranchStockService from "../../../../services/BranchStockService";
@@ -25,18 +26,15 @@ const DayView = props => {
     
     const classes = useStyles();
     const [selectedDate, setSelectedDate] = React.useState(new Date());
+    const [purchaseDetails , setPurchaseDetails] = useState(false);
+    const [purchases , setPurchases] = useState([]);
+    const pageName = props.pageName;
+    const [name , setName] = useState('');
 
     const handleDateChange = date => {
         setSelectedDate(date);
         getPurchaseDetails(date);
       };
-
-    const [purchaseDetails , setPurchaseDetails] = useState(false);
-    const [quantity , setQuantity] = useState(false);
-    const [costPrice , setCostPrice] = useState(false);
-    const [sellingPrice , setSellingPrice] = useState(false);
-    const [expProfit , setExpProfit] = useState(false);
-    const [purchases , setPurchases] = useState([]);
 
     useEffect(() => {
     // You need to restrict it at some point
@@ -48,14 +46,11 @@ const DayView = props => {
 
     const getPurchaseDetails = async (date) => {
         const response = await new PurchaseService().getPurchaseDetails('day', date);
-        const q = await new BranchStockService().getCompanyItemsLeft();
-        const c = await new BranchStockService().getTotalCostPrice();
-        const s = await new BranchStockService().getTotalSellingPrice();
-        const e = await new BranchStockService().getTotalExpectedProfit();
-        setQuantity(q);
-        setCostPrice(c);
-        setSellingPrice(s);
-        setExpProfit(e);
+        if (pageName === true){
+            const branchProduct = props.product[0];
+            const newProduct = await branchProduct.product.fetch();
+            setName(newProduct.name);
+        }
         setPurchaseDetails(response);
         setPurchases(response.purchases);
         console.log(response)
@@ -67,9 +62,24 @@ const DayView = props => {
 
             <Grid container spacing={1}>
                 <Grid item xs={6} >
-                    <Typography style={{fontSize: '14px', paddingTop: '20px', textAlign: 'left'}} >
-                        {props.pageName}
-                    </Typography>
+                    {pageName === false
+                        ?
+                        <Typography
+                            style={{fontSize: '14px', paddingTop: '20px', marginRight: '50px'}}
+                            className={`text-center text-dark`}
+                        >
+                            Purchased items
+                        </Typography>
+                        :
+                        <Typography
+
+                            style={{fontSize: '14px', paddingTop: '20px', marginRight: '50px'}}
+                            className={`text-center text-dark`}
+                        >
+                        {name}
+                        </Typography>
+
+                    } 
                 </Grid>
 
                 <Grid item xs={6} >
@@ -93,7 +103,7 @@ const DayView = props => {
                 </Grid>
             </Grid>
 
-            <CardsSection quantity={quantity} costPrice={costPrice} sellingPrice={sellingPrice} profit={expProfit} profitName="Expected Profit" />
+            <CardsSection quantity={purchaseDetails.quantity} costPrice={purchaseDetails.costPrice} sellingPrice={purchaseDetails.sellingPrice} profit={purchaseDetails.profit} profitName="Expected Profit" />
             {/* <CardsSection quantity='4' costPrice='20' sellingPrice='50' profit='30' profitName="Expected Profit" /> */}
 
             <Box style={{marginTop: '5px' , paddingBottom: '60px'}} p={1} className={`mt-3 mb-5`}>
@@ -117,8 +127,12 @@ const DayView = props => {
                         </Grid>
                     </div>
                     :
+                    pageName === false ?
 
-                    purchases.map((purchase) => <SingleDayView  key={purchase.id} purchase={purchase} />)
+                    purchases.map((purchase) => <SingleDayView  key={purchase.id} purchase={purchase} purchaseEntry={purchase} />)
+                    :
+                    purchases.map((purchase) => <ProductDay  key={purchase.id} purchase={purchase} purchaseEntry={purchase} prodName={name} />)
+
                 }
             </Box>
 

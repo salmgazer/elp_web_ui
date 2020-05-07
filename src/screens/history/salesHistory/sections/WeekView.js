@@ -7,10 +7,10 @@ import Box from "@material-ui/core/Box/Box";
 import { withRouter } from "react-router-dom";
 
 import SingleWeekView from './productViews/SingleWeekView';
+import ProductWeek from './productViews/ProductWeek';
 import CardsSection from '../../../../components/Sections/CardsSection';
 import SystemDateHandler from "../../../../services/SystemDateHandler";
-
-import BranchService from "../../../../services/BranchService";
+import SaleService from "../../../../services/SaleService";
 
 const useStyles = makeStyles(theme => ({
     root: {
@@ -26,6 +26,8 @@ const WeekView = props => {
 
     const classes = useStyles();
     const [selectedWeek, setSelectedWeek] = React.useState(values[0].value);
+    const pageName = props.pageName;
+    const [name , setName] = useState('');
 
     const handleChange = event => {
         setSelectedWeek(event.target.value);
@@ -45,8 +47,12 @@ const WeekView = props => {
 
     const getSaleDetails = async (date) => {
         console.log(date);
-        const response = await new BranchService().getSalesDetails('week', date);
-
+        const response = await new SaleService().getSalesDetails('week', date);
+        if (pageName === true){
+            const branchProduct = props.product[0];
+            const newProduct = await branchProduct.product.fetch();
+            setName(newProduct.name);
+        }
         setSaleDetails(response);
         setSales(response.sales);
         console.log(response)
@@ -59,9 +65,24 @@ const WeekView = props => {
 
             <Grid container spacing={1}>
                 <Grid item xs={6}>
-                    <Typography style={{fontSize: '14px', paddingTop: '20px'}} >
-                        {props.pageName}
-                    </Typography>
+                    {pageName === false
+                        ?
+                        <Typography
+                            style={{fontSize: '14px', paddingTop: '20px', marginRight: '50px'}}
+                            className={`text-center text-dark`}
+                        >
+                            Sold items
+                        </Typography>
+                        :
+                        <Typography
+
+                            style={{fontSize: '14px', paddingTop: '20px', marginRight: '50px'}}
+                            className={`text-center text-dark`}
+                        >
+                        {name}
+                        </Typography>
+
+                    }
                 </Grid>
 
                 <Grid item xs={6}>
@@ -111,7 +132,12 @@ const WeekView = props => {
                     </div>
                     :
 
+                    pageName === false ?
+
                     sales.map((sale) => <SingleWeekView  key={sale.id} sale={sale} />)
+                    :
+                    sales.map((sale) => <ProductWeek  key={sale.id} sale={sale} saleEntry={sale} prodName={name} />)
+
                 }
             </Box>
 

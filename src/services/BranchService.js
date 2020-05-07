@@ -2,16 +2,12 @@ import LocalInfo from "./LocalInfo";
 import ModelAction from "./ModelAction";
 import BranchProductService from "./BranchProductService";
 import isToday from 'date-fns/isToday'
-import isWeek from "date-fns/isThisWeek";
-import isThisMonth from "date-fns/isThisMonth";
-import isYear from "date-fns/isThisYear";
-import isSameDay from "date-fns/isSameDay";
-import isSameWeek from "date-fns/isSameWeek";
-import isSameMonth from "date-fns/isSameMonth";
-import isSameYear from "date-fns/isSameYear";
-import SaleService from "./SaleService";
+import isWeek from 'date-fns/isThisWeek'
+import isYear from 'date-fns/isThisYear'
+import isThisMonth from 'date-fns/isThisMonth'
 import database from "../models/database";
 import * as Q from "@nozbe/watermelondb/QueryDescription";
+import SaleService from "./SaleService";
 
 export default class BranchService {
     constructor (branchId = LocalInfo.branchId) {

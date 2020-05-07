@@ -405,6 +405,23 @@ export default class BranchStockService{
             return e;
         }
     } 
+
+        /*
+    * Get Stock products by Id
+    */
+   async getSellingStockProductsById(id){
+    try {
+        const stockCollection = await new ModelAction('BranchProduct').findByColumnNotObserve({
+            name: 'id',
+            value: id,
+            fxn: 'eq',
+        });
+
+        return stockCollection;
+    }catch (e) {
+        return e;
+    }
+} 
     
     /*
     *
@@ -414,6 +431,22 @@ export default class BranchStockService{
         return parseFloat(product.costPrice * product.quantity).toFixed(2);
     }
 
+    /*
+    *
+    * Get sale individual items selling price
+    * */
+    getStockEntrySellingPrice(product){
+        return parseFloat((product.sellingPrice * product.quantity) - (product.discount * product.quantity)).toFixed(2);
+    }
+
+    /*
+    *
+    * Get cart individual items total
+    * */
+    getStockEntryProfit(product){
+        return parseFloat(((product.sellingPrice * product.quantity) - ((product.costPrice * product.quantity) + (product.discount * product.quantity)))).toFixed(2);
+    }
+
     static async getStockProductQuantity(id){
         return ((await new BranchStockService().getStockProductsById(id))).reduce((a, b) => a + (b['quantity'] || 0), 0);
     }
@@ -421,8 +454,22 @@ export default class BranchStockService{
     /*
     * Get sale total cost price by Id
     * */
-   static async getStockEntryCostPriceById(id){
+    static async getStockEntryCostPriceById(id){
         return ((await new BranchStockService().getStockProductsById(id))).reduce((a, b) => parseFloat(a) + parseFloat(new BranchStockService().getStockEntryCostPrice(b) || 0), 0).toFixed(2);
-}
+    }
+
+    /*
+    * Get sale total cost price by Id
+    * */
+    static async getStockEntrySellingPriceById(id){
+        return ((await new BranchStockService().getSellingStockProductsById(id))).reduce((a, b) => parseFloat(a) + parseFloat(new BranchStockService().getStockEntrySellingPrice(b) || 0), 0).toFixed(2);
+    }
+
+    /*
+    * Get sale total profit by Id
+    * */
+    static async getStockEntryProfitById(saleId){
+        return ((await new BranchStockService().getStockProductsById(saleId))).reduce((a, b) => parseFloat(a) + parseFloat(new BranchStockService().getStockEntryProfit(b) || 0), 0).toFixed(2);
+    }
 
 }

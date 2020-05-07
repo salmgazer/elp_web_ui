@@ -294,15 +294,6 @@ const AddNewStockPage = props => {
         //console.log(event.target.value);
     };
 
-    const swap = () => {
-        let left = document.getElementById('left_input');
-        let right = document.getElementById('right_input');
-        let leftSRC = left.src;
-        let rightSRC = right.src;
-        left.src = rightSRC;
-        right.src = leftSRC;
-    };
-
     const swapText = () => {
         if (swapItem) {
             setSwapItem(false);

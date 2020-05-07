@@ -23,16 +23,17 @@ export default class InvoiceService {
         const day = new Date(date);
 
         console.log(day)
+        console.log(sales)
         switch (duration) {
             case 'day':
-                return sales.filter(sale => isSameDay(new Date(sale.salesDate) , day));
+                return sales.filter(sale => isSameDay(new Date(sale.createdAt) , day));
             case 'week':
                 //console.log(isSameWeek(sale.salesDate, day))
-                return sales.filter(sale => isSameWeek(new Date(sale.salesDate), day));
+                return sales.filter(sale => isSameWeek(new Date(sale.createdAt), day));
             case 'month':
-                return sales.filter(sale => isSameMonth(new Date(sale.salesDate), day));
+                return sales.filter(sale => isSameMonth(new Date(sale.createdAt), day));
             case 'year':
-                return sales.filter(sale => isSameYear(new Date(sale.salesDate), day));
+                return sales.filter(sale => isSameYear(new Date(sale.createdAt), day));
         }
     }
 
