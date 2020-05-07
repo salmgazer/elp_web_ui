@@ -9,7 +9,7 @@ const Step1 = (props) => {
     const categories = props.categories;
 
     return(
-        <div>
+        <div className={`mb-5`}>
             <p style={{marginTop: '60px', fontSize: '18px', fontWeight: '400', color: '#333333'}}>Select product categories you sell</p>
 
             <div className="scrollWrapper">

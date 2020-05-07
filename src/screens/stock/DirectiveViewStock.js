@@ -2,7 +2,6 @@ import React, {Component} from 'react';
 import { withRouter } from "react-router-dom";
 import StockMainPage from "./sections/stockMainPage";
 import './stock.scss';
-import Api from "../../services/Api";
 import LocalInfo from '../../services/LocalInfo';
 import StockProductSingle from "./sections/stockProductSingle";
 import StockSummaryPage from "./sections/itemsLeft/stockSummaryPage";
@@ -10,10 +9,8 @@ import ItemsOutOfStock from "./sections/outOfStock/itemsOutOfStock";
 import ItemsLowStock from "./sections/lowStock/itemsLowStock";
 import AddNewStockPage from "./sections/addNewStockPage";
 import MoveStock from "./sections/moveStock/moveStock";
-import ProductServiceHandler from '../../services/ProductServiceHandler';
 import {withDatabase} from "@nozbe/watermelondb/DatabaseProvider";
 import withObservables from "@nozbe/with-observables";
-import { v1 as uuidv1 } from 'uuid';
 import BranchService from "../../services/BranchService";
 import * as Q from "@nozbe/watermelondb/QueryDescription";
 import BranchStockService from "../../services/BranchStockService";
@@ -151,7 +148,7 @@ class DirectiveViewStock extends Component{
 
     addNewProductStockView = (productId) => {
         console.log(`${productId} from addStock`);
-        const old_list = this.state.stockList;
+        const old_list = this.state.branchProducts;
 
         //Find index of specific object using findIndex method.
         const product = old_list.filter((product => product.id === productId));

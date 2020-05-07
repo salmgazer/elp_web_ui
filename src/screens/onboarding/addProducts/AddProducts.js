@@ -11,6 +11,7 @@ import CompleteView from "./sections/CompleteView";
 import './addProduct.scss';
 import Api from "../../../services/Api";
 import { v1 as uuidv1 } from 'uuid';
+import getUnixTime from 'date-fns/getUnixTime';
 
 class AddProducts extends Component{
     state = {
@@ -78,7 +79,7 @@ class AddProducts extends Component{
             case 0:
                 return <MainView searchHandler={this.searchHandler.bind(this)} optionFilter={this.optionProductHandler.bind(this)} finishAddProducts={this.completeAddProducts.bind(this)} loading={this.state.loading} searchBarcode={this.searchBarcode.bind(this)} setView={this.setStepContentView.bind(this)} product={this.state.currentProduct} viewAddedProducts={this.viewAddedProducts(this)} products={this.state.productList} productAdd={this.showAddView.bind(this)} removeProduct={this.removeProduct.bind(this)} spCount={shop_products.length} />;
             case 1:
-                return <AddProductView deleteHistory={this.deleteHistory.bind(this)} undoAddProduct={this.undoAddProducts.bind(this)} addNewProduct={this.addNewProduct.bind(this)} setView={this.setStepContentView.bind(this)} product={this.state.currentProduct}/>;
+                return <AddProductView searchHandler={this.searchHandler.bind(this)} deleteHistory={this.deleteHistory.bind(this)} undoAddProduct={this.undoAddProducts.bind(this)} addNewProduct={this.addNewProduct.bind(this)} setView={this.setStepContentView.bind(this)} product={this.state.currentProduct}/>;
             case 2:
                 return <AddedProductView deleteProduct={this.deleteProduct.bind(this)} products={this.state.addedProducts} setView={this.setStepContentView.bind(this)} pro_quantity={this.state.storeProducts} productEdit={this.showEditView.bind(this)}/>;
             case 3:
@@ -392,7 +393,7 @@ class AddProducts extends Component{
             branch_stock_id: formFields.branchId,
             id: tempId,
             tempId: tempId,
-            created_at: (new Date()).getTime(),
+            created_at: getUnixTime(new Date()),
         };
 
         formFields = {

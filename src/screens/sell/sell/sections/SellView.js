@@ -1,7 +1,5 @@
 import React, {useState} from 'react';
 import SystemDate from "../../../../components/Date/SystemDate";
-import Grid from "@material-ui/core/Grid";
-import CardGridComponent from "../../../dashboard/Sections/CardGridComponent";
 import Tabs from "@material-ui/core/Tabs/Tabs";
 import Tab from "@material-ui/core/Tab/Tab";
 import AppBar from "@material-ui/core/AppBar/AppBar";
@@ -27,6 +25,8 @@ import Divider from '@material-ui/core/Divider';
 import HistoryOutlinedIcon from '@material-ui/icons/HistoryOutlined';
 import ReceiptIcon from '@material-ui/icons/Receipt';
 import Drawer from "../../../../components/Drawer/Drawer";
+import CardDefault from "../../../../components/Cards/CardDefault";
+import Typography from "@material-ui/core/Typography/Typography";
 
 const SellView = props => {
     const { history } = props;
@@ -48,6 +48,7 @@ const SellView = props => {
 
     const handleChange = (event, newValue) => {
         setValue(newValue);
+        props.searchHandler(' ');
     };
 
     const handleChangeIndex = index => {
@@ -120,23 +121,71 @@ const SellView = props => {
             </div>
 
             <div
-                className={`mb-7 mx-0 mt-7`}
+                className={`mb-7 mx-0 mt-6`}
             >
                 <SystemDate/>
 
-                <div className={`px-5 mb-3`}>
-                    <Grid container spacing={1}>
+                <div
+                    style={{
+                        display: 'flex',
+                        width: '85%',
+                        alignItems: 'center',
+                        margin: 'auto',
+                        marginBottom: '10px' ,
+                    }}
+                >
+                    <CardDefault
+                        styles={{
+                            marginTop: '0px' ,
+                            flex: 1,
+                            marginRight: '10px',
+                            borderRadius: '15px',
+                        }}
+                    >
+                        <Typography
+                            component="p"
+                            variant="h6"
+                            style={{fontWeight: '300', fontSize: '0.9rem'}}
+                            className="italize"
+                        >
+                            Sales
+                        </Typography>
 
-                        <CardGridComponent
-                            title="Sales"
-                            amount={salesMade}
-                        />
-                        <CardGridComponent
-                            title="Profit"
-                            amount={profitMade}
-                        />
+                        <Typography
+                            component="p"
+                            variant="h6"
+                            style={{fontWeight: '700', fontSize: '1.0rem'}}
+                        >
+                            GHC {salesMade}
+                        </Typography>
 
-                    </Grid>
+                    </CardDefault>
+
+                    <CardDefault
+                        styles={{
+                            marginTop: '0px' ,
+                            flex: 1,
+                            marginLeft: '10px',
+                            borderRadius: '15px',
+                        }}
+                    >
+                        <Typography
+                            component="p"
+                            variant="h6"
+                            style={{fontWeight: '300', fontSize: '0.9rem'}}
+                            className="italize"
+                        >
+                            Profit
+                        </Typography>
+
+                        <Typography
+                            component="p"
+                            variant="h6"
+                            style={{fontWeight: '700', fontSize: '1.0rem'}}
+                        >
+                            GHC {profitMade}
+                        </Typography>
+                    </CardDefault>
                 </div>
 
                 <AppBar position="static" color="default">

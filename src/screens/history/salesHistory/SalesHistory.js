@@ -15,7 +15,6 @@ import SortDate from './sections/SortDate';
 import SortProduct from './sections/SortProduct';
 
 class SalesHistory extends Component {
-
     state={
         value: 0
     }
@@ -40,17 +39,17 @@ class SalesHistory extends Component {
         return(
             <div>
 
-                <SectionNavbars 
-                    title="Sales history"  
+                <SectionNavbars
+                    title="Sales history"
                     icons={
-                        <MoreVertIcon 
+                        <MoreVertIcon
                             style={{fontSize: '2rem'}}
                         />}
                 >
                     <MenuIcon
                         style={{fontSize: '2rem'}}
                     />
-                    
+
                 </SectionNavbars>
 
                 <AppBar position="static" color="white">
@@ -92,7 +91,7 @@ class SalesHistory extends Component {
                         variant="outlined"
                         style={{border: '1px solid #DAAB59', color: '#333333', padding: '5px 50px', marginRight: '10px', textTransform: 'none', fontSize:'17px'}}
                     >
-                        Back  
+                        Back
                     </Button>
                     <Button
                         variant="contained"

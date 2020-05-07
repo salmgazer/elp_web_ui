@@ -188,7 +188,7 @@ const VerifySMS = props => {
                                 component="p"
                                 style={{fontSize: '14px' , color: '#403c3c94', textAlign: 'center', width: '60%', margin: '0 auto' }}
                             >
-                                Please enter the four digit pin sent to your phone
+                                Please enter the four digit pin sent to user's phone
                             </Typography>
                             <div
                                 style={{display: 'inline-flex'}}

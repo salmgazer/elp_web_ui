@@ -42,6 +42,7 @@ const SingleDayView = props => {
     const [quantity , setQuantity] = useState(false);
     const [profit , setProfit] = useState(false);
     const [totalPrice , setTotalPrice] = useState(false);
+    const [saleEntries , setSaleEntries] = useState([]);
 
     function a11yProps(index) {
         return {
@@ -63,6 +64,9 @@ const SingleDayView = props => {
         const newProduct = await props.saleEntry.product.fetch();
         setProduct(newProduct);
         setImage(new ProductServiceHandler(product).getProductImage());
+        const entries = await sale.sale_entries.fetch(); //await new SaleService().getSaleProductsById(invoice.id);
+
+        setSaleEntries(entries);
 
         // const name = new ProductServiceHandler(prod).getProductName();
         setName((newProduct.name).length > 20 ? (newProduct.name).slice(0 , 20) + '...' : newProduct.name);
@@ -70,14 +74,14 @@ const SingleDayView = props => {
         const profit = await SaleService.getSaleEntryProfitById(sale.id);
         const quant = await SaleService.getSaleProductQuantity(sale.id);
         const total = await SaleService.getSaleEntryAmountById(sale.id);
-        
+
         setName((name).length > 20 ? (name).slice(0 , 20) + '...' : name);
         //setProduct(newProduct);
         //setImage(new ProductServiceHandler(product).getProductImage());
         setTotalPrice(total);
         setQuantity(quant);
         setProfit(profit);
-        
+
     };
 
     const closeDialogHandler = (event) => {
@@ -91,7 +95,7 @@ const SingleDayView = props => {
     const handleChange = (event, newValue) => {
         setValue(newValue);
       };
-  
+
       const handleChangeIndex = index => {
           setValue(index);
       };
@@ -103,13 +107,13 @@ const SingleDayView = props => {
                     <Card
                         className="shadow1"
                         style={{
-                            margin: '5px auto', 
-                            backgroundImage: `url(${image})`, 
-                            backgroundPosition: 'center', 
-                            backgroundSize: 'cover', 
-                            width: '60px', 
-                            borderRadius: '50%', 
-                            height: '60px', 
+                            margin: '5px auto',
+                            backgroundImage: `url(${image})`,
+                            backgroundPosition: 'center',
+                            backgroundSize: 'cover',
+                            width: '60px',
+                            borderRadius: '50%',
+                            height: '60px',
                             padding: '0px'
                         }}
                     />
@@ -123,12 +127,12 @@ const SingleDayView = props => {
                     </div>
                 </Grid>
 
-                <Grid item xs={3} style={{height: '60px', margin: '10px 0px 0px 0px'}}>  
-                    <span className='text-dark font-weight-bold' >{format(new Date(sale.createdAt) , "HH:mm a")}</span>                     
+                <Grid item xs={3} style={{height: '60px', margin: '10px 0px 0px 0px'}}>
+                    <span className='text-dark font-weight-bold' >{format(new Date(sale.createdAt) , "HH:mm a")}</span>
                     <EditIcon
                         onClick={openDialogHandler.bind(this)}
                         style={{fontSize: '30px', color: '#DAAB59', textAlign: 'right'}}
-                    /> 
+                    />
                 </Grid>
             </Grid>
 
@@ -139,13 +143,13 @@ const SingleDayView = props => {
                             <Card
                                 className="shadow1"
                                 style={{
-                                    margin: '5px auto', 
-                                    backgroundImage: `url(${image})`, 
-                                    backgroundPosition: 'center', 
-                                    backgroundSize: 'cover', 
-                                    width: '60px', 
-                                    borderRadius: '50%', 
-                                    height: '60px', 
+                                    margin: '5px auto',
+                                    backgroundImage: `url(${image})`,
+                                    backgroundPosition: 'center',
+                                    backgroundSize: 'cover',
+                                    width: '60px',
+                                    borderRadius: '50%',
+                                    height: '60px',
                                     padding: '0px'
                                 }}
                             />
@@ -159,14 +163,14 @@ const SingleDayView = props => {
                             </div>
                         </Grid>
 
-                        <Grid item xs={3} style={{height: '60px', margin: '10px 0px 0px 0px'}}>                     
+                        <Grid item xs={3} style={{height: '60px', margin: '10px 0px 0px 0px'}}>
                             <DeleteIcon
                                 onClick={openDialogHandler.bind(this)}
                                 style={{fontSize: '30px', color: '#DAAB59', textAlign: 'right'}}
-                            /> 
+                            />
                         </Grid>
                     </Grid>
-                    
+
                     <AppBar position="static" color="white">
                         <Tabs
                             value={value}
@@ -189,17 +193,18 @@ const SingleDayView = props => {
                         <TabPanel value={value} index={0} >
 
                             <Dates label="Pick new date" style={{margin: '50px'}} />
-                            
+
                         </TabPanel>
 
                         <TabPanel value={value} index={1}  >
-                            <TextField 
-                                id="outlined-basic" 
-                                label="Quantity" 
+
+                            <TextField
+                                id="outlined-basic"
+                                label="Quantity"
                                 value={sale.quantity}
-                                variant="outlined" 
-                                size="small" 
-                                style={{margin: '50px'}} 
+                                variant="outlined"
+                                size="small"
+                                style={{margin: '50px'}}
                             />
                         </TabPanel>
 
@@ -222,9 +227,9 @@ const SingleDayView = props => {
                                 />
 
                                 <Dates label="From" style={{margin: '20px'}} />
-                                
+
                                 <Dates label="To" style={{margin: '20px'}} />
-                                
+
                             </form>
                         </TabPanel>
 
@@ -237,7 +242,7 @@ const SingleDayView = props => {
                                 style={{border: '1px solid #DAAB59', color: '#DAAB59', padding: '5px 30px', textTransform: 'none', fontSize:'15px'}}
                                 onClick={closeDialogHandler.bind(this)}
                             >
-                                Cancel  
+                                Cancel
                             </Button>
                         </Grid>
 
@@ -250,8 +255,8 @@ const SingleDayView = props => {
                                 Save changes
                             </Button>
                         </Grid>
-                    </Grid>    
-                    
+                    </Grid>
+
                 </div>
             </MainDialog>
 

@@ -175,10 +175,9 @@ export default class AuditService {
                 amountPaid: await SaleService.getSaleEntryAmountById(sale.id)
             };
 
+            SaleService.makePayment(sale , data);
             localStorage.removeItem("auditId");
             await database.adapter.removeLocal("auditId");
-            SaleService.makePayment(sale , data);
-
             return true;
         }catch (e) {
             return false;

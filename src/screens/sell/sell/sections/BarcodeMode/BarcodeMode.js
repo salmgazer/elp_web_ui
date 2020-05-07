@@ -201,7 +201,7 @@ const BarcodeMode = props => {
                             className={`text-center my-1 font-weight-bold`}
                             style={{fontWeight: '400', fontSize: '16px' , margin: '5px auto', paddingTop: '10px'}}
                         >
-                            Add products
+                            Sell products
                         </Typography>
                         <Grid container spacing={1} className={`mb-2`}>
                             <Grid

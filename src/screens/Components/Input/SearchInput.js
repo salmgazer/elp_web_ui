@@ -5,6 +5,7 @@ import IconButton from '@material-ui/core/IconButton';
 import Paper from '@material-ui/core/Paper';
 import {makeStyles} from "@material-ui/core";
 import InputAdornment from "@material-ui/core/InputAdornment";
+import CancelIcon from '@material-ui/icons/Cancel';
 
 const useStyles = makeStyles(theme => ({
     root: {
@@ -36,6 +37,11 @@ const SearchInput = (props) => {
         props.getValue(inputName , event.target.value);
     };
 
+    const clearSearch = async() => {
+        await setValue('');
+        await props.getValue(inputName , '');
+    };
+
     const classes = useStyles();
 
     return (
@@ -51,15 +57,26 @@ const SearchInput = (props) => {
                                     <SearchIcon />
                                 </IconButton>
                             </InputAdornment>
+                        ),
+                        endAdornment: (
+                            <InputAdornment>
+                                <IconButton
+                                    onClick={clearSearch}
+                                    className={classes.iconButton}
+                                >
+                                    {value.length > 0 ?
+                                        <CancelIcon/>
+                                        :
+                                        ''
+                                    }
+                                </IconButton>
+                            </InputAdornment>
                         )
                     }}
-                    defaultValue={value}
+                    value={value}
                     name={props.inputName}
                     onChange={(event) => setValueHandler(event)}
                 />
-                {/*<IconButton className={classes.iconButton} aria-label="search">
-                    <SearchIcon />
-                </IconButton>*/}
             </Paper>
         </div>
     );

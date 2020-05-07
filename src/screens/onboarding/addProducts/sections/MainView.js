@@ -13,10 +13,12 @@ import Typography from "@material-ui/core/Typography/Typography";
 import MenuIcon from '@material-ui/icons/Menu';
 import SectionNavbars from "../../../../components/Sections/SectionNavbars";
 import PrimaryLoader from "../../../../components/Loader/Loader";
+import Drawer from "../../../../components/Drawer/Drawer";
 
 const MainView = props => {
     const [value , setValue] = useState(0);
     const [mainDialog, setMainDialog] = useState(false);
+    const [isDrawerShow , setIsDrawerShow] = useState(false);
 
     const a11yProps = (index) => {
         return {
@@ -37,6 +39,7 @@ const MainView = props => {
 
     const handleChange = (event, newValue) => {
         setValue(newValue);
+        props.searchHandler(' ');
     };
 
     const handleChangeIndex = index => {
@@ -61,12 +64,23 @@ const MainView = props => {
 
     return(
         <div>
-            <SectionNavbars title="Stock" >
-                <MenuIcon
-                    onClick={() => this.setState({isDrawerShow: true})}
-                    style={{fontSize: '2.5rem'}}
-                />
-            </SectionNavbars>
+            <SectionNavbars
+                title={`Stock`}
+                leftIcon={
+                    <div onClick={() => setIsDrawerShow(true)}>
+                        <MenuIcon
+                            style={{fontSize: '2rem'}}
+                        />
+                    </div>
+                }
+            />
+
+            <div
+                onClick={() => setIsDrawerShow(false)}
+                onKeyDown={() => setIsDrawerShow(false)}
+            >
+                <Drawer isShow={isDrawerShow} />
+            </div>
 
             <p style={{marginTop: '70px', fontSize: '16px', fontWeight: '400', color: '#616161'}}>Select all the products you have in your shop</p>
 

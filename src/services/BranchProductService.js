@@ -62,7 +62,7 @@ export default class BranchProductService {
                 break;
             }
         }
-        return mostRecentCostPrice;
+        return mostRecentCostPrice.toFixed(2);
         // return this.product.stock ? (this.product.stock[((this.product.stock).length - 1)].costPrice).toFixed(2) : null;
     }
 

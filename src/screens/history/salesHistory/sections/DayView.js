@@ -5,7 +5,7 @@ import DateFnsUtils from '@date-io/date-fns';
 import {
   MuiPickersUtilsProvider,
   KeyboardDatePicker,
-} from '@material-ui/pickers'; 
+} from '@material-ui/pickers';
 import Typography from '@material-ui/core/Typography';
 import Box from "@material-ui/core/Box/Box";
 import { withRouter } from "react-router-dom";
@@ -22,13 +22,12 @@ const useStyles = makeStyles(theme => ({
   }));
 
 const DayView = props => {
-    
     const classes = useStyles();
     const [selectedDate, setSelectedDate] = React.useState(new Date());
     const [saleDetails , setSaleDetails] = useState(false);
     const [sales , setSales] = useState([]);
     const pageName = props.pageName;
-    
+
     const [name , setName] = useState('');
 
     const handleDateChange = date => {
@@ -82,7 +81,7 @@ const DayView = props => {
                             </Typography>
 
                         }
-                    
+
                 </Grid>
 
                 <Grid item xs={6} >
@@ -131,12 +130,13 @@ const DayView = props => {
                     </div>
                     :
 
-                    pageName === false ?
+                    sales.map((sale) => <SingleDayView  key={sale.id} sale={sale} />)
+                    /*pageName === false ?
 
                     sales.map((sale) => <SingleDayView  key={sale.id} sale={sale} saleEntry={sale} />)
                     :
                     sales.map((sale) => <SingleProductDay  key={sale.id} sale={sale} saleEntry={sale} prodName={name} />)
-
+*/
                 }
             </Box>
 

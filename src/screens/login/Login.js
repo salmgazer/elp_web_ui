@@ -15,7 +15,7 @@ import Container from "@material-ui/core/Container/Container";
 import {makeStyles, withStyles} from "@material-ui/core";
 import { ValidatorForm, TextValidator} from 'react-material-ui-form-validator';
 
-import Logo from '../../assets/img/el-parah.png';
+import Logo from '../../assets/img/logo.png';
 import Typography from "@material-ui/core/Typography/Typography";
 import './Login.scss';
 import AuthService from "../../services/AuthService";
@@ -221,16 +221,16 @@ const Login = props => {
                           style={{'borderRadius': '10px'}}
                       >
                           <Box component="div" style={{paddingTop: '50px', marginTop: '0px'}}>
-                              <img style={{width: '230px', height: '90px'}} className="img-responsive" src={Logo} alt={'Elparah Logo'}/>
+                              <img style={{width: '230px', height: '150px'}} className="img-responsive" src={Logo} alt={'My Store Aid Logo'}/>
                           </Box>
-                          <Typography
+                          {/*<Typography
                               variant="h6"
                               component="h6"
                               fontSize="1.25rem"
                               style={{marginBottom: '30px', paddingTop: '5px'}}
                           >
                               Mobile POS App
-                          </Typography>
+                          </Typography>*/}
 
                           <Box component="div" className={classes.padding1} style={{width: '230px', paddingBottom: '40px' ,margin: '0 auto', color: '#403C3C'}}>
                               <ValidatorForm

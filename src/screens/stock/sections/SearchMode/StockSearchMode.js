@@ -2,10 +2,7 @@ import React, {useState} from 'react';
 import Grid from "@material-ui/core/Grid/Grid";
 import SearchInput from "../../../Components/Input/SearchInput";
 import SingleProductBox from "../../../../components/Product/SingleProductBox";
-import BranchProductService from "../../../../services/BranchProductService";
-import BranchService from "../../../../services/BranchService";
 import Typography from "@material-ui/core/Typography/Typography";
-import AddedProductSingle from "../../../sell/cart/sections/BoxView/BoxView";
 
 const StockSearchMode = props => {
     //const products = props.stock;

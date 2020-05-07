@@ -5,7 +5,6 @@ import withObservables from "@nozbe/with-observables";
 import { Q } from "@nozbe/watermelondb";
 import './Dashboard.scss';
 
-import Grid from '@material-ui/core/Grid';
 import Button from "@material-ui/core/Button";
 import paths from "../../utilities/paths";
 import Box from "@material-ui/core/Box/Box";
@@ -19,7 +18,6 @@ import SectionNavbars from "../../components/Sections/SectionNavbars";
 import BoxDefault from "../../components/Box/BoxDefault";
 import CardDefault from "../../components/Cards/CardDefault";
 import SettingsIcon from '@material-ui/icons/Settings';
-import CardGridComponent from "./Sections/CardGridComponent";
 import Drawer from "../../components/Drawer/Drawer";
 
 import LocalInfo from '../../services/LocalInfo';
@@ -42,6 +40,7 @@ import BranchPurchases from "../../models/branchPurchases/BranchPurchases";
 import StockMovement from "../../models/stockMovements/StockMovement";
 import AuditEntries from "../../models/auditEntry/AuditEntries";
 import Audits from "../../models/audit/Audit";
+import confirmImg from "../../assets/img/dashboard.png";
 
 const useStyles = makeStyles(theme => ({
     root: {
@@ -222,70 +221,219 @@ const Dashboard = props => {
                 >
                     <Drawer isShow={isDrawerShow} />
                 </div>
+
+                <Box component="div" m={2} style={{paddingTop: '0px' , marginTop: '40px' , marginBottom: '0px' , height: '190px'}}>
+                    <img className={`img-responsive w-100`} src={confirmImg} alt={'test'}/>
+                </Box>
+
                 <BoxDefault
                     bgcolor="background.paper"
                     p={1}
-                    className={'boxDefault'}
-                    styles={{marginTop: '90px'}}
+                    className="boxDefault px-4"
+                    styles={{
+                        display: 'flex',
+                        alignItems: 'center',
+                        flexDirection: 'column',
+                    }}
                 >
                     <Typography
                         component="p"
                         variant="h6"
-                        style={{fontWeight: '700', fontSize: '1.20rem'}}
+                        style={{fontWeight: '700', fontSize: '1.00rem'}}
                     >
-                        Company summary
+                        Store summary
                     </Typography>
 
-                    <Grid container spacing={1}>
-                        <CardGridComponent
-                            title="Sales made today"
-                            amount={companySales.total}
-                        />
-                        <CardGridComponent
-                            title="Profit made today"
-                            amount={companySales.profit}
-                        />
-                        <CardGridComponent
-                            title="Credit sales made"
-                            amount={companySales.credit}
+                    <div
+                        style={{
+                            display: 'flex',
+                            width: '85%',
+                            alignItems: 'center',
+                            marginBottom: '5px' ,
+                        }}
+                    >
+                        <CardDefault
+                            styles={{
+                                marginTop: '10px' ,
+                                flex: 1,
+                                marginRight: '10px',
+                                borderRadius: '5px',
+                                border: '0.5px solid #e5e5e5'
+                            }}
                         >
-                            <br/><a  href="#" style={{'marginTop': '1px', color: '#DAAB59', fontSize: '14px', fontWeight: '300'}}>View credit sales</a>
-                        </CardGridComponent>
-                        <CardGridComponent
-                            title="Purchases made today"
-                            amount={companySales.purchases}
+                            <Typography
+                                component="p"
+                                variant="h6"
+                                style={{fontWeight: '500', fontSize: '0.9rem'}}
+                            >
+                                Today's sales
+                            </Typography>
+
+                            <Typography
+                                component="p"
+                                variant="h6"
+                                style={{fontWeight: '700', fontSize: '1.2rem'}}
+                            >
+                                GHC {companySales.total}
+                            </Typography>
+
+                        </CardDefault>
+
+                        <CardDefault
+                            styles={{
+                                marginTop: '10px' ,
+                                flex: 1,
+                                marginLeft: '10px',
+                                borderRadius: '5px',
+                                border: '0.5px solid #e5e5e5'
+                            }}
                         >
-                            <br/><a  href="#" style={{'marginTop': '1px', color: '#DAAB59', fontSize: '14px', fontWeight: '300'}}>View stock</a>
-                        </CardGridComponent>
-                    </Grid>
+                            <Typography
+                                component="p"
+                                variant="h6"
+                                style={{fontWeight: '500', fontSize: '0.9rem'}}
+                            >
+                                Today's profit
+                            </Typography>
+
+                            <Typography
+                                component="p"
+                                variant="h6"
+                                style={{fontWeight: '700', fontSize: '1.2rem'}}
+                            >
+                                GHC {companySales.profit}
+                            </Typography>
+                        </CardDefault>
+                    </div>
+
+                    <div
+                        style={{
+                            display: 'flex',
+                            width: '85%',
+                            alignItems: 'center',
+                            marginBottom: '5px' ,
+                        }}
+                    >
+                        <CardDefault
+                            styles={{
+                                marginTop: '10px' ,
+                                flex: 1,
+                                marginRight: '10px',
+                                borderRadius: '5px',
+                                border: '0.5px solid #e5e5e5'
+                            }}
+                        >
+                            <Typography
+                                component="p"
+                                variant="h6"
+                                style={{fontWeight: '500', fontSize: '0.9rem'}}
+                            >
+                                Credit sales
+                            </Typography>
+
+                            <Typography
+                                component="p"
+                                variant="h6"
+                                style={{fontWeight: '700', fontSize: '1.2rem'}}
+                            >
+                                GHC {companySales.credit}
+                            </Typography>
+                        </CardDefault>
+
+                        <CardDefault
+                            styles={{
+                                marginTop: '10px' ,
+                                flex: 1,
+                                marginLeft: '10px',
+                                borderRadius: '5px',
+                                border: '0.5px solid #e5e5e5'
+                            }}
+                        >
+                            <Typography
+                                component="p"
+                                variant="h6"
+                                style={{fontWeight: '500', fontSize: '0.9rem'}}
+                            >
+                                Purchases
+                            </Typography>
+
+                            <Typography
+                                component="p"
+                                variant="h6"
+                                style={{fontWeight: '700', fontSize: '1.2rem'}}
+                            >
+                                GHC {companySales.purchases}
+                            </Typography>
+                        </CardDefault>
+                    </div>
+
                 </BoxDefault>
+
                 <BoxDefault
                     bgcolor="background.paper"
                     p={1}
                     className={'boxDefault'}
-                    styles={{marginBottom: '90px'}}
+                    styles={{
+                        display: 'flex',
+                        alignItems: 'center',
+                        flexDirection: 'column'
+                    }}
                 >
-                    <CardDefault styles={{width: '85%', marginTop: '10px'}}>
-                        <HomeIcon style={{fontSize: '2rem'}}/>
-                        <Typography
-                            component="p"
-                            variant="h6"
-                            style={{fontWeight: '700', fontSize: '1.00rem'}}
-                        >
-                            Go to Homepage
-                        </Typography>
-                    </CardDefault>
+                    <Typography
+                        component="p"
+                        variant="h6"
+                        style={{fontWeight: '700', fontSize: '1.00rem'}}
+                    >
+                        Quick actions
+                    </Typography>
 
-                    <CardDefault styles={{width: '85%', marginTop: '20px'}}>
-                        <SettingsIcon style={{fontSize: '2rem'}}/>
-                        <Typography
-                            component="p"
-                            variant="h6"
-                            style={{fontWeight: '700', fontSize: '1.00rem'}}
+                    <div
+                        style={{
+                            display: 'flex',
+                            width: '100%',
+                            alignItems: 'center',
+                            marginBottom: '5px' ,
+                        }}
+                    >
+                        <CardDefault
+                            styles={{
+                                marginTop: '10px' ,
+                                flex: 1,
+                                marginRight: '10px',
+                                borderRadius: '5px',
+                                border: '0.5px solid #daab59'
+                            }}
                         >
-                            Go to Settings
-                        </Typography>
-                    </CardDefault>
+                            <SettingsIcon style={{fontSize: '1.5rem'}}/>
+                            <Typography
+                                component="p"
+                                variant="h6"
+                                style={{fontWeight: '700', fontSize: '0.9rem'}}
+                            >
+                                Go to Admin
+                            </Typography>
+                        </CardDefault>
+
+                        <CardDefault
+                            styles={{
+                                marginTop: '10px' ,
+                                flex: 1,
+                                marginLeft: '10px',
+                                borderRadius: '5px',
+                                border: '0.5px solid #daab59'
+                            }}
+                        >
+                            <HomeIcon style={{fontSize: '1.5rem'}}/>
+                            <Typography
+                                component="p"
+                                variant="h6"
+                                style={{fontWeight: '700', fontSize: '0.9rem'}}
+                            >
+                                View stock
+                            </Typography>
+                        </CardDefault>
+                    </div>
+
                 </BoxDefault>
 
                 <Box
@@ -298,8 +446,7 @@ const Dashboard = props => {
                         variant="contained"
                         style={{'width': '70%','backgroundColor': '#DAAB59' , color: '#403C3C', margin: '4px auto',padding: '8px 5px', fontSize: '17px', fontWeight: '700'}}
                         className={`${classes.button} capitalization`}
-                        onClick={() => history.push(paths.store_summary)}
-                        //onClick={() => createCustomer()}
+                        onClick={() => LocalInfo.branches.length > 1 ? history.push(paths.store_summary) : history.push(paths.sell)}
                     >
                         Start selling
                     </Button>

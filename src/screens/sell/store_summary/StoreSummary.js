@@ -4,8 +4,6 @@ import MenuIcon from '@material-ui/icons/Menu';
 import SectionNavbars from "../../../components/Sections/SectionNavbars";
 import Drawer from "../../../components/Drawer/Drawer";
 import Typography from "@material-ui/core/Typography/Typography";
-import CardGridComponent from "../../dashboard/Sections/CardGridComponent";
-import Grid from '@material-ui/core/Grid';
 import Box from "@material-ui/core/Box";
 import SingleStore from "./sections/SingleStore";
 import Button from "@material-ui/core/Button/Button";
@@ -14,6 +12,9 @@ import CompanyService from "../../../services/CompanyService";
 import {withDatabase} from "@nozbe/watermelondb/DatabaseProvider";
 import withObservables from "@nozbe/with-observables";
 import Carts from "../../../models/carts/Carts";
+import CssBaseline from "@material-ui/core/CssBaseline/CssBaseline";
+import confirmImg from "../../../assets/img/dashboard.png";
+import CardDefault from "../../../components/Cards/CardDefault";
 
 const StoreSummary = props => {
     const [companySales , setCompanySales] = useState(false);
@@ -46,6 +47,8 @@ const StoreSummary = props => {
     return (
         <div>
             <React.Fragment>
+                <CssBaseline />
+
                 <SectionNavbars
                     title={`Welcome ${username}`}
                     leftIcon={
@@ -64,44 +67,152 @@ const StoreSummary = props => {
                     <Drawer isShow={isDrawerShow} />
                 </div>
 
-                <div className={`rounded bordered mb-3 mx-2 px-5 py-3 mt-7`}>
-                    <Typography
-                        component="h5"
-                        variant="h5"
-                        style={{fontWeight: '500', fontSize: '18px' , margin: '0px 0px', padding: '0px 14px'}}
-                        className={`text-center mx-auto text-dark`}
-                    >
-                        Stores Summary
-                    </Typography>
-                    <span
-                        style={{fontWeight: '300', fontSize: '12px' , margin: '0px 0px', padding: '0px 14px'}}
-                        className={`text-center`}
-                    >
-                        This is a summary of all your shops this month
-                    </span>
+                <Box component="div" m={2} style={{paddingTop: '0px' , marginTop: '40px' , marginBottom: '0px' , height: '190px'}}>
+                    <img className={`img-responsive w-100`} src={confirmImg} alt={'test'}/>
+                </Box>
 
-                    <Grid container spacing={1}>
-                        <CardGridComponent
-                            title="Sales made this month"
-                            amount={companySales.total}
+                <div
+                    p={1}
+                    className="rounded bordered mx-2 px-1 mt-2"
+                    style={{
+                        display: 'flex',
+                        alignItems: 'center',
+                        flexDirection: 'column',
+                        paddingBottom: '10px'
+                        //border: '0.5px solid #e5e5e5'
+                    }}
+                >
+                    <Typography
+                        component="p"
+                        variant="h6"
+                        style={{fontWeight: '700', fontSize: '1.00rem'}}
+                    >
+                        Company summary
+                    </Typography>
+
+                    <div
+                        style={{
+                            display: 'flex',
+                            width: '85%',
+                            alignItems: 'center',
+                            marginBottom: '5px' ,
+                        }}
+                    >
+                        <CardDefault
+                            styles={{
+                                marginTop: '10px' ,
+                                flex: 1,
+                                marginRight: '10px',
+                                borderRadius: '5px',
+                                border: '0.5px solid #e5e5e5'
+                            }}
                         >
-                            <br/><span style={{'marginTop': '1px', color: '#53BF77', fontSize: '11px', fontWeight: '300' , lineHeight: '1.0'}}>10% higher than last month</span>
-                        </CardGridComponent>
-                        <CardGridComponent
-                            title="Profit made this month"
-                            amount={companySales.profit}
+                            <Typography
+                                component="p"
+                                variant="h6"
+                                style={{fontWeight: '500', fontSize: '0.9rem'}}
+                            >
+                                Today's sales
+                            </Typography>
+
+                            <Typography
+                                component="p"
+                                variant="h6"
+                                style={{fontWeight: '700', fontSize: '1.2rem'}}
+                            >
+                                GHC {companySales.total}
+                            </Typography>
+
+                        </CardDefault>
+
+                        <CardDefault
+                            styles={{
+                                marginTop: '10px' ,
+                                flex: 1,
+                                marginLeft: '10px',
+                                borderRadius: '5px',
+                                border: '0.5px solid #e5e5e5'
+                            }}
                         >
-                            <br/><span style={{'marginTop': '1px', color: '#53BF77', fontSize: '11px', fontWeight: '300' , lineHeight: '1.0'}}>10% higher than last month</span>
-                        </CardGridComponent>
-                        <CardGridComponent
-                            title="Credit sales this month"
-                            amount={companySales.credit}
-                        />
-                        <CardGridComponent
-                            title="Purchases this month"
-                            amount={companySales.purchases}
-                        />
-                    </Grid>
+                            <Typography
+                                component="p"
+                                variant="h6"
+                                style={{fontWeight: '500', fontSize: '0.9rem'}}
+                            >
+                                Today's profit
+                            </Typography>
+
+                            <Typography
+                                component="p"
+                                variant="h6"
+                                style={{fontWeight: '700', fontSize: '1.2rem'}}
+                            >
+                                GHC {companySales.profit}
+                            </Typography>
+                        </CardDefault>
+                    </div>
+
+                    <div
+                        style={{
+                            display: 'flex',
+                            width: '85%',
+                            alignItems: 'center',
+                            marginBottom: '5px' ,
+                        }}
+                    >
+                        <CardDefault
+                            styles={{
+                                marginTop: '10px' ,
+                                flex: 1,
+                                marginRight: '10px',
+                                borderRadius: '5px',
+                                border: '0.5px solid #e5e5e5'
+                            }}
+                        >
+                            <Typography
+                                component="p"
+                                variant="h6"
+                                style={{fontWeight: '500', fontSize: '0.9rem'}}
+                            >
+                                Credit sales
+                            </Typography>
+
+                            <Typography
+                                component="p"
+                                variant="h6"
+                                style={{fontWeight: '700', fontSize: '1.2rem'}}
+                            >
+                                GHC {companySales.credit}
+                            </Typography>
+                        </CardDefault>
+
+                        <CardDefault
+                            styles={{
+                                marginTop: '10px' ,
+                                flex: 1,
+                                marginLeft: '10px',
+                                borderRadius: '5px',
+                                border: '0.5px solid #e5e5e5'
+                            }}
+                        >
+                            <Typography
+                                component="p"
+                                variant="h6"
+                                style={{fontWeight: '500', fontSize: '0.9rem'}}
+                            >
+                                Purchases
+                            </Typography>
+
+                            <Typography
+                                component="p"
+                                variant="h6"
+                                style={{fontWeight: '700', fontSize: '1.2rem'}}
+                            >
+                                GHC {companySales.purchases}
+                            </Typography>
+                        </CardDefault>
+                    </div>
+
                 </div>
 
                 <div className={`rounded bordered mb-7 mx-2 px-1 mt-2`}>
@@ -121,11 +232,11 @@ const StoreSummary = props => {
                 <Box
                     className={`shadow1 bg-white`}
                     p={1}
-                    style={{ height: '2.5rem', position: "fixed", bottom:"0", width:"100%" }}
+                    style={{ height: '3.5rem', position: "fixed", bottom:"0", width:"100%" }}
                 >
                     <Button
                         variant="contained"
-                        style={{'backgroundColor': '#DAAB59' , color: '#333333', padding: '7px 20px', fontSize: '14px'}}
+                        style={{'backgroundColor': '#DAAB59' , color: '#333333', padding: '9px 20px', fontSize: '14px'}}
                         className={`capitalization font-weight-bold`}
                     >
                         Add new store location

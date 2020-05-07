@@ -13,6 +13,8 @@ import database from "../../../models/database";
 import BranchCustomer from "../../../models/branchesCustomer/BranchCustomer";
 import Carts from "../../../models/carts/Carts";
 import SaleService from "../../../services/SaleService";
+import {confirmAlert} from "react-confirm-alert";
+import ModelAction from "../../../services/ModelAction";
 
 class Sell extends Component {
     state = {
@@ -70,7 +72,7 @@ class Sell extends Component {
             case 0:
                 return <SellView salesTodayDetails={this.state.salesTodayDetails} branchProducts={this.state.branchProducts} searchHandler={this.searchHandler.bind(this)} productAdd={this.showAddView.bind(this)} spCount={this.state.spCount} savedCartCount={this.state.savedCart.length} salesMade={this.state.salesMade} profitMade={this.state.profitMade} searchBarcode={this.searchBarcode.bind(this)} setView={this.setStepContentView.bind(this)} />;
             case 1:
-                return <AddProductCart currentCustomer={this.state.currentCustomer} setCustomerHandler={this.setSavedCartCustomerHandler.bind(this)} customers={this.state.customers} addToCart={this.addProductToCartHandler.bind(this)} setView={this.setStepContentView.bind(this)} product={this.state.currentProduct} spCount={this.state.spCount} salesMade={this.state.salesMade} profitMade={this.state.profitMade}/>;
+                return <AddProductCart undoProductAdd={this.undoProductAddHandler.bind(this)} currentCustomer={this.state.currentCustomer} setCustomerHandler={this.setSavedCartCustomerHandler.bind(this)} customers={this.state.customers} addToCart={this.addProductToCartHandler.bind(this)} setView={this.setStepContentView.bind(this)} product={this.state.currentProduct} spCount={this.state.spCount} salesMade={this.state.salesMade} profitMade={this.state.profitMade}/>;
             case 2:
                 return <SavedCart continueSavedCartHandler={this.continueSavedCartHandler.bind(this)} searchSavedCart={this.searchSavedCartHandler.bind(this)} setView={this.setStepContentView.bind(this)} carts={this.state.savedCart} />;
             default:
@@ -78,6 +80,9 @@ class Sell extends Component {
         }
     };
 
+    /*
+    * @todo change color of active tab
+    * */
     setStepContentView = step => {
         this.setState({
             activeStep: step
@@ -93,6 +98,55 @@ class Sell extends Component {
 
     setSavedCartCustomerHandler = async(customer) => {
         await database.adapter.setLocal("activeCustomer" , customer);
+    };
+
+    deleteProduct = async (pId) => {
+        await confirmAlert({
+            title: 'Confirm to delete',
+            message: 'Are you sure you want to delete this product.',
+            buttons: [
+                {
+                    label: 'Yes',
+                    onClick: () => {
+                        new ModelAction('CartEntry').destroy(pId);
+                    }
+                },
+                {
+                    label: 'No',
+                    onClick: () => {
+                        return false;
+                    }
+                }
+            ]
+        })
+    };
+
+    undoProductAddHandler = async(customer) => {
+        await confirmAlert({
+            title: 'Confirm to delete',
+            message: 'Are you sure you want to undo this product.',
+            buttons: [
+                {
+                    label: 'Yes',
+                    onClick: async () => {
+                        const cartEntryId = await CartService.getLastCartEntry();
+
+                        new ModelAction('CartEntry').destroy(cartEntryId.id);
+
+                        this.setState({
+                            activeStep: 0
+                        })
+                    }
+                },
+                {
+                    label: 'No',
+                    onClick: () => {
+                        return false;
+                    }
+                }
+            ]
+        })
+
     };
 
     /*
@@ -118,6 +172,7 @@ class Sell extends Component {
     * Search products handler...
     * */
     searchHandler = async (searchValue) => {
+        console.log(searchValue)
         /*
         * @todo make sure it works...
         * */
