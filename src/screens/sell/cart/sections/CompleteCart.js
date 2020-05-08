@@ -222,7 +222,7 @@ const CheckoutView = props => {
         const rec = lastsale.receiptNumber;
         setCustomerName(await new CartService().getCartCustomer(props.currentCustomer));
         setSeller(LocalInfo.username);
-        setShopName(LocalInfo.storeName);
+        setShopName(LocalInfo.branch.name);
         setReceipt(rec.slice(0,8));
         //const total = await SaleService.getSaleEntryAmountById(sale);
         setQuantity(qty);

@@ -50,7 +50,6 @@ const DayView = props => {
             const newProduct = await branchProduct.product.fetch();
             setName(newProduct.name);
         }
-
         setSaleDetails(response);
         setSales(response.sales);
         console.log(response)
@@ -93,7 +92,7 @@ const DayView = props => {
                             margin="normal"
                             id="date-picker"
                             className='text-dark font-weight-bold'
-                            style={{float: 'right', width: '170px'}}
+                            style={{float: 'right', width: '170px',  border: '1px solid #e5e5e5', backgroundColor: '#FFFFFF', fontWeight: '400', fontSize: '18px' , lineHeight: '1.6'}}
                             size='small'
                             value={selectedDate}
                             onChange={handleDateChange}

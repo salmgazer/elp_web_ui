@@ -125,7 +125,7 @@ const WeekView = props => {
                                     style={{fontSize: '16px'}}
                                     className={`text-center text-dark`}
                                 >
-                                    No purchases made this week
+                                    No purchases made
                                 </Typography>
                             </Grid>
                         </Grid>

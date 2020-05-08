@@ -9,6 +9,16 @@ import SwipeableViews from "react-swipeable-views";
 import TabPanel from "../../../components/Tabs/TabPanel";
 import Box from "@material-ui/core/Box/Box";
 import Button from "@material-ui/core/Button/Button";
+import Drawer from '../../../components/Drawer/Drawer';
+import BottomDrawer from "../../../components/Drawer/BottomDrawer/BottomDrawer";
+import ListItem from '@material-ui/core/ListItem';
+import ListItemIcon from '@material-ui/core/ListItemIcon';
+import ShareIcon from '@material-ui/icons/Share';
+import CloudUploadIcon from '@material-ui/icons/CloudUpload';
+import FileCopyIcon from '@material-ui/icons/FileCopy';
+import PrintIcon from '@material-ui/icons/Print';
+import ListItemText from '@material-ui/core/ListItemText';
+import paths from "../../../utilities/paths";
 import {withRouter} from "react-router";
 
 import SortDate from './sections/SortDate';
@@ -16,7 +26,13 @@ import SortProduct from './sections/SortProduct';
 
 class SalesHistory extends Component {
     state={
-        value: 0
+        value: 0,
+        isShowDrawer: false,
+        isDrawerShow: false,
+    }
+    
+    props={
+        history: this.props
     }
 
     handleChange = (event, newValue) => {
@@ -41,16 +57,52 @@ class SalesHistory extends Component {
 
                 <SectionNavbars
                     title="Sales history"
+                    leftIcon={
+                        <div onClick={() => this.setState({isDrawerShow: true})}>
+                            <MenuIcon
+                                style={{fontSize: '2rem'}}
+                            />
+                        </div>
+                    }
                     icons={
-                        <MoreVertIcon
-                            style={{fontSize: '2rem'}}
-                        />}
-                >
-                    <MenuIcon
-                        style={{fontSize: '2rem'}}
-                    />
+                        <div onClick={() => this.setState({isShowDrawer: true})}>
+                            <MoreVertIcon
+                                style={{fontSize: '2rem'}}
+                            />
+                        </div>
+                    }
+                />
 
-                </SectionNavbars>
+                <div
+                    onClick={() => this.setState({isDrawerShow: false})}
+                    onKeyDown={() => this.setState({isDrawerShow: false})}
+                >
+                    <Drawer isShow={this.state.isDrawerShow} />
+                </div>
+
+                <div
+                    onClick={() => this.setState({isShowDrawer: false})}
+                    onKeyDown={() => this.setState({isShowDrawer: false})}
+                >
+                    <BottomDrawer isShow={this.state.isShowDrawer}>
+                        <ListItem button key={11}>
+                            <ListItemIcon><ShareIcon style={{color: '#707070'}} /></ListItemIcon>
+                            <ListItemText primary="Share" />
+                        </ListItem>
+                        <ListItem button key={12}>
+                            <ListItemIcon><CloudUploadIcon style={{color: '#707070'}} /></ListItemIcon>
+                            <ListItemText primary="Upload" />
+                        </ListItem>
+                        <ListItem button key={13}>
+                            <ListItemIcon><FileCopyIcon style={{color: '#707070'}} /></ListItemIcon>
+                            <ListItemText primary="Copy" />
+                        </ListItem>
+                        <ListItem button key={14}>
+                            <ListItemIcon><PrintIcon style={{color: '#707070'}} /></ListItemIcon>
+                            <ListItemText primary="Print this page" />
+                        </ListItem>
+                    </BottomDrawer>
+                </div>
 
                 <AppBar position="static" color="white">
                     <Tabs
@@ -90,6 +142,7 @@ class SalesHistory extends Component {
                     <Button
                         variant="outlined"
                         style={{border: '1px solid #DAAB59', color: '#333333', padding: '5px 50px', marginRight: '10px', textTransform: 'none', fontSize:'17px'}}
+                        onClick={() => this.props.history.push(paths.sell)}
                     >
                         Back
                     </Button>
