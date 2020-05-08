@@ -42,7 +42,7 @@ const SingleDayView = props => {
     const [quantity , setQuantity] = useState(false);
     const [profit , setProfit] = useState(false);
     const [totalPrice , setTotalPrice] = useState(false);
-    const [saleEntries , setSaleEntries] = useState([]);
+    // const [saleEntries , setSaleEntries] = useState([]);
 
     function a11yProps(index) {
         return {
@@ -64,9 +64,9 @@ const SingleDayView = props => {
         const newProduct = await props.saleEntry.product.fetch();
         setProduct(newProduct);
         setImage(new ProductServiceHandler(product).getProductImage());
-        const entries = await sale.sale_entries.fetch(); //await new SaleService().getSaleProductsById(invoice.id);
+        // const entries = await sale.sale_entries.fetch(); //await new SaleService().getSaleProductsById(invoice.id);
 
-        setSaleEntries(entries);
+        // setSaleEntries(entries);
 
         // const name = new ProductServiceHandler(prod).getProductName();
         setName((newProduct.name).length > 20 ? (newProduct.name).slice(0 , 20) + '...' : newProduct.name);
@@ -76,8 +76,7 @@ const SingleDayView = props => {
         const total = await SaleService.getSaleEntryAmountById(sale.id);
 
         setName((name).length > 20 ? (name).slice(0 , 20) + '...' : name);
-        //setProduct(newProduct);
-        //setImage(new ProductServiceHandler(product).getProductImage());
+        
         setTotalPrice(total);
         setQuantity(quant);
         setProfit(profit);

@@ -130,13 +130,13 @@ const DayView = props => {
                     </div>
                     :
 
-                    sales.map((sale) => <SingleDayView  key={sale.id} sale={sale} />)
-                    /*pageName === false ?
+                    // sales.map((sale) => <SingleDayView  key={sale.id} sale={sale} />)
+                    pageName === false ?
 
                     sales.map((sale) => <SingleDayView  key={sale.id} sale={sale} saleEntry={sale} />)
                     :
                     sales.map((sale) => <SingleProductDay  key={sale.id} sale={sale} saleEntry={sale} prodName={name} />)
-*/
+
                 }
             </Box>
 
