@@ -15,6 +15,7 @@ import InputAdornment from '@material-ui/core/InputAdornment';
 import StayPrimaryPortraitIcon from '@material-ui/icons/StayPrimaryPortrait';
 import Button from "@material-ui/core/Button/Button";
 import TextField from '@material-ui/core/TextField';
+import QuantityInput from "../../../../Components/Input/QuantityInput";
 
 import format from "date-fns/format";
 import BranchStockService from '../../../../../services/BranchStockService';
@@ -94,6 +95,12 @@ const SingleDayView = props => {
 
     };
 
+    const setInputValue = (name , value) => {
+
+        setQuantity(value);
+
+    };
+
     return(
         <div>
             <Grid container spacing={1} className={`shadow1 mb-3 borderRadius10`}>
@@ -121,7 +128,7 @@ const SingleDayView = props => {
                 </Grid>
 
                 <Grid item xs={3} style={{height: '60px', margin: '10px 0px 0px 0px'}}>  
-                    <span className='text-dark font-weight-bold' >{format(new Date(purchase.createdAt) , "HH:mm a")}</span>                     
+                    <span className='text-dark font-weight-bold' >{format(new Date(purchase.createdAt) , "h:mm a")}</span>                     
                     <EditIcon
                         onClick={openDialogHandler.bind(this)}
                         style={{fontSize: '30px', color: '#DAAB59', textAlign: 'right'}}
@@ -130,13 +137,13 @@ const SingleDayView = props => {
             </Grid>
 
             <MainDialog handleDialogClose={closeDialogHandler.bind(this)} states={mainDialog} >
-                <div className="row p-3 pt-0 mx-auto text-center w-100" >
+                <div className="row pt-0 mx-auto text-center w-100" >
                     <Grid container spacing={1} className={`shadow1 mb-3 borderRadius10`}>
                         <Grid item xs={3}>
                             <Card
                                 className="shadow1"
                                 style={{
-                                    margin: '5px auto', 
+                                    margin: '15px auto', 
                                     backgroundImage: `url(${image})`, 
                                     backgroundPosition: 'center', 
                                     backgroundSize: 'cover', 
@@ -156,7 +163,7 @@ const SingleDayView = props => {
                             </div>
                         </Grid>
 
-                        <Grid item xs={3} style={{height: '60px', margin: '10px 0px 0px 0px'}}>                     
+                        <Grid item xs={3} style={{height: '60px', margin: '30px 0px 0px 0px'}}>                     
                             <DeleteIcon
                                 onClick={openDialogHandler.bind(this)}
                                 style={{fontSize: '30px', color: '#DAAB59', textAlign: 'right'}}
@@ -185,19 +192,14 @@ const SingleDayView = props => {
                     >
                         <TabPanel value={value} index={0} >
 
-                            <Dates label="Pick new date" style={{margin: '50px'}} />
+                            <Dates label="Pick new date" style={{margin: '40px', border: '1px solid #e5e5e5', backgroundColor: '#FFFFFF'}} />
                             
                         </TabPanel>
 
                         <TabPanel value={value} index={1}  >
-                            <TextField 
-                                id="outlined-basic" 
-                                label="Quantity" 
-                                value={quantity}
-                                variant="outlined" 
-                                size="small" 
-                                style={{margin: '50px'}} 
-                            />
+
+                            <QuantityInput style={{width: '100%', margin: '50px'}} label={`Quantity`} inputName="quantity" getValue={setInputValue.bind(this)} startValue={quantity}/>
+
                         </TabPanel>
 
                         <TabPanel value={value} index={2}  >
@@ -218,9 +220,9 @@ const SingleDayView = props => {
                                     }}
                                 />
 
-                                <Dates label="From" style={{margin: '20px'}} />
+                                <Dates label="From" style={{margin: '20px', border: '1px solid #e5e5e5', backgroundColor: '#FFFFFF', width: '180px'}}/>
                                 
-                                <Dates label="To" style={{margin: '20px'}} />
+                                <Dates label="To" style={{margin: '20px', border: '1px solid #e5e5e5', backgroundColor: '#FFFFFF', width: '180px'}} />
                                 
                             </form>
                         </TabPanel>

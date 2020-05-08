@@ -125,7 +125,7 @@ const SingleDayView = props => {
                         </Grid>
 
                         <Grid item xs={3} style={{height: '60px', margin: '10px 0px 0px 0px'}}>  
-                            <span className='text-dark font-weight-bold' >{format(new Date(purchase.createdAt) , "HH:mm a")}</span>                     
+                            <span className='text-dark font-weight-bold' >{format(new Date(purchase.createdAt) , "h:mm a")}</span>                     
                             <EditIcon
                                 onClick={openDialogHandler.bind(this)}
                                 style={{fontSize: '30px', color: '#DAAB59', textAlign: 'right'}}

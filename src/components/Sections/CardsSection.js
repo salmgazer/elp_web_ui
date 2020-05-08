@@ -34,7 +34,7 @@ const CardsSection = props => {
                             Quantity
                         </Typography>
                         <Typography className={classes.text} >
-                            {props.quantity} item(s)
+                            {props.quantity}
                         </Typography>
                     </Paper>
                 </Grid>
