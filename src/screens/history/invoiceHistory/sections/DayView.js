@@ -84,7 +84,7 @@ const useStyles = makeStyles(theme => ({
 
             <Grid container spacing={1}>
             
-                <Grid item xs={6} style={{padding: '2px 4px', marginTop: '10px'}}>
+                <Grid item xs={6} style={{padding: '2px 4px', marginTop: '18px'}}>
                     <Paper className={classes.search} >
                         <IconButton className={classes.iconButton} aria-label="search">
                             <SearchIcon />
@@ -107,7 +107,7 @@ const useStyles = makeStyles(theme => ({
                             margin="normal"
                             id="date-picker"
                             className='text-dark font-weight-bold'
-                            style={{float: 'right', width: '150px'}}
+                            style={{float: 'right', width: '150px',  border: '1px solid #e5e5e5', backgroundColor: '#FFFFFF', fontWeight: '400', fontSize: '18px' , lineHeight: '1.6'}}
                             size='small'
                             value={selectedDate}
                             onChange={handleDateChange}

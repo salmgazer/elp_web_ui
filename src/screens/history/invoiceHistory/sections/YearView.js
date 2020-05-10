@@ -64,24 +64,13 @@ const useStyles = makeStyles(theme => ({
 
             {/* <HistoryDrawer pageName="Purchased items" user='2020' values={values} /> */}
             <Grid container spacing={1}>
-                <Grid item xs={6}>
-                    {pageName === false
-                        ?
-                        <Typography
-                            style={{fontSize: '14px', paddingTop: '20px', marginRight: '50px'}}
-                            className={`text-center text-dark`}
-                        >
-                            Purchased items
-                        </Typography>
-                        :
-                        <Typography
-
-                            style={{fontSize: '14px', paddingTop: '20px', marginRight: '50px'}}
-                            className={`text-center text-dark`}
-                        >
-                            {name}
-                        </Typography>
-                    }
+                <Grid item xs={6} >
+                    <Typography
+                        style={{fontSize: '14px', paddingTop: '20px'}}
+                        className={`text-center text-dark`}
+                    >
+                        Sold items
+                    </Typography>
                 </Grid>
 
                 <Grid item xs={6}>
@@ -130,7 +119,7 @@ const useStyles = makeStyles(theme => ({
                                         style={{fontSize: '16px'}}
                                         className={`text-center text-dark`}
                                     >
-                                        No sales made this year
+                                        No sales made
                                     </Typography>
                                 </Grid>
                             </Grid>

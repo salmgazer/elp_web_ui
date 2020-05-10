@@ -49,7 +49,7 @@ const CustomerYear = props => {
                     >
                         <Grid container className={`bordered`}>
                             <Grid item xs={12}>
-                                <span className='text-dark font-weight-bold' style={{ fontSize: '13px'}} >{format(new Date(invoice.createdAt) , "eeee, MMMM do, yyyy")} | {format(new Date(invoice.createdAt) , "HH:mm a")}</span>
+                                <span className='text-dark font-weight-bold' style={{ fontSize: '13px'}} >{format(new Date(invoice.createdAt) , "eeee, MMMM do, yyyy")} | {format(new Date(invoice.createdAt) , "h:mm a")}</span>
                             </Grid>
                         </Grid>
 
