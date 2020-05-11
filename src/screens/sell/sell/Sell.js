@@ -15,6 +15,7 @@ import Carts from "../../../models/carts/Carts";
 import SaleService from "../../../services/SaleService";
 import {confirmAlert} from "react-confirm-alert";
 import ModelAction from "../../../services/ModelAction";
+import paths from "../../../utilities/paths";
 
 class Sell extends Component {
     state = {
@@ -207,7 +208,8 @@ class Sell extends Component {
         });
 
         if(CartService.activateCart(cartId)){
-            this.setStepContentView(0);
+            history.push(paths.cart)
+            //this.setStepContentView(0);
         }else{
             alert('Please try again.');
         }
