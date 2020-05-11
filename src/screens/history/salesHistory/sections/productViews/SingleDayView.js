@@ -4,22 +4,18 @@ import Card from "@material-ui/core/Card/Card";
 import Grid from "@material-ui/core/Grid/Grid";
 import EditIcon from '@material-ui/icons/Edit';
 import MainDialog from '../../../../../components/Dialog/MainDialog';
-import DeleteIcon from '@material-ui/icons/Delete';
 import AppBar from '@material-ui/core/AppBar';
 import Tabs from "@material-ui/core/Tabs/Tabs";
 import Tab from "@material-ui/core/Tab/Tab";
 import SwipeableViews from "react-swipeable-views";
 import TabPanel from '../../../../../components/Tabs/TabPanel';
 import Dates from '../../../../../components/Date/Date';
-import InputAdornment from '@material-ui/core/InputAdornment';
-import StayPrimaryPortraitIcon from '@material-ui/icons/StayPrimaryPortrait';
+import Typography from '@material-ui/core/Typography';
 import Button from "@material-ui/core/Button/Button";
-import TextField from '@material-ui/core/TextField';
+import QuantityInput from "../../../../Components/Input/QuantityInput";
 
 import ProductServiceHandler from "../../../../../services/ProductServiceHandler";
 import SaleService from "../../../../../services/SaleService";
-import BranchService from "../../../../../services/BranchService";
-import LocalInfo from "../../../../../services/LocalInfo";
 import format from "date-fns/format";
 
 
@@ -42,7 +38,7 @@ const SingleDayView = props => {
     const [quantity , setQuantity] = useState(false);
     const [profit , setProfit] = useState(false);
     const [totalPrice , setTotalPrice] = useState(false);
-    const [saleEntries , setSaleEntries] = useState([]);
+    // const [saleEntries , setSaleEntries] = useState([]);
 
     function a11yProps(index) {
         return {
@@ -64,9 +60,9 @@ const SingleDayView = props => {
         const newProduct = await props.saleEntry.product.fetch();
         setProduct(newProduct);
         setImage(new ProductServiceHandler(product).getProductImage());
-        const entries = await sale.sale_entries.fetch(); //await new SaleService().getSaleProductsById(invoice.id);
+        // const entries = await sale.sale_entries.fetch(); //await new SaleService().getSaleProductsById(invoice.id);
 
-        setSaleEntries(entries);
+        // setSaleEntries(entries);
 
         // const name = new ProductServiceHandler(prod).getProductName();
         setName((newProduct.name).length > 20 ? (newProduct.name).slice(0 , 20) + '...' : newProduct.name);
@@ -76,8 +72,7 @@ const SingleDayView = props => {
         const total = await SaleService.getSaleEntryAmountById(sale.id);
 
         setName((name).length > 20 ? (name).slice(0 , 20) + '...' : name);
-        //setProduct(newProduct);
-        //setImage(new ProductServiceHandler(product).getProductImage());
+        
         setTotalPrice(total);
         setQuantity(quant);
         setProfit(profit);
@@ -96,9 +91,18 @@ const SingleDayView = props => {
         setValue(newValue);
       };
 
-      const handleChangeIndex = index => {
-          setValue(index);
-      };
+    const handleChangeIndex = index => {
+        setValue(index);
+    };
+
+    const setInputValue = (name , value) => {
+        setQuantity(value);
+    };
+
+    const deleteHistoryHandler = (pId , event) => {
+        props.deleteStoreProduct(pId , event);
+        setMainDialog(false);
+    };
 
     return(
         <div>
@@ -128,7 +132,7 @@ const SingleDayView = props => {
                 </Grid>
 
                 <Grid item xs={3} style={{height: '60px', margin: '10px 0px 0px 0px'}}>
-                    <span className='text-dark font-weight-bold' >{format(new Date(sale.createdAt) , "HH:mm a")}</span>
+                    <span className='text-dark font-weight-bold' >{format(new Date(sale.createdAt) , "h:mm a")}</span>
                     <EditIcon
                         onClick={openDialogHandler.bind(this)}
                         style={{fontSize: '30px', color: '#DAAB59', textAlign: 'right'}}
@@ -137,7 +141,7 @@ const SingleDayView = props => {
             </Grid>
 
             <MainDialog handleDialogClose={closeDialogHandler.bind(this)} states={mainDialog} >
-                <div className="row p-3 pt-0 mx-auto text-center w-100" >
+                <div className="row pt-0 mx-auto text-center w-100" >
                     <Grid container spacing={1} className={`shadow1 mb-3 borderRadius10`}>
                         <Grid item xs={3}>
                             <Card
@@ -154,7 +158,7 @@ const SingleDayView = props => {
                                 }}
                             />
                         </Grid>
-                        <Grid item xs={6} style={{display: 'table', height: '60px', margin: '8px 0px'}}>
+                        <Grid item xs={9} style={{display: 'table', height: '60px', margin: '8px 0px'}}>
                             <div style={{textAlign: 'left', display: 'table-cell', verticalAlign: 'middle'}}>
                                 <span className='text-dark font-weight-bold' >{name}</span>
                                 <div className="font-weight-light mt-1" style={{ fontSize: '13px'}}>Quantity: {sale.quantity}</div>
@@ -163,12 +167,6 @@ const SingleDayView = props => {
                             </div>
                         </Grid>
 
-                        <Grid item xs={3} style={{height: '60px', margin: '10px 0px 0px 0px'}}>
-                            <DeleteIcon
-                                onClick={openDialogHandler.bind(this)}
-                                style={{fontSize: '30px', color: '#DAAB59', textAlign: 'right'}}
-                            />
-                        </Grid>
                     </Grid>
 
                     <AppBar position="static" color="white">
@@ -182,7 +180,7 @@ const SingleDayView = props => {
                         >
                             <Tab className={classes.tabs} label="Change date"  {...a11yProps(0)} />
                             <Tab className={classes.tabs} label="Change quantity"  {...a11yProps(1)} />
-                            <Tab className={classes.tabs} label="Change price"  {...a11yProps(2)} />
+                            <Tab className={classes.tabs} label="Delete sale"  {...a11yProps(2)} />
                         </Tabs>
                     </AppBar>
 
@@ -192,70 +190,98 @@ const SingleDayView = props => {
                     >
                         <TabPanel value={value} index={0} >
 
-                            <Dates label="Pick new date" style={{margin: '50px'}} />
+                            <Dates label="Pick new date" style={{margin: '40px', border: '1px solid #e5e5e5', backgroundColor: '#FFFFFF'}} />
+
+                            <Grid container spacing={1} >
+                                <Grid item xs={6}>
+                                    <Button
+                                        variant="outlined"
+                                        style={{border: '1px solid #DAAB59', color: '#DAAB59', padding: '5px 30px', textTransform: 'none', fontSize:'15px'}}
+                                        onClick={closeDialogHandler.bind(this)}
+                                    >
+                                        Cancel
+                                    </Button>
+                                </Grid>
+
+                                <Grid item xs={6}>
+                                    <Button
+                                        variant="contained"
+                                        style={{'backgroundColor': '#DAAB59' , color: '#333333', padding: '5px 15px', textTransform: 'none', fontSize:'15px'}}
+                                        onClick={closeDialogHandler.bind(this)}
+                                    >
+                                        Save changes
+                                    </Button>
+                                </Grid>
+                            </Grid>
 
                         </TabPanel>
 
                         <TabPanel value={value} index={1}  >
 
-                            <TextField
-                                id="outlined-basic"
-                                label="Quantity"
-                                value={sale.quantity}
-                                variant="outlined"
-                                size="small"
-                                style={{margin: '50px'}}
-                            />
+                            <QuantityInput style={{width: '100%', margin: '50px', paddingBottom: '30px'}} label={`Quantity`} inputName="quantity" getValue={setInputValue.bind(this)} startValue={quantity}/>
+
+                            <Grid container spacing={1} style={{marginTop: '50px'}}>
+                                <Grid item xs={6}>
+                                    <Button
+                                        variant="outlined"
+                                        style={{border: '1px solid #DAAB59', color: '#DAAB59', padding: '5px 30px', textTransform: 'none', fontSize:'15px'}}
+                                        onClick={closeDialogHandler.bind(this)}
+                                    >
+                                        Cancel
+                                    </Button>
+                                </Grid>
+
+                                <Grid item xs={6}>
+                                    <Button
+                                        variant="contained"
+                                        style={{'backgroundColor': '#DAAB59' , color: '#333333', padding: '5px 15px', textTransform: 'none', fontSize:'15px'}}
+                                        onClick={closeDialogHandler.bind(this)}
+                                    >
+                                        Save changes
+                                    </Button>
+                                </Grid>
+                            </Grid>
+
                         </TabPanel>
 
                         <TabPanel value={value} index={2}  >
-                            <form noValidate autoComplete="off">
-                                <TextField
-                                    className={classes.margin}
-                                    id="input-with-icon-textfield"
-                                    variant="outlined"
-                                    size="small"
-                                    style={{margin: '20px'}}
-                                    label="Selling price"
-                                    InputProps={{
-                                    startAdornment: (
-                                        <InputAdornment position="end">
-                                            <StayPrimaryPortraitIcon />
-                                        </InputAdornment>
-                                    ),
-                                    }}
-                                />
 
-                                <Dates label="From" style={{margin: '20px'}} />
+                            <Typography
+                                component="h1"
+                                variant="h2"
+                                style={{fontSize: '25px',  margin: '50px 0px'}}
+                                className={`text-center font-weight-bold`}
+                            >
+                                Are you sure you want to delete this sale?
+                            </Typography>
+                          
+                            <Grid container spacing={1} >
+                                <Grid item xs={6}>
+                                    <Button
+                                        variant="outlined"
+                                        style={{border: '1px solid #DAAB59', color: '#DAAB59', padding: '5px 30px', textTransform: 'none', fontSize:'15px'}}
+                                        onClick={closeDialogHandler.bind(this)}
+                                    >
+                                        Cancel
+                                    </Button>
+                                </Grid>
 
-                                <Dates label="To" style={{margin: '20px'}} />
-
-                            </form>
+                                <Grid item xs={6}>
+                                    <Button
+                                        variant="contained"
+                                        style={{'backgroundColor': '#DAAB59' , color: '#333333', padding: '5px 15px', textTransform: 'none', fontSize:'15px'}}
+                                        onClick={deleteHistoryHandler.bind(this , sale.id)}
+                                    >
+                                        Yes, delete
+                                    </Button>
+                                </Grid>
+                            </Grid>
+                       
                         </TabPanel>
 
                     </SwipeableViews>
 
-                    <Grid container spacing={1} >
-                        <Grid item xs={6}>
-                            <Button
-                                variant="outlined"
-                                style={{border: '1px solid #DAAB59', color: '#DAAB59', padding: '5px 30px', textTransform: 'none', fontSize:'15px'}}
-                                onClick={closeDialogHandler.bind(this)}
-                            >
-                                Cancel
-                            </Button>
-                        </Grid>
 
-                        <Grid item xs={6}>
-                            <Button
-                                variant="contained"
-                                style={{'backgroundColor': '#DAAB59' , color: '#333333', padding: '5px 15px', textTransform: 'none', fontSize:'15px'}}
-                                onClick={closeDialogHandler.bind(this)}
-                            >
-                                Save changes
-                            </Button>
-                        </Grid>
-                    </Grid>
 
                 </div>
             </MainDialog>

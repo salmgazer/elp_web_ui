@@ -105,7 +105,7 @@ const SingleDayProduct = props => {
                 </Grid>
 
                 <Grid item xs={3} style={{height: '60px', margin: '10px 0px 0px 0px'}}>  
-                    <span className='text-dark font-weight-bold' style={{ fontSize: '13px'}} >{format(new Date(saleEntry.createdAt) , "HH:mm a")}</span>
+                    <span className='text-dark font-weight-bold' style={{ fontSize: '13px'}} >{format(new Date(saleEntry.createdAt) , "h:mm a")}</span>
                     <EditIcon
                         onClick={openDialogHandler.bind(this)}
                         style={{fontSize: '20px', color: '#DAAB59', textAlign: 'right'}}

@@ -62,34 +62,22 @@ const WeekView = props => {
         <div className={classes.root}>
 
             <Grid container spacing={1}>
-                <Grid item xs={6}>
-                    {pageName === false
-                        ?
-                        <Typography
-                            style={{fontSize: '14px', paddingTop: '20px', marginRight: '50px'}}
-                            className={`text-center text-dark`}
-                        >
-                            Purchased items
-                        </Typography>
-                        :
-                        <Typography
-
-                            style={{fontSize: '14px', paddingTop: '20px', marginRight: '50px'}}
-                            className={`text-center text-dark`}
-                        >
-                        {name}
-                        </Typography>
-
-                    } 
+                <Grid item xs={4} >              
+                    <Typography
+                        style={{fontSize: '14px', paddingTop: '20px'}}
+                        className={`text-center text-dark`}
+                    >
+                        Purchased items
+                    </Typography>
                 </Grid>
 
-                <Grid item xs={6}>
+                <Grid item xs={8}>
                     <TextField
                         id="outlined-select-receive-native"
                         select
                         size="small"
                         value={selectedWeek}
-                        style={{width: '150px',  margin: '10px 0px', fontSize: '7px'}}
+                        style={{width: '220px',  margin: '10px 0px', fontSize: '5px'}}
                         onChange={handleChange}
                         color="#DAAB59"
                         SelectProps={{
@@ -125,7 +113,7 @@ const WeekView = props => {
                                     style={{fontSize: '16px'}}
                                     className={`text-center text-dark`}
                                 >
-                                    No purchases made this week
+                                    No purchases made
                                 </Typography>
                             </Grid>
                         </Grid>

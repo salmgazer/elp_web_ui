@@ -47,7 +47,7 @@ const SingleWeekView = props => {
             </Grid>
             <Grid item xs={10} style={{display: 'table', height: '60px', margin: '8px 0px'}}>
                 <div style={{textAlign: 'left', display: 'table-cell', verticalAlign: 'middle'}}>
-                    <span className='text-dark font-weight-bold' >{format(new Date(sale.createdAt) , "eeee, MMMM do, yyyy")} | {format(new Date(sale.createdAt) , "HH:mm a")}</span>
+                    <span className='text-dark font-weight-bold' >{format(new Date(sale.createdAt) , "eeee, MMMM do, yyyy")} | {format(new Date(sale.createdAt) , "h:mm a")}</span>
                     <div className="font-weight-light mt-1" style={{ fontSize: '13px'}}>Sales made : GHC {total}</div>
                     <div className="font-weight-light mt-1" style={{ fontSize: '13px'}}>Profit made : GHC {profit}</div>
                 </div>

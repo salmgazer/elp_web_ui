@@ -76,7 +76,7 @@ class Cart extends Component{
             case 1:
                 return <Checkout setCustomerHandler={this.setCustomerHandler.bind(this)} currentCustomer={this.state.currentCustomer} customers={this.state.customers} cartTotalAmount={this.state.cartTotalAmount} setView={this.setStepContentView.bind(this)} />;
             case 2:
-                return <CompleteCart setView={this.setStepContentView.bind(this)} products={this.state.productList} />;
+                return <CompleteCart setView={this.setStepContentView.bind(this)} products={this.state.productList} currentCustomer={this.state.currentCustomer} cartTotalProducts={this.state.cartTotalProduct} />;
             default:
                 return 'Complete';
         }

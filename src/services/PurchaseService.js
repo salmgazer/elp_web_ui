@@ -38,6 +38,9 @@ export default class PurchaseService {
 
     async getPurchaseDetails(duration , date) {
         const purchase = await PurchaseService.getPurchaseHistory(duration , date);
+
+
+
         console.log(purchase);
         let costPrice = 0;
         let quantity = 0;
@@ -50,15 +53,22 @@ export default class PurchaseService {
 
         for (let step = 0; step < purchase.length; step++) {
             quantity += parseFloat(await BranchStockService.getStockProductQuantity(purchase[step].id));
-        }
+            
+            const branchProduct = await new ModelAction('BranchProduct').findByColumnNotObserve({
+                name: 'productId',
+                value: purchase[step].productId,
+                fxn: 'eq'
+            });
+            const sell = quantity * branchProduct[0].sellingPrice;
 
-        for (let step = 0; step < purchase.length; step++) {
-            sellingPrice += parseFloat(await BranchStockService.getStockEntrySellingPriceById(purchase[step].id));
+            sellingPrice = parseFloat(sell);
         }
 
         for (let step = 0; step < purchase.length; step++) {
             profit += parseFloat(await BranchStockService.getStockEntryProfitById(purchase[step].id));
         }
+
+        profit = sellingPrice - costPrice;
 
         return {
             purchases: purchase,

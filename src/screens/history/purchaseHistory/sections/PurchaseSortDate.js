@@ -1,5 +1,7 @@
 import React, {Component} from 'react';
 import {withRouter} from "react-router";
+import {confirmAlert} from "react-confirm-alert";
+import ModelAction from "../../../../services/ModelAction";
 
 import DayView from './DayView';
 import WeekView from './WeekView';
@@ -18,7 +20,7 @@ class SortDate extends Component{
     getStepContent = step => {
         switch (step) {
             case 0:
-                return <DayView setView={this.setStepContentView.bind(this)} pageName={this.state.pageName} />;
+                return <DayView setView={this.setStepContentView.bind(this)} pageName={this.state.pageName} deleteProduct={this.deleteProduct.bind(this)} />;
             case 2:
                 return <WeekView setView={this.setStepContentView.bind(this)} pageName={this.state.pageName} />;
             case 3:
@@ -43,6 +45,27 @@ class SortDate extends Component{
             console.log('me')
         }
     }
+
+    deleteProduct = async (pId) => {
+        confirmAlert({
+           title: 'Confirm to delete',
+           message: 'Are you sure you want to delete this entry.',
+           buttons: [
+               {
+                   label: 'Yes',
+                   onClick: () => {
+                       new ModelAction('BranchProductStock').destroy(pId);
+                   }
+               },
+               {
+                   label: 'No',
+                   onClick: () => {
+                       return false;
+                   }
+               }
+           ]
+       })
+    };
 
 
     render(){

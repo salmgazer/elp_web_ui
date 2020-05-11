@@ -69,13 +69,13 @@ const SingleDayInvoice = props => {
                     <div style={{textAlign: 'left', display: 'table-cell', verticalAlign: 'middle'}}>
                     <span className='text-dark font-weight-bold' style={{ fontSize: '16px'}}>{`${customer.firstName} ${customer.otherNames}`}</span>
                         <div className="font-weight-light mt-1" style={{ fontSize: '14px'}}>INV. {invoice.receiptNumber.slice(0,8)}</div>
-                        <div className="font-weight-light mt-1" style={{ fontSize: '14px'}}>GHC {total}</div>
+                        <div className="font-weight-light mt-1" style={{ fontSize: '14px'}}>Sales: GHC {total}</div>
                     </div>
                 </Grid>
 
                 <Grid item xs={4} style={{height: '60px', margin: '10px 0px 0px 0px'}} onClick={openDialogHandler.bind(this)} >
                     <div style={{textAlign: 'right', display: 'table-cell', verticalAlign: 'middle'}}>
-                        <div className="font-weight-light mt-1" style={{ fontSize: '14px'}}>  {format(new Date(invoice.createdAt) , "HH:mm a")}</div>
+                        <div className="font-weight-light mt-1" style={{ fontSize: '14px'}}>  {format(new Date(invoice.createdAt) , "h:mm a")}</div>
                         <div className="font-weight-light mt-1" style={{ fontSize: '14px', color: 'green'}}> {payment}</div>
                     </div>
                 </Grid>
@@ -97,7 +97,7 @@ const SingleDayInvoice = props => {
                             <div style={{textAlign: 'left', display: 'table-cell', verticalAlign: 'middle'}}>
                                 <span className='text-dark font-weight-bold' style={{ fontSize: '15px'}} ></span>
                                 <div className="font-weight-light mt-1" style={{ fontSize: '13px'}}>INV. {invoice.receiptNumber.slice(0,8)}</div>
-                                <div className="font-weight-light mt-1" style={{ fontSize: '13px'}}> {format(new Date(invoice.createdAt) , "HH:mm a")}</div>
+                                <div className="font-weight-light mt-1" style={{ fontSize: '13px'}}> {format(new Date(invoice.createdAt) , "h:mm a")}</div>
                             </div>
                         </Grid>
 

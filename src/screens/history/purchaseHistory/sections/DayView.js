@@ -56,30 +56,22 @@ const DayView = props => {
         console.log(response)
     };
 
+    const deleteProductHandler = (event) => {
+        props.deleteProduct(event);
+    };
+
     return(
         <div className={classes.root}>
             {/* {console.log(purchaseDetails.purchases)} */}
 
             <Grid container spacing={1}>
-                <Grid item xs={6} >
-                    {pageName === false
-                        ?
-                        <Typography
-                            style={{fontSize: '14px', paddingTop: '20px', marginRight: '50px'}}
-                            className={`text-center text-dark`}
-                        >
-                            Purchased items
-                        </Typography>
-                        :
-                        <Typography
-
-                            style={{fontSize: '14px', paddingTop: '20px', marginRight: '50px'}}
-                            className={`text-center text-dark`}
-                        >
-                        {name}
-                        </Typography>
-
-                    } 
+                <Grid item xs={6} >              
+                    <Typography
+                        style={{fontSize: '14px', paddingTop: '20px', marginRight: '50px'}}
+                        className={`text-center text-dark`}
+                    >
+                        Purchased items
+                    </Typography>
                 </Grid>
 
                 <Grid item xs={6} >
@@ -91,7 +83,7 @@ const DayView = props => {
                             margin="normal"
                             id="date-picker"
                             className='text-dark font-weight-bold'
-                            style={{float: 'right', width: '170px'}}
+                            style={{float: 'right', width: '170px',  border: '1px solid #e5e5e5', backgroundColor: '#FFFFFF', fontWeight: '400', fontSize: '18px' , lineHeight: '1.6'}}
                             size='small'
                             value={selectedDate}
                             onChange={handleDateChange}
@@ -121,7 +113,7 @@ const DayView = props => {
                                     style={{fontSize: '16px'}}
                                     className={`text-center text-dark`}
                                 >
-                                    No purchases made this day
+                                    No purchases made
                                 </Typography>
                             </Grid>
                         </Grid>
@@ -129,9 +121,9 @@ const DayView = props => {
                     :
                     pageName === false ?
 
-                    purchases.map((purchase) => <SingleDayView  key={purchase.id} purchase={purchase} purchaseEntry={purchase} />)
+                    purchases.map((purchase) => <SingleDayView  key={purchase.id} purchase={purchase} purchaseEntry={purchase} deleteStoreProduct={deleteProductHandler.bind(this)} />)
                     :
-                    purchases.map((purchase) => <ProductDay  key={purchase.id} purchase={purchase} purchaseEntry={purchase} prodName={name} />)
+                    purchases.map((purchase) => <ProductDay  key={purchase.id} purchase={purchase} purchaseEntry={purchase} prodName={name} deleteStoreProduct={deleteProductHandler.bind(this)} />)
 
                 }
             </Box>
