@@ -173,7 +173,6 @@ class Sell extends Component {
     * Search products handler...
     * */
     searchHandler = async (searchValue) => {
-        console.log(searchValue)
         /*
         * @todo make sure it works...
         * */
@@ -203,6 +202,8 @@ class Sell extends Component {
     };
 
     continueSavedCartHandler = async (cartId) => {
+        const history = this.props;
+
         await this.setState({
             spCount: 0,
         });
