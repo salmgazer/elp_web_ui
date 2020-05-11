@@ -15,6 +15,7 @@ import Carts from "../../../models/carts/Carts";
 import SaleService from "../../../services/SaleService";
 import {confirmAlert} from "react-confirm-alert";
 import ModelAction from "../../../services/ModelAction";
+import paths from "../../../utilities/paths";
 
 class Sell extends Component {
     state = {
@@ -172,7 +173,6 @@ class Sell extends Component {
     * Search products handler...
     * */
     searchHandler = async (searchValue) => {
-        console.log(searchValue)
         /*
         * @todo make sure it works...
         * */
@@ -202,12 +202,15 @@ class Sell extends Component {
     };
 
     continueSavedCartHandler = async (cartId) => {
+        const history = this.props;
+
         await this.setState({
             spCount: 0,
         });
 
         if(CartService.activateCart(cartId)){
-            this.setStepContentView(0);
+            history.push(paths.cart)
+            //this.setStepContentView(0);
         }else{
             alert('Please try again.');
         }

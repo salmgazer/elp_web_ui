@@ -27,15 +27,9 @@ class Cart extends Component{
 
     async componentDidMount() {
         const { history, database , cartQuantity , cart , cartEntries , branchCustomers ,currentCustomer} = this.props;
-        //new ModelAction('Customer').destroy('b08d6c51-f93a-4a9e-b03f-2fa07f026919');
-        //new ModelAction('BranchCustomer').destroy('62124785-3095-4707-82b1-76ea4bc10fec');
+
         this.state.cartId = await new CartService().cartId();
-        //console.log(await new CartService().cartId());
-        //console.log(await cartQuantity);
-        //console.log(customers);
-        //console.log(this.state.cartTotalProduct);
-        //console.log(await cart[0].cart_entries.fetch());
-        //console.log(currentCustomer);
+
         await this.setState({
             productList: cartEntries,
             cartTotalProduct: await CartService.getCartProductQuantity(),
@@ -47,16 +41,6 @@ class Cart extends Component{
 
     async componentDidUpdate(prevProps) {
         const { history, database , cartQuantity , cart , cartEntries , branchCustomers , currentCustomer} = this.props;
-
-        //console.log(cartEntries);
-        //console.log(customers);
-        //this.state.cartId = await new CartService().cartId();
-        //console.log(await new CartService().cartId());
-        //console.log(await cartQuantity);
-        //console.log(await cart[0].cart_entries.fetch());
-        //console.log(this.state.cartTotalProduct);
-        //console.log(await CartService.getCartProductQuantity());
-        //console.log(currentCustomer);
 
         if(this.state.currentCustomer !== await CartService.getCartCustomerId() || this.props.cartEntries !== prevProps.cartEntries || branchCustomers.length !== prevProps.branchCustomers.length || this.state.cartTotalProduct !== await CartService.getCartProductQuantity()){
             await this.setState({
@@ -127,7 +111,6 @@ class Cart extends Component{
     async setCustomerHandler(customer){
         await new CartService().setCustomer(customer);
 
-        console.log(customer)
         this.setState({
             customers: this.props.branchCustomers,
             currentCustomer: customer
@@ -141,8 +124,6 @@ class Cart extends Component{
             </div>
         )
     }
-
-
 }
 
 const EnhancedCart = withDatabase(
