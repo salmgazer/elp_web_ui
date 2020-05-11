@@ -11,7 +11,7 @@ import Box from "@material-ui/core/Box/Box";
 import { withRouter } from "react-router-dom";
 
 import SingleDayView from './productViews/SingleDayView';
-import SingleProductDay from './productViews/SingleProductDay';
+import ProductDay from './productViews/ProductDay';
 import CardsSection from '../../../../components/Sections/CardsSection';
 import SaleService from "../../../../services/SaleService";
 
@@ -124,7 +124,7 @@ const DayView = props => {
 
                     sales.map((sale) => <SingleDayView  key={sale.id} sale={sale} saleEntry={sale} deleteStoreProduct={deleteProductHandler.bind(this)} />)
                     :
-                    sales.map((sale) => <SingleProductDay  key={sale.id} sale={sale} saleEntry={sale} prodName={name} deleteStoreProduct={deleteProductHandler.bind(this)} />)
+                    sales.map((sale) => <ProductDay  key={sale.id} sale={sale} saleEntry={sale} prodName={name} deleteStoreProduct={deleteProductHandler.bind(this)} />)
 
                 }
             </Box>

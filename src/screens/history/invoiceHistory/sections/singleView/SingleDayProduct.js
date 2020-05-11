@@ -136,7 +136,6 @@ const SingleDayProduct = props => {
                                 <span className='text-dark font-weight-bold' >{product.name}</span>
                                 <div className="font-weight-light mt-1" style={{ fontSize: '13px'}}>Quantity: {saleEntry.quantity}</div>
                                 <div className="font-weight-light mt-1" style={{ fontSize: '13px'}}>Sales: GHC {totalPrice}</div>
-                                <div className="font-weight-light mt-1" style={{ fontSize: '13px', color: '#DAAB59'}}>Audit sale</div>
                             </div>
                         </Grid>
 

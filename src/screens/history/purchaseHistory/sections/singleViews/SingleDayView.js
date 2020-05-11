@@ -159,7 +159,6 @@ const SingleDayView = props => {
                                 <span className='text-dark font-weight-bold' >{name}</span>
                                 <div className="font-weight-light mt-1" style={{ fontSize: '13px'}}>Quantity: {quantity}</div>
                                 <div className="font-weight-light mt-1" style={{ fontSize: '13px'}}>Cost: GHC {costPrice}</div>
-                                <div className="font-weight-light mt-1" style={{ fontSize: '13px'}}>Audit sale</div>
                             </div>
                         </Grid>
 
