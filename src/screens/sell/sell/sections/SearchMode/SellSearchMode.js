@@ -11,6 +11,8 @@ import ProductServiceHandler from "../../../../../services/ProductServiceHandler
 import SearchInput from "../../../../Components/Input/SearchInput";
 import BranchProductService from "../../../../../services/BranchProductService";
 import SingleProductBox from "../../../../../components/Product/SingleProductBox";
+import Button from "@material-ui/core/Button/Button";
+import SimpleSnackbar from "../../../../../components/Snackbar/SimpleSnackbar";
 
 const useStyles = makeStyles(theme => ({
     root: {
@@ -49,6 +51,10 @@ const SellSearchMode = props => {
     const [searchValue , setSearchValue] = useState({
         search: ''
     });
+    const [error , setError] = useState(false);
+    const [errorMsg , setErrorMsg] = useState('');
+    const [productAdded , setProductAdded] = useState(false);
+
     const branchProducts = props.branchProducts;
 
     const classes = useStyles();
@@ -56,6 +62,46 @@ const SellSearchMode = props => {
 
     const addProductHandler = (id) => {
         props.productAdd(id , 1);
+    };
+
+    const addProductOneHandler = async (productId , branchProductId , sellingPrice, branchProduct) => {
+        const quantity = await new BranchProductService(branchProduct).getProductQuantity();
+
+        if(quantity < 1){
+            setErrorMsg('Product is out of stock. Please refill');
+            setError(true);
+            setTimeout(function(){
+                setError(false);
+            }, 3000);
+            return false;
+        }
+
+        const formFields = {
+            quantity: 1,
+            sellingPrice: sellingPrice,
+            costPrice: await new BranchProductService(branchProduct).getCostPrice(),
+            productId: productId,
+            branchProductId: branchProductId,
+            discount: 0,
+        };
+
+        const status = props.addToCart(formFields);
+
+        if(status){
+            await setProductAdded(true);
+
+            setTimeout(function(){
+                setProductAdded(false);
+            }, 2000)
+
+        }else{
+            setErrorMsg('OOPS Something went wrong. Please try again');
+            setError(true);
+            setTimeout(function(){
+                setError(false);
+            }, 3000);
+            return false;
+        }
     };
 
     const removeProductHandler = (id) => {
@@ -82,6 +128,23 @@ const SellSearchMode = props => {
                         getValue={setInputValue.bind(this)}
                     />
                 </Grid>
+
+                <SimpleSnackbar
+                    type="success"
+                    openState={productAdded}
+                    message={`New product added successfully`}
+                >
+                    <Button color="secondary" size="small" onClick={props.undoProductAdd}>
+                        UNDO
+                    </Button>
+                </SimpleSnackbar>
+
+                <SimpleSnackbar
+                    type="warning"
+                    openState={error}
+                    message={errorMsg}
+                >
+                </SimpleSnackbar>
 
                 <Grid item xs={5} style={{padding: '4px 8px'}} onClick={() => props.setView(2)}>
                     <Paper className={`${classes.cart} text-center`} >
@@ -158,7 +221,7 @@ const SellSearchMode = props => {
                                         />
                                     </div>:
                                     <div
-                                        onClick={addProductHandler.bind(this, branchProduct.productId)}
+                                        onClick={addProductOneHandler.bind(this, branchProduct.productId, branchProduct.id , new BranchProductService(branchProduct).getSellingPrice(), branchProduct)}
                                     >
                                         <AddIcon
                                             styles={{

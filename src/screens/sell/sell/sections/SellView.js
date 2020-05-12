@@ -208,7 +208,7 @@ const SellView = props => {
                 style={{backgroundColor: '#F3F3F3'}}
             >
                 <TabPanel value={value} index={0}>
-                    <SellSearchMode savedCartCount={props.savedCartCount} branchProducts={branchProducts} setView={props.setView} searchHandler={props.searchHandler} productAdd={props.productAdd} products={props.products}/>
+                    <SellSearchMode addToCart={props.addToCart} undoProductAdd={props.undoProductAdd} savedCartCount={props.savedCartCount} branchProducts={branchProducts} setView={props.setView} searchHandler={props.searchHandler} productAdd={props.productAdd} products={props.products}/>
                 </TabPanel>
                 <TabPanel value={value} index={1} >
                     <BarcodeMode product={props.product} setView={props.setView} searchBarcode={props.searchBarcode}/>

@@ -10,10 +10,8 @@ import SearchIcon from '@material-ui/icons/Search';
 import Button from "@material-ui/core/Button/Button";
 import Box from "@material-ui/core/Box/Box";
 import Don from '../../../../assets/img/Don.jpg';
-import Snackbar from '@material-ui/core/Snackbar';
 import MuiAlert from '@material-ui/lab/Alert';
 import SimpleSnackbar from "../../../../components/Snackbar/SimpleSnackbar";
-import ProductServiceHandler from "../../../../services/ProductServiceHandler";
 import MainDialog from "../../../../components/Dialog/MainDialog";
 
 function Alert(props) {
@@ -40,7 +38,6 @@ const useStyles = makeStyles(theme => ({
 }));
 
 const StockBarcodeMode = props => {
-
     const styles = useStyles();
     const [barcodeNumber , setBarcodeNumber] = useState();
     const [productName , setProductName] = useState('');
@@ -97,13 +94,11 @@ const StockBarcodeMode = props => {
             await setErrorMessage('Barcode empty. Please try again.');
             await setErrorDialog(true);
         }
+
         const product = await props.searchBarcode(barcodeNumber);
 
         if(product.length === 1){
-            if( product.length === 1) {
-                props.setView(1);
-            }
-            return true
+            props.addProductStockView(product.productId);
         }else if(product.length === 0) {
             await setErrorMessage('Product with this barcode does not exist');
             await setErrorDialog(true);
@@ -189,17 +184,17 @@ const StockBarcodeMode = props => {
                 className={`newBox`}
                 style={{position:'relative', zIndex: 1030, right: 0, left: '-3.5%', bottom: '4.0rem', width: '100%'}}
             >
-                <Box
+                {/*<Box
                     className={`shadow1 bg-white`}
                     p={1}
-                    style={{ position: "fixed", bottom:"0rem", width:"100%", height: '100px' }}
+                    style={{ position: "fixed", bottom:"4.0rem", width:"100%", height: '100px' }}
                 >
                     <div className={`w-75 mx-auto`}>
                         <Typography
                             component="p"
                             variant="h6"
                             className={`text-center my-1 font-weight-bold`}
-                            style={{fontWeight: '400', fontSize: '16px' , margin: '5px auto', paddingTop: '10px'}}
+                            style={{fontWeight: '400', fontSize: '16px' , margin: '1px auto', paddingTop: '0px'}}
                         >
                             Add stock
                         </Typography>
@@ -225,7 +220,49 @@ const StockBarcodeMode = props => {
                                 style={{color: '#D34343'}}
                             >
                                 <div style={{backgroundColor: '#DAAB59', color: '#333333', borderRadius: '50%', width: '40px', height: '40px'}}>
-                                    <SearchIcon className={`p-2`} onClick={barcodeSearchHandler}/>
+                                    <SearchIcon style={{ fontSize: "2.0rem"}} className={`p-2`} onClick={barcodeSearchHandler}/>
+                                </div>
+                            </Grid>
+                        </Grid>
+                    </div>
+                </Box>*/}
+                <Box
+                    className={`shadow1 bg-white`}
+                    p={1}
+                    style={{ position: "fixed", bottom:"4rem", width:"100%", height: '100px' }}
+                >
+                    <div className={`w-75 mx-auto`}>
+                        <Typography
+                            component="p"
+                            variant="h6"
+                            className={`text-center my-1 font-weight-bold`}
+                            style={{fontWeight: '400', fontSize: '16px' , margin: '1px auto', paddingTop: '0px'}}
+                        >
+                            Add stock
+                        </Typography>
+                        <Grid container spacing={1} className={`mb-2`}>
+                            <Grid
+                                item xs={10}
+                                className={`text-right`}
+                            >
+                                <Paper className={`${styles.root} text-center`} >
+                                    <InputBase
+                                        className={`${styles.input} search-box`}
+                                        placeholder="Enter barcode key"
+                                        value={barcodeNumber}
+                                        inputProps={{ 'aria-label': 'Enter barcode key' }}
+                                        onChange={(event) => setBarcodeNumber(event.target.value)}
+                                    />
+                                </Paper>
+                            </Grid>
+
+                            <Grid
+                                item xs={2}
+                                className={`text-left`}
+                                style={{color: '#D34343'}}
+                            >
+                                <div style={{backgroundColor: '#DAAB59', color: '#333333', borderRadius: '50%', width: '35px', height: '35px'}}>
+                                    <SearchIcon style={{fontSize: '2.2rem'}} className={`p-2`} onClick={barcodeSearchHandler}/>
                                 </div>
                             </Grid>
                         </Grid>

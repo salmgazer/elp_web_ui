@@ -387,6 +387,10 @@ class AddProducts extends Component{
             item.owned = true;
         }
 
+        if(formFields.sellingPrice !== "" || formFields.sellingPrice !== null){
+            item.sellingPrice = formFields.sellingPrice;
+        }
+        console.log(item)
         const tempId = uuidv1();
         const historyItem = {
             quantity: formFields.quantity,
@@ -410,14 +414,11 @@ class AddProducts extends Component{
         (item.stock).push(
             formFields
         );
-        console.log(item.stock);
 
         (item.history).push(historyItem);
 
         //quantity //branch_stock_id //id
         old_list[productIndex] = item;
-
-        console.log(item);
 
         localStorage.setItem('branchProductsAdded' , JSON.stringify(branchProductsAdded));
 
