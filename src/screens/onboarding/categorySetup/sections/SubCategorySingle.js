@@ -55,7 +55,7 @@ const SubCategorySingle = props => {
                         />
                     </div>
                 }
-                <div style={{fontSize: '14px', width: '100%', minHeight: '35px', backgroundColor: '#3333338c', color: '#ffffff', position: 'relative', top: '70%', left:'0', right: '0', padding: '5px 0px'}}>
+                <div style={{fontSize: '14px', width: '100%', minHeight: '40px', backgroundColor: '#3333338c', color: '#ffffff', position: 'relative', top: '70%', left:'0', right: '0', padding: '5px 0px'}}>
                     {category.name}
                 </div>
             </Card>
