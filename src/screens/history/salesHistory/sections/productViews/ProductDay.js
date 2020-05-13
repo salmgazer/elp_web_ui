@@ -15,7 +15,6 @@ import Paper from "@material-ui/core/Paper/Paper";
 import InputBase from "@material-ui/core/InputBase/InputBase";
 import Button from "@material-ui/core/Button/Button";
 import QuantityInput from "../../../../Components/Input/QuantityInput";
-import UnitCost from '../../../../Components/Input/UnitCost';
 import InputAdornment from '@material-ui/core/InputAdornment';
 import IconButton from '@material-ui/core/IconButton';
 import {faCalculator} from "@fortawesome/free-solid-svg-icons";
@@ -225,7 +224,9 @@ const SingleDayView = props => {
                     >
                         <TabPanel value={value} index={0} >
 
-                            <Dates label="Pick new date" style={{margin: '40px 40px 0px 40px', border: '1px solid #DAAB59', backgroundColor: '#FFFFFF'}} />
+                            <label className={`text-dark py-2 text-center`} style={{fontSize: '18px', fontWeight: '600', paddingTop: '100px'}}> Pick new date </label>
+
+                            <Dates style={{margin: '5px 40px 0px 40px', border: '1px solid #DAAB59', backgroundColor: '#FFFFFF', width: '150px'}} />
 
                         </TabPanel>
 
