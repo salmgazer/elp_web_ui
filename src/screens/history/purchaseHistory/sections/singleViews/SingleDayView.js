@@ -12,7 +12,14 @@ import TabPanel from '../../../../../components/Tabs/TabPanel';
 import Dates from '../../../../../components/Date/Date';
 import Typography from '@material-ui/core/Typography';
 import Button from "@material-ui/core/Button/Button";
+import DeleteIcon from '@material-ui/icons/Delete';
 import QuantityInput from "../../../../Components/Input/QuantityInput";
+import InputAdornment from '@material-ui/core/InputAdornment';
+import IconButton from '@material-ui/core/IconButton';
+import {faCalculator} from "@fortawesome/free-solid-svg-icons";
+import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
+import Paper from "@material-ui/core/Paper/Paper";
+import InputBase from "@material-ui/core/InputBase/InputBase";
 
 import format from "date-fns/format";
 import BranchStockService from '../../../../../services/BranchStockService';
@@ -45,8 +52,6 @@ const SingleDayView = props => {
         };
     }
 
-    // const image = `https://elparah.store/admin/upload/${product.image}`;
-
     const closeDialogHandler = (event) => {
         setMainDialog(false);
     };
@@ -72,7 +77,6 @@ const SingleDayView = props => {
     });
 
     const getProduct = async () => {
-        //const newProduct = await purchase.product.fetch();
         /*
         * @todo get entries via query on model
         * */
@@ -84,21 +88,25 @@ const SingleDayView = props => {
 
         const costP = await BranchStockService.getStockEntryCostPriceById(purchase.id);
         const quant = await BranchStockService.getStockProductQuantity(purchase.id);
-        // setProduct(newProduct);
-        // setName(new ProductServiceHandler(product).getProductName());
-        // setImage(new ProductServiceHandler(product).getProductImage());
         setCostPrice(costP);
         setQuantity(quant);
 
     };
 
     const setInputValue = (name , value) => {
+        setCostPrice((value * purchase.costPrice).toFixed(2));
         setQuantity(value);
     };
 
     const deleteHistoryHandler = (pId , event) => {
         props.deleteStoreProduct(pId , event);
         setMainDialog(false);
+    };
+
+    const setPriceValue = (event) => {
+        event.persist();
+
+        setCostPrice(event.target.value);
     };
 
     return(
@@ -143,7 +151,7 @@ const SingleDayView = props => {
                             <Card
                                 className="shadow1"
                                 style={{
-                                    margin: '15px auto', 
+                                    margin: '5px auto', 
                                     backgroundImage: `url(${image})`, 
                                     backgroundPosition: 'center', 
                                     backgroundSize: 'cover', 
@@ -154,12 +162,18 @@ const SingleDayView = props => {
                                 }}
                             />
                         </Grid>
-                        <Grid item xs={9} style={{display: 'table', height: '60px', margin: '8px 0px'}}>
+                        <Grid item xs={6} style={{display: 'table', height: '60px', margin: '8px 0px'}}>
                             <div style={{textAlign: 'left', display: 'table-cell', verticalAlign: 'middle'}}>
                                 <span className='text-dark font-weight-bold' >{name}</span>
                                 <div className="font-weight-light mt-1" style={{ fontSize: '13px'}}>Quantity: {quantity}</div>
                                 <div className="font-weight-light mt-1" style={{ fontSize: '13px'}}>Cost: GHC {costPrice}</div>
                             </div>
+                        </Grid>
+                        <Grid item xs={3} style={{marginTop: '30px'}}>
+                            <DeleteIcon
+                                onClick={deleteHistoryHandler.bind(this , purchase.id)}
+                                style={{fontSize: '30px', color: '#DAAB59', textAlign: 'right'}}
+                            />
                         </Grid>
 
                     </Grid>
@@ -185,91 +199,41 @@ const SingleDayView = props => {
                     >
                         <TabPanel value={value} index={0} >
 
-                            <Dates label="Pick new date" style={{margin: '40px', border: '1px solid #e5e5e5', backgroundColor: '#FFFFFF'}} />
-
-                            <Grid container spacing={1} >
-                                <Grid item xs={6}>
-                                    <Button
-                                        variant="outlined"
-                                        style={{border: '1px solid #DAAB59', color: '#DAAB59', padding: '5px 30px', textTransform: 'none', fontSize:'15px'}}
-                                        onClick={closeDialogHandler.bind(this)}
-                                    >
-                                        Cancel
-                                    </Button>
-                                </Grid>
-
-                                <Grid item xs={6}>
-                                    <Button
-                                        variant="contained"
-                                        style={{'backgroundColor': '#DAAB59' , color: '#333333', padding: '5px 15px', textTransform: 'none', fontSize:'15px'}}
-                                        onClick={closeDialogHandler.bind(this)}
-                                    >
-                                        Save changes
-                                    </Button>
-                                </Grid>
-                            </Grid>
+                            <Dates label="Pick new date" style={{margin: '40px 40px 0px 40px', border: '1px solid #DAAB59', backgroundColor: '#FFFFFF'}} />
                             
                         </TabPanel>
 
                         <TabPanel value={value} index={1}  >
 
-                            <QuantityInput style={{width: '100%', margin: '50px'}} label={`Quantity`} inputName="quantity" getValue={setInputValue.bind(this)} startValue={quantity}/>
-
-                            <Grid container spacing={1} style={{marginTop: '50px'}} >
-                                <Grid item xs={6}>
-                                    <Button
-                                        variant="outlined"
-                                        style={{border: '1px solid #DAAB59', color: '#DAAB59', padding: '5px 30px', textTransform: 'none', fontSize:'15px'}}
-                                        onClick={closeDialogHandler.bind(this)}
-                                    >
-                                        Cancel
-                                    </Button>
-                                </Grid>
-
-                                <Grid item xs={6}>
-                                    <Button
-                                        variant="contained"
-                                        style={{'backgroundColor': '#DAAB59' , color: '#333333', padding: '5px 15px', textTransform: 'none', fontSize:'15px'}}
-                                        onClick={closeDialogHandler.bind(this)}
-                                    >
-                                        Save changes
-                                    </Button>
-                                </Grid>
-                            </Grid>
+                            <QuantityInput style={{width: '100%', margin: '50px', paddingBottom: '30px'}} label={`Quantity`} inputName="quantity" getValue={setInputValue.bind(this)} startValue={quantity}/>
 
                         </TabPanel>
 
                         <TabPanel value={value} index={2}  >
-                            <Typography
-                                component="h1"
-                                variant="h2"
-                                style={{fontSize: '25px',  margin: '50px 0px'}}
-                                className={`text-center font-weight-bold`}
-                            >
-                                Are you sure you want to delete this purchase?
-                            </Typography>
-                        
-                            <Grid container spacing={1} >
-                                <Grid item xs={6}>
-                                    <Button
-                                        variant="outlined"
-                                        style={{border: '1px solid #DAAB59', color: '#DAAB59', padding: '5px 30px', textTransform: 'none', fontSize:'15px'}}
-                                        onClick={closeDialogHandler.bind(this)}
-                                    >
-                                        Cancel
-                                    </Button>
-                                </Grid>
+                            
+                            <label className={`text-dark py-2 text-center`} style={{fontSize: '18px', fontWeight: '600'}}> New cost price </label>
 
-                                <Grid item xs={6}>
-                                    <Button
-                                        variant="contained"
-                                        style={{'backgroundColor': '#DAAB59' , color: '#333333', padding: '5px 15px', textTransform: 'none', fontSize:'15px'}}
-                                        onClick={deleteHistoryHandler.bind(this , purchase.id)}
-                                    >
-                                        Yes, delete
-                                    </Button>
-                                </Grid>
-                            </Grid>
+                            <Paper className={classes.root} id="selling_price" >
+                                <InputBase
+                                    className={`${classes.input} search-box text-center`}
+                                    type="tel"
+
+                                    value={costPrice}
+                                    name='sellingPrice'
+                                    onChange={(event) => setPriceValue(event)}
+                                    endAdornment={
+                                        <InputAdornment position="end">
+                                            <IconButton
+                                                aria-label="toggle password visibility"
+                                                edge="end"
+                                            >
+                                                <FontAwesomeIcon  icon={faCalculator} fixedWidth />
+                                            </IconButton>
+                                        </InputAdornment>
+                                    }
+                                />
+                            </Paper>
+                        
                         </TabPanel>
 
                     </SwipeableViews>   

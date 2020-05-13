@@ -4,7 +4,7 @@ import Container from '@material-ui/core/Container';
 import SectionNavbars from "../../../components/Sections/SectionNavbars";
 import MenuIcon from '@material-ui/icons/Menu';
 import MoreVertIcon from '@material-ui/icons/MoreVert';
-import Grid from '@material-ui/core/Grid';
+import paths from "../../../utilities/paths";
 import SystemDate from "../../../components/Date/SystemDate";
 import CardDefault from "../../../components/Cards/CardDefault";
 import Typography from "@material-ui/core/Typography";
@@ -25,14 +25,16 @@ import ArrowForwardOutlinedIcon from '@material-ui/icons/ArrowForwardOutlined';
 import LibraryAddIcon from '@material-ui/icons/LibraryAdd';
 import QueryBuilderIcon from '@material-ui/icons/QueryBuilder';
 import KeyboardReturnIcon from '@material-ui/icons/KeyboardReturn';
-import SwapHorizOutlinedIcon from '@material-ui/icons/SwapHorizOutlined';
+import HistoryOutlinedIcon from '@material-ui/icons/HistoryOutlined';
 import RedeemIcon from '@material-ui/icons/Redeem';
+import {withRouter} from 'react-router-dom';
 import ReportProblemOutlinedIcon from '@material-ui/icons/ReportProblemOutlined';
 
 import Drawer from "../../../components/Drawer/Drawer";
 import BarcodeMode from "../../sell/sell/sections/BarcodeMode/BarcodeMode";
 
 const StockMainPage = props => {
+    const { history } = props;
     const [value , setValue] = useState(0);
     const [isShowDrawer , setIsShowDrawer] = useState(false);
     const [isDrawerShow , setIsDrawerShow] = useState(false);
@@ -98,10 +100,10 @@ const StockMainPage = props => {
                         onKeyDown={() => setIsShowDrawer(false)}
                     >
                         <BottomDrawer isShow={isShowDrawer}>
-                            {/*<ListItem button key={4}>
-                                <ListItemIcon><SwapHorizOutlinedIcon style={{color: '#707070'}} /></ListItemIcon>
-                                <ListItemText primary="Stock movement" />
-                            </ListItem>*/}
+                            <ListItem button key={4} onClick={() => history.push(paths.purchase_history)}>
+                                <ListItemIcon><HistoryOutlinedIcon/></ListItemIcon>
+                                <ListItemText primary="Purchase history" />
+                            </ListItem>
                             <ListItem button key={5}>
                                 <ListItemIcon><KeyboardReturnIcon style={{color: '#707070'}} /></ListItemIcon>
                                 <ListItemText primary="Return purchase" />
@@ -343,4 +345,4 @@ const StockMainPage = props => {
     )
 };
 
-export default StockMainPage;
+export default withRouter(StockMainPage);

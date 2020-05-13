@@ -24,7 +24,7 @@ const useStyles = makeStyles(theme => ({
     console.log(new SystemDateHandler().getStoreMonths());
 
     const classes = useStyles();
-    const [selectedMonth, setSelectedMonth] = React.useState(values[0].value);
+    const [selectedMonth, setSelectedMonth] = React.useState(values[(new Date().getMonth())].value);
     const [saleDetails , setSaleDetails] = useState(false);
     const [sales , setSales] = useState([]);
     const pageName = props.pageName;
