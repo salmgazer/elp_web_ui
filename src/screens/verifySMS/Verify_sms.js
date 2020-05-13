@@ -1,4 +1,4 @@
-import React , {useState} from "react";
+import React, {useRef, useState} from "react";
 import OtpInput from 'react-otp-input';
 import Component from "@reactions/component";
 import CssBaseline from '@material-ui/core/CssBaseline';
@@ -7,10 +7,13 @@ import Container from '@material-ui/core/Container';
 import SectionNavbars from '../../components/Sections/SectionNavbars';
 import CloseIcon from '@material-ui/icons/Close';
 import { withRouter } from "react-router-dom";
-import { makeStyles } from '@material-ui/core/styles';
+import {makeStyles, withStyles} from '@material-ui/core/styles';
 import Box from '@material-ui/core/Box';
 import Grid from '@material-ui/core/Grid';
 import './verify.scss';
+import Dialog from '@material-ui/core/Dialog';
+import DialogContent from '@material-ui/core/DialogContent';
+import DialogContentText from '@material-ui/core/DialogContentText';
 
 import confirmImg from '../../assets/img/confirm.jfif';
 import Button from "@material-ui/core/Button/Button";
@@ -20,7 +23,10 @@ import MuiAlert from '@material-ui/lab/Alert';
 import SimpleSnackbar from "../../components/Snackbar/SimpleSnackbar";
 import PrimaryLoader from "../../components/Loader/Loader";
 import Api from "../../services/Api";
-
+import phoneFormat from "../../services/phoneFormatter";
+import {TextValidator, ValidatorForm} from "react-material-ui-form-validator";
+import LocalInfo from "../../services/LocalInfo";
+import IconButton from "@material-ui/core/IconButton/IconButton";
 
 const useStyles = makeStyles(theme => ({
     root: {
@@ -40,6 +46,28 @@ const useStyles = makeStyles(theme => ({
     },
 }));
 
+const ValidationTextField = withStyles({
+    root: {
+        '& input:valid + fieldset': {
+            borderColor: 'green',
+            borderWidth: 2,
+        },
+        '& input:invalid:not:focus + fieldset': {
+            borderColor: 'red',
+            borderWidth: 2,
+        },
+        '& input:invalid:focus + fieldset': {
+            borderColor: '#DAAB59',
+            borderWidth: 2,
+        },
+        '& input:valid:focus + fieldset': {
+            borderLeftWidth: 6,
+            borderColor: '#DAAB59',
+            padding: '4px !important', // override inline-style
+        },
+    },
+})(TextValidator);
+
 function Alert(props) {
     return <MuiAlert elevation={6} variant="filled" {...props} />;
 }
@@ -48,11 +76,17 @@ const VerifySMS = props => {
     const { history } = props;
     const [loading , setLoading] = useState(false);
     const [loadingSMS , setLoadingSMS] = useState(false);
+    const [loadingContact , setLoadingContact] = useState(false);
     const classes = useStyles();
     const [successDialog, setSuccessDialog] = useState(false);
     const [errorDialog, setErrorDialog] = useState(false);
     const [successMsg, setSuccessMsg] = useState('');
     const [errorMsg, setErrorMsg] = useState('');
+    const [open, setOpen] = React.useState(false);
+    const [userContact , setUserContact] = useState('');
+    const [error , setError] = useState('none');
+    const [changeContact , setChangeContact] = useState(false);
+    const PersonalInformationForm = useRef(null);
 
     //Logic for verifying SMS
     const verifySMS = async({otp}) => {
@@ -141,12 +175,97 @@ const VerifySMS = props => {
         //console.log(req);
     };
 
+    const setContactHandler = async () => {
+        setLoadingContact(true);
+
+        const userId = LocalInfo.userId;
+
+        try{
+            const response = await new Api('others').update(
+                {},
+                {},
+                {},
+                `https://core-api-dev.mystoreaid.net/v1/client/users/${userId}/updateUser?phone=${userContact}`
+            );
+
+            setSuccessMsg('Your verification code has been sent.');
+            setSuccessDialog(true);
+
+            console.log(response);
+            localStorage.setItem('userOTP' , response.data.otp);
+            localStorage.setItem('userContact' , userContact);
+
+            setTimeout(function(){
+                setSuccessDialog(false);
+            }, 2000);
+
+        }catch (error){
+            setErrorMsg('Could not send code. Please enter again!');
+            setErrorDialog(true);
+            return false;
+        }
+
+        setLoadingContact(false);
+    };
+
     const handleCloseSnack = (event, reason) => {
         if (reason === 'clickaway') {
             return;
         }
 
         setErrorDialog(false);
+    };
+
+    const handleClickOpen = () => {
+        setOpen(true);
+    };
+
+    const handleClose = () => {
+        setOpen(false);
+    };
+
+    const addDashes = async (event) => {
+        event.persist();
+
+        const value = event.target.value;
+        if(event.target.value.length <= 12){
+            event.target.value = phoneFormat(event.target.value);
+
+            setUserContact(event.target.value);
+
+            setError('none');
+            setErrorMsg('');
+
+            if(value.length === 12){
+                try {
+                    let response = await new Api('others').index(
+                        {},
+                        {},
+                        `https://core-api-dev.mystoreaid.net/v1/client/users/exists?phone=${value}`,
+                        {},
+                    );
+
+                    if(response.data.valid === false){
+                        props.isValid(false);
+                        setError('block');
+                        setErrorMsg('Number exists in database. Use another number');
+                    }else{
+                        setError('none');
+                        setErrorMsg('');
+                        return true;
+                    }
+                } catch (error) {
+                    console.log('Could not check username. Please enter again!');
+                }
+            }
+
+        }
+
+        return false;
+    };
+
+    const handleFormValidation = async(result) => {
+        setChangeContact(await PersonalInformationForm.current.isFormValid());
     };
 
     return (
@@ -171,6 +290,83 @@ const VerifySMS = props => {
                         <CssBaseline />
 
                         <Container maxWidth="sm">
+                            <Dialog
+                                style={{textAlign: 'center'}}
+                                fullWidth={false}
+                                maxWidth="xs"
+                                open={open}
+                                onClose={handleClose}
+                                aria-labelledby="max-width-dialog-title"
+                            >
+                                {/*<DialogTitle id="max-width-dialog-title">
+                                    <IconButton aria-label="close" className={classes.closeButton} onClick={handleClose}>
+                                        <CloseIcon />
+                                    </IconButton>
+                                </DialogTitle>*/}
+
+                                <DialogContent className={`smallModal`}>
+
+
+                                    <DialogContentText style={{fontSize: '18px' , color: '#333333'}}>
+                                        Enter phone number
+                                    </DialogContentText>
+
+                                    <ValidatorForm
+                                        ref={PersonalInformationForm}
+                                        className={classes.root}
+                                        instantValidate
+                                    >
+                                        <Grid item xs={12} >
+                                            <ValidationTextField
+                                                className={classes.margin}
+                                                onChange={addDashes}
+                                                name="phone"
+                                                label="Phone number"
+                                                required
+                                                type="tel"
+                                                validatorListener={handleFormValidation}
+                                                pattern="^(?:\(\d{3}\)|\d{3})[- ]?\d{3}[- ]?\d{4}$"
+                                                variant="outlined"
+                                                id="phone_input"
+                                                validators={['required', 'minStringLength:12' , 'maxStringLength:12']}
+                                                errorMessages={
+                                                    [
+                                                        'Contact is a required field',
+                                                        'The minimum length for contact is 10' ,
+                                                        'The maximum length for contact is 10'
+                                                    ]
+                                                }
+                                                value={userContact}
+                                            />
+                                            <span style={{display: `${error}` , color: 'red' , fontSize: '10px' , textAlign: 'center'}}>{errorMsg}</span>
+                                        </Grid>
+                                    </ValidatorForm>
+
+                                    <Button
+                                        variant="contained"
+                                        style={{'backgroundColor': '#DAAB59' , marginTop: '20px', color: '#333333', padding: '8px 40px', fontSize: '14px', fontWeight: '700'}}
+                                        className={classes.button}
+                                        onClick={setContactHandler}
+                                        disabled={!changeContact}
+                                        //loading={loadingContact}
+                                    >
+                                        {
+                                            loadingContact ?
+                                                <PrimaryLoader
+                                                    style={{width: '30px' , height: '2.5rem'}}
+                                                    color="#FFFFFF"
+                                                    type="Oval"
+                                                    className={`mt-1`}
+                                                    width={25}
+                                                    height={25}
+                                                />
+                                                :
+                                                'Save'
+                                        }
+                                    </Button>
+                                </DialogContent>
+                            </Dialog>
+
                             <Snackbar open={errorDialog} autoHideDuration={6000} onClose={handleCloseSnack}>
                                 <Alert onClose={handleCloseSnack} severity="error">
                                     {errorMsg}
@@ -186,9 +382,9 @@ const VerifySMS = props => {
                             <Typography
                                 variant="h6"
                                 component="p"
-                                style={{fontSize: '14px' , color: '#403c3c94', textAlign: 'center', width: '60%', margin: '0 auto' }}
+                                style={{fontSize: '16px' , color: '#403c3c94', textAlign: 'center', width: '60%', margin: '0 auto' }}
                             >
-                                Please enter the four digit pin sent to user's phone
+                                Please enter the four digit pin sent to {localStorage.getItem('userContact')}
                             </Typography>
                             <div
                                 style={{display: 'inline-flex'}}
@@ -205,8 +401,14 @@ const VerifySMS = props => {
                                 />
                             </div>
 
+                            <Typography
+                                variant="h6"
+                                component="p"
+                                style={{fontSize: '14px' , color: '#403c3c94', textAlign: 'center', width: '60%', margin: '0 auto' }}
+                            >
+                                {successDialog}
+                                </Typography>
                             <br/>
-                            <p>{successDialog}</p>
                             <Button
                                 variant="contained"
                                 style={{'backgroundColor': '#DAAB59' , color: '#333333', padding: '8px 40px', fontSize: '14px', fontWeight: '700'}}
@@ -228,10 +430,18 @@ const VerifySMS = props => {
                                         'Finish'
                                 }
                             </Button>
+                            <Typography
+                                variant="h6"
+                                component="p"
+                                className={`mt-3`}
+                                style={{fontSize: '16px' , color: '#403c3c94', textAlign: 'center', width: '100%', margin: '0 auto' }}
+                            >
+                                Wrong number? <span onClick={handleClickOpen} style={{color: '#DAAB59', textDecoration: 'underline', textDecorationColor: '#DAAB59', fontStyle: 'italic'}}>Change phone number</span>
+                            </Typography>
                             <Grid container spacing={1} alignItems="center" className={`my-1`}>
                                 <Grid
                                     item xs={12}
-                                    style={{margin: '15% auto 5px'}}
+                                    style={{margin: '7% auto 5px'}}
                                 >
                                     <Typography
                                         component="span"

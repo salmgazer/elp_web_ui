@@ -296,12 +296,10 @@ export default class SaleService {
 
         const day = new Date(date);
 
-        console.log(day)
         switch (duration) {
             case 'day':
                 return sales.filter(sale => isSameDay(new Date(sale.createdAt) , day));
             case 'week':
-                //console.log(isSameWeek(sale.salesDate, day))
                 return sales.filter(sale => isSameWeek(new Date(sale.createdAt), day));
             case 'month':
                 return sales.filter(sale => isSameMonth(new Date(sale.createdAt), day));
