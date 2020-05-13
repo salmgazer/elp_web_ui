@@ -409,6 +409,7 @@ const Dashboard = props => {
                                 component="p"
                                 variant="h6"
                                 style={{fontWeight: '700', fontSize: '0.9rem'}}
+                                onClick={() => history.push(paths.admin)}
                             >
                                 Go to Admin
                             </Typography>
@@ -428,6 +429,7 @@ const Dashboard = props => {
                                 component="p"
                                 variant="h6"
                                 style={{fontWeight: '700', fontSize: '0.9rem'}}
+                                onClick={() => history.push(paths.stock)}
                             >
                                 View stock
                             </Typography>
@@ -437,14 +439,14 @@ const Dashboard = props => {
                 </BoxDefault>
 
                 <Box
-                    boxShadow={1}
                     bgcolor="background.paper"
                     p={1}
-                    style={{ height: '4.5rem', position: "fixed", bottom:"0", width:"100%" }}
+                    className={`shadow1`}
+                    style={{ height: '4.0rem', position: "fixed", bottom:"0", width:"100%" }}
                 >
                     <Button
                         variant="contained"
-                        style={{'width': '70%','backgroundColor': '#DAAB59' , color: '#403C3C', margin: '4px auto',padding: '8px 5px', fontSize: '17px', fontWeight: '700'}}
+                        style={{'width': '70%','backgroundColor': '#DAAB59' , color: '#403C3C', margin: '4px auto',padding: '5px 5px', fontSize: '17px', fontWeight: '700'}}
                         className={`${classes.button} capitalization`}
                         onClick={() => LocalInfo.branches.length > 1 ? history.push(paths.store_summary) : history.push(paths.sell)}
                     >

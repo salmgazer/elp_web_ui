@@ -92,8 +92,8 @@ const StockProductSingle = props => {
             </div>
 
             <div
-                className={`row shadow1 pb-3`}
-                style={{'borderTopLeftRadius': '15px', 'borderTopRightRadius': '15px', marginBottom: '60px', position: 'fixed' , bottom: 0, right: 0, left: 0, minHeight: '250px'}}
+                className={`row shadow1 pb-3 pt-1`}
+                style={{'borderTopLeftRadius': '15px', paddingTop: '5px', 'borderTopRightRadius': '15px', marginBottom: '60px', bottom: 0, right: 0, left: 0, minHeight: '250px'}}
             >
                 {props.companyBranches > 1 ?
                     <Typography
@@ -146,7 +146,7 @@ const StockProductSingle = props => {
                         </div>
                     </div>
                     :
-                    <div className={`rounded bordered mb-3 mx-3 px-3 py-3`} style={{display: 'flex', marginTop: '50px'}}>
+                    <div className={`rounded bordered mb-3 mx-3 px-3 py-3`} style={{display: 'flex', marginTop: '20px'}}>
                         <div className={`w-50 p-1`}>
                             <Typography
                                 component="h6"

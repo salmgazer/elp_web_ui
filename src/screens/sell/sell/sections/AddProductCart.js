@@ -424,7 +424,7 @@ const AddProductCart = props => {
                 </div>
             </div>
 
-            <Box
+            {/*<Box
                 className="shadow1"
                 bgcolor="background.paper"
                 p={1}
@@ -443,7 +443,7 @@ const AddProductCart = props => {
                 >
                     View cart
                 </Button>
-            </Box>
+            </Box>*/}
         </div>
     );
 };

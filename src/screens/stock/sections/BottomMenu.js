@@ -16,10 +16,20 @@ const BottomMenu = props => {
     };
 
     return (
-        <Grid container spacing={1} className={`py-1`}>
-            <Grid
-                item xs={3}
+        <Grid
+            container
+            spacing={1}
+            className={`py-1`}
+            style={{
+                display: 'flex',
+                justifyContent: 'space-between'
+            }}
+        >
+            <div
                 className={`text-center icon-color`}
+                style={{
+                    flex: 1,
+                }}
             >
                 <AddShoppingCartOutlinedIcon
                     style={{fontSize: '25px'}}
@@ -33,11 +43,11 @@ const BottomMenu = props => {
                 >
                     Add stock
                 </Typography>
-            </Grid>
+            </div>
 
             {LocalInfo.branches.length > 1 ?
-                <Grid
-                    item xs={3}
+                <div
+                    style={{flex: 1}}
                     onClick={setView.bind(this, 6)}
                     className={`text-center icon-color`}
                 >
@@ -52,10 +62,10 @@ const BottomMenu = props => {
                     >
                         Move stock
                     </Typography>
-                </Grid>
-            : ''}
-            <Grid
-                item xs={2}
+                </div>
+                : ''}
+            <div
+                style={{flex: 1}}
                 className={`text-center icon-color`}
                 onClick={() => history.push(paths.purchase_history)}
             >
@@ -70,9 +80,9 @@ const BottomMenu = props => {
                 >
                     History
                 </Typography>
-            </Grid>
-            <Grid
-                item xs={4}
+            </div>
+            <div
+                style={{flex: 1}}
                 className={`text-center icon-color`}
             >
                 <CreateOutlinedIcon
@@ -86,9 +96,10 @@ const BottomMenu = props => {
                 >
                     Change price
                 </Typography>
-            </Grid>
+            </div>
         </Grid>
     );
 };
 
 export default withRouter(BottomMenu);
+

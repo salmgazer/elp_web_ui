@@ -33,17 +33,24 @@ const PriceInput = props => {
     const classes = useStyles();
     const inputName = props.inputName;
     const [quantity , setQuantity] = useState((parseFloat(props.initialValue) || ''));
-
+/*
+* @todo refine price input
+* */
     const setValueHandler = (event) => {
         event.persist();
-        if(isNaN(event.target.value) || (event.target.value).length <= 0)
-        {
-            setQuantity();
-            return
-        }
 
-        setQuantity((parseFloat(event.target.value)).toFixed(2));
-        props.getValue(inputName , (parseFloat(event.target.value)).toFixed(2));
+        if(isNaN(parseFloat(event.target.value))){
+            //setQuantity(quantity);
+            return false;
+        }
+        /*if(isNaN(event.target.value) || (event.target.value).length <= 0)
+        {
+            setQuantity(quantity);
+            return
+        }*/
+
+        setQuantity(event.target.value);
+        props.getValue(inputName , event.target.value);
     };
 
     return(

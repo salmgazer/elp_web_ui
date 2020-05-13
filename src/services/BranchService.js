@@ -54,17 +54,14 @@ export default class BranchService {
     * @todo barcode search...
     * */
     async searchBarcodeProduct(barcode){
-        console.log(barcode)
-        const branchProducts = await this.getProducts() || [];
-        console.log(branchProducts);
-        //(await new BranchProductService(product).product()).barCode
-        //const products = branchProducts.filter((product) => (product.id === barcode));
-        const products = branchProducts.map(async (product) => {
-            return await BranchService.filterProduct('barCode' , barcode , product)
+        const products = await new ModelAction('Product').findByColumnNotObserve({
+            name: 'barCode',
+            value: barcode,
+            fxn: 'eq'
         });
 
-        console.log(products)
-        //return products;
+        return  database.collections.get('branches_products').query(Q.where('productId',
+            Q.oneOf(products.map(p => p.id))), Q.where('branchId', LocalInfo.branchId)).fetch();
     }
 
     /*

@@ -322,7 +322,7 @@ const StockMainPage = props => {
                             <StockSearchMode searchProduct={props.searchProduct} branchProducts={branchProducts} addProductStockView={props.addProductStockView} stock={props.stock}/>
                         </TabPanel>
                         <TabPanel value={value} index={1}>
-                            <StockBarcodeMode product={props.product} setView={props.setView} searchBarcode={props.searchBarcode}/>
+                            <StockBarcodeMode product={props.product} setView={props.setView} searchBarcode={props.searchBarcode} addProductStockView={props.addProductStockView}/>
                         </TabPanel>
                     </SwipeableViews>
 

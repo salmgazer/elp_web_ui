@@ -162,6 +162,7 @@ const AddNewStockPage = props => {
     const [moneySourceDialog, setMoneySourceDialog] = useState(false);
     const [sellingPriceDialog, setSellingPriceDialog] = useState(false);
     const [loading , setLoading] = useState(true);
+    const [newLoading , setNewLoading] = useState(true);
     const [successDialog, setSuccessDialog] = useState(false);
     const [errorDialog, setErrorDialog] = useState(false);
     const [errorMsg, setErrorMsg] = useState('');
@@ -341,7 +342,7 @@ const AddNewStockPage = props => {
 
     const changePriceFieldsHandler = (event) => {
         const {...oldFormFields} = changePriceFields;
-
+        setNewLoading(false)
         /*if(event.target.name === 'costPrice'){
             setTotalPrice(formFields.quantity * event.target.value);
         }*/
@@ -628,18 +629,16 @@ const AddNewStockPage = props => {
                 footer={
                     <div>
                         <Button
-                            variant="contained"
-                            style={{'backgroundColor': '#FFFFFF', border: '1px solid #DAAB59', color: '#DAAB59', padding: '5px 50px'}}
+                            style={{'backgroundColor': '#FFFFFF', border: '1px solid #DAAB59', color: '#DAAB59', padding: '5px 40px' , marginRight: '5px'}}
                             onClick={changeSellingPriceModalState.bind(this)}
-                            disabled={loading}
                         >
                             Cancel
                         </Button>
                         <Button
                             variant="contained"
-                            style={{'backgroundColor': '#DAAB59' , color: '#333333', padding: '5px 50px'}}
+                            style={{'backgroundColor': '#DAAB59' , color: '#333333', padding: '5px 40px'}}
                             onClick={saveChangePrice}
-                            disabled={loading}
+                            disabled={newLoading}
                         >
                             Save
                         </Button>
@@ -654,7 +653,7 @@ const AddNewStockPage = props => {
                             style={{fontWeight: '300', fontSize: '17px' , margin: '0px 0px', padding: '4px'}}
                             className={`text-center mx-auto`}
                         >
-                            Current cost price: GHC {costPrice}
+                            Current cost price: GHC {formFields.costPrice || costPrice}
                         </Typography>
 
                         <label className={`text-dark py-2 text-left`} style={{fontSize: '18px'}}> New cost price</label>

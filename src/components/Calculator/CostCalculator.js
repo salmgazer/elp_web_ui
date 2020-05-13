@@ -15,7 +15,7 @@ const CostCalculator = (props) => {
     const setInputValue = (name , value) => {
         const {...oldFormFields} = formFields;
 
-        oldFormFields[name] = value;
+        oldFormFields[name] = parseInt(value);
 
         setFormFields(oldFormFields);
     };
@@ -69,9 +69,9 @@ const CostCalculator = (props) => {
                 title={[<div key={props.product.id} ><h5 className={`font-weight-bold text-dark my-0`}>Cost Price Calculator</h5><span style={{fontSize: '16px', fontWeight: '400'}}>{props.product.name}</span></div>]}
                 states={props.calculatorDialog}
             >
-                <PriceInput inputName="quantityRoll" getValue={setInputValue.bind(this)} label={`Quantity on a roll/box`}/>
-                <PriceInput inputName="quantityPack" getValue={setInputValue.bind(this)} label={`How many boxes/pack did you buy`}/>
-                <PriceInput inputName="totalCost" getValue={setInputValue.bind(this)} label={`What was the total cost of all the items?`}/>
+                <PriceInput inputName="quantityRoll" initialValue={formFields.quantityRoll} getValue={setInputValue.bind(this)} label={`Quantity on a roll/box`}/>
+                <PriceInput inputName="quantityPack" initialValue={formFields.quantityPack} getValue={setInputValue.bind(this)} label={`How many boxes/pack did you buy`}/>
+                <PriceInput inputName="totalCost" initialValue={formFields.totalCost} getValue={setInputValue.bind(this)} label={`What was the total cost of all the items?`}/>
             </Modal>
         </div>
     )

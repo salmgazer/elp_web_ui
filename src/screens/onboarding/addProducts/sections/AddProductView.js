@@ -45,6 +45,7 @@ const AddProductView = props => {
     const productDetails = new ProductServiceHandler(product);
 
     const saveStock = (event) => {
+        console.log(formFields)
         setLoading(true);
         if((formFields.costPrice !== "" || parseFloat(formFields.costPrice !== 0)) && (formFields.sellingPrice !== "" || parseFloat(formFields.sellingPrice !== 0))){
             if(parseFloat(formFields.costPrice) >= parseFloat(formFields.sellingPrice)){
@@ -192,7 +193,7 @@ const AddProductView = props => {
                 </Typography>
 
                 <div className={`rounded bordered mb-3 mx-3 px-3 py-3`}>
-                    <QuantityInput startValue={1} label={`Quantity counted`} inputName="quantity" getValue={setInputValue.bind(this)}/>
+                    <QuantityInput startValue={0} label={`Quantity counted`} inputName="quantity" getValue={setInputValue.bind(this)}/>
 
                     <CostInput label={`Cost price`} inputName="costPrice" initialValue={formFields.costPrice || ''} getValue={setInputValue.bind(this)} >
                         <FontAwesomeIcon onClick={openCalculator.bind(this)} icon={faCalculator} fixedWidth />
