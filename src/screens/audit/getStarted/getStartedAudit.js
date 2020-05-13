@@ -95,4 +95,4 @@ const GetStartedAudit = props => {
     );
 };
 
-export default GetStartedAudit;
+export default withRouter(GetStartedAudit);

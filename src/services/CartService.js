@@ -119,6 +119,7 @@ export default class CartService {
                     productId: cartEntry.productId,
                     branchProductId: cartEntry.branchProductId,
                     sellingPrice: cartEntry.sellingPrice,
+                    entryDate: cartEntry.entryDate,
                     costPrice: cartEntry.costPrice,
                     discount: cartEntry.discount,
                     quantity: parseFloat(quantity),
@@ -146,6 +147,7 @@ export default class CartService {
             Q.where('cartId' , cartId),
             Q.where('productId' , data.productId)
         ).fetch();
+        console.log(LocalInfo.workingDate);
 
         if(product.length > 0){
             console.log(product);
@@ -158,6 +160,7 @@ export default class CartService {
                     productId: product.productId,
                     branchProductId: product.branchProductId,
                     sellingPrice: data.sellingPrice,
+                    entryDate: LocalInfo.workingDate,
                     costPrice: data.costPrice,
                     discount: parseFloat(data.discount),
                     quantity: data.quantity + product.quantity,

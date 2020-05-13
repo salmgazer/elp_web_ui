@@ -105,6 +105,7 @@ export default class SaleService {
                 quantity: entry.quantity,
                 saleId: sale.id,
                 discount: entry.discount,
+                entryDate: entry.entryDate,
                 costPrice: entry.costPrice,
                 branchId: entry.branchId,
                 branchProductId: entry.branchProductId,
@@ -299,14 +300,14 @@ export default class SaleService {
         console.log(day)
         switch (duration) {
             case 'day':
-                return sales.filter(sale => isSameDay(new Date(sale.createdAt) , day));
+                return sales.filter(sale => isSameDay(new Date(sale.entryDate) , day));
             case 'week':
                 //console.log(isSameWeek(sale.salesDate, day))
-                return sales.filter(sale => isSameWeek(new Date(sale.createdAt), day));
+                return sales.filter(sale => isSameWeek(new Date(sale.entryDate), day));
             case 'month':
-                return sales.filter(sale => isSameMonth(new Date(sale.createdAt), day));
+                return sales.filter(sale => isSameMonth(new Date(sale.entryDate), day));
             case 'year':
-                return sales.filter(sale => isSameYear(new Date(sale.createdAt), day));
+                return sales.filter(sale => isSameYear(new Date(sale.entryDate), day));
         }
     }
 
