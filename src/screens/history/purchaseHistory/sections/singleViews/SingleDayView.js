@@ -10,7 +10,6 @@ import Tab from "@material-ui/core/Tab/Tab";
 import SwipeableViews from "react-swipeable-views";
 import TabPanel from '../../../../../components/Tabs/TabPanel';
 import Dates from '../../../../../components/Date/Date';
-import Typography from '@material-ui/core/Typography';
 import Button from "@material-ui/core/Button/Button";
 import DeleteIcon from '@material-ui/icons/Delete';
 import QuantityInput from "../../../../Components/Input/QuantityInput";
@@ -199,7 +198,9 @@ const SingleDayView = props => {
                     >
                         <TabPanel value={value} index={0} >
 
-                            <Dates label="Pick new date" style={{margin: '40px 40px 0px 40px', border: '1px solid #DAAB59', backgroundColor: '#FFFFFF'}} />
+                            <label className={`text-dark py-2 text-center`} style={{fontSize: '18px', fontWeight: '600', paddingTop: '100px'}}> Pick new date </label>
+
+                            <Dates style={{margin: '5px 40px 0px 40px', border: '1px solid #DAAB59', backgroundColor: '#FFFFFF', width: '150px'}} />
                             
                         </TabPanel>
 
