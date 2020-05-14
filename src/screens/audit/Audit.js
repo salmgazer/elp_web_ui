@@ -15,15 +15,57 @@ import AuditEntries from "../../models/auditEntry/AuditEntries";
 import {confirmAlert} from "react-confirm-alert";
 import ModelAction from "../../services/ModelAction";
 import Audits from "../../models/audit/Audit";
+import AuditHistory from './sections/AuditHistory';
+import AuditHistoryDetails from './sections/AuditHistoryDetails';
 
 class Audit extends Component {
     state = {
         isDrawerShow: false,
-        activeStep: 0,
+        activeStep: 3,
         spCount: 0,
         branchProducts: [],
         currentProduct: 0,
         auditEntries: [],
+        datesList: [
+            {
+                'date_id': '1',
+                'date': '20th March 2020',
+                'time': '2:00pm',
+                'status': 'Unbalanced'
+            },
+            {
+                'date_id': '2',
+                'date': '20th March 2020',
+                'time': '4:00pm',
+                'status': 'Balanced'
+            },
+        ],
+        productList: [
+            {
+                'prod_id': '1',
+                'name': 'Milo Sachet 50g',
+                'image': 'no_image.png',
+                'app': '50',
+                'count': '40',
+                'difference': '10'
+            },
+            {
+                'prod_id': '2',
+                'name': 'Ena pa mackrel',
+                'image': 'no_image.png',
+                'app': '50',
+                'count': '50',
+                'difference': '0'
+            },
+            {
+                'prod_id': '3',
+                'name': 'Gino tomato paste',
+                'image': 'no_image.png',
+                'app': '50',
+                'count': '60',
+                'difference': '-10'
+            }
+        ]
     };
 
     async componentDidMount() {
@@ -62,6 +104,10 @@ class Audit extends Component {
                 return <AddAuditProductView addToAudit={this.addProductToCartHandler.bind(this)} product={this.state.currentProduct} setView={this.setStepContentView.bind(this)} branchProducts={this.state.branchProducts}/>;
             case 2:
                 return <AuditedProductsView balanceAllHandler={this.balanceAllHandler.bind(this)} productAdd={this.showAddView.bind(this)} deleteProductHandler={this.deleteProduct.bind(this)} auditEntries={this.state.auditEntries} setView={this.setStepContentView.bind(this)} />;
+            case 3: 
+                return <AuditHistory setView={this.setStepContentView.bind(this)} auditEntries={this.state.auditEntries}/>
+            case 4:
+                return <AuditHistoryDetails setView={this.setStepContentView.bind(this)} products={this.state.productList} deleteProduct={this.deleteProduct.bind(this)} />
             default:
                 return 'Complete';
         }

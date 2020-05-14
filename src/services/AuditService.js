@@ -7,6 +7,7 @@ import * as Q from "@nozbe/watermelondb/QueryDescription";
 import AuditEntries from "../models/auditEntry/AuditEntries";
 import BranchStockService from "./BranchStockService";
 import format from "date-fns/format";
+import isSameDay from "date-fns/isSameDay";
 import SaleService from "./SaleService";
 
 export default class AuditService {
@@ -183,5 +184,31 @@ export default class AuditService {
             return false;
         }
 
+    }
+
+    static async getAuditHistory(date){
+        const auditEntries = await new ModelAction('AuditEntries').findByColumnNotObserve({
+            name: 'branchId',
+            value: LocalInfo.branchId,
+            fxn: 'eq'
+        });
+
+        const day = new Date(date);
+
+        console.log(day)
+        console.log(auditEntries)
+            
+        return auditEntries.filter(audit => isSameDay(new Date(audit.createdAt) , day));
+        
+    }
+
+    async getAuditDetails(date) {
+        const audit = await AuditService.getAuditHistory(date);
+
+        console.log(audit);
+
+        return {
+            audits: audit
+        }
     }
 }

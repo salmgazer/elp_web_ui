@@ -1,5 +1,6 @@
 import React, {useState} from 'react';
 import Tabs from "@material-ui/core/Tabs/Tabs";
+import MoreVertIcon from '@material-ui/icons/MoreVert';
 import Tab from "@material-ui/core/Tab/Tab";
 import AppBar from "@material-ui/core/AppBar/AppBar";
 import TabPanel from "../../../components/Tabs/TabPanel";
@@ -13,6 +14,14 @@ import SecondaryButton from "../../../components/Buttons/SecondaryButton";
 import AuditSearchMode from "./searchMode/AuditSearchMode";
 import AuditBarcodeMode from "./barcodeMode/AuditBarcodeMode";
 import Drawer from "../../../components/Drawer/Drawer";
+import BottomDrawer from "../../../components/Drawer/BottomDrawer/BottomDrawer";
+import ListItem from "@material-ui/core/ListItem/ListItem";
+import ListItemIcon from "@material-ui/core/ListItemIcon/ListItemIcon";
+import ListItemText from "@material-ui/core/ListItemText/ListItemText";
+import HistoryOutlinedIcon from '@material-ui/icons/HistoryOutlined';
+import Divider from '@material-ui/core/Divider';
+import CloseOutlinedIcon from '@material-ui/icons/CloseOutlined';
+
 
 const MainAuditView = props => {
     const { history } = props;
@@ -21,6 +30,7 @@ const MainAuditView = props => {
     const spCount = props.spCount;
     const [value , setValue] = useState(0);
     const [isDrawerShow , setIsDrawerShow] = useState(false);
+    const [isShowDrawer , setIsShowDrawer] = useState(false);
 
     const a11yProps = (index) => {
         return {
@@ -37,6 +47,10 @@ const MainAuditView = props => {
         setValue(index);
     };
 
+    const setView = (view) => {
+        props.setView(view);
+    };
+
     return (
         <div
         >
@@ -49,6 +63,13 @@ const MainAuditView = props => {
                         />
                     </div>
                 }
+                icons={
+                    <div onClick={() => setIsShowDrawer(!isShowDrawer)}>
+                        <MoreVertIcon
+                            style={{fontSize: '2rem'}}
+                        />
+                    </div>
+                }
             />
 
             <div
@@ -56,6 +77,31 @@ const MainAuditView = props => {
                 onKeyDown={() => setIsDrawerShow(false)}
             >
                 <Drawer isShow={isDrawerShow} />
+            </div>
+
+            <div
+                onClick={() => setIsShowDrawer(false)}
+                onKeyDown={() => setIsShowDrawer(false)}
+            >
+                <BottomDrawer isShow={isShowDrawer}>
+                    <ListItem
+                        button
+                        key={8}
+                        onClick={setView.bind(this , 3)}
+                    >
+                        <ListItemIcon><HistoryOutlinedIcon/></ListItemIcon>
+                        <ListItemText primary="Audit history" />
+                    </ListItem>
+                    <Divider/>
+                    <ListItem
+                        button
+                        key={10}
+                        onClick={() => setIsShowDrawer(false)}
+                    >
+                        <ListItemIcon><CloseOutlinedIcon/></ListItemIcon>
+                        <ListItemText primary="Cancel" />
+                    </ListItem>
+                </BottomDrawer>
             </div>
 
             <div

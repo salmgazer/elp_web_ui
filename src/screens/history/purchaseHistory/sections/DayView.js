@@ -14,7 +14,6 @@ import SingleDayView from './singleViews/SingleDayView';
 import ProductDay from './singleViews/ProductDay';
 import CardsSection from '../../../../components/Sections/CardsSection';
 import PurchaseService from "../../../../services/PurchaseService";
-import BranchStockService from "../../../../services/BranchStockService";
 
 const useStyles = makeStyles(theme => ({
     root: {
@@ -34,7 +33,7 @@ const DayView = props => {
     const handleDateChange = date => {
         setSelectedDate(date);
         getPurchaseDetails(date);
-      };
+    };
 
     useEffect(() => {
     // You need to restrict it at some point

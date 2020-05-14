@@ -85,9 +85,6 @@ const SingleDayView = props => {
         const newProduct = await props.saleEntry.product.fetch();
         setProduct(newProduct);
         setImage(new ProductServiceHandler(product).getProductImage());
-        // const entries = await sale.sale_entries.fetch(); //await new SaleService().getSaleProductsById(invoice.id);
-
-        // setSaleEntries(entries);
 
         setName((newProduct.name).length > 20 ? (newProduct.name).slice(0 , 20) + '...' : newProduct.name);
 
