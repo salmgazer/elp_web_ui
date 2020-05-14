@@ -320,7 +320,6 @@ export default class SaleService {
         let sellingPrice = 0;
         let quantity = 0;
 
-        console.log(sale)
         for (let step = 0; step < sale.length; step++) {
             costPrice += parseFloat(await SaleService.getSaleEntryCostPriceById(sale[step].saleId));
         }
@@ -361,7 +360,6 @@ export default class SaleService {
             weekFormatSales.push({...await SaleService.getSaleFormatAsync(value) , day: key})
         }
 
-        console.log(weekFormatSales)
         return weekFormatSales;
     }
 
@@ -399,14 +397,6 @@ export default class SaleService {
                 sale = await SaleService.weekSalesFormat(sale);
         }
 
-        console.log({
-            sales: sale,
-            costPrice,
-            profit,
-            credit,
-            sellingPrice,
-            quantity
-        })
         return {
             sales: sale,
             costPrice,
