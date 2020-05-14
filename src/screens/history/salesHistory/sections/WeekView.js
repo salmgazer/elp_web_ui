@@ -64,7 +64,7 @@ const WeekView = props => {
 
 
             <Grid container spacing={1}>
-                <Grid item xs={4} >              
+                <Grid item xs={4} >
                     <Typography
                         style={{fontSize: '14px', paddingTop: '20px'}}
                         className={`text-center text-dark`}
@@ -113,7 +113,7 @@ const WeekView = props => {
                                     style={{fontSize: '16px'}}
                                     className={`text-center text-dark`}
                                 >
-                                    No sales made 
+                                    No sales made
                                 </Typography>
                             </Grid>
                         </Grid>

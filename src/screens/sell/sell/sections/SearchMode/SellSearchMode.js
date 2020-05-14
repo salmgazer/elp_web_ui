@@ -13,6 +13,7 @@ import BranchProductService from "../../../../../services/BranchProductService";
 import SingleProductBox from "../../../../../components/Product/SingleProductBox";
 import Button from "@material-ui/core/Button/Button";
 import SimpleSnackbar from "../../../../../components/Snackbar/SimpleSnackbar";
+import SingleProductMainCard from "../singleProductMainCard";
 
 const useStyles = makeStyles(theme => ({
     root: {
@@ -79,7 +80,7 @@ const SellSearchMode = props => {
         const formFields = {
             quantity: 1,
             sellingPrice: sellingPrice,
-            costPrice: await new BranchProductService(branchProduct).getCostPrice(),
+            costPrice: parseFloat(await new BranchProductService(branchProduct).getCostPrice()),
             productId: productId,
             branchProductId: branchProductId,
             discount: 0,
@@ -203,7 +204,9 @@ const SellSearchMode = props => {
                         :
                         branchProducts.map((branchProduct) =>
                             <Grid key={branchProduct.productId} item xs={4} style={{padding: '4px 8px' , position: 'relative'}} className={`mx-0 px-1`}>
-                                { new BranchProductService(branchProduct).isProductSellable() === false ?
+                                <SingleProductMainCard branchProduct={branchProduct} posFunc={addProductOneHandler} negFunc={removeProductHandler} />
+
+                                {/*{ new BranchProductService(branchProduct).isProductSellable() === false ?
                                     <div
                                         onClick={removeProductHandler.bind(this , branchProduct.productId)}
                                     >
@@ -236,7 +239,7 @@ const SellSearchMode = props => {
                                             }}
                                         />
                                     </div>
-                                }
+                                }*/}
                                 <div
                                     onClick={
                                         new BranchProductService(branchProduct).isProductSellable() === false ?

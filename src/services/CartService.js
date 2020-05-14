@@ -24,7 +24,9 @@ export default class CartService {
                     cart.createdBy = LocalInfo.userId;
                     cart._raw.id = uuid()
                 });
-
+                /*
+                * @todo why 2 carts are created
+                * */
                 await database.adapter.setLocal("cartId" , await newCart.id);
             });
         }
@@ -119,6 +121,7 @@ export default class CartService {
                     productId: cartEntry.productId,
                     branchProductId: cartEntry.branchProductId,
                     sellingPrice: cartEntry.sellingPrice,
+                    entryDate: cartEntry.entryDate,
                     costPrice: cartEntry.costPrice,
                     discount: cartEntry.discount,
                     quantity: parseFloat(quantity),
@@ -146,9 +149,9 @@ export default class CartService {
             Q.where('cartId' , cartId),
             Q.where('productId' , data.productId)
         ).fetch();
+        console.log(LocalInfo.workingDate);
 
         if(product.length > 0){
-            console.log(product);
             product = product[0];
 
             try {
@@ -158,6 +161,7 @@ export default class CartService {
                     productId: product.productId,
                     branchProductId: product.branchProductId,
                     sellingPrice: data.sellingPrice,
+                    entryDate: LocalInfo.workingDate,
                     costPrice: data.costPrice,
                     discount: parseFloat(data.discount),
                     quantity: data.quantity + product.quantity,
@@ -175,6 +179,7 @@ export default class CartService {
             productId: data.productId,
             branchProductId: data.branchProductId,
             sellingPrice: data.sellingPrice,
+            entryDate: LocalInfo.workingDate,
             costPrice: data.costPrice,
             discount: parseFloat(data.discount),
             quantity: data.quantity,

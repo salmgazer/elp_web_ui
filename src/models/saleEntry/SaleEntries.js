@@ -23,6 +23,7 @@ export default class SaleEntries extends Model {
     @field('branchProductId') branchProductId;
     @field('productId') productId;
     @field('saleId') saleId;
+    @field('entryDate') entryDate;
     @field('sellingPrice') sellingPrice;
     @field('costPrice') costPrice;
     @field('discount') discount;

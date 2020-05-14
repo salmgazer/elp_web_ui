@@ -262,26 +262,26 @@ const SingleDayView = props => {
                     </SwipeableViews>
 
                     <Grid container spacing={1} style={{marginTop: '50px'}}>
-                            <Grid item xs={6}>
-                                <Button
-                                    variant="outlined"
-                                    style={{border: '1px solid #DAAB59', color: '#DAAB59', padding: '5px 30px', textTransform: 'none', fontSize:'15px'}}
-                                    onClick={closeDialogHandler.bind(this)}
-                                >
-                                    Cancel
-                                </Button>
-                            </Grid>
-
-                            <Grid item xs={6}>
-                                <Button
-                                    variant="contained"
-                                    style={{'backgroundColor': '#DAAB59' , color: '#333333', padding: '5px 15px', textTransform: 'none', fontSize:'15px'}}
-                                    onClick={closeDialogHandler.bind(this)}
-                                >
-                                    Save changes
-                                </Button>
-                            </Grid>
+                        <Grid item xs={6}>
+                            <Button
+                                variant="outlined"
+                                style={{border: '1px solid #DAAB59', color: '#DAAB59', padding: '5px 30px', textTransform: 'none', fontSize:'15px'}}
+                                onClick={closeDialogHandler.bind(this)}
+                            >
+                                Cancel
+                            </Button>
                         </Grid>
+
+                        <Grid item xs={6}>
+                            <Button
+                                variant="contained"
+                                style={{'backgroundColor': '#DAAB59' , color: '#333333', padding: '5px 15px', textTransform: 'none', fontSize:'15px'}}
+                                onClick={closeDialogHandler.bind(this)}
+                            >
+                                Save changes
+                            </Button>
+                        </Grid>
+                    </Grid>
 
                 </div>
             </MainDialog>

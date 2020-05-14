@@ -13,6 +13,7 @@ export default class BranchProduct extends Model {
     branches_products_stocks: { type: 'has_many' , foreignKey: 'branchProductId' },
     branches_products_stock_movements: { type: 'has_many' , foreignKey: 'branchProductId' },
     saleEntries: { type: 'has_many' , foreignKey: 'branchProductId' },
+    cartEntries: { type: 'has_many' , foreignKey: 'branchProductId' },
     branches_products_stocks_histories: { type: 'has_many' , foreignKey: 'branchProductId' }
   };
 
@@ -26,6 +27,7 @@ export default class BranchProduct extends Model {
   @field('sellingPrice') sellingPrice;
   @children('branches_products_stocks') stock;
   @children('saleEntries') sale_entries;
+  @children('cartEntries') cart_entries;
   @children('branches_products_stock_movements') stock_movements;
   @children('branches_products_stocks_histories') history;
   @relation('products', 'productId') product;
@@ -45,6 +47,12 @@ export default class BranchProduct extends Model {
 
   saleEntries() {
     return this.collections.get('saleEntries')
+        .query(Q.where('branchProductId' , this.id)
+        ).fetch();
+  }
+
+  cartEntries() {
+    return this.collections.get('cartEntries')
         .query(Q.where('branchProductId' , this.id)
         ).fetch();
   }

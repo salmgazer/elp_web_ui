@@ -34,11 +34,14 @@ export default class SaleService {
             await database.adapter.setLocal("saleId" , sale.id);
 
             try {
-                SaleService.importCartToSales(cartId , sale);
-                SaleService.makePayment(sale , data);
+                await SaleService.importCartToSales(cartId , sale);
+                await SaleService.makePayment(sale , data);
+                await new ModelAction('Carts').destroy(cartId);
+
                 await database.adapter.removeLocal("activeCustomer");
                 await database.adapter.removeLocal("cartId");
                 localStorage.removeItem("cartId");
+
             }catch (e) {
                 return false
             }
@@ -105,12 +108,14 @@ export default class SaleService {
                 quantity: entry.quantity,
                 saleId: sale.id,
                 discount: entry.discount,
+                entryDate: entry.entryDate,
                 costPrice: entry.costPrice,
                 branchId: entry.branchId,
                 branchProductId: entry.branchProductId,
             };
 
             await new ModelAction('SaleEntry').post(entryColumns);
+            await new ModelAction('CartEntry').destroy(entry.id);
         });
     }
 
@@ -298,19 +303,71 @@ export default class SaleService {
 
         switch (duration) {
             case 'day':
-                return sales.filter(sale => isSameDay(new Date(sale.createdAt) , day));
+                return sales.filter(sale => isSameDay(new Date(sale.entryDate) , day));
             case 'week':
-                return sales.filter(sale => isSameWeek(new Date(sale.createdAt), day));
+                return sales.filter(sale => isSameWeek(new Date(sale.entryDate), day));
             case 'month':
-                return sales.filter(sale => isSameMonth(new Date(sale.createdAt), day));
+                return sales.filter(sale => isSameMonth(new Date(sale.entryDate), day));
             case 'year':
-                return sales.filter(sale => isSameYear(new Date(sale.createdAt), day));
+                return sales.filter(sale => isSameYear(new Date(sale.entryDate), day));
         }
     }
 
+    static async getSaleFormatAsync(sale){
+        let costPrice = 0;
+        let profit = 0;
+        let credit = 0;
+        let sellingPrice = 0;
+        let quantity = 0;
+
+        console.log(sale)
+        for (let step = 0; step < sale.length; step++) {
+            costPrice += parseFloat(await SaleService.getSaleEntryCostPriceById(sale[step].saleId));
+        }
+
+        for (let step = 0; step < sale.length; step++) {
+            profit += parseFloat(await SaleService.getSaleEntryProfitById(sale[step].saleId));
+        }
+
+        for (let step = 0; step < sale.length; step++) {
+            credit += parseFloat(await SaleService.getSaleEntryCreditById(sale[step].saleId));
+        }
+
+        for (let step = 0; step < sale.length; step++) {
+            sellingPrice += parseFloat(await SaleService.getSaleEntrySellingPriceById(sale[step].saleId));
+        }
+
+        for (let step = 0; step < sale.length; step++) {
+            quantity += parseFloat(await SaleService.getSaleProductQuantity(sale[step].saleId));
+        }
+
+        return {
+            costPrice,
+            profit,
+            credit,
+            sellingPrice,
+            quantity
+        }
+    }
+
+    static async weekSalesFormat(sales){
+        let weekFormatSales = [];
+        const newSales = sales.reduce((r, a) => {
+            r[a.entryDate] = [...r[a.entryDate] || [], a];
+            return r;
+        }, []);
+
+        for (const [key, value] of Object.entries(newSales)) {
+            weekFormatSales.push({...await SaleService.getSaleFormatAsync(value) , day: key})
+        }
+
+        console.log(weekFormatSales)
+        return weekFormatSales;
+    }
+
     async getSalesDetails(duration , date) {
-        const sale = await SaleService.getSalesHistory(duration , date);
-        console.log(sale);
+        let sale = await SaleService.getSalesHistory(duration , date);
+
         let costPrice = 0;
         let profit = 0;
         let credit = 0;
@@ -337,6 +394,19 @@ export default class SaleService {
             quantity += parseFloat(await SaleService.getSaleProductQuantity(sale[step].saleId));
         }
 
+        switch (duration) {
+            case 'week':
+                sale = await SaleService.weekSalesFormat(sale);
+        }
+
+        console.log({
+            sales: sale,
+            costPrice,
+            profit,
+            credit,
+            sellingPrice,
+            quantity
+        })
         return {
             sales: sale,
             costPrice,

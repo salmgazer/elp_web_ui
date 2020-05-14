@@ -83,9 +83,9 @@ const SellQuantityInput = props => {
         if(max !== 0 && parseFloat(event.target.value) >= max){
             return false;
         }
-
-        setQuantity(event.target.value);
-        props.getValue(inputName , event.target.value);
+        console.log('You are here')
+        setQuantity(parseFloat(event.target.value));
+        props.getValue(inputName , parseFloat(event.target.value));
 
     };
 

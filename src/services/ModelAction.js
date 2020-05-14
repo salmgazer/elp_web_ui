@@ -127,12 +127,25 @@ export default class ModelAction {
         })
     }
 
+    async softDeleteByColumn(column){
+        const dataCollection = await this.database.collections.get(this.table).query(
+            this.queryType(column)
+        ).fetch();
+
+        dataCollection.map(item => {
+            this.database.action(async () => {
+                await item.destroyPermanently() // syncable
+            })
+        })
+    }
+
     /*
     *Delete an item
     * @var
     * @return object
     * */
     async destroy(id){
+        console.log(id)
         const dataCollection = await this.database.collections.get(this.table).find(id);
 
         await this.database.action(async () => {

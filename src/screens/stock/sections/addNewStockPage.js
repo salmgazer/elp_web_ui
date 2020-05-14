@@ -650,14 +650,14 @@ const AddNewStockPage = props => {
                         <Typography
                             component="h5"
                             variant="h5"
-                            style={{fontWeight: '300', fontSize: '17px' , margin: '0px 0px', padding: '4px'}}
+                            style={{fontWeight: '300', fontSize: '17px' , margin: '0px 0px 20px', padding: '4px'}}
                             className={`text-center mx-auto`}
                         >
-                            Current cost price: GHC {formFields.costPrice || costPrice}
+                            New cost price: GHC {formFields.costPrice || costPrice}
                         </Typography>
 
-                        <label className={`text-dark py-2 text-left`} style={{fontSize: '18px'}}> New cost price</label>
-
+                        {/*<label className={`text-dark py-2 text-left`} style={{fontSize: '18px'}}> New cost price</label>
+*/}
                         {/*<Paper className={classes.root} >
                             <InputBase
                                 className={`${classes.input} search-box text-center`}
@@ -672,14 +672,14 @@ const AddNewStockPage = props => {
                     </Grid>
 
                     <Grid item xs={12} className={optionGroupClasses.margin}>
-                        <Typography
+                        {/*<Typography
                             component="h5"
                             variant="h5"
                             style={{fontWeight: '300', fontSize: '17px' , margin: '0px 0px', padding: '4px'}}
                             className={`text-left mx-auto mt-3`}
                         >
                             Current selling price: GHC {sellingPrice}
-                        </Typography>
+                        </Typography>*/}
 
                         <label className={`text-dark py-2 text-left`} style={{fontSize: '18px'}}> New selling price</label>
 

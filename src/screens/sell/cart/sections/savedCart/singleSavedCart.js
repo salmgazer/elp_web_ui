@@ -2,8 +2,8 @@ import React, {useEffect, useState} from 'react';
 import Grid from "@material-ui/core/Grid/Grid";
 import PrimaryButton from "../../../../../components/Buttons/PrimaryButton";
 import format from 'date-fns/format'
-import ProductServiceHandler from "../../../../../services/ProductServiceHandler";
 import CartService from "../../../../../services/CartService";
+import { withRouter } from "react-router-dom";
 
 const SingleSavedCart = props => {
     const [customer , setCustomer] = useState('');
@@ -24,9 +24,9 @@ const SingleSavedCart = props => {
         setCustomer(newCustomer);
     };
 
-    const continueSavedCartHandler = (id) => {
+    const continueSavedCartHandler = async (id) => {
         console.log(id);
-        props.continueSavedCartHandler(id);
+        await props.continueSavedCartHandler(id);
     };
 
     return (
@@ -60,4 +60,4 @@ const SingleSavedCart = props => {
     );
 };
 
-export default SingleSavedCart;
+export default withRouter(SingleSavedCart);

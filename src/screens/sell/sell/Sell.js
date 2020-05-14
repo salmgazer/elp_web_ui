@@ -30,6 +30,7 @@ class Sell extends Component {
         customers: [],
         currentCustomer: 0,
         salesTodayDetails: {},
+        history: {}
     };
 
     async componentDidMount() {
@@ -202,17 +203,17 @@ class Sell extends Component {
     };
 
     continueSavedCartHandler = async (cartId) => {
-        const history = this.props;
+        const history = this.props.history;
 
         await this.setState({
             spCount: 0,
         });
 
-        if(CartService.activateCart(cartId)){
-            history.push(paths.cart)
-            //this.setStepContentView(0);
+        if(await CartService.activateCart(cartId)){
+            history.push(paths.cart);
         }else{
             alert('Please try again.');
+            return false
         }
     };
 

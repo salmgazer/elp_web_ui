@@ -7,6 +7,7 @@ import SectionNavbars from "../../../../../components/Sections/SectionNavbars";
 import ArrowBackIcon from "@material-ui/core/SvgIcon/SvgIcon";
 import Container from "@material-ui/core/Container";
 import SingleSavedCart from "./singleSavedCart";
+import { withRouter } from "react-router-dom";
 
 const SavedCart = props => {
     const [searchValue , setSearchValue] = useState({
@@ -79,4 +80,4 @@ const SavedCart = props => {
     );
 };
 
-export default SavedCart;
+export default withRouter(SavedCart);

@@ -387,6 +387,16 @@ class AddProducts extends Component{
             item.owned = true;
         }
 
+        if((formFields.sellingPrice === "" || formFields.sellingPrice === null || formFields.sellingPrice === 0) && (formFields.costPrice === "" || formFields.costPrice === null || formFields.costPrice === 0) && (formFields.quantity === "" || formFields.quantity === null || formFields.quantity === 0)){
+            old_list[productIndex] = item;
+
+            this.setState({
+                productList: old_list
+            });
+
+            return true
+        }
+
         if(formFields.sellingPrice !== "" || formFields.sellingPrice !== null){
             item.sellingPrice = formFields.sellingPrice;
         }

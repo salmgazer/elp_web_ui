@@ -91,7 +91,7 @@ const AddProductCart = props => {
         setSellingPrice(await productHandler.getSellingPrice());
         setCostPrice(await productHandler.getCostPrice());
 
-        setInputValue('costPrice' , await productHandler.getCostPrice());
+        setInputValue('costPrice' , parseFloat(await productHandler.getCostPrice()));
     };
 
     const [quantity , setQuantity] = useState(1);
@@ -341,7 +341,7 @@ const AddProductCart = props => {
                             <span
                                 className={`mx-2`}
                                 style={{fontSize: '18px'}}
-                            >|</span> {`${quantityProduct} left in stock`}
+                            >|</span> {`${quantityProduct - quantity} left in stock`}
                         </span>
                     </div>
 

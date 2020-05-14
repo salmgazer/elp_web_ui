@@ -189,7 +189,7 @@ const SingleDayView = props => {
                         >
                             <Tab className={classes.tabs} label="Change date"  {...a11yProps(0)} />
                             <Tab className={classes.tabs} label="Change quantity"  {...a11yProps(1)} />
-                            <Tab className={classes.tabs} label="Delete purchase"  {...a11yProps(2)} />
+                            <Tab className={classes.tabs} label="Change cost"  {...a11yProps(2)} />
                         </Tabs>
                     </AppBar>
 
@@ -211,7 +211,7 @@ const SingleDayView = props => {
 
                         <TabPanel value={value} index={2}  >
                             
-                            <label className={`text-dark py-2 text-center`} style={{fontSize: '18px', fontWeight: '600'}}> New cost price </label>
+                            <label className={`text-dark py-2 text-center`} style={{fontSize: '18px', fontWeight: '600', marginTop: '100px'}}> New cost price </label>
 
                             <Paper className={classes.root} id="selling_price" >
                                 <InputBase
@@ -236,7 +236,29 @@ const SingleDayView = props => {
                         
                         </TabPanel>
 
-                    </SwipeableViews>   
+                    </SwipeableViews> 
+
+                    <Grid container spacing={1} style={{marginTop: '50px'}}>
+                        <Grid item xs={6}>
+                            <Button
+                                variant="outlined"
+                                style={{border: '1px solid #DAAB59', color: '#DAAB59', padding: '5px 30px', textTransform: 'none', fontSize:'15px'}}
+                                onClick={closeDialogHandler.bind(this)}
+                            >
+                                Cancel
+                            </Button>
+                        </Grid>
+
+                        <Grid item xs={6}>
+                            <Button
+                                variant="contained"
+                                style={{'backgroundColor': '#DAAB59' , color: '#333333', padding: '5px 15px', textTransform: 'none', fontSize:'15px'}}
+                                onClick={closeDialogHandler.bind(this)}
+                            >
+                                Save changes
+                            </Button>
+                        </Grid>
+                    </Grid>  
                     
                 </div>
             </MainDialog>

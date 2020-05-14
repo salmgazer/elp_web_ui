@@ -25,12 +25,14 @@ export default class BranchProductService {
         const stock = await this.branchProduct.stocks();
         const saleEntries = await this.branchProduct.saleEntries();
         const stockMovement = await this.branchProduct.stockMovements();
+        const cartEntries = await this.branchProduct.cartEntries();
 
         const stockQuantity = (stock).reduce((a, b) => a + (b['quantity'] || 0), 0);
         const salesQuantity = (saleEntries).reduce((a, b) => a + (b['quantity'] || 0), 0);
+        const cartQuantity = (cartEntries).reduce((a, b) => a + (b['quantity'] || 0), 0);
         const stockMovementQuantity = (stockMovement).reduce((a, b) => a + (b['quantity'] || 0), 0);
 
-        return (stockQuantity - (salesQuantity + stockMovementQuantity));
+        return (stockQuantity - (salesQuantity + cartQuantity + stockMovementQuantity));
     }
 
     async getProductImage(){
@@ -62,7 +64,7 @@ export default class BranchProductService {
                 break;
             }
         }
-        return mostRecentCostPrice.toFixed(2);
+        return mostRecentCostPrice ? mostRecentCostPrice.toFixed(2) : 0;
         // return this.product.stock ? (this.product.stock[((this.product.stock).length - 1)].costPrice).toFixed(2) : null;
     }
 
@@ -70,7 +72,7 @@ export default class BranchProductService {
     * Return a stores products
     * @return boolean
     * */
-    isProductSellable(){
-        return !!(this.getProductQuantity() && this.getCostPrice() && this.getSellingPrice());
+    async isProductSellable(){
+        return !!(await this.getProductQuantity() > 0 && await this.getCostPrice() && this.getSellingPrice());
     }
 }
