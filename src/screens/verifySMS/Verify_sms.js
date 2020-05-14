@@ -199,6 +199,7 @@ const VerifySMS = props => {
                 setSuccessDialog(false);
             }, 2000);
 
+            handleClose();
         }catch (error){
             setErrorMsg('Could not send code. Please enter again!');
             setErrorDialog(true);
@@ -217,6 +218,7 @@ const VerifySMS = props => {
     };
 
     const handleClickOpen = () => {
+        setUserContact('');
         setOpen(true);
     };
 
@@ -226,7 +228,8 @@ const VerifySMS = props => {
 
     const addDashes = async (event) => {
         event.persist();
-
+        setChangeContact(false);
+        setLoadingContact(true);
         const value = event.target.value;
         if(event.target.value.length <= 12){
             event.target.value = phoneFormat(event.target.value);
@@ -246,10 +249,12 @@ const VerifySMS = props => {
                     );
 
                     if(response.data.valid === false){
-                        props.isValid(false);
+                        setChangeContact(false);
                         setError('block');
                         setErrorMsg('Number exists in database. Use another number');
                     }else{
+                        setChangeContact(true);
+                        setLoadingContact(false);
                         setError('none');
                         setErrorMsg('');
                         return true;
