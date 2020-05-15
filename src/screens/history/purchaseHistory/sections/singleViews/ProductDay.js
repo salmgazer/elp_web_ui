@@ -4,7 +4,6 @@ import Card from "@material-ui/core/Card/Card";
 import Grid from "@material-ui/core/Grid/Grid";
 import EditIcon from '@material-ui/icons/Edit';
 import MainDialog from '../../../../../components/Dialog/MainDialog';
-import DeleteIcon from '@material-ui/icons/Delete';
 import AppBar from '@material-ui/core/AppBar';
 import Tabs from "@material-ui/core/Tabs/Tabs";
 import Tab from "@material-ui/core/Tab/Tab";
@@ -12,6 +11,7 @@ import SwipeableViews from "react-swipeable-views";
 import TabPanel from '../../../../../components/Tabs/TabPanel';
 import Dates from '../../../../../components/Date/Date';
 import Button from "@material-ui/core/Button/Button";
+import DeleteIcon from '@material-ui/icons/Delete';
 import QuantityInput from "../../../../Components/Input/QuantityInput";
 import InputAdornment from '@material-ui/core/InputAdornment';
 import IconButton from '@material-ui/core/IconButton';
@@ -23,6 +23,7 @@ import InputBase from "@material-ui/core/InputBase/InputBase";
 import format from "date-fns/format";
 import BranchStockService from '../../../../../services/BranchStockService';
 import ProductServiceHandler from "../../../../../services/ProductServiceHandler";
+import ModelAction from '../../../../../services/ModelAction';
 
 
 const useStyles = makeStyles(theme => ({
@@ -44,6 +45,12 @@ const SingleDayView = props => {
     const [name , setName] = useState(false);
     const [image , setImage] = useState(false);
     const [product, setProduct] = useState(false);
+    const [formFields , setFormFields] = useState({
+        quantity: 1,
+    });
+    const [priceFields , setPriceFields] = useState({
+        costPrice: '',
+    });
 
     function a11yProps(index) {
         return {
@@ -51,8 +58,6 @@ const SingleDayView = props => {
             'aria-controls': `full-width-tabpanel-${index}`,
         };
     }
-
-    // const image = `https://elparah.store/admin/upload/${product.image}`;
 
     const closeDialogHandler = (event) => {
         setMainDialog(false);
@@ -79,7 +84,6 @@ const SingleDayView = props => {
     });
 
     const getProduct = async () => {
-        //const newProduct = await purchase.product.fetch();
         /*
         * @todo get entries via query on model
         * */
@@ -87,21 +91,26 @@ const SingleDayView = props => {
         setProduct(newProduct);
         setImage(new ProductServiceHandler(product).getProductImage());
         setName((newProduct.name).length > 20 ? (newProduct.name).slice(0 , 20) + '...' : newProduct.name);
-
-
         const costP = await BranchStockService.getStockEntryCostPriceById(purchase.id);
         const quant = await BranchStockService.getStockProductQuantity(purchase.id);
-        // setProduct(newProduct);
-        // setName(new ProductServiceHandler(product).getProductName());
-        // setImage(new ProductServiceHandler(product).getProductImage());
         setCostPrice(costP);
         setQuantity(quant);
 
     };
-    
+
     const setInputValue = (name , value) => {
-        setCostPrice((value * purchase.costPrice).toFixed(2));
+        const {...oldFormFields} = formFields;
         setQuantity(value);
+        setCostPrice(value * purchase.costPrice);
+        oldFormFields['quantity'] = value;
+        setFormFields(oldFormFields);
+    };
+
+    const setPriceValue = (event) => {
+        const {...oldFormFields} = priceFields;
+        setCostPrice(event.target.value);
+        oldFormFields['costPrice'] = event.target.value / quantity;
+        setPriceFields(oldFormFields);
     };
 
     const deleteHistoryHandler = (pId , event) => {
@@ -109,17 +118,22 @@ const SingleDayView = props => {
         setMainDialog(false);
     };
 
-    const setPriceValue = (event) => {
-        event.persist();
+    const updateStockEntry = () => {
+        console.log(formFields)
+        props.updateStockEntry(purchase.id, formFields);
+        setMainDialog(false);
+    };
 
-        setCostPrice(event.target.value);
+    const updatePriceEntry = () => {
+        console.log(priceFields)
+        props.updatePriceEntry(purchase.id, priceFields);
+        setMainDialog(false);
     };
 
     return(
         <div>
             {prodName === name
                 ?
-                
                 <Grid container spacing={1} className={`shadow1 mb-3 borderRadius10`}>
                     <Grid item xs={3}>
                         <Card
@@ -151,14 +165,13 @@ const SingleDayView = props => {
                             style={{fontSize: '30px', color: '#DAAB59', textAlign: 'right'}}
                         /> 
                     </Grid>
-                
                 </Grid>
-
                 :
                 ''
             }
 
-<MainDialog handleDialogClose={closeDialogHandler.bind(this)} states={mainDialog} >
+
+            <MainDialog handleDialogClose={closeDialogHandler.bind(this)} states={mainDialog} >
                 <div className="row pt-0 mx-auto text-center w-100" >
                     <Grid container spacing={1} className={`shadow1 mb-3 borderRadius10`}>
                         <Grid item xs={3}>
@@ -215,7 +228,29 @@ const SingleDayView = props => {
 
                             <label className={`text-dark py-2 text-center`} style={{fontSize: '18px', fontWeight: '600', paddingTop: '100px'}}> Pick new date </label>
 
-                            <Dates style={{margin: '5px 40px 0px 40px', border: '1px solid #DAAB59', backgroundColor: '#FFFFFF', width: '150px'}} />
+                            <Dates style={{margin: '5px 40px 0px 40px', border: '1px solid #e5e5e5', backgroundColor: '#FFFFFF', width: '150px'}} />
+
+                            <Grid container spacing={1} style={{marginTop: '50px'}}>
+                                <Grid item xs={6}>
+                                    <Button
+                                        variant="outlined"
+                                        style={{border: '1px solid #DAAB59', color: '#DAAB59', padding: '5px 30px', textTransform: 'none', fontSize:'15px'}}
+                                        onClick={closeDialogHandler.bind(this)}
+                                    >
+                                        Cancel
+                                    </Button>
+                                </Grid>
+
+                                <Grid item xs={6}>
+                                    <Button
+                                        variant="contained"
+                                        style={{'backgroundColor': '#DAAB59' , color: '#333333', padding: '5px 15px', textTransform: 'none', fontSize:'15px'}}
+                                        // onClick={updateStockEntry.bind(this)}
+                                    >
+                                        Save changes
+                                    </Button>
+                                </Grid>
+                            </Grid> 
                             
                         </TabPanel>
 
@@ -223,11 +258,35 @@ const SingleDayView = props => {
 
                             <QuantityInput style={{width: '100%', margin: '50px', paddingBottom: '30px'}} label={`Quantity`} inputName="quantity" getValue={setInputValue.bind(this)} startValue={quantity}/>
 
+                            <Grid container spacing={1} style={{marginTop: '50px'}}>
+                                <Grid item xs={6}>
+                                    <Button
+                                        variant="outlined"
+                                        style={{border: '1px solid #DAAB59', color: '#DAAB59', padding: '5px 30px', textTransform: 'none', fontSize:'15px'}}
+                                        onClick={closeDialogHandler.bind(this)}
+                                    >
+                                        Cancel
+                                    </Button>
+                                </Grid>
+
+                                <Grid item xs={6}>
+                                    <Button
+                                        variant="contained"
+                                        style={{'backgroundColor': '#DAAB59' , color: '#333333', padding: '5px 15px', textTransform: 'none', fontSize:'15px'}}
+                                        onClick={updateStockEntry.bind(this)}
+                                    >
+                                        Save changes
+                                    </Button>
+                                </Grid>
+                            </Grid> 
+
                         </TabPanel>
 
                         <TabPanel value={value} index={2}  >
                             
                             <label className={`text-dark py-2 text-center`} style={{fontSize: '18px', fontWeight: '600', marginTop: '100px'}}> New cost price </label>
+
+                            {/* <QuantityInput style={{width: '100%', margin: '50px', paddingBottom: '30px'}} label={`Quantity`} inputName="quantity" getValue={setPriceValue.bind(this)} startValue={costPrice}/> */}
 
                             <Paper className={classes.root} id="selling_price" >
                                 <InputBase
@@ -235,7 +294,7 @@ const SingleDayView = props => {
                                     type="tel"
 
                                     value={costPrice}
-                                    name='sellingPrice'
+                                    name='costPrice'
                                     onChange={(event) => setPriceValue(event)}
                                     endAdornment={
                                         <InputAdornment position="end">
@@ -249,36 +308,36 @@ const SingleDayView = props => {
                                     }
                                 />
                             </Paper>
+
+                            <Grid container spacing={1} style={{marginTop: '50px'}}>
+                                <Grid item xs={6}>
+                                    <Button
+                                        variant="outlined"
+                                        style={{border: '1px solid #DAAB59', color: '#DAAB59', padding: '5px 30px', textTransform: 'none', fontSize:'15px'}}
+                                        onClick={closeDialogHandler.bind(this)}
+                                    >
+                                        Cancel
+                                    </Button>
+                                </Grid>
+
+                                <Grid item xs={6}>
+                                    <Button
+                                        variant="contained"
+                                        style={{'backgroundColor': '#DAAB59' , color: '#333333', padding: '5px 15px', textTransform: 'none', fontSize:'15px'}}
+                                        onClick={updatePriceEntry.bind(this)}
+                                    >
+                                        Save changes
+                                    </Button>
+                                </Grid>
+                            </Grid> 
                         
                         </TabPanel>
 
-                    </SwipeableViews> 
-
-                    <Grid container spacing={1} style={{marginTop: '50px'}}>
-                        <Grid item xs={6}>
-                            <Button
-                                variant="outlined"
-                                style={{border: '1px solid #DAAB59', color: '#DAAB59', padding: '5px 30px', textTransform: 'none', fontSize:'15px'}}
-                                onClick={closeDialogHandler.bind(this)}
-                            >
-                                Cancel
-                            </Button>
-                        </Grid>
-
-                        <Grid item xs={6}>
-                            <Button
-                                variant="contained"
-                                style={{'backgroundColor': '#DAAB59' , color: '#333333', padding: '5px 15px', textTransform: 'none', fontSize:'15px'}}
-                                onClick={closeDialogHandler.bind(this)}
-                            >
-                                Save changes
-                            </Button>
-                        </Grid>
-                    </Grid>  
+                    </SwipeableViews>  
                     
                 </div>
             </MainDialog>
-            
+
         </div>
 
     );

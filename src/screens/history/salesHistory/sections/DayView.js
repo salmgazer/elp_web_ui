@@ -82,7 +82,7 @@ const DayView = props => {
                             margin="normal"
                             id="date-picker"
                             className='text-dark font-weight-bold'
-                            style={{float: 'right', width: '140px',  border: '1px solid #DAAB59', backgroundColor: '#FFFFFF', fontWeight: '400', fontSize: '18px' , lineHeight: '1.6'}}
+                            style={{float: 'right', width: '140px',  border: '1px solid #e5e5e5', backgroundColor: '#FFFFFF', fontWeight: '400', fontSize: '18px' , lineHeight: '1.6'}}
                             size='small'
                             value={selectedDate}
                             onChange={handleDateChange}
@@ -122,9 +122,9 @@ const DayView = props => {
                     // sales.map((sale) => <SingleDayView  key={sale.id} sale={sale} />)
                     pageName === false ?
 
-                    sales.map((sale) => <SingleDayView  key={sale.id} sale={sale} saleEntry={sale} deleteStoreProduct={deleteProductHandler.bind(this)} />)
+                    sales.map((sale) => <SingleDayView  key={sale.id} sale={sale} saleEntry={sale} deleteStoreProduct={deleteProductHandler.bind(this)} updateSaleEntry={props.updateSaleEntry} updatePriceEntry={props.updateSaleEntry} updateDateEntry={props.updateSaleEntry} />)
                     :
-                    sales.map((sale) => <ProductDay  key={sale.id} sale={sale} saleEntry={sale} prodName={name} deleteStoreProduct={deleteProductHandler.bind(this)} />)
+                    sales.map((sale) => <ProductDay  key={sale.id} sale={sale} saleEntry={sale} prodName={name} deleteStoreProduct={deleteProductHandler.bind(this)} updateSaleEntry={props.updateSaleEntry} updatePriceEntry={props.updateSaleEntry} updateDateEntry={props.updateSaleEntry} />)
 
                 }
             </Box>

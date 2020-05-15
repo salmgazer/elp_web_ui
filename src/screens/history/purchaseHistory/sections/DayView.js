@@ -59,6 +59,10 @@ const DayView = props => {
         props.deleteProduct(event);
     };
 
+    const updateEntry = (event) => {
+        props.updateStockEntry(event);
+    };
+
     return(
         <div className={classes.root}>
             {/* {console.log(purchaseDetails.purchases)} */}
@@ -82,7 +86,7 @@ const DayView = props => {
                             margin="normal"
                             id="date-picker"
                             className='text-dark font-weight-bold'
-                            style={{float: 'right', width: '140px',  border: '1px solid #DAAB59', backgroundColor: '#FFFFFF', fontWeight: '400', fontSize: '18px' , lineHeight: '1.6'}}
+                            style={{float: 'right', width: '140px',  border: '1px solid #e5e5e5', backgroundColor: '#FFFFFF', fontWeight: '400', fontSize: '18px' , lineHeight: '1.6'}}
                             size='small'
                             value={selectedDate}
                             onChange={handleDateChange}
@@ -120,9 +124,9 @@ const DayView = props => {
                     :
                     pageName === false ?
 
-                    purchases.map((purchase) => <SingleDayView  key={purchase.id} purchase={purchase} purchaseEntry={purchase} deleteStoreProduct={deleteProductHandler.bind(this)} />)
+                    purchases.map((purchase) => <SingleDayView  key={purchase.id} purchase={purchase} purchaseEntry={purchase} deleteStoreProduct={deleteProductHandler.bind(this)} updateStockEntry={props.updateStockEntry} updatePriceEntry={props.updateStockEntry} />)
                     :
-                    purchases.map((purchase) => <ProductDay  key={purchase.id} purchase={purchase} purchaseEntry={purchase} prodName={name} deleteStoreProduct={deleteProductHandler.bind(this)} />)
+                    purchases.map((purchase) => <ProductDay  key={purchase.id} purchase={purchase} purchaseEntry={purchase} prodName={name} deleteStoreProduct={deleteProductHandler.bind(this)} updateStockEntry={props.updateStockEntry} updatePriceEntry={props.updateStockEntry} />)
 
                 }
             </Box>

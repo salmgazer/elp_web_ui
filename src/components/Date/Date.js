@@ -9,10 +9,11 @@ import {
 
  const MaterialUIPickers= (props) => {
   // The first commit of Material-UI
-  const [selectedDate, setSelectedDate] = React.useState(new Date());
+  const [selectedDate, setSelectedDate] = React.useState(props.selectedDate);
 
   const handleDateChange = date => {
     setSelectedDate(date);
+    props.getValue(date);
   };
 
   return (
@@ -25,6 +26,7 @@ import {
                 format="dd/MM/yyyy"
                 margin="normal"
                 id="date-picker"
+                name={props.inputName}
                 className='text-dark font-weight-bold'
                 style={props.style}
                 size='small'

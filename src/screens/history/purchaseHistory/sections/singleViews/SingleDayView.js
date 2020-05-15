@@ -23,6 +23,7 @@ import InputBase from "@material-ui/core/InputBase/InputBase";
 import format from "date-fns/format";
 import BranchStockService from '../../../../../services/BranchStockService';
 import ProductServiceHandler from "../../../../../services/ProductServiceHandler";
+import ModelAction from '../../../../../services/ModelAction';
 
 
 const useStyles = makeStyles(theme => ({
@@ -43,6 +44,12 @@ const SingleDayView = props => {
     const [name , setName] = useState(false);
     const [image , setImage] = useState(false);
     const [product, setProduct] = useState(false);
+    const [formFields , setFormFields] = useState({
+        quantity: 1,
+    });
+    const [priceFields , setPriceFields] = useState({
+        costPrice: '',
+    });
 
     function a11yProps(index) {
         return {
@@ -83,8 +90,6 @@ const SingleDayView = props => {
         setProduct(newProduct);
         setImage(new ProductServiceHandler(product).getProductImage());
         setName((newProduct.name).length > 20 ? (newProduct.name).slice(0 , 20) + '...' : newProduct.name);
-
-
         const costP = await BranchStockService.getStockEntryCostPriceById(purchase.id);
         const quant = await BranchStockService.getStockProductQuantity(purchase.id);
         setCostPrice(costP);
@@ -93,8 +98,26 @@ const SingleDayView = props => {
     };
 
     const setInputValue = (name , value) => {
-        setCostPrice((value * purchase.costPrice).toFixed(2));
+        const {...oldFormFields} = formFields;
         setQuantity(value);
+        setCostPrice(value * purchase.costPrice);
+        oldFormFields['quantity'] = value;
+        setFormFields(oldFormFields);
+    };
+
+    // const setPriceValue = (name , value) => {
+    //     const {...oldFormFields} = priceFields;
+    //     setCostPrice(value);
+    //     // const price = (value / quantity).toFixed(2);
+    //     oldFormFields['costPrice'] = value/quantity;
+    //     setPriceFields(oldFormFields);
+    // };
+
+    const setPriceValue = (event) => {
+        const {...oldFormFields} = priceFields;
+        setCostPrice(event.target.value);
+        oldFormFields['costPrice'] = event.target.value / quantity;
+        setPriceFields(oldFormFields);
     };
 
     const deleteHistoryHandler = (pId , event) => {
@@ -102,10 +125,16 @@ const SingleDayView = props => {
         setMainDialog(false);
     };
 
-    const setPriceValue = (event) => {
-        event.persist();
+    const updateStockEntry = () => {
+        console.log(formFields)
+        props.updateStockEntry(purchase.id, formFields);
+        setMainDialog(false);
+    };
 
-        setCostPrice(event.target.value);
+    const updatePriceEntry = () => {
+        console.log(priceFields)
+        props.updatePriceEntry(purchase.id, priceFields);
+        setMainDialog(false);
     };
 
     return(
@@ -200,7 +229,29 @@ const SingleDayView = props => {
 
                             <label className={`text-dark py-2 text-center`} style={{fontSize: '18px', fontWeight: '600', paddingTop: '100px'}}> Pick new date </label>
 
-                            <Dates style={{margin: '5px 40px 0px 40px', border: '1px solid #DAAB59', backgroundColor: '#FFFFFF', width: '150px'}} />
+                            <Dates style={{margin: '5px 40px 0px 40px', border: '1px solid #e5e5e5', backgroundColor: '#FFFFFF', width: '150px'}} />
+
+                            <Grid container spacing={1} style={{marginTop: '50px'}}>
+                                <Grid item xs={6}>
+                                    <Button
+                                        variant="outlined"
+                                        style={{border: '1px solid #DAAB59', color: '#DAAB59', padding: '5px 30px', textTransform: 'none', fontSize:'15px'}}
+                                        onClick={closeDialogHandler.bind(this)}
+                                    >
+                                        Cancel
+                                    </Button>
+                                </Grid>
+
+                                <Grid item xs={6}>
+                                    <Button
+                                        variant="contained"
+                                        style={{'backgroundColor': '#DAAB59' , color: '#333333', padding: '5px 15px', textTransform: 'none', fontSize:'15px'}}
+                                        // onClick={updateStockEntry.bind(this)}
+                                    >
+                                        Save changes
+                                    </Button>
+                                </Grid>
+                            </Grid> 
                             
                         </TabPanel>
 
@@ -208,11 +259,35 @@ const SingleDayView = props => {
 
                             <QuantityInput style={{width: '100%', margin: '50px', paddingBottom: '30px'}} label={`Quantity`} inputName="quantity" getValue={setInputValue.bind(this)} startValue={quantity}/>
 
+                            <Grid container spacing={1} style={{marginTop: '50px'}}>
+                                <Grid item xs={6}>
+                                    <Button
+                                        variant="outlined"
+                                        style={{border: '1px solid #DAAB59', color: '#DAAB59', padding: '5px 30px', textTransform: 'none', fontSize:'15px'}}
+                                        onClick={closeDialogHandler.bind(this)}
+                                    >
+                                        Cancel
+                                    </Button>
+                                </Grid>
+
+                                <Grid item xs={6}>
+                                    <Button
+                                        variant="contained"
+                                        style={{'backgroundColor': '#DAAB59' , color: '#333333', padding: '5px 15px', textTransform: 'none', fontSize:'15px'}}
+                                        onClick={updateStockEntry.bind(this)}
+                                    >
+                                        Save changes
+                                    </Button>
+                                </Grid>
+                            </Grid> 
+
                         </TabPanel>
 
                         <TabPanel value={value} index={2}  >
                             
                             <label className={`text-dark py-2 text-center`} style={{fontSize: '18px', fontWeight: '600', marginTop: '100px'}}> New cost price </label>
+
+                            {/* <QuantityInput style={{width: '100%', margin: '50px', paddingBottom: '30px'}} label={`Quantity`} inputName="quantity" getValue={setPriceValue.bind(this)} startValue={costPrice}/> */}
 
                             <Paper className={classes.root} id="selling_price" >
                                 <InputBase
@@ -220,7 +295,7 @@ const SingleDayView = props => {
                                     type="tel"
 
                                     value={costPrice}
-                                    name='sellingPrice'
+                                    name='costPrice'
                                     onChange={(event) => setPriceValue(event)}
                                     endAdornment={
                                         <InputAdornment position="end">
@@ -234,32 +309,32 @@ const SingleDayView = props => {
                                     }
                                 />
                             </Paper>
+
+                            <Grid container spacing={1} style={{marginTop: '50px'}}>
+                                <Grid item xs={6}>
+                                    <Button
+                                        variant="outlined"
+                                        style={{border: '1px solid #DAAB59', color: '#DAAB59', padding: '5px 30px', textTransform: 'none', fontSize:'15px'}}
+                                        onClick={closeDialogHandler.bind(this)}
+                                    >
+                                        Cancel
+                                    </Button>
+                                </Grid>
+
+                                <Grid item xs={6}>
+                                    <Button
+                                        variant="contained"
+                                        style={{'backgroundColor': '#DAAB59' , color: '#333333', padding: '5px 15px', textTransform: 'none', fontSize:'15px'}}
+                                        onClick={updatePriceEntry.bind(this)}
+                                    >
+                                        Save changes
+                                    </Button>
+                                </Grid>
+                            </Grid> 
                         
                         </TabPanel>
 
-                    </SwipeableViews> 
-
-                    <Grid container spacing={1} style={{marginTop: '50px'}}>
-                        <Grid item xs={6}>
-                            <Button
-                                variant="outlined"
-                                style={{border: '1px solid #DAAB59', color: '#DAAB59', padding: '5px 30px', textTransform: 'none', fontSize:'15px'}}
-                                onClick={closeDialogHandler.bind(this)}
-                            >
-                                Cancel
-                            </Button>
-                        </Grid>
-
-                        <Grid item xs={6}>
-                            <Button
-                                variant="contained"
-                                style={{'backgroundColor': '#DAAB59' , color: '#333333', padding: '5px 15px', textTransform: 'none', fontSize:'15px'}}
-                                onClick={closeDialogHandler.bind(this)}
-                            >
-                                Save changes
-                            </Button>
-                        </Grid>
-                    </Grid>  
+                    </SwipeableViews>  
                     
                 </div>
             </MainDialog>
