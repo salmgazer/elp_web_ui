@@ -17,42 +17,47 @@ import SimpleSnackbar from "../../../components/Snackbar/SimpleSnackbar";
 import {confirmAlert} from "react-confirm-alert";
 
 
-// import SingleProductView from './auditHistory/SingleProductView';
-import AddedProductSingle from "./viewAdded/AddedSingleView";
+import SingleProductView from './auditHistory/SingleProductView';
+// import AddedProductSingle from "./viewAdded/AddedSingleView";
 
 const useStyles = makeStyles(theme => ({
     root: {
-      flexGrow: 1,
-      marginTop: '50px',
-      textAlign: 'center'
-    },
-    search: {
-        width: '90%',
+        width: '100%',
         display: 'flex',
         padding: '2px 5px',
         alignItems: 'center',
         borderRadius: '30px',
-        height: '25px',
+        height: '35px',
         border: '1px solid #ced4da',
         fontSize: '0.9rem',
         lineHeight: '1.5',
         transition: 'border-color .15s ease-in-out,box-shadow .15s ease-in-out',
     },
+    select: {
+        width: '100%',
+        display: 'flex',
+        padding: '2px 0px',
+        alignItems: 'center',
+        borderRadius: '2px',
+        height: '35px',
+        border: '0.5px solid #333333',
+        fontSize: '0.9rem',
+        lineHeight: '1.5',
+        transition: 'border-color .15s ease-in-out,box-shadow .15s ease-in-out',
+    },
     input: {
-        marginLeft: theme.spacing(1),
+        //marginLeft: theme.spacing(1),
         flex: 1,
     },
     iconButton: {
         padding: 10,
-    },
-    formControl: {
-        minWidth: 100,
     }
 }));
 
 const AuditHistory = props => {
 
     const classes = useStyles();
+    const currentAudit = props.currentAudit;
     const [type, setType] = useState(10);
     const [successDialog, setSuccessDialog] = useState(false);
     const [loading , setLoading] = useState(false);
@@ -107,25 +112,6 @@ const AuditHistory = props => {
                 }
             ]
         })
-
-       /* await props.balanceAllHandler();
-
-        setSuccessDialog(true);
-
-        setTimeout(function(){
-            setSuccessDialog(false);
-            setLoading(false);
-            props.setView(0)
-        }, 2000);*/
-        /*if(status){
-
-        }else{
-            setErrorMsg('OOPS. Something went wrong please try again');
-            setError(true);
-            setTimeout(function(){
-                setError(false);
-            }, 3000);
-        }*/
     };
 
     return(
@@ -152,18 +138,20 @@ const AuditHistory = props => {
             >
             </SimpleSnackbar>
 
-            <Grid container spacing={1} className={classes.root} >
-                <Date style={{width: '170px', border: '1px solid #DAAB59'}}/>
-            </Grid>
-
             <div className="row p-0 pt-0 mx-0 mt-6 text-center shadow1">
+
+                <Grid container spacing={1} >
+                    <Date style={{width: '170px', border: '1px solid #e5e5e5'}}/>
+                </Grid>
+
+            
                 <Typography
                     component="p"
                     variant="h6"
                     style={{fontSize: '18px' , margin: '0px 0px', paddingTop: '5px' , paddingBottom: '5px'}}
                     className={`text-center mx-auto w-100 text-dark font-weight-bold`}
                 >
-                    {`Items added : (${props.auditEntries.length})` }
+                    {`Items added : (${currentAudit.length})` }
                 </Typography>
 
                 <Grid container spacing={1}>
@@ -200,7 +188,7 @@ const AuditHistory = props => {
             <div style={{width: '95%', padding: '0px 2%' , paddingTop: '5px', paddingBottom: '60px'}}>
 
                 <Box style={{marginTop: '2px' , paddingBottom: '60px'}} p={1} className={`mt-3 mb-5`}>
-                    {props.auditEntries.map((item) => <AddedProductSingle deleteAuditProductEntry={props.deleteProductHandler} editAuditProductEntry={props.productAdd} editStoreProduct={editProductHandler.bind(this)} key={item.id} product={item.product.fetch()} item={item}/>)}
+                    {currentAudit.map((item) => <SingleProductView deleteAuditProductEntry={props.deleteProductHandler} editAuditProductEntry={props.productAdd} editStoreProduct={editProductHandler.bind(this)} key={item.id} product={item.product.fetch()} item={item}/>)}
                 </Box>
             </div>
 

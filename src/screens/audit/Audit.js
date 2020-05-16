@@ -25,21 +25,8 @@ class Audit extends Component {
         spCount: 0,
         branchProducts: [],
         currentProduct: 0,
+        currentAudit: 0,
         auditEntries: [],
-        datesList: [
-            {
-                'date_id': '1',
-                'date': '20th March 2020',
-                'time': '2:00pm',
-                'status': 'Unbalanced'
-            },
-            {
-                'date_id': '2',
-                'date': '20th March 2020',
-                'time': '4:00pm',
-                'status': 'Balanced'
-            },
-        ],
         productList: [
             {
                 'prod_id': '1',
@@ -105,9 +92,9 @@ class Audit extends Component {
             case 2:
                 return <AuditedProductsView balanceAllHandler={this.balanceAllHandler.bind(this)} productAdd={this.showAddView.bind(this)} deleteProductHandler={this.deleteProduct.bind(this)} auditEntries={this.state.auditEntries} setView={this.setStepContentView.bind(this)} />;
             case 3: 
-                return <AuditHistory setView={this.setStepContentView.bind(this)} auditEntries={this.state.auditEntries}/>
+                return <AuditHistory setView={this.setStepContentView.bind(this)} auditEntries={this.state.auditEntries} auditProducts={this.showAuditProductsView.bind(this)} />
             case 4:
-                return <AuditHistoryDetails setView={this.setStepContentView.bind(this)} products={this.state.productList} deleteProduct={this.deleteProduct.bind(this)} />
+                return <AuditHistoryDetails setView={this.setStepContentView.bind(this)} currentAudit={this.state.currentAudit} deleteProductHandler={this.deleteAuditProduct.bind(this)} />
             default:
                 return 'Complete';
         }
@@ -162,6 +149,21 @@ class Audit extends Component {
         });
     };
 
+    /*
+    * View a products stock
+    * */
+    showAuditProductsView = (auditId) => {
+        const old_list = this.state.auditEntries;
+
+        //Find index of specific object using findIndex method.
+        const itemIndex = old_list.filter((item => item.id === auditId));
+
+        this.setState({
+            currentAudit: itemIndex,
+            activeStep: 4
+        });
+    };
+
     deleteProduct = async (pId) => {
         await confirmAlert({
             title: 'Confirm to delete',
@@ -171,6 +173,30 @@ class Audit extends Component {
                     label: 'Yes',
                     onClick: () => {
                         new ModelAction('AuditEntries').destroy(pId);
+                    }
+                },
+                {
+                    label: 'No',
+                    onClick: () => {
+                        return false;
+                    }
+                }
+            ]
+        })
+    };
+
+    deleteAuditProduct = async (pId) => {
+        await confirmAlert({
+            title: 'Confirm to delete',
+            message: 'Are you sure you want to delete this product.',
+            buttons: [
+                {
+                    label: 'Yes',
+                    onClick: () => {
+                        new ModelAction('AuditEntries').destroy(pId);
+                        this.setState({
+                            activeStep: 3
+                        });
                     }
                 },
                 {
