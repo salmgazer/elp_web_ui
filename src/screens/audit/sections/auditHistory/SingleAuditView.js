@@ -7,9 +7,9 @@ import format from "date-fns/format";
 const SingleAuditView = props => {
     const dateAudit = props.dateAudited;
 
-    const openProductsView = (event) => {
-       props.setView(1);
-    };
+    // const openProductsView = (event) => {
+    //    props.setView(1);
+    // };
 
 
     return(
@@ -37,7 +37,7 @@ const SingleAuditView = props => {
                     <Button
                         variant="outlined"
                         style={{border: '1px solid #DAAB59', color: '#DAAB59', padding: '5px 10px', textTransform: 'none', fontSize:'13px'}}
-                        onClick={openProductsView.bind(this)}
+                        onClick={props.auditProducts}
                     >
                         View  
                     </Button>

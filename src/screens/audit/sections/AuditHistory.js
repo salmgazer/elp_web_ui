@@ -29,7 +29,7 @@ const AuditHistory = props => {
     const classes = useStyles();
     const auditEntries = props.auditEntries;
     const [selectedDate, setSelectedDate] = React.useState(new Date());
-    const [audits , setAudits] = useState([]);
+    const [auditList , setAuditList] = useState([]);
 
     const handleDateChange = date => {
         setSelectedDate(date);
@@ -37,19 +37,25 @@ const AuditHistory = props => {
     };
 
     useEffect(() => {
-        if (!audits) {
+        if (!auditList) {
             getAuditDetails(selectedDate);
         }
     });
 
     const getAuditDetails = async (date) => {
         const response = await new AuditService().getAuditDetails(date);
-        setAudits(response.audits);
+        setAuditList(response.audits);
         console.log(response)
+        console.log(response.audits)
     };
 
     const setView = (view) => {
         props.setView(view);
+    };
+
+    const auditProducts = (id) => {
+        console.log(id);
+        props.auditProducts(id);
     };
 
 
@@ -93,7 +99,7 @@ const AuditHistory = props => {
             <Box style={{ paddingBottom: '60px'}} p={1} className={`mt-3 mb-5`}>
                 {/* {props.auditDates.map((item) => <SingleAuditView  key={item.date_id} dateAudited={item}  setView={props.setView}/>)} */}
 
-                {audits.length === 0
+                {auditList.length === 0
                     ?
                     <div className={`rounded mx-1 my-2 p-2 bordered`}>
                         <Grid container spacing={1} className={`py-1`}>
@@ -114,7 +120,7 @@ const AuditHistory = props => {
                     </div>
                     :
 
-                    audits.map((audit) => <SingleAuditView  key={audit.id} dateAudited={audit} setView={props.setView} />)  
+                    auditList.map((audit) => <SingleAuditView  key={audit.id} dateAudited={audit} setView={props.setView} auditProducts={auditProducts.bind(this, audit.id)} />)  
 
                 }
 
