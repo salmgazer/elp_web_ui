@@ -31,22 +31,29 @@ export default class AuthService {
 
             if( user ){
                 try {
-                    var decoded = jwt.verify(user.data.token, 'Z7oGGqapxnMrBSd2xXFuqseC');
+                    const decoded = jwt.verify(user.data.token, 'Z7oGGqapxnMrBSd2xXFuqseC');
 
-                    const response = decoded.data;
+                    const loginInfo = decoded.data;
+
+                    console.log(loginInfo);
 
                     LocalInfo.setWorkingDate(format(new Date(), 'MM/dd/yyyy'));
                     localStorage.setItem('workingDate' , format(new Date(), 'MM/dd/yyyy'));
                     localStorage.setItem('accessToken' , user.data.token);
-                    localStorage.setItem('userDetails' , JSON.stringify(response.user));
-                    localStorage.setItem('username' , response.user.username);
-                    localStorage.setItem('activeBranch' , response.access[0].branches[0].branchId);
-                    localStorage.setItem('userData', JSON.stringify(response));
-                    localStorage.setItem('companyId', response.access[0].companyId);
+                    localStorage.setItem('userDetails' , JSON.stringify(loginInfo.user));
+                    localStorage.setItem('username' , loginInfo.user.username);
+                    LocalInfo.branchId = loginInfo.companies[0].branches[0].id;
+                  console.log("======================================");
+                  console.log("======================================");
+                  console.log(LocalInfo.branchId);
+                  console.log("======================================");
+                  console.log("======================================");
+                    localStorage.setItem('userData', JSON.stringify(loginInfo));
+                    localStorage.setItem('companyId', loginInfo.companies[0].id);
 
                     return {
                         success: 200,
-                        user: response.user
+                        user: loginInfo.user
                     };
                 } catch(err) {
                     return {
@@ -117,10 +124,10 @@ export default class AuthService {
 
             if( response ){
                 localStorage.setItem('randomString' , data.password);
-                localStorage.setItem('activeBranch' , response.data.branch.id);
+                localStorage.setItem('activeBranch' , response.data.companies[0].branches[0].id);
                 localStorage.setItem('userDetails' , JSON.stringify(response.data.user));
-                localStorage.setItem('companyId' , JSON.stringify(response.data.company.id));
-                localStorage.setItem('userData' , JSON.stringify(response.data.userAccess));
+                localStorage.setItem('companyId' , JSON.stringify(response.data.companies[0].id));
+                localStorage.setItem('userData' , JSON.stringify(response.data));
 
                 user = response.data.user;
                 console.log(user);

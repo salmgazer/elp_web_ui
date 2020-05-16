@@ -24,11 +24,7 @@ export default class LocalInfo {
   }
 
   static get branch() {
-    return this.branches.filter((branch) => branch.branchId === this.branchId)[0];
-  }
-
-  static get company() {
-    return ((JSON.parse(this.userAccess)).access).filter((company) => company.companyId === this.companyId)[0];
+    return this.branches.find(branch => branch.id === this.branchId);
   }
 
   static get userFullName() {
@@ -49,9 +45,9 @@ export default class LocalInfo {
     return localStorage.getItem(this.keys.companyId);
   }
 
-  static get companies() {
+  static get company() {
     if (this.userAccess) {
-      return ((JSON.parse(this.userAccess)).access).find(company => company.companyId == this.companyId);
+      return JSON.parse(this.userAccess).companies.find(company => company.id.localeCompare(this.companyId));
     }
     return null;
   }
@@ -74,8 +70,8 @@ export default class LocalInfo {
   }
 
   static get branches() {
-    if (this.companies) {
-        return this.companies.branches;
+    if (this.company) {
+        return this.company.branches;
     }
     return [];
   }
@@ -88,14 +84,26 @@ export default class LocalInfo {
       return localStorage.getItem(this.keys.branchId);
   }
 
-  static get userRole() {
-      return ((JSON.parse(this.userAccess)).access[0].role);
+  static get companyRole() {
+      return this.company.role;
       //return localStorage.getItem(this.keys.userRole);
   }
 
-    static get accessToken() {
-        return localStorage.getItem(this.keys.accessToken);
-    }
+  static get branchRole() {
+    return this.branch.role;
+  }
+
+  static get companyPermissions() {
+    return this.company.permissions;
+  }
+
+  static get branchPermissions() {
+    return this.branch.permission;
+  }
+
+  static get accessToken() {
+      return localStorage.getItem(this.keys.accessToken);
+  }
 
   static setUserId(userId) {
     localStorage.setItem(this.keys.userId, userId);
@@ -117,7 +125,7 @@ export default class LocalInfo {
     localStorage.setItem(this.keys.storeId, storeId);
   }
 
-  static setBranchId(branchId) {
+  static set branchId(branchId) {
       localStorage.setItem(this.keys.branchId, branchId);
   }
 

@@ -31,10 +31,10 @@ const StoreSummary = props => {
     });
 
     const getCompanyDetails = async () => {
-        const response = await new CompanyService().getSalesDetails('month');
+        const result = await new CompanyService().getSalesDetails('month');
         setBranchList(LocalInfo.branches);
-        setCompanyName(LocalInfo.companies.name)
-        setCompanySales(response);
+        setCompanyName(LocalInfo.company.name)
+        setCompanySales(result);
     };
 
     const { history, database } = props;

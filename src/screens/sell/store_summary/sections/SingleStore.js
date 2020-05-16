@@ -29,13 +29,12 @@ const SingleStore = props => {
     });
 
     const getCompanyDetails = async () => {
-        const response = await new BranchService().getSalesDetails('month' , branch.id);
-        console.log(response)
-        setCompanySales(response);
+        setCompanySales(await new BranchService().getSalesDetails('month' , branch.id));
     };
 
     const setBranch = (branchId) => {
-        LocalInfo.setBranchId(branchId)
+      console.log(branchId);
+        LocalInfo.branchId = branchId;
         history.push(paths.sell);
     };
 
@@ -60,7 +59,7 @@ const SingleStore = props => {
                         <span
                             style={{borderRadius: '6px' , fontSize: '12px' , fontWeight: '700', color: '#DAAB59'}}
                             className={`bordered px-2 py-2`}
-                            onClick={() => setBranch(branch.branchId)}
+                            onClick={() => setBranch(branch.id)}
                         >Open store</span>
                     </div>
                 </Grid>
