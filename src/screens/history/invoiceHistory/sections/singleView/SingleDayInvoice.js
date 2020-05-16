@@ -45,7 +45,7 @@ const SingleDayInvoice = props => {
         /*
         * @todo get entries via query on model
         * */
-        const entries = await invoice.sale_entries.fetch(); //await new SaleService().getSaleProductsById(invoice.id);
+        const entries = await invoice.salesEntries.fetch(); //await new SaleService().getSaleProductsById(invoice.id);
         const saleTotal = await SaleService.getSaleEntryAmountById(invoice.id);
         const paymentStatus = await SaleService.getSalePaymentStatus(invoice.id);
         setCustomer(response);
@@ -57,6 +57,10 @@ const SingleDayInvoice = props => {
         console.log(invoice.saleEntries.fetch())*/
     };
 
+    const deleteProductHandler = (event) => {
+        props.deleteProduct(event);
+    };
+
     return(
         <div>
             <Grid container spacing={1} className={`shadow1 mb-3 borderRadius10`}>
@@ -64,7 +68,7 @@ const SingleDayInvoice = props => {
                 <Grid item xs={1}></Grid>
                 <Grid item xs={7} style={{display: 'table', height: '60px', margin: '8px 0px'}} onClick={openDialogHandler.bind(this)} >
                     <div style={{textAlign: 'left', display: 'table-cell', verticalAlign: 'middle'}}>
-                    <span className='text-dark font-weight-bold' style={{ fontSize: '16px'}}>{`${customer.firstName} ${customer.otherNames}`}</span>
+                    <span className='text-dark font-weight-bold' style={{ fontSize: '16px'}}></span>
                         <div className="font-weight-light mt-1" style={{ fontSize: '14px'}}>INV. {invoice.receiptNumber.slice(0,8)}</div>
                         <div className="font-weight-light mt-1" style={{ fontSize: '14px'}}>Sales: GHC {total}</div>
                     </div>
@@ -88,7 +92,7 @@ const SingleDayInvoice = props => {
 
                         <Grid item xs={7} style={{display: 'table', height: '60px', margin: '8px 0px'}}>
                             <div style={{textAlign: 'left', display: 'table-cell', verticalAlign: 'middle'}}>
-                                <span className='text-dark font-weight-bold' style={{ fontSize: '15px'}} ></span>
+                                <span className='text-dark font-weight-bold' style={{ fontSize: '15px'}} >{`${customer.firstName} ${customer.otherNames}`}</span>
                                 <div className="font-weight-light mt-1" style={{ fontSize: '13px'}}>INV. {invoice.receiptNumber.slice(0,8)}</div>
                                 <div className="font-weight-light mt-1" style={{ fontSize: '13px'}}> {format(new Date(invoice.createdAt) , "h:mm a")}</div>
                             </div>
@@ -154,7 +158,7 @@ const SingleDayInvoice = props => {
 
             >
                 <Box style={{marginTop: '5px' , paddingBottom: '60px'}} p={1} className={`mt-3 mb-5`}>
-                    {saleEntries.map((item) => <SingleDayProduct  key={item.id} saleEntry={item}  />)}
+                    {saleEntries.map((item) => <SingleDayProduct  key={item.id} saleEntry={item} deleteStoreProduct={deleteProductHandler.bind(this)} updateSaleEntry={props.updateSaleEntry} updatePriceEntry={props.updateSaleEntry} updateDateEntry={props.updateSaleEntry} />)}
                 </Box>
 
             </MainDialog>

@@ -1,5 +1,7 @@
 import React, {Component} from 'react';
 import {withRouter} from "react-router";
+import ModelAction from "../../../../services/ModelAction";
+import {confirmAlert} from "react-confirm-alert";
 
 import DayView from './DayView';
 import WeekView from './WeekView';
@@ -18,7 +20,7 @@ class InvoiceSortDate extends Component {
     getStepContent = step => {
         switch (step) {
             case 0:
-                return <DayView setView={this.setStepContentView.bind(this)} pageName={this.state.pageName} />;
+                return <DayView setView={this.setStepContentView.bind(this)} pageName={this.state.pageName} deleteProduct={this.deleteProduct.bind(this)} updateSaleEntry={this.updateSaleEntry.bind(this)} />;
             case 2:
                 return <WeekView setView={this.setStepContentView.bind(this)} pageName={this.state.pageName} />;
             case 3:
@@ -45,6 +47,43 @@ class InvoiceSortDate extends Component {
             activeStep: step
         });
     };
+
+    deleteProduct = async (pId) => {
+        confirmAlert({
+           title: 'Confirm to delete',
+           message: 'Are you sure you want to delete this entry.',
+           buttons: [
+               {
+                   label: 'Yes',
+                   onClick: () => {
+                       new ModelAction('SaleEntry').destroy(pId);
+                   }
+               },
+               {
+                   label: 'No',
+                   onClick: () => {
+                       return false;
+                   }
+               }
+           ]
+       })
+   };
+
+   async updateSaleEntry(pId, formFields){
+       console.log(formFields)
+       console.log(pId)
+       try {
+           const status = new ModelAction('SaleEntry').update(pId, formFields);
+           console.log(status)
+           if(status){
+               return true;
+           }
+           alert('Something went wrong');
+           return false;
+       }catch (e) {
+           return false;
+       }
+   };
 
     render() {
         return(

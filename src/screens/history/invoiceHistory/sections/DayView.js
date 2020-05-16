@@ -78,6 +78,10 @@ const useStyles = makeStyles(theme => ({
         console.log(response)
     };
 
+    const deleteProductHandler = (event) => {
+        props.deleteProduct(event);
+    };
+
     return(
         <div className={classes.root}>
             {console.log(invoiceDetails.invoices)}
@@ -119,7 +123,7 @@ const useStyles = makeStyles(theme => ({
                 </Grid>
             </Grid>
 
-            <CardsSection quantity={invoiceDetails.quantity} costPrice={invoiceDetails.costPrice} sellingPrice={invoiceDetails.sellingPrice} profit={invoiceDetails.credit} profitName="Amount owed" />
+            <CardsSection quantity={invoiceDetails.quantity} costPrice={invoiceDetails.costPrice} sellingPrice={invoiceDetails.sellingPrice} profit={invoiceDetails.credit} profitName="Profit" />
 
             <Box style={{marginTop: '5px' , paddingBottom: '60px'}} p={1} className={`mt-3 mb-5`}>
                 {invoices.length === 0
@@ -144,7 +148,7 @@ const useStyles = makeStyles(theme => ({
                     :
                     pageName === false ?
 
-                    invoices.map((invoice) => <SingleDayInvoice  key={invoice.id} invoice={invoice} />)
+                    invoices.map((invoice) => <SingleDayInvoice  key={invoice.id} invoice={invoice} deleteProduct={deleteProductHandler.bind(this)} updateSaleEntry={props.updateSaleEntry} />)
                     :
                     invoices.map((invoice) => <SingleDayInvoice  key={invoice.id} invoice={invoice} prodName={name} />)
 
