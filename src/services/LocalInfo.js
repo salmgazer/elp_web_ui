@@ -47,7 +47,8 @@ export default class LocalInfo {
 
   static get company() {
     if (this.userAccess) {
-      return JSON.parse(this.userAccess).companies.find(company => company.id.localeCompare(this.companyId));
+      return JSON.parse(this.userAccess).companies
+        .find(company => company.id.localeCompare(this.companyId) || company.id === this.companyId);
     }
     return null;
   }
