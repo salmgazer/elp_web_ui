@@ -1,8 +1,6 @@
 import React from "react";
 import { withRouter } from "react-router-dom";
 import Component from "@reactions/component";
-import { useDatabase } from "@nozbe/watermelondb/hooks";
-import { Q } from "@nozbe/watermelondb";
 import './Admin.scss';
 import Styles from './Admin.module.scss';
 import Grid from '@material-ui/core/Grid';
@@ -62,40 +60,6 @@ const useStyles = makeStyles(theme => ({
     }
 }));
 
-const apiUrl = "";
-
-async function getUserStoreFromLocal(database, user, store) {
-    return database.collections
-        .get("users_stores")
-        .query(Q.where("user_id", user.id), Q.where("store_id", store.id))
-        .fetch();
-}
-
-async function getUserFromLocal(database, usernameOrPhone, password) {
-    return database.collections
-        .get("users")
-        .query(
-            Q.where("username", usernameOrPhone),
-            Q.or(Q.where("phone", usernameOrPhone)),
-            Q.where("password", password)
-        )
-        .fetch();
-}
-
-async function getStore(database) {
-    return database.collections
-        .get("stores")
-        .query()
-        .fetch();
-}
-
-async function getUsersFromLocal(database) {
-    return database.collections
-        .get("users")
-        .query()
-        .fetch();
-}
-
 const Admin = props => {
     const classes = useStyles();
 
@@ -106,7 +70,6 @@ const Admin = props => {
     console.log(username);
 
     const { history } = props;
-    const database = useDatabase();
 
     if (LocalInfo.storeId && LocalInfo.userId) {
         history.push(paths.home);
@@ -307,7 +270,9 @@ const Admin = props => {
                                     </Grid>
                                     <Grid item xs={2} sm>
                                         <div className={Styles.centered}>
-                                            <ArrowForwardIosIcon  style={{fontSize: '0.9rem'}} onClick={() => history.push(paths.register)}/>
+                                            <ArrowForwardIosIcon  style={{fontSize: '0.9rem'}} 
+                                            // onClick={() => history.push(paths.generate_barcode)}
+                                            />
 
                                         </div>
                                     </Grid>
@@ -382,7 +347,7 @@ const Admin = props => {
                                     </Grid>
                                     <Grid item xs={2} sm>
                                         <div className={Styles.centered}>
-                                            <ArrowForwardIosIcon  style={{fontSize: '0.9rem'}} onClick={() => history.push(paths.register)}/>
+                                            <ArrowForwardIosIcon  style={{fontSize: '0.9rem'}} onClick={() => history.push(paths.expense)}/>
 
                                         </div>
                                     </Grid>
@@ -402,7 +367,7 @@ const Admin = props => {
                                     </Grid>
                                     <Grid item xs={2} sm>
                                         <div className={Styles.centered}>
-                                            <ArrowForwardIosIcon  style={{fontSize: '0.9rem'}} onClick={() => history.push(paths.register)}/>
+                                            <ArrowForwardIosIcon  style={{fontSize: '0.9rem'}} onClick={() => history.push(paths.suppliers)}/>
 
                                         </div>
                                     </Grid>
@@ -423,7 +388,7 @@ const Admin = props => {
                                     </Grid>
                                     <Grid item xs={2} sm>
                                         <div className={Styles.centered}>
-                                            <ArrowForwardIosIcon  style={{fontSize: '0.9rem'}} onClick={() => history.push(paths.register)}/>
+                                            <ArrowForwardIosIcon  style={{fontSize: '0.9rem'}} onClick={() => history.push(paths.view_customers)}/>
 
                                         </div>
                                     </Grid>
