@@ -20,14 +20,13 @@ class PrintRec extends React.Component {
     props= {
         products: [],
         receiptNumber: '',
-        date: 0,
+        date: '',
         seller: '',
         customer: '',
         totalQty: '',
         totalAmt: '',
         amtPaid: '',
-        changeRem: '',
-        shopName: ''
+        changeRem: ''
     }
 
     render() {
@@ -47,7 +46,7 @@ class PrintRec extends React.Component {
                 <Grid item xs={12}>
                     <Paper >
                         <Typography style={{backgroundColor: 'black', color: 'white', textAlign: 'center', fontSize: '13px'}}>
-                            {this.props.shopName}
+                            {LocalInfo.branch.name}
                         </Typography>
                     </Paper>
                 </Grid>
@@ -55,14 +54,14 @@ class PrintRec extends React.Component {
             <Grid container spacing={1}>
                 <Grid item xs={12}>
                     <Typography style={{textAlign: 'center', fontSize: '13px'}}>
-                        Shop Address
+                        {LocalInfo.branch.location}
                     </Typography>
                 </Grid>
             </Grid>
             <Grid container spacing={1}>
                 <Grid item xs={12}>
                     <Typography style={{textAlign: 'center', fontSize: '13px'}}>
-                        Shop Phone number
+                        {LocalInfo.branch.phone}
                     </Typography>
                 </Grid>
             </Grid>
@@ -78,7 +77,7 @@ class PrintRec extends React.Component {
                         </tr>
                         <tr>
                             <td className={style.td}>Date :</td>
-                            <td className={style.td}></td>
+                            <td className={style.td}>{this.props.date}</td>
                         </tr>
                         <tr>
                             <td className={style.td}> Seller :</td>
@@ -199,7 +198,6 @@ const CheckoutView = props => {
     const [amountPaid , setAmountPaid] = useState(0);
     const [quantity , setQuantity] = useState(0);
     const [receipt , setReceipt] = useState(0);
-    const [shopName , setShopName] = useState(0);
     const [date , setDate] = useState(0);
     const [seller , setSeller] = useState('');
     const [customerName, setCustomerName] = React.useState('');
@@ -218,11 +216,10 @@ const CheckoutView = props => {
         const qty = await SaleService.getSaleProductQuantity(sale);
         const lastsale = await SaleService.getLastSale();
         console.log(lastsale);
-        const recDate = lastsale.createdAt;
+        const recDate = lastsale.salesDate;
         const rec = lastsale.receiptNumber;
         setCustomerName(await new CartService().getCartCustomer(props.currentCustomer));
         setSeller(LocalInfo.username);
-        setShopName(LocalInfo.branch.name);
         setReceipt(rec.slice(0,8));
         //const total = await SaleService.getSaleEntryAmountById(sale);
         setQuantity(qty);
@@ -302,7 +299,6 @@ const CheckoutView = props => {
                     <PrintRec 
                         ref={componentRef} 
                         products={props.products}
-                        shopName={shopName}
                         date= {date}
                         receiptNumber={receipt}
                         seller= {seller}
