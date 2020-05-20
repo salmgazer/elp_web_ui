@@ -1,15 +1,12 @@
-import React from "react";
+import React, {useState} from "react";
 import { withRouter } from "react-router-dom";
 import Component from "@reactions/component";
-import { useDatabase } from "@nozbe/watermelondb/hooks";
-import { Q } from "@nozbe/watermelondb";
 import './Admin.scss';
 import Styles from './Admin.module.scss';
 import Grid from '@material-ui/core/Grid';
 import paths from "../../utilities/paths";
 import CssBaseline from "@material-ui/core/CssBaseline/CssBaseline";
 import {makeStyles} from "@material-ui/core";
-import MenuIcon from '@material-ui/icons/Menu';
 import Paper from '@material-ui/core/Paper';
 import ButtonBase from '@material-ui/core/ButtonBase';
 import ArrowForwardIosIcon from '@material-ui/icons/ArrowForwardIos';
@@ -17,9 +14,10 @@ import Woman from '../../assets/img/woman.jpg';
 import Typography from "@material-ui/core/Typography/Typography";
 import SectionNavbars from "../../components/Sections/SectionNavbars";
 import Drawer from "../../components/Drawer/Drawer";
-
-import LocalInfo from '../../services/LocalInfo';
-
+import MenuIcon from '@material-ui/icons/Menu';
+import MoreVertIcon from '@material-ui/icons/MoreVert';
+import Container from "@material-ui/core/Container/Container";
+import LocalInfo from "../../services/LocalInfo";
 
 const useStyles = makeStyles(theme => ({
     root: {
@@ -62,55 +60,17 @@ const useStyles = makeStyles(theme => ({
     }
 }));
 
-const apiUrl = "";
-
-async function getUserStoreFromLocal(database, user, store) {
-    return database.collections
-        .get("users_stores")
-        .query(Q.where("user_id", user.id), Q.where("store_id", store.id))
-        .fetch();
-}
-
-async function getUserFromLocal(database, usernameOrPhone, password) {
-    return database.collections
-        .get("users")
-        .query(
-            Q.where("username", usernameOrPhone),
-            Q.or(Q.where("phone", usernameOrPhone)),
-            Q.where("password", password)
-        )
-        .fetch();
-}
-
-async function getStore(database) {
-    return database.collections
-        .get("stores")
-        .query()
-        .fetch();
-}
-
-async function getUsersFromLocal(database) {
-    return database.collections
-        .get("users")
-        .query()
-        .fetch();
-}
-
 const Admin = props => {
     const classes = useStyles();
+    const [isShowDrawer , setIsShowDrawer] = useState(false);
+    const [isDrawerShow , setIsDrawerShow] = useState(false);
 
     /*
     * @todo replace user name with localInfo details.
     * */
     const username = JSON.parse(localStorage.getItem('userDetails')).firstName;
-    console.log(username);
 
     const { history } = props;
-    const database = useDatabase();
-
-    if (LocalInfo.storeId && LocalInfo.userId) {
-        history.push(paths.home);
-    }
 
     return (
         <div style={{height: '100vh'}}>
@@ -124,14 +84,30 @@ const Admin = props => {
                         <CssBaseline />
 
 
-                        <SectionNavbars title={`Welcome ${username}`}>
-                            <MenuIcon
-                                onClick={() => setState({isDrawerShow: true})}
-                                style={{fontSize: '2.5rem'}}
-                            />
-                        </SectionNavbars>
+                        <SectionNavbars
+                            title="Stock"
+                            leftIcon={
+                                <div onClick={() => setIsDrawerShow(true)}>
+                                    <MenuIcon
+                                        style={{fontSize: '2rem'}}
+                                    />
+                                </div>
+                            }
+                            icons={
+                                <div onClick={() => setIsShowDrawer(true)}>
+                                    <MoreVertIcon
+                                        style={{fontSize: '2rem'}}
+                                    />
+                                </div>
+                            }
+                        />
 
-                        <Drawer isShow={state.isDrawerShow} />
+                        <div
+                            onClick={() => setIsDrawerShow(false)}
+                            onKeyDown={() => setIsDrawerShow(false)}
+                        >
+                            <Drawer isShow={isDrawerShow} />
+                        </div>
 
                         <div style={{ position: "fixed", top:"80px", width:"100%" }}>
                             <Paper className={classes.paper}>
@@ -145,13 +121,13 @@ const Admin = props => {
                                         <Grid item xs container direction="column" spacing={2} style={{textAlign: "left"}}>
                                             <Grid item xs>
                                                 <Typography style={{fontSize: "1rem" , fontWeight: "600"}}>
-                                                    Pearl Gemegah
+                                                    { LocalInfo.userFullName }
                                                 </Typography>
                                                 <Typography  style={{fontSize: "0.9rem" , fontWeight: "500"}}>
-                                                    God's Grace Store
+                                                    { LocalInfo.company.name }
                                                 </Typography>
                                                 <Typography style={{fontSize: "0.8rem"}}>
-                                                    Owner
+                                                    { LocalInfo.companyRole }
                                                 </Typography>
                                             </Grid>
                                         </Grid>
@@ -389,7 +365,7 @@ const Admin = props => {
 
                                 </Grid>
 
-                                <Grid container style={{borderTop: "1px solid #d8d2d2" ,paddingTop: "8px" ,paddingBottom: "3px"}}>
+                                <Grid container style={{borderTop: "1px solid #d8d2d2" ,paddingTop: "8px" ,paddingBottom: "3px"}} onClick={() => history.push(paths.suppliers)}>
 
                                     <Grid item xs={10} sm container>
                                         <Grid item xs container direction="column" spacing={2} style={{textAlign: "left" , paddingLeft: "8%"}}>

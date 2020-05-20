@@ -80,8 +80,8 @@ export default class AuthService {
     register = async( data ) => {
         // check if user exists - core-api
         // user registers : username and password on AuthService -- done
-        // create company on core-api - companies table -- done
-        // create first company on core-api and associate to user -- done
+        // create suppliers_company on core-api - companies table -- done
+        // create first suppliers_company on core-api and associate to user -- done
         /*
         @var { username , firstName , otherNames, phone, password}
         @todo check if user exist

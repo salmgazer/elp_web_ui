@@ -15,9 +15,30 @@ import stockMovementSchema from "./stockMovements/stockMovementSchema";
 import auditSchema from "./audit/auditSchema";
 import auditEntriesSchema from "./auditEntry/auditEntriesSchema";
 
+import suppliersCompanySchema from "./suppliers_company/suppliersCompanySchema";
+import branchSuppliersSchema from "./branchSuppliers/branchSuppliersSchema";
+import branchSupplierProductSchema from "./branchSupplierProducts/branchSupplierProductsSchema";
+import branchSupplierSalespersonsSchema from "./branchSupplierSalespersons/branchSupplierSalespersonsSchema";
+
+/*import branchSupplierStockSchema from "./branchSupplierStock/branchSupplerStockSchema";
+import branchSupplierStockPaymentInstallmentSchema from "./branchSupplierStockPaymentInstallment/branchSupplierStockPaymentInstallmentSchema";
+*/
+
 // latest migrations should be at the top entry level of the migrations array
 export default schemaMigrations({
   migrations: [
+      {
+          toVersion: 12,
+          steps: [
+              createTable(suppliersCompanySchema),
+              createTable(branchSuppliersSchema),
+              createTable(branchSupplierProductSchema),
+              createTable(branchSupplierSalespersonsSchema),
+              /*createTable(branchSupplierStockSchema),
+              createTable(branchSupplierStockPaymentInstallmentSchema),
+              */
+          ]
+      },
       {
           toVersion: 11,
           steps: [

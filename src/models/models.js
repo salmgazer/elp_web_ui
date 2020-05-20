@@ -17,6 +17,17 @@ import StockMovement from "./stockMovements/StockMovement"
 import Audits from "./audit/Audit";
 import AuditEntries from "./auditEntry/AuditEntries";
 
+import SuppliersCompany from "./suppliers_company/SuppliersCompany";
+import BranchSuppliers from "./branchSuppliers/branchSuppliersSchema";
+import BranchSupplierProducts from "./branchSupplierProducts/BranchSupplierProducts";
+import BranchSupplierSalespersons from "./branchSupplierSalespersons/BranchSupplierSalespersons";
+
+/*import BranchSupplierStock from "./branchSupplierStock/BranchSupplierStock";
+import BranchSupplierStockPaymentInstallment from "./branchSupplierStockPaymentInstallment/BranchSupplierStockPaymentInstallment";
+import BranchSupplierProducts from "./branchSupplierStock/BranchSupplierStock";
+import BranchSupplierSalespersons from "./branchSupplierSalespersons/BranchSupplierSalespersons";
+*/
+
 export default {
     Brand,
     Manufacturer,
@@ -36,4 +47,11 @@ export default {
     StockMovement,
     AuditEntries,
     Audits,
+    SuppliersCompany,
+    BranchSuppliers,
+    BranchSupplierProducts,
+    BranchSupplierSalespersons,
+    /*BranchSupplierStock,
+    BranchSupplierStockPaymentInstallment,
+    */
 }

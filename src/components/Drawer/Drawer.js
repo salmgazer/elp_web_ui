@@ -97,7 +97,7 @@ const Drawer = props => {
                     <ListItemText primary="Dashboard" />
                 </ListItem>
                 <Divider />
-                <ListItem button key={6}>
+                <ListItem button key={6} onClick={() => history.push(paths.admin)}>
                     <ListItemIcon><PersonIcon style={{color: '#FFFFFF'}} /></ListItemIcon>
                     <ListItemText primary="Admin" />
                 </ListItem>

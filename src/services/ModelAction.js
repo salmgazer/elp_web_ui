@@ -21,6 +21,14 @@ export default class ModelAction {
 
     /*
     * @var
+    * @return array of items
+    * */
+    indexNotObserve(){
+        return this.database.collections.get(this.table).query().fetch();
+    }
+
+    /*
+    * @var
     * @return object
     * */
     findByIdNotObserve(id){

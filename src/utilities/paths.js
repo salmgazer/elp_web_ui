@@ -26,4 +26,10 @@ export default {
     account_info: "/account-information",
     verify_phone: "/verify-phone",
     change_price: "/change-price",
+    add_supplier_stock : "/supplier-stock",
+    add_supplier : "/add-supplier",
+    suppliers: "/suppliers",
+    view_suppliers: "/list-suppliers",
+    supplier_detail : "/supplier-detail",
+    pay_supplier : "/pay-supplier",
 };
