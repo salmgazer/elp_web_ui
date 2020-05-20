@@ -1,5 +1,6 @@
 import entities from "../config/supplierEntities";
 import ModelAction from "./ModelAction";
+import LocalInfo from "./LocalInfo";
 
 export default class SupplierService {
     static async supplierAggregator(){
@@ -43,4 +44,73 @@ export default class SupplierService {
             }
         });
     }
+
+    /*
+    * @todo
+    * 1. check if there is an entity,
+    * 2. if entity
+    *   a. Create supplier
+    * 3. else entity
+    *   a. create entity
+    *   b. create supplier
+    * 4. If salesperson create salesperson
+    *
+    * */
+    async addSupplier(data){
+        let supplier = "";
+        let salesperson = "";
+
+        if(data.entityId === ""){
+            try {
+                switch(data.entityType){
+                    case 'SuppliersCompany':
+
+                }
+                const entity = await new ModelAction(data.entityType).post({
+                    entityId: data.entityId,
+                    entityType: data.entityType,
+                    name: data.name,
+                    contact: data.contact,
+                    branchId: LocalInfo.branchId,
+                    createdBy: LocalInfo.userId,
+                    deliveryDays: data.deliveryDays,
+                });
+            }catch (e){
+                console.log(e);
+            }
+        }
+
+        try {
+            supplier = await new ModelAction('BranchSuppliers').post({
+                entityId: data.entityId,
+                entityType: data.entityType,
+                name: data.name,
+                contact: data.contact,
+                branchId: LocalInfo.branchId,
+                createdBy: LocalInfo.userId,
+                deliveryDays: data.deliveryDays,
+            });
+        }catch (e){
+            console.log(e);
+        }
+
+        if(supplier){
+            if(data.salespersonName){
+                try {
+                    salesperson = await new ModelAction('BranchSupplierSalespersons').post({
+                        branchSupplierId: supplier.id,
+                        name: data.salespersonName,
+                        contact: data.salespersonContact,
+                        branchId: LocalInfo.branchId,
+                        createdBy: LocalInfo.userId,
+                    });
+                }catch (e){
+                    console.log(e);
+                }
+            }
+        }
+
+        localStorage.setItem("supplierId" , supplier.id);
+    }
+
 }

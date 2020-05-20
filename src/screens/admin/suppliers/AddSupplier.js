@@ -22,7 +22,6 @@ import PersonIcon from '@material-ui/icons/Person';
 import CallIcon from '@material-ui/icons/Call';
 import CalendarIcon from '@material-ui/icons/CalendarTodayOutlined';
 import ShopIcon from '@material-ui/icons/Storefront';
-import AddIcon from '@material-ui/icons/Add';
 import SectionNavbars from "../../../components/Sections/SectionNavbars";
 import FormControl from '@material-ui/core/FormControl';
 import FormGroup from '@material-ui/core/FormGroup';
@@ -36,6 +35,7 @@ import ListItem from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItemText';
 import ListItemAvatar from '@material-ui/core/ListItemAvatar';
 import Avatar from '@material-ui/core/Avatar';
+import PrimaryLoader from "../../../components/Loader/Loader";
 
 const PrimaryCheckbox = withStyles({
     root: {
@@ -176,8 +176,10 @@ const ValidationSelectField = withStyles({
 
 const AddSupplier = props => {
     const entityTypes = entities.entities;
+
     const { history } = props;
     const [daysShow , setDaysShow] = useState(false);
+    const [loading , setLoading] = useState(false);
     const [btnState , setBtnState] = useState(true);
     const [showSuppliers , setShowSuppliers] = useState(false);
     const [suppliersSearch , setSupplierSearch] = useState([]);
@@ -233,8 +235,9 @@ const AddSupplier = props => {
     };
 
     const handleDeliveryDaysChange = (event) => {
+        let days = {};
         if(event.target.name === 'Everyday' && event.target.checked){
-            setDeliveryDays({
+            days = {
                 Monday: true,
                 Tuesday: true,
                 Wednesday: true,
@@ -243,10 +246,18 @@ const AddSupplier = props => {
                 Saturday: true,
                 Sunday: true,
                 Everyday: true,
-            })
+            };
+
+            setDeliveryDays(days);
         }else{
-            setDeliveryDays({ ...deliveryDays, [event.target.name]: event.target.checked });
+            days = { ...deliveryDays, [event.target.name]: event.target.checked };
+            setDeliveryDays(days);
         }
+
+        const { ...formData }  = formFields;
+        formData['deliveryDays'] = days;
+        setFormFields(formData);
+
     };
 
     const handleChangeHandler = (event) => {
@@ -286,6 +297,11 @@ const AddSupplier = props => {
         }else{
             setShowSuppliers(false);
         }
+
+        const { ...formData }  = formFields;
+        formData['entityId'] = '';
+        formData['contact'] = '';
+        setFormFields(formData);
     };
 
     const setSupplierItem = (item) => {
@@ -312,7 +328,10 @@ const AddSupplier = props => {
     };
 
     const addNewSupplier = () => {
+        setLoading(true);
+        console.log(deliveryDays)
         console.log(formFields)
+        setLoading(false);
         //history.push(paths.add_supplier_stock)
     };
 
@@ -595,7 +614,19 @@ const AddSupplier = props => {
                             onClick={addNewSupplier}
                             disabled={btnState}
                         >
-                            Next
+                            {
+                                loading ?
+                                    <PrimaryLoader
+                                        style={{width: '30px' , height: '30px'}}
+                                        color="#FFFFFF"
+                                        type="Oval"
+                                        className={`mt-1`}
+                                        width={25}
+                                        height={25}
+                                    />
+                                    :
+                                    'Next'
+                            }
                         </Button>
                     </Box>
                 </div>

@@ -4,7 +4,7 @@
       "table": "companies",
       "entity": "SuppliersCompany",
       "name": "Company",
-      "fields": ["id" , "name" , "contact"],
+      "fields": ["name" , "contact" , "email" , "isTemporary" , "createdBy"],
       "nameFields": ["name"],
       "contact": ""
     },
@@ -12,7 +12,7 @@
       "table": "manufacturers",
       "entity": "Manufacturer",
       "name": "Manufacturer",
-      "fields": ["id" , "name"],
+      "fields": ["name"],
       "nameFields": ["name"],
       "contact": ""
     },
@@ -20,7 +20,7 @@
       "table": "brands",
       "entity": "Brand",
       "name": "Brand",
-      "fields": ["id" , "name"],
+      "fields": ["name"],
       "nameFields": ["name"],
       "contact": ""
     },
@@ -28,7 +28,7 @@
       "table": "customers",
       "entity": "Customer",
       "name": "Customer",
-      "fields": ["id" , "firstName", "otherNames" , "phone"],
+      "fields": ["firstName", "otherNames" , "phone" , "location" , "email"],
       "nameFields": ["firstName", "otherNames"],
       "contact": "phone"
     }
