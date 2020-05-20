@@ -14,6 +14,7 @@ export default class BranchSupplierProducts extends Model {
     static displayColumn = 'id';
 
     @field('branchProductId') branchProductId;
+    @field('branchSupplierId') branchSupplierId;
     @field('productId') productId;
     @field('branchId') branchId;
     @field('createdBy') createdBy;

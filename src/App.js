@@ -42,7 +42,7 @@ import AccountInformation from "./screens/admin/accountInformation/AccountInform
 import VerifyPhone from "./screens/admin/accountInformation/VerifyPhone";
 import ChangePrice from "./screens/admin/changePrice/ChangePrice";
 import Suppliers from "./screens/admin/suppliers/Suppliers";
-import ViewSuppliers from "./screens/admin/suppliers/ViewSuppliers";
+import ViewSuppliersNew from "./screens/admin/suppliers/mainView/ViewSuppliersNew";
 import SupplierDetails from "./screens/admin/suppliers/SupplierDetails";
 import PaySupplier from "./screens/admin/suppliers/PaySupplier";
 import SupplierStock from "./screens/admin/suppliers/SupplierStock";
@@ -315,7 +315,7 @@ class App extends React.Component {
                     render={() => {
                         setPageBackground();
                         this.setTitle(`Suppliers | ${appName}`);
-                        return <ViewSuppliers/>;
+                        return <ViewSuppliersNew />
                     }}
                 />
                 <Route

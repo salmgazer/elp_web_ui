@@ -14,7 +14,7 @@ const useStyles = makeStyles(theme => ({
         padding: '2px 5px',
         alignItems: 'center',
         borderRadius: '30px',
-        height: '35px',
+        height: '40px',
         fontSize: '0.9rem',
         lineHeight: '1.5',
         transition: 'border-color .15s ease-in-out,box-shadow .15s ease-in-out',

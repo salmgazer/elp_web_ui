@@ -1,6 +1,9 @@
 import entities from "../config/supplierEntities";
 import ModelAction from "./ModelAction";
 import LocalInfo from "./LocalInfo";
+import * as Q from "@nozbe/watermelondb/QueryDescription";
+import database from "../models/database";
+import BranchSupplierProducts from "../models/branchSupplierProducts/BranchSupplierProducts";
 
 export default class SupplierService {
     static async supplierAggregator(){
@@ -147,9 +150,88 @@ export default class SupplierService {
                     console.log(e);
                 }
             }
+
+            localStorage.setItem("supplierId" , supplier.id);
+            localStorage.setItem("supplierName" , supplier.name);
+            return supplier;
         }
 
-        localStorage.setItem("supplierId" , supplier.id);
+
+        return false;
     }
 
+    static async productExistInBranch(productId){
+        const dataCollection = await database.collections.get(BranchSupplierProducts.table);
+        const supplierId = localStorage.getItem("supplierId");
+
+        const product = await dataCollection.query(
+            Q.where('branchSupplierId' , supplierId),
+            Q.where('branchId' , LocalInfo.branchId),
+            Q.where('branchProductId' , productId),
+        ).fetch();
+
+        //console.log(product)
+
+        if(product.length > 0){
+            return true
+        }else {
+            return false
+        }
+        //return (product.length > 0)();
+    }
+
+    async addProductToSupplier(product){
+        try {
+            return await new ModelAction('BranchSupplierProducts').post({
+                branchProductId: product.id,
+                branchSupplierId: localStorage.getItem("supplierId"),
+                productId: product.productId,
+                branchId: LocalInfo.branchId,
+                createdBy: LocalInfo.userId
+            });
+        }catch (e) {
+            console.log(e)
+        }
+    }
+
+    async removeProductFromSupplier(product){
+        console.log(product)
+        const dataCollection = await database.collections.get(BranchSupplierProducts.table);
+        const supplierId = localStorage.getItem("supplierId");
+
+        try {
+            const items = await dataCollection.query(
+                Q.where('branchSupplierId' , supplierId),
+                Q.where('branchProductId' , product.id),
+            ).fetch();
+
+            await database.action(async () => {
+                await items[0].markAsDeleted();
+            })
+
+            return true;
+        }catch (e) {
+            console.log(e)
+        }
+    }
+
+    static async getSupplierProductsCount(){
+        const dataCollection = await database.collections.get(BranchSupplierProducts.table);
+        const supplierId = localStorage.getItem("supplierId");
+
+        try {
+            const count = await dataCollection.query(
+                Q.where('branchSupplierId' , supplierId),
+                Q.where('branchId' , LocalInfo.branchId),
+            ).fetchCount();
+
+            return count;
+        }catch (e) {
+            console.log(e)
+        }
+    }
+
+    static async getSuppliers(){
+
+    }
 }

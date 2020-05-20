@@ -36,6 +36,7 @@ import ListItemText from '@material-ui/core/ListItemText';
 import ListItemAvatar from '@material-ui/core/ListItemAvatar';
 import Avatar from '@material-ui/core/Avatar';
 import PrimaryLoader from "../../../components/Loader/Loader";
+import SimpleSnackbar from "../../../components/Snackbar/SimpleSnackbar";
 
 const PrimaryCheckbox = withStyles({
     root: {
@@ -185,6 +186,10 @@ const AddSupplier = props => {
     const [suppliersSearch , setSupplierSearch] = useState([]);
     const inputLabel = React.useRef(null);
     const [labelWidth, setLabelWidth] = React.useState(0);
+    const [error , setError] = useState(false);
+    const [errorMsg , setErrorMsg] = useState('');
+    const [success , setSuccess] = useState(false);
+    const [successMsg , setSuccessMsg] = useState('');
 
     useEffect(() => {
         setLabelWidth(inputLabel.current.offsetWidth);
@@ -200,7 +205,7 @@ const AddSupplier = props => {
         //console.log(await SupplierService.getSuppliers(entityTypes[0].entity))
         //setSupplierSearch(await SupplierService.supplierAggregator());
         setSupplierSearch(await SupplierService.getSuppliers(entityTypes[0].entity));
-    }
+    };
 
     const [deliveryDays, setDeliveryDays] = useState({
         Monday: false,
@@ -322,22 +327,35 @@ const AddSupplier = props => {
         setShowSuppliers(false);
     };
 
-    const setBtnNextState = () => {
+    /*const setBtnNextState = () => {
         if(formFields.name.length > 2 && formFields.contact.length > 9){
             setBtnState(false);
         }else{
             setBtnState(true);
         }
-    };
+    };*/
 
     const addNewSupplier = async() => {
         setLoading(true);
-        console.log(formFields)
         const supplier = await new SupplierService().addSupplier(formFields);
 
-        console.log(supplier)
+        if(supplier){
+            setSuccessMsg('Supplier added to branch');
+            setSuccess(true);
+            setTimeout(function(){
+                setSuccessMsg('');
+                setSuccess(false);
+            }, 2000);
+            history.push(paths.add_supplier_stock)
+        }else{
+            setErrorMsg('OOPS. Something went wrong. Please try again');
+            setError(true);
+            setTimeout(function(){
+                setErrorMsg('');
+                setError(false);
+            }, 2000);
+        }
         setLoading(false);
-        //history.push(paths.add_supplier_stock)
     };
 
     const formRef = React.createRef('form');
@@ -347,6 +365,18 @@ const AddSupplier = props => {
         <div style={{height: '100vh'}}>
             <React.Fragment>
                 <CssBaseline />
+
+                <SimpleSnackbar
+                    type="success"
+                    openState={success}
+                    message={successMsg}
+                />
+
+                <SimpleSnackbar
+                    type="warning"
+                    openState={error}
+                    message={errorMsg}
+                />
 
                 <SectionNavbars
                     title="Suppliers"
@@ -375,235 +405,235 @@ const AddSupplier = props => {
                     </Paper>
                 </div>
                 <div className={`mt-7 pt-6`}>
-                        <ValidatorForm
-                            ref={formRef}
-                            onError={handleFormValidation}
-                            className={classes.root}
-                            instantValidate
-                        >
-                            <div className="row p-3 pt-0 mx-auto text-center w-100">
-                                <div className="text-center mx-auto">
-                                    <FormControl variant="outlined" className={classes.formControl1}>
-                                        <InputLabel ref={inputLabel} htmlFor="outlined-age-native-simple">
-                                            Client Type:
-                                        </InputLabel>
-                                        <ValidationSelectField
-                                            //label="Client Type"
-                                            onChange={handleClientTypeChange}
-                                            value={formFields.entityType}
-                                            labelWidth={labelWidth}
-                                            inputProps={{
-                                                name: 'entityType',
-                                                id: 'entityType',
-                                            }}
-                                            className={classes.select}
-                                        >
-                                            {entityTypes.map((entity , index) =>
-                                                <option key={index} value={entity.entity}>{entity.name}</option>
-                                            )}
-                                        </ValidationSelectField>
-                                    </FormControl>
-                                </div>
-
-                                <div className="text-center mx-auto my-2">
-                                    <TextField
-                                        onChange={handleNameTypeChange}
-                                        className={classes.formControl1}
-                                        type="text"
-                                        variant="outlined"
-                                        label="Company name*"
-                                        name="name"
-                                        value={formFields.name}
-                                        InputProps={{
-                                            startAdornment: (
-                                                <InputAdornment position="start">
-                                                    <ShopIcon style={{color: '#333333'}} />
-                                                </InputAdornment>
-                                            ),
+                    <ValidatorForm
+                        ref={formRef}
+                        onError={handleFormValidation}
+                        className={classes.root}
+                        instantValidate
+                    >
+                        <div className="row p-3 pt-0 mx-auto text-center w-100">
+                            <div className="text-center mx-auto">
+                                <FormControl variant="outlined" className={classes.formControl1}>
+                                    <InputLabel ref={inputLabel} htmlFor="outlined-age-native-simple">
+                                        Client Type:
+                                    </InputLabel>
+                                    <ValidationSelectField
+                                        //label="Client Type"
+                                        onChange={handleClientTypeChange}
+                                        value={formFields.entityType}
+                                        labelWidth={labelWidth}
+                                        inputProps={{
+                                            name: 'entityType',
+                                            id: 'entityType',
                                         }}
-                                    />
-                                    {
-                                        showSuppliers ?
-                                            <List className={classes.dropList} dense={true} >
-                                                {
-                                                    suppliersSearch.map((item) =>
-                                                        <ListItem key={item.id} onClick={() => setSupplierItem(item)}>
-                                                            <ListItemAvatar>
-                                                                <Avatar
-                                                                    className={classes.primaryColor}
-                                                                >
-                                                                    <Typography
-                                                                        component="p"
-                                                                        variant="h6"
-                                                                        style={{fontWeight: '700', fontSize: '1.00rem'}}
-                                                                    >
-                                                                        {(item.name).charAt(0).toUpperCase()}
-                                                                    </Typography>
-                                                                </Avatar>
-                                                            </ListItemAvatar>
-                                                            <ListItemText primary={item.name} secondary={(item.entityName + `${item.contact ? ' - ' + item.contact : ''}`).trim()} />
-                                                        </ListItem>
-                                                    )
-                                                }
-                                            </List>
-                                            :
-                                            ''
-                                    }
-
-                                </div>
-
-                                <div className="text-center mx-auto my-2">
-                                    <TextField
-                                        className={classes.formControl1}
-                                        type="text"
-                                        variant="outlined"
-                                        name="contact"
-                                        value={formFields.contact}
-                                        label="Company contact*"
-                                        onChange={handleChangeHandler}
-                                        InputProps={{
-                                            startAdornment: (
-                                                <InputAdornment position="start">
-                                                    <CallIcon style={{color: '#333333'}} />
-                                                </InputAdornment>
-                                            ),
-                                        }}
-                                    />
-                                </div>
-
-                                <div className="text-center mx-auto my-2">
-                                    <TextField
-                                        className={classes.formControl1}
-                                        label="Salesperson"
-                                        name="salespersonName"
-                                        onChange={handleChangeHandler}
-                                        value={formFields.salespersonName}
-                                        variant="outlined"
-                                        InputProps={{
-                                            startAdornment: (
-                                                <InputAdornment position="start">
-                                                    <PersonIcon style={{color: '#333333'}} />
-                                                </InputAdornment>
-                                            ),
-                                        }}
-                                    />
-                                </div>
-
-                                <div className="text-center mx-auto my-2">
-                                    <TextField
-                                        className={classes.formControl1}
-                                        label="Supplier Contact"
-                                        name="salespersonContact"
-                                        onChange={handleChangeHandler}
-                                        value={formFields.salespersonContact}
-                                        variant="outlined"
-                                        InputProps={{
-                                            startAdornment: (
-                                                <InputAdornment position="start">
-                                                    <CallIcon style={{color: '#333333'}} />
-                                                </InputAdornment>
-                                            ),
-                                        }}
-                                    />
-                                </div>
-
-                                {
-                                    daysShow ?
-                                        <div
-                                            className={`mt-4`}
-                                            style={{
-                                                display: 'flex',
-                                                width: '100%',
-                                                alignItems: 'center',
-                                                flexDirection: 'row',
-                                                marginBottom: '5px' ,
-                                                border: '1px solid #e5e5e5',
-                                                borderRadius: '2px',
-                                                padding: '10px'
-                                            }}
-                                        >
-                                            <FormControl component="fieldset" className={classes.formControl}>
-                                                <Typography
-                                                    component="h6"
-                                                    variant="h6"
-                                                    style={{
-                                                        fontWeight: '500',
-                                                        fontSize: '1.1rem',
-                                                        marginTop: '-47px',
-                                                        backgroundColor: '#FFF',
-                                                        minWidth: '200px',
-                                                        marginBottom: '20px',
-                                                    }}
-                                                >
-                                                    Enter delivery days
-                                                </Typography>
-                                                <FormGroup>
-                                                    <FormControlLabel
-                                                        control={<PrimaryCheckbox checked={Monday} onChange={handleDeliveryDaysChange} name="Monday" />}
-                                                        label="Monday"
-                                                    />
-                                                    <FormControlLabel
-                                                        control={<PrimaryCheckbox checked={Tuesday} onChange={handleDeliveryDaysChange} name="Tuesday" />}
-                                                        label="Tuesday"
-                                                    />
-                                                    <FormControlLabel
-                                                        control={<PrimaryCheckbox checked={Wednesday} onChange={handleDeliveryDaysChange} name="Wednesday" />}
-                                                        label="Wednesday"
-                                                    />
-                                                    <FormControlLabel
-                                                        control={<PrimaryCheckbox checked={Thursday} onChange={handleDeliveryDaysChange} name="Thursday" />}
-                                                        label="Thursday"
-                                                    />
-                                                </FormGroup>
-                                            </FormControl>
-                                            <FormControl component="fieldset" className={classes.formControl}>
-                                                <FormGroup>
-                                                    <FormControlLabel
-                                                        control={<PrimaryCheckbox checked={Friday} onChange={handleDeliveryDaysChange} name="Friday" />}
-                                                        label="Friday"
-                                                    />
-                                                    <FormControlLabel
-                                                        control={<PrimaryCheckbox checked={Saturday} onChange={handleDeliveryDaysChange} name="Saturday" />}
-                                                        label="Saturday"
-                                                    />
-                                                    <FormControlLabel
-                                                        control={<PrimaryCheckbox checked={Sunday} onChange={handleDeliveryDaysChange} name="Sunday" />}
-                                                        label="Sunday"
-                                                    />
-                                                    <FormControlLabel
-                                                        control={<PrimaryCheckbox checked={Everyday} onChange={handleDeliveryDaysChange} name="Everyday" />}
-                                                        label="Everyday"
-                                                    />
-                                                </FormGroup>
-                                            </FormControl>
-                                        </div>
-                                    :
-                                        <Button
-                                            style={{
-                                                width: '75%',
-                                                backgroundColor: '#FFFFFF',
-                                                borderRadius: '5px',
-                                                color: '#333333',
-                                                padding: '7px 12px',
-                                                margin: '5px auto',
-                                                fontSize: '18px',
-                                                fontWeight: '600',
-                                                marginBottom: "20px",
-                                                border: '2px solid #e5e5e5',
-                                                textDecoration: 'capitalize'
-                                            }}
-                                            className={classes.formControl1}
-                                            onClick={() => setDaysShow(true)}
-                                        >
-                                            <CalendarIcon style={{color: '#333333' , paddingRight: '15px' , fontSize: '40px'}} /> Enter delivery days
-                                        </Button>
-                                }
+                                        className={classes.select}
+                                    >
+                                        {entityTypes.map((entity , index) =>
+                                            <option key={index} value={entity.entity}>{entity.name}</option>
+                                        )}
+                                    </ValidationSelectField>
+                                </FormControl>
                             </div>
 
-                            <Grid item xs={12} className={classes.margin} style={{textAlign: "left" , marginTop: "15px"}}>
+                            <div className="text-center mx-auto my-2">
+                                <TextField
+                                    onChange={handleNameTypeChange}
+                                    className={classes.formControl1}
+                                    type="text"
+                                    variant="outlined"
+                                    label="Company name*"
+                                    name="name"
+                                    value={formFields.name}
+                                    InputProps={{
+                                        startAdornment: (
+                                            <InputAdornment position="start">
+                                                <ShopIcon style={{color: '#333333'}} />
+                                            </InputAdornment>
+                                        ),
+                                    }}
+                                />
+                                {
+                                    showSuppliers ?
+                                        <List className={classes.dropList} dense={true} >
+                                            {
+                                                suppliersSearch.map((item) =>
+                                                    <ListItem key={item.id} onClick={() => setSupplierItem(item)}>
+                                                        <ListItemAvatar>
+                                                            <Avatar
+                                                                className={classes.primaryColor}
+                                                            >
+                                                                <Typography
+                                                                    component="p"
+                                                                    variant="h6"
+                                                                    style={{fontWeight: '700', fontSize: '1.00rem'}}
+                                                                >
+                                                                    {(item.name).charAt(0).toUpperCase()}
+                                                                </Typography>
+                                                            </Avatar>
+                                                        </ListItemAvatar>
+                                                        <ListItemText primary={item.name} secondary={(item.entityName + `${item.contact ? ' - ' + item.contact : ''}`).trim()} />
+                                                    </ListItem>
+                                                )
+                                            }
+                                        </List>
+                                        :
+                                        ''
+                                }
 
-                            </Grid>
-                        </ValidatorForm>
+                            </div>
+
+                            <div className="text-center mx-auto my-2">
+                                <TextField
+                                    className={classes.formControl1}
+                                    type="text"
+                                    variant="outlined"
+                                    name="contact"
+                                    value={formFields.contact}
+                                    label="Company contact*"
+                                    onChange={handleChangeHandler}
+                                    InputProps={{
+                                        startAdornment: (
+                                            <InputAdornment position="start">
+                                                <CallIcon style={{color: '#333333'}} />
+                                            </InputAdornment>
+                                        ),
+                                    }}
+                                />
+                            </div>
+
+                            <div className="text-center mx-auto my-2">
+                                <TextField
+                                    className={classes.formControl1}
+                                    label="Salesperson"
+                                    name="salespersonName"
+                                    onChange={handleChangeHandler}
+                                    value={formFields.salespersonName}
+                                    variant="outlined"
+                                    InputProps={{
+                                        startAdornment: (
+                                            <InputAdornment position="start">
+                                                <PersonIcon style={{color: '#333333'}} />
+                                            </InputAdornment>
+                                        ),
+                                    }}
+                                />
+                            </div>
+
+                            <div className="text-center mx-auto my-2">
+                                <TextField
+                                    className={classes.formControl1}
+                                    label="Supplier Contact"
+                                    name="salespersonContact"
+                                    onChange={handleChangeHandler}
+                                    value={formFields.salespersonContact}
+                                    variant="outlined"
+                                    InputProps={{
+                                        startAdornment: (
+                                            <InputAdornment position="start">
+                                                <CallIcon style={{color: '#333333'}} />
+                                            </InputAdornment>
+                                        ),
+                                    }}
+                                />
+                            </div>
+
+                            {
+                                daysShow ?
+                                    <div
+                                        className={`mt-4`}
+                                        style={{
+                                            display: 'flex',
+                                            width: '100%',
+                                            alignItems: 'center',
+                                            flexDirection: 'row',
+                                            marginBottom: '5px' ,
+                                            border: '1px solid #e5e5e5',
+                                            borderRadius: '2px',
+                                            padding: '10px'
+                                        }}
+                                    >
+                                        <FormControl component="fieldset" className={classes.formControl}>
+                                            <Typography
+                                                component="h6"
+                                                variant="h6"
+                                                style={{
+                                                    fontWeight: '500',
+                                                    fontSize: '1.1rem',
+                                                    marginTop: '-47px',
+                                                    backgroundColor: '#FFF',
+                                                    minWidth: '200px',
+                                                    marginBottom: '20px',
+                                                }}
+                                            >
+                                                Enter delivery days
+                                            </Typography>
+                                            <FormGroup>
+                                                <FormControlLabel
+                                                    control={<PrimaryCheckbox checked={Monday} onChange={handleDeliveryDaysChange} name="Monday" />}
+                                                    label="Monday"
+                                                />
+                                                <FormControlLabel
+                                                    control={<PrimaryCheckbox checked={Tuesday} onChange={handleDeliveryDaysChange} name="Tuesday" />}
+                                                    label="Tuesday"
+                                                />
+                                                <FormControlLabel
+                                                    control={<PrimaryCheckbox checked={Wednesday} onChange={handleDeliveryDaysChange} name="Wednesday" />}
+                                                    label="Wednesday"
+                                                />
+                                                <FormControlLabel
+                                                    control={<PrimaryCheckbox checked={Thursday} onChange={handleDeliveryDaysChange} name="Thursday" />}
+                                                    label="Thursday"
+                                                />
+                                            </FormGroup>
+                                        </FormControl>
+                                        <FormControl component="fieldset" className={classes.formControl}>
+                                            <FormGroup>
+                                                <FormControlLabel
+                                                    control={<PrimaryCheckbox checked={Friday} onChange={handleDeliveryDaysChange} name="Friday" />}
+                                                    label="Friday"
+                                                />
+                                                <FormControlLabel
+                                                    control={<PrimaryCheckbox checked={Saturday} onChange={handleDeliveryDaysChange} name="Saturday" />}
+                                                    label="Saturday"
+                                                />
+                                                <FormControlLabel
+                                                    control={<PrimaryCheckbox checked={Sunday} onChange={handleDeliveryDaysChange} name="Sunday" />}
+                                                    label="Sunday"
+                                                />
+                                                <FormControlLabel
+                                                    control={<PrimaryCheckbox checked={Everyday} onChange={handleDeliveryDaysChange} name="Everyday" />}
+                                                    label="Everyday"
+                                                />
+                                            </FormGroup>
+                                        </FormControl>
+                                    </div>
+                                :
+                                    <Button
+                                        style={{
+                                            width: '75%',
+                                            backgroundColor: '#FFFFFF',
+                                            borderRadius: '5px',
+                                            color: '#333333',
+                                            padding: '7px 12px',
+                                            margin: '5px auto',
+                                            fontSize: '18px',
+                                            fontWeight: '600',
+                                            marginBottom: "20px",
+                                            border: '2px solid #e5e5e5',
+                                            textDecoration: 'capitalize'
+                                        }}
+                                        className={classes.formControl1}
+                                        onClick={() => setDaysShow(true)}
+                                    >
+                                        <CalendarIcon style={{color: '#333333' , paddingRight: '15px' , fontSize: '40px'}} /> Enter delivery days
+                                    </Button>
+                            }
+                        </div>
+
+                        <Grid item xs={12} className={classes.margin} style={{textAlign: "left" , marginTop: "15px"}}>
+
+                        </Grid>
+                    </ValidatorForm>
                 </div>
                 <div>
                     <Box

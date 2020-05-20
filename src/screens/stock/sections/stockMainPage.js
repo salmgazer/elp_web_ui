@@ -22,8 +22,6 @@ import ListItem from '@material-ui/core/ListItem';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
 import ArrowForwardOutlinedIcon from '@material-ui/icons/ArrowForwardOutlined';
-import LibraryAddIcon from '@material-ui/icons/LibraryAdd';
-import QueryBuilderIcon from '@material-ui/icons/QueryBuilder';
 import KeyboardReturnIcon from '@material-ui/icons/KeyboardReturn';
 import HistoryOutlinedIcon from '@material-ui/icons/HistoryOutlined';
 import RedeemIcon from '@material-ui/icons/Redeem';
@@ -31,7 +29,6 @@ import {withRouter} from 'react-router-dom';
 import ReportProblemOutlinedIcon from '@material-ui/icons/ReportProblemOutlined';
 
 import Drawer from "../../../components/Drawer/Drawer";
-import BarcodeMode from "../../sell/sell/sections/BarcodeMode/BarcodeMode";
 
 const StockMainPage = props => {
     const { history } = props;

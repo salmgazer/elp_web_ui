@@ -1,26 +1,26 @@
-import React from "react";
+import React, {useEffect, useState} from "react";
 import { withRouter } from "react-router-dom";
-import Component from "@reactions/component";
-import { useDatabase } from "@nozbe/watermelondb/hooks";
-import { Q } from "@nozbe/watermelondb";
 import Grid from '@material-ui/core/Grid';
 import paths from "../../../utilities/paths";
 import CssBaseline from "@material-ui/core/CssBaseline/CssBaseline";
 import {makeStyles} from "@material-ui/core";
 import Paper from '@material-ui/core/Paper';
-import Search from '@material-ui/icons/Search';
 import Typography from "@material-ui/core/Typography/Typography";
 
 import LocalInfo from '../../../services/LocalInfo';
-import Button from "@material-ui/core/Button/Button";
-import InputBase from "@material-ui/core/InputBase/InputBase";
-import IconButton from "@material-ui/core/IconButton/IconButton";
 import Box from "@material-ui/core/Box/Box";
 import ArrowBackIcon from "@material-ui/icons/ArrowBack";
-import CalendarIcon from "@material-ui/icons/CalendarTodayOutlined";
-import Drawer from "../../../components/Drawer/Drawer";
 import SectionNavbars from "../../../components/Sections/SectionNavbars";
-
+import SimpleSnackbar from "../../../components/Snackbar/SimpleSnackbar";
+import SearchInput from "../../Components/Input/SearchInput";
+import BranchService from "../../../services/BranchService";
+import SupplierService from "../../../services/SupplierService";
+import PrimaryLoader from "../../../components/Loader/Loader";
+import SecondaryButton from "../../../components/Buttons/SecondaryButton";
+import AddedIcon from "../../../components/ClickableIcons/AddedIcon";
+import AddIcon from "../../../components/ClickableIcons/AddIcon";
+import ProductCard from "../../../components/Cards/ProductCard";
+import {confirmAlert} from "react-confirm-alert";
 
 const useStyles = makeStyles(theme => ({
     root: {
@@ -92,163 +92,336 @@ const useStyles = makeStyles(theme => ({
     }
 }));
 
-const apiUrl = "";
-
-async function getUserStoreFromLocal(database, user, store) {
-    return database.collections
-        .get("users_stores")
-        .query(Q.where("user_id", user.id), Q.where("store_id", store.id))
-        .fetch();
-}
-
-async function getUserFromLocal(database, usernameOrPhone, password) {
-    return database.collections
-        .get("users")
-        .query(
-            Q.where("username", usernameOrPhone),
-            Q.or(Q.where("phone", usernameOrPhone)),
-            Q.where("password", password)
-        )
-        .fetch();
-}
-
-async function getStore(database) {
-    return database.collections
-        .get("stores")
-        .query()
-        .fetch();
-}
-
-async function getUsersFromLocal(database) {
-    return database.collections
-        .get("users")
-        .query()
-        .fetch();
-}
-
 const SupplierStock = props => {
-
     const classes = useStyles();
-    const [mainDialog, setMainDialog] = React.useState(false);
-    const [addDialog, setAddDialog] = React.useState(false);
+    const [error , setError] = useState(false);
+    const [errorMsg , setErrorMsg] = useState('');
+    const [success , setSuccess] = useState(false);
+    const [renderedProductsView , setRenderedProductsView] = useState('');
+    const [successMsg , setSuccessMsg] = useState('');
+    const [branchProducts , setBranchProducts] = useState([]);
+    const [loading , setLoading] = useState(false);
+    const [quantityAdded , setQuantityAdded] = useState(0);
 
-    /*
-    * @todo replace user name with localInfo details.
-    * */
-    const username = JSON.parse(localStorage.getItem('userDetails')).firstName;
-    console.log(username);
+    const [searchValue , setSearchValue] = useState({
+        search: ''
+    });
+
+    useEffect(() => {
+        if(branchProducts.length === 0 ){
+            getBranchProducts();
+        }
+    }, []);
+
+    const getBranchProducts = async () => {
+        const products = await new BranchService(LocalInfo.branchId).getProducts();
+        await getBranchProductsRendered(products);
+        setQuantityAdded(await SupplierService.getSupplierProductsCount());
+        setBranchProducts(await new BranchService(LocalInfo.branchId).getProducts());
+    };
 
     const { history } = props;
-    const database = useDatabase();
 
-    if (LocalInfo.storeId && LocalInfo.userId) {
-        history.push(paths.home);
+    if (!localStorage.getItem("supplierId") && !localStorage.getItem("supplierName")) {
+        history.push(paths.suppliers);
     }
 
+    const setInputValue = async (name , value) => {
+        const {...oldFormFields} = searchValue;
+
+        oldFormFields[name] = value;
+
+        setSearchValue(oldFormFields);
+
+        try {
+            const products = await new BranchService().searchBranchProduct(value);
+
+            await getBranchProductsRendered(products);
+            setBranchProducts(products);
+        }catch (e) {
+            return false
+        }
+        //props.searchHandler(value);
+    };
+
+    const addProductHandler = async (product) => {
+        const supplierProduct = await new SupplierService().addProductToSupplier(product);
+
+        if(supplierProduct){
+            setSuccessMsg('Product added to supplier');
+            setSuccess(true);
+            const products = await new BranchService(LocalInfo.branchId).getProducts();
+            await getBranchProductsRendered(products);
+            setBranchProducts(await new BranchService(LocalInfo.branchId).getProducts());
+            setQuantityAdded(await SupplierService.getSupplierProductsCount());
+
+            setTimeout(function(){
+                setSuccessMsg('');
+                setSuccess(false);
+            }, 2000);
+        }else{
+            setErrorMsg('OOPS. Something went wrong. Please try again');
+            setError(true);
+            setTimeout(function(){
+                setErrorMsg('');
+                setError(false);
+            }, 2000);
+        }
+        setLoading(false);
+    };
+
+    const removeProductHandler = async (product) => {
+        await confirmAlert({
+            title: 'Confirm to delete',
+            message: 'Are you sure you want to delete this product.',
+            buttons: [
+                {
+                    label: 'Yes',
+                    onClick: async() => {
+                        const supplierProduct = await new SupplierService().removeProductFromSupplier(product);
+
+                        if(supplierProduct){
+                            setSuccessMsg('Product removed successfully');
+                            setSuccess(true);
+                            const products = await new BranchService(LocalInfo.branchId).getProducts();
+                            await getBranchProductsRendered(products);
+                            setBranchProducts(await new BranchService(LocalInfo.branchId).getProducts());
+                            setQuantityAdded(await SupplierService.getSupplierProductsCount());
+
+                            setTimeout(function(){
+                                setSuccessMsg('');
+                                setSuccess(false);
+                            }, 2000);
+                        }else{
+                            setErrorMsg('OOPS. Something went wrong. Please try again');
+                            setError(true);
+                            setTimeout(function(){
+                                setErrorMsg('');
+                                setError(false);
+                            }, 2000);
+                        }
+                    }
+                },
+                {
+                    label: 'No',
+                    onClick: () => {
+                        return false;
+                    }
+                }
+            ]
+        })
+
+        setLoading(false);
+    };
 
 
+    const getBranchProductsRendered = async (branchProducts) => {
+        let items = [];
+
+        for(let i = 0; i < branchProducts.length; i++){
+            const owned = await SupplierService.productExistInBranch(branchProducts[i].id);
+
+            items.push(
+                <Grid key={i} item xs={4} style={{padding: '4px 8px' , position: 'relative'}} className={`mx-0 px-1`}>
+
+                    <div>
+                        {owned ?
+                            <div
+                                onClick={removeProductHandler.bind(this, branchProducts[i])}
+                            >
+                                <AddedIcon
+                                    styles={{
+                                        width: '30px',
+                                        height: '30px',
+                                        borderRadius: '50%',
+                                        top: '-2px',
+                                        float: 'right',
+                                        position: 'absolute',
+                                        right: '-2px',
+                                        color: '#28a745',
+                                        zIndex: '1500',
+                                    }}
+                                />
+                            </div> :
+                            <div
+                                onClick={addProductHandler.bind(this, branchProducts[i])}
+                            >
+                                <AddIcon
+                                    styles={{
+                                        width: '30px',
+                                        height: '30px',
+                                        borderRadius: '50%',
+                                        top: '-2px',
+                                        float: 'right',
+                                        position: 'absolute',
+                                        right: '-2px',
+                                        color: '#DAAB59',
+                                        zIndex: '1500',
+                                    }}
+                                />
+                            </div>
+                        }
+                        <div
+                            onClick={
+                                owned ?
+                                    removeProductHandler.bind(this , branchProducts[i])
+                                    :
+                                    addProductHandler.bind(this, branchProducts[i])
+
+                            }
+                        >
+                            <ProductCard product={(branchProducts[i].product).fetch()}/>
+                        </div>
+                    </div>
+                </Grid>
+            )
+        }
+
+        setRenderedProductsView(items);
+    };
 
     return (
-        <div style={{height: '100vh'}}>
-            <Component
-                initialState={{
-                    isDrawerShow: false,
-                }}
-            >
-                {({ state, setState }) => (
-                    <React.Fragment>
-                        <CssBaseline />
+        <div style={{height: '100vh' , backgroundColor: 'rgba(229, 229, 229, 0.16)'}}>
+            <React.Fragment>
+                <CssBaseline />
 
-
-                        <SectionNavbars title={`Suppliers`}>
+                <SectionNavbars
+                    title="Suppliers"
+                    leftIcon={
+                        <div onClick={() => history.push(paths.suppliers)}>
                             <ArrowBackIcon
-                                onClick={() => history.push(paths.supplier_detail)}
+                                style={{fontSize: '2rem'}}
                             />
-                        </SectionNavbars>
-
-                        <Drawer isShow={state.isDrawerShow} />
-
-                        <div style={{ position: "fixed", top:"60px", width:"100%" }}>
-                            <Paper className={classes.paper}>
-                                <Grid container spacing={1} style={{padding: '0px 2% 8px', textAlign: 'center'}}>
-                                    <Grid item xs={12} style={{marginTop: '5px', padding: '0px 98px'}}>
-
-                                        <Paper className={classes.root} style={{width: '100%'}}>
-
-                                            <div style={{width: '80%'}}>
-                                                <span>12th July 2019</span>
-                                            </div>
-                                            <IconButton className={classes.iconButton} aria-label="search">
-                                                <CalendarIcon/>
-                                            </IconButton>
-
-                                        </Paper>
+                        </div>
+                    }
+                />
+                <div style={{ position: "fixed", top:"60px", width:"100%" , zIndex: '1000'}}>
+                    <Paper className={classes.paper}>
+                        <Grid container spacing={2}>
+                            <Grid item xs={12} sm container>
+                                <Grid item xs container direction="column" spacing={2}>
+                                    <Grid item xs>
+                                        <Typography style={{fontSize: "1.2rem" , fontWeight: "400", padding: '7px 0px'}}>
+                                            Suppliers product
+                                        </Typography>
                                     </Grid>
-                                    <Grid item xs={12} style={{marginTop: '5px', padding: '0px 3px'}}>
-                                        <Typography>Items Sold by Niko's Enterprise</Typography>
-                                    </Grid>
-                                </Grid>
-
-                            </Paper>
-                            <Grid container spacing={1} style={{padding: '0px 2% 20px', textAlign: 'center'}}>
-                                <Grid item xs={12} style={{marginTop: '15px', padding: '0px 30px'}}>
-                                    <Paper className={classes.search} style={{width: '100%'}}>
-                                        <InputBase
-                                            className={`${classes.input} search-box`}
-                                            placeholder="Search for a supplier"
-                                            inputProps={{ 'aria-label': 'Search for a supplier' }}
-                                        />
-                                        <IconButton className={classes.iconButton} aria-label="search">
-                                            <Search/>
-                                        </IconButton>
-                                    </Paper>
                                 </Grid>
                             </Grid>
-                            <Paper className={classes.paper}>
+                        </Grid>
+                    </Paper>
+                </div>
 
+                <SimpleSnackbar
+                    type="success"
+                    openState={success}
+                    message={successMsg}
+                />
 
-                                    <Grid key='1' item xs={12} style={{padding: '4px 8px' , position: 'relative'}} className={`mx-0 px-1`}>
-                                        <div>
-                                            <br /><br /><br /><br />
-                                            {/*<ProductCardHorizontal product={[{
-                                                "pro_id": "1126",
-                                                "pro_name": "Sangria Don Simon Red Wine 1L Tetrapak",
-                                                "image": " Sangria Don Simon Red Wine 1L Tetrapak.jpg",
-                                                "p_cat_id": "1",
-                                                "cat_name": "Alcoholic Wine",
-                                                "Cost_Price": "12",
-                                                "Selling_Price": "13",
-                                                "status": true,
+                <SimpleSnackbar
+                    type="warning"
+                    openState={error}
+                    message={errorMsg}
+                />
 
-                                            }]}>
-                                            </ProductCardHorizontal>*/}
-                                        </div>
+                <Grid container spacing={1} style={{marginTop: '110px'}} className={`pt-2`}>
+                    <Typography
+                        component="p"
+                        variant="h6"
+                        style={{fontSize: '18px'}}
+                        className={`text-center text-dark w-100 italize font-weight-light`}
+                    >
+                        Add all products sold by {localStorage.getItem("supplierName")}
+                    </Typography>
 
+                    <Grid item xs={11} style={{padding: '4px 8px'}} className={`mx-auto mt-7`}>
+                        <SearchInput
+                            inputName="search"
+                            styles={{
+                                border: '1px solid #e5e5e5',
+                                padding: '10px 0px'
+                            }}
+                            getValue={setInputValue.bind(this)}
+                        />
+                    </Grid>
+                </Grid>
 
-                                    </Grid>
-
-                            </Paper>
-
-                            <Box
-                                className="shadow1"
-                                bgcolor="background.paper"
-                                p={1}
-                                style={{ height: '3.0rem', position: "fixed", bottom:"1px", width:"100%" }}
-                            >
-
-                                <Button
-                                    variant="contained"
-                                    style={{'backgroundColor': '#DAAB59' , color: '#333333', padding: '5px 50px'}}
-
+                <Grid
+                    container
+                    spacing={1}
+                    className={`shadow1 boxMain mx-auto rounded mt-2`}
+                    style={{width: '95%', padding: '10px 2% 20px' , marginBottom: '60px'}}
+                >
+                    {branchProducts.length === 0
+                        ?
+                        <Grid
+                            item xs={12}
+                            className={`text-left pl-2`}
+                        >
+                            <div className={`rounded mx-1 my-2 p-2 bordered`}>
+                                <Typography
+                                    component="h6"
+                                    variant="h6"
+                                    style={{fontSize: '16px'}}
+                                    className={`text-center text-dark w-100`}
                                 >
-                                    View Added Stock
-                                </Button>
-                            </Box>
-                        </div>
+                                    No product found
+                                </Typography>
+                            </div>
+                        </Grid>
+                        :
+                        renderedProductsView.map(item => {return item})
+                    }
 
-                    </React.Fragment>
-                )}
-            </Component>
+                </Grid>
+
+                <Box
+                    className={`shadow1 bg-white`}
+                    p={1}
+                    style={{ height: '3.5rem', position: "fixed", bottom:"0", width:"100%" }}
+                >
+                    <div
+                        onClick={() => history.push(paths.view_suppliers)}
+                    >
+                        <SecondaryButton
+                            classes={`capitalization font-weight-bold text-dark`}
+                        >
+                            {
+                                loading ?
+                                    <PrimaryLoader
+                                        style={{width: '30px' , height: '30px'}}
+                                        color="#FFFFFF"
+                                        type="Oval"
+                                        className={`mt-1`}
+                                        width={25}
+                                        height={25}
+                                    />
+                                    :
+                                    <div>
+                                        Finish
+
+                                        <span
+                                            style={{
+                                                fontSize: '12px',
+                                                color: '#000000',
+                                                position: 'absolute',
+                                                top: -10,
+                                                right: '5%',
+                                                backgroundColor: '#FFFFFF',
+                                                width: '20px',
+                                                height: '20px',
+                                                borderRadius: '50%',
+                                                fontWeight: '500'
+                                            }}
+                                        >
+                                            {quantityAdded}
+                                        </span>
+                                    </div>
+                            }
+                        </SecondaryButton>
+                    </div>
+                </Box>
+
+            </React.Fragment>
         </div>
     );
 };

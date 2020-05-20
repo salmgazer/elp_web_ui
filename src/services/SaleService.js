@@ -72,6 +72,7 @@ export default class SaleService {
         const salePaymentColumns = {
             saleId: sales.id,
             customerId: sales.customerId,
+            branchId: LocalInfo.branchId,
             createdBy: LocalInfo.userId,
             amount: data.changeDue >= 0 ? parseFloat(data.amountPaid - data.changeDue) : parseFloat(data.amountPaid),
         };
