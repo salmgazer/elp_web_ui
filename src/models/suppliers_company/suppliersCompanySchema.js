@@ -2,7 +2,7 @@ const suppliersCompanySchema = {
     name: 'suppliers_companies',
     columns : [
         { name: 'name', type: 'string' },
-        { name: 'contact', type: 'number' },
+        { name: 'contact', type: 'string' },
         { name: 'email', type: 'string', isOptional: true },
         { name: 'isTemporary', type: 'boolean' },
         { name: 'createdBy', type: 'string' },

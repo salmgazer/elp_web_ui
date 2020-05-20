@@ -18,7 +18,7 @@ import Audits from "./audit/Audit";
 import AuditEntries from "./auditEntry/AuditEntries";
 
 import SuppliersCompany from "./suppliers_company/SuppliersCompany";
-import BranchSuppliers from "./branchSuppliers/branchSuppliersSchema";
+import BranchSuppliers from "./branchSuppliers/BranchSuppliers";
 import BranchSupplierProducts from "./branchSupplierProducts/BranchSupplierProducts";
 import BranchSupplierSalespersons from "./branchSupplierSalespersons/BranchSupplierSalespersons";
 

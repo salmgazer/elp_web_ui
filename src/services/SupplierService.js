@@ -40,6 +40,7 @@ export default class SupplierService {
                 id: row.id,
                 name: (name.join('')).trim(),
                 entity: entityItem.entity,
+                entityName: entityItem.name,
                 contact: entityItem.contact ? row[entityItem.contact] : ""
             }
         });
@@ -61,26 +62,64 @@ export default class SupplierService {
         let salesperson = "";
 
         if(data.entityId === ""){
+            let entity = "";
+
             try {
                 switch(data.entityType){
                     case 'SuppliersCompany':
+                        entity = await new ModelAction(data.entityType).post({
+                            name: data.name,
+                            contact: data.contact,
+                            isTemporary: true,
+                            createdBy: LocalInfo.userId
+                        });
+                    break;
+                    case 'Customer':
+                        const nameSplit = (data.name).split(' ');
 
+                        entity = await new ModelAction(data.entityType).post({
+                            firstName: nameSplit[0],
+                            otherNames: nameSplit.slice(1 , nameSplit.length).join(' '),
+                            phone: data.contact,
+                            isTemporary: true,
+                            createdBy: LocalInfo.userId
+                        });
+
+                        const branchCustomerColumns = {
+                            branchId: LocalInfo.branchId,
+                            createdBy: LocalInfo.userId,
+                            customerId: entity.id,
+                        };
+
+                        try {
+                            await new ModelAction('BranchCustomer').post(branchCustomerColumns);
+                        }catch (e) {
+                            console.log(e);
+                            return false;
+                        }
+                    break;
+
+                    case 'Brand':
+                        entity = await new ModelAction(data.entityType).post({
+                            name: data.name
+                        });
+                    break;
+                    case 'Manufacturer':
+                        entity = await new ModelAction(data.entityType).post({
+                            name: data.name
+                        });
+                    break;
                 }
-                const entity = await new ModelAction(data.entityType).post({
-                    entityId: data.entityId,
-                    entityType: data.entityType,
-                    name: data.name,
-                    contact: data.contact,
-                    branchId: LocalInfo.branchId,
-                    createdBy: LocalInfo.userId,
-                    deliveryDays: data.deliveryDays,
-                });
             }catch (e){
                 console.log(e);
             }
+
+            console.log(entity);
+            data.entityId = entity.id;
         }
 
         try {
+            console.log('I am here')
             supplier = await new ModelAction('BranchSuppliers').post({
                 entityId: data.entityId,
                 entityType: data.entityType,

@@ -257,7 +257,6 @@ const AddSupplier = props => {
         const { ...formData }  = formFields;
         formData['deliveryDays'] = days;
         setFormFields(formData);
-
     };
 
     const handleChangeHandler = (event) => {
@@ -265,9 +264,14 @@ const AddSupplier = props => {
         const { ...formData }  = formFields;
         formData[event.target.name] = event.target.value;
         setFormFields(formData);
-        setBtnNextState();
 
-        console.log(formData)
+        if(event.target.name === 'contact'){
+            if((formFields.name).length > 2 && (event.target.value).length > 9){
+                setBtnState(false);
+            }else{
+                setBtnState(true);
+            }
+        }
     };
 
     const handleClientTypeChange = async (event) => {
@@ -278,9 +282,13 @@ const AddSupplier = props => {
 
     const handleNameTypeChange = async (event) => {
         event.persist();
-        handleChangeHandler(event);
+        //handleChangeHandler(event);
+        const { ...formData }  = formFields;
+        formData['name'] = event.target.value;
+        formData['entityId'] = '';
+        formData['contact'] = '';
+        setFormFields(formData);
 
-        //console.log(event.target.value)
         if((event.target.value).length > 0){
             let suppliers = await SupplierService.getSuppliers(formFields.entityType);
 
@@ -297,11 +305,6 @@ const AddSupplier = props => {
         }else{
             setShowSuppliers(false);
         }
-
-        const { ...formData }  = formFields;
-        formData['entityId'] = '';
-        formData['contact'] = '';
-        setFormFields(formData);
     };
 
     const setSupplierItem = (item) => {
@@ -311,7 +314,7 @@ const AddSupplier = props => {
         formData['contact'] = item.contact;
         setFormFields(formData);
 
-        if(item.name.length > 2 && item.contact.length > 9){
+        if(item.name.length > 2 && (item.contact).length > 9){
             setBtnState(false);
         }else{
             setBtnState(true);
@@ -327,10 +330,12 @@ const AddSupplier = props => {
         }
     };
 
-    const addNewSupplier = () => {
+    const addNewSupplier = async() => {
         setLoading(true);
-        console.log(deliveryDays)
         console.log(formFields)
+        const supplier = await new SupplierService().addSupplier(formFields);
+
+        console.log(supplier)
         setLoading(false);
         //history.push(paths.add_supplier_stock)
     };
@@ -436,7 +441,7 @@ const AddSupplier = props => {
                                                                     </Typography>
                                                                 </Avatar>
                                                             </ListItemAvatar>
-                                                            <ListItemText primary={item.name} secondary={(item.entity + `${item.contact ? ' - ' + item.contact : ''}`).trim()} />
+                                                            <ListItemText primary={item.name} secondary={(item.entityName + `${item.contact ? ' - ' + item.contact : ''}`).trim()} />
                                                         </ListItem>
                                                     )
                                                 }
