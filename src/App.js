@@ -43,18 +43,11 @@ import AccountInformation from "./screens/admin/accountInformation/AccountInform
 import VerifyPhone from "./screens/admin/accountInformation/VerifyPhone";
 import ChangePrice from "./screens/admin/changePrice/ChangePrice";
 
-// import Suppliers from "./screens/admin/suppliers/Suppliers";
-// import ViewSuppliers from "./screens/admin/suppliers/ViewSuppliers";
-// import SupplierDetails from "./screens/admin/suppliers/SupplierDetails";
-// import PaySupplier from "./screens/admin/suppliers/PaySupplier";
-// import SupplierStock from "./screens/admin/suppliers/SupplierStock";
-// import AddSupplier from "./screens/admin/suppliers/AddSupplier";
-import ViewCustomers from "./screens/admin/customers/sections/ViewCustomers";
+import AdminCustomers from "./screens/admin/customers/Customer";
 import CustomerDetails from "./screens/admin/customers/sections/CustomerDetails";
 import CustomerOrders from "./screens/admin/customers/sections/CustomerOrders";
-// import OrderDetails from "./screens/admin/customers/OrderDetails";
-// import GenerateBarcode from "./screens/admin/generateBarcode/GenerateBarcode";
-// import Expense from "./screens/admin/expense/Expense";
+import OrderDetails from "./screens/admin/customers/sections/OrderDetails";
+
 
 function NoMatch() {
   let location = useLocation();
@@ -309,60 +302,12 @@ class App extends React.Component {
                         return <ChangePrice />;
                     }}
                 />
-                 {/* <Route
-                    path={paths.suppliers}
-                    render={() => {
-                        setPageBackground();
-                        this.setTitle(`Suppliers | ${appName}`);
-                        return <Suppliers/>;
-                    }}
-                />
                 <Route
-                    path={paths.view_suppliers}
-                    render={() => {
-                        setPageBackground();
-                        this.setTitle(`Suppliers | ${appName}`);
-                        return <ViewSuppliers/>;
-                    }}
-                />
-                <Route
-                    path={paths.supplier_detail}
-                    render={() => {
-                        setPageBackground();
-                        this.setTitle(`Supplier | ${appName}`);
-                        return <SupplierDetails/>;
-                    }}
-                />
-                <Route
-                    path={paths.pay_supplier}
-                    render={() => {
-                        setPageBackground();
-                        this.setTitle(`Supplier | ${appName}`);
-                        return <PaySupplier/>;
-                    }}
-                />
-                <Route
-                    path={paths.add_supplier_stock}
-                    render={() => {
-                        setPageBackground();
-                        this.setTitle(`Supplier | ${appName}`);
-                        return <SupplierStock/>;
-                    }}
-                />
-                <Route
-                    path={paths.add_supplier}
-                    render={() => {
-                        setPageBackground();
-                        this.setTitle(`Supplier | ${appName}`);
-                        return <AddSupplier/>;
-                    }}
-                /> */}
-                <Route
-                    path={paths.view_customers}
+                    path={paths.admin_customers}
                     render={() => {
                         setPageBackground();
                         this.setTitle(`Customers | ${appName}`);
-                        return <ViewCustomers/>;
+                        return <AdminCustomers/>;
                     }}
                 />
                 <Route
@@ -381,39 +326,14 @@ class App extends React.Component {
                         return <CustomerOrders/>;
                     }}
                 />
-                {/* <Route
+                <Route
                     path={paths.order_details}
                     render={() => {
                         setPageBackground();
                         this.setTitle(`Order history | ${appName}`);
                         return <OrderDetails/>;
                     }}
-                /> */}
-                <Route
-                    path={paths.add_customer}
-                    render={() => {
-                        setPageBackground();
-                        this.setTitle(`Customers | ${appName}`);
-                        return <ViewCustomers/>;
-                    }}
                 />
-                {/* <Route
-                    path={paths.expense}
-                    render={() => {
-                        setPageBackground();
-                        this.setTitle(`Admin | ${appName}`);
-                        return <Expense />;
-                    }}
-                /> */}
-                {/* <Route
-                    path={paths.generate_barcode}
-                    render={() => {
-                        setPageBackground();
-                        this.setTitle(`Admin | ${appName}`);
-                        return <GenerateBarcode />;
-                    }}
-                /> */}
-
               <Route path="*">
                 <NoMatch />
               </Route>

@@ -388,7 +388,7 @@ const Admin = props => {
                                     </Grid>
                                     <Grid item xs={2} sm>
                                         <div className={Styles.centered}>
-                                            <ArrowForwardIosIcon  style={{fontSize: '0.9rem'}} onClick={() => history.push(paths.view_customers)}/>
+                                            <ArrowForwardIosIcon  style={{fontSize: '0.9rem'}} onClick={() => history.push(paths.admin_customers)}/>
 
                                         </div>
                                     </Grid>

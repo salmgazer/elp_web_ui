@@ -33,10 +33,9 @@ export default {
     supplier_detail : "/supplier-detail",
     pay_supplier : "/pay-supplier",
     add_supplier : "/add-supplier",
-    add_customer : "/add-customer",
-    view_customers : "/view-customer",
+    admin_customers : "/admin-customers",
+    add_supplier_stock : "/supplier-stock",
     customer_orders : "/customer-orders",
     order_details : "/order-details",
     customer_details : "/customer-detail",
-    add_supplier_stock : "/supplier-stock",
 };
