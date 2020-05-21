@@ -294,7 +294,6 @@ export default class SupplierService {
             deliveryDays: JSON.stringify(data.deliveryDays),
         };
 
-        console.log(columns)
         try {
             return await new ModelAction('BranchSuppliers').update(branchSupplier.id, columns);
         }catch (e){

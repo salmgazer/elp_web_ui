@@ -358,17 +358,18 @@ const EditSupplierDetails = props => {
 
     const editSupplier = async() => {
         setLoading(true);
-        const supplier = await new SupplierService().editSupplier(formFields);
-        console.log(formFields)
-        if(supplier){
+
+        try {
+            await new SupplierService().editSupplier(formFields);
+
             setSuccessMsg('Supplier edited successfully');
             setSuccess(true);
             setTimeout(function(){
                 setSuccessMsg('');
                 setSuccess(false);
+                props.setView(0)
             }, 2000);
-            props.setView(0)
-        }else{
+        } catch (e) {
             setErrorMsg('OOPS. Something went wrong. Please try again');
             setError(true);
             setTimeout(function(){
