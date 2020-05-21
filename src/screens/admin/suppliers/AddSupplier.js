@@ -223,6 +223,7 @@ const AddSupplier = props => {
     const [formFields , setFormFields] = useState({
         entityType: entityTypes[0].entity,
         entityId: '',
+        entityName: entityTypes[0].name,
         name: '',
         contact: '',
         salespersonName: '',
@@ -296,6 +297,7 @@ const AddSupplier = props => {
         if((event.target.value).length > 0){
             let suppliers = await SupplierService.getSuppliers(formFields.entityType);
 
+            console.log(suppliers)
             suppliers = suppliers.filter(function(item) {
                 return (item.name).toLowerCase().indexOf((event.target.value).toLowerCase()) !== -1
             });
@@ -315,6 +317,7 @@ const AddSupplier = props => {
         const { ...formData }  = formFields;
         formData['name'] = item.name;
         formData['entityId'] = item.id;
+        formData['entityName'] = item.entityName;
         formData['contact'] = item.contact;
         setFormFields(formData);
 
@@ -380,7 +383,7 @@ const AddSupplier = props => {
                 <SectionNavbars
                     title="Suppliers"
                     leftIcon={
-                        <div onClick={() => history.push(paths.suppliers)}>
+                        <div onClick={() => history.push(paths.view_suppliers)}>
                             <ArrowBackIcon
                                 style={{fontSize: '2rem'}}
                             />

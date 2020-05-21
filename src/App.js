@@ -48,6 +48,7 @@ import SupplierDetails from "./screens/admin/suppliers/SupplierDetails";
 import PaySupplier from "./screens/admin/suppliers/PaySupplier";
 import SupplierStock from "./screens/admin/suppliers/SupplierStock";
 import AddSupplier from "./screens/admin/suppliers/AddSupplier";
+import SupplierOrderStock from "./screens/admin/suppliers/orderStock/SupplierOrderStock";
 
 // import Suppliers from "./screens/admin/suppliers/Suppliers";
 // import ViewSuppliers from "./screens/admin/suppliers/ViewSuppliers";
@@ -458,6 +459,14 @@ class App extends React.Component {
                         setPageBackground();
                         this.setTitle(`Supplier | ${appName}`);
                         return <SupplierStock/>;
+                    }}
+                />
+                <Route
+                    path={paths.order_supplier_stock}
+                    render={() => {
+                        setPageBackground();
+                        this.setTitle(`Order Supplier | ${appName}`);
+                        return <SupplierOrderStock/>;
                     }}
                 />
                 <Route

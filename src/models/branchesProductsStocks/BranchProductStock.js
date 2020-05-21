@@ -17,6 +17,7 @@ export default class BranchProductStock extends Model {
   @field('branchProductId') branchProductId;
   @field('branchId') branchId;
   @field('productId') productId;
+  @field('branchSupplierOrderId') branchSupplierOrderId;
   @field('quantity') quantity;
   @field('type') type;
   @field('costPrice') costPrice;

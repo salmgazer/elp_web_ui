@@ -9,28 +9,33 @@ import {confirmAlert} from "react-confirm-alert";
 import ModelAction from "../../../../services/ModelAction";
 import paths from "../../../../utilities/paths";
 import MainSuppliersView from "./sections/MainSuppliersView";
+import SupplierService from "../../../../services/SupplierService";
+import SingleSupplierDetails from "./sections/SingleSupplierDetails";
+import SupplierStockView from "../orderStock/sections/SupplierStockView";
 
 class ViewSuppliersNew extends Component {
     state = {
         activeStep: 0,
+        branchSuppliers: []
     };
 
     async componentDidMount() {
-        const { history, database} = this.props;
+        const { history, database , branchSuppliers} = this.props;
 
-        /*await this.setState({
-
-        });*/
+        console.log(branchSuppliers);
+        await this.setState({
+            branchSuppliers: branchSuppliers,
+        });
     }
 
     async componentDidUpdate(prevProps) {
-        const { history, database } = this.props;
+        const { history, database , branchSuppliers } = this.props;
 
-        /*if(this.state.savedCart.length !== savedCarts.length || this.state.currentCustomer !== await CartService.getCartCustomerId() || this.props.cartQuantity !== prevProps.cartQuantity || branchCustomers.length !== prevProps.branchCustomers.length){
+        if(prevProps.branchSuppliers.length !== branchSuppliers.length){
             this.setState({
-
+                branchSuppliers: branchSuppliers,
             });
-        }*/
+        }
     }
 
     //Steps to select category
@@ -42,6 +47,8 @@ class ViewSuppliersNew extends Component {
         switch (step) {
             case 0:
                 return <MainSuppliersView setView={this.setStepContentView.bind(this)} />;
+            case 1:
+                return <SingleSupplierDetails setView={this.setStepContentView.bind(this)} />;
             default:
                 return 'Complete';
         }
@@ -66,8 +73,8 @@ class ViewSuppliersNew extends Component {
 }
 
 const EnhancedViewSuppliersNew = withDatabase(
-    withObservables(['branchProducts' , 'branchCustomers' , 'savedCarts'], ({ branchProducts , database , branchCustomers , savedCarts }) => ({
-        cartQuantity: database.collections.get('cartEntries').query(Q.where('cartId' , localStorage.getItem('cartId'))).observeCount(),
+    withObservables(['branchSuppliers'], ({ branchSuppliers , database }) => ({
+        branchSuppliers: SupplierService.getBranchSuppliers(),
     }))(withRouter(ViewSuppliersNew))
 );
 

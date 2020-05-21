@@ -19,10 +19,9 @@ import suppliersCompanySchema from "./suppliers_company/suppliersCompanySchema";
 import branchSuppliersSchema from "./branchSuppliers/branchSuppliersSchema";
 import branchSupplierProductSchema from "./branchSupplierProducts/branchSupplierProductsSchema";
 import branchSupplierSalespersonsSchema from "./branchSupplierSalespersons/branchSupplierSalespersonsSchema";
+import branchSupplierOrderSchema from './branchSupplierOrder/branchSupplierOrderSchema';
+import branchSupplierOrderPaymentInstallmentSchema from "./branchSupplierOrderPaymentInstallment/branchSupplierOrderPaymentInstallmentSchema";
 
-/*import branchSupplierStockSchema from "./branchSupplierStock/branchSupplerStockSchema";
-import branchSupplierStockPaymentInstallmentSchema from "./branchSupplierStockPaymentInstallment/branchSupplierStockPaymentInstallmentSchema";
-*/
 
 // latest migrations should be at the top entry level of the migrations array
 export default schemaMigrations({
@@ -34,9 +33,8 @@ export default schemaMigrations({
               createTable(branchSuppliersSchema),
               createTable(branchSupplierProductSchema),
               createTable(branchSupplierSalespersonsSchema),
-              /*createTable(branchSupplierStockSchema),
-              createTable(branchSupplierStockPaymentInstallmentSchema),
-              */
+              createTable(branchSupplierOrderSchema),
+              createTable(branchSupplierOrderPaymentInstallmentSchema),
           ]
       },
       {

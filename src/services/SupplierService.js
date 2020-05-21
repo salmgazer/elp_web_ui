@@ -4,8 +4,51 @@ import LocalInfo from "./LocalInfo";
 import * as Q from "@nozbe/watermelondb/QueryDescription";
 import database from "../models/database";
 import BranchSupplierProducts from "../models/branchSupplierProducts/BranchSupplierProducts";
+import BranchProduct from "../models/branchesProducts/BranchProduct";
+import {v4 as uuid} from "uuid";
+import BranchSupplierOrder from "../models/branchSupplierOrder/BranchSupplierOrder";
 
 export default class SupplierService {
+    static async stockOrderId() {
+        if(!await database.adapter.getLocal("stockOrderId")){
+            const supplierId = localStorage.getItem("supplierId");
+
+            const dataCollection = database.collections.get(BranchSupplierOrder.table);
+            const workingDate = await database.adapter.getLocal("workingDate");
+
+            await database.action(async () => {
+                const newOrder = await dataCollection.create(order => {
+                    order.branchSupplierId = supplierId;
+                    order.branchId = LocalInfo.branchId;
+                    order.orderDate = LocalInfo.workingDate;
+                    order.createdBy = LocalInfo.userId;
+                    order._raw.id = uuid()
+                });
+                /*
+                * @todo why 2 carts are created
+                * */
+                await database.adapter.setLocal("stockOrderId" , await newOrder.id);
+            });
+        }
+
+        const stockOrderId = await database.adapter.getLocal("stockOrderId");
+        localStorage.setItem('stockOrderId' , stockOrderId);
+
+        return stockOrderId;
+    }
+
+    static async stockOrderProducts() {
+        const stockOrderId = await SupplierService.stockOrderId();
+
+        let orderProducts = new ModelAction('BranchProductStock').findByColumnNotObserve({
+            name: '',
+            value: stockOrderId,
+            fxn: 'eq',
+        });
+
+        return orderProducts;
+    }
+
     static async supplierAggregator(){
         let dataset = [];
         const entityTypes = entities.entities;
@@ -28,10 +71,10 @@ export default class SupplierService {
     }
 
     static async getSuppliers(entity){
-        //console.log(entity)
         const results = await new ModelAction(entity).indexNotObserve();
+
         const entityItem = ((entities.entities).filter((item) => item.entity === entity))[0];
-        //console.log(entityItem)
+
         return Array.from(results , (row) => {
             let name = "";
 
@@ -122,7 +165,6 @@ export default class SupplierService {
         }
 
         try {
-            console.log('I am here')
             supplier = await new ModelAction('BranchSuppliers').post({
                 entityId: data.entityId,
                 entityType: data.entityType,
@@ -231,7 +273,63 @@ export default class SupplierService {
         }
     }
 
-    static async getSuppliers(){
+    static async getBranchSuppliers(branchId = LocalInfo.branchId){
+        return await new ModelAction('BranchSuppliers').findByColumnNotObserve({
+            name: 'branchId',
+            value: branchId,
+            fxn: 'eq'
+        });
+    }
 
+    async getBranchSupplierProducts(supplierId = localStorage.getItem("supplierId") , branchId = LocalInfo.branchId){
+        //const products = await new ModelAction('BranchSupplierProducts').findByColumn();
+
+        const dataCollection = await database.collections.get(BranchSupplierProducts.table);
+
+        try {
+            const products = await dataCollection.query(
+                Q.where('branchSupplierId' , supplierId),
+                Q.where('branchId' , LocalInfo.branchId),
+            ).fetch();
+
+            const ids = products.map(product => {
+                return product.branchProductId;
+            });
+
+            const branchSupplierProducts = await new ModelAction('BranchProduct').findByColumnNotObserve({
+                name: 'id',
+                value: ids,
+                fxn: 'oneOf'
+            });
+
+            console.log(branchSupplierProducts)
+            return branchSupplierProducts;
+        }catch (e) {
+            console.log(e)
+        }
+    }
+
+    /*
+    * Search for a branch product
+    * */
+    async searchBranchSupplierProduct(searchValue) {
+        const products = await new ModelAction('Product').findByColumnNotObserve({
+            name: 'name',
+            value: searchValue,
+            fxn: 'like'
+        });
+
+        const ids = products.map(product => {
+            return product.id;
+        });
+
+        const branchSupplierProducts = await new ModelAction('BranchSupplierProducts').findByColumnNotObserve({
+            name: 'productId',
+            value: ids,
+            fxn: 'oneOf'
+        });
+
+        return database.collections.get('branches_products').query(Q.where('productId',
+            Q.oneOf(branchSupplierProducts.map(p => p.productId))), Q.where('branchId', LocalInfo.branchId)).fetch();
     }
 }

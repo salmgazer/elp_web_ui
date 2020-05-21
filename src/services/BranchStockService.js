@@ -37,6 +37,34 @@ export default class BranchStockService{
         }
     }
 
+    async addSupplierStock(formFields){
+        const stockColumns = {
+            quantity: parseFloat(formFields.quantity),
+            branchId: formFields.branchId,
+            productId: formFields.productId,
+            type: formFields.type,
+            branchSupplierOrderId: formFields.orderId,
+            branchProductId: formFields.branchProductId,
+            costPrice: parseFloat(formFields.costPrice),
+            createdBy: LocalInfo.userId,
+        };
+
+        try{
+            const response = await new ModelAction('BranchProductStock').post(stockColumns);
+
+            if(await BranchStockService.addStockHistory()){
+                await BranchStockService.addPurchase(formFields);
+                await BranchStockService.updateProduct(formFields);
+
+                return true;
+            }
+
+            return false;
+        } catch (e) {
+            return false;
+        }
+    }
+
     async moveStock(formFields){
         const response = await this.addStock(formFields);
         alert(await formFields.branchProductId[0].id)
@@ -404,7 +432,7 @@ export default class BranchStockService{
         }catch (e) {
             return e;
         }
-    } 
+    }
 
         /*
     * Get Stock products by Id
@@ -421,8 +449,8 @@ export default class BranchStockService{
     }catch (e) {
         return e;
     }
-} 
-    
+}
+
     /*
     *
     * Get sale individual items cost price

@@ -21,12 +21,9 @@ import SuppliersCompany from "./suppliers_company/SuppliersCompany";
 import BranchSuppliers from "./branchSuppliers/BranchSuppliers";
 import BranchSupplierProducts from "./branchSupplierProducts/BranchSupplierProducts";
 import BranchSupplierSalespersons from "./branchSupplierSalespersons/BranchSupplierSalespersons";
+import BranchSupplierOrder from "./branchSupplierOrder/BranchSupplierOrder";
+import BranchSupplierOrderPaymentInstallment from "./branchSupplierOrderPaymentInstallment/BranchSupplierOrderPaymentInstallment";
 
-/*import BranchSupplierStock from "./branchSupplierStock/BranchSupplierStock";
-import BranchSupplierStockPaymentInstallment from "./branchSupplierStockPaymentInstallment/BranchSupplierStockPaymentInstallment";
-import BranchSupplierProducts from "./branchSupplierStock/BranchSupplierStock";
-import BranchSupplierSalespersons from "./branchSupplierSalespersons/BranchSupplierSalespersons";
-*/
 
 export default {
     Brand,
@@ -51,7 +48,6 @@ export default {
     BranchSuppliers,
     BranchSupplierProducts,
     BranchSupplierSalespersons,
-    /*BranchSupplierStock,
-    BranchSupplierStockPaymentInstallment,
-    */
+    BranchSupplierOrder,
+    BranchSupplierOrderPaymentInstallment,
 }
