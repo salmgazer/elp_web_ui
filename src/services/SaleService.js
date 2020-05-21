@@ -9,6 +9,7 @@ import isSameDay from "date-fns/isSameDay";
 import isSameWeek from "date-fns/isSameWeek";
 import isSameMonth from "date-fns/isSameMonth";
 import isSameYear from "date-fns/isSameYear";
+import SystemDateHandler from './SystemDateHandler';
 
 export default class SaleService {
     async makeSell(data , paymentType){
@@ -289,6 +290,8 @@ export default class SaleService {
             value: branchId,
             fxn: 'eq'
         });
+
+        return sales;
     }
 
     static async getSalesHistory(duration , date){
@@ -364,6 +367,43 @@ export default class SaleService {
         return weekFormatSales;
     }
 
+    static async monthSalesFormat (sales){
+        let monthFormatSales = [];  
+        const weekDays = new SystemDateHandler().getStoreWeeks();
+
+        const newSales = sales.reduce((r, a) => {
+            for (let index = 0; index < weekDays.length; index++) {
+                console.log(weekDays[index].value)
+                r = sales.filter(sale => isSameWeek(new Date(sale.entryDate), weekDays[index].value));
+                r[a.entryDate] = [...r[a.entryDate] || [], a];
+            }
+            return r;
+        }, []);
+
+        console.log(newSales)
+
+        for (const [key, value] of Object.entries(newSales)) {
+            monthFormatSales.push({...await SaleService.getSaleFormatAsync(value) , week: key})
+        }
+        return monthFormatSales;
+    }
+
+    static async yearSalesFormat (sales){
+        let yearFormatSales = []
+        const newSales = sales.reduce((r, a) => {
+            r = new SystemDateHandler().getStoreMonths();
+            r[a.entryDate] = [...r[a.entryDate] || [], a];
+            return r;
+        }, []);
+
+        for (const [key, value] of Object.entries(newSales)) {
+            yearFormatSales.push({...await SaleService.getSaleFormatAsync(value) , month: key})
+        }
+
+        return yearFormatSales;
+
+    }
+
     async getSalesDetails(duration , date) {
         let sale = await SaleService.getSalesHistory(duration , date);
 
@@ -393,9 +433,21 @@ export default class SaleService {
             quantity += parseFloat(await SaleService.getSaleProductQuantity(sale[step].saleId));
         }
 
-        switch (duration) {
-            case 'week':
-                sale = await SaleService.weekSalesFormat(sale);
+        // switch (duration) {
+        //     case 'week':
+        //         sale = await SaleService.weekSalesFormat(sale);
+        //     case 'month':
+        //         sale = await SaleService.monthSalesFormat(sale);
+        //     // case 'year':
+        //     //     sale = await SaleService.yearSalesFormat(sale);
+        // }
+
+        if (duration === 'week') {
+            sale = await SaleService.weekSalesFormat(sale);
+        } else if (duration === 'month') {
+            sale = await SaleService.monthSalesFormat(sale);
+        } else if (duration === 'year') {
+            sale = await SaleService.yearSalesFormat(sale);
         }
 
         return {

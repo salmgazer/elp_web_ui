@@ -8,6 +8,7 @@ import SaleService from '../../../../../services/SaleService';
 
 const SingleWeekView = props => {
     const sale = props.sale;
+    console.log(sale)
     /*const [total , setTotal] = useState(false);
     const [profit , setProfit] = useState(false);
 

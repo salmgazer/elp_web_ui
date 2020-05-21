@@ -283,7 +283,9 @@ const Admin = props => {
                                     </Grid>
                                     <Grid item xs={2} sm>
                                         <div className={Styles.centered}>
-                                            <ArrowForwardIosIcon  style={{fontSize: '0.9rem'}} onClick={() => history.push(paths.register)}/>
+                                            <ArrowForwardIosIcon  style={{fontSize: '0.9rem'}}
+                                            // onClick={() => history.push(paths.generate_barcode)}
+                                            />
 
                                         </div>
                                     </Grid>
@@ -358,7 +360,7 @@ const Admin = props => {
                                     </Grid>
                                     <Grid item xs={2} sm>
                                         <div className={Styles.centered}>
-                                            <ArrowForwardIosIcon  style={{fontSize: '0.9rem'}} onClick={() => history.push(paths.register)}/>
+                                            <ArrowForwardIosIcon  style={{fontSize: '0.9rem'}} onClick={() => history.push(paths.expense)}/>
 
                                         </div>
                                     </Grid>
@@ -378,7 +380,7 @@ const Admin = props => {
                                     </Grid>
                                     <Grid item xs={2} sm>
                                         <div className={Styles.centered}>
-                                            <ArrowForwardIosIcon  style={{fontSize: '0.9rem'}} onClick={() => history.push(paths.register)}/>
+                                            <ArrowForwardIosIcon  style={{fontSize: '0.9rem'}} onClick={() => history.push(paths.suppliers)}/>
 
                                         </div>
                                     </Grid>
@@ -399,7 +401,7 @@ const Admin = props => {
                                     </Grid>
                                     <Grid item xs={2} sm>
                                         <div className={Styles.centered}>
-                                            <ArrowForwardIosIcon  style={{fontSize: '0.9rem'}} onClick={() => history.push(paths.register)}/>
+                                            <ArrowForwardIosIcon  style={{fontSize: '0.9rem'}} onClick={() => history.push(paths.view_customers)}/>
 
                                         </div>
                                     </Grid>
@@ -423,12 +425,7 @@ const Admin = props => {
 
                                         </div>
                                     </Grid>
-
                                 </Grid>
-
-
-
-
                             </Grid>
                         </div>
 

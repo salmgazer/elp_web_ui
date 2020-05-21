@@ -1,6 +1,5 @@
 import React, {useEffect, useState} from "react";
 import { withRouter } from "react-router-dom";
-
 import Grid from '@material-ui/core/Grid';
 import paths from "../../../utilities/paths";
 import CssBaseline from "@material-ui/core/CssBaseline/CssBaseline";
@@ -719,7 +718,6 @@ const AddSupplier = props => {
                         </Paper>
                     </Fade>
                 </Modal>
-
             </React.Fragment>
         </div>
     );

@@ -1,13 +1,13 @@
-import React, {useEffect , useState} from 'react';
+import React from 'react';
 import Card from "@material-ui/core/Card/Card";
 import Grid from "@material-ui/core/Grid/Grid";
 import EventIcon from '@material-ui/icons/Event';
 
 import format from "date-fns/format";
-import SaleService from '../../../../../services/SaleService';
 
 const SingleMonthView = props => {
     const sale = props.sale;
+    console.log(sale)
     // const [total , setTotal] = useState(false);
     // const [profit , setProfit] = useState(false);
 
@@ -47,7 +47,7 @@ const SingleMonthView = props => {
             </Grid>
             <Grid item xs={10} style={{display: 'table', height: '60px', margin: '8px 0px'}}>
                 <div style={{textAlign: 'left', display: 'table-cell', verticalAlign: 'middle'}}>
-                    <span className='text-dark font-weight-bold' >{format(new Date(sale.week) , "eeee, MMMM do, yyyy")} </span>
+                    <span className='text-dark font-weight-bold' >{format(new Date(sale.week) , "eeee, MMMM do, yyyy")}</span>
                     <div className="font-weight-light mt-1" style={{ fontSize: '13px'}}>Sales made : GHC {sale.sellingPrice}</div>
                     <div className="font-weight-light mt-1" style={{ fontSize: '13px'}}>Profit made : GHC {sale.profit}</div>
                 </div>

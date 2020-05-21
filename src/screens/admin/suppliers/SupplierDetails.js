@@ -27,6 +27,7 @@ import PaidIcon from "@material-ui/icons/Brightness1";
 import Drawer from "../../../components/Drawer/Drawer";
 import SectionNavbars from "../../../components/Sections/SectionNavbars";
 
+
 const useStyles = makeStyles(theme => ({
     root: {
         width: '100%',
@@ -83,40 +84,6 @@ const useStyles = makeStyles(theme => ({
         backgroundColor: '#daab59',
     }
 }));
-
-const apiUrl = "";
-
-async function getUserStoreFromLocal(database, user, store) {
-    return database.collections
-        .get("users_stores")
-        .query(Q.where("user_id", user.id), Q.where("store_id", store.id))
-        .fetch();
-}
-
-async function getUserFromLocal(database, usernameOrPhone, password) {
-    return database.collections
-        .get("users")
-        .query(
-            Q.where("username", usernameOrPhone),
-            Q.or(Q.where("phone", usernameOrPhone)),
-            Q.where("password", password)
-        )
-        .fetch();
-}
-
-async function getStore(database) {
-    return database.collections
-        .get("stores")
-        .query()
-        .fetch();
-}
-
-async function getUsersFromLocal(database) {
-    return database.collections
-        .get("users")
-        .query()
-        .fetch();
-}
 
 const SupplierDetails = props => {
     const classes = useStyles();

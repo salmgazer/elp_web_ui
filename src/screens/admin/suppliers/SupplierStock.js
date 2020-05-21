@@ -1,26 +1,29 @@
 import React, {useEffect, useState} from "react";
-import { withRouter } from "react-router-dom";
+
 import Grid from '@material-ui/core/Grid';
 import paths from "../../../utilities/paths";
 import CssBaseline from "@material-ui/core/CssBaseline/CssBaseline";
 import {makeStyles} from "@material-ui/core";
-import Paper from '@material-ui/core/Paper';
-import Typography from "@material-ui/core/Typography/Typography";
+import { withRouter } from "react-router-dom";
+import {confirmAlert} from "react-confirm-alert";
 
-import LocalInfo from '../../../services/LocalInfo';
-import Box from "@material-ui/core/Box/Box";
-import ArrowBackIcon from "@material-ui/icons/ArrowBack";
-import SectionNavbars from "../../../components/Sections/SectionNavbars";
-import SimpleSnackbar from "../../../components/Snackbar/SimpleSnackbar";
-import SearchInput from "../../Components/Input/SearchInput";
-import BranchService from "../../../services/BranchService";
-import SupplierService from "../../../services/SupplierService";
 import PrimaryLoader from "../../../components/Loader/Loader";
-import SecondaryButton from "../../../components/Buttons/SecondaryButton";
 import AddedIcon from "../../../components/ClickableIcons/AddedIcon";
 import AddIcon from "../../../components/ClickableIcons/AddIcon";
+
+import Paper from '@material-ui/core/Paper';
+import Typography from "@material-ui/core/Typography/Typography";
+import SectionNavbars from "../../../components/Sections/SectionNavbars";
+
+import Box from "@material-ui/core/Box/Box";
+import ArrowBackIcon from "@material-ui/icons/ArrowBack";
+import SupplierService from "../../../services/SupplierService";
+import BranchService from "../../../services/BranchService";
+import LocalInfo from "../../../services/LocalInfo";
+import SecondaryButton from "../../../components/Buttons/SecondaryButton";
 import ProductCard from "../../../components/Cards/ProductCard";
-import {confirmAlert} from "react-confirm-alert";
+import SimpleSnackbar from "../../../components/Snackbar/SimpleSnackbar";
+import SearchInput from "../../Components/Input/SearchInput";
 
 const useStyles = makeStyles(theme => ({
     root: {
@@ -91,6 +94,7 @@ const useStyles = makeStyles(theme => ({
         backgroundColor: '#daab59',
     }
 }));
+
 
 const SupplierStock = props => {
     const classes = useStyles();
@@ -420,7 +424,6 @@ const SupplierStock = props => {
                         </SecondaryButton>
                     </div>
                 </Box>
-
             </React.Fragment>
         </div>
     );
