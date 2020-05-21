@@ -16,6 +16,7 @@ export default class SaleInstallments extends Model {
 
     @field('saleId') saleId;
     @field('customerId') customerId;
+    @field('branchId') branchId;
     @field('createdBy') createdBy;
     @field('amount') amount;
     @relation('customers', 'customerId') customer;

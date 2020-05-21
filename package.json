@@ -40,6 +40,7 @@
     "react-otp-input": "^1.0.1",
     "react-router-dom": "^5.1.2",
     "react-scripts": "3.4.0",
+    "react-search-box": "^2.0.2",
     "react-spinners": "^0.8.1",
     "react-swipeable-views": "^0.13.9",
     "react-to-print": "^2.6.3",

@@ -3,6 +3,7 @@ const saleInstallmentSchema = {
     columns : [
         {name: 'saleId', type: 'string'},
         {name: 'customerId', type: 'string'},
+        {name: 'branchId', type: 'string'},
         {name: 'amount', type: 'number'},
         {name: 'createdBy' , type: 'string'},
         {name: 'created_at' , type: 'number'},

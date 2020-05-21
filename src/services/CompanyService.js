@@ -7,9 +7,9 @@ import isYear from "date-fns/isThisYear";
 import SaleService from "./SaleService";
 
 export default class CompanyService {
-    /*constructor (company = LocalInfo.companies[0]) {
-        this.company = company;
-        this.companyId = company.companyId;
+    /*constructor (suppliers_company = LocalInfo.companies[0]) {
+        this.suppliers_company = suppliers_company;
+        this.companyId = suppliers_company.companyId;
     }*/
 
     static sales() {

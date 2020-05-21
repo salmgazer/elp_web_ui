@@ -5,6 +5,7 @@ import ProductCategory from "./productCategories/ProductCategory";
 import Customer from "./customers/Customer";
 import Cart from "./carts/Carts";
 import CartEntries from "./cartEntry/CartEntry";
+import SuppliersCompany from "./suppliers_company/SuppliersCompany";
 
 const globalModels = [
   Product,
@@ -13,7 +14,8 @@ const globalModels = [
   ProductCategory,
   Customer,
   Cart,
-  CartEntries
+  CartEntries,
+  SuppliersCompany,
 ];
 
 export default globalModels;

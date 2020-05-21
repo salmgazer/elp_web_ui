@@ -8,14 +8,10 @@ import Grid from '@material-ui/core/Grid';
 import paths from "../../../utilities/paths";
 import CssBaseline from "@material-ui/core/CssBaseline/CssBaseline";
 import {makeStyles} from "@material-ui/core";
-import MenuIcon from '@material-ui/icons/Menu';
 import Paper from '@material-ui/core/Paper';
 import ButtonBase from '@material-ui/core/ButtonBase';
-import Search from '@material-ui/icons/Search';
 import Woman from '../../../assets/img/woman.jpg';
 import Typography from "@material-ui/core/Typography/Typography";
-import SectionNavbars from "../../Components/Sections/SectionNavbars";
-import Drawer from "../../Components/Drawer/Drawer";
 
 import LocalInfo from '../../../services/LocalInfo';
 import Button from "@material-ui/core/Button/Button";
@@ -28,6 +24,9 @@ import ProductsIcon from "@material-ui/icons/Menu";
 import DeleteIcon from "@material-ui/icons/Delete";
 import ClockIcon from "@material-ui/icons/AccessTime";
 import PaidIcon from "@material-ui/icons/Brightness1";
+import Drawer from "../../../components/Drawer/Drawer";
+import SectionNavbars from "../../../components/Sections/SectionNavbars";
+
 
 const useStyles = makeStyles(theme => ({
     root: {
@@ -85,40 +84,6 @@ const useStyles = makeStyles(theme => ({
         backgroundColor: '#daab59',
     }
 }));
-
-const apiUrl = "";
-
-async function getUserStoreFromLocal(database, user, store) {
-    return database.collections
-        .get("users_stores")
-        .query(Q.where("user_id", user.id), Q.where("store_id", store.id))
-        .fetch();
-}
-
-async function getUserFromLocal(database, usernameOrPhone, password) {
-    return database.collections
-        .get("users")
-        .query(
-            Q.where("username", usernameOrPhone),
-            Q.or(Q.where("phone", usernameOrPhone)),
-            Q.where("password", password)
-        )
-        .fetch();
-}
-
-async function getStore(database) {
-    return database.collections
-        .get("stores")
-        .query()
-        .fetch();
-}
-
-async function getUsersFromLocal(database) {
-    return database.collections
-        .get("users")
-        .query()
-        .fetch();
-}
 
 const SupplierDetails = props => {
     const classes = useStyles();

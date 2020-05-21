@@ -42,6 +42,12 @@ import ChangeStoreInformation from "./screens/admin/storeInformation/ChangeStore
 import AccountInformation from "./screens/admin/accountInformation/AccountInformation";
 import VerifyPhone from "./screens/admin/accountInformation/VerifyPhone";
 import ChangePrice from "./screens/admin/changePrice/ChangePrice";
+import Suppliers from "./screens/admin/suppliers/Suppliers";
+import ViewSuppliersNew from "./screens/admin/suppliers/mainView/ViewSuppliersNew";
+import SupplierDetails from "./screens/admin/suppliers/SupplierDetails";
+import PaySupplier from "./screens/admin/suppliers/PaySupplier";
+import SupplierStock from "./screens/admin/suppliers/SupplierStock";
+import AddSupplier from "./screens/admin/suppliers/AddSupplier";
 
 import AdminCustomers from "./screens/admin/customers/Customer";
 import CustomerDetails from "./screens/admin/customers/sections/CustomerDetails";
@@ -334,6 +340,75 @@ class App extends React.Component {
                         return <OrderDetails/>;
                     }}
                 />
+<<<<<<< HEAD
+=======
+                {/* <Route
+                    path={paths.expense}
+                    render={() => {
+                        setPageBackground();
+                        this.setTitle(`Admin | ${appName}`);
+                        return <Expense />;
+                    }}
+                /> */}
+                {/* <Route
+                    path={paths.generate_barcode}
+                    render={() => {
+                        setPageBackground();
+                        this.setTitle(`Admin | ${appName}`);
+                        return <GenerateBarcode />;
+                    }}
+                /> */}
+
+                <Route
+                    path={paths.suppliers}
+                    render={() => {
+                        setPageBackground();
+                        this.setTitle(`Suppliers | ${appName}`);
+                        return <Suppliers/>;
+                    }}
+                />
+                <Route
+                    path={paths.view_suppliers}
+                    render={() => {
+                        setPageBackground();
+                        this.setTitle(`Suppliers | ${appName}`);
+                        return <ViewSuppliersNew />
+                    }}
+                />
+                <Route
+                    path={paths.supplier_detail}
+                    render={() => {
+                        setPageBackground();
+                        this.setTitle(`Supplier | ${appName}`);
+                        return <SupplierDetails/>;
+                    }}
+                />
+                <Route
+                    path={paths.pay_supplier}
+                    render={() => {
+                        setPageBackground();
+                        this.setTitle(`Supplier | ${appName}`);
+                        return <PaySupplier/>;
+                    }}
+                />
+                <Route
+                    path={paths.add_supplier_stock}
+                    render={() => {
+                        setPageBackground();
+                        this.setTitle(`Supplier | ${appName}`);
+                        return <SupplierStock/>;
+                    }}
+                />
+                <Route
+                    path={paths.add_supplier}
+                    render={() => {
+                        setPageBackground();
+                        this.setTitle(`Supplier | ${appName}`);
+                        return <AddSupplier/>;
+                    }}
+                />
+
+>>>>>>> 62ac370000b35b7e41b1695b8a433b047bd2f507
               <Route path="*">
                 <NoMatch />
               </Route>

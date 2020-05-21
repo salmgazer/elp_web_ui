@@ -2,30 +2,20 @@ import React from "react";
 import { withRouter } from "react-router-dom";
 import Component from "@reactions/component";
 import { useDatabase } from "@nozbe/watermelondb/hooks";
-import { Q } from "@nozbe/watermelondb";
 
-import Grid from '@material-ui/core/Grid';
 import paths from "../../../utilities/paths";
 import CssBaseline from "@material-ui/core/CssBaseline/CssBaseline";
 import {makeStyles} from "@material-ui/core";
-import MenuIcon from '@material-ui/icons/Menu';
-import Paper from '@material-ui/core/Paper';
-import BoxDefault from "../../Components/Box/BoxDefault";
-import ButtonBase from '@material-ui/core/ButtonBase';
+
 import ArrowBackIcon from '@material-ui/icons/ArrowBack';
-import Typography from "@material-ui/core/Typography/Typography";
-import SectionNavbars from "../../Components/Sections/SectionNavbars";
-import Drawer from "../../Components/Drawer/Drawer";
 import LocalInfo from '../../../services/LocalInfo';
-import Container from "@material-ui/core/Container/Container";
-import ViewWelcome from "../../getStarted/sections/ViewWelcome";
-import ViewStore from "../../getStarted/sections/ViewStore";
 import Box from "@material-ui/core/Box/Box";
 import warehouseImg from "../../../assets/img/warehouse.png";
 import Button from "@material-ui/core/Button/Button";
-import CostCalculator from "../../Components/Calculator/CostCalculator";
-import PriceInput from "../../Components/Input/PriceInput";
-
+import BoxDefault from "../../../components/Box/BoxDefault";
+import Drawer from "../../../components/Drawer/Drawer";
+import SectionNavbars from "../../../components/Sections/SectionNavbars";
+import PriceInput from "../../../components/Input/PriceInput";
 
 const useStyles = makeStyles(theme => ({
     root: {
@@ -68,40 +58,6 @@ const useStyles = makeStyles(theme => ({
     }
 }));
 
-const apiUrl = "";
-
-async function getUserStoreFromLocal(database, user, store) {
-    return database.collections
-        .get("users_stores")
-        .query(Q.where("user_id", user.id), Q.where("store_id", store.id))
-        .fetch();
-}
-
-async function getUserFromLocal(database, usernameOrPhone, password) {
-    return database.collections
-        .get("users")
-        .query(
-            Q.where("username", usernameOrPhone),
-            Q.or(Q.where("phone", usernameOrPhone)),
-            Q.where("password", password)
-        )
-        .fetch();
-}
-
-async function getStore(database) {
-    return database.collections
-        .get("stores")
-        .query()
-        .fetch();
-}
-
-async function getUsersFromLocal(database) {
-    return database.collections
-        .get("users")
-        .query()
-        .fetch();
-}
-
 const PaySupplier = props => {
     const classes = useStyles();
 
@@ -119,7 +75,6 @@ const PaySupplier = props => {
     }
 
     const [isStore , setIsStore] = React.useState(false);
-
 
     return (
         <div style={{height: '100vh'}}>

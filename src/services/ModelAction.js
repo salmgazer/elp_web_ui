@@ -21,6 +21,14 @@ export default class ModelAction {
 
     /*
     * @var
+    * @return array of items
+    * */
+    indexNotObserve(){
+        return this.database.collections.get(this.table).query().fetch();
+    }
+
+    /*
+    * @var
     * @return object
     * */
     findByIdNotObserve(id){
@@ -78,16 +86,19 @@ export default class ModelAction {
     async post(columns){
         console.log(columns , this.table , this.columns)
         const dataCollection = this.database.collections.get(this.table);
-        let item = '';
+        let postItem = '';
         await this.database.action(async () => {
-            item = await dataCollection.create(item => {
+            postItem = await dataCollection.create(item => {
                 item._raw.id = uuid();
                 this.columns.map((column) => item[column] = columns[column])
             });
 
-            console.log(item)
-            return item;
+            console.log(postItem)
         })
+        console.log(postItem)
+
+        return postItem;
+
     }
 
     /*

@@ -18,8 +18,17 @@ import stockMovementSchema from "./stockMovements/stockMovementSchema";
 import auditSchema from "./audit/auditSchema";
 import auditEntriesSchema from "./auditEntry/auditEntriesSchema";
 
+import suppliersCompanySchema from "./suppliers_company/suppliersCompanySchema";
+import branchSuppliersSchema from "./branchSuppliers/branchSuppliersSchema";
+import branchSupplierProductSchema from "./branchSupplierProducts/branchSupplierProductsSchema";
+import branchSupplierSalespersonsSchema from "./branchSupplierSalespersons/branchSupplierSalespersonsSchema";
+
+/*import branchSupplierStockSchema from "./branchSupplierStock/branchSupplerStockSchema";
+import branchSupplierStockPaymentInstallmentSchema from "./branchSupplierStockPaymentInstallment/branchSupplierStockPaymentInstallmentSchema";
+*/
+
 export default appSchema({
-  version: 11, // must always match the latest migration number in migrations.js
+  version: 12, // must always match the latest migration number in migrations.js
   tables: [
     tableSchema(brandSchema),
     tableSchema(manufacturerSchema),
@@ -39,5 +48,12 @@ export default appSchema({
     tableSchema(stockMovementSchema),
     tableSchema(auditSchema),
     tableSchema(auditEntriesSchema),
+    tableSchema(suppliersCompanySchema),
+    tableSchema(branchSuppliersSchema),
+    tableSchema(branchSupplierProductSchema),
+    tableSchema(branchSupplierSalespersonsSchema),
+      /*tableSchema(branchSupplierStockSchema),
+      tableSchema(branchSupplierStockPaymentInstallmentSchema),
+      */
   ]
 });
