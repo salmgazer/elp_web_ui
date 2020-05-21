@@ -38,7 +38,7 @@ export default class CustomerService {
     * */
     async searchBranchCustomer(searchValue) {
         const customers = await new ModelAction('Customer').findByColumnNotObserve({
-            name: 'firstName',
+            name: 'firstName' || 'otherNames',
             value: searchValue,
             fxn: 'like'
         });

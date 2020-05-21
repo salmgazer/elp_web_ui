@@ -75,4 +75,55 @@ export default class InvoiceService {
             quantity
         }
     }
+
+    static async getInvoiceHistorybyCustomer (custId){
+        const sales = await new ModelAction('Sales').findByColumnNotObserve(
+            {
+                name: 'branchId',
+                value: LocalInfo.branchId,
+                fxn: 'eq'
+            }
+        );
+
+        return sales.filter(sale => sale.customerId === custId);
+    }
+
+    async getInvoiceDetailsbyCustomer (custId) {
+        const invoice = await InvoiceService.getInvoiceHistorybyCustomer(custId);
+        console.log(invoice);
+        let costPrice = 0;
+        let profit = 0;
+        let credit = 0;
+        let sellingPrice = 0;
+        let quantity = 0;
+
+        for (let step = 0; step < invoice.length; step++) {
+            costPrice += parseFloat(await SaleService.getSaleEntryCostPriceById(invoice[step].id));
+        }
+
+        for (let step = 0; step < invoice.length; step++) {
+            profit += parseFloat(await SaleService.getSaleEntryProfitById(invoice[step].id));
+        }
+
+        for (let step = 0; step < invoice.length; step++) {
+            credit += parseFloat(await SaleService.getSaleEntryCreditById(invoice[step].id));
+        }
+
+        for (let step = 0; step < invoice.length; step++) {
+            sellingPrice += parseFloat(await SaleService.getSaleEntrySellingPriceById(invoice[step].id));
+        }
+
+        for (let step = 0; step < invoice.length; step++) {
+            quantity += parseFloat(await SaleService.getSaleProductQuantity(invoice[step].id));
+        }
+
+        return {
+            invoices: invoice,
+            costPrice,
+            profit,
+            credit,
+            sellingPrice,
+            quantity
+        }
+    }
 }

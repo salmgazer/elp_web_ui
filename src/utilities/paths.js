@@ -37,6 +37,7 @@ export default {
     pay_supplier : "/pay-supplier",
     add_customer : "/add-customer",
     view_customers : "/view-customer",
+    admin_customers : "/admin-customers",
     customer_orders : "/customer-orders",
     order_details : "/order-details",
     customer_details : "/customer-detail",
