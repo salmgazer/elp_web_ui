@@ -1,5 +1,5 @@
-import React, {Fragment, useState} from "react";
-import { withRouter } from "react-router-dom";
+import React, {Fragment, useEffect, useState} from "react";
+import {Link, withRouter} from "react-router-dom";
 import Styles from '../../SupplierDetails.module.scss';
 import Grid from '@material-ui/core/Grid';
 import paths from "../../../../../utilities/paths";
@@ -23,6 +23,7 @@ import MoreVertIcon from '@material-ui/icons/MoreVert';
 import SimpleSnackbar from "../../../../../components/Snackbar/SimpleSnackbar";
 import Avatar from "@material-ui/core/Avatar/Avatar";
 import SupplierOrderHistorySingle from "./SupplierOrderHistorySingle";
+import SupplierService from "../../../../../services/SupplierService";
 
 const useStyles = makeStyles(theme => ({
     root: {
@@ -88,11 +89,29 @@ const SingleSupplierDetails = props => {
     const [errorMsg , setErrorMsg] = useState('');
     const [success , setSuccess] = useState(false);
     const [successMsg , setSuccessMsg] = useState('');
-    /*
-    * @todo replace user name with localInfo details.
-    * */
-    const username = JSON.parse(localStorage.getItem('userDetails')).firstName;
-    console.log(username);
+    const [owedAmount , setOwedAmount] = useState('');
+    const [supplier , setSupplier] = useState('');
+    const [orders , setOrders] = useState([]);
+
+    useEffect(() => {
+        if(supplier === ''){
+            getSupplier();
+        }
+    }, []);
+
+    const getSupplier = async () => {
+        const branchSupplier = ((props.branchSuppliers).filter((item) => item.id === (localStorage.getItem("supplierId"))))[0];
+
+        console.log(branchSupplier.deliveryDays)
+        setSupplier(branchSupplier);
+        setOrders(await branchSupplier.orders());
+        const response = await SupplierService.getSuppliedAmountOwed(branchSupplier.orders() , branchSupplier.payments());
+        setOwedAmount(response);
+    };
+
+    const deleteSupplier = async() => {
+        await props.deleteSupplier(supplier.id);
+    };
 
     const { history } = props;
 
@@ -115,7 +134,7 @@ const SingleSupplierDetails = props => {
                         </div>
                     }
                     leftIcon={
-                        <div onClick={() => history.push(paths.suppliers)}>
+                        <div onClick={() => props.setView(0)}>
                             <ArrowBackIcon
                                 style={{fontSize: '2rem'}}
                             />
@@ -170,13 +189,13 @@ const SingleSupplierDetails = props => {
                             <Grid item xs container direction="column" spacing={2} style={{textAlign: "left"}}>
                                 <Grid item xs>
                                     <Typography style={{fontSize: "18px" , fontWeight: "500"}}>
-                                        Esi Mensah
+                                        {supplier.name}
                                     </Typography>
                                     <Typography  style={{fontSize: "15px" , fontWeight: '400'}}>
-                                        Niko's Enterprise
+                                        {supplier.contact}
                                     </Typography>
                                     <Typography style={{fontSize: "15px" , fontWeight: '300'}}>
-                                        05481452770
+                                        {supplier.deliveryDays ? SupplierService.getSupplierDays(supplier.deliveryDays) : 'No delivery day set'}
                                     </Typography>
                                 </Grid>
                             </Grid>
@@ -190,30 +209,32 @@ const SingleSupplierDetails = props => {
                           }}
                     >
                         <Grid item xs={3} sm>
-                            <ButtonBase className={Styles.roundDiv}>
+                            <a href={`tel:${supplier.contact}`} style={{textDecoration: 'none'}}>
+                                <ButtonBase className={Styles.roundDiv}>
+                                    <Grid item xs={12} sm>
+                                        <CallIcon/>
+                                    </Grid>
+                                </ButtonBase>
                                 <Grid item xs={12} sm>
-                                    <CallIcon/>
+                                    <Typography className={Styles.btnLabel}>
+                                        Contact
+                                    </Typography>
                                 </Grid>
-                            </ButtonBase>
-                            <Grid item xs={12} sm>
-                                <Typography className={Styles.btnLabel}>
-                                    Contact
-                                </Typography>
-                            </Grid>
-
+                            </a>
                         </Grid>
                         <Grid item xs={3} sm>
-                            <ButtonBase className={Styles.roundDiv}>
+                            <div onClick={() => props.setView(2)}>
+                                <ButtonBase className={Styles.roundDiv}>
+                                    <Grid item xs={12} sm>
+                                        <EditIcon/>
+                                    </Grid>
+                                </ButtonBase>
                                 <Grid item xs={12} sm>
-                                    <EditIcon/>
+                                    <Typography className={Styles.btnLabel}>
+                                        Edit Info
+                                    </Typography>
                                 </Grid>
-                            </ButtonBase>
-                            <Grid item xs={12} sm>
-                                <Typography className={Styles.btnLabel}>
-                                    Edit Info
-                                </Typography>
-                            </Grid>
-
+                            </div>
                         </Grid>
                         <Grid item xs={3} sm>
                             <ButtonBase className={Styles.roundDiv} onClick={() => history.push(paths.order_supplier_stock)}>
@@ -231,20 +252,19 @@ const SingleSupplierDetails = props => {
 
                         </Grid>
                         <Grid item xs={3} sm>
-                            <ButtonBase className={Styles.roundDiv}>
+                            <div onClick={deleteSupplier}>
+                                <ButtonBase className={Styles.roundDiv}>
+                                    <Grid item xs={12} sm>
+                                        <DeleteIcon/>
+                                    </Grid>
+                                </ButtonBase>
                                 <Grid item xs={12} sm>
-                                    <DeleteIcon/>
+                                    <Typography className={Styles.btnLabel}>
+                                        Delete
+                                    </Typography>
                                 </Grid>
-                            </ButtonBase>
-                            <Grid item xs={12} sm>
-                                <Typography className={Styles.btnLabel}>
-                                    Delete
-                                </Typography>
-                            </Grid>
-
+                            </div>
                         </Grid>
-
-
                     </Grid>
                 </Grid>
 
@@ -266,7 +286,41 @@ const SingleSupplierDetails = props => {
                         Order History
                     </Typography>
 
-                    <SupplierOrderHistorySingle/>
+                    {
+                        orders.length === 0 ?
+                            <div className={`w-100 rounded mx-1 my-4 p-2 bordered`}>
+                                <Grid container spacing={1} className={`py-1`}>
+                                    <Grid
+                                        item xs={12}
+                                        className={`text-left pl-2`}
+                                    >
+                                        <Typography
+                                            component="h6"
+                                            variant="h6"
+                                            style={{fontSize: '16px'}}
+                                            className={`text-center text-dark`}
+                                        >
+                                            No order history
+                                        </Typography>
+                                    </Grid>
+                                </Grid>
+                            </div>
+                            :
+                            (orders.slice((orders.length - 3), orders.length)).map((order) =>
+                                <div key={order.id} style={{width: '100%'}}>
+                                    <SupplierOrderHistorySingle order={order} owedAmount={owedAmount}/>
+                                </div>
+                            )
+                    }
+                    {
+                        orders.length !== 0 ?
+                            <Link to={paths.order_history} style={{'marginTop': '10px' , textDecorationColor: '#DAAB59' , textAlign: 'center' , width: '100%'}}>
+                                <span  style={{'marginTop': '20px', color: '#DAAB59', fontSize: '16px' , textAlign: 'center'}}><i>View more</i> </span> <br/>
+                            </Link>
+                            :
+                        ''
+                    }
+
                 </Grid>
                 {/*<div style={{padding: '10px', marginTop: "8px"}}>
                     <Paper className={classes.paper} style={{padding: "2px 10px"}}>

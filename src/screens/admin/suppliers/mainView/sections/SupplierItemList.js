@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import Grid from "@material-ui/core/Grid";
 import Avatar from "@material-ui/core/Avatar";
 import Woman from "../../../../../assets/img/woman.jpg";
@@ -10,6 +10,8 @@ import ButtonBase from "@material-ui/core/ButtonBase/ButtonBase";
 import EditIcon from "@material-ui/icons/Edit";
 import MainDialog from "../../../../../components/Dialog/MainDialog";
 import {makeStyles} from "@material-ui/core";
+import SupplierService from "../../../../../services/SupplierService";
+import entities from "../../../../../config/supplierEntities";
 
 const useStyles = makeStyles(theme => ({
     root: {
@@ -76,10 +78,23 @@ const useStyles = makeStyles(theme => ({
 }));
 
 const SupplierItemList = (props) => {
+    const supplier = props.item;
     const classes = useStyles();
     const { history } = props;
     const [mainDialog, setMainDialog] = React.useState(false);
     const [addDialog, setAddDialog] = React.useState(false);
+    const [owedAmount , setOwedAmount] = React.useState('');
+
+    useEffect(() => {
+        if(owedAmount === ''){
+            getSuppliersOwed();
+        }
+    }, []);
+
+    const getSuppliersOwed = async () => {
+        const response = await SupplierService.getSuppliedAmountOwed(supplier.orders() , supplier.payments());
+        setOwedAmount(response);
+    };
 
     const closeDialogHandler = (event) => {
         setMainDialog(false);
@@ -90,57 +105,69 @@ const SupplierItemList = (props) => {
         setMainDialog(true);
     };
 
+    const openSupplierDetails = (supplier) => {
+        /*{/!*onClick={openDialogHandler}*!/}*/
+        localStorage.setItem("supplierId" , supplier.id);
+        localStorage.setItem("supplierName" , supplier.name);
+        props.setView(1);
+    }
+
     const image = `https://elparah.store/admin/upload/ Sangria Don Simon Red Wine 1L Tetrapak.jpg`;
 
     return (
         <React.Fragment>
-            <Grid container style={{paddingTop: "10px"}}>
+            <Grid container style={{paddingTop: "10px"}} onClick={openSupplierDetails.bind(this , supplier)}>
                 <Grid item xs={3} sm>
                     <Avatar
-                        alt="Ali Connors"
-                        src={Woman}
+                        alt={supplier.name}
+                        //src={Woman}
                         className={classes.primaryColor}
                         style={{
-                            flex: 1,
-                            justifyContent: "space-between",
                             width: "60px",
                             height: "60px",
                             borderRadius: "50%",
-                            margin: '5px auto'
+                            margin: '5px auto',
+                            textAlign: 'center'
                         }}
                     >
+                        {(supplier.name).charAt(0).toUpperCase()}
                     </Avatar>
                 </Grid>
-                <Grid item xs={6} sm container style={{borderBottom: "1px solid #d8d2d2" , paddingBottom: "7px" }} onClick={() => props.setView(1)}>
+                <Grid item xs={6} sm container style={{borderBottom: "1px solid #d8d2d2" , paddingBottom: "7px" }} >
                     <Grid item xs container direction="column" spacing={2} style={{textAlign: "left"}}>
                         <Grid item xs>
                             <Typography style={{fontSize: "18px" , fontWeight: "500"}}>
-                                Esi Mensah
+                                { supplier.name }
                             </Typography>
                             <Typography  style={{fontSize: "15px" , fontWeight: '400'}}>
-                                Niko's Enterprise
+                                { (entities.entities).filter((item) => item.entity === supplier.entityType)[0].name }
                             </Typography>
                             <Typography style={{fontSize: "15px" , fontWeight: '300'}}>
-                                05481452770
+                                { supplier.contact }
                             </Typography>
                         </Grid>
                     </Grid>
                 </Grid>
-                <Grid item xs={3} sm container style={{borderBottom: "1px solid #d8d2d2" , paddingBottom: "7px", color: '#ff5722' }} onClick={openDialogHandler}>
+                <Grid item xs={3} sm container style={{borderBottom: "1px solid #d8d2d2" , paddingBottom: "7px", color: '#ff5722' }} >
                     <Grid item xs container direction="column" spacing={2} style={{textAlign: "left"}}>
-                        <Grid item xs className={`shadow1 my-3`} style={{borderRadius: '5px'}}>
-                            <Typography
-                                style={{fontSize: "13px" , fontWeight: "600" , textAlign: 'center'}}
-                                className={`capitalization font-weight-light`}
-                            >
-                                You owe
-                            </Typography>
-                            <Typography
-                                style={{fontWeight: '600', fontSize: '16px' , textAlign: 'center'}}
-                            >
-                                GHC 500
-                            </Typography>
-                        </Grid>
+                        {
+                            owedAmount ?
+                                <Grid xs className={`shadow1 my-3 p-1`} style={{borderRadius: '5px'}}>
+                                    <Typography
+                                        style={{fontSize: "13px" , fontWeight: "600" , textAlign: 'center'}}
+                                        className={`capitalization font-weight-light`}
+                                    >
+                                        You owe
+                                    </Typography>
+                                    <Typography
+                                        style={{fontWeight: '600', fontSize: '16px' , textAlign: 'center'}}
+                                    >
+                                        GHC {owedAmount}
+                                    </Typography>
+                                </Grid>
+                                : ''
+                        }
+
                     </Grid>
                 </Grid>
                 {/*<Grid item

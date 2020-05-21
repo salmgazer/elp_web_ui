@@ -11,9 +11,11 @@ import paths from "../../../../utilities/paths";
 import SupplierService from "../../../../services/SupplierService";
 import SupplierStockView from "./sections/SupplierStockView";
 import AddSupplierOrderItem from "./sections/AddSupplierOrderItem";
-import AddNewStockPage from "../../../stock/sections/addNewStockPage";
 import BranchStockService from "../../../../services/BranchStockService";
-import BranchService from "../../../../services/BranchService";
+import BranchProductStock from "../../../../models/branchesProductsStocks/BranchProductStock";
+import AddedStockOrderView from "./sections/AddedStockOrderView";
+import CartView from "../../../sell/cart/sections/ViewCart";
+import PaySupplierOrder from "./sections/PaySupplierOrder";
 
 class SupplierOrderStock extends Component {
     state = {
@@ -22,28 +24,73 @@ class SupplierOrderStock extends Component {
         branchSupplierProducts: [],
         stockOrderId: '',
         stockOrderProducts: [],
+        stockTotalProduct: 0,
+        stockTotalAmount: 0,
     };
 
     async componentDidMount() {
         const { history, database , branchSupplierProducts , stockOrderId , stockOrderProducts } = this.props;
+        const totalAmount = (stockOrderProducts).reduce((a, b) => parseFloat(a) + parseFloat(b.quantity * b.costPrice || 0), 0).toFixed(2);
+        const totalQuantity = (stockOrderProducts).reduce((a, b) => parseFloat(a) + parseFloat(b.quantity || 0), 0);
 
-        console.log(branchSupplierProducts);
         await this.setState({
             branchSupplierProducts: branchSupplierProducts,
             stockOrderId: stockOrderId,
             stockOrderProducts: stockOrderProducts,
+            stockTotalAmount: totalAmount,
+            stockTotalQuantity: totalQuantity,
         });
     }
 
     async componentDidUpdate(prevProps) {
-        const { history, database , branchSupplierProducts , stockOrderId , stockOrderProducts} = this.props;
+        const { history, database , branchSupplierProducts , stockOrderId , stockOrderProducts } = this.props;
+
+        const totalAmount = (stockOrderProducts).reduce((a, b) => parseFloat(a) + parseFloat(b.quantity * b.costPrice || 0), 0).toFixed(2);
+        const totalQuantity = (stockOrderProducts).reduce((a, b) => parseFloat(a) + parseFloat(b.quantity || 0), 0);
 
         if(prevProps.branchSupplierProducts.length !== branchSupplierProducts.length || prevProps.stockOrderId !== stockOrderId || prevProps.stockOrderProducts.length !== stockOrderProducts.length){
             this.setState({
                 branchSupplierProducts: branchSupplierProducts,
                 stockOrderId: stockOrderId,
                 stockOrderProducts: stockOrderProducts,
+                stockTotalAmount: totalAmount,
+                stockTotalQuantity: totalQuantity,
             });
+        }
+    }
+
+    deleteProduct = async (pId) => {
+        await confirmAlert({
+            title: 'Confirm to delete',
+            message: 'Are you sure you want to delete this product.',
+            buttons: [
+                {
+                    label: 'Yes',
+                    onClick: async () => {
+                        await new ModelAction('BranchProductStock').destroy(pId);
+                    }
+                },
+                {
+                    label: 'No',
+                    onClick: () => {
+                        return false;
+                    }
+                }
+            ]
+        })
+    };
+
+    async changeProductQuantityHandler(stockEntry , event){
+        try {
+            let status = await new BranchStockService().updateStockEntryDetails(stockEntry , event.target.value);
+
+            if(status){
+                return true;
+            }
+            alert('Invalid quantity');
+            return false;
+        }catch (e) {
+            return false;
         }
     }
 
@@ -58,10 +105,18 @@ class SupplierOrderStock extends Component {
                 return <SupplierStockView productsAdded={(this.state.stockOrderProducts).length} stockOrderId={this.state.stockOrderId} searchProduct={this.searchProductHandler.bind(this)} addProductStockView={this.showProductStockView.bind(this)} branchSupplierProducts={this.state.branchSupplierProducts} setView={this.setStepContentView.bind(this)} />;
             case 1:
                 return <AddSupplierOrderItem productsAdded={(this.state.stockOrderProducts).length} stockOrderId={this.state.stockOrderId} product={this.state.currentProduct} updateProduct={this.updateNewProduct.bind(this)} setView={this.setStepContentView.bind(this)} />;
+            case 2:
+                return <AddedStockOrderView productsAdded={this.state.stockOrderProducts} deleteProduct={this.deleteProduct.bind(this)} stockTotalAmount={this.state.stockTotalAmount} stockTotalQuantity={this.state.stockTotalQuantity} changeQuantity={this.changeProductQuantityHandler.bind(this)} entries={this.state.stockOrderProducts} setView={this.setStepContentView.bind(this)} />;
+            case 3:
+                return <PaySupplierOrder makePayment={this.makePayment.bind(this)} productsAdded={this.state.stockOrderProducts} stockTotalAmount={this.state.stockTotalAmount} stockTotalQuantity={this.state.stockTotalQuantity} setView={this.setStepContentView.bind(this)} />;
             default:
                 return 'Complete';
         }
     };
+
+    async makePayment(formFields){
+
+    }
 
     async searchProductHandler(searchValue){
         try{
@@ -124,11 +179,11 @@ console.log(products)
 }
 
 const EnhancedSupplierOrderStock = withDatabase(
-    withObservables(['branchSuppliers' , 'branchSupplierProducts' , 'stockOrderId' , 'stockOrderProducts'], ({ branchSuppliers , branchSupplierProducts, stockOrderId, stockOrderProducts, database }) => ({
+    withObservables(['branchSuppliers' , 'branchSupplierProducts' , 'stockOrderId' , 'stockOrderProducts' , 'totalAmount' , 'totalQuantity'], ({ branchSuppliers , branchSupplierProducts, stockOrderId, stockOrderProducts, totalAmount , totalQuantity , database }) => ({
         branchSuppliers: SupplierService.getBranchSuppliers(),
         branchSupplierProducts: new SupplierService().getBranchSupplierProducts(),
         stockOrderId: SupplierService.stockOrderId(),
-        stockOrderProducts: SupplierService.stockOrderProducts(),
+        stockOrderProducts: database.collections.get(BranchProductStock.table).query(Q.where('branchSupplierOrderId' , localStorage.getItem("stockOrderId"))).observe(),
     }))(withRouter(SupplierOrderStock))
 );
 

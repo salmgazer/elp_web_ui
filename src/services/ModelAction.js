@@ -109,11 +109,11 @@ export default class ModelAction {
     async update(id , columns){
         const dataCollection = await this.database.collections.get(this.table).find(id);
         console.log(this.columns , this.table)
-        /*let hi = [];
-        hi = this.columns.map((column) => dataCollection[column] = columns[column])
-        console.log(hi)*/
+
+        let postItem = '';
+
         await this.database.action(async () => {
-            return await dataCollection.update(item => {
+            postItem = await dataCollection.update(item => {
                 this.columns.map((column) => {
                     console.log(column);
                     if(columns.hasOwnProperty(column)){
@@ -122,7 +122,9 @@ export default class ModelAction {
                     }
                 })
             });
-        })
+        });
+
+        return postItem;
     }
 
     /*

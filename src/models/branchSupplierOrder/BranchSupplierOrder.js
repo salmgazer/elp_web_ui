@@ -1,6 +1,8 @@
 import { Model } from '@nozbe/watermelondb';
 import { field, date, readonly, relation} from '@nozbe/watermelondb/decorators';
 import branchSupplierOrderSchema from "./branchSupplierOrderSchema";
+import * as Q from "@nozbe/watermelondb/QueryDescription";
+import LocalInfo from "../../services/LocalInfo";
 
 export default class BranchSupplierOrder extends Model {
     static table = 'branch_supplier_orders';
@@ -21,12 +23,26 @@ export default class BranchSupplierOrder extends Model {
     @field('createdBy') createdBy;
     @relation('branch_supplier_salespersons', 'salespersonId') salesperson;
     @relation('branch_suppliers', 'branchSupplierId') branchSupplier;
-    /*
-      @relation('branches_products', 'branchProductId') branchProduct;
-    */
-    //@relation('users', 'createdBy') createdBy;
+
+
     @readonly @date('created_at') createdAt;
     @readonly @date('updated_at') updatedAt;
+
+
+    stocks() {
+        return this.collections.get('branches_products_stocks')
+            .query(
+                Q.where('branchSupplierOrderId', this.id),
+                Q.where('branchId' , LocalInfo.branchId)
+            ).fetch();
+    }
+
+    payments() {
+        return this.collections.get('branch_supplier_order_payment_installments')
+            .query(
+                Q.where('branchSupplierOrderId', this.id)
+            ).fetch();
+    }
 
     static columns = branchSupplierOrderSchema.columns.map(c => c.name);
 

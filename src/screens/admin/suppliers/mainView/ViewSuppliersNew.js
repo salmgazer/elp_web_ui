@@ -11,18 +11,17 @@ import paths from "../../../../utilities/paths";
 import MainSuppliersView from "./sections/MainSuppliersView";
 import SupplierService from "../../../../services/SupplierService";
 import SingleSupplierDetails from "./sections/SingleSupplierDetails";
-import SupplierStockView from "../orderStock/sections/SupplierStockView";
+import EditSupplierDetails from "./sections/EditSupplierDetails";
 
 class ViewSuppliersNew extends Component {
     state = {
         activeStep: 0,
-        branchSuppliers: []
+        branchSuppliers: [],
     };
 
     async componentDidMount() {
         const { history, database , branchSuppliers} = this.props;
 
-        console.log(branchSuppliers);
         await this.setState({
             branchSuppliers: branchSuppliers,
         });
@@ -46,9 +45,11 @@ class ViewSuppliersNew extends Component {
     getStepContent = step => {
         switch (step) {
             case 0:
-                return <MainSuppliersView setView={this.setStepContentView.bind(this)} />;
+                return <MainSuppliersView searchSupplierHandler={this.searchSupplierHandler.bind(this)} branchSuppliers={this.state.branchSuppliers} setView={this.setStepContentView.bind(this)}  />;
             case 1:
-                return <SingleSupplierDetails setView={this.setStepContentView.bind(this)} />;
+                return <SingleSupplierDetails branchSuppliers={this.state.branchSuppliers} setView={this.setStepContentView.bind(this)} deleteSupplier={this.deleteSupplier.bind(this)} />;
+            case 2:
+                return <EditSupplierDetails branchSuppliers={this.state.branchSuppliers} setView={this.setStepContentView.bind(this)} />;
             default:
                 return 'Complete';
         }
@@ -60,6 +61,53 @@ class ViewSuppliersNew extends Component {
     setStepContentView = step => {
         this.setState({
             activeStep: step
+        });
+    };
+
+    /*
+    * Search products handler...
+    * */
+    searchSupplierHandler = async (searchValue) => {
+        /*
+        * @todo make sure it works...
+        * */
+        try {
+            const branchSuppliers = await new SupplierService().searchSupplier(searchValue);
+console.log(branchSuppliers)
+            this.setState({
+                branchSuppliers: branchSuppliers,
+            });
+
+console.log(this.state.branchSuppliers)
+        }catch (e) {
+            return false
+        }
+    };
+
+    deleteSupplier = (id) => {
+        confirmAlert({
+            title: 'Confirm to remove supplier',
+            message: 'Are you sure you want to remove this supplier. It may be having orders you need information on.',
+            buttons: [
+                {
+                    label: 'Yes',
+                    onClick: async () => {
+                        try {
+                            await new ModelAction('BranchSuppliers').destroy(id);
+
+                            this.setStepContentView(0);
+                        } catch (e) {
+                            console.log(e)
+                        }
+                    }
+                },
+                {
+                    label: 'No',
+                    onClick: () => {
+                        return false;
+                    }
+                }
+            ]
         });
     };
 

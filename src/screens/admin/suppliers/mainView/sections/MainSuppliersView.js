@@ -16,6 +16,7 @@ import MoreVertIcon from '@material-ui/icons/MoreVert';
 import SimpleSnackbar from "../../../../../components/Snackbar/SimpleSnackbar";
 import SearchInput from "../../../../Components/Input/SearchInput";
 import SupplierItemList from "./SupplierItemList";
+import Typography from "@material-ui/core/Typography/Typography";
 
 const useStyles = makeStyles(theme => ({
     root: {
@@ -94,27 +95,22 @@ const MainSuppliersView = props => {
         search: ''
     });
 
-    /*
-    * @todo replace user name with localInfo details.
-    * */
-    const username = JSON.parse(localStorage.getItem('userDetails')).firstName;
-    console.log(username);
+    console.log(props.branchSuppliers)
 
-    const { history } = props;
-    const database = useDatabase();
+     const { history } = props;
 
     if (LocalInfo.storeId && LocalInfo.userId) {
         history.push(paths.home);
     }
 
-    const closeDialogHandler = (event) => {
+    /*const closeDialogHandler = (event) => {
         setMainDialog(false);
         setAddDialog(false);
     };
 
     const openDialogHandler = (event) => {
         setMainDialog(true);
-    };
+    };*/
 
     const setInputValue = async (name , value) => {
         const {...oldFormFields} = searchValue;
@@ -123,19 +119,12 @@ const MainSuppliersView = props => {
 
         setSearchValue(oldFormFields);
 
-        try {
-            /*const products = await new BranchService().searchBranchProduct(value);
-
-            await getBranchProductsRendered(products);
-            setBranchProducts(products);*/
-        }catch (e) {
-            return false
-        }
+        props.searchSupplierHandler(value);
     };
 
     return (
-        <div >
-            <Fragment style={{height: '100vh' , backgroundColor: 'rgba(229, 229, 229, 0.16)'}}>
+        <div style={{height: '100vh' , backgroundColor: 'rgba(229, 229, 229, 0.16)'}}>
+            <Fragment>
                 <CssBaseline />
 
                 <SectionNavbars
@@ -198,12 +187,36 @@ const MainSuppliersView = props => {
                 >
                     <Grid item xs={12} sm container style={{paddingBottom: "0px"}}>
                         <Grid item xs container direction="column" style={{textAlign: "left", marginTop: "10px" , paddingBottom: "0px"}}>
-                            <SupplierItemList setView={props.setView}/>
+                            {
+                                props.branchSuppliers.length === 0 ?
+                                <div className={`w-100 rounded mx-1 my-4 p-2 bordered`}>
+                                    <Grid container spacing={1} className={`py-1`}>
+                                        <Grid
+                                            item xs={12}
+                                            className={`text-left pl-2`}
+                                        >
+                                            <Typography
+                                                component="h6"
+                                                variant="h6"
+                                                style={{fontSize: '16px'}}
+                                                className={`text-center text-dark`}
+                                            >
+                                                No supplier found
+                                            </Typography>
+                                        </Grid>
+                                    </Grid>
+                                </div>
+                                :
+                                (props.branchSuppliers).map((supplier , index) =>
+                                    <SupplierItemList key={index} item={supplier} setView={props.setView}/>
+                                )
+                            }
+
                         </Grid>
                     </Grid>
                 </Grid>
 
-                <div >
+                <div>
                     <Box
                         className="shadow1"
                         bgcolor="background.paper"

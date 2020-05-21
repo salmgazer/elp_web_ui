@@ -43,15 +43,16 @@ export default class BranchStockService{
             branchId: formFields.branchId,
             productId: formFields.productId,
             type: formFields.type,
-            branchSupplierOrderId: formFields.orderId,
+            branchSupplierOrderId: formFields.branchSupplierOrderId,
             branchProductId: formFields.branchProductId,
             costPrice: parseFloat(formFields.costPrice),
             createdBy: LocalInfo.userId,
         };
 
+
         try{
             const response = await new ModelAction('BranchProductStock').post(stockColumns);
-
+            console.log(response)
             if(await BranchStockService.addStockHistory()){
                 await BranchStockService.addPurchase(formFields);
                 await BranchStockService.updateProduct(formFields);
@@ -60,6 +61,33 @@ export default class BranchStockService{
             }
 
             return false;
+        } catch (e) {
+            return false;
+        }
+    }
+
+    /*
+    * @var cartEntry
+    * @var new quantity
+    * @return new cartEntry
+    * */
+    async updateStockEntryDetails(stockEntry , quantity){
+        //1. Check if quantity of product is valid
+        //2. Update quantity of entry
+
+        try {
+            await new ModelAction('BranchProductStock').update(stockEntry.id , {
+                quantity: parseFloat(quantity),
+                branchId: stockEntry.branchId,
+                productId: stockEntry.productId,
+                type: stockEntry.type,
+                branchSupplierOrderId: stockEntry.branchSupplierOrderId,
+                branchProductId: stockEntry.branchProductId,
+                costPrice: parseFloat(stockEntry.costPrice),
+                createdBy: LocalInfo.userId,
+            });
+
+            return true;
         } catch (e) {
             return false;
         }

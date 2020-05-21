@@ -98,6 +98,7 @@ const useStyles = makeStyles(theme => ({
 
 
 const SupplierStockView = props => {
+    console.log(props.productsAdded)
     const classes = useStyles();
     const branchProducts = props.branchSupplierProducts;
     console.log(branchProducts)
@@ -375,7 +376,7 @@ const SupplierStockView = props => {
                     style={{ height: '3.5rem', position: "fixed", bottom:"0", width:"100%" }}
                 >
                     <div
-                        onClick={() => history.push(paths.view_suppliers)}
+                        onClick={() => props.setView(2)}
                     >
                         <SecondaryButton
                             classes={`capitalization font-weight-bold text-dark`}
