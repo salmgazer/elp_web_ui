@@ -8,6 +8,7 @@ import {v4 as uuid} from 'uuid';
 import Carts from "../models/carts/Carts";
 import BranchService from "./BranchService";
 import CustomerService from "./CustomerService";
+import getTime from 'date-fns/getTime'
 
 export default class CartService {
     async cartId() {
@@ -19,7 +20,7 @@ export default class CartService {
                 const newCart = await dataCollection.create(cart => {
                     cart.discount = 0;
                     cart.branchId = LocalInfo.branchId;
-                    cart.cartDate = LocalInfo.workingDate;
+                    cart.cartDate =  getTime(new Date(LocalInfo.workingDate));
                     cart.status = 'active';
                     cart.createdBy = LocalInfo.userId;
                     cart._raw.id = uuid()

@@ -31,7 +31,7 @@ export default class SyncService {
           }
 
 
-          const {changes, timestamp, otherChanges} = await response.data;
+          const {changes, timestamp} = await response.data;
           LocalInfo.lastSyncedAt = timestamp;
 
           for (let m = 0; m < globalModels.length; m++) {
@@ -100,14 +100,6 @@ export default class SyncService {
                   for (const existingRow of existingRows) {
                     await existingRow.destroyPermanently();
                   }
-                  await collection.create(aRow => {
-                    globalModel.columns.forEach(column => {
-                      if (row[column]) {
-                        aRow[column] = row[column];
-                      }
-                    });
-                    aRow._raw.id = row.id;
-                  });
                 }
               }
             }
