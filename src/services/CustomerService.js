@@ -33,6 +33,31 @@ export default class CustomerService {
         }
     }
 
+
+    async updateCustomer(customerId, customerData){
+
+        try {
+            await new ModelAction('Customer').update(customerId, customerData);
+        }catch (e) {
+            console.log(e);
+            return false;
+        }
+
+        // const lastCustomer = await this.getLastCustomer();
+        const branchCustomerColumns = {
+            branchId: LocalInfo.branchId,
+            createdBy: LocalInfo.userId,
+            customerId: customerId,
+        };
+
+        try {
+            await new ModelAction('BranchCustomer').update(customerId, branchCustomerColumns);
+        }catch (e) {
+            console.log(e);
+            return false;
+        }
+    }
+
     /*
     * Search for a branch customer
     * */

@@ -340,8 +340,6 @@ class App extends React.Component {
                         return <OrderDetails/>;
                     }}
                 />
-<<<<<<< HEAD
-=======
                 {/* <Route
                     path={paths.expense}
                     render={() => {
@@ -408,7 +406,6 @@ class App extends React.Component {
                     }}
                 />
 
->>>>>>> 62ac370000b35b7e41b1695b8a433b047bd2f507
               <Route path="*">
                 <NoMatch />
               </Route>

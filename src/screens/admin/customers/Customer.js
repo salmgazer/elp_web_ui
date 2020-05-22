@@ -8,8 +8,9 @@ import ModelAction from "../../../services/ModelAction";
 import CustomerDetails from './sections/CustomerDetails';
 import ViewCustomers from './sections/ViewCustomers';
 import CustomerService from '../../../services/CustomerService';
-import BranchService from "../../../services/BranchService";
+import { Q } from '@nozbe/watermelondb'
 import LocalInfo from "../../../services/LocalInfo";
+import BranchCustomer from "../../../models/branchesCustomer/BranchCustomer";
 
 class Customer extends Component{
     state={
@@ -23,18 +24,22 @@ class Customer extends Component{
     * Fetch all products when component is mounted
     * */
     async componentDidMount() {
-        const { branchCustomers } = this.props;
+        const { branchCustomers, currentCustomer } = this.props;
 
         await this.setState({
             branchCustomers: branchCustomers,
+            currentCustomer: currentCustomer
         });
     }
 
     async componentDidUpdate(prevProps) {
-        const {...props} = this.props;
+        const {branchCustomers, currentCustomer} = this.props;
 
-        if(prevProps.activeStep !== props.activeStep){
-            console.log('me')
+        if(branchCustomers.length !== prevProps.branchCustomers.length){
+            await this.setState({
+            branchCustomers: branchCustomers,
+            currentCustomer: currentCustomer
+        });
         }
     }
 
@@ -114,7 +119,7 @@ class Customer extends Component{
 
 const EnhancedDirectiveViewCustomers = withDatabase(
     withObservables(['branchCustomers'], ({ branchCustomers ,  database }) => ({
-        branchCustomers: new BranchService(LocalInfo.branchId).getCustomers(),
+        branchCustomers: database.collections.get(BranchCustomer.table).query(Q.where('branchId' , LocalInfo.branchId)).observe(),
     }))(withRouter(Customer))
 );
 

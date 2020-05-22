@@ -89,7 +89,7 @@ export default class InvoiceService {
     }
 
     async getInvoiceDetailsbyCustomer (custId) {
-        const invoice = await InvoiceService.getInvoiceHistorybyCustomer(custId);
+        const invoice = (await InvoiceService.getInvoiceHistorybyCustomer(custId)).reverse();
         console.log(invoice);
         let costPrice = 0;
         let profit = 0;

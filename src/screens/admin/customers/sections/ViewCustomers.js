@@ -39,8 +39,6 @@ const ViewCustomers = props => {
     };
 
     const setAddCustomerHandler = async() => {
-        // const lastCustomer = await new CustomerService().getLastCustomer();
-        // props.setCustomerHandler(lastCustomer.id);
         setAddDialog(false);
     };
 
