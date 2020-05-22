@@ -3,7 +3,7 @@ import {field, date, relation, readonly} from '@nozbe/watermelondb/decorators';
 import cartEntrySchema from './cartEntrySchema';
 
 export default class CartEntry extends Model {
-    static table = 'cartEntries';
+    static table = 'cart_entries';
     static deletable = true;
 
     static associations = {

@@ -143,7 +143,7 @@ export default class CartService {
     async addProductToCart(data) {
         const cartId = await this.cartId();
 
-        const dataCollection = database.collections.get('cartEntries');
+        const dataCollection = database.collections.get('cart_entries');
 
         let product = await dataCollection.query(
             Q.where('cartId' , cartId),

@@ -151,9 +151,7 @@ const Login = props => {
             console.log(userAccess);
             const companyId = LocalInfo.companyId;
             const userId = userAccess.user.userId;
-            for (let step = 0; step < LocalInfo.branches.length; step++){
-                await SyncService.sync(companyId, (LocalInfo.branches[step]).id, userId, database);
-            }
+            await SyncService.sync(companyId, LocalInfo.branchId, userId, database);
             console.log("DONE SYNCING");
             history.push(paths.dashboard)
         }else{

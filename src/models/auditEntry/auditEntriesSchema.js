@@ -1,5 +1,5 @@
 const auditEntriesSchema = {
-    name: 'auditEntries',
+    name: 'audit_entries',
     columns : [
         {name: 'productId', type: 'string'},
         {name: 'quantityCounted' , type: 'number'},

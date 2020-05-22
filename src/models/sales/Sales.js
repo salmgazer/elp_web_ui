@@ -25,14 +25,14 @@ export default class Sales extends Model {
     @field('createdBy') createdBy;
     @field('salesDate') salesDate;
     @field('receiptNumber') receiptNumber;
-    @children('saleEntries') sale_entries;
+    @children('sale_entries') sale_entries;
     @children('saleInstallments') saleInstallments;
 
     @readonly @date('created_at') createdAt;
     @readonly @date('updated_at') updatedAt;
 
     salesEntries = this.collections
-        .get('saleEntries')
+        .get('sale_entries')
         .query(Q.where('saleId' , this.id));
 
     static columns = salesSchema.columns.map(c => c.name);

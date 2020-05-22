@@ -16,9 +16,9 @@ export default class SyncService {
           let queryString = '';
 
           queryString = `${queryString}company_id=${companyId}&branch_id=${branchId}`;
-          /*if (LocalInfo.lastSyncedAt) {
+          if (LocalInfo.lastSyncedAt) {
             queryString = `last_pulled_at=${LocalInfo.lastSyncedAt}&${queryString}`;
-          }*/
+          }
 
           const response = await new Api('others').index(
             {},
@@ -30,10 +30,23 @@ export default class SyncService {
             throw new Error(await response.text())
           }
 
+
           const {changes, timestamp, otherChanges} = await response.data;
-          console.log(changes);
-          console.log(otherChanges);
           LocalInfo.lastSyncedAt = timestamp;
+
+          for (let m = 0; m < globalModels.length; m++) {
+            const records = await database.collections
+              .get(globalModels[m].table)
+              .query()
+              .fetch()
+
+            const deleted = records.map(records => records.prepareDestroyPermanently())
+            database.action(async () => {
+              await database.batch(...deleted);
+            });
+          }
+
+          console.log(changes);
           /*
           console.log(changes.products);
 
@@ -75,6 +88,7 @@ export default class SyncService {
           */
 
 
+          /*
           database.action(async () => {
             for (const globalModel of globalModels) {
               if (otherChanges[globalModel.table]) {
@@ -98,6 +112,7 @@ export default class SyncService {
               }
             }
           });
+          */
 
           return {changes, timestamp};
         },

@@ -91,7 +91,7 @@ class Audit extends Component {
                 return <AddAuditProductView addToAudit={this.addProductToCartHandler.bind(this)} product={this.state.currentProduct} setView={this.setStepContentView.bind(this)} branchProducts={this.state.branchProducts}/>;
             case 2:
                 return <AuditedProductsView balanceAllHandler={this.balanceAllHandler.bind(this)} productAdd={this.showAddView.bind(this)} deleteProductHandler={this.deleteProduct.bind(this)} auditEntries={this.state.auditEntries} setView={this.setStepContentView.bind(this)} />;
-            case 3: 
+            case 3:
                 return <AuditHistory setView={this.setStepContentView.bind(this)} auditEntries={this.state.auditEntries} auditProducts={this.showAuditProductsView.bind(this)} />
             case 4:
                 return <AuditHistoryDetails setView={this.setStepContentView.bind(this)} currentAudit={this.state.currentAudit} deleteProductHandler={this.deleteAuditProduct.bind(this)} />
@@ -239,7 +239,7 @@ const EnhancedAudit = withDatabase(
     withObservables(['branchProducts' , 'branchCustomers' , 'auditedEntries' , 'savedCarts'], ({ branchProducts , database , branchCustomers , auditedEntries , savedCarts }) => ({
         branchProducts: new BranchService(LocalInfo.branchId).getProducts(),
         auditEntriesQuantity: AuditService.auditEntryQuantity(),
-        cartQuantity: database.collections.get('cartEntries').query(Q.where('cartId' , localStorage.getItem('cartId'))).observeCount(),
+        cartQuantity: database.collections.get('cart_entries').query(Q.where('cartId' , localStorage.getItem('cartId'))).observeCount(),
         audits: database.collections.get(Audits.table).query().observe(),
         auditedEntries: database.collections.get(AuditEntries.table).query(Q.where('auditId' , localStorage.getItem('auditId'))).observe(),
         branchCustomers: database.collections.get(BranchCustomer.table).query().observe(),

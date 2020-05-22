@@ -1,5 +1,5 @@
 const cartEntrySchema = {
-    name: 'cartEntries',
+    name: 'cart_entries',
     columns: [
         {name: 'productId', type: 'string'},
         {name: 'customerId', type: 'string' , isOptional: true},

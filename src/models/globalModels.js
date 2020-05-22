@@ -12,10 +12,10 @@ const globalModels = [
   Manufacturer,
   Brand,
   ProductCategory,
-  Customer,
-  Cart,
-  CartEntries,
-  SuppliersCompany,
+  // Customer,
+  // Cart,
+  // CartEntries,
+  // SuppliersCompany,
 ];
 
 export default globalModels;

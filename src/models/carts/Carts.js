@@ -20,7 +20,7 @@ export default class Carts extends Model {
     @field('cartDate') cartDate;
     @field('customerId') customerId;
     @field('createdBy') createdBy;
-    @children('cartEntries') cart_entries;
+    @children('cart_entries') cart_entries;
 
     @readonly @date('created_at') createdAt;
     @readonly @date('updated_at') updatedAt;

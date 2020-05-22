@@ -26,8 +26,8 @@ export default class BranchProduct extends Model {
   @field('lowestStock') lowestStock;
   @field('sellingPrice') sellingPrice;
   @children('branches_products_stocks') stock;
-  @children('saleEntries') sale_entries;
-  @children('cartEntries') cart_entries;
+  @children('sale_entries') sale_entries;
+  @children('cart_entries') cart_entries;
   @children('branches_products_stock_movements') stock_movements;
   @children('branches_products_stocks_histories') history;
   @relation('products', 'productId') product;
@@ -46,13 +46,13 @@ export default class BranchProduct extends Model {
   }
 
   saleEntries() {
-    return this.collections.get('saleEntries')
+    return this.collections.get('sale_entries')
         .query(Q.where('branchProductId' , this.id)
         ).fetch();
   }
 
   cartEntries() {
-    return this.collections.get('cartEntries')
+    return this.collections.get('cart_entries')
         .query(Q.where('branchProductId' , this.id)
         ).fetch();
   }

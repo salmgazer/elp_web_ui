@@ -341,10 +341,6 @@ class App extends React.Component {
                         return <OrderDetails/>;
                     }}
                 />
-<<<<<<< HEAD
-=======
-
->>>>>>> 1f4fca23c9c0772ed2863d84aaa9a42c826437bd
                 {/* <Route
                     path={paths.expense}
                     render={() => {
