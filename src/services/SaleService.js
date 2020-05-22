@@ -10,6 +10,8 @@ import isSameWeek from "date-fns/isSameWeek";
 import isSameMonth from "date-fns/isSameMonth";
 import isSameYear from "date-fns/isSameYear";
 import SystemDateHandler from './SystemDateHandler';
+import fromUnixTime from 'date-fns/fromUnixTime';
+import format from "date-fns/format";
 
 export default class SaleService {
     async makeSell(data , paymentType){
@@ -303,17 +305,17 @@ export default class SaleService {
             }
         );
 
-        const day = new Date(date);
+        const day = format(new Date(date), 'MM/dd/yyyy');
 
         switch (duration) {
             case 'day':
-                return sales.filter(sale => isSameDay(new Date(sale.entryDate) , day));
+                return sales.filter(sale => isSameDay(format(fromUnixTime(new Date(sale.entryDate)), 'MM/dd/yyyy') , day));
             case 'week':
-                return sales.filter(sale => isSameWeek(new Date(sale.entryDate), day));
+                return sales.filter(sale => isSameWeek(format(fromUnixTime(new Date(sale.entryDate)), 'MM/dd/yyyy'), day));
             case 'month':
-                return sales.filter(sale => isSameMonth(new Date(sale.entryDate), day));
+                return sales.filter(sale => isSameMonth(format(fromUnixTime(new Date(sale.entryDate)), 'MM/dd/yyyy'), day));
             case 'year':
-                return sales.filter(sale => isSameYear(new Date(sale.entryDate), day));
+                return sales.filter(sale => isSameYear(format(fromUnixTime(new Date(sale.entryDate)), 'MM/dd/yyyy'), day));
         }
     }
 
@@ -368,7 +370,7 @@ export default class SaleService {
     }
 
     static async monthSalesFormat (sales){
-        let monthFormatSales = [];  
+        let monthFormatSales = [];
         const weekDays = new SystemDateHandler().getStoreWeeks();
 
         const newSales = sales.reduce((r, a) => {

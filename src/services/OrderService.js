@@ -5,6 +5,8 @@ import isSameWeek from "date-fns/isSameWeek";
 import isSameMonth from "date-fns/isSameMonth";
 import isSameYear from "date-fns/isSameYear";
 import SaleService from "./SaleService";
+import format from "date-fns/format";
+import fromUnixTime from "date-fns/fromUnixTime";
 
 export default class OrderService {
     constructor(){
@@ -20,19 +22,19 @@ export default class OrderService {
             }
         );
 
-        const day = new Date(date);
+        const day = format(new Date(date), 'MM/dd/yyyy');
 
         console.log(day)
         switch (duration) {
             case 'day':
-                return purchases.filter(purchase => isSameDay(new Date(purchase.salesDate) , day));
+                return purchases.filter(purchase => isSameDay(format(fromUnixTime(new Date(purchase.salesDate)), 'MM/dd/yyyy') , day));
             case 'week':
                 //console.log(isSameWeek(sale.salesDate, day))
-                return purchases.filter(purchase => isSameWeek(new Date(purchase.salesDate), day));
+                return purchases.filter(purchase => isSameWeek(format(fromUnixTime(new Date(purchase.salesDate)), 'MM/dd/yyyy'), day));
             case 'month':
-                return purchases.filter(purchase => isSameMonth(new Date(purchase.salesDate), day));
+                return purchases.filter(purchase => isSameMonth(format(fromUnixTime(new Date(purchase.salesDate)), 'MM/dd/yyyy'), day));
             case 'year':
-                return purchases.filter(purchase => isSameYear(new Date(purchase.salesDate), day));
+                return purchases.filter(purchase => isSameYear(format(fromUnixTime(new Date(purchase.salesDate)), 'MM/dd/yyyy'), day));
         }
     }
 
