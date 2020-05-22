@@ -9,7 +9,7 @@ const cartEntrySchema = {
         {name: 'discount' , type: 'number'},
         {name: 'costPrice' , type: 'number'},
         {name: 'branchId' , type: 'string'},
-        {name: 'entryDate' , type: 'string'},
+        {name: 'entryDate' , type: 'number'},
         {name: 'branchProductId' , type: 'string'},
         {name: 'created_at' , type: 'number'},
         {name: 'updated_at' , type: 'number'}
