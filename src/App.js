@@ -48,6 +48,7 @@ import SupplierDetails from "./screens/admin/suppliers/SupplierDetails";
 import PaySupplier from "./screens/admin/suppliers/PaySupplier";
 import SupplierStock from "./screens/admin/suppliers/SupplierStock";
 import AddSupplier from "./screens/admin/suppliers/AddSupplier";
+import SupplierOrderStock from "./screens/admin/suppliers/orderStock/SupplierOrderStock";
 
 import AdminCustomers from "./screens/admin/customers/Customer";
 import CustomerDetails from "./screens/admin/customers/sections/CustomerDetails";
@@ -340,6 +341,10 @@ class App extends React.Component {
                         return <OrderDetails/>;
                     }}
                 />
+<<<<<<< HEAD
+=======
+
+>>>>>>> 1f4fca23c9c0772ed2863d84aaa9a42c826437bd
                 {/* <Route
                     path={paths.expense}
                     render={() => {
@@ -395,6 +400,14 @@ class App extends React.Component {
                         setPageBackground();
                         this.setTitle(`Supplier | ${appName}`);
                         return <SupplierStock/>;
+                    }}
+                />
+                <Route
+                    path={paths.order_supplier_stock}
+                    render={() => {
+                        setPageBackground();
+                        this.setTitle(`Order Supplier | ${appName}`);
+                        return <SupplierOrderStock/>;
                     }}
                 />
                 <Route

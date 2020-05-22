@@ -9,28 +9,32 @@ import {confirmAlert} from "react-confirm-alert";
 import ModelAction from "../../../../services/ModelAction";
 import paths from "../../../../utilities/paths";
 import MainSuppliersView from "./sections/MainSuppliersView";
+import SupplierService from "../../../../services/SupplierService";
+import SingleSupplierDetails from "./sections/SingleSupplierDetails";
+import EditSupplierDetails from "./sections/EditSupplierDetails";
 
 class ViewSuppliersNew extends Component {
     state = {
         activeStep: 0,
+        branchSuppliers: [],
     };
 
     async componentDidMount() {
-        const { history, database} = this.props;
+        const { history, database , branchSuppliers} = this.props;
 
-        /*await this.setState({
-
-        });*/
+        await this.setState({
+            branchSuppliers: branchSuppliers,
+        });
     }
 
     async componentDidUpdate(prevProps) {
-        const { history, database } = this.props;
+        const { history, database , branchSuppliers } = this.props;
 
-        /*if(this.state.savedCart.length !== savedCarts.length || this.state.currentCustomer !== await CartService.getCartCustomerId() || this.props.cartQuantity !== prevProps.cartQuantity || branchCustomers.length !== prevProps.branchCustomers.length){
+        if(prevProps.branchSuppliers.length !== branchSuppliers.length){
             this.setState({
-
+                branchSuppliers: branchSuppliers,
             });
-        }*/
+        }
     }
 
     //Steps to select category
@@ -41,7 +45,11 @@ class ViewSuppliersNew extends Component {
     getStepContent = step => {
         switch (step) {
             case 0:
-                return <MainSuppliersView setView={this.setStepContentView.bind(this)} />;
+                return <MainSuppliersView searchSupplierHandler={this.searchSupplierHandler.bind(this)} branchSuppliers={this.state.branchSuppliers} setView={this.setStepContentView.bind(this)}  />;
+            case 1:
+                return <SingleSupplierDetails branchSuppliers={this.state.branchSuppliers} setView={this.setStepContentView.bind(this)} deleteSupplier={this.deleteSupplier.bind(this)} />;
+            case 2:
+                return <EditSupplierDetails branchSuppliers={this.state.branchSuppliers} setView={this.setStepContentView.bind(this)} />;
             default:
                 return 'Complete';
         }
@@ -56,6 +64,53 @@ class ViewSuppliersNew extends Component {
         });
     };
 
+    /*
+    * Search products handler...
+    * */
+    searchSupplierHandler = async (searchValue) => {
+        /*
+        * @todo make sure it works...
+        * */
+        try {
+            const branchSuppliers = await new SupplierService().searchSupplier(searchValue);
+console.log(branchSuppliers)
+            this.setState({
+                branchSuppliers: branchSuppliers,
+            });
+
+console.log(this.state.branchSuppliers)
+        }catch (e) {
+            return false
+        }
+    };
+
+    deleteSupplier = (id) => {
+        confirmAlert({
+            title: 'Confirm to remove supplier',
+            message: 'Are you sure you want to remove this supplier. It may be having orders you need information on.',
+            buttons: [
+                {
+                    label: 'Yes',
+                    onClick: async () => {
+                        try {
+                            await new ModelAction('BranchSuppliers').destroy(id);
+
+                            this.setStepContentView(0);
+                        } catch (e) {
+                            console.log(e)
+                        }
+                    }
+                },
+                {
+                    label: 'No',
+                    onClick: () => {
+                        return false;
+                    }
+                }
+            ]
+        });
+    };
+
     render(){
         return (
             <div>
@@ -66,8 +121,8 @@ class ViewSuppliersNew extends Component {
 }
 
 const EnhancedViewSuppliersNew = withDatabase(
-    withObservables(['branchProducts' , 'branchCustomers' , 'savedCarts'], ({ branchProducts , database , branchCustomers , savedCarts }) => ({
-        cartQuantity: database.collections.get('cartEntries').query(Q.where('cartId' , localStorage.getItem('cartId'))).observeCount(),
+    withObservables(['branchSuppliers'], ({ branchSuppliers , database }) => ({
+        branchSuppliers: SupplierService.getBranchSuppliers(),
     }))(withRouter(ViewSuppliersNew))
 );
 

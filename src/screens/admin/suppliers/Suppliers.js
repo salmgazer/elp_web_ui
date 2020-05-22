@@ -179,7 +179,7 @@ const Suppliers = props => {
                                         marginBottom: "20px"
                                     }}
                                     className={`capitalization`}
-                                    onClick={() => history.push(paths.add_supplier_stock)}
+                                    onClick={() => history.push(paths.view_suppliers)}
                                 >
                                     Add stock from suppliers
                                 </Button>

@@ -4,6 +4,7 @@ const branchProductStockSchema = {
     { name: 'branchProductId', type: 'string' },
     { name: 'branchId', type: 'string' },
     { name: 'productId', type: 'string' },
+    { name: 'branchSupplierOrderId', type: 'string' , isOptional: true },
     { name: 'createdBy', type: 'string' },
     { name: 'type', type: 'string' },
     { name: 'quantity', type: 'number' },

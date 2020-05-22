@@ -1,7 +1,7 @@
 import React, {useEffect, useState} from "react";
 import { withRouter } from "react-router-dom";
 import Grid from '@material-ui/core/Grid';
-import paths from "../../../utilities/paths";
+import paths from "../../../../../utilities/paths";
 import CssBaseline from "@material-ui/core/CssBaseline/CssBaseline";
 import {makeStyles, withStyles} from "@material-ui/core";
 import Paper from '@material-ui/core/Paper';
@@ -11,31 +11,27 @@ import Box from "@material-ui/core/Box/Box";
 import Button from "@material-ui/core/Button/Button";
 import {TextValidator, ValidatorForm} from "react-material-ui-form-validator";
 import TextField from '@material-ui/core/TextField';
-import Modal from '@material-ui/core/Modal';
-import LocationOnIcon from '@material-ui/icons/LocationOn';
-import Backdrop from '@material-ui/core/Backdrop';
-import Fade from '@material-ui/core/Fade';
+
 import Select from "@material-ui/core/Select";
 import InputAdornment from "@material-ui/core/InputAdornment/InputAdornment";
-import PersonIcon from '@material-ui/icons/Person';
 import CallIcon from '@material-ui/icons/Call';
 import CalendarIcon from '@material-ui/icons/CalendarTodayOutlined';
 import ShopIcon from '@material-ui/icons/Storefront';
-import SectionNavbars from "../../../components/Sections/SectionNavbars";
+import SectionNavbars from "../../../../../components/Sections/SectionNavbars";
 import FormControl from '@material-ui/core/FormControl';
 import FormGroup from '@material-ui/core/FormGroup';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Checkbox from '@material-ui/core/Checkbox';
 import InputLabel from "@material-ui/core/InputLabel";
-import entities from "../../../config/supplierEntities";
-import SupplierService from "../../../services/SupplierService";
+import entities from "../../../../../config/supplierEntities";
+import SupplierService from "../../../../../services/SupplierService";
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItemText';
 import ListItemAvatar from '@material-ui/core/ListItemAvatar';
 import Avatar from '@material-ui/core/Avatar';
-import PrimaryLoader from "../../../components/Loader/Loader";
-import SimpleSnackbar from "../../../components/Snackbar/SimpleSnackbar";
+import PrimaryLoader from "../../../../../components/Loader/Loader";
+import SimpleSnackbar from "../../../../../components/Snackbar/SimpleSnackbar";
 
 const PrimaryCheckbox = withStyles({
     root: {
@@ -174,7 +170,7 @@ const ValidationSelectField = withStyles({
     },
 })(Select);
 
-const AddSupplier = props => {
+const EditSupplierDetails = props => {
     const entityTypes = entities.entities;
 
     const { history } = props;
@@ -189,6 +185,49 @@ const AddSupplier = props => {
     const [errorMsg , setErrorMsg] = useState('');
     const [success , setSuccess] = useState(false);
     const [successMsg , setSuccessMsg] = useState('');
+    const [supplier , setSupplier] = useState('');
+
+    const [deliveryDays, setDeliveryDays] = useState({
+        Monday: false,
+        Tuesday: false,
+        Wednesday: false,
+        Thursday: false,
+        Friday: false,
+        Saturday: false,
+        Sunday: false,
+        Everyday: false,
+    });
+
+    const [formFields , setFormFields] = useState({
+        entityType: supplier.entityType,
+        entityId: supplier.entityId,
+        name: supplier.name,
+        contact: supplier.contact,
+        deliveryDays: deliveryDays,
+    });
+
+    useEffect(() => {
+        if(supplier === ''){
+            getSupplier();
+        }
+    }, []);
+
+    const getSupplier = async () => {
+        const branchSupplier = ((props.branchSuppliers).filter((item) => item.id === (localStorage.getItem("supplierId"))))[0];
+        console.log(branchSupplier)
+        setFormFields({
+            entityType: branchSupplier.entityType,
+            entityName: (entities.entities).filter((item) => item.entity === branchSupplier.entityType)[0].name,
+            entityId: branchSupplier.entityId,
+            name: branchSupplier.name,
+            contact: branchSupplier.contact,
+            deliveryDays: branchSupplier.deliveryDays ? JSON.parse(branchSupplier.deliveryDays) : deliveryDays,
+        })
+
+        const days = branchSupplier.deliveryDays ? JSON.parse(branchSupplier.deliveryDays) : deliveryDays;
+        setSupplier(branchSupplier);
+        setDeliveryDays(days)
+    };
 
     useEffect(() => {
         setLabelWidth(inputLabel.current.offsetWidth);
@@ -206,30 +245,10 @@ const AddSupplier = props => {
         setSupplierSearch(await SupplierService.getSuppliers(entityTypes[0].entity));
     };
 
-    const [deliveryDays, setDeliveryDays] = useState({
-        Monday: false,
-        Tuesday: false,
-        Wednesday: false,
-        Thursday: false,
-        Friday: false,
-        Saturday: false,
-        Sunday: false,
-        Everyday: false,
-    });
+
 
     const classes = useStyles();
     const [open, setOpen] = useState(false);
-
-    const [formFields , setFormFields] = useState({
-        entityType: entityTypes[0].entity,
-        entityId: '',
-        entityName: entityTypes[0].name,
-        name: '',
-        contact: '',
-        salespersonName: '',
-        salespersonContact: '',
-        deliveryDays: deliveryDays,
-    });
 
     const handleClose = () => {
         setOpen(false);
@@ -337,19 +356,20 @@ const AddSupplier = props => {
         }
     };*/
 
-    const addNewSupplier = async() => {
+    const editSupplier = async() => {
         setLoading(true);
-        const supplier = await new SupplierService().addSupplier(formFields);
 
-        if(supplier){
-            setSuccessMsg('Supplier added to branch');
+        try {
+            await new SupplierService().editSupplier(formFields);
+
+            setSuccessMsg('Supplier edited successfully');
             setSuccess(true);
             setTimeout(function(){
                 setSuccessMsg('');
                 setSuccess(false);
+                props.setView(0)
             }, 2000);
-            history.push(paths.add_supplier_stock)
-        }else{
+        } catch (e) {
             setErrorMsg('OOPS. Something went wrong. Please try again');
             setError(true);
             setTimeout(function(){
@@ -503,42 +523,6 @@ const AddSupplier = props => {
                                 />
                             </div>
 
-                            <div className="text-center mx-auto my-2">
-                                <TextField
-                                    className={classes.formControl1}
-                                    label="Salesperson"
-                                    name="salespersonName"
-                                    onChange={handleChangeHandler}
-                                    value={formFields.salespersonName}
-                                    variant="outlined"
-                                    InputProps={{
-                                        startAdornment: (
-                                            <InputAdornment position="start">
-                                                <PersonIcon style={{color: '#333333'}} />
-                                            </InputAdornment>
-                                        ),
-                                    }}
-                                />
-                            </div>
-
-                            <div className="text-center mx-auto my-2">
-                                <TextField
-                                    className={classes.formControl1}
-                                    label="Supplier Contact"
-                                    name="salespersonContact"
-                                    onChange={handleChangeHandler}
-                                    value={formFields.salespersonContact}
-                                    variant="outlined"
-                                    InputProps={{
-                                        startAdornment: (
-                                            <InputAdornment position="start">
-                                                <CallIcon style={{color: '#333333'}} />
-                                            </InputAdornment>
-                                        ),
-                                    }}
-                                />
-                            </div>
-
                             {
                                 daysShow ?
                                     <div
@@ -609,7 +593,7 @@ const AddSupplier = props => {
                                             </FormGroup>
                                         </FormControl>
                                     </div>
-                                :
+                                    :
                                     <Button
                                         style={{
                                             width: '75%',
@@ -648,7 +632,7 @@ const AddSupplier = props => {
                             variant="contained"
                             style={{'backgroundColor': '#DAAB59' , color: '#333333', padding: '5px 50px'}}
                             className={classes.button}
-                            onClick={addNewSupplier}
+                            onClick={editSupplier}
                             disabled={btnState}
                         >
                             {
@@ -662,68 +646,14 @@ const AddSupplier = props => {
                                         height={25}
                                     />
                                     :
-                                    'Next'
+                                    'Save'
                             }
                         </Button>
                     </Box>
                 </div>
-                <Modal
-                    aria-labelledby="transition-modal-title"
-                    aria-describedby="transition-modal-description"
-                    className={classes.modal}
-                    open={open}
-                    onClose={handleClose}
-                    closeAfterTransition
-                    BackdropComponent={Backdrop}
-                    BackdropProps={{
-                        timeout: 500,
-                    }}
-                >
-                    <Fade in={open}>
-                        <Paper style={{padding: "10px 0px 0px 0px" , width: "90%"}}>
-                            <div>
-                                <div style={{textAlign: "center", padding: "10px"}}>
-                                    <LocationOnIcon style={{fontSize: '3.2rem' , color: "#DAAB59"}}/>
-
-                                    <h2 id="transition-modal-title">Your current location is</h2>
-                                </div>
-                                <div className="shadow1" style={{borderRadius: "20px 20px 0px 0px" , padding: "10px" , textAlign: "center"}}>
-                                    <div style={{paddingTop: "15px" ,paddingBottom: "3px"}}>
-                                        <span>_______________________________</span>
-                                        <br />
-
-                                    </div>
-                                    <Grid container style={{paddingTop: "12px" ,paddingBottom: "3px"}}>
-                                        <Grid item xs={6} style={{textAlign: "center"}}>
-                                            <Button
-                                                variant="outlined"
-                                                style={{border: '1px solid #DAAB59', color: '#DAAB59', fontSize : "13px" ,padding: '7px 5px' , width: "90%"}}
-                                                className={classes.button}
-                                                onClick={handleClose}
-                                            >
-                                                No, Cancel
-                                            </Button>
-                                        </Grid>
-                                        <Grid item xs={6} style={{textAlign: "center"}}>
-
-                                            <Button
-                                                variant="outlined"
-                                                style={{'backgroundColor': '#DAAB59' , fontSize : "13px", color: '#333333', border: '1px solid #DAAB59', padding: '7px 5px' , width: "100%"}}
-                                                className={classes.button}
-                                            >
-                                                Yes, it is correct
-                                            </Button>
-                                        </Grid>
-                                    </Grid>
-
-                                </div>
-                            </div>
-                        </Paper>
-                    </Fade>
-                </Modal>
             </React.Fragment>
         </div>
     );
 };
 
-export default withRouter(AddSupplier);
+export default withRouter(EditSupplierDetails);

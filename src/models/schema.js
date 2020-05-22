@@ -22,10 +22,8 @@ import suppliersCompanySchema from "./suppliers_company/suppliersCompanySchema";
 import branchSuppliersSchema from "./branchSuppliers/branchSuppliersSchema";
 import branchSupplierProductSchema from "./branchSupplierProducts/branchSupplierProductsSchema";
 import branchSupplierSalespersonsSchema from "./branchSupplierSalespersons/branchSupplierSalespersonsSchema";
-
-/*import branchSupplierStockSchema from "./branchSupplierStock/branchSupplerStockSchema";
-import branchSupplierStockPaymentInstallmentSchema from "./branchSupplierStockPaymentInstallment/branchSupplierStockPaymentInstallmentSchema";
-*/
+import branchSupplierOrderSchema from './branchSupplierOrder/branchSupplierOrderSchema';
+import branchSupplierOrderPaymentInstallmentSchema from "./branchSupplierOrderPaymentInstallment/branchSupplierOrderPaymentInstallmentSchema";
 
 export default appSchema({
   version: 12, // must always match the latest migration number in migrations.js
@@ -52,8 +50,7 @@ export default appSchema({
     tableSchema(branchSuppliersSchema),
     tableSchema(branchSupplierProductSchema),
     tableSchema(branchSupplierSalespersonsSchema),
-      /*tableSchema(branchSupplierStockSchema),
-      tableSchema(branchSupplierStockPaymentInstallmentSchema),
-      */
+    tableSchema(branchSupplierOrderSchema),
+    tableSchema(branchSupplierOrderPaymentInstallmentSchema),
   ]
 });
