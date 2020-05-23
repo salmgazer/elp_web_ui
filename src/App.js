@@ -51,9 +51,6 @@ import AddSupplier from "./screens/admin/suppliers/AddSupplier";
 import SupplierOrderStock from "./screens/admin/suppliers/orderStock/SupplierOrderStock";
 
 import AdminCustomers from "./screens/admin/customers/Customer";
-import CustomerDetails from "./screens/admin/customers/sections/CustomerDetails";
-import CustomerOrders from "./screens/admin/customers/sections/CustomerOrders";
-import OrderDetails from "./screens/admin/customers/sections/OrderDetails";
 
 
 function NoMatch() {
@@ -317,7 +314,7 @@ class App extends React.Component {
                         return <AdminCustomers/>;
                     }}
                 />
-                <Route
+                {/* <Route
                     path={paths.customer_details}
                     render={() => {
                         setPageBackground();
@@ -340,11 +337,7 @@ class App extends React.Component {
                         this.setTitle(`Order history | ${appName}`);
                         return <OrderDetails/>;
                     }}
-                />
-<<<<<<< HEAD
-=======
-
->>>>>>> 1f4fca23c9c0772ed2863d84aaa9a42c826437bd
+                /> */}
                 {/* <Route
                     path={paths.expense}
                     render={() => {
