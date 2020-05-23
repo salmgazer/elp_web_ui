@@ -240,7 +240,7 @@ class Sell extends Component {
 const EnhancedSell = withDatabase(
     withObservables(['branchProducts' , 'branchCustomers' , 'savedCarts'], ({ branchProducts , database , branchCustomers , savedCarts }) => ({
         branchProducts: new BranchService(LocalInfo.branchId).getProducts(),
-        cartQuantity: database.collections.get('cartEntries').query(Q.where('cartId' , localStorage.getItem('cartId'))).observeCount(),
+        cartQuantity: database.collections.get('cart_entries').query(Q.where('cartId' , localStorage.getItem('cartId'))).observeCount(),
         branchCustomers: database.collections.get(BranchCustomer.table).query().observe(),
         savedCarts: database.collections.get(Carts.table).query(
             Q.where('status' , 'suspend'),

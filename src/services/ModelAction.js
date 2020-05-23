@@ -2,6 +2,7 @@ import models from "../models/models";
 import { Q } from '@nozbe/watermelondb'
 import database from '../models/database';
 import {v4 as uuid} from 'uuid';
+import LocalInfo from "./LocalInfo";
 
 export default class ModelAction {
     constructor(modelName) {
@@ -90,6 +91,7 @@ export default class ModelAction {
         await this.database.action(async () => {
             postItem = await dataCollection.create(item => {
                 item._raw.id = uuid();
+                item.createdBy = LocalInfo.userId;
                 this.columns.map((column) => item[column] = columns[column])
             });
 

@@ -337,7 +337,11 @@ class App extends React.Component {
                         this.setTitle(`Order history | ${appName}`);
                         return <OrderDetails/>;
                     }}
+<<<<<<< HEAD
                 /> */}
+=======
+                />
+>>>>>>> aaecb3e8af5c3b7b25cb694460f6b4b6c47582c9
                 {/* <Route
                     path={paths.expense}
                     render={() => {

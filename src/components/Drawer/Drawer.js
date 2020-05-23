@@ -20,6 +20,8 @@ import { withRouter } from "react-router-dom";
 import paths from "../../utilities/paths";
 import LocalInfo from "../../services/LocalInfo";
 import AccountBalanceWalletIcon from '@material-ui/icons/AccountBalanceWallet';
+import SyncService from "../../services/SyncService";
+import { useDatabase } from "@nozbe/watermelondb/hooks";
 
 const useStyles = makeStyles({
     list: {
@@ -36,6 +38,8 @@ const Drawer = props => {
     const [state, setState] = React.useState({
         left: props.isShow,
     });
+
+  const database = useDatabase();
 
     useEffect(() => {
         toggleDrawer('left' , props.isShow);
@@ -112,12 +116,21 @@ const Drawer = props => {
                     <ListItemText primary="Reconcilation" />
                 </ListItem>
                 <Divider />
-                <ListItem button key={10}>
+              <ListItem button key={10} onClick={async() => {
+                alert("About to sync");
+                await SyncService.sync(LocalInfo.companyId, LocalInfo.branchId, LocalInfo.userId, database);
+                alert("Done syncing");
+              }}>
+                <ListItemIcon><SettingsIcon style={{color: '#FFFFFF'}} /></ListItemIcon>
+                <ListItemText primary="Sync" />
+              </ListItem>
+              <Divider />
+                <ListItem button key={11}>
                     <ListItemIcon><SettingsIcon style={{color: '#FFFFFF'}} /></ListItemIcon>
                     <ListItemText primary="Help" />
                 </ListItem>
                 <Divider />
-                <ListItem button key={11}>
+                <ListItem button key={12}>
                     <ListItemIcon><ExitToAppIcon style={{color: '#FFFFFF'}} /></ListItemIcon>
                     <ListItemText primary="Logout" />
                 </ListItem>

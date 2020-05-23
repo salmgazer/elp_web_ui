@@ -127,12 +127,12 @@ class Cart extends Component{
 }
 
 const EnhancedCart = withDatabase(
-    withObservables(['cartEntries' , 'branchCustomers'], ({ database , cartEntries, branchCustomers }) => ({
+    withObservables(['cart_entries' , 'branchCustomers'], ({ database , cartEntries, branchCustomers }) => ({
         cartQuantity: CartService.cartQuantity(),
         currentCustomer: database.adapter.getLocal("activeCustomer") === null || 0 ? 0 : database.adapter.getLocal("activeCustomer"),
         cart: database.collections.get('carts').query(Q.where('id' , localStorage.getItem('cartId'))).observe(),
         branchCustomers: database.collections.get(BranchCustomer.table).query(Q.where('branchId' , LocalInfo.branchId)).observe(),
-        cartEntries: database.collections.get('cartEntries').query(Q.where('cartId' , localStorage.getItem('cartId'))).observe(),
+        cartEntries: database.collections.get('cart_entries').query(Q.where('cartId' , localStorage.getItem('cartId'))).observe(),
     }))(withRouter(Cart))
 );
 

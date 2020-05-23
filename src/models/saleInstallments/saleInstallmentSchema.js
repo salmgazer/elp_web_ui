@@ -1,5 +1,5 @@
 const saleInstallmentSchema = {
-    name: 'saleInstallments',
+    name: 'sale_installments',
     columns : [
         {name: 'saleId', type: 'string'},
         {name: 'customerId', type: 'string'},

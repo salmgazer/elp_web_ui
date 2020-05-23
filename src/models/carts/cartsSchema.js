@@ -4,7 +4,7 @@ const cartsSchema = {
         { name: 'customerId', type: 'string', isOptional: true },
         { name: 'discount', type: 'number' },
         { name: 'branchId', type: 'string' },
-        { name: 'cartDate', type: 'string' },
+        { name: 'cartDate', type: 'number' },
         { name: 'status', type: 'string' },
         { name: 'createdBy', type: 'string' },
         {name: 'created_at' , type: 'number'},

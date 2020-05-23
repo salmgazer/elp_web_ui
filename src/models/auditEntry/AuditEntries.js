@@ -3,7 +3,7 @@ import {field, date, relation, readonly} from '@nozbe/watermelondb/decorators';
 import auditEntrySchema from './auditEntriesSchema';
 
 export default class AuditEntries extends Model {
-    static table = 'auditEntries';
+    static table = 'audit_entries';
     static deletable = false;
 
     static associations = {

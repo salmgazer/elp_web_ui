@@ -8,6 +8,7 @@ import {v4 as uuid} from 'uuid';
 import Carts from "../models/carts/Carts";
 import BranchService from "./BranchService";
 import CustomerService from "./CustomerService";
+import getTime from 'date-fns/getTime'
 
 export default class CartService {
     async cartId() {
@@ -19,7 +20,7 @@ export default class CartService {
                 const newCart = await dataCollection.create(cart => {
                     cart.discount = 0;
                     cart.branchId = LocalInfo.branchId;
-                    cart.cartDate = LocalInfo.workingDate;
+                    cart.cartDate =  getTime(new Date(LocalInfo.workingDate));
                     cart.status = 'active';
                     cart.createdBy = LocalInfo.userId;
                     cart._raw.id = uuid()
@@ -143,7 +144,7 @@ export default class CartService {
     async addProductToCart(data) {
         const cartId = await this.cartId();
 
-        const dataCollection = database.collections.get('cartEntries');
+        const dataCollection = database.collections.get('cart_entries');
 
         let product = await dataCollection.query(
             Q.where('cartId' , cartId),
@@ -161,7 +162,7 @@ export default class CartService {
                     productId: product.productId,
                     branchProductId: product.branchProductId,
                     sellingPrice: data.sellingPrice,
-                    entryDate: LocalInfo.workingDate,
+                    entryDate: getTime(new Date(LocalInfo.workingDate)),
                     costPrice: data.costPrice,
                     discount: parseFloat(data.discount),
                     quantity: data.quantity + product.quantity,
@@ -179,7 +180,7 @@ export default class CartService {
             productId: data.productId,
             branchProductId: data.branchProductId,
             sellingPrice: data.sellingPrice,
-            entryDate: LocalInfo.workingDate,
+            entryDate: getTime(new Date(LocalInfo.workingDate)),
             costPrice: data.costPrice,
             discount: parseFloat(data.discount),
             quantity: data.quantity,
