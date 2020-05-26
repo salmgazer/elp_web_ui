@@ -10,6 +10,7 @@ const SingleYearView = props => {
     * @todo format receipt number as required...
     * */
    const order = props.order;
+   const prodName = props.prodName;
    const [supplier , setSupplier] = useState(false);
    const [total , setTotal] = useState(false);
    const [owedAmount , setOwedAmount] = useState('');
@@ -35,6 +36,8 @@ const SingleYearView = props => {
 
     return(
         <div>
+            {prodName === `${supplier.name}`
+                ?
             <BoxDefault
                 bgcolor="background.paper"
                 p={1}
@@ -65,6 +68,9 @@ const SingleYearView = props => {
                     </Grid>
                 </Grid>
             </BoxDefault>
+            :
+            ''
+        }
         </div>
     );
 };

@@ -1,5 +1,7 @@
 import React, {Component} from 'react';
 import {withRouter} from "react-router";
+import {withDatabase} from "@nozbe/watermelondb/DatabaseProvider";
+import withObservables from "@nozbe/with-observables";
 
 import DayView from './views/DayView';
 import WeekView from './views/WeekView';
@@ -8,113 +10,55 @@ import YearView from './views/YearView';
 import SortSupplierView from './views/SortSupplierView';
 import Payment from './views/Payment';
 import DaySupplierView from './views/DaySupplierView';
+import SupplierService from '../../../../services/SupplierService';
 
 
-class SortProduct extends Component{
+class SortSupplier extends Component{
 
     state={
         isDrawerShow: false,
-        activeStep: 6,
-        suppliersInfo: [
-            {
-                "supp_id": "1234",
-                "name": "Niko's Enterprise",
-                "date": "Friday, 13th March 2020 | 5:00pm",
-                "worth": "200"
-            },
-            {
-                "supp_id": "5678",
-                "name": "Niko's Enterprise",
-                "date": "Friday, 13th March 2020 | 2:00pm",
-                "worth": "300"
-            }
-        ],
-        suppliers: [
-            {
-                "supp_id": "1234",
-                "name": "Niko's Enterprise",
-                "image": "no_image.png",
-                "worth": "500"
-            }
-        ],
-        productList: [
-            {
-                "pro_id": "1",
-                "name": "Nido Milk Sachet",
-                "image": "no_image.png",
-                "quantity": "10",
-                "cost": "100",
-                "sales": "200"
-            },
-            {
-                "pro_id": "2",
-                "name": "Milo Sachet 50g",
-                "image": "no_image.png",
-                "quantity": "10",
-                "cost": "100",
-                "sales": "200"
-            },
-            {
-                "pro_id": "3",
-                "name": "Ideal Milk 50g",
-                "image": "no_image.png",
-                "quantity": "10",
-                "cost": "100",
-                "sales": "200"
-            },
-            {
-                "pro_id": "4",
-                "name": "Beta Malt 500ml PB",
-                "image": "no_image.png",
-                "quantity": "10",
-                "cost": "100",
-                "sales": "200"
-            }
-        ],
-        weekList: [ 
-            {
-                "day_id": "1",
-                "name": "Niko's Enterprise",
-                "image": "no_image.png",
-                "owed": "20",
-                "worth": "200"
-            }
-        ],
-        monthList: [ 
-            {
-                "week_id": "1",
-                "name": "Niko's Enterprise",
-                "image": "no_image.png",
-                "owed": "20",
-                "worth": "200"
-            }
-        ],
-        yearList: [ 
-            {
-                "month_id": "1",
-                "name": "Niko's Enterprise",
-                "image": "no_image.png",
-                "owed": "20",
-                "worth": "200"
-            }
-        ]
+        activeStep: 1,
+        branchSuppliers: [],
+        currentSupplier: {},
+        pageName: true
+    }
+
+        /*
+    * Fetch all products when component is mounted
+    * */
+    async componentDidMount() {
+        const { branchSuppliers } = this.props;
+
+        await this.setState({
+            branchSuppliers: branchSuppliers,
+        });
+    }
+
+    async componentDidUpdate(prevProps) {
+        const { history, database , branchSuppliers } = this.props;
+
+        if(prevProps.branchSuppliers.length !== branchSuppliers.length){
+            this.setState({
+                branchSuppliers: branchSuppliers,
+            });
+        }
     }
 
     getStepContent = step => {
         switch (step) {
-            case 6:
-                return <SortSupplierView setView={this.setStepContentView.bind(this)} cellName="Nico's enterprise" pageName="Search for a product to view history" />;
             case 1:
-                return <DayView setView={this.setStepContentView.bind(this)} suppliers={this.state.suppliersInfo} products={this.state.productList} supplierDetails={this.state.suppliers} pageName="Nico's enterprise" profitName="Amount owed" />;
+                return <SortSupplierView setView={this.setStepContentView.bind(this)} searchSupplierHandler={this.searchSupplierHandler.bind(this)} branchSuppliers={this.state.branchSuppliers} supplierAdd={this.showAddView.bind(this)} />;
+            case 0:
+                return <DayView setView={this.setStepContentView.bind(this)} supplier={this.state.currentSupplier} pageName={this.state.pageName} />;
             case 2:
-                return <WeekView setView={this.setStepContentView.bind(this)} weekItem={this.state.weekList} pageName="Nico's enterprise" profitName="Amount owed" />;
+                return <WeekView setView={this.setStepContentView.bind(this)} supplier={this.state.currentSupplier} pageName={this.state.pageName} />;
             case 3:
-                return <MonthView setView={this.setStepContentView.bind(this)} monthItem={this.state.monthList} pageName="Nico's enterprise" profitName="Amount owed" />;
+                return <MonthView setView={this.setStepContentView.bind(this)} supplier={this.state.currentSupplier} pageName={this.state.pageName} />;
             case 4:
-                return <YearView setView={this.setStepContentView.bind(this)} yearItem={this.state.yearList} pageName="Nico's enterprise" profitName="Amount owed" />;
+                return <YearView setView={this.setStepContentView.bind(this)} supplier={this.state.currentSupplier} pageName={this.state.pageName} />;
             case 5:
                 return <Payment setView={this.setStepContentView.bind(this)}  />;
-            case 0:
+            case 6:
                 return <DaySupplierView setView={this.setStepContentView.bind(this)} supplierDetails={this.state.suppliers} pageName="Nico's enterprise" profitName="Amount owed" />;
             default:
                 return 'Complete';
@@ -123,6 +67,30 @@ class SortProduct extends Component{
 
     setStepContentView = step => {
         this.setState({
+            activeStep: step
+        });
+    };
+
+    async searchSupplierHandler(searchValue){
+        try{
+            const suppliers = await new SupplierService().searchSupplier(searchValue);
+            this.setState({
+                branchSuppliers: suppliers,
+            });
+        }catch (e) {
+            return false;
+        }
+    };
+
+    showAddView = async (supplierId , step) => {
+        const old_list = this.state.branchSuppliers;
+
+        //Find index of specific object using findIndex method.
+        const itemIndex = old_list.filter((item => item.id === supplierId));
+
+        console.log(itemIndex)
+        this.setState({
+            currentSupplier: itemIndex,
             activeStep: step
         });
     };
@@ -139,4 +107,11 @@ class SortProduct extends Component{
     }
 }
 
-export default withRouter(SortProduct);
+const EnhancedViewSuppliersNew = withDatabase(
+    withObservables(['branchSuppliers'], ({ branchSuppliers , database }) => ({
+        branchSuppliers: SupplierService.getBranchSuppliers(),
+    }))(withRouter(SortSupplier))
+);
+
+export default EnhancedViewSuppliersNew;
+

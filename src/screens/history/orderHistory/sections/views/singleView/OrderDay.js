@@ -16,6 +16,7 @@ const SingleDayView = props => {
     * @todo format receipt number as required...
     * */
     const order = props.order;
+    const prodName = props.prodName;
     const [supplier , setSupplier] = useState(false);
     const [total , setTotal] = useState(false);
     const [mainDialog, setMainDialog] = React.useState(false);
@@ -56,29 +57,34 @@ const SingleDayView = props => {
 
     return(
         <div>
-            <Grid container spacing={1} className={`shadow1 mb-3 borderRadius10`}>
-                <Grid item xs={2} style={{ margin: '30px 0px 0px 0px'}} >
-                    <AccessTimeIcon />
-                </Grid>
+            {prodName === `${supplier.name}`
+                ?
+                <Grid container spacing={1} className={`shadow1 mb-3 borderRadius10`}>
+                    <Grid item xs={2} style={{ margin: '30px 0px 0px 0px'}} >
+                        <AccessTimeIcon />
+                    </Grid>
 
-                <Grid item xs={6} style={{display: 'table', height: '60px', margin: '8px 0px'}}>
-                    <div style={{textAlign: 'left', display: 'table-cell', verticalAlign: 'middle'}}>
-                        <span className='text-dark font-weight-bold' >{`${supplier.name}`}</span>
-                        <div className="font-weight-light mt-1" style={{ fontSize: '13px'}}>{format(new Date(order.createdAt) , "eeee, MMMM do, yyyy")} | {format(new Date(order.createdAt) , "h:mm a")}</div>
-                        <div className="font-weight-light mt-1" style={{ fontSize: '13px'}}>GHC {total}</div>
-                    </div>
-                </Grid>
+                    <Grid item xs={6} style={{display: 'table', height: '60px', margin: '8px 0px'}}>
+                        <div style={{textAlign: 'left', display: 'table-cell', verticalAlign: 'middle'}}>
+                            <span className='text-dark font-weight-bold' >{`${supplier.name}`}</span>
+                            <div className="font-weight-light mt-1" style={{ fontSize: '13px'}}>{format(new Date(order.createdAt) , "eeee, MMMM do, yyyy")} | {format(new Date(order.createdAt) , "h:mm a")}</div>
+                            <div className="font-weight-light mt-1" style={{ fontSize: '13px'}}>GHC {total}</div>
+                        </div>
+                    </Grid>
 
-                <Grid item xs={4} style={{ margin: '30px 0px 0px 0px'}}>  
-                    <Button
-                        variant="outlined"
-                        style={{border: '1px solid #DAAB59', color: '#DAAB59', padding: '5px 10px', textTransform: 'none', fontSize:'13px'}}
-                        onClick={openDialogHandler.bind(this)}
-                    >
-                        View more  
-                    </Button>
+                    <Grid item xs={4} style={{ margin: '30px 0px 0px 0px'}}>  
+                        <Button
+                            variant="outlined"
+                            style={{border: '1px solid #DAAB59', color: '#DAAB59', padding: '5px 10px', textTransform: 'none', fontSize:'13px'}}
+                            onClick={openDialogHandler.bind(this)}
+                        >
+                            View more  
+                        </Button>
+                    </Grid>
                 </Grid>
-            </Grid>
+                :
+                ''
+            }
 
             <MainDialog 
                 handleDialogClose={closeDialogHandler.bind(this)} 

@@ -49,9 +49,10 @@ import PaySupplier from "./screens/admin/suppliers/PaySupplier";
 import SupplierStock from "./screens/admin/suppliers/SupplierStock";
 import AddSupplier from "./screens/admin/suppliers/AddSupplier";
 import SupplierOrderStock from "./screens/admin/suppliers/orderStock/SupplierOrderStock";
+import Employees from "./screens/admin/employees/Employees";
 
 import AdminCustomers from "./screens/admin/customers/Customer";
-
+import CustomerDetails from "./screens/admin/customers/sections/CustomerDetails";
 
 function NoMatch() {
   let location = useLocation();
@@ -315,34 +316,6 @@ class App extends React.Component {
                     }}
                 />
                 {/* <Route
-                    path={paths.customer_details}
-                    render={() => {
-                        setPageBackground();
-                        this.setTitle(`Customers | ${appName}`);
-                        return <CustomerDetails/>;
-                    }}
-                />
-                <Route
-                    path={paths.customer_orders}
-                    render={() => {
-                        setPageBackground();
-                        this.setTitle(`Order history | ${appName}`);
-                        return <CustomerOrders/>;
-                    }}
-                />
-                <Route
-                    path={paths.order_details}
-                    render={() => {
-                        setPageBackground();
-                        this.setTitle(`Order history | ${appName}`);
-                        return <OrderDetails/>;
-                    }}
-<<<<<<< HEAD
-                /> */}
-=======
-                />
->>>>>>> aaecb3e8af5c3b7b25cb694460f6b4b6c47582c9
-                {/* <Route
                     path={paths.expense}
                     render={() => {
                         setPageBackground();
@@ -413,6 +386,14 @@ class App extends React.Component {
                         setPageBackground();
                         this.setTitle(`Supplier | ${appName}`);
                         return <AddSupplier/>;
+                    }}
+                />
+                <Route
+                    path={paths.employees}
+                    render={() => {
+                        setPageBackground();
+                        this.setTitle(`Employees | ${appName}`);
+                        return <Employees/>;
                     }}
                 />
 

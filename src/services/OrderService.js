@@ -4,7 +4,9 @@ import isSameDay from "date-fns/isSameDay";
 import isSameWeek from "date-fns/isSameWeek";
 import isSameMonth from "date-fns/isSameMonth";
 import isSameYear from "date-fns/isSameYear";
-import SaleService from "./SaleService";
+import BranchStockService from './BranchStockService';
+import format from "date-fns/format";
+import fromUnixTime from "date-fns/fromUnixTime";
 
 export default class OrderService {
     constructor(){
@@ -12,7 +14,7 @@ export default class OrderService {
     }
 
     static async getOrderHistory(duration , date){
-        const purchases = await new ModelAction('Sales').findByColumnNotObserve(
+        const purchases = await new ModelAction('BranchProductStock').findByColumnNotObserve(
             {
                 name: 'branchId',
                 value: LocalInfo.branchId,
@@ -20,19 +22,21 @@ export default class OrderService {
             }
         );
 
+        const orders = purchases.filter(purchase => purchase.branchSupplierOrderId !== null || purchase.branchSupplierOrderId !== '');
+
         const day = new Date(date);
 
         console.log(day)
         switch (duration) {
             case 'day':
-                return purchases.filter(purchase => isSameDay(new Date(purchase.salesDate) , day));
+                return orders.filter(order => isSameDay(format(fromUnixTime(new Date(order.createdAt)), 'MM/dd/yyyy') , day));
             case 'week':
                 //console.log(isSameWeek(sale.salesDate, day))
-                return purchases.filter(purchase => isSameWeek(new Date(purchase.salesDate), day));
+                return orders.filter(order => isSameWeek(format(fromUnixTime(new Date(order.createdAt)), 'MM/dd/yyyy') , day));
             case 'month':
-                return purchases.filter(purchase => isSameMonth(new Date(purchase.salesDate), day));
+                return orders.filter(order => isSameMonth(format(fromUnixTime(new Date(order.createdAt)), 'MM/dd/yyyy') , day));
             case 'year':
-                return purchases.filter(purchase => isSameYear(new Date(purchase.salesDate), day));
+                return orders.filter(order => isSameYear(format(fromUnixTime(new Date(order.createdAt)), 'MM/dd/yyyy') , day));
         }
     }
 
@@ -41,35 +45,36 @@ export default class OrderService {
         console.log(order);
         let costPrice = 0;
         let profit = 0;
-        let credit = 0;
         let sellingPrice = 0;
         let quantity = 0;
 
         for (let step = 0; step < order.length; step++) {
-            costPrice += parseFloat(await SaleService.getSaleEntryCostPriceById(order[step].id));
+            costPrice += parseFloat(await BranchStockService.getStockEntryCostPriceById(order[step].id));
         }
 
         for (let step = 0; step < order.length; step++) {
-            profit += parseFloat(await SaleService.getSaleEntryProfitById(order[step].id));
+            profit += parseFloat(await BranchStockService.getStockEntryProfitById(order[step].id));
         }
 
         for (let step = 0; step < order.length; step++) {
-            credit += parseFloat(await SaleService.getSaleEntryCreditById(order[step].id));
+            quantity += parseFloat(await BranchStockService.getStockProductQuantity(order[step].id));
+            
+            const branchProduct = await new ModelAction('BranchProduct').findByColumnNotObserve({
+                name: 'productId',
+                value: order[step].productId,
+                fxn: 'eq'
+            });
+            const sell = quantity * branchProduct[0].sellingPrice;
+
+            sellingPrice = parseFloat(sell);
         }
 
-        for (let step = 0; step < order.length; step++) {
-            sellingPrice += parseFloat(await SaleService.getSaleEntrySellingPriceById(order[step].id));
-        }
-
-        for (let step = 0; step < order.length; step++) {
-            quantity += parseFloat(await SaleService.getSaleProductQuantity(order[step].id));
-        }
+        profit = sellingPrice - costPrice;
 
         return {
-            purchases: order,
+            orders: order,
             costPrice,
             profit,
-            credit,
             sellingPrice,
             quantity
         }

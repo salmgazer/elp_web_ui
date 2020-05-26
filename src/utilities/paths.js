@@ -35,10 +35,13 @@ export default {
     view_suppliers: "/list-suppliers",
     supplier_detail : "/supplier-detail",
     pay_supplier : "/pay-supplier",
+    admin_customers : "/admin-customers",
+    employees: "/employees",
     // add_customer : "/add-customer",
     // view_customers : "/view-customer",
-    admin_customers : "/admin-customers",
+    
     // customer_orders : "/customer-orders",
     // order_details : "/order-details",
     // customer_details : "/customer-detail",
+
 };
