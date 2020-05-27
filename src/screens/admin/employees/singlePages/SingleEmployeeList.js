@@ -28,7 +28,9 @@ const SingleViewCustomer = props => {
     //     setNumber(newEmployee.phone);
     // };
 
-
+    const setView = (step) => {
+        props.setView(step);
+    };
 
     return(
 
@@ -42,7 +44,7 @@ const SingleViewCustomer = props => {
                 
                 <Grid container spacing={1} >
 
-                    <Grid item xs={3}>
+                    <Grid item xs={3} onClick={() => setView(4)} >
                         <Avatar
                             alt={employee.name}
                             style={{
@@ -59,7 +61,7 @@ const SingleViewCustomer = props => {
                         </Avatar>
                     </Grid>
 
-                    <Grid item xs={5} style={{display: 'table', height: '60px', margin: '8px 0px'}} >
+                    <Grid item xs={5} style={{display: 'table', height: '60px', margin: '8px 0px'}} onClick={() => setView(4)} >
                         <div style={{textAlign: 'left', display: 'table-cell', verticalAlign: 'middle'}}>
                             <span className='text-dark font-weight-bold' >{employee.name}</span>
                             <div className="font-weight-light mt-1" style={{ fontSize: '13px'}}> {employee.position}</div>
@@ -67,7 +69,7 @@ const SingleViewCustomer = props => {
                     </Grid>
 
                     <Grid item xs={2} style={{ paddingTop: "20px", fontSize: '10px' }} >
-                        <EditIcon style={{fontSize: '30px', color: '#DAAB59'}} />
+                        <EditIcon style={{fontSize: '30px', color: '#DAAB59'}} onClick={() => setView(5)} />
                             <br/>
                         Edit
                     </Grid>

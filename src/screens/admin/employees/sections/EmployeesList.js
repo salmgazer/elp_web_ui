@@ -49,13 +49,9 @@ const EmployeesList = props => {
         setMainDialog(true);
     };
 
-    const openlink = (event) => {
-        props.setView(2);
-    }
-
-    const openAdd = (event) => {
-        props.setView(3);        
-    }
+    const setView = (step) => {
+        props.setView(step);
+    };
 
     return (
         <div>
@@ -85,7 +81,7 @@ const EmployeesList = props => {
                 </Grid>
             </Paper>
                
-            {props.employeesList.map((item) => <SingleEmployeeList  key={item.id} employee={item}/>)}
+            {props.employeesList.map((item) => <SingleEmployeeList  key={item.id} employee={item} setView={props.setView}/>)}
 
             <MainDialog handleDialogClose={closeDialogHandler.bind(this)} states={mainDialog} >
                 <div className="row pt-0 mx-auto text-center w-100" >
@@ -100,7 +96,7 @@ const EmployeesList = props => {
                         <Grid item xs={6} style={{padding: "0px 10px"}}>
                             <Button
                                 variant="outlined"
-                                onclick={openAdd.bind(this)}
+                                onClick={() => setView(3)} 
                                 style={{
                                     width: '100%',
                                     'backgroundColor': '#ffff',
@@ -120,7 +116,7 @@ const EmployeesList = props => {
                         <Grid item xs={6} style={{padding: "0px 10px"}}>
                             <Button
                                 variant="contained"
-                                onclick={openlink.bind(this)}
+                                onClick={() => setView(2)} 
                                 style={{
                                     width: '100%',
                                     'backgroundColor': '#DAAB59',

@@ -39,6 +39,10 @@ const EmployeesList = props => {
         props.searchEmployee(value);
     };
 
+    const setView = (step) => {
+        props.setView(step);
+    };
+
     return (
         <div>
             <SectionNavbars
@@ -90,7 +94,7 @@ const EmployeesList = props => {
                 <Button
                     variant="contained"
                     style={{'backgroundColor': '#DAAB59' , color: '#333333', padding: '10px 50px', textTransform: 'none', fontSize: '15px'}}
-                    // onClick={openAddDialog.bind(this)}
+                    onClick={() => setView(3)} 
                 >
                     <AddCircleOutlineIcon />  Add new employee
                 </Button>

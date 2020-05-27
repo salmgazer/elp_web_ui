@@ -7,27 +7,40 @@ import Paper from '@material-ui/core/Paper';
 import Box from "@material-ui/core/Box/Box";
 import Typography from '@material-ui/core/Typography';
 import Button from "@material-ui/core/Button/Button";
-import AddCircleOutlineIcon from '@material-ui/icons/AddCircleOutline';
+import TextField from '@material-ui/core/TextField';
 
 import SectionNavbars from "../../../../components/Sections/SectionNavbars";
-import paths from "../../../../utilities/paths";
 import SearchInput from "../../../Components/Input/SearchInput";
-import EmployeeImage from '../../../../assets/img/employee.png';
 
 const useStyles = makeStyles(theme => ({
     root: {
       flexGrow: 1,
       marginTop: '60px',
-    }
+    },
+    textBox: {
+        width: '100%',
+        display: 'flex',
+        padding: '2px 5px',
+        alignItems: 'center',
+        borderRadius: '30px',
+        height: '40px',
+        fontSize: '0.9rem',
+        lineHeight: '1.5',
+        transition: 'border-color .15s ease-in-out,box-shadow .15s ease-in-out',
+    },
+    input: {
+        marginLeft: theme.spacing(1),
+        flex: 1,
+    },
 }));
 
 const LinkEmployees = props => {
 
     const classes = useStyles();
-    const { history } = props;
     const [searchValue , setSearchValue] = useState({
         search: ''
     });
+    const [value , setValue] = useState('');
 
     const setInputValue = (name , value) => {
         const {...oldFormFields} = searchValue;
@@ -37,6 +50,10 @@ const LinkEmployees = props => {
         setSearchValue(oldFormFields);
 
         props.searchEmployee(value);
+    };
+
+    const setValueHandler = (event) => {
+        setValue(event.target.value);
     };
 
     const backHandler = (event) => {
@@ -94,14 +111,14 @@ const LinkEmployees = props => {
 
             <Grid container spacing={2} style={{marginTop: '10px'}} className={`pt-2`}>
                 <Grid item xs={11} style={{padding: '0px 8px 15px 8px'}} className={`mx-auto mt-7`}>
-                    <SearchInput
-                        inputName="search"
-                        styles={{
-                            border: '1px solid #e5e5e5',
-                            padding: '4px 0px'
-                        }}
-                        getValue={setInputValue.bind(this)}
-                    />
+                    <Paper className={classes.textBox} style={{border: '1px solid #e5e5e5', padding: '4px 0px'}}>
+                        <TextField
+                            className={`${classes.input} search-box`}
+                            value={value}
+                            name='link'
+                            onChange={(event) => setValueHandler(event)}
+                        />
+                    </Paper>
                 </Grid>
             </Grid>
 
@@ -114,7 +131,7 @@ const LinkEmployees = props => {
                 <Button
                     variant="contained"
                     style={{'backgroundColor': '#DAAB59' , color: '#333333', padding: '10px 50px', textTransform: 'none', fontSize: '15px'}}
-                    // onClick={openAddDialog.bind(this)}
+                    onClick={backHandler.bind(this)}
                 >
                     Finish
                 </Button>

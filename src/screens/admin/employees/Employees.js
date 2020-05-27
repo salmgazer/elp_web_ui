@@ -13,7 +13,7 @@ import SearchEmployees from './sections/SearchEmployees';
 class Employees extends Component{
 
     state={
-        activeStep: 2,
+        activeStep: 1,
         branchEmployees: [],
         employeesList: [
             {
@@ -28,7 +28,31 @@ class Employees extends Component{
                 'name': 'Poku Clif',
                 'position': 'supervisor'
             }
+        ],
+        currentEmployee: 
+            {
+                'name': 'Kwame Befo',
+                'position': 'attendant',
+                'items': '50',
+                'sales': 'GHC 500',
+                'purchases': 'GHC 200',
+                'prev': 'GHC 100'
+            },
+        employeeActivities: [
+            {
+                'activity': 'Sold 14 items',
+                'date': '26/11/20'
+            },
+            {
+                'activity': 'Added 12 stock',
+                'date': '26/11/20'
+            },
+            {
+                'activity': 'Recorded collection',
+                'date': '26/11/20'
+            },
         ]
+        
     }
 
     // async componentDidMount() {
@@ -71,11 +95,11 @@ class Employees extends Component{
             case 3:
                 return <AddEmployee setView={this.setStepContentView.bind(this)} />;
             case 4:
-                return <EmployeeDetails setView={this.setStepContentView.bind(this)} />;
+                return <EmployeeDetails setView={this.setStepContentView.bind(this)} currentEmployee={this.state.currentEmployee} />;
             case 5:
                 return <EditEmployee setView={this.setStepContentView.bind(this)} />;
             case 6:
-                return <EmployeeActivity setView={this.setStepContentView.bind(this)} />;
+                return <EmployeeActivity setView={this.setStepContentView.bind(this)} employeeActivities={this.state.employeeActivities} />;
             default:
                 return 'Complete';
         }
