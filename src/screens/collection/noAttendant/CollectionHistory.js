@@ -22,7 +22,7 @@ const CollectionHistory = props => {
     return (
         <div>
             <SectionNavbars
-                title="Collection history"
+                title="Collection"
                 leftIcon={
                     <div onClick={backHandler.bind(this)}>
                         <ArrowBackIosIcon
