@@ -52,7 +52,7 @@ import SupplierOrderStock from "./screens/admin/suppliers/orderStock/SupplierOrd
 import Employees from "./screens/admin/employees/Employees";
 
 import AdminCustomers from "./screens/admin/customers/Customer";
-import CustomerDetails from "./screens/admin/customers/sections/CustomerDetails";
+import AccountingNoAttendants from "./screens/accountingNoAttendants/Accounting";
 
 function NoMatch() {
   let location = useLocation();
@@ -394,6 +394,14 @@ class App extends React.Component {
                         setPageBackground();
                         this.setTitle(`Employees | ${appName}`);
                         return <Employees/>;
+                    }}
+                />
+                <Route
+                    path={paths.accounting_no_attendant}
+                    render={() => {
+                        setPageBackground();
+                        this.setTitle(`Accounting No Attendants | ${appName}`);
+                        return <AccountingNoAttendants/>;
                     }}
                 />
 

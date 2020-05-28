@@ -37,6 +37,7 @@ export default {
     pay_supplier : "/pay-supplier",
     admin_customers : "/admin-customers",
     employees: "/employees",
+    accounting_no_attendant: "/accounting-no-attendants",
     // add_customer : "/add-customer",
     // view_customers : "/view-customer",
     
