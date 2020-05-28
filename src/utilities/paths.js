@@ -38,6 +38,9 @@ export default {
     admin_customers : "/admin-customers",
     employees: "/employees",
     accounting_no_attendant: "/accounting-no-attendants",
+    collection_owner: "/collection-owner",
+    collection_attendant: "/collection-attendant",
+    collection_no_attendant: "/collection-no-attendant",
     // add_customer : "/add-customer",
     // view_customers : "/view-customer",
     

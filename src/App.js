@@ -53,6 +53,9 @@ import Employees from "./screens/admin/employees/Employees";
 
 import AdminCustomers from "./screens/admin/customers/Customer";
 import AccountingNoAttendants from "./screens/accountingNoAttendants/Accounting";
+import CollectionOwner from "./screens/collection/Owner";
+import CollectionAttendant from "./screens/collection/Attendant";
+import CollectionNoAttendant from "./screens/collection/NoAttendant";
 
 function NoMatch() {
   let location = useLocation();
@@ -402,6 +405,30 @@ class App extends React.Component {
                         setPageBackground();
                         this.setTitle(`Accounting No Attendants | ${appName}`);
                         return <AccountingNoAttendants/>;
+                    }}
+                />
+                <Route
+                    path={paths.collection_owner}
+                    render={() => {
+                        setPageBackground();
+                        this.setTitle(`Collection Owner | ${appName}`);
+                        return <CollectionOwner/>;
+                    }}
+                />
+                <Route
+                    path={paths.collection_attendant}
+                    render={() => {
+                        setPageBackground();
+                        this.setTitle(`Collection Attendant | ${appName}`);
+                        return <CollectionAttendant/>;
+                    }}
+                />
+                <Route
+                    path={paths.collection_no_attendant}
+                    render={() => {
+                        setPageBackground();
+                        this.setTitle(`Collection No Attendant | ${appName}`);
+                        return <CollectionNoAttendant/>;
                     }}
                 />
 
