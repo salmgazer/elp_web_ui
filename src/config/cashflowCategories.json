@@ -1,0 +1,106 @@
+{
+  "categories": [
+    {
+      "name" : "Sales",
+      "type" : "cash-in",
+      "status" : "active",
+      "createdBy" : "06f449fa-7a9a-4221-bd48-8f22f3bacbc0"
+    },
+    {
+      "name" : "Loan",
+      "type" : "cash-in",
+      "status" : "active",
+      "createdBy" : "06f449fa-7a9a-4221-bd48-8f22f3bacbc0"
+    },
+    {
+      "name" : "Owner",
+      "type" : "cash-in",
+      "status" : "active",
+      "createdBy" : "06f449fa-7a9a-4221-bd48-8f22f3bacbc0"
+    },
+    {
+      "name" : "Offloading fee",
+      "type" : "cash-out",
+      "status" : "active",
+      "createdBy" : "06f449fa-7a9a-4221-bd48-8f22f3bacbc0"
+    },
+    {
+      "name" : "Food",
+      "type" : "cash-out",
+      "status" : "active",
+      "createdBy" : "06f449fa-7a9a-4221-bd48-8f22f3bacbc0"
+    },
+    {
+      "name" : "Transport",
+      "type" : "cash-out",
+      "status" : "active",
+      "createdBy" : "06f449fa-7a9a-4221-bd48-8f22f3bacbc0"
+    },
+    {
+      "name" : "Cleaning services",
+      "type" : "cash-out",
+      "status" : "active",
+      "createdBy" : "06f449fa-7a9a-4221-bd48-8f22f3bacbc0"
+    },
+    {
+      "name" : "Software expenses",
+      "type" : "cash-out",
+      "status" : "active",
+      "createdBy" : "06f449fa-7a9a-4221-bd48-8f22f3bacbc0"
+    },
+    {
+      "name" : "Salary",
+      "type" : "cash-out",
+      "status" : "active",
+      "createdBy" : "06f449fa-7a9a-4221-bd48-8f22f3bacbc0"
+    },
+    {
+      "name" : "Electricity",
+      "type" : "cash-out",
+      "status" : "active",
+      "createdBy" : "06f449fa-7a9a-4221-bd48-8f22f3bacbc0"
+    },
+    {
+      "name" : "Water",
+      "type" : "cash-out",
+      "status" : "active",
+      "createdBy" : "06f449fa-7a9a-4221-bd48-8f22f3bacbc0"
+    },
+    {
+      "name" : "Local Authority",
+      "type" : "cash-out",
+      "status" : "active",
+      "createdBy" : "06f449fa-7a9a-4221-bd48-8f22f3bacbc0"
+    },
+    {
+      "name" : "Business Operation Fee",
+      "type" : "cash-out",
+      "status" : "active",
+      "createdBy" : "06f449fa-7a9a-4221-bd48-8f22f3bacbc0"
+    },
+    {
+      "name" : "Fuel",
+      "type" : "cash-out",
+      "status" : "active",
+      "createdBy" : "06f449fa-7a9a-4221-bd48-8f22f3bacbc0"
+    },
+    {
+      "name" : "Rent",
+      "type" : "cash-out",
+      "status" : "active",
+      "createdBy" : "06f449fa-7a9a-4221-bd48-8f22f3bacbc0"
+    },
+    {
+      "name" : "Gift",
+      "type" : "cash-out",
+      "status" : "active",
+      "createdBy" : "06f449fa-7a9a-4221-bd48-8f22f3bacbc0"
+    },
+    {
+      "name" : "Susu/Savings",
+      "type" : "cash-out",
+      "status" : "active",
+      "createdBy" : "06f449fa-7a9a-4221-bd48-8f22f3bacbc0"
+    }
+  ]
+}

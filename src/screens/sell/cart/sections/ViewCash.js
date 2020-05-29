@@ -10,6 +10,7 @@ const ViewCash = props => {
         amountPaid: '',
         changeDue: '',
         customer: props.customerId,
+        type: 'daily'
     });
 
     const setInputValue = (event) => {

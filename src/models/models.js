@@ -23,7 +23,8 @@ import BranchSupplierProducts from "./branchSupplierProducts/BranchSupplierProdu
 import BranchSupplierSalespersons from "./branchSupplierSalespersons/BranchSupplierSalespersons";
 import BranchSupplierOrder from "./branchSupplierOrder/BranchSupplierOrder";
 import BranchSupplierOrderPaymentInstallment from "./branchSupplierOrderPaymentInstallment/BranchSupplierOrderPaymentInstallment";
-
+import CashflowCategory from "./cashflowCategories/CashflowCategory";
+import Cashflow from "./cashflow/Cashflow";
 
 export default {
     Brand,
@@ -50,4 +51,6 @@ export default {
     BranchSupplierSalespersons,
     BranchSupplierOrder,
     BranchSupplierOrderPaymentInstallment,
+    CashflowCategory,
+    Cashflow,
 }

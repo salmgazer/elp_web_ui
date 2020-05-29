@@ -77,6 +77,7 @@ export default class SaleService {
             customerId: sales.customerId,
             branchId: LocalInfo.branchId,
             createdBy: LocalInfo.userId,
+            type: data.type,
             amount: data.changeDue >= 0 ? parseFloat(data.amountPaid - data.changeDue) : parseFloat(data.amountPaid),
         };
 

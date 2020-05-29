@@ -9,15 +9,19 @@ import { withRouter } from "react-router-dom";
 import SectionNavbars from "../../../components/Sections/SectionNavbars";
 import SystemDate from "../../../components/Date/SystemDate";
 import SingleCollectionView from './SingleCollectionView';
+import CollectionDateFilter from "../../../components/Date/collectionDateFilter";
 
 
 const CollectionHistory = props => {
-
     const collection = props.collection;
 
     const backHandler = (event) => {
         props.setView(0);
     };
+
+    const setDateInstance = (value) => {
+        props.changeCollectionDate(value);
+    }
 
     return (
         <div>
@@ -42,9 +46,9 @@ const CollectionHistory = props => {
                 </Grid>
             </Paper>
 
-            <SystemDate />
+            <CollectionDateFilter getValue={setDateInstance.bind(this)} day={new Date()}/>
 
-            <Box style={{marginTop: '5px' , paddingBottom: '60px'}} p={1} className={`mt-3 mb-5`}>
+            <Box style={{marginTop: '5px' , paddingBottom: '60px'}} p={2} className={`mt-2 mb-5 mx-2`}>
 
                 {collection.length === 0
                     ?
@@ -67,8 +71,7 @@ const CollectionHistory = props => {
                     </div>
                     :
 
-                    collection.map((entry) => <SingleCollectionView  key={entry.id} collection={entry} />)
-
+                    collection.map((entry) => <SingleCollectionView approveCollection={props.approveCollection} disaproveCollection={props.disaproveCollection} key={entry.id} collection={entry} />)
                 }
             </Box>
 

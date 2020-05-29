@@ -20,12 +20,10 @@ import ViewCash from './ViewCash';
 import MainDialog from "../../../../components/Dialog/MainDialog";
 import ErrorImage from '../../../../assets/img/error.png';
 import CancelIcon from '@material-ui/icons/Cancel';
-import CustomersModal from "../../../../components/Modal/Customer/CustomersModal";
 import AddCustomerModal from "../../../../components/Modal/Customer/AddCustomerModal";
 import CustomerService from "../../../../services/CustomerService";
 import SaleService from "../../../../services/SaleService";
 import CartService from "../../../../services/CartService";
-import paths from "../../../../utilities/paths";
 import SimpleSnackbar from "../../../../components/Snackbar/SimpleSnackbar";
 
 const useStyles = makeStyles(theme => ({
