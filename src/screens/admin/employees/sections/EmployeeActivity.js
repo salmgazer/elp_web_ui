@@ -22,18 +22,27 @@ import BottomMenu from '../singlePages/BottomMenu';
 import SingleActivity from '../singlePages/SingleActivity';
 import BottomDrawer from "../../../../components/Drawer/BottomDrawer/BottomDrawer";
 import BoxDefault from '../../../../components/Box/BoxDefault';
+import SystemDate from '../../../../components/Date/SystemDate';
 
-const useStyles = makeStyles(theme => ({
-    root: {
-      flexGrow: 1,
-      marginTop: '60px',
+const values = [
+    {
+      value: '10',
+      label: 'Pearl',
+    },
+    {
+      value: '20',
+      label: 'Chris',
     }
-}));
+  ];
 
 const EmployeeActivity = props => {
 
-    const classes = useStyles();
     const [isShowDrawer , setIsShowDrawer] = useState(false);
+    const [type, setType] = useState(10);
+
+    const handleTypeChange = event => {
+        setType(event.target.value);
+    };
 
     const backHandler = (event) => {
         props.setView(4);
@@ -46,7 +55,7 @@ const EmployeeActivity = props => {
     return (
         <div>
             <SectionNavbars
-                title="Employees"
+                title="Activities"
                 leftIcon={
                     <div onClick={backHandler.bind(this)}>
                         <ArrowBackIosIcon
@@ -87,34 +96,52 @@ const EmployeeActivity = props => {
                 </BottomDrawer>
             </div>
 
-            <Paper style={{marginTop: '60px'}} >
+            <Paper style={{marginTop: '60px', marginBottom: '20px'}} >
                 <Grid container spacing={2} className={`pt-2`}>
-                    <Grid item xs={11} style={{padding: '25px'}} className={`mx-auto mt-7`}>
-                        <Typography className='text-dark font-weight-bold' style={{ fontSize: '15px'}} >
-                            Attendant activity
-                        </Typography>
+                    <Grid item xs={6}>
+                        <TextField
+                            id="outlined-select-receive-native"
+                            select
+                            size="small"
+                            value={type}
+                            style={{width: '90%'}}
+                            onChange={handleTypeChange}
+                            color="#DAAB59"
+                            SelectProps={{
+                                native: true,
+                            }}
+                            variant="outlined"
+                            >
+                            {values.map(option => (
+                                <option key={option.value} value={option.value}>
+                                {option.label}
+                                </option>
+                            ))}
+                        </TextField>
                     </Grid>
+
+                    <Grid item xs={6}>
+                        <SystemDate />
+                    </Grid>
+                    
                 </Grid>
             </Paper>
 
+            {props.employeeActivities.map((item) => <SingleActivity  key={item.id} activity={item}/>)}
 
-            <BoxDefault
-                bgcolor="background.paper"
-                p={1}
-                className={'boxDefault'}
-            >
-
-                {props.employeeActivities.map((item) => <SingleActivity  key={item.id} activity={item}/>)}
-
-            </BoxDefault>
-           
             <Box
                 className="shadow1"
                 bgcolor="background.paper"
                 p={1}
-                style={{ height: '3.0rem', position: "fixed", bottom:"0", width:"100%" }}
+                style={{ height: '3.0rem', position: "fixed", bottom:"1px", width:"100%" }}
             >
-                <BottomMenu setView={props.setView}/>
+                <Button
+                    variant="contained"
+                    style={{'backgroundColor': '#DAAB59' , color: '#333333', padding: '10px 50px', textTransform: 'none', fontSize: '15px'}}
+                    onClick={backHandler.bind(this)}
+                >
+                    Back
+                </Button>
             </Box>
 
         </div>

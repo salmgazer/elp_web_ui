@@ -75,11 +75,23 @@ const values = [
       }
   ];
 
+  const prev = [
+    {
+      value: '0',
+      label: 'Admin',
+    },
+    {
+      value: '1',
+      label: 'Attendant',
+    }
+  ];
+
 const EditEmployee = props => {
 
     const classes = useStyles();
     // const [value , setValue] = useState('');
     const [type, setType] = useState(10);
+    const [permission, setPermission] = useState(0);
 
     // const setValueHandler = (event) => {
     //     setValue(event.target.value);
@@ -89,13 +101,17 @@ const EditEmployee = props => {
         setType(event.target.value);
     };
 
+    const handlePermissionChange = event => {
+        setPermission(event.target.value);
+    };
+
     const backHandler = (event) => {
         props.setView(1);
     };
 
-    const setView = (step) => {
-        props.setView(step);
-    };
+    // const setView = (step) => {
+    //     props.setView(step);
+    // };
 
     return (
         <div>
@@ -186,6 +202,35 @@ const EditEmployee = props => {
                             variant="outlined"
                             >
                             {values.map(option => (
+                                <option key={option.value} value={option.value}>
+                                {option.label}
+                                </option>
+                            ))}
+                        </TextField>
+                    </Grid>
+                </Grid>
+
+                <Grid container spacing={2}  className={`pt-2 mx-auto mt-7`} style={{marginBottom: '10px'}}>
+                    <Grid item xs={4} style={{marginTop: '10px'}}>
+                        <Typography className='font-weight-light mt-1' style={{ fontSize: '14px', textAlign: 'left'}} >
+                            Permissions
+                        </Typography>
+                    </Grid>
+                    <Grid item xs={8}>
+                        <TextField
+                            id="outlined-select-receive-native"
+                            select
+                            size="small"
+                            value={permission}
+                            style={{width: '90%'}}
+                            onChange={handlePermissionChange}
+                            color="#DAAB59"
+                            SelectProps={{
+                                native: true,
+                            }}
+                            variant="outlined"
+                            >
+                            {prev.map(option => (
                                 <option key={option.value} value={option.value}>
                                 {option.label}
                                 </option>

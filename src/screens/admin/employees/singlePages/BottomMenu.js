@@ -5,6 +5,7 @@ import { withRouter } from "react-router-dom";
 import PhoneIcon from '@material-ui/icons/Phone';
 import DeleteOutlinedIcon from '@material-ui/icons/DeleteOutlined';
 import MenuIcon from '@material-ui/icons/Menu';
+import PersonIcon from '@material-ui/icons/Person';
 
 import paths from "../../../../utilities/paths";
 import LocalInfo from "../../../../services/LocalInfo";
@@ -33,20 +34,18 @@ const BottomMenu = props => {
                     flex: 1,
                 }}
             >
-                <a href={`tel:${number}`} style={{textDecoration: 'none', textTransform: 'none'}}>
-                    <PhoneIcon
-                        style={{fontSize: '25px'}}
-                    />
+                <PersonIcon
+                    style={{fontSize: '25px'}}
+                />
 
-                    <Typography
-                        component="h6"
-                        variant="h6"
-                        style={{fontSize: '12px'}}
-                        // onClick={() => setView(5)}
-                    >
-                        Contact
-                    </Typography>
-                </a>
+                <Typography
+                    component="h6"
+                    variant="h6"
+                    style={{fontSize: '12px'}}
+                    // onClick={() => setView(5)}
+                >
+                    Profile
+                </Typography>
             </div>
 
             
@@ -82,7 +81,7 @@ const BottomMenu = props => {
                     variant="h6"
                     style={{fontSize: '12px'}}
                 >
-                    Log
+                    Activities
                 </Typography>
             </div>
         </Grid>
