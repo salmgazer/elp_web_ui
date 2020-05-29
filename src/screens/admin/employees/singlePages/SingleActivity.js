@@ -1,75 +1,66 @@
 import React , { useState, useEffect } from "react";
+import {makeStyles} from "@material-ui/core";
 import { withRouter } from "react-router-dom";
 import Grid from '@material-ui/core/Grid';
-import Card from "@material-ui/core/Card/Card";
+import Paper from '@material-ui/core/Paper';
 import EditIcon from '@material-ui/icons/Edit';
-import AccountCircleIcon from '@material-ui/icons/AccountCircle';
+import UndoIcon from '@material-ui/icons/Undo';
+import Button from "@material-ui/core/Button/Button";
+import AccessTimeIcon from '@material-ui/icons/AccessTime';
 
+const useStyles = makeStyles(theme => ({
+    root: {
+      flexGrow: 1,
+      marginTop: '60px',
+    },
+    paper: {
+        padding: theme.spacing(1),
+        textAlign: 'center',
+        width: '90%',
+        marginTop: '10px',
+        marginLeft: '13px',
+    }
+}));
 
 const SingleViewCustomer = props => {
 
     const employee = props.activity;
-    // const [customer , setCustomer] = useState('');
-    // const [name , setName] = useState('');
-    // const [number , setNumber] = useState('');
-    // const [mainDialog, setMainDialog] = React.useState(false);
-
-    // useEffect(() => {
-    //     // You need to restrict it at some point
-    //     // This is just dummy code and should be replaced by actual
-    //     if (!customer) {
-    //         getCustomer();
-    //     }
-    // }, []);
-
-    // const getCustomer = async () => {
-    //     const newCustomer = await props.customer;
-    //     setCustomer(newCustomer);
-    //     setName(newCustomer.firstName + ' ' + newCustomer.otherNames);
-    //     setNumber(newCustomer.phone);
-    // };
-
-    // const openDialogHandler = (event) => {
-    //     setMainDialog(true);
-    // };
+    const classes = useStyles();
 
     return(
 
         <div>
                 
-            <Grid container spacing={1} >
+            <Paper variant="outlined" className={classes.paper} >
 
-                <Grid item xs={3}>
-                    <Card
-                        className="shadow1"
-                        style={{
-                            margin: '10px auto',  
-                            backgroundPosition: 'center', 
-                            backgroundSize: 'cover', 
-                            width: '50px', 
-                            borderRadius: '50%', 
-                            height: '50px', 
-                            padding: '0px'
-                        }}
-                    >
-                    </Card>
-                </Grid>
+                <Grid container spacing={1} >
 
-                <Grid item xs={6} style={{display: 'table', height: '60px', margin: '8px 0px'}} >
-                    <div style={{textAlign: 'left', display: 'table-cell', verticalAlign: 'middle'}}>
-                        <span className="font-weight-light mt-1" style={{ fontSize: '15px'}} >{employee.activity}</span>
-                        <div className="font-weight-light mt-1" style={{ fontSize: '15px'}}> {employee.date}</div>
-                    </div>
-                </Grid>
-
-                <Grid item xs={2} style={{ paddingTop: "15px", fontSize: '12px' }}  >
-                        <EditIcon style={{fontSize: '30px', color: '#DAAB59'}} />
-                            <br/>
-                        Edit
+                    <Grid item xs={1}>
+                        <AccessTimeIcon style={{marginTop: '30px', color: '#DAAB59'}} />
                     </Grid>
 
-                
-            </Grid>
+                    <Grid item xs={8} style={{display: 'table', height: '60px', margin: '8px 0px'}} >
+                        <div style={{textAlign: 'left', display: 'table-cell', verticalAlign: 'middle'}}>
+                            <div className='text-dark font-weight-bold'>Item sold: {employee.product}</div>
+                            <span className="font-weight-light mt-1" style={{ fontSize: '15px'}} >{employee.name}</span>
+                            <div className="font-weight-light mt-1" style={{ fontSize: '15px'}}> {employee.date} @ {employee.time}</div>
+                        </div>
+                    </Grid>
+
+                    <Grid item xs={3} style={{ paddingTop: "25px", fontSize: '12px' }}  >
+                        <Button
+                            variant="outlined"
+                            style={{color: '#333333', textTransform: 'none', fontSize: '10px', padding: '0px 0px'}}
+                        >
+                            <UndoIcon style={{fontSize: '20px'}} />
+                                <br/>
+                            undo
+                        </Button>
+                    </Grid>
+
+                </Grid>
+
+            </Paper>
                   
         </div>
         

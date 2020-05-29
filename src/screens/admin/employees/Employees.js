@@ -7,15 +7,13 @@ import EmployeeActivity from './sections/EmployeeActivity';
 import EmployeeDetails from './sections/EmployeeDetails';
 import EmployeesList from './sections/EmployeesList';
 import LinkEmployee from './sections/LinkEmployee';
-import SearchEmployees from './sections/SearchEmployees';
-
+import EmployeePermission from './sections/EmployeePermission';
 
 class Employees extends Component{
 
     state={
         activeStep: 1,
-        branchEmployees: [],
-        employeesList: [
+        branchEmployees: [
             {
                 'name': 'Kwame Befo',
                 'position': 'attendant'
@@ -40,56 +38,36 @@ class Employees extends Component{
             },
         employeeActivities: [
             {
-                'activity': 'Sold 14 items',
-                'date': '26/11/20'
+                'product': 'Beta Malt 250ml',
+                'name': 'Ama Serwah',
+                'date': '26/11/20',
+                'time': '12:00pm'
             },
             {
-                'activity': 'Added 12 stock',
-                'date': '26/11/20'
+                'product': 'Beta Malt 250ml',
+                'name': 'Ama Serwah',
+                'date': '26/11/20',
+                'time': '12:00pm'
             },
             {
-                'activity': 'Recorded collection',
-                'date': '26/11/20'
+                'product': 'Beta Malt 250ml',
+                'name': 'Ama Serwah',
+                'date': '26/11/20',
+                'time': '12:00pm'
             },
+        ],
+        employeePermission: [
+            {
+                'permission': 'Admin'
+            }
         ]
         
     }
 
-    // async componentDidMount() {
-    //     const { branchEmployees } = this.props;
-
-    //     await this.setState({
-    //         branchEmployees: branchEmployees,
-    //     });
-
-    //     if (branchEmployees.length === 0 ){
-    //         await this.setState({
-    //             activeStep: 0,
-    //         });
-    //     } else {
-    //         await this.setState({
-    //             activeStep: 1,
-    //         });
-    //     }
-
-    // }
-
-    // async componentDidUpdate(prevProps) {
-    //     const { branchEmployees } = this.props;
-
-    //     if(prevProps.branchEmployees.length !== branchEmployees.length){
-    //         this.setState({
-    //             branchEmployees: branchEmployees,
-    //         });
-    //     }
-    // }
-
     getStepContent = step => {
         switch (step) {
-            case 0:
-                return <SearchEmployees setView={this.setStepContentView.bind(this)} />;
             case 1:
-                return <EmployeesList setView={this.setStepContentView.bind(this)} employeesList={this.state.employeesList} />;
+                return <EmployeesList setView={this.setStepContentView.bind(this)} branchEmployees={this.state.branchEmployees} />;
             case 2:
                 return <LinkEmployee setView={this.setStepContentView.bind(this)} />;
             case 3:
@@ -100,6 +78,8 @@ class Employees extends Component{
                 return <EditEmployee setView={this.setStepContentView.bind(this)} />;
             case 6:
                 return <EmployeeActivity setView={this.setStepContentView.bind(this)} employeeActivities={this.state.employeeActivities} />;
+            case 7:
+                return <EmployeePermission setView={this.setStepContentView.bind(this)} employeePermission={this.state.employeePermission} />;
             default:
                 return 'Complete';
         }

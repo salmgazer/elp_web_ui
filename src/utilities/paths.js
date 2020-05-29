@@ -41,6 +41,7 @@ export default {
     collection_owner: "/collection-owner",
     collection_attendant: "/collection-attendant",
     collection_no_attendant: "/collection-no-attendant",
+    reconciliation: "/reconciliation",
     // add_customer : "/add-customer",
     // view_customers : "/view-customer",
     

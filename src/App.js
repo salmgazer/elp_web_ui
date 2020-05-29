@@ -56,6 +56,7 @@ import AccountingNoAttendants from "./screens/accountingNoAttendants/Accounting"
 import CollectionOwner from "./screens/collection/Owner";
 import CollectionAttendant from "./screens/collection/Attendant";
 import CollectionNoAttendant from "./screens/collection/NoAttendant";
+import Reconciliation from "./screens/audit/Reconciliation";
 
 function NoMatch() {
   let location = useLocation();
@@ -431,7 +432,14 @@ class App extends React.Component {
                         return <CollectionNoAttendant/>;
                     }}
                 />
-
+                <Route
+                    path={paths.reconciliation}
+                    render={() => {
+                        setPageBackground();
+                        this.setTitle(`Reconciliation | ${appName}`);
+                        return <Reconciliation />;
+                    }}
+                />
               <Route path="*">
                 <NoMatch />
               </Route>

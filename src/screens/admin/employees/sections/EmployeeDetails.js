@@ -88,7 +88,6 @@ const EmployeeDetails = props => {
                         <div style={{textAlign: 'left', display: 'table-cell', verticalAlign: 'middle'}}>
                             <span className='text-dark font-weight-bold' >{employee.name}</span>
                             <div className="font-weight-light mt-1" style={{ fontSize: '13px'}}> {employee.position}</div>
-                            <div className="font-weight-light mt-1" style={{ fontSize: '13px'}}> Last login: Today 8:00am</div>
                         </div>
                     </Grid>
 
@@ -161,6 +160,23 @@ const EmployeeDetails = props => {
                 </Grid>
 
             </BoxDefault>
+
+            <Paper variant="outlined" style={{marginBottom: '30px', textAlign: 'center', width: '90%',marginLeft: '15px'}}>
+                <Grid container spacing={1} >
+                    <Grid item xs={9} >
+                        <Typography  style={{ fontSize: '20px', margin: '30px', textAlign: 'left' }} >
+                            Permission: Admin
+                        </Typography>
+                    </Grid>
+                    
+                    <Grid item xs={2} style={{ paddingTop: "20px", fontSize: '12px' }}  >
+                        <EditIcon style={{fontSize: '30px', color: '#DAAB59'}} onClick={() => setView(7)} />
+                            <br/>
+                        Change
+                    </Grid>
+
+                </Grid>
+            </Paper>
 
             <Box
                 className="shadow1"

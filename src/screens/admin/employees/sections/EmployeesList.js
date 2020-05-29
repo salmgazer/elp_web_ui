@@ -14,6 +14,7 @@ import paths from "../../../../utilities/paths";
 import SearchInput from "../../../Components/Input/SearchInput";
 import SingleEmployeeList from '../singlePages/SingleEmployeeList';
 import MainDialog from "../../../../components/Dialog/MainDialog";
+import EmployeeImage from '../../../../assets/img/employee.png';
 
 const useStyles = makeStyles(theme => ({
     root: {
@@ -26,6 +27,7 @@ const EmployeesList = props => {
 
     const classes = useStyles();
     const { history } = props;
+    const branchEmployees = props.branchEmployees;
     const [searchValue , setSearchValue] = useState({
         search: ''
     });
@@ -81,7 +83,25 @@ const EmployeesList = props => {
                 </Grid>
             </Paper>
                
-            {props.employeesList.map((item) => <SingleEmployeeList  key={item.id} employee={item} setView={props.setView}/>)}
+            {branchEmployees.length === 0
+                ?
+                <div>
+                    <Box component="div" m={2} >
+                        <img className="img100" src={EmployeeImage} alt={'test'}/>
+                    </Box>
+
+                    <Typography className='font-weight-light mt-1' style={{ fontSize: '18px', margin: '15px 0px' }} >
+                        Seems you have no employees
+                    </Typography>
+
+                    <Typography className='font-weight-light mt-1' style={{ fontSize: '18px', margin: '15px 0px' }} >
+                        Click below to add an employee
+                    </Typography>
+                </div>
+                :
+            
+                branchEmployees.map((item) => <SingleEmployeeList  key={item.id} employee={item} setView={props.setView}/>)
+            }
 
             <MainDialog handleDialogClose={closeDialogHandler.bind(this)} states={mainDialog} >
                 <div className="row pt-0 mx-auto text-center w-100" >
