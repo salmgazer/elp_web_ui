@@ -56,7 +56,6 @@ const OwnerMainPage = props => {
     const collection = props.collection;
     const pendingCollection = props.pendingCollection;
     const [isDrawerShow , setIsDrawerShow] = useState(false);
-console.log(collection,pendingCollection)
     const historyHandler = (event) => {
         props.setView(1);
     };

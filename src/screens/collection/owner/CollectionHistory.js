@@ -7,16 +7,17 @@ import Box from "@material-ui/core/Box/Box";
 import { withRouter } from "react-router-dom";
 
 import SectionNavbars from "../../../components/Sections/SectionNavbars";
-import SystemDate from "../../../components/Date/SystemDate";
 import SingleCollectionView from './SingleCollectionView';
 import CollectionDateFilter from "../../../components/Date/collectionDateFilter";
+import LocalInfo from "../../../services/LocalInfo";
 
 
 const CollectionHistory = props => {
     const collection = props.collection;
 
     const backHandler = (event) => {
-        props.setView(0);
+        const view = LocalInfo.branchRole === 'owner' && parseInt(localStorage.getItem('employees')) > 0 ? 0 : 4
+        props.setView(view);
     };
 
     const setDateInstance = (value) => {

@@ -10,17 +10,17 @@ import withObservables from "@nozbe/with-observables";
 import * as Q from "@nozbe/watermelondb/QueryDescription";
 import LocalInfo from "../../services/LocalInfo";
 import Cashflow from "../../models/cashflow/Cashflow";
-import getTime from "date-fns/getTime";
+import getUnixTime from 'date-fns/getUnixTime';
 import format from "date-fns/format";
-import CompanyService from "../../services/CompanyService";
 import AddCollectionOwner from "./owner/addCollectionOwner";
 import AttendantMainPage from "./owner/AttendantMainPage";
+import BranchService from "../../services/BranchService";
 const day = format(new Date() , 'MM/dd/yyyy');
 const selectedDay = format(new Date(localStorage.getItem('collectionDate')) , 'MM/dd/yyyy');
 
 class Owner extends Component {
     state={
-        activeStep: LocalInfo.branchRole === 'owner' ? 0 : 4,
+        activeStep: LocalInfo.branchRole === 'owner' && parseInt(localStorage.getItem('employees')) > 0 ? 0 : 4,
         todayCollection:[],
         pendingCollection:[],
         collections: [],
@@ -42,7 +42,7 @@ class Owner extends Component {
             todayCollection: todayCollection,
             pendingCollection: pendingCollection,
             collections: collections,
-            branchDetails: await new CompanyService().getSalesDetails('today'),
+            branchDetails: await new BranchService().getSalesDetails('today'),
             dateCollections: dateCollections,
         });
     }
@@ -55,7 +55,7 @@ class Owner extends Component {
                 todayCollection: todayCollection,
                 pendingCollection: pendingCollection,
                 collections: collections,
-                branchDetails: await new CompanyService().getSalesDetails('today'),
+                branchDetails: await new BranchService().getSalesDetails('today'),
                 dateCollections: dateCollections,
             });
         }
@@ -154,16 +154,15 @@ const EnhancedOwner = withDatabase(
             Q.where('branchId' , LocalInfo.branchId),
         ).observe(),
         pendingCollection: database.collections.get(Cashflow.table).query(
-            //Q.where('status' , 'pending'),
             Q.where('branchId' , LocalInfo.branchId),
-            Q.where('dateAdded' , getTime(new Date(day)))
+            Q.where('dateAdded' , getUnixTime(new Date(day)))
         ).observe(),
         collections: database.collections.get(Cashflow.table).query(
             Q.where('branchId' , LocalInfo.branchId),
         ).observe(),
         dateCollections: database.collections.get(Cashflow.table).query(
             Q.where('branchId' , LocalInfo.branchId),
-            Q.where('dateAdded' , getTime(new Date(selectedDay)))
+            Q.where('dateAdded' , getUnixTime(new Date(selectedDay)))
         ).observe(),
     }))(withRouter(Owner))
 );

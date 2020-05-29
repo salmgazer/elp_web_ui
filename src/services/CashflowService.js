@@ -2,7 +2,6 @@ import categories from "../config/cashflowCategories";
 import ModelAction from "./ModelAction";
 import LocalInfo from "./LocalInfo";
 import getUnixTime from 'date-fns/getUnixTime';
-import getTime from 'date-fns/getTime'
 import format from "date-fns/format";
 import database from "../models/database";
 import Cashflow from "../models/cashflow/Cashflow";
@@ -29,10 +28,7 @@ export default class CashflowService {
             value: formFields.category,
             fxn: 'eq'
         });
-        console.log(formFields)
-        console.log(category[0].id);
-        console.log(format(new Date(LocalInfo.workingDate), 'MM/dd/yyyy'))
-        console.log(getUnixTime(format(new Date(LocalInfo.workingDate), 'MM/dd/yyyy')))
+
         return await new ModelAction('Cashflow').post({
             amount: parseFloat(formFields.amount),
             type: formFields.type,
@@ -41,7 +37,7 @@ export default class CashflowService {
             username: LocalInfo.userFullName,
             status: formFields.status || 'pending',
             createdBy: LocalInfo.userId,
-            dateAdded: getTime(new Date(LocalInfo.workingDate)),
+            dateAdded: getUnixTime(new Date(LocalInfo.workingDate)),
         });
     }
 
@@ -52,7 +48,7 @@ export default class CashflowService {
         return await dataCollection.query(
             //Q.where('status' , 'pending'),
             Q.where('branchId' , LocalInfo.branchId),
-            Q.where('dateAdded' , getTime(new Date(day)))
+            Q.where('dateAdded' , getUnixTime(new Date(day)))
         ).fetch();
     }
 
@@ -63,7 +59,7 @@ export default class CashflowService {
         return await dataCollection.query(
             Q.where('status' , 'pending'),
             Q.where('branchId' , LocalInfo.branchId),
-            Q.where('dateAdded' , getTime(new Date(day)))
+            Q.where('dateAdded' , getUnixTime(new Date(day)))
         ).fetch();
     }
 
@@ -88,7 +84,7 @@ export default class CashflowService {
         return await dataCollection.query(
             Q.where('status' , 'pending'),
             Q.where('branchId' , LocalInfo.branchId),
-            Q.where('dateAdded' , getTime(new Date(day)))
+            Q.where('dateAdded' , getUnixTime(new Date(day)))
         ).fetch();
     }
 }

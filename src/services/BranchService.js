@@ -8,6 +8,7 @@ import isThisMonth from 'date-fns/isThisMonth'
 import database from "../models/database";
 import * as Q from "@nozbe/watermelondb/QueryDescription";
 import SaleService from "./SaleService";
+import fromUnixTime from 'date-fns/fromUnixTime';
 
 export default class BranchService {
     constructor (branchId = LocalInfo.branchId) {
@@ -202,15 +203,17 @@ export default class BranchService {
             }
         );
 
+        console.log(sales)
+
         switch (duration) {
             case 'today':
-                return sales.filter(sale => isToday(sale.createdAt));
+                return sales.filter(sale => isToday(fromUnixTime(sale.salesDate)));
             case 'week':
-                return sales.filter(sale => isWeek(sale.createdAt));
+                return sales.filter(sale => isWeek(fromUnixTime(sale.salesDate)));
             case 'month':
-                return sales.filter(sale => isThisMonth(sale.createdAt));
+                return sales.filter(sale => isThisMonth(fromUnixTime(sale.salesDate)));
             case 'year':
-                return sales.filter(sale => isYear(sale.createdAt));
+                return sales.filter(sale => isYear(fromUnixTime(sale.salesDate)));
         }
 
     }

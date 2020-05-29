@@ -19,7 +19,7 @@ const useStyles = makeStyles(theme => ({
     }
 }));
 
-const values = new SystemDateHandler().getStoreWeeks()
+const values = new SystemDateHandler().getStoreWeeks();
 
 const WeekView = props => {
     console.log(new SystemDateHandler().getStoreWeeks());
@@ -122,9 +122,9 @@ const WeekView = props => {
 
                     pageName === false ?
 
-                    sales.map((sale) => <SingleWeekView  key={sale.id} sale={sale} />)
+                    sales.map((sale , index) => <SingleWeekView  key={index} sale={sale} />)
                     :
-                    sales.map((sale) => <ProductWeek  key={sale.id} sale={sale} saleEntry={sale} prodName={name} />)
+                    sales.map((sale , index) => <ProductWeek  key={index} sale={sale} saleEntry={sale} prodName={name} />)
 
                 }
             </Box>

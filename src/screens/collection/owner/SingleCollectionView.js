@@ -8,6 +8,8 @@ import {confirmAlert} from "react-confirm-alert";
 import CheckCircleRoundedIcon from '@material-ui/icons/CheckCircleRounded';
 import format from "date-fns/format";
 import fromUnixTime from "date-fns/fromUnixTime";
+import LocalInfo from "../../../services/LocalInfo";
+import HourglassEmptyRoundedIcon from "@material-ui/core/SvgIcon/SvgIcon";
 
 const SingleCollectionView = props => {
 
@@ -65,29 +67,57 @@ const SingleCollectionView = props => {
                     </div>
                 </Grid>
 
-                <Grid item xs={2} style={{ paddingTop: "20px", fontSize: '10px' }} >
-                    {
-                        collection.status === 'pending' ?
-                            <>
-                                <CheckCircleRoundedIcon
-                                    onClick={approveCollection}
-                                    style={{fontSize: '30px', color: '#DAAB59'}}
-                                />
-                                <br/>
-                                Approve
-                            </>
-                            :
-                            <>
-                                <CheckCircleIcon
-                                    onClick={disapproveCollection}
-                                    style={{fontSize: '30px', color: '#2B8870'}}
-                                />
-                                <br/>
-                                Approved
-                            </>
-                    }
-                </Grid>
+                {
+                    localStorage.getItem('employees') > 0 && LocalInfo.branchRole === 'owner' ?
+                        <Grid item xs={2} style={{ paddingTop: "20px", fontSize: '14px' }} >
+                            {
+                                collection.status === 'pending' ?
+                                    <>
+                                        <CheckCircleRoundedIcon
+                                            onClick={approveCollection}
+                                            style={{fontSize: '30px', color: '#DAAB59'}}
+                                        />
+                                        <br/>
+                                        Approve
+                                    </>
+                                    :
+                                    <>
+                                        <CheckCircleIcon
+                                            onClick={disapproveCollection}
+                                            style={{fontSize: '30px', color: '#2B8870'}}
+                                        />
+                                        <br/>
+                                        Approved
+                                    </>
+                            }
+                        </Grid>
+                        : ''
+                }
 
+                {
+                    LocalInfo.branchRole === 'attendant' ?
+                        <Grid item xs={2} style={{ paddingTop: "20px", fontSize: '14px' }} >
+                            {
+                                collection.status === 'pending' ?
+                                    <>
+                                        <HourglassEmptyRoundedIcon
+                                            style={{fontSize: '30px', color: '#DAAB59'}}
+                                        />
+                                        <br/>
+                                        Pending
+                                    </>
+                                    :
+                                    <>
+                                        <CheckCircleIcon
+                                            style={{fontSize: '30px', color: '#2B8870'}}
+                                        />
+                                        <br/>
+                                        Approved
+                                    </>
+                            }
+                        </Grid>
+                        : ''
+                }
             </Grid>
 
         </div>
