@@ -5,6 +5,9 @@ import MainPage from './sections/reconciliation/MainPage';
 import ReconciliationReport from './sections/reconciliation/ReconciliationReport';
 import ReconciliationDetails from './sections/reconciliation/ReconciliationDetails';
 import ReconciliationHistory from './sections/reconciliation/ReconciliationHistory';
+import WeekView from './sections/reconciliation/WeekView';
+import MonthView from './sections/reconciliation/MonthView';
+import YearView from './sections/reconciliation/YearView';
 
 class Reconciliation extends Component{
 
@@ -17,7 +20,9 @@ class Reconciliation extends Component{
                 'sales': '50',
                 'credit': '60',
                 'expenses': '70',
-                'cashIn': '40',
+                'purchases': '40',
+                'balance': '70',
+                'collected': '40',
             },
             {
                 'id': '2',
@@ -25,7 +30,9 @@ class Reconciliation extends Component{
                 'sales': '50',
                 'credit': '60',
                 'expenses': '70',
-                'cashIn': '40',
+                'purchases': '40',
+                'balance': '30',
+                'collected': '40',
             },
             {
                 'id': '3',
@@ -33,15 +40,9 @@ class Reconciliation extends Component{
                 'sales': '50',
                 'credit': '60',
                 'expenses': '70',
-                'cashIn': '40',
-            },
-            {
-                'id': '4',
-                'date': 'Thursday, 26th March 2020',
-                'sales': '50',
-                'credit': '60',
-                'expenses': '70',
-                'cashIn': '40',
+                'purchases': '40',
+                'balance': '40',
+                'collected': '40',
             }
         ],
         historyList: [
@@ -68,13 +69,19 @@ class Reconciliation extends Component{
 
     getStepContent = step => {
         switch (step) {
-            case 0:
-                return <MainPage setView={this.setStepContentView.bind(this)}  />;
-            case 1:
-                return <ReconciliationReport setView={this.setStepContentView.bind(this)} balance='700' cash='600' />
             case 2:
-                return <ReconciliationDetails setView={this.setStepContentView.bind(this)} sales='1000' credit='500' reconciliationDetail={this.state.detailsList} />
+                return <WeekView setView={this.setStepContentView.bind(this)} reconciliations={this.state.detailsList} />
             case 3:
+                return <MonthView setView={this.setStepContentView.bind(this)} reconciliations={this.state.detailsList} />
+            case 4:
+                return <YearView setView={this.setStepContentView.bind(this)} reconciliations={this.state.detailsList} />
+            case 5:
+                return <MainPage setView={this.setStepContentView.bind(this)}  />;
+            case 6:
+                return <ReconciliationReport setView={this.setStepContentView.bind(this)} balance='600' cash='600' />
+            case 0:
+                return <ReconciliationDetails setView={this.setStepContentView.bind(this)} reconciliations={this.state.detailsList} />
+            case 7:
                 return <ReconciliationHistory setView={this.setStepContentView.bind(this)} histList={this.state.historyList} />
             default:
                 return 'Complete';

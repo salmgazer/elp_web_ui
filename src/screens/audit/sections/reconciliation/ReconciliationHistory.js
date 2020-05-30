@@ -11,9 +11,10 @@ import BottomDrawer from "../../../../components/Drawer/BottomDrawer/BottomDrawe
 import ListItem from "@material-ui/core/ListItem/ListItem";
 import ListItemIcon from "@material-ui/core/ListItemIcon/ListItemIcon";
 import ListItemText from "@material-ui/core/ListItemText/ListItemText";
-import HistoryOutlinedIcon from '@material-ui/icons/HistoryOutlined';
-import Divider from '@material-ui/core/Divider';
-import CloseOutlinedIcon from '@material-ui/icons/CloseOutlined';
+import ShareIcon from '@material-ui/icons/Share';
+import CloudUploadIcon from '@material-ui/icons/CloudUpload';
+import FileCopyIcon from '@material-ui/icons/FileCopy';
+import PrintIcon from '@material-ui/icons/Print';
 
 import SingleHistory from './singleViews/SingleHistory';
 
@@ -22,13 +23,13 @@ const ReconciliationHistory = props => {
     const [isShowDrawer , setIsShowDrawer] = useState(false);
 
     const backHandler = (event) => {
-        props.setView(0);
+        props.setView(5);
      };
 
     return (
         <div>
             <SectionNavbar
-                title={`Reconciliation details`}
+                title={`Reconciliation history`}
                 leftIcon={
                     <div onClick={backHandler.bind(this)}>
                         <ArrowBackIosIcon
@@ -50,21 +51,21 @@ const ReconciliationHistory = props => {
                 onKeyDown={() => setIsShowDrawer(false)}
             >
                 <BottomDrawer isShow={isShowDrawer}>
-                    <ListItem
-                        button
-                        key={8}
-                    >
-                        <ListItemIcon><HistoryOutlinedIcon/></ListItemIcon>
-                        <ListItemText primary="Audit history" />
+                    <ListItem button key={11}>
+                        <ListItemIcon><ShareIcon style={{color: '#707070'}} /></ListItemIcon>
+                        <ListItemText primary="Share" />
                     </ListItem>
-                    <Divider/>
-                    <ListItem
-                        button
-                        key={10}
-                        onClick={() => setIsShowDrawer(false)}
-                    >
-                        <ListItemIcon><CloseOutlinedIcon/></ListItemIcon>
-                        <ListItemText primary="Cancel" />
+                    <ListItem button key={12}>
+                        <ListItemIcon><CloudUploadIcon style={{color: '#707070'}} /></ListItemIcon>
+                        <ListItemText primary="Upload" />
+                    </ListItem>
+                    <ListItem button key={13}>
+                        <ListItemIcon><FileCopyIcon style={{color: '#707070'}} /></ListItemIcon>
+                        <ListItemText primary="Copy" />
+                    </ListItem>
+                    <ListItem button key={14}>
+                        <ListItemIcon><PrintIcon style={{color: '#707070'}} /></ListItemIcon>
+                        <ListItemText primary="Print this page" />
                     </ListItem>
                 </BottomDrawer>
             </div>

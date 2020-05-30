@@ -2,7 +2,7 @@ import React from 'react';
 import SectionNavbar from '../../../../components/Sections/SectionNavbars';
 import ArrowBackIosIcon from '@material-ui/icons/ArrowBackIos';
 import Box from "@material-ui/core/Box/Box";
-import Audit from '../../../../assets/img/audit.png';
+import Wallet from '../../../../assets/img/wallet.png';
 import Paper from '@material-ui/core/Paper';
 import Typography from '@material-ui/core/Typography';
 import Grid from '@material-ui/core/Grid';
@@ -11,11 +11,11 @@ import Button from "@material-ui/core/Button/Button";
 
 const MainPage = props => {
     const changeView = (event) => {
-        props.setView(1);
+        props.setView(6);
      };
 
     const viewHistory = (event) => {
-    props.setView(3);
+    props.setView(7);
     };
 
     return (
@@ -31,8 +31,8 @@ const MainPage = props => {
                 }
             />
 
-            <Box component="div" m={2} style={{marginTop: '80px'}}>
-                <img className="img100" src={Audit} alt={'test'}/>
+            <Box component="div" m={2} style={{marginTop: '100px'}}>
+                <img className="img100" src={Wallet} alt={'test'}/>
             </Box>
 
             <Paper variant="outlined" >
