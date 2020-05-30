@@ -77,6 +77,7 @@ export default class SaleService {
             customerId: sales.customerId,
             branchId: LocalInfo.branchId,
             createdBy: LocalInfo.userId,
+            type: data.type,
             amount: data.changeDue >= 0 ? parseFloat(data.amountPaid - data.changeDue) : parseFloat(data.amountPaid),
         };
 
@@ -305,17 +306,17 @@ export default class SaleService {
             }
         );
 
-        const day = format(new Date(date), 'MM/dd/yyyy');
+        const day = new Date(date);
 
         switch (duration) {
             case 'day':
-                return sales.filter(sale => isSameDay(format(fromUnixTime(new Date(sale.entryDate)), 'MM/dd/yyyy') , day));
+                return sales.filter(sale => isSameDay(new Date(fromUnixTime(sale.entryDate)), day));
             case 'week':
-                return sales.filter(sale => isSameWeek(format(fromUnixTime(new Date(sale.entryDate)), 'MM/dd/yyyy'), day));
+                return sales.filter(sale => isSameWeek(new Date(fromUnixTime(sale.entryDate)), day));
             case 'month':
-                return sales.filter(sale => isSameMonth(format(fromUnixTime(new Date(sale.entryDate)), 'MM/dd/yyyy'), day));
+                return sales.filter(sale => isSameMonth(new Date(fromUnixTime(sale.entryDate)), day));
             case 'year':
-                return sales.filter(sale => isSameYear(format(fromUnixTime(new Date(sale.entryDate)), 'MM/dd/yyyy'), day));
+                return sales.filter(sale => isSameYear(new Date(fromUnixTime(sale.entryDate)), day));
         }
     }
 
@@ -358,7 +359,8 @@ export default class SaleService {
     static async weekSalesFormat(sales){
         let weekFormatSales = [];
         const newSales = sales.reduce((r, a) => {
-            r[a.entryDate] = [...r[a.entryDate] || [], a];
+            const day = new Date(fromUnixTime(a.entryDate));
+            r[day] = [...r[day] || [], a];
             return r;
         }, []);
 
@@ -443,7 +445,6 @@ export default class SaleService {
         //     // case 'year':
         //     //     sale = await SaleService.yearSalesFormat(sale);
         // }
-
         if (duration === 'week') {
             sale = await SaleService.weekSalesFormat(sale);
         } else if (duration === 'month') {
@@ -451,6 +452,8 @@ export default class SaleService {
         } else if (duration === 'year') {
             sale = await SaleService.yearSalesFormat(sale);
         }
+
+        console.log(sale)
 
         return {
             sales: sale,

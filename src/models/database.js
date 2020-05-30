@@ -27,7 +27,8 @@ import BranchSupplierProducts from "./branchSupplierProducts/BranchSupplierProdu
 import BranchSupplierSalespersons from "./branchSupplierSalespersons/BranchSupplierSalespersons";
 import BranchSupplierOrder from "./branchSupplierOrder/BranchSupplierOrder";
 import BranchSupplierOrderPaymentInstallment from "./branchSupplierOrderPaymentInstallment/BranchSupplierOrderPaymentInstallment";
-
+import CashflowCategory from "./cashflowCategories/CashflowCategory";
+import Cashflow from "./cashflow/Cashflow";
 
 const adapter = new LokiJSAdapter({
   schema,
@@ -61,6 +62,8 @@ export default new Database({
     BranchSupplierSalespersons,
     BranchSupplierOrder,
     BranchSupplierOrderPaymentInstallment,
+    CashflowCategory,
+    Cashflow,
   ],
   actionsEnabled: true
 });
