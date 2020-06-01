@@ -49,12 +49,14 @@ import PaySupplier from "./screens/admin/suppliers/PaySupplier";
 import SupplierStock from "./screens/admin/suppliers/SupplierStock";
 import AddSupplier from "./screens/admin/suppliers/AddSupplier";
 import SupplierOrderStock from "./screens/admin/suppliers/orderStock/SupplierOrderStock";
+import Employees from "./screens/admin/employees/Employees";
 
 import AdminCustomers from "./screens/admin/customers/Customer";
-import CustomerDetails from "./screens/admin/customers/sections/CustomerDetails";
-import CustomerOrders from "./screens/admin/customers/sections/CustomerOrders";
-import OrderDetails from "./screens/admin/customers/sections/OrderDetails";
-
+import AccountingNoAttendants from "./screens/accountingNoAttendants/Accounting";
+import CollectionOwner from "./screens/collection/Owner";
+import CollectionAttendant from "./screens/collection/Attendant";
+import CollectionNoAttendant from "./screens/collection/NoAttendant";
+import Reconciliation from "./screens/audit/Reconciliation";
 
 function NoMatch() {
   let location = useLocation();
@@ -317,30 +319,6 @@ class App extends React.Component {
                         return <AdminCustomers/>;
                     }}
                 />
-                <Route
-                    path={paths.customer_details}
-                    render={() => {
-                        setPageBackground();
-                        this.setTitle(`Customers | ${appName}`);
-                        return <CustomerDetails/>;
-                    }}
-                />
-                <Route
-                    path={paths.customer_orders}
-                    render={() => {
-                        setPageBackground();
-                        this.setTitle(`Order history | ${appName}`);
-                        return <CustomerOrders/>;
-                    }}
-                />
-                <Route
-                    path={paths.order_details}
-                    render={() => {
-                        setPageBackground();
-                        this.setTitle(`Order history | ${appName}`);
-                        return <OrderDetails/>;
-                    }}
-                />
                 {/* <Route
                     path={paths.expense}
                     render={() => {
@@ -414,7 +392,54 @@ class App extends React.Component {
                         return <AddSupplier/>;
                     }}
                 />
-
+                <Route
+                    path={paths.employees}
+                    render={() => {
+                        setPageBackground();
+                        this.setTitle(`Employees | ${appName}`);
+                        return <Employees/>;
+                    }}
+                />
+                <Route
+                    path={paths.accounting_no_attendant}
+                    render={() => {
+                        setPageBackground();
+                        this.setTitle(`Accounting No Attendants | ${appName}`);
+                        return <AccountingNoAttendants/>;
+                    }}
+                />
+                <Route
+                    path={paths.collection_owner}
+                    render={() => {
+                        setPageBackground();
+                        this.setTitle(`Collection Owner | ${appName}`);
+                        return <CollectionOwner/>;
+                    }}
+                />
+                <Route
+                    path={paths.collection_attendant}
+                    render={() => {
+                        setPageBackground();
+                        this.setTitle(`Collection Attendant | ${appName}`);
+                        return <CollectionAttendant/>;
+                    }}
+                />
+                <Route
+                    path={paths.collection_no_attendant}
+                    render={() => {
+                        setPageBackground();
+                        this.setTitle(`Collection No Attendant | ${appName}`);
+                        return <CollectionNoAttendant/>;
+                    }}
+                />
+                <Route
+                    path={paths.reconciliation}
+                    render={() => {
+                        setPageBackground();
+                        this.setTitle(`Reconciliation | ${appName}`);
+                        return <Reconciliation />;
+                    }}
+                />
               <Route path="*">
                 <NoMatch />
               </Route>

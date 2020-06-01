@@ -30,7 +30,7 @@ class SalesHistory extends Component {
         isShowDrawer: false,
         isDrawerShow: false,
     }
-    
+
     props={
         history: this.props
     }
@@ -54,7 +54,6 @@ class SalesHistory extends Component {
 
         return(
             <div>
-
                 <SectionNavbars
                     title="Sales history"
                     leftIcon={

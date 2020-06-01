@@ -1,4 +1,6 @@
 import React, {Component} from 'react';
+import ModelAction from "../../../../services/ModelAction";
+import {confirmAlert} from "react-confirm-alert";
 import {withRouter} from "react-router";
 
 import DayView from './views/DayView';
@@ -12,81 +14,20 @@ import DateToggle from "../../../../components/DateToggle/DateToggle";
 class OrderSortDate extends Component{
 
     state={
-        activeStep: 0,
-        suppliers: [
-            {
-                "supp_id": "1234",
-                "name": "Niko's Enterprise",
-                "image": "no_image.png",
-                "worth": "500"
-            },
-            {
-                "supp_id": "5678",
-                "name": "Kwame Despite Enterprise",
-                "image": "no_image.png",
-                "worth": "700"
-            }
-        ],
-        suppliersInfo: [
-            {
-                "supp_id": "1234",
-                "name": "Niko's Enterprise",
-                "date": "Friday, 13th March 2020 | 5:00pm",
-                "worth": "200"
-            },
-            {
-                "supp_id": "5678",
-                "name": "Niko's Enterprise",
-                "date": "Friday, 13th March 2020 | 2:00pm",
-                "worth": "300"
-            }
-        ],
-        productList: [
-            {
-                "pro_id": "1",
-                "name": "Nido Milk Sachet",
-                "image": "no_image.png",
-                "quantity": "10",
-                "cost": "100",
-                "sales": "200"
-            },
-            {
-                "pro_id": "2",
-                "name": "Milo Sachet 50g",
-                "image": "no_image.png",
-                "quantity": "10",
-                "cost": "100",
-                "sales": "200"
-            },
-            {
-                "pro_id": "3",
-                "name": "Ideal Milk 50g",
-                "image": "no_image.png",
-                "quantity": "10",
-                "cost": "100",
-                "sales": "200"
-            },
-            {
-                "pro_id": "4",
-                "name": "Beta Malt 500ml PB",
-                "image": "no_image.png",
-                "quantity": "10",
-                "cost": "100",
-                "sales": "200"
-            }
-        ]
+        activeStep: 1,
+        pageName: false,
     }
 
     getStepContent = step => {
         switch (step) {
             case 1:
-                return <DayView setView={this.setStepContentView.bind(this)} suppliers={this.state.suppliersInfo} products={this.state.productList} supplierDetails={this.state.suppliers} />;
+                return <DayView setView={this.setStepContentView.bind(this)} pageName={this.state.pageName} deleteProduct={this.deleteProduct.bind(this)}  updateStockEntry={this.updateStockEntry.bind(this)} />;
             case 2:
-                return <WeekView setView={this.setStepContentView.bind(this)} />;
+                return <WeekView setView={this.setStepContentView.bind(this)} pageName={this.state.pageName} />;
             case 3:
-                return <MonthView setView={this.setStepContentView.bind(this)} />;
+                return <MonthView setView={this.setStepContentView.bind(this)} pageName={this.state.pageName} />;
             case 4:
-                return <YearView setView={this.setStepContentView.bind(this)} />;
+                return <YearView setView={this.setStepContentView.bind(this)} pageName={this.state.pageName} />;
             case 5:
                 return <Payment setView={this.setStepContentView.bind(this)}  />;
             case 0:
@@ -110,6 +51,43 @@ class OrderSortDate extends Component{
             console.log('me')
         }
     }
+
+    deleteProduct = async (pId) => {
+        confirmAlert({
+           title: 'Confirm to delete',
+           message: 'Are you sure you want to delete this entry.',
+           buttons: [
+               {
+                   label: 'Yes',
+                   onClick: () => {
+                       new ModelAction('BranchProductStock').destroy(pId);
+                   }
+               },
+               {
+                   label: 'No',
+                   onClick: () => {
+                       return false;
+                   }
+               }
+           ]
+       })
+    };
+
+    async updateStockEntry(pId, formFields){
+        console.log(formFields)
+        console.log(pId)
+        try {
+            const status = new ModelAction('BranchProductStock').update(pId, formFields);
+            console.log(status)
+            if(status){
+                return true;
+            }
+            alert('Something went wrong');
+            return false;
+        }catch (e) {
+            return false;
+        }
+    };
 
 
     render(){

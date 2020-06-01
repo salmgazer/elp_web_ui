@@ -35,10 +35,18 @@ export default {
     view_suppliers: "/list-suppliers",
     supplier_detail : "/supplier-detail",
     pay_supplier : "/pay-supplier",
-    add_customer : "/add-customer",
-    view_customers : "/view-customer",
     admin_customers : "/admin-customers",
-    customer_orders : "/customer-orders",
-    order_details : "/order-details",
-    customer_details : "/customer-detail",
+    employees: "/employees",
+    accounting_no_attendant: "/accounting-no-attendants",
+    collection_owner: "/collection-owner",
+    collection_attendant: "/collection-attendant",
+    collection_no_attendant: "/collection-no-attendant",
+    reconciliation: "/reconciliation",
+    // add_customer : "/add-customer",
+    // view_customers : "/view-customer",
+    
+    // customer_orders : "/customer-orders",
+    // order_details : "/order-details",
+    // customer_details : "/customer-detail",
+
 };

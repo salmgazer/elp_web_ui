@@ -118,9 +118,11 @@ const CustomerDetails = props => {
                     </Grid>
 
                     <Grid item xs={1} style={{ paddingTop: "10px" }} >
-                        <RoundedIcon name='Contact'>
-                            <CallIcon style={{fontSize: '15px'}}/>
-                        </RoundedIcon>
+                        <a href={`tel:${number}`} style={{textDecoration: 'none'}}>
+                            <RoundedIcon name='Contact'>
+                                <CallIcon style={{fontSize: '15px'}}/>
+                            </RoundedIcon>
+                        </a>
                     </Grid>
 
                     <Grid item xs={1} style={{ paddingTop: "10px" }} >

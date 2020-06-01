@@ -68,7 +68,7 @@ const SingleDayInvoice = props => {
                 <Grid item xs={1}></Grid>
                 <Grid item xs={7} style={{display: 'table', height: '60px', margin: '8px 0px'}} onClick={openDialogHandler.bind(this)} >
                     <div style={{textAlign: 'left', display: 'table-cell', verticalAlign: 'middle'}}>
-                    <span className='text-dark font-weight-bold' style={{ fontSize: '16px'}}></span>
+                    <span className='text-dark font-weight-bold' style={{ fontSize: '16px'}}>{`${customer.firstName} ${customer.otherNames}`}</span>
                         <div className="font-weight-light mt-1" style={{ fontSize: '14px'}}>INV. {invoice.receiptNumber.slice(0,8)}</div>
                         <div className="font-weight-light mt-1" style={{ fontSize: '14px'}}>Sales: GHC {total}</div>
                     </div>

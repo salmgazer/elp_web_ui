@@ -21,11 +21,19 @@ import branchSupplierProductSchema from "./branchSupplierProducts/branchSupplier
 import branchSupplierSalespersonsSchema from "./branchSupplierSalespersons/branchSupplierSalespersonsSchema";
 import branchSupplierOrderSchema from './branchSupplierOrder/branchSupplierOrderSchema';
 import branchSupplierOrderPaymentInstallmentSchema from "./branchSupplierOrderPaymentInstallment/branchSupplierOrderPaymentInstallmentSchema";
-
+import cashflowCategorySchema from "./cashflowCategories/cashflowCategorySchema";
+import cashflowSchema from "./cashflow/cashflowSchema";
 
 // latest migrations should be at the top entry level of the migrations array
 export default schemaMigrations({
   migrations: [
+      {
+          toVersion: 13,
+          steps: [
+              createTable(cashflowCategorySchema),
+              createTable(cashflowSchema),
+          ]
+      },
       {
           toVersion: 12,
           steps: [

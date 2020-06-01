@@ -1,6 +1,6 @@
 import { Model } from '@nozbe/watermelondb'
 import {field, children, date} from '@nozbe/watermelondb/decorators';
-import productSchema from "../products/productSchema";
+import brandSchema from "./brandSchema";
 
 export default class Brand extends Model {
   static table = 'brands';
@@ -12,7 +12,7 @@ export default class Brand extends Model {
 
   static displayColumn = 'name';
 
-  static columns = productSchema.columns.map(c => c.name);
+  static columns = brandSchema.columns.map(c => c.name);
 
   @field('name') name;
   @date('created_at') createdAt;

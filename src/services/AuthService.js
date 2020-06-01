@@ -2,6 +2,7 @@ import LocalInfo from "../services/LocalInfo";
 import Api from './Api';
 import format from "date-fns/format";
 import GenerateOTP from './GenerateString';
+import CashflowService from "./CashflowService";
 
 const jwt = require('jsonwebtoken');
 
@@ -43,14 +44,15 @@ export default class AuthService {
                     localStorage.setItem('userDetails' , JSON.stringify(loginInfo.user));
                     localStorage.setItem('username' , loginInfo.user.username);
                     LocalInfo.branchId = loginInfo.companies[0].branches[0].id;
-                  console.log("======================================");
-                  console.log("======================================");
-                  console.log(LocalInfo.branchId);
-                  console.log("======================================");
-                  console.log("======================================");
+                    console.log("======================================");
+                    console.log("======================================");
+                    console.log(LocalInfo.branchId);
+                    console.log("======================================");
+                    console.log("======================================");
                     localStorage.setItem('userData', JSON.stringify(loginInfo));
                     localStorage.setItem('companyId', loginInfo.companies[0].id);
-
+                    localStorage.setItem('collectionDate', format(new Date(), 'MM/dd/yyyy'));
+                    await CashflowService.exportDefaultCashflowCategories();
                     return {
                         success: 200,
                         user: loginInfo.user

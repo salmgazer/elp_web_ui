@@ -19,7 +19,7 @@ const useStyles = makeStyles(theme => ({
     }
   }));
 
-  const values = new SystemDateHandler().getStoreWeeks()
+  const values = new SystemDateHandler().getStoreWeeks();
 
   const WeekView = props => {
     console.log(new SystemDateHandler().getStoreWeeks());
