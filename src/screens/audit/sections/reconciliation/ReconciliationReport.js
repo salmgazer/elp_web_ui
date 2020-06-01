@@ -15,9 +15,10 @@ import BottomDrawer from "../../../../components/Drawer/BottomDrawer/BottomDrawe
 import ListItem from "@material-ui/core/ListItem/ListItem";
 import ListItemIcon from "@material-ui/core/ListItemIcon/ListItemIcon";
 import ListItemText from "@material-ui/core/ListItemText/ListItemText";
-import HistoryOutlinedIcon from '@material-ui/icons/HistoryOutlined';
-import Divider from '@material-ui/core/Divider';
-import CloseOutlinedIcon from '@material-ui/icons/CloseOutlined';
+import ShareIcon from '@material-ui/icons/Share';
+import CloudUploadIcon from '@material-ui/icons/CloudUpload';
+import FileCopyIcon from '@material-ui/icons/FileCopy';
+import PrintIcon from '@material-ui/icons/Print';
 
 const useStyles = makeStyles(theme => ({
     paper: {
@@ -31,7 +32,7 @@ const ReconciliationReport = props => {
     const [isShowDrawer , setIsShowDrawer] = useState(false);
 
     const changeView = (event) => {
-        props.setView(2);
+        props.setView(0);
      };
 
      const setView = (view) => {
@@ -45,7 +46,7 @@ const ReconciliationReport = props => {
             <SectionNavbar
                 title={`Reconciliation report`}
                 leftIcon={
-                    <div onClick={setView.bind(this , 0)}>
+                    <div onClick={setView.bind(this , 5)}>
                         <ArrowBackIosIcon
                             style={{fontSize: '2rem'}}
                         />
@@ -65,56 +66,47 @@ const ReconciliationReport = props => {
                 onKeyDown={() => setIsShowDrawer(false)}
             >
                 <BottomDrawer isShow={isShowDrawer}>
-                    <ListItem
-                        button
-                        key={8}
-                        onClick={setView.bind(this , 3)}
-                    >
-                        <ListItemIcon><HistoryOutlinedIcon/></ListItemIcon>
-                        <ListItemText primary="Audit history" />
+                    <ListItem button key={11}>
+                        <ListItemIcon><ShareIcon style={{color: '#707070'}} /></ListItemIcon>
+                        <ListItemText primary="Share" />
                     </ListItem>
-                    <Divider/>
-                    <ListItem
-                        button
-                        key={10}
-                        onClick={() => setIsShowDrawer(false)}
-                    >
-                        <ListItemIcon><CloseOutlinedIcon/></ListItemIcon>
-                        <ListItemText primary="Cancel" />
+                    <ListItem button key={12}>
+                        <ListItemIcon><CloudUploadIcon style={{color: '#707070'}} /></ListItemIcon>
+                        <ListItemText primary="Upload" />
+                    </ListItem>
+                    <ListItem button key={13}>
+                        <ListItemIcon><FileCopyIcon style={{color: '#707070'}} /></ListItemIcon>
+                        <ListItemText primary="Copy" />
+                    </ListItem>
+                    <ListItem button key={14}>
+                        <ListItemIcon><PrintIcon style={{color: '#707070'}} /></ListItemIcon>
+                        <ListItemText primary="Print this page" />
                     </ListItem>
                 </BottomDrawer>
             </div>
 
             <Grid container spacing={1} style={{marginTop: '60px'}} >
                 <Grid item xs={5.5}>
-                    <label className={`text-center`} style={{fontSize: '15px', marginBottom: '10px'}}>Start date</label>
-
                     <Dates style={{padding: '3px 0px', marginLeft: '5px', border: '1px solid #e5e5e5', backgroundColor: '#FFFFFF', float: 'center', width: '150px', fontWeight: '400', fontSize: '18px' , lineHeight: '1.6' , marginTop: '2px'}} />
                 </Grid>
 
                 <Grid item xs={1}>
-                    <p  className='text-dark font-weight-bold' style={{marginTop: '30px'}}>to</p>
+                    <p  className='text-dark font-weight-bold' style={{marginTop: '10px'}}>to</p>
                 </Grid>
 
                 <Grid item xs={5.5}>
-                    <label className={`text-center`} style={{fontSize: '15px', marginBottom: '10px'}}>End date</label>
-
                     <Dates style={{padding: '3px 0px', marginLeft: '5px', border: '1px solid #e5e5e5', backgroundColor: '#FFFFFF', float: 'center', width: '150px', fontWeight: '400', fontSize: '18px' , lineHeight: '1.6' , marginTop: '2px'}} />
                 </Grid>
             </Grid>
 
-            <Typography className='text-dark font-weight-bold' style={{ fontSize: '15px' }} >
-                Total sales made this period was:
-            </Typography>
-
             <Box >
                 <Grid container spacing={1} className={`shadow1 mb-3 borderRadius10`} style={{display: 'table', height: '90px', margin: '8px 0px'}} >
-                    <Typography component="p" style={{ margin: '20px 0px 0px 0px', fontSize: '13px' }} >
-                            The total sales
-                        </Typography>
-                        <Typography className='text-dark font-weight-bold' style={{ fontSize: '25px' }} >
-                            GHC 1000
-                        </Typography>
+                    <Typography component="p" style={{ margin: '20px 0px 0px 0px', fontSize: '14px', fontStyle: 'italic' }} >
+                        Total sales made this period was:
+                    </Typography>
+                    <Typography className='text-dark font-weight-bold' style={{ fontSize: '25px' }} >
+                        GHC 1000
+                    </Typography>
                 </Grid>
             </Box>
 
@@ -162,7 +154,7 @@ const ReconciliationReport = props => {
 
             </Grid>
 
-            <Box >
+            <Box style={{marginTop: '30px'}} >
                 <Grid container spacing={1}>
                     <Grid item xs={6} className={`shadow1 mb-3 borderRadius10`} style={{display: 'table', height: '90px', margin: '15px 0px'}} >
                         <Typography component="p" style={{ margin: '20px 0px 0px 0px', fontSize: '13px' }} >
@@ -187,7 +179,7 @@ const ReconciliationReport = props => {
             
 
             { props.cash - props.balance  > "0" ? 
-                <CardDefault styles={{width: '90%', marginTop: '5px', backgroundColor: '#9ffca7'}}>
+                <CardDefault styles={{width: '90%', marginTop: '5px', backgroundColor: '#9ffca7', borderRadius: '25px'}}>
                     <Typography
                         className='text-dark font-weight-bold'
                         style={{fontSize: '18px', padding: '0px', color: 'black'}}
@@ -197,7 +189,7 @@ const ReconciliationReport = props => {
                     </Typography>
                 </CardDefault>
                 : props.cash - props.balance  < "0" ? 
-                    <CardDefault styles={{width: '90%', marginTop: '5px', backgroundColor: '#fc7c66'}}>
+                    <CardDefault styles={{width: '90%', marginTop: '5px', backgroundColor: '#fc7c66', borderRadius: '25px'}}>
                         <Typography
                             className='text-dark font-weight-bold'
                             style={{fontSize: '18px', padding: '0px', color: 'black'}}
@@ -207,7 +199,7 @@ const ReconciliationReport = props => {
                         </Typography>
                     </CardDefault>
                 : 
-                <CardDefault styles={{width: '90%', marginTop: '5px', backgroundColor: '#5ecbf7'}}>
+                <CardDefault styles={{width: '90%', marginTop: '5px', backgroundColor: '#5ecbf7', borderRadius: '25px'}}>
                     <Typography
                         className='text-dark font-weight-bold'
                         style={{fontSize: '18px', padding: '0px', color: 'black'}}

@@ -15,13 +15,9 @@ import FileCopyIcon from '@material-ui/icons/FileCopy';
 import PrintIcon from '@material-ui/icons/Print';
 import DateToggle from "../../../../components/DateToggle/DateToggle";
 import ReconciliationSection from '../../../../components/Sections/ReconciliationSection';
-import DateFnsUtils from '@date-io/date-fns';
-import {
-  MuiPickersUtilsProvider,
-  KeyboardDatePicker,
-} from '@material-ui/pickers';
-
+import TextField from '@material-ui/core/TextField';
 import SingleDetail from './singleViews/SingleDetail';
+import SystemDateHandler from "../../../../services/SystemDateHandler";
 
 // const useStyles = makeStyles(theme => ({
 //     paper: {
@@ -30,15 +26,17 @@ import SingleDetail from './singleViews/SingleDetail';
 //     }
 // }));
 
-const ReconciliationDetails = props => {
+const values = new SystemDateHandler().getStoreWeeks()
+
+const WeekView = props => {
     // const classes = useStyles();
-    const [selectedDate, setSelectedDate] = React.useState(new Date());
+    const [selectedWeek, setSelectedWeek] = React.useState(values[0].value);
     const [isShowDrawer , setIsShowDrawer] = useState(false);
     const reconciliations = props.reconciliations;
 
-    const handleDateChange = date => {
-        setSelectedDate(date);
-      };
+    const handleChange = event => {
+        setSelectedWeek(event.target.value);
+    };
 
     const setView = (view) => {
         props.setView(view);
@@ -93,26 +91,28 @@ const ReconciliationDetails = props => {
             </div>
 
             <Grid container spacing={1}>
-                <Grid item xs={6} ></Grid>
+                <Grid item xs={3} ></Grid>
 
-                <Grid item xs={6} >
-                    <MuiPickersUtilsProvider utils={DateFnsUtils}>
-                        <KeyboardDatePicker
-                            disableToolbar
-                            variant="outlined"
-                            format="dd/MM/yyyy"
-                            margin="normal"
-                            id="date-picker"
-                            className='text-dark font-weight-bold'
-                            style={{float: 'right', width: '150px',  border: '1px solid #e5e5e5', backgroundColor: '#FFFFFF', fontWeight: '400', marginRight: '5px' , lineHeight: '1.6'}}
-                            size='small'
-                            value={selectedDate}
-                            onChange={handleDateChange}
-                            KeyboardButtonProps={{
-                                'aria-label': 'change date',
-                            }}
-                        />
-                    </MuiPickersUtilsProvider>
+                <Grid item xs={9}>
+                    <TextField
+                        id="outlined-select-receive-native"
+                        select
+                        size="small"
+                        value={selectedWeek}
+                        style={{width: '250px',  margin: '10px 0px', fontSize: '5px'}}
+                        onChange={handleChange}
+                        color="#DAAB59"
+                        SelectProps={{
+                            native: true,
+                        }}
+                        variant="outlined"
+                        >
+                        {values.map(option => (
+                            <option key={option.value} value={option.value}>
+                            {option.label}
+                            </option>
+                        ))}
+                    </TextField>
                 </Grid>
             </Grid>
            
@@ -148,4 +148,4 @@ const ReconciliationDetails = props => {
 
 }
 
-export default ReconciliationDetails;
+export default WeekView;
