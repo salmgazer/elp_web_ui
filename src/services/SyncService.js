@@ -40,7 +40,7 @@ export default class SyncService {
               .query()
               .fetch()
 
-            const deleted = records.map(records => records.prepareDestroyPermanently())
+            const deleted = records.map(record => record.prepareDestroyPermanently())
             database.action(async () => {
               await database.batch(...deleted);
             });
@@ -117,9 +117,15 @@ export default class SyncService {
             queryString = `last_pulled_at=${LocalInfo.lastSyncedAt}&${queryString}`;
           }
 
+          console.log("=======================");
+          console.log(changes);
+          console.log("=======================");
+
+          /*
           globalModels.forEach(globalModel => {
             delete changes[globalModel.table];
           });
+          */
 
           const response = await new Api('others').create(
             JSON.stringify(changes),

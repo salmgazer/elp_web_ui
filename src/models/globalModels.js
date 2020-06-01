@@ -6,12 +6,8 @@ import Customer from "./customers/Customer";
 import SuppliersCompany from "./suppliers_company/SuppliersCompany";
 
 const globalModels = [
-  Product,
-  Manufacturer,
-  Brand,
   ProductCategory,
-  Customer,
-  //SuppliersCompany,
+  Product
 ];
 
 export default globalModels;
