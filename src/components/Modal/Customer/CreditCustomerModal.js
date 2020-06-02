@@ -50,7 +50,7 @@ const CreditCustomerModal = props => {
                                 }}
                                 
                             >
-                                Forgive
+                                No
                             </Button>
 
                         </Grid>

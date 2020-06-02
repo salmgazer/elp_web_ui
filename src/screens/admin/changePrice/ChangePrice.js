@@ -11,6 +11,8 @@ import {confirmAlert} from "react-confirm-alert";
 import EditProductView from "./sections/EditProductView";
 import CompleteView from "./sections/CompleteView";
 import './changePrice.scss';
+import paths from "../../../utilities/paths";
+import ArrowBackIosIcon from '@material-ui/icons/ArrowBackIos';
 
 import LocalInfo from "../../../services/LocalInfo";
 import BranchService from "../../../services/BranchService";
@@ -58,7 +60,9 @@ class ChangePrice extends Component{
     };
 
     async componentDidMount() {
-        const { branchProducts } = this.props;
+        const { branchProducts, history } = this.props;
+
+
 
         await this.setState({
             branchProducts: branchProducts,
@@ -230,12 +234,16 @@ class ChangePrice extends Component{
     render(){
         return(
             <div className={`addProducts`}>
-                <SectionNavbars title="Change prices" >
-                    <MenuIcon
-                        onClick={() => this.setState({isDrawerShow: true})}
-                        style={{fontSize: '2.5rem'}}
-                    />
-                </SectionNavbars>
+                <SectionNavbars 
+                    title="Change prices" 
+                    leftIcon={
+                        <div onClick={() => this.props.history.push(paths.admin)}>
+                            <ArrowBackIosIcon
+                                style={{fontSize: '2rem'}}
+                            />
+                        </div>
+                    }
+                />
 
                 {this.getStepContent(this.state.activeStep)}
             </div>

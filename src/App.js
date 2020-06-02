@@ -57,6 +57,8 @@ import CollectionOwner from "./screens/collection/Owner";
 import CollectionAttendant from "./screens/collection/Attendant";
 import CollectionNoAttendant from "./screens/collection/NoAttendant";
 import Reconciliation from "./screens/audit/Reconciliation";
+import AddBranch from "./screens/admin/addBranch/AddBranch";
+import ProductRequest from "./screens/admin/productRequest/ProductRequest";
 
 function NoMatch() {
   let location = useLocation();
@@ -275,7 +277,7 @@ class App extends React.Component {
                     path={paths.add_warehouse}
                     render={() => {
                         setPageBackground();
-                        this.setTitle(`Admin | ${appName}`);
+                        this.setTitle(`Add Warehouse | ${appName}`);
                         return <AddWarehouse />;
                     }}
                 />
@@ -283,7 +285,7 @@ class App extends React.Component {
                     path={paths.change_store_info}
                     render={() => {
                         setPageBackground();
-                        this.setTitle(`Admin | ${appName}`);
+                        this.setTitle(`Store Information | ${appName}`);
                         return <ChangeStoreInformation />;
                     }}
                 />
@@ -291,7 +293,7 @@ class App extends React.Component {
                     path={paths.account_info}
                     render={() => {
                         setPageBackground();
-                        this.setTitle(`Admin | ${appName}`);
+                        this.setTitle(`Account Information | ${appName}`);
                         return <AccountInformation />;
                     }}
                 />
@@ -299,7 +301,7 @@ class App extends React.Component {
                     path={paths.verify_phone}
                     render={() => {
                         setPageBackground();
-                        this.setTitle(`Admin | ${appName}`);
+                        this.setTitle(`Verify Phone | ${appName}`);
                         return <VerifyPhone />;
                     }}
                 />
@@ -307,7 +309,7 @@ class App extends React.Component {
                     path={paths.change_price}
                     render={() => {
                         setPageBackground();
-                        this.setTitle(`Admin | ${appName}`);
+                        this.setTitle(`Change Price | ${appName}`);
                         return <ChangePrice />;
                     }}
                 />
@@ -438,6 +440,22 @@ class App extends React.Component {
                         setPageBackground();
                         this.setTitle(`Reconciliation | ${appName}`);
                         return <Reconciliation />;
+                    }}
+                />
+                <Route
+                    path={paths.add_branch}
+                    render={() => {
+                        setPageBackground();
+                        this.setTitle(`Add Branch | ${appName}`);
+                        return <AddBranch />;
+                    }}
+                />
+                <Route
+                    path={paths.product_request}
+                    render={() => {
+                        setPageBackground();
+                        this.setTitle(`Product Request | ${appName}`);
+                        return <ProductRequest />;
                     }}
                 />
               <Route path="*">

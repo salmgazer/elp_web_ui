@@ -164,7 +164,7 @@ const Admin = props => {
                                     </Grid>
                                     <Grid item xs={2} sm style={{borderBottom: "1px solid #d8d2d2"}}>
                                         <div className={Styles.centered}>
-                                             <ArrowForwardIosIcon  style={{fontSize: '0.9rem'}} onClick={() => history.push(paths.register)}/>
+                                             <ArrowForwardIosIcon  style={{fontSize: '0.9rem'}} onClick={() => history.push(paths.add_branch)}/>
 
                                         </div>
                                     </Grid>
@@ -261,7 +261,7 @@ const Admin = props => {
                                     </Grid>
                                     <Grid item xs={2} sm style={{borderBottom: "1px solid #d8d2d2"}}>
                                         <div className={Styles.centered}>
-                                            <ArrowForwardIosIcon  style={{fontSize: '0.9rem'}} onClick={() => history.push(paths.register)}/>
+                                            <ArrowForwardIosIcon  style={{fontSize: '0.9rem'}} onClick={() => history.push(paths.product_request)}/>
 
                                         </div>
                                     </Grid>
