@@ -16,7 +16,6 @@ import {makeStyles, withStyles} from "@material-ui/core";
 import { ValidatorForm, TextValidator} from 'react-material-ui-form-validator';
 
 import Logo from '../../assets/img/logo.png';
-import Typography from "@material-ui/core/Typography/Typography";
 import './Login.scss';
 import AuthService from "../../services/AuthService";
 import InputAdornment from '@material-ui/core/InputAdornment';

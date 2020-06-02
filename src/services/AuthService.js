@@ -3,10 +3,12 @@ import Api from './Api';
 import format from "date-fns/format";
 import GenerateOTP from './GenerateString';
 import CashflowService from "./CashflowService";
+import paths from "../utilities/paths";
 
 const jwt = require('jsonwebtoken');
 
 export default class AuthService {
+
     /*constructor() {
         //this.auth0 = new auth0.WebAuth(auth0_config);
     }*/
@@ -27,7 +29,8 @@ export default class AuthService {
                 params,
                 {},
                 {},
-                'https://core-api-dev.mystoreaid.net/v1/client/users/login'
+                'https://core-api-dev.mystoreaid.net/v1/client/users/login',
+                'Logging in...'
             );
 
             if( user ){
@@ -165,7 +168,19 @@ export default class AuthService {
         return res.data;
     };
 
-    logout = () => {
+    logout = async () => {
+        try {
+            console.log('i ma here')
+            localStorage.clear();
+            sessionStorage.clear();
+            console.log('i ma here')
+
+            window.location.href = paths.login;
+        } catch (e) {
+            console.log(e)
+        }
+
+        //history.push(paths.login)
         // clear local storage
         // call logout on auth0
     }
