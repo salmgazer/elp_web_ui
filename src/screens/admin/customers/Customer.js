@@ -7,6 +7,7 @@ import withObservables from "@nozbe/with-observables";
 import ModelAction from "../../../services/ModelAction";
 import CustomerDetails from './sections/CustomerDetails';
 import ViewCustomers from './sections/ViewCustomers';
+import MainPage from './sections/MainPage';
 import CustomerService from '../../../services/CustomerService';
 import { Q } from '@nozbe/watermelondb'
 import LocalInfo from "../../../services/LocalInfo";
@@ -14,7 +15,7 @@ import BranchCustomer from "../../../models/branchesCustomer/BranchCustomer";
 
 class Customer extends Component{
     state={
-        activeStep: 0,
+        activeStep: 2,
         pageName: false,
         branchCustomers: [],
         currentCustomer: {}
@@ -49,6 +50,8 @@ class Customer extends Component{
                 return <ViewCustomers setView={this.setStepContentView.bind(this)} searchCustomer={this.searchCustomerHandler.bind(this)} branchCustomers={this.state.branchCustomers} customerAdd={this.showAddView.bind(this)} />;
             case 1:
                 return <CustomerDetails setView={this.setStepContentView.bind(this)} customer={this.state.currentCustomer} deleteStoreCustomer={this.deleteCustomer.bind(this)}  />;
+            case 2:
+                return <MainPage setView={this.setStepContentView.bind(this)} />;
             default:
                 return 'Complete';
         }

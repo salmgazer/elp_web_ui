@@ -99,7 +99,7 @@ const AddBranch = props => {
         <div>
 
             <SectionNavbars
-                title="Shop information"
+                title="Add Branch"
                 leftIcon={
                     <div onClick={() => history.push(paths.admin)}>
                         <ArrowBackIosIcon
@@ -109,26 +109,17 @@ const AddBranch = props => {
                 }
             />
 
-            <Paper style={{marginTop: '60px', marginBottom: '10px'}} >
-                <Grid container spacing={2} style={{marginTop: '10px'}} className={`pt-2`}>
-                    <Grid item xs={11} style={{padding: '10px'}} className={`mx-auto mt-7`}>
-                        <Typography className='text-dark font-weight-bold' style={{ fontSize: '17px'}} >
-                            Select a field to edit
-                        </Typography>
-                    </Grid>
-                </Grid>
-            </Paper>
-
-            <div>
+            <div className={classes.root}>
                 <Paper style={{padding: "0px 30px 50px 30px"}}>
                     <ValidatorForm
                         ref={formRef}
                         onError={handleFormValidation}
+                        className={classes.root}
                         instantValidate
                     >
                         <Grid item xs={12} style={{paddingTop: '20px' , textAlign: "left"}}>
                             <Typography style={{fontSize: "17px" , paddingBottom: "5px"}}>
-                                Shop name
+                                Branch name
                             </Typography>
                             <ValidationTextField
                                 required
@@ -236,17 +227,17 @@ const AddBranch = props => {
             >
                 <Button
                     variant="outlined"
-                    style={{border: '1px solid #DAAB59', color: '#DAAB59', padding: '5px 45px', marginRight: '10px', textTransform: 'Capitalize'}}
+                    style={{border: '1px solid #DAAB59', color: '#DAAB59', padding: '5px 50px', marginRight: '10px', textTransform: 'Capitalize'}}
                     onClick={() => history.push(paths.admin)}
                 >
-                    Cancel
+                    Back
                 </Button>
                 <Button
                     variant="contained"
-                    style={{'backgroundColor': '#DAAB59' , color: '#333333', padding: '5px 50px', textTransform: 'Capitalize'}}
+                    style={{'backgroundColor': '#DAAB59' , color: '#333333', padding: '5px 30px', textTransform: 'Capitalize'}}
                     //onClick={openAddDialog.bind(this)}
                 >
-                    Save
+                    Add branch
                 </Button>
             </Box>
 

@@ -6,6 +6,7 @@ import BoxDefault from '../../../../../components/Box/BoxDefault';
 import Card from "@material-ui/core/Card/Card";
 import CreditCustomerModal from "../../../../../components/Modal/Customer/CreditCustomerModal";
 import AccountCircleIcon from '@material-ui/icons/AccountCircle';
+import InvoiceService from "../../../../../services/InvoiceService";
 
 
 const SingleViewCustomer = props => {
@@ -14,6 +15,7 @@ const SingleViewCustomer = props => {
     const [name , setName] = useState('');
     const [number , setNumber] = useState('');
     const [mainDialog, setMainDialog] = React.useState(false);
+    const [invoiceDetails , setInvoiceDetails] = useState(false);
 
     useEffect(() => {
         // You need to restrict it at some point
@@ -28,6 +30,8 @@ const SingleViewCustomer = props => {
         setCustomer(newCustomer);
         setName(newCustomer.firstName + ' ' + newCustomer.otherNames);
         setNumber(newCustomer.phone);
+        const response = await new InvoiceService().getInvoiceDetailsbyCustomer(newCustomer.id);
+        setInvoiceDetails(response);
     };
 
     const openDialogHandler = (event) => {
@@ -70,7 +74,7 @@ const SingleViewCustomer = props => {
                         </div>
                     </Grid>
 
-                    {/* {customer.debt > 0
+                    {invoiceDetails.credit > 0
                         ?
                         <Grid item xs={4} style={{ margin: '20px 0px 0px 0px'}} >   
                             <Button
@@ -88,19 +92,19 @@ const SingleViewCustomer = props => {
                                 onClick={openDialogHandler.bind(this)}
                             >
                                 Owes <br />
-                                GHC {customer.debt}
+                                GHC {invoiceDetails.credit}
                             </Button>
                         </Grid>
                         :
                         ''
-                    } */}
+                    }
                 </Grid>
             </BoxDefault>
 
             <CreditCustomerModal
                 openCustomerAddState={mainDialog}
                 handleClose={() => setMainDialog(false)}
-                debt={customer.debt}
+                debt={invoiceDetails.credit}
             />
 
             

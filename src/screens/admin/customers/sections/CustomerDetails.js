@@ -19,6 +19,7 @@ import Card from "@material-ui/core/Card/Card";
 import AccountCircleIcon from '@material-ui/icons/AccountCircle';
 import InvoiceService from "../../../../services/InvoiceService";
 import UpdateCustomerModal from "../../../../components/Modal/Customer/UpdateCustomerModal";
+import CreditCustomerModal from "../../../../components/Modal/Customer/CreditCustomerModal";
 
 
 const useStyles = makeStyles(theme => ({
@@ -37,6 +38,7 @@ const CustomerDetails = props => {
     const [number , setNumber] = useState('');
     const [location , setLocation] = useState('');
     const [customer , setCustomer] = useState('');
+    const [mainDialog, setMainDialog] = React.useState(false);
     const [invoiceDetails , setInvoiceDetails] = useState(false);
     const [invoices , setInvoices] = useState([]);
     const [updateDialog, setUpdateDialog] = React.useState(false);
@@ -75,6 +77,10 @@ const CustomerDetails = props => {
 
     const openUpdateDialog = (event) => {
         setUpdateDialog(true);
+    };
+
+    const openDialogHandler = (event) => {
+        setMainDialog(true);
     };
     
     return (
@@ -149,6 +155,12 @@ const CustomerDetails = props => {
                 id={customer.id}
             />
 
+            <CreditCustomerModal
+                openCustomerAddState={mainDialog}
+                handleClose={() => setMainDialog(false)}
+                debt={invoiceDetails.credit}
+            />
+
             <Grid container spacing={2} style={{marginBottom: '10px'}} >
 
                 <Grid container style={{paddingTop: "15px"}}>
@@ -157,7 +169,7 @@ const CustomerDetails = props => {
                         <Button
                             variant="contained"
                             style={{'backgroundColor': '#ffff' , padding: '5px 5px', height: '55px'}}
-
+                            disabled
                         >
                             <Grid container>
                                 <Grid item xs={12} style={{textAlign: "center"}}>
@@ -167,7 +179,7 @@ const CustomerDetails = props => {
                                 </Grid>
                                 <Grid item xs={12} style={{textAlign: "center"}}>
                                     <Typography  style={{fontSize: "0.8rem"}}>
-                                        <PaidIcon style={{color: 'red' , fontSize: '8px'}}/> 1 order pending
+                                        <PaidIcon style={{color: 'red' , fontSize: '8px'}}/> Order pending
                                     </Typography>
                                 </Grid>
                             </Grid>
@@ -178,7 +190,12 @@ const CustomerDetails = props => {
                         <Button
                             variant="contained"
                             style={{'backgroundColor': '#ffff' , padding: '5px 5px', height: '55px'}}
-                            //onClick={openDialogHandler.bind(this)}
+                            onClick={invoiceDetails.credit > 0
+                                ?
+                                openDialogHandler.bind(this)
+                                :
+                                ''
+                            }
                         >
                             <Grid container>
                                 <Grid item xs={12} spacing={2} style={{textAlign: "center"}}>

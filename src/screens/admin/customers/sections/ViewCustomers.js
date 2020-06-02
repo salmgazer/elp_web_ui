@@ -3,7 +3,7 @@ import { withRouter } from "react-router-dom";
 import {makeStyles} from "@material-ui/core";
 import SectionNavbars from "../../../../components/Sections/SectionNavbars";
 import SearchInput from "../../../Components/Input/SearchInput";
-import paths from "../../../../utilities/paths";
+import CustomerImg from "../../../../assets/img/customer.png";
 import ArrowBackIosIcon from '@material-ui/icons/ArrowBackIos';
 import Grid from '@material-ui/core/Grid';
 import SingleCustomer from './singleViews/SingleCustomer';
@@ -52,12 +52,16 @@ const ViewCustomers = props => {
         props.searchCustomer(value);
     };
 
+    const changeView = (event) => {
+        props.setView(2);
+    };
+
     return (
         <div>
             <SectionNavbars
                 title="Customers"
                 leftIcon={
-                    <div onClick={() => history.push(paths.admin)}>
+                    <div onClick={changeView.bind(this)}>
                         <ArrowBackIosIcon
                             style={{fontSize: '2rem'}}
                         />
@@ -77,21 +81,19 @@ const ViewCustomers = props => {
 
             {branchCustomers.length === 0
                 ?
-                <Grid
-                    item xs={12}
-                    className={`text-left pl-2`}
-                >
-                    <div className={`rounded mx-1 my-2 p-2 bordered`}>
-                        <Typography
-                            component="h6"
-                            variant="h6"
-                            style={{fontSize: '16px'}}
-                            className={`text-center text-dark w-100`}
-                        >
-                            No customer found
-                        </Typography>
-                    </div>
-                </Grid>
+                <div>
+                    <Box component="div" m={2} >
+                        <img className="img100" src={CustomerImg} alt={'test'}/>
+                    </Box>
+
+                    <Typography className='font-weight-light mt-1' style={{ fontSize: '18px', margin: '15px 0px' }} >
+                        Seems you have no customers
+                    </Typography>
+
+                    <Typography className='font-weight-light mt-1' style={{ fontSize: '18px', margin: '15px 0px' }} >
+                        Click Add customer to create one!
+                    </Typography>
+                </div>
                 :
                 branchCustomers.map((branchCustomer) =>
                 <Grid key={branchCustomer.customerId} item xs={12} >
@@ -123,7 +125,7 @@ const ViewCustomers = props => {
                 <Button
                     variant="outlined"
                     style={{border: '1px solid #DAAB59', color: '#DAAB59', padding: '5px 50px', marginRight: '10px', textTransform: 'Capitalize'}}
-                    onClick={() => history.push(paths.admin)}
+                    onClick={changeView.bind(this)}
                 >
                     Back
                 </Button>
@@ -132,7 +134,7 @@ const ViewCustomers = props => {
                     style={{'backgroundColor': '#DAAB59' , color: '#333333', padding: '5px 20px', textTransform: 'Capitalize'}}
                     onClick={openAddDialog.bind(this)}
                 >
-                    New customer
+                    Add customer
                 </Button>
             </Box>
 
