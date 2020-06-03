@@ -4,7 +4,6 @@ import Button from "@material-ui/core/Button/Button";
 import Box from "@material-ui/core/Box/Box";
 import ProductHistory from "./history/ProductHistory";
 import QuantityInput from "../../../Components/Input/QuantityInput";
-import PriceInput from "../../../Components/Input/PriceInput";
 import { confirmAlert } from 'react-confirm-alert';
 import 'react-confirm-alert/src/react-confirm-alert.css';
 import Snackbar from '@material-ui/core/Snackbar';
@@ -14,10 +13,11 @@ import SectionNavbars from "../../../../components/Sections/SectionNavbars";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faCalculator} from "@fortawesome/free-solid-svg-icons";
 import CostCalculator from "../../../../components/Calculator/CostCalculator";
-import CostInput from "../../../Components/Input/CostInput";
 import ProductServiceHandler from '../../../../services/ProductServiceHandler';
 import LocalInfo from "../../../../services/LocalInfo";
 import ArrowBackIcon from '@material-ui/icons/ArrowBack';
+import CostInput from "../../../../components/Input/CostInput";
+import PriceInput from "../../../../components/Input/PriceInput";
 
 
 function Alert(props) {
@@ -96,7 +96,6 @@ const AddProductView = props => {
         const {...oldFormFields} = formFields;
 
         oldFormFields[name] = value;
-
         setFormFields(oldFormFields);
     };
 

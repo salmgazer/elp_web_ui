@@ -138,7 +138,7 @@ const Login = props => {
         setLoading(true);
 
         //Make a request to get token
-        let req = await new AuthService().login(usernameOrPhone , password);
+        let req = await new AuthService().login(usernameOrPhone.toLowerCase() , password);
 
         if(!req.error){
             /*
