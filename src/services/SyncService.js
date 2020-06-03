@@ -24,6 +24,7 @@ export default class SyncService {
             {},
             {'Authorization': `Bearer ${LocalInfo.accessToken}`},
             `${apiUrl}/users/${userId}/sync?${queryString}`,
+              "Pulling changes from database..."
           );
 
           if (!response) {
@@ -131,7 +132,8 @@ export default class SyncService {
             JSON.stringify(changes),
             {'Authorization': `Bearer ${LocalInfo.accessToken}`},
             {},
-            `${apiUrl}/users/${userId}/sync?${queryString}`
+            `${apiUrl}/users/${userId}/sync?${queryString}`,
+              "Pushing changes to database..."
           );
 
           console.log("DONE SYNCING");

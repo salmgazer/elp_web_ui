@@ -29,7 +29,8 @@ const useStyles = makeStyles(theme => ({
 }));
 
 const SearchInput = (props) => {
-    const [value , setValue] = useState('');
+    const initialValue = props.initialValue || '';
+    const [value , setValue] = useState(initialValue);
     const inputName = props.inputName;
 
     const setValueHandler = (event) => {

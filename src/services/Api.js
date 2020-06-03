@@ -42,10 +42,16 @@ export default class Api {
         };
     }
 
-    async index(parentResources = {} , config = {}, requestPath = `${this.fullUrl(parentResources)}/${this.resource}`, queryParams= {}) {
+    async index(parentResources = {} , config = {}, requestPath = `${this.fullUrl(parentResources)}/${this.resource}`, name = "",  queryParams= {}) {
         console.log(requestPath);
         return axios.get(requestPath, {
-            headers: {...this.constructor.headers, ...config}
+            headers: {...this.constructor.headers, ...config},
+            onDownloadProgress: function (progressEvent) {
+                let percentCompleted = Math.floor((progressEvent.loaded * 100) / progressEvent.total);
+
+                localStorage.setItem('currentRequestName' , name);
+                localStorage.setItem('currentRequestProgress' , percentCompleted);
+            },
         });
     }
 
@@ -62,12 +68,18 @@ export default class Api {
         return result.data.data[0];
     }
 
-    async create(data = {} , config = {} , parentResources = {}, requestPath = `${this.fullUrl(parentResources)}/${this.resource}`) {
+    async create(data = {} , config = {} , parentResources = {}, requestPath = `${this.fullUrl(parentResources)}/${this.resource}` , name = "") {
         return axios.post(
             requestPath,
             data  ,
             {
-                headers: {...this.constructor.headers, ...config}
+                headers: {...this.constructor.headers, ...config},
+                onUploadProgress: function (progressEvent) {
+                    let percentCompleted = Math.floor((progressEvent.loaded * 100) / progressEvent.total);
+
+                    localStorage.setItem('currentRequestName' , name);
+                    localStorage.setItem('currentRequestProgress' , percentCompleted);
+                },
             }
         );
     }

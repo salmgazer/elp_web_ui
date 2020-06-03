@@ -39,6 +39,7 @@
     "react-loader-spinner": "^3.1.5",
     "react-material-ui-form-validator": "^2.0.10",
     "react-otp-input": "^1.0.1",
+    "react-progress-label": "^3.1.6",
     "react-router-dom": "^5.1.2",
     "react-scripts": "3.4.0",
     "react-search-box": "^2.0.2",

@@ -12,7 +12,7 @@ export default class SystemDateHandler {
     constructor(){
         const branchCreated = LocalInfo.branches.filter(branch => branch.id === LocalInfo.branchId);
 
-        this.branchCreated = branchCreated.length > 0 ? branchCreated[0].created_at / 1000: getUnixTime(new Date());
+        this.branchCreated = branchCreated.length > 0 ? branchCreated[0].created_at / 1000 : getUnixTime(new Date());
     }
 
     getStoreWeeks(startDate = new Date(fromUnixTime(this.branchCreated)) , endDate = new Date()){

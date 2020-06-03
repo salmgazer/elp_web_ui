@@ -101,7 +101,7 @@ function StyledRadio(props) {
 }
 const SearchMode = props => {
     const [searchValue , setSearchValue] = useState({
-        search: '',
+        search: props.searchValue,
         productOption: 'all',
     });
 
@@ -157,6 +157,7 @@ const SearchMode = props => {
             <Grid container spacing={1}>
                 <Grid item xs={11} style={{padding: '4px 8px'}} className={`mx-auto`}>
                     <SearchInput
+                        initialValue={searchValue.search}
                         inputName="search"
                         getValue={setInputValue.bind(this)}
                     />

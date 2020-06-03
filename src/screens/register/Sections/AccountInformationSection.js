@@ -122,6 +122,22 @@ export default function AccountInformationSection(props) {
         });
     };
 
+    const checkSameUsernamePassword = (event) => {
+        const { ...formData }  = formFields;
+        formData[event.target.name] = event.target.value;
+        setFormFields(formData);
+        props.collectData(event);
+
+        ValidatorForm.addValidationRule('isUsernamePasswordMatch', (value) => {
+            const { ...values } = props.formData;
+console.log(value , formFields.username)
+            if (value == formFields.username) {
+                return false;
+            }
+            return true;
+        });
+    };
+
     const handleChangeChk = name => async (event) => {
         setShowPassword({ ...showPassword, [name]: event.target.checked });
 
@@ -144,6 +160,14 @@ export default function AccountInformationSection(props) {
             /*setFormFields(formData);
             props.collectData(fakeEvent);*/
             await usernameFormatter(fakeEvent);
+            /*ValidatorForm.addValidationRule('isUsernamePasswordMatch', (value) => {
+                const { ...values } = props.formData;
+
+                if (value == formFields.password) {
+                    return false;
+                }
+                return true;
+            });*/
         }else{
             const { ...formData }  = formFields;
 
@@ -158,6 +182,7 @@ export default function AccountInformationSection(props) {
             setFormFields(formData);
             props.collectData(fakeEvent);
         }
+
     };
 
     const handleClickShowPassword = () => {
@@ -275,10 +300,10 @@ export default function AccountInformationSection(props) {
                         variant="outlined"
                         name="password"
                         validatorListener={handleFormValidation}
-                        onChange={handleChange}
+                        onChange={checkSameUsernamePassword}
                         value={formFields.password}
-                        validators={['required', 'minStringLength:4']}
-                        errorMessages={['Password is a required field', 'The minimum length for password is 4']}
+                        validators={['required', 'minStringLength:4' , 'isUsernamePasswordMatch']}
+                        errorMessages={['Password is a required field', 'The minimum length for password is 4' , 'Username and password can not be same']}
                         helperText=""
                         id="password"
                         type={showPassword.showPassword ? 'text' : 'password'}

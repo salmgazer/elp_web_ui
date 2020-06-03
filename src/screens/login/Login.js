@@ -16,7 +16,6 @@ import {makeStyles, withStyles} from "@material-ui/core";
 import { ValidatorForm, TextValidator} from 'react-material-ui-form-validator';
 
 import Logo from '../../assets/img/logo.png';
-import Typography from "@material-ui/core/Typography/Typography";
 import './Login.scss';
 import AuthService from "../../services/AuthService";
 import InputAdornment from '@material-ui/core/InputAdornment';
@@ -139,7 +138,7 @@ const Login = props => {
         setLoading(true);
 
         //Make a request to get token
-        let req = await new AuthService().login(usernameOrPhone , password);
+        let req = await new AuthService().login(usernameOrPhone.toLowerCase() , password);
 
         if(!req.error){
             /*
