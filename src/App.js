@@ -60,6 +60,9 @@ import Reconciliation from "./screens/audit/Reconciliation";
 import AddBranch from "./screens/admin/addBranch/AddBranch";
 import ProductRequest from "./screens/admin/productRequest/ProductRequest";
 
+import SalesReturns from "./screens/returns/sales/SalesReturns";
+import StockReturns from "./screens/returns/stock/StockReturns";
+
 function NoMatch() {
   let location = useLocation();
 
@@ -456,6 +459,22 @@ class App extends React.Component {
                         setPageBackground();
                         this.setTitle(`Product Request | ${appName}`);
                         return <ProductRequest />;
+                    }}
+                />
+                <Route
+                    path={paths.sales_returns}
+                    render={() => {
+                        setPageBackground();
+                        this.setTitle(`Sales Returns | ${appName}`);
+                        return <SalesReturns />;
+                    }}
+                />
+                <Route
+                    path={paths.stock_returns}
+                    render={() => {
+                        setPageBackground();
+                        this.setTitle(`Return Purchases | ${appName}`);
+                        return <StockReturns />;
                     }}
                 />
               <Route path="*">
