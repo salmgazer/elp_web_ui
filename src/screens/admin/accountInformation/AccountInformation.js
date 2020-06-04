@@ -1,47 +1,22 @@
-import React, {useEffect, useState} from "react";
+import React from "react";
 import { withRouter } from "react-router-dom";
 import Component from "@reactions/component";
-import { useDatabase } from "@nozbe/watermelondb/hooks";
-import { Q } from "@nozbe/watermelondb";
-
 import Grid from '@material-ui/core/Grid';
 import paths from "../../../utilities/paths";
 import CssBaseline from "@material-ui/core/CssBaseline/CssBaseline";
 import {makeStyles, withStyles} from "@material-ui/core";
-import MenuIcon from '@material-ui/icons/Menu';
 import Paper from '@material-ui/core/Paper';
-import BoxDefault from "../../../components/Box/BoxDefault";
 import ButtonBase from '@material-ui/core/ButtonBase';
-import Radio from '@material-ui/core/Radio';
-import RadioGroup from '@material-ui/core/RadioGroup';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
-import FormLabel from '@material-ui/core/FormLabel';
-import ArrowBackIcon from '@material-ui/icons/ArrowBack';
+import ArrowBackIosIcon from '@material-ui/icons/ArrowBackIos';
 import Typography from "@material-ui/core/Typography/Typography";
 import SectionNavbars from "../../../components/Sections/SectionNavbars";
-import Drawer from "../../../components/Drawer/Drawer";
-import LocalInfo from '../../../services/LocalInfo';
-import Container from "@material-ui/core/Container/Container";
-// import ViewWelcome from "../../getStarted/sections/ViewWelcome";
-// import ViewStore from "../../getStarted/sections/ViewStore";
 import Box from "@material-ui/core/Box/Box";
-import warehouseImg from "../../../assets/img/warehouse.png";
 import Button from "@material-ui/core/Button/Button";
-import {TextValidator, ValidatorForm} from "react-material-ui-form-validator";
 import FormControl from "@material-ui/core/FormControl/FormControl";
 import InputLabel from "@material-ui/core/InputLabel/InputLabel";
 import TextField from '@material-ui/core/TextField';
-// import Modal from '@material-ui/core/Modal';
-// import LocationOnIcon from '@material-ui/icons/LocationOn';
 import VisibilityOff from '@material-ui/icons/VisibilityOff';
-// import Backdrop from '@material-ui/core/Backdrop';
-// import Fade from '@material-ui/core/Fade';
-// import PersonalInformationSection from "../../register/Sections/PersonalInformationSection";
-// import ShopInformationSection from "../../register/Sections/ShopInformationSection";
-// import AccountInformationSection from "../../register/Sections/AccountInformationSection";
-import Auth0Service from "../../../services/AuthService";
-import Api from "../../../services/Api";
-import Select from "@material-ui/core/Select/Select";
 import Woman from "../../../assets/img/woman.jpg";
 import Styles from "../Admin.module.scss";
 import ArrowForwardIosIcon from '@material-ui/icons/ArrowForwardIos';
@@ -115,84 +90,6 @@ const useStyles = makeStyles(theme => ({
     }
 }));
 
-const ValidationTextField = withStyles({
-    root: {
-        '& input:valid + fieldset': {
-            borderColor: 'green',
-            borderWidth: 2,
-        },
-        '& input:invalid:not:focus + fieldset': {
-            borderColor: 'red',
-            borderWidth: 2,
-        },
-        '& input:invalid:focus + fieldset': {
-            borderColor: '#DAAB59',
-            borderWidth: 2,
-        },
-        '& input:valid:focus + fieldset': {
-            borderLeftWidth: 6,
-            borderColor: '#DAAB59',
-            padding: '4px !important', // override inline-style
-        },
-    },
-})(TextValidator);
-
-const ValidationSelectField = withStyles({
-    root: {
-        '& select:valid + fieldset': {
-            borderColor: 'green',
-            borderWidth: 2,
-        },
-        '& select:invalid:not:focus + fieldset': {
-            borderColor: 'red',
-            borderWidth: 2,
-        },
-        '& select:invalid:focus + fieldset': {
-            borderColor: '#DAAB59',
-            borderWidth: 2,
-        },
-        '& select:valid:focus + fieldset': {
-            borderLeftWidth: 6,
-            borderColor: '#DAAB59',
-            padding: '4px !important', // override inline-style
-        },
-    },
-})(Select);
-
-const apiUrl = "";
-
-async function getUserStoreFromLocal(database, user, store) {
-    return database.collections
-        .get("users_stores")
-        .query(Q.where("user_id", user.id), Q.where("store_id", store.id))
-        .fetch();
-}
-
-async function getUserFromLocal(database, usernameOrPhone, password) {
-    return database.collections
-        .get("users")
-        .query(
-            Q.where("username", usernameOrPhone),
-            Q.or(Q.where("phone", usernameOrPhone)),
-            Q.where("password", password)
-        )
-        .fetch();
-}
-
-async function getStore(database) {
-    return database.collections
-        .get("stores")
-        .query()
-        .fetch();
-}
-
-async function getUsersFromLocal(database) {
-    return database.collections
-        .get("users")
-        .query()
-        .fetch();
-}
-
 const AccountInformation = props => {
 
     /*
@@ -202,91 +99,12 @@ const AccountInformation = props => {
     console.log(username);
 
     const { history } = props;
-    const database = useDatabase();
 
-    if (LocalInfo.storeId && LocalInfo.userId) {
-        history.push(paths.home);
-    }
-
-    const [isStore , setIsStore] = React.useState(false);
-
-    const [user , setUser] = useState(0);
-    const [company , setCompany] = useState(0);
     const classes = useStyles();
-    const [activeStep, setActiveStep] = useState(0);
-    const [open, setOpen] = React.useState(false);
-    const [data , setData] = useState({
-        firstName: '',
-        otherNames: '',
-        phone: '',
-        companyName: '',
-        location: '',
-        storeCategory: '',
-        username: '',
-        password: '',
-        passwordRepeat: '',
-        isValid: true,
-    });
-
     const handleMouseDownPassword = event => {
         event.preventDefault();
     };
 
-    const handleOpen = () => {
-        setOpen(true);
-    };
-
-    const handleClose = () => {
-        setOpen(false);
-    };
-
-    /*@todo
-    * change state for password and confirm password...
-    * */
-
-    const formDataHandler = event => {
-        const { ...formData }  = data;
-
-        formData[event.target.name] = event.target.value;
-        /*if (event.target.name === 'password') {
-            this.form.isFormValid(false);
-        }*/
-        setData(formData);
-    };
-
-    const formValidHandler = result => {
-        const { ...formData }  = data;
-
-        formData['isValid'] = !result;
-        /*if (event.target.name === 'password') {
-            this.form.isFormValid(false);
-        }*/
-
-        setData(formData);
-    };
-
-    const userFields = props.formData;
-    const [categories , setCategories] = useState([]);
-
-
-    const [state, setState] = useState({
-        storeCaregory: '',
-        name: 'Select a store type',
-    });
-
-    useEffect(() => {
-        (
-            async function getCategories(){
-                let newCategory = await new Api('business_categories').index();
-                setCategories(newCategory.data.data);
-            }
-        )();
-    }, []);
-
-    /*
-    const handleChange = event => {
-        setValue(event.target.value);
-    };*/
 
     const [values, setValues] = React.useState({
         password: '',
@@ -301,50 +119,6 @@ const AccountInformation = props => {
         setValues({ ...values, showPassword: !values.showPassword });
     };
 
-    const handleChangeHandler = (event) => {
-       props.collectData(event);
-    };
-
-    const handleFormValidation = (result) => {
-        props.isValid(result);
-    };
-
-    const formRef = React.createRef('form');
-
-    const handleNext = () => {
-        setActiveStep(prevActiveStep => prevActiveStep + 1);
-    };
-
-    const handleBack = () => {
-        setActiveStep(prevActiveStep => prevActiveStep - 1);
-    };
-
-    const handleFinish = async() => {
-        //console.log(data);
-        /*
-        * Handle registration here...
-        * */
-
-        let req = await new Auth0Service().register(data);
-
-        if(!req.error){
-            /*
-            * @todo
-            * push user details to watermelon...
-            * */
-            localStorage.setItem('userContact' , req.user.phone);
-            localStorage.setItem('userOTP' , req.user.otp);
-            localStorage.setItem('userFirstName' , req.user.firstName);
-            console.log(req);
-        }else{
-            console.log(req.error);
-        }
-
-        history.push(paths.verify_sms);
-    };
-
-
-
     return (
         <div style={{height: '100vh'}}>
             <Component
@@ -356,15 +130,16 @@ const AccountInformation = props => {
                     <React.Fragment>
                         <CssBaseline />
 
-
-                        <SectionNavbars title={`Account information`}>
-                            <ArrowBackIcon
-                                onClick={() => history.push(paths.admin)}
-                            />
-                        </SectionNavbars>
-
-                        <Drawer isShow={state.isDrawerShow} />
-
+                        <SectionNavbars
+                            title="Account information"
+                            leftIcon={
+                                <div onClick={() => history.push(paths.admin)} >
+                                    <ArrowBackIosIcon
+                                        style={{fontSize: '2rem'}}
+                                    />
+                                </div>
+                            }
+                        />
 
                         <div>
                             <Paper style={{padding: "0px 30px 0px 30px"}}>
@@ -376,20 +151,9 @@ const AccountInformation = props => {
                                         </ButtonBase>
                                     </Grid>
                                     <Grid item xs={8} sm container>
-                                       {/* <Grid item xs container direction="column" spacing={2} style={{textAlign: "left"}}>
-                                            <Grid item xs>
-                                                <Typography style={{fontSize: "1rem" , fontWeight: "600"}}>
-                                                    Pearl Gemegah
-                                                </Typography>
-                                                <Typography  style={{fontSize: "0.9rem" , fontWeight: "500"}}>
-                                                    God's Grace Store
-                                                </Typography>
-                                            </Grid>
-                                        </Grid>*/}
-
                                         <form className={classes.root} noValidate autoComplete="off">
-                                            <TextField id="standard-basic" label="" value="Pearl" style={{borderBottom: "1px solid #c3c3c3" , marginBottom: "10px" , padding: "2px 5px"}}/>
-                                            <TextField id="standard-basic" label="" value="Makafui Gemegah" style={{borderBottom: "1px solid #c3c3c3" , padding: "2px 5px"}}/>
+                                            <TextField id="standard-basic" label="" defaultValue="Pearl" style={{borderBottom: "1px solid #c3c3c3" , marginBottom: "10px" , padding: "2px 5px"}}/>
+                                            <TextField id="standard-basic" label="" defaultValue="Makafui Gemegah" style={{borderBottom: "1px solid #c3c3c3" , padding: "2px 5px"}}/>
                                         </form>
 
                                     </Grid>
@@ -422,7 +186,6 @@ const AccountInformation = props => {
                                     <Grid item xs={5} sm container style={{borderBottom: "1px solid #d8d2d2" }}>
                                         <Grid item xs container direction="column" spacing={2} style={{textAlign: "right" , paddingBottom: "2px"}}>
                                             <Grid item xs>
-                                                {/*<TextField id="standard-basic" label="" value="0547845784" />*/}
                                                 0545454544
                                             </Grid>
                                         </Grid>

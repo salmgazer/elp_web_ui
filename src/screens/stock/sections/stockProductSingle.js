@@ -12,6 +12,7 @@ import BottomMenu from "./BottomMenu";
 import Grid from "@material-ui/core/Grid/Grid";
 import BranchProductService from "../../../services/BranchProductService";
 import BranchStockService from "../../../services/BranchStockService";
+import BarcodeImage from "../../../assets/img/barcode.png";
 
 
 const StockProductSingle = props => {
@@ -55,6 +56,10 @@ const StockProductSingle = props => {
         props.setView(0);
     };
 
+    const barcodeHandler = () => {
+        props.setView(7);
+    }
+
     return (
         <div className={`mt-6`}>
             <SectionNavbars title="Stock"
@@ -88,7 +93,12 @@ const StockProductSingle = props => {
                 </Typography>
             </div>
             <div>
-                <img className={`img-fluid imageProduct mx-auto d-block pt-2`} src={image} alt={name}/>
+                <Grid container spacing={1} >
+                    <Grid item xs={12}>
+                        <img onClick={barcodeHandler.bind(this)} style={{float: 'right', marginRight: '5px', marginTop: '10px'}} src={BarcodeImage} alt={'assign barcode'}/>
+                        <img className={`img-fluid imageProduct mx-auto d-block pt-2`} src={image} alt={name}/>
+                    </Grid>
+                </Grid>
             </div>
 
             <div
