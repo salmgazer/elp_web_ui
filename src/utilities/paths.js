@@ -46,4 +46,6 @@ export default {
     product_request: "/product-request",
     sales_returns: "/sales-returns",
     stock_returns: "/stock-returns",
+    customer_care: "/customer-care",
+    delivery: "/delivery",
 };

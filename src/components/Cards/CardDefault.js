@@ -24,9 +24,9 @@ export default function CardDefault(props) {
     const classes = useStyles();
 
     return (
-        <Card className={classes.root + ' ' + 'cardDefault marginCenter'} style={props.styles}>
+        <Card className={classes.root + ' ' + 'cardDefault marginCenter'} style={props.styles} onClick={props.onClick}> 
             <div className={classes.details}>
-                <CardContent className={classes.content}>
+                <CardContent className={classes.content} >
                     {props.children}
                 </CardContent>
             </div>

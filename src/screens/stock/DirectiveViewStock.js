@@ -19,7 +19,7 @@ import AssignBarcode from './sections/AssignBarcode';
 
 class DirectiveViewStock extends Component{
     state = {
-        activeStep: 7,
+        activeStep: 0,
         stockList: [],
         branchProducts: [],
         companyBranches: [],

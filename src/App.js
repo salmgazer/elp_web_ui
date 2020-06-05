@@ -62,6 +62,8 @@ import ProductRequest from "./screens/admin/productRequest/ProductRequest";
 
 import SalesReturns from "./screens/returns/sales/SalesReturns";
 import StockReturns from "./screens/returns/stock/StockReturns";
+import CustomerCare from "./screens/customerCare/CustomerCare";
+import Delivery from "./screens/delivery/Delivery";
 
 function NoMatch() {
   let location = useLocation();
@@ -475,6 +477,22 @@ class App extends React.Component {
                         setPageBackground();
                         this.setTitle(`Return Purchases | ${appName}`);
                         return <StockReturns />;
+                    }}
+                />
+                <Route
+                    path={paths.customer_care}
+                    render={() => {
+                        setPageBackground();
+                        this.setTitle(`Customer Care | ${appName}`);
+                        return <CustomerCare />;
+                    }}
+                />
+                <Route
+                    path={paths.delivery}
+                    render={() => {
+                        setPageBackground();
+                        this.setTitle(`Delivery | ${appName}`);
+                        return <Delivery />;
                     }}
                 />
               <Route path="*">
