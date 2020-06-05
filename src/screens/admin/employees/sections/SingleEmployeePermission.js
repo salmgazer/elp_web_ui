@@ -7,7 +7,7 @@ import Box from "@material-ui/core/Box/Box";
 import {withRouter} from "react-router";
 
 import SectionNavbars from "../../../../components/Sections/SectionNavbars";
-import SinglePermission from '../singlePages/SingleAllPermission';
+import SinglePermission from '../singlePages/SinglePermission';
 
 const EmployeePermission = props => {
 
@@ -32,7 +32,7 @@ const EmployeePermission = props => {
                 <Grid container spacing={2} style={{marginTop: '10px'}} className={`pt-2`}>
                     <Grid item xs={11} style={{padding: '10px'}} className={`mx-auto mt-7`}>
                         <Typography className='text-dark font-weight-bold' style={{ fontSize: '17px'}} >
-                            Permissions available for employees
+                            Ama Serwaa's permission
                         </Typography>
                     </Grid>
                 </Grid>

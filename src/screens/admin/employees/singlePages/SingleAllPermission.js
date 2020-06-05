@@ -1,16 +1,16 @@
 import React, {useEffect , useState} from 'react';
 import Grid from '@material-ui/core/Grid';
-import Switch from '../../../../components/Switch/Switch';
+import EditIcon from '@material-ui/icons/Edit';
 import CheckBox from '../../../../components/CheckBox/CheckBox';
 
 
 const SinglePermission = props => {
 
     const permission = props.permission;
-    // const [total , setTotal] = useState(false);
-    // const [payment , setPayment] = useState(false);
 
-
+    const editHandler = (event) => {
+        props.setView(9);
+    };
 
     return ( 
         <div>
@@ -22,7 +22,7 @@ const SinglePermission = props => {
                     </Grid>
 
                     <Grid item xs={2}  style={{paddingTop: "9px"}}>
-                        <Switch style={{fontSize: '10px'}} />
+                        <EditIcon onClick={editHandler.bind(this)} />
                     </Grid>
 
                 </Grid>
@@ -41,7 +41,9 @@ const SinglePermission = props => {
                         <CheckBox label='create prod' />
                     </Grid>
                 </Grid>
-            </Grid>
+            </Grid>      
+
+            
            
         </div>
     )

@@ -101,7 +101,7 @@ const StockMainPage = props => {
                                 <ListItemIcon><HistoryOutlinedIcon/></ListItemIcon>
                                 <ListItemText primary="Purchase history" />
                             </ListItem>
-                            <ListItem button key={5}>
+                            <ListItem button key={5} onClick={() => history.push(paths.stock_returns)}>
                                 <ListItemIcon><KeyboardReturnIcon style={{color: '#707070'}} /></ListItemIcon>
                                 <ListItemText primary="Return purchase" />
                             </ListItem>

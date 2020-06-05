@@ -7,7 +7,10 @@ import EmployeeActivity from './sections/EmployeeActivity';
 import EmployeeDetails from './sections/EmployeeDetails';
 import EmployeesList from './sections/EmployeesList';
 import LinkEmployee from './sections/LinkEmployee';
+import SingleEmployeePermission from './sections/SingleEmployeePermission';
 import EmployeePermission from './sections/EmployeePermission';
+import EditPermission from './sections/EditPermission';
+
 
 class Employees extends Component{
 
@@ -58,8 +61,17 @@ class Employees extends Component{
         ],
         employeePermission: [
             {
-                'permission': 'Admin'
-            }
+                'name': 'Admin'
+            },
+            {
+                'name': 'Owner'
+            },
+            {
+                'name': 'Sales Person'
+            },
+            {
+                'name': 'Support'
+            },
         ]
         
     }
@@ -79,7 +91,11 @@ class Employees extends Component{
             case 6:
                 return <EmployeeActivity setView={this.setStepContentView.bind(this)} employeeActivities={this.state.employeeActivities} />;
             case 7:
+                return <SingleEmployeePermission setView={this.setStepContentView.bind(this)} employeePermission={this.state.employeePermission} />;
+            case 8:
                 return <EmployeePermission setView={this.setStepContentView.bind(this)} employeePermission={this.state.employeePermission} />;
+            case 9:
+                return <EditPermission setView={this.setStepContentView.bind(this)} />;
             default:
                 return 'Complete';
         }

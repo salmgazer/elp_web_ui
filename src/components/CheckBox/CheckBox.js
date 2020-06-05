@@ -1,8 +1,15 @@
 import React from 'react';
+import { withStyles } from '@material-ui/core/styles';
 import CheckCircleIcon from '@material-ui/icons/CheckCircle';
 import CheckCircleOutlineIcon from '@material-ui/icons/CheckCircleOutline';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Checkbox from '@material-ui/core/Checkbox';
+
+const StyledFormControlLabel = withStyles({
+  label: {
+    fontSize: '11px',
+  },
+})(FormControlLabel);
 
 const CheckboxLabels = props => {
   const [state, setState] = React.useState({
@@ -14,7 +21,7 @@ const CheckboxLabels = props => {
   };
 
   return (  
-      <FormControlLabel
+      <StyledFormControlLabel
         control={
           <Checkbox
             checked={state.checkedB}

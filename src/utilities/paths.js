@@ -44,4 +44,6 @@ export default {
     reconciliation: "/reconciliation",
     add_branch: "/add-branch",
     product_request: "/product-request",
+    sales_returns: "/sales-returns",
+    stock_returns: "/stock-returns",
 };

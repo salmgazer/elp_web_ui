@@ -88,7 +88,11 @@ const SellView = props => {
                 onKeyDown={() => setIsShowDrawer(false)}
             >
                 <BottomDrawer isShow={isShowDrawer}>
-                    <ListItem button key={7}>
+                    <ListItem 
+                        button 
+                        key={7}
+                        onClick={() => history.push(paths.sales_returns)}
+                    >
                         <ListItemIcon><RemoveShoppingCartOutlinedIcon/></ListItemIcon>
                         <ListItemText primary="Sales returns" />
                     </ListItem>

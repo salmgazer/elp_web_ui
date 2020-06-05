@@ -15,10 +15,11 @@ import BranchService from "../../services/BranchService";
 import * as Q from "@nozbe/watermelondb/QueryDescription";
 import BranchStockService from "../../services/BranchStockService";
 import BranchProductStock from "../../models/branchesProductsStocks/BranchProductStock";
+import AssignBarcode from './sections/AssignBarcode';
 
 class DirectiveViewStock extends Component{
     state = {
-        activeStep: 0,
+        activeStep: 7,
         stockList: [],
         branchProducts: [],
         companyBranches: [],
@@ -93,6 +94,8 @@ class DirectiveViewStock extends Component{
                 return <AddNewStockPage product={this.state.currentProduct} updateProduct={this.updateNewProduct.bind(this)} setView={this.setStepContentView.bind(this)}/>;
             case 6:
                 return <MoveStock product={this.state.currentProduct} setView={this.setStepContentView.bind(this)} moveStock={this.moveStock.bind(this)} />;
+            case 7:
+                return <AssignBarcode setView={this.setStepContentView.bind(this)} />
             default:
                 return 'Complete';
         }
