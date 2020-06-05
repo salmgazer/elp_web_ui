@@ -16,6 +16,7 @@ import SyncService from "../../../services/SyncService";
 import LocalInfo from "../../../services/LocalInfo";
 import paths from "../../../utilities/paths";
 import database from "../../../models/database";
+import ProductRequest from "../../admin/productRequest/ProductRequest";
 
 class AddProducts extends Component{
     state = {
@@ -75,6 +76,8 @@ class AddProducts extends Component{
                 return <EditProductView products={this.state.addedProducts} setView={this.setStepContentView.bind(this)} product={this.state.currentProduct} />;
             case 4:
                 return <CompleteView/>;
+            case 5:
+                return <ProductRequest/>;
             default:
                 return 'Complete';
         }

@@ -390,12 +390,11 @@ const AddNewStockPage = props => {
     const saveChangePrice = () => {
         const {...oldFormFields} = formFields;
 
-        oldFormFields['costPrice'] = changePriceFields['costPrice'];
+        //oldFormFields['costPrice'] = changePriceFields['costPrice'];
         oldFormFields['sellingPrice'] = changePriceFields['sellingPrice'];
 
         setFormFields(oldFormFields);
         setChangePriceFields({
-            costPrice: "",
             sellingPrice: ""
         });
 
@@ -506,7 +505,7 @@ const AddNewStockPage = props => {
                             <Grid
                                 item xs={5}
                             >
-                                <UnitCost id="right_input" label={`Unit price`} inputName="costPrice" initialValue={formFields.costPrice} getValue={setInputValue.bind(this)} >
+                                <UnitCost id="right_input" label={`Unit price`} inputName="costPrice" initialValue="" getValue={setInputValue.bind(this)} >
                                     <FontAwesomeIcon onClick={openCalculator.bind(this)} icon={faCalculator} fixedWidth />
                                 </UnitCost>
                             </Grid>
@@ -517,7 +516,7 @@ const AddNewStockPage = props => {
                             <Grid
                                 item xs={5}
                             >
-                                <UnitCost id="right_input" label={`Unit price`} inputName="costPrice" initialValue={formFields.costPrice} getValue={setInputValue.bind(this)} >
+                                <UnitCost id="left_input" label={`Unit price`} inputName="costPrice" initialValue="" getValue={setInputValue.bind(this)} >
                                     <FontAwesomeIcon onClick={openCalculator.bind(this)} icon={faCalculator} fixedWidth />
                                 </UnitCost>
                             </Grid>

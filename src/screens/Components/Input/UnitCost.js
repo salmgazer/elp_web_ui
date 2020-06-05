@@ -34,18 +34,18 @@ const useStyles = makeStyles(theme => ({
 const CostInput = props => {
     const classes = useStyles();
     const inputName = props.inputName;
-    const [quantity , setQuantity] = useState(parseFloat(props.initialValue));
+    const [quantity , setQuantity] = useState(parseFloat(props.initialValue) || '');
 
     const setValueHandler = (event) => {
         event.persist();
-
-        if(event.target.value === "" && typeof event.target.value !== 'number'){
+        if(isNaN(event.target.value) || (event.target.value).length <= 0)
+        {
             setQuantity();
             return
         }
 
-        setQuantity((parseFloat(event.target.value)).toFixed(2));
-        props.getValue(inputName , (event.target.value));
+        setQuantity(event.target.value);
+        props.getValue(inputName , event.target.value);
     };
 
     return(
@@ -56,8 +56,7 @@ const CostInput = props => {
                 <InputBase
                     className={`${classes.input} search-box text-center`}
                     type="tel"
-
-                    value={props.initialValue}
+                    value={quantity}
                     name={inputName}
                     onChange={(event) => setValueHandler(event)}
                     endAdornment={

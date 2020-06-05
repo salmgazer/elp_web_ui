@@ -181,7 +181,7 @@ const Drawer = props => {
                     <ListItemText primary="Audit" />
                 </ListItem>
                 <Divider />
-                <ListItem button key={8}>
+                <ListItem button key={8} onClick={() => history.push(paths.reconciliation)}>
                     <ListItemIcon><AccountBalanceWalletIcon style={{color: '#FFFFFF'}} /></ListItemIcon>
                     <ListItemText primary="Reconcilation" />
                 </ListItem>

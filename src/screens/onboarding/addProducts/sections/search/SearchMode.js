@@ -13,6 +13,8 @@ import Radio from '@material-ui/core/Radio';
 import RadioGroup from '@material-ui/core/RadioGroup';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import FormControl from '@material-ui/core/FormControl';
+import Typography from "@material-ui/core/Typography";
+import Button from "@material-ui/core/Button";
 
 const optionGroupStyles = makeStyles(theme => ({
     root: {
@@ -120,6 +122,10 @@ const SearchMode = props => {
         props.removeProduct(id);
     };
 
+    const requestProduct = () => {
+        props.setView(5);
+    };
+
     const OptionChangeHandler = (event) => {
         props.optionFilter(event.target.value);
         console.log(event.target.value);
@@ -165,50 +171,82 @@ const SearchMode = props => {
             </Grid>
 
             <Grid container spacing={1} className='mt-3'>
-                {products.map((item) =>
-                    <Grid key={item.id} item xs={4} style={{padding: '4px 8px' , position: 'relative'}} className={`mx-0 px-1`}>
-                        { item.owned ?
-                            <div
-                                onClick={removeProductHandler.bind(this , item.id)}
-                            >
-                                <AddedIcon
-                                    styles={{
-                                        width: '30px',
-                                        height: '30px',
-                                        borderRadius: '50%',
-                                        top: '-2px',
-                                        float: 'right',
-                                        position: 'absolute',
-                                        right: '-2px',
-                                        color: '#28a745',
-                                        zIndex: '1500',
-                                    }}
-                                />
-                            </div>:
-                            <div
-                                onClick={addProductHandler.bind(this, item.id)}
-                            >
-                                <AddIcon
-                                    styles={{
-                                        width: '30px',
-                                        height: '30px',
-                                        borderRadius: '50%',
-                                        top: '-2px',
-                                        float: 'right',
-                                        position: 'absolute',
-                                        right: '-2px',
-                                        color: '#DAAB59',
-                                        zIndex: '1500',
-                                    }}
-                                />
+                {
+                    products.length > 0 ?
+                        products.map((item) =>
+                            <Grid key={item.id} item xs={4} style={{padding: '4px 8px' , position: 'relative'}} className={`mx-0 px-1`}>
+                                { item.owned ?
+                                    <div
+                                        onClick={removeProductHandler.bind(this , item.id)}
+                                    >
+                                        <AddedIcon
+                                            styles={{
+                                                width: '30px',
+                                                height: '30px',
+                                                borderRadius: '50%',
+                                                top: '-2px',
+                                                float: 'right',
+                                                position: 'absolute',
+                                                right: '-2px',
+                                                color: '#28a745',
+                                                zIndex: '1500',
+                                            }}
+                                        />
+                                    </div>:
+                                    <div
+                                        onClick={addProductHandler.bind(this, item.id)}
+                                    >
+                                        <AddIcon
+                                            styles={{
+                                                width: '30px',
+                                                height: '30px',
+                                                borderRadius: '50%',
+                                                top: '-2px',
+                                                float: 'right',
+                                                position: 'absolute',
+                                                right: '-2px',
+                                                color: '#DAAB59',
+                                                zIndex: '1500',
+                                            }}
+                                        />
+                                    </div>
+                                }
+                                <div onClick={addProductHandler.bind(this, item.id)}>
+                                <ProductCard product={item}>
+                                </ProductCard>
+                                </div>
+                            </Grid>
+                        )
+                    :
+                        <div style={{
+                            display: 'flex',
+                            alignItem: 'center',
+                            justifyContent: 'center',
+                            width: '100%',
+                            height: '100%'
+                        }}>
+                            <div className={`mx-auto mt-5`}>
+                                <Typography
+                                    component="h5"
+                                    variant="h5"
+                                    style={{fontWeight: '400', fontSize: '16px' , margin: '0px 0px', padding: '14px'}}
+                                    className={`text-center mx-auto text-dark`}
+                                >
+                                    This product is not in our database. <br/>
+                                    Click button below to add to store
+                                </Typography>
+
+                                <Button
+                                    variant="contained"
+                                    style={{'backgroundColor': '#DAAB59' , color: '#333333', padding: '5px 30px'}}
+                                    onClick={requestProduct}
+                                >
+                                    Add product to database
+                                </Button>
                             </div>
-                        }
-                        <div onClick={addProductHandler.bind(this, item.id)}>
-                        <ProductCard product={item}>
-                        </ProductCard>
                         </div>
-                    </Grid>
-                )}
+                }
+
             </Grid>
         </div>
     );

@@ -117,14 +117,13 @@ export default class ModelAction {
         await this.database.action(async () => {
             postItem = await dataCollection.update(item => {
                 this.columns.map((column) => {
-                    console.log(column);
                     if(columns.hasOwnProperty(column)){
-                        console.log('new');
                         item[column] = columns[column]
                     }
                 })
             });
         });
+        console.log(postItem)
 
         return postItem;
     }

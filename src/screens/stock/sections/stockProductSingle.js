@@ -16,7 +16,7 @@ import BarcodeImage from "../../../assets/img/barcode.png";
 
 
 const StockProductSingle = props => {
-    const branchProduct = props.product[0];
+    let branchProduct = props.product[0];
     console.log(branchProduct)
     const [product , setProduct] = useState('');
     const [lastHistory , setLastHistory] = useState('');
@@ -25,6 +25,7 @@ const StockProductSingle = props => {
     const [productQuantity , setProductQuantity] = useState(0);
     const [companyStocks , setCompanyStocks] = useState([]);
     const [costPrice , setCostPrice] = useState(0);
+    const [sellingPrice , setSellingPrice] = useState(branchProduct.sellingPrice);
 
     useEffect(() => {
         if (!product) {
@@ -59,6 +60,10 @@ const StockProductSingle = props => {
 
     const barcodeHandler = () => {
         props.setView(7);
+    }
+
+    const setSP = (sp) => {
+        setSellingPrice(parseFloat(sp));
     }
 
     return (
@@ -152,7 +157,7 @@ const StockProductSingle = props => {
                                 variant="h5"
                                 style={{fontWeight: '700', fontSize: '16px', lineHeight: '1.5'}}
                             >
-                                GHC {parseFloat(productQuantity * branchProduct.sellingPrice).toFixed(2)}
+                                GHC {parseFloat(productQuantity * sellingPrice).toFixed(2)}
                             </Typography>
                         </div>
                     </div>
@@ -172,7 +177,7 @@ const StockProductSingle = props => {
                                 variant="h5"
                                 style={{fontWeight: '700', fontSize: '18px', lineHeight: '1.5'}}
                             >
-                                GHC {(branchProduct.sellingPrice).toFixed(2)}
+                                GHC {(sellingPrice).toFixed(2)}
                             </Typography>
 
                             <Typography
@@ -252,7 +257,7 @@ const StockProductSingle = props => {
                 p={1}
                 style={{ height: '3.0rem', position: "fixed", bottom:"0", width:"100%" }}
             >
-                <BottomMenu setView={props.setView}/>
+                <BottomMenu setSP={setSP.bind(this)} costPrice={costPrice} branchProduct={branchProduct} setView={props.setView}/>
             </Box>
 
         </div>

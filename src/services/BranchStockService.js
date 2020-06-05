@@ -12,6 +12,7 @@ export default class BranchStockService{
     }
 
     async addStock(formFields){
+        console.log(formFields)
         const stockColumns = {
             quantity: parseFloat(formFields.quantity),
             branchId: formFields.branchId,
@@ -37,6 +38,19 @@ export default class BranchStockService{
             return false;
         }
     }
+
+    async changeProductSellingPrice(formFields){
+        try{
+            const response = await new ModelAction('BranchProduct').update(formFields.branchProductId , {
+                sellingPrice: parseFloat(formFields.sellingPrice)
+            });
+
+            return true;
+        } catch (e) {
+            return false;
+        }
+    }
+
 
     async addSupplierStock(formFields){
         const stockColumns = {

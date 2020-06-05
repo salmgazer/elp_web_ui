@@ -16,10 +16,11 @@ import * as Q from "@nozbe/watermelondb/QueryDescription";
 import BranchStockService from "../../services/BranchStockService";
 import BranchProductStock from "../../models/branchesProductsStocks/BranchProductStock";
 import AssignBarcode from './sections/AssignBarcode';
+import BranchProduct from "../../models/branchesProducts/BranchProduct";
 
 class DirectiveViewStock extends Component{
     state = {
-        activeStep: 7,
+        activeStep: 0,
         stockList: [],
         branchProducts: [],
         companyBranches: [],
@@ -224,7 +225,7 @@ class DirectiveViewStock extends Component{
 
 const EnhancedDirectiveViewStock = withDatabase(
     withObservables(['branchProducts' , 'branchProductStock'], ({ branchProducts , branchProductStock, database }) => ({
-        branchProducts: new BranchService(LocalInfo.branchId).getProducts(),
+        branchProducts: database.collections.get(BranchProduct.table).query(Q.where('branchId' , LocalInfo.branchId)).observe(),//new BranchService(LocalInfo.branchId).getProducts(),
         branchProductStock: database.collections.get(BranchProductStock.table).query(Q.where('branchId' , LocalInfo.branchId)).observe(),
     }))(withRouter(DirectiveViewStock))
 );

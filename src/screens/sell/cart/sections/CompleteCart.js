@@ -37,7 +37,7 @@ class PrintRec extends React.Component {
                 padding: '8px',
                 fontSize: '13px',
             }
-        }        
+        }
 
     return (
 
@@ -70,7 +70,7 @@ class PrintRec extends React.Component {
                 <Grid item xs={2}>
                 </Grid>
                 <Grid item xs={8}>
-                    <table style={{borderCollapse: 'collapse', width: '100%', fontSize: '13px'}} align='center'> 
+                    <table style={{borderCollapse: 'collapse', width: '100%', fontSize: '13px'}} align='center'>
                         <tr>
                             <td className={style.td}>Receipt No. :</td>
                             <td className={style.td}>{this.props.receiptNumber}</td>
@@ -93,7 +93,7 @@ class PrintRec extends React.Component {
                 </Grid>
             </Grid>
 
-            
+
 
             <table style={{borderCollapse: 'collapse', width: '100%', marginBottom: '20px', border: 'solid', fontSize: '13px'}} align='center'>
                 <thead style={{border: 'solid'}}>
@@ -102,8 +102,8 @@ class PrintRec extends React.Component {
                     <th style={{border: 'solid'}}>Price</th>
                     <th style={{border: 'solid'}}>Total</th>
                 </thead>
-                {this.props.products.map((item) => 
-                
+                {this.props.products.map((item) =>
+
                     <tbody style={{border: 'solid'}}>
                         <tr>
                         <td style={{border: 'solid'}}>{item.name}</td>
@@ -117,7 +117,7 @@ class PrintRec extends React.Component {
 
             <Grid container spacing={1}>
                 <Grid item xs={12}>
-                    <table style={{borderCollapse: 'collapse', width: '100%', fontSize: '13px'}} align='center'> 
+                    <table style={{borderCollapse: 'collapse', width: '100%', fontSize: '13px'}} align='center'>
                         <tr>
                             <td className={style.td}>Item count :</td>
                             <td className={style.td}>{this.props.totalQty}</td>
@@ -182,7 +182,7 @@ const useStyles = makeStyles(theme => ({
     table:{
         borderCollapse: 'collapse',
         width: '80%',
-    },          
+    },
     td: {
         border: 'none',
         textAlign: 'right',
@@ -257,7 +257,7 @@ const CheckoutView = props => {
                     Summary
                 </Typography>
 
-                <table className={classes.table} align='center'> 
+                <table className={classes.table} align='center'>
                     <tr>
                         <td className={classes.td}>Total :</td>
                         <td className={classes.td}>{`GHC ${salesTotal}`}</td>
@@ -282,7 +282,7 @@ const CheckoutView = props => {
                     &nbsp; Print reciept
                 </Button> */}
                 <ReactToPrint
-                    trigger={() => 
+                    trigger={() =>
                     <Button
                         variant="outlined"
                         style={{fontSize: '16px', }}
@@ -290,14 +290,14 @@ const CheckoutView = props => {
                         // onClick={print}
                     >
                         <LocalPrintshopIcon />
-                        &nbsp; Print reciept
+                        &nbsp; Print receipt
                     </Button> }
 
                     content={() => componentRef.current}
                 />
                 <div style={{ display: "none" }}>
-                    <PrintRec 
-                        ref={componentRef} 
+                    <PrintRec
+                        ref={componentRef}
                         products={props.products}
                         date= {date}
                         receiptNumber={receipt}

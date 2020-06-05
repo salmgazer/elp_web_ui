@@ -28,7 +28,7 @@ export default function SimpleSnackbar(props) {
         <div>
             <Snackbar
                 anchorOrigin={{
-                    vertical: 'top',
+                    vertical: props.direction || 'top',
                     horizontal: 'center',
                 }}
                 open={open}

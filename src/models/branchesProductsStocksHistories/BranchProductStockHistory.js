@@ -15,6 +15,7 @@ export default class BranchProductStockHistory extends Model {
   @field('branchProductId') branchProductId;
   @field('quantity') quantity;
   @field('createdBy') createdBy;
+  @field('stockDate') stockDate;
   @relation('branches_products' , 'branchProductId') branchProduct;
   @relation('branches_products_stocks', 'branchProductStockId') branchProductStock;
   //@relation('users', 'createdBy') createdBy;

@@ -165,7 +165,7 @@ const MainView = props => {
                 onChangeIndex={handleChangeIndex}
             >
                 <TabPanel value={value} index={0}>
-                    <SearchMode searchValue={props.searchValue} searchHandler={props.searchHandler} optionFilter={props.optionFilter} products={props.products} productAdd={addProduct.bind(this)} removeProduct={removeProduct.bind(this)}/>
+                    <SearchMode setView={props.setView} searchValue={props.searchValue} searchHandler={props.searchHandler} optionFilter={props.optionFilter} products={props.products} productAdd={addProduct.bind(this)} removeProduct={removeProduct.bind(this)}/>
                 </TabPanel>
                 <TabPanel value={value} index={1}>
                     <BarcodeMode product={props.product} setView={props.setView} searchBarcode={props.searchBarcode} />

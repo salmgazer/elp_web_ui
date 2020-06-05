@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {withRouter} from "react-router";
+import {withRouter} from "react-router-dom";
 
 import MainPage from './sections/reconciliation/MainPage';
 import ReconciliationReport from './sections/reconciliation/ReconciliationReport';
@@ -10,7 +10,6 @@ import MonthView from './sections/reconciliation/MonthView';
 import YearView from './sections/reconciliation/YearView';
 
 class Reconciliation extends Component{
-
     state={
         activeStep: 0,
         detailsList: [
