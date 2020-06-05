@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import { makeStyles, useTheme } from '@material-ui/core/styles';
-import {withRouter} from "react-router";
+import {withRouter} from "react-router-dom";
 import './sections/AddProducts.scss';
 import MainView from "./sections/MainView";
 import AddProductView from "./sections/AddProductView";
@@ -11,7 +11,11 @@ import CompleteView from "./sections/CompleteView";
 import './addProduct.scss';
 import Api from "../../../services/Api";
 import { v1 as uuidv1 } from 'uuid';
-import getUnixTime from 'date-fns/getUnixTime';
+import getTime from 'date-fns/getTime';
+import SyncService from "../../../services/SyncService";
+import LocalInfo from "../../../services/LocalInfo";
+import paths from "../../../utilities/paths";
+import database from "../../../models/database";
 
 class AddProducts extends Component{
     state = {
@@ -29,22 +33,6 @@ class AddProducts extends Component{
         ],
         searchValue: '',
     };
-
-    /*searchProductHandler = (search) => {
-        /!*
-        * @todo
-        * Work on fetchin data from source
-        * *!/
-        const old_products = this.state.productList;
-
-        const products = old_products.filter(function(item) {
-            return (item.pro_name).toLowerCase().indexOf(search.toLowerCase()) !== -1
-        });
-
-        this.setState({
-            productList: products
-        });
-    };*/
 
     async componentDidMount() {
         const branchId = localStorage.getItem('activeBranch');
@@ -120,6 +108,9 @@ class AddProducts extends Component{
     };
 
     completeAddProducts = async() => {
+        //console.log(database)
+        //console.log(this.props.history)
+
         const branchId = localStorage.getItem('activeBranch');
         const accessToken = localStorage.getItem('accessToken');
 
@@ -167,6 +158,14 @@ class AddProducts extends Component{
             );
 
             localStorage.removeItem('branchDeletedHistory');
+        }
+        //await SyncService.sync(LocalInfo.companyId, LocalInfo.branchId, LocalInfo.userId, this.props.database);
+
+        const returnPage = localStorage.getItem('returnPage') || '';
+        localStorage.removeItem('returnPage');
+
+        if(returnPage){
+            this.props.history.push(paths[returnPage]);
         }
 
         this.setState({
@@ -378,9 +377,10 @@ class AddProducts extends Component{
 
     addNewProduct = async(formFields) => {
         //console.log(formFields);
+        const search = this.state.searchValue;
         let branchProductsAdded = JSON.parse(localStorage.getItem('branchProductsAdded')) || [];
 
-        let old_list = this.state.productList;
+        let old_list = JSON.parse(localStorage.getItem('storeProductsLookup'));
 
         const productIndex = old_list.findIndex((item => item.id === (formFields.productId)));
         const item = {...old_list[productIndex]};
@@ -391,35 +391,57 @@ class AddProducts extends Component{
 
         if((formFields.sellingPrice === "" || formFields.sellingPrice === null || formFields.sellingPrice === 0) && (formFields.costPrice === "" || formFields.costPrice === null || formFields.costPrice === 0) && (formFields.quantity === "" || formFields.quantity === null || formFields.quantity === 0)){
             old_list[productIndex] = item;
+            const tempId = uuidv1();
+
+            formFields = {
+                branchId: formFields.branchId,
+                productId: formFields.productId,
+                costPrice: null,
+                sellingPrice: null,
+                quantity: formFields.quantity === null ? null : parseFloat(formFields.quantity),
+                tempId: tempId,
+            };
+
+            branchProductsAdded.push(formFields);
+
+            localStorage.setItem('branchProductsAdded' , JSON.stringify(branchProductsAdded));
+
+            localStorage.setItem('storeProductsLookup' , JSON.stringify(old_list));
+
+            const searchResults = old_list.filter(function(item) {
+                return (item.name).toLowerCase().indexOf(search.toLowerCase()) !== -1
+            });
 
             this.setState({
-                productList: old_list
+                searchValue: this.state.searchValue,
+                productList: searchResults
             });
 
             return true
         }
 
         if(formFields.sellingPrice !== "" || formFields.sellingPrice !== null){
-            item.sellingPrice = formFields.sellingPrice;
+            item.sellingPrice = formFields.sellingPrice === null ? null : parseFloat(formFields.sellingPrice);
         }
-        console.log(item)
+
         const tempId = uuidv1();
         const historyItem = {
             quantity: formFields.quantity,
             branch_stock_id: formFields.branchId,
             id: tempId,
             tempId: tempId,
-            created_at: getUnixTime(new Date()),
+            created_at: getTime(new Date()),
         };
 
         formFields = {
             branchId: formFields.branchId,
             productId: formFields.productId,
-            costPrice: parseFloat(formFields.costPrice),
-            sellingPrice: parseFloat(formFields.sellingPrice),
-            quantity: formFields.quantity,
+            costPrice: formFields.costPrice === null ? null : parseFloat(formFields.costPrice),
+            sellingPrice: formFields.sellingPrice === null ? null : parseFloat(formFields.sellingPrice),
+            quantity: formFields.quantity === null ? null : parseFloat(formFields.quantity),
             tempId: tempId,
         };
+        console.log(formFields)
 
         branchProductsAdded.push(formFields);
         item.stock = item.stock || [];
@@ -436,8 +458,13 @@ class AddProducts extends Component{
 
         localStorage.setItem('storeProductsLookup' , JSON.stringify(old_list));
 
+        const searchResults = old_list.filter(function(item) {
+            return (item.name).toLowerCase().indexOf(search.toLowerCase()) !== -1
+        });
+
         this.setState({
-            productList: old_list
+            searchValue: this.state.searchValue,
+            productList: searchResults
         });
     };
 

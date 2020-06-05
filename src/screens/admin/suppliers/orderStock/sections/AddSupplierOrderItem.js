@@ -11,7 +11,7 @@ import Grid from "@material-ui/core/Grid/Grid";
 import SwapHorizOutlinedIcon from '@material-ui/icons/SwapHorizOutlined';
 import InputBase from "@material-ui/core/InputBase/InputBase";
 import Paper from "@material-ui/core/Paper/Paper";
-import '../../../../Components/Input/styles/SellInput.scss';
+import '../../../../../components/Input/styles/SellInput.scss';
 import {makeStyles} from "@material-ui/core";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faCalculator} from "@fortawesome/free-solid-svg-icons";

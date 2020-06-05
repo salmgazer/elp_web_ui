@@ -19,7 +19,7 @@ export default class PurchaseService {
                 fxn: 'eq'
             }
         );
-
+        console.log(purchases)
         const day = new Date(date);
 
         console.log(day)
@@ -53,7 +53,7 @@ export default class PurchaseService {
 
         for (let step = 0; step < purchase.length; step++) {
             quantity += parseFloat(await BranchStockService.getStockProductQuantity(purchase[step].id));
-            
+
             const branchProduct = await new ModelAction('BranchProduct').findByColumnNotObserve({
                 name: 'productId',
                 value: purchase[step].productId,

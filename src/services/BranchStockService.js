@@ -3,6 +3,7 @@ import ModelAction from "./ModelAction";
 import database from '../models/database';
 import { Q } from '@nozbe/watermelondb'
 import BranchProductService from "./BranchProductService";
+import BranchProductStock from "../models/branchesProductsStocks/BranchProductStock";
 
 export default class BranchStockService{
     constructor(){
@@ -190,8 +191,8 @@ export default class BranchStockService{
     }
 
     async getCompanyProductStock(productId){
-        const dataCollection = await database.collections.get('branches_products_stocks');
-        const branches = (LocalInfo.branches).map(branch => branch.branchId);
+        const dataCollection = await database.collections.get(BranchProductStock.table);
+        const branches = (LocalInfo.branches).map(branch => branch.id);
 
         const stock = await dataCollection.query(
             Q.where('productId' , productId),
@@ -304,9 +305,7 @@ export default class BranchStockService{
             const countSales = ((sales).reduce((a, b) => a + (b['quantity'] || 0), 0));
             const countMovement = ((movement).reduce((a, b) => a + (b['quantity'] || 0), 0));
 
-            //console.log(product.lowestStock , (countStock - (countSales + countMovement)))
             return product.lowestStock >= (countStock - (countSales + countMovement))
-
         });
 
         return outOfStock;

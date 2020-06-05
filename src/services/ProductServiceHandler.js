@@ -11,7 +11,7 @@ export default class ProductServiceHandler {
     * @return var
     * */
     getSellingPrice(){
-        return (this.product.owned === true && this.product.sellingPrice) ? (this.product.sellingPrice).toFixed(2) : null;
+        return (this.product.owned === true && this.product.sellingPrice) ? (parseFloat(this.product.sellingPrice)).toFixed(2) : null;
     }
 
     /*
@@ -105,7 +105,7 @@ export default class ProductServiceHandler {
    async updateStockEntryDetails(stockEntry ){
     //1. Check if quantity of product is valid
     //2. Update quantity of entry
-      
+
         try {
             new ModelAction('BranchProduct').update(stockEntry.productId , {
                 branchId: stockEntry.branchId,
@@ -121,7 +121,7 @@ export default class ProductServiceHandler {
         } catch (e) {
             return false;
         }
-   
+
 }
 
 }

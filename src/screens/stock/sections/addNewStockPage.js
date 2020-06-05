@@ -5,13 +5,12 @@ import ArrowBackIcon from '@material-ui/icons/ArrowBack';
 import SimpleSnackbar from "../../../components/Snackbar/SimpleSnackbar";
 import Button from "@material-ui/core/Button/Button";
 import Typography from "@material-ui/core/Typography/Typography";
-import QuantityInput from "../../Components/Input/QuantityInput";
 import CostCalculator from "../../../components/Calculator/CostCalculator";
 import Grid from "@material-ui/core/Grid/Grid";
 import SwapHorizOutlinedIcon from '@material-ui/icons/SwapHorizOutlined';
 import InputBase from "@material-ui/core/InputBase/InputBase";
 import Paper from "@material-ui/core/Paper/Paper";
-import '../../../screens/Components/Input/styles/SellInput.scss';
+import '../../../components/Input/styles/SellInput.scss';
 import {makeStyles} from "@material-ui/core";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faCalculator} from "@fortawesome/free-solid-svg-icons";
@@ -29,6 +28,7 @@ import UnitCost from '../../Components/Input/UnitCost';
 import LocalInfo from "../../../services/LocalInfo";
 import BranchProductService from "../../../services/BranchProductService";
 import MuiAlert from '@material-ui/lab/Alert';
+import QuantityInput from "../../../components/Input/QuantityInput";
 
 const useStyles = makeStyles(theme => ({
     root: {
@@ -472,7 +472,7 @@ const AddNewStockPage = props => {
                 </Typography>
 
                 <div className={`rounded bordered mb-3 mx-3 px-3 py-3`}>
-                    <QuantityInput style={{width: '100%'}} label={`Quantity to add`} inputName="quantity" getValue={setInputValue.bind(this)}/>
+                    <QuantityInput startValue={0} label={`Quantity to add`} inputName="quantity" getValue={setInputValue.bind(this)}/>
 
                     {swapItem ?
                         <Grid container spacing={1} className={`my-2`}>

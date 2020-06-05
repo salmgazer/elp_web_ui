@@ -9,6 +9,7 @@ import database from "../models/database";
 import * as Q from "@nozbe/watermelondb/QueryDescription";
 import SaleService from "./SaleService";
 import fromUnixTime from 'date-fns/fromUnixTime';
+import isSameDay from "date-fns/isSameDay";
 
 export default class BranchService {
     constructor (branchId = LocalInfo.branchId) {
@@ -82,7 +83,9 @@ export default class BranchService {
         const userRole = LocalInfo.userRole;
         let todaySales = [];
 
-        if(userRole === 'owner'){
+        const day = new Date();
+
+        //if(userRole === 'owner'){
             const sales = await new ModelAction('Sales').findByColumnNotObserve(
                 {
                     name: 'branchId',
@@ -91,8 +94,8 @@ export default class BranchService {
                 }
             );
 
-            todaySales = sales.filter(sale => isToday(sale.createdAt))
-        }
+            todaySales = sales.filter(sale => isToday(fromUnixTime(sale.salesDate)));
+        //}
 
         /*
         * @todo handle other user roles

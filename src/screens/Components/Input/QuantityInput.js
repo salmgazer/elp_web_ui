@@ -5,7 +5,7 @@ import RemoveCircleOutlineOutlinedIcon from '@material-ui/icons/RemoveCircleOutl
 import Paper from "@material-ui/core/Paper/Paper";
 import InputBase from "@material-ui/core/InputBase/InputBase";
 import {makeStyles} from "@material-ui/core";
-import './styles/SellInput.scss';
+import '../../../components/Input/styles/SellInput.scss';
 
 
 const useStyles = makeStyles(theme => ({
@@ -33,7 +33,7 @@ const useStyles = makeStyles(theme => ({
 
 const QuantityInput = props => {
     const classes = useStyles();
-    const [quantity , setQuantity] = useState(props.startValue || 1);
+    const [quantity , setQuantity] = useState(props.startValue || 0);
     const inputName = props.inputName;
 
     const increaseQ = () => {
@@ -91,10 +91,9 @@ const QuantityInput = props => {
                 <Grid item xs={6} >
                     <Paper className={`${classes.root} text-center`} >
                         <InputBase
-                            className={`${classes.input} search-box text-center`}
+                            className={`${classes.input} search-box`}
                             type="tel"
                             value={quantity}
-                            defaultValue=''
                             name={props.inputName}
                             onChange={(event) => setValueHandler(event)}
                         />

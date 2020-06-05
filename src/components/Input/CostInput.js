@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState} from 'react';
 import Grid from "@material-ui/core/Grid/Grid";
 import Paper from "@material-ui/core/Paper/Paper";
 import InputBase from "@material-ui/core/InputBase/InputBase";
@@ -29,6 +29,20 @@ const useStyles = makeStyles(theme => ({
 
 const CostInput = props => {
     const classes = useStyles();
+    const inputName = props.inputName;
+    const [quantity , setQuantity] = useState(parseFloat(props.initialValue) || '');
+
+    const setValueHandler = (event) => {
+        event.persist();
+        if(isNaN(event.target.value) || (event.target.value).length <= 0)
+        {
+            setQuantity();
+            return
+        }
+
+        setQuantity(event.target.value);
+        props.getValue(inputName , event.target.value);
+    };
 
     return(
         <div>
@@ -45,6 +59,9 @@ const CostInput = props => {
                         <InputBase
                             className={`${classes.input} search-box text-center`}
                             type="tel"
+                            value={quantity}
+                            name={inputName}
+                            onChange={(event) => setValueHandler(event)}
                         />
                     </Paper>
                 </Grid>

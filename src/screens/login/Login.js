@@ -22,6 +22,7 @@ import InputAdornment from '@material-ui/core/InputAdornment';
 import PrimaryLoader from "../../components/Loader/Loader";
 import SimpleSnackbar from "../../components/Snackbar/SimpleSnackbar";
 import SyncService from "../../services/SyncService";
+import CashflowService from "../../services/CashflowService";
 
 const useStyles = makeStyles(theme => ({
     root: {
@@ -152,12 +153,14 @@ const Login = props => {
             const userId = userAccess.user.userId;
             await SyncService.sync(companyId, LocalInfo.branchId, userId, database);
             console.log("DONE SYNCING");
+            await CashflowService.exportDefaultCashflowCategories();
+
             history.push(paths.dashboard)
         }else{
             document.getElementById("loginForm").reset();
             setLoading(false);
             await setErrorDialog(true);
-            await setErrorMsg(req.error.msg);
+            await setErrorMsg('Wrong username or password');
 
             return setTimeout(function(){
                 setErrorDialog(false);
