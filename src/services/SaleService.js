@@ -11,7 +11,6 @@ import isSameMonth from "date-fns/isSameMonth";
 import isSameYear from "date-fns/isSameYear";
 import SystemDateHandler from './SystemDateHandler';
 import fromUnixTime from 'date-fns/fromUnixTime';
-import format from "date-fns/format";
 
 export default class SaleService {
     async makeSell(data , paymentType){
@@ -254,7 +253,7 @@ export default class SaleService {
     * */
     async getTodaySalesDetails() {
         const todaySales = await new BranchService().getTodaySales();
-
+console.log(todaySales)
         let total = 0;
         let profit = 0;
         for (let step = 0; step < todaySales.length; step++) {
@@ -368,6 +367,7 @@ export default class SaleService {
             weekFormatSales.push({...await SaleService.getSaleFormatAsync(value) , day: key})
         }
 
+        //console.log(weekFormatSales)
         return weekFormatSales;
     }
 

@@ -30,7 +30,8 @@ class Sell extends Component {
         customers: [],
         currentCustomer: 0,
         salesTodayDetails: {},
-        history: {}
+        history: {},
+        cartTotalProduct: 0,
     };
 
     async componentDidMount() {
@@ -45,6 +46,7 @@ class Sell extends Component {
             currentCustomer: await CartService.getCartCustomerId(),
             savedCart: savedCarts,
             salesTodayDetails: salesTodayDetails,
+            cartTotalProduct: await CartService.getCartProductQuantity(),
         });
     }
 
@@ -53,13 +55,14 @@ class Sell extends Component {
 
         const salesTodayDetails = await new SaleService().getTodaySalesDetails();
 
-        if(this.state.savedCart.length !== savedCarts.length || this.state.currentCustomer !== await CartService.getCartCustomerId() || this.props.cartQuantity !== prevProps.cartQuantity || branchCustomers.length !== prevProps.branchCustomers.length){
+        if(this.state.savedCart.length !== savedCarts.length || this.state.currentCustomer !== await CartService.getCartCustomerId() || this.props.cartQuantity !== prevProps.cartQuantity || branchCustomers.length !== prevProps.branchCustomers.length || this.state.cartTotalProduct !== await CartService.getCartProductQuantity()){
             this.setState({
                 spCount: cartQuantity,
                 customers: branchCustomers,
                 currentCustomer: await CartService.getCartCustomerId(),
                 savedCart: savedCarts,
                 salesTodayDetails: salesTodayDetails,
+                cartTotalProduct: await CartService.getCartProductQuantity(),
             });
         }
     }

@@ -129,7 +129,9 @@ const Drawer = props => {
             onKeyDown={toggleDrawer(side, false)}
         >
             <span className="drawerDefault"
-                  style={{display: 'flex', position: 'relative', background: '#403C3C', lineHeight: '27px', color: '#ffffff'}}>
+                onClick={() => history.push(paths.dashboard)}
+                style={{display: 'flex', position: 'relative', background: '#403C3C', lineHeight: '27px', color: '#ffffff'}}
+            >
                 <div className="ham-top-div">
                     <div className="ham-top-div-inner">
                         <StoreIcon style={{fontSize: '70px', color: '#000000'}}/>
@@ -159,12 +161,12 @@ const Drawer = props => {
                     <ListItemText primary="Stock" />
                 </ListItem>
                 <Divider />
-                <ListItem button key={4}>
+                <ListItem button key={4} onClick={() => history.push(paths.collection_owner)}>
                     <ListItemIcon><AttachMoneyIcon style={{color: '#FFFFFF'}} /></ListItemIcon>
-                    <ListItemText primary="Accounting" />
+                    <ListItemText primary="Collection" />
                 </ListItem>
                 <Divider />
-                <ListItem button key={5}>
+                <ListItem button key={5} onClick={() => history.push(paths.dashboard)}>
                     <ListItemIcon><DashboardIcon style={{color: '#FFFFFF'}} /></ListItemIcon>
                     <ListItemText primary="Dashboard" />
                 </ListItem>

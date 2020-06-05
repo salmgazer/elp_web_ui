@@ -6,7 +6,7 @@ import InputAdornment from '@material-ui/core/InputAdornment';
 import IconButton from '@material-ui/core/IconButton';
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faCalculator} from "@fortawesome/free-solid-svg-icons";
-import './styles/SellInput.scss';
+import '../../../components/Input/styles/SellInput.scss';
 
 const useStyles = makeStyles(theme => ({
     root: {

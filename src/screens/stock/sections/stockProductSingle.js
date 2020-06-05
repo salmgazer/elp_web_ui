@@ -16,6 +16,7 @@ import BranchStockService from "../../../services/BranchStockService";
 
 const StockProductSingle = props => {
     const branchProduct = props.product[0];
+    console.log(branchProduct)
     const [product , setProduct] = useState('');
     const [lastHistory , setLastHistory] = useState('');
     const [name , setName] = useState('');

@@ -62,12 +62,22 @@ const MainView = props => {
         props.setView(2);
     };
 
+    const openMenu = () => {
+        const addedProducts = localStorage.getItem("branchProductsAdded") || "";
+
+        if(addedProducts){
+            openDialogHandler()
+        }else{
+            setIsDrawerShow(true)
+        }
+    }
+
     return(
         <div>
             <SectionNavbars
                 title={`Stock`}
                 leftIcon={
-                    <div onClick={() => setIsDrawerShow(true)}>
+                    <div onClick={openMenu}>
                         <MenuIcon
                             style={{fontSize: '2rem'}}
                         />

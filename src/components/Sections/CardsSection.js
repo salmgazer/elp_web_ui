@@ -17,7 +17,7 @@ const useStyles = makeStyles(theme => ({
     },
     paper: {
       padding: theme.spacing(1),
-      textAlign: 'center', 
+      textAlign: 'center',
     }
   }));
 
@@ -34,11 +34,11 @@ const CardsSection = props => {
                             Quantity
                         </Typography>
                         <Typography className={classes.text} >
-                            {props.quantity}
+                            {props.quantity} {props.quantity > 1 ? 'items' : 'item'}
                         </Typography>
                     </Paper>
                 </Grid>
-                
+
                 <Grid item xs={3}>
                     <Paper className={classes.paper}>
                         <Typography className={classes.title} component="p" >
@@ -71,7 +71,7 @@ const CardsSection = props => {
                         </Typography>
                     </Paper>
                 </Grid>
-                
+
             </Grid>
         </div>
     )

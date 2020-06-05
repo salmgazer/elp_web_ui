@@ -3,7 +3,6 @@ import Typography from "@material-ui/core/Typography/Typography";
 import Button from "@material-ui/core/Button/Button";
 import Box from "@material-ui/core/Box/Box";
 import ProductHistory from "./history/ProductHistory";
-import QuantityInput from "../../../Components/Input/QuantityInput";
 import { confirmAlert } from 'react-confirm-alert';
 import 'react-confirm-alert/src/react-confirm-alert.css';
 import Snackbar from '@material-ui/core/Snackbar';
@@ -18,6 +17,7 @@ import LocalInfo from "../../../../services/LocalInfo";
 import ArrowBackIcon from '@material-ui/icons/ArrowBack';
 import CostInput from "../../../../components/Input/CostInput";
 import PriceInput from "../../../../components/Input/PriceInput";
+import QuantityInput from "../../../../components/Input/QuantityInput";
 
 
 function Alert(props) {
@@ -95,6 +95,9 @@ const AddProductView = props => {
     const setInputValue = (name , value) => {
         const {...oldFormFields} = formFields;
 
+        if(name === 'costPrice'){
+            console.log('This came in')
+        }
         oldFormFields[name] = value;
         setFormFields(oldFormFields);
     };

@@ -4,6 +4,7 @@ import Typography from "@material-ui/core/Typography/Typography";
 import DeleteIcon from '@material-ui/icons/Delete';
 import {confirmAlert} from "react-confirm-alert";
 import format from 'date-fns/format'
+import fromUnixTime from 'date-fns/fromUnixTime';
 
 const productHistory = props => {
     const history = props.item;
@@ -48,8 +49,8 @@ const productHistory = props => {
                         {`${history.quantity} packs added`}
                     </Typography>
 
-                    <div>{format(new Date(history.created_at * 1000) , "eeee, MMMM do, yyyy")}</div>
-                    <div>{format(new Date(history.created_at * 1000) , "HH:mm a")}</div>
+                    <div>{format(new Date(fromUnixTime(history.created_at / 1000)) , "eeee, MMMM do, yyyy")}</div>
+                    <div>{format(new Date(fromUnixTime(history.created_at / 1000)) , "HH:mm a")}</div>
                 </Grid>
 
                 <Grid

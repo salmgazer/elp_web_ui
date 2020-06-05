@@ -55,7 +55,6 @@ export default class AuthService {
                     localStorage.setItem('userData', JSON.stringify(loginInfo));
                     localStorage.setItem('companyId', loginInfo.companies[0].id);
                     localStorage.setItem('collectionDate', format(new Date(), 'MM/dd/yyyy'));
-                    await CashflowService.exportDefaultCashflowCategories();
                     return {
                         success: 200,
                         user: loginInfo.user
@@ -170,10 +169,10 @@ export default class AuthService {
 
     logout = async () => {
         try {
-            console.log('i ma here')
             localStorage.clear();
             sessionStorage.clear();
-            console.log('i ma here')
+            const dbs = await window.indexedDB.databases();
+            dbs.forEach(db => { window.indexedDB.deleteDatabase(db.name) })
 
             window.location.href = paths.login;
         } catch (e) {

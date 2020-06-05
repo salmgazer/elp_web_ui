@@ -5,7 +5,7 @@ import RemoveCircleOutlineOutlinedIcon from '@material-ui/icons/RemoveCircleOutl
 import Paper from "@material-ui/core/Paper/Paper";
 import InputBase from "@material-ui/core/InputBase/InputBase";
 import {makeStyles} from "@material-ui/core";
-import './styles/SellInput.scss'
+import '../../../components/Input/styles/SellInput.scss'
 
 const useStyles = makeStyles(theme => ({
     root: {

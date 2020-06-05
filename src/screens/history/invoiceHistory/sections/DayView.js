@@ -8,7 +8,7 @@ import DateFnsUtils from '@date-io/date-fns';
 import {
   MuiPickersUtilsProvider,
   KeyboardDatePicker,
-} from '@material-ui/pickers'; 
+} from '@material-ui/pickers';
 import Paper from '@material-ui/core/Paper';
 import Typography from '@material-ui/core/Typography';
 import Box from "@material-ui/core/Box/Box";
@@ -43,8 +43,7 @@ const useStyles = makeStyles(theme => ({
     }
   }));
 
-  const DayView = props => {
-    
+const DayView = props => {
     const classes = useStyles();
     const [selectedDate, setSelectedDate] = useState(new Date());
     const pageName = props.pageName;
@@ -87,7 +86,7 @@ const useStyles = makeStyles(theme => ({
             {console.log(invoiceDetails.invoices)}
 
             <Grid container spacing={1}>
-            
+
                 <Grid item xs={6} style={{padding: '2px 4px', marginTop: '18px'}}>
                     <Paper className={classes.search} >
                         <IconButton className={classes.iconButton} aria-label="search">
@@ -101,7 +100,7 @@ const useStyles = makeStyles(theme => ({
                         />
                     </Paper>
                 </Grid>
-            
+
                 <Grid item xs={6} >
                     <MuiPickersUtilsProvider utils={DateFnsUtils}>
                         <KeyboardDatePicker
