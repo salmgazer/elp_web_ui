@@ -11,10 +11,11 @@ import WeekView from './WeekView';
 import MonthView from './MonthView';
 import YearView from './YearView';
 import SProductView from './SProductView';
+import BranchProduct from "../../../../models/branchesProducts/BranchProduct";
+import * as Q from "@nozbe/watermelondb/QueryDescription";
 
 
 class SortProduct extends Component{
-
     state={
         isDrawerShow: false,
         activeStep: 1,
@@ -97,7 +98,7 @@ class SortProduct extends Component{
 
 const EnhancedDirectiveViewStock = withDatabase(
     withObservables(['branchProducts'], ({ branchProducts ,  database }) => ({
-        branchProducts: new BranchService(LocalInfo.branchId).getProducts(),
+        branchProducts: database.collections.get(BranchProduct.table).query(Q.where('branchId', LocalInfo.branchId)).observe(),
     }))(withRouter(SortProduct))
 );
 

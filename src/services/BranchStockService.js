@@ -4,6 +4,7 @@ import database from '../models/database';
 import { Q } from '@nozbe/watermelondb'
 import BranchProductService from "./BranchProductService";
 import BranchProductStock from "../models/branchesProductsStocks/BranchProductStock";
+import getUnixTime from "date-fns/getUnixTime";
 
 export default class BranchStockService{
     constructor(){
@@ -18,6 +19,7 @@ export default class BranchStockService{
             branchId: formFields.branchId,
             productId: formFields.productId,
             type: formFields.type,
+            stockDate:  getUnixTime(new Date(LocalInfo.workingDate)),
             branchProductId: formFields.branchProductId,
             costPrice: parseFloat(formFields.costPrice),
             createdBy: LocalInfo.userId,
@@ -58,12 +60,12 @@ export default class BranchStockService{
             branchId: formFields.branchId,
             productId: formFields.productId,
             type: formFields.type,
+            stockDate:  getUnixTime(new Date(LocalInfo.workingDate)),
             branchSupplierOrderId: formFields.branchSupplierOrderId,
             branchProductId: formFields.branchProductId,
             costPrice: parseFloat(formFields.costPrice),
             createdBy: LocalInfo.userId,
         };
-
 
         try{
             const response = await new ModelAction('BranchProductStock').post(stockColumns);
@@ -155,6 +157,7 @@ export default class BranchStockService{
         const historyColumns = {
             branchProductStockId: lastStock.id,
             quantity: lastStock.quantity,
+            stockDate:  getUnixTime(new Date(LocalInfo.workingDate)),
             branchProductId: lastStock.branchProductId,
             createdBy: lastStock.createdBy,
         };

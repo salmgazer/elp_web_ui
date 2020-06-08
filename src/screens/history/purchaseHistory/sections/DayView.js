@@ -5,7 +5,7 @@ import DateFnsUtils from '@date-io/date-fns';
 import {
   MuiPickersUtilsProvider,
   KeyboardDatePicker,
-} from '@material-ui/pickers'; 
+} from '@material-ui/pickers';
 import Typography from '@material-ui/core/Typography';
 import Box from "@material-ui/core/Box/Box";
 import { withRouter } from "react-router-dom";
@@ -14,6 +14,10 @@ import SingleDayView from './singleViews/SingleDayView';
 import ProductDay from './singleViews/ProductDay';
 import CardsSection from '../../../../components/Sections/CardsSection';
 import PurchaseService from "../../../../services/PurchaseService";
+import SimpleSnackbar from "../../../../components/Snackbar/SimpleSnackbar";
+import getUnixTime from "date-fns/getUnixTime";
+import ModelAction from "../../../../services/ModelAction";
+import {confirmAlert} from "react-confirm-alert";
 
 const useStyles = makeStyles(theme => ({
     root: {
@@ -22,13 +26,17 @@ const useStyles = makeStyles(theme => ({
   }));
 
 const DayView = props => {
-    
+
     const classes = useStyles();
     const [selectedDate, setSelectedDate] = React.useState(new Date());
     const [purchaseDetails , setPurchaseDetails] = useState(false);
     const [purchases , setPurchases] = useState([]);
     const pageName = props.pageName;
     const [name , setName] = useState('');
+    const [error , setError] = useState(false);
+    const [errorMsg , setErrorMsg] = useState('');
+    const [success , setSuccess] = useState(false);
+    const [successMsg , setSuccessMsg] = useState('');
 
     const handleDateChange = date => {
         setSelectedDate(date);
@@ -55,20 +63,149 @@ const DayView = props => {
         console.log(response)
     };
 
-    const deleteProductHandler = (event) => {
-        props.deleteProduct(event);
+    const deleteProductHandler = (stockId) => {
+        confirmAlert({
+            title: 'Confirm to delete',
+            message: 'Are you sure you want to delete this entry.',
+            buttons: [
+                {
+                    label: 'Yes',
+                    onClick: async () => {
+                        try {
+                            await new ModelAction('BranchProductStock').softDelete(stockId);
+
+                            setSuccessMsg('Stock deleted successfully');
+                            setSuccess(true);
+                            getPurchaseDetails(selectedDate);
+                            setTimeout(function(){
+                                setSuccessMsg('');
+                                setSuccess(false);
+                            }, 2000);
+
+                            return true;
+                        } catch (e) {
+                            setErrorMsg('OOPS. Something went wrong. Please try again');
+                            setError(true);
+                            setTimeout(function(){
+                                setErrorMsg('');
+                                setError(false);
+                            }, 2000);
+                            return false;
+                        }
+                    }
+                },
+                {
+                    label: 'No',
+                    onClick: () => {
+                        return false;
+                    }
+                }
+            ]
+        })
     };
 
-    const updateEntry = (event) => {
-        props.updateStockEntry(event);
+    const updateStockQuantity = async(stockId, formFields) => {
+        const data = {
+            quantity: parseFloat(formFields.quantity)
+        };
+
+        try {
+            await new ModelAction('BranchProductStock').update(stockId, data);
+
+            setSuccessMsg('Quantity successfully changed');
+            setSuccess(true);
+            getPurchaseDetails(selectedDate);
+            setTimeout(function(){
+                setSuccessMsg('');
+                setSuccess(false);
+            }, 2000);
+
+            return true;
+        }catch (e) {
+            setErrorMsg('OOPS. Something went wrong. Please try again');
+            setError(true);
+            setTimeout(function(){
+                setErrorMsg('');
+                setError(false);
+            }, 2000);
+            return false;
+        }
+    };
+
+    const updatePriceEntry = async(stockId, formFields) => {
+        const data = {
+            costPrice: parseFloat(formFields.costPrice)
+        };
+
+        try {
+            await new ModelAction('BranchProductStock').update(stockId, data);
+
+            setSuccessMsg('Cost price successfully changed');
+            setSuccess(true);
+            getPurchaseDetails(selectedDate);
+            setTimeout(function(){
+                setSuccessMsg('');
+                setSuccess(false);
+            }, 2000);
+
+            return true;
+        }catch (e) {
+            setErrorMsg('OOPS. Something went wrong. Please try again');
+            setError(true);
+            setTimeout(function(){
+                setErrorMsg('');
+                setError(false);
+            }, 2000);
+            return false;
+        }
+    };
+
+    const updateEntryDate = async (stockId, date) => {
+        console.log(stockId,getUnixTime(date))
+        const data = {
+            stockDate: getUnixTime(date)
+        };
+
+        try {
+            await new ModelAction('BranchProductStock').update(stockId, data);
+
+            setSuccessMsg('Date successfully changed');
+            setSuccess(true);
+            getPurchaseDetails(selectedDate);
+            setTimeout(function(){
+                setSuccessMsg('');
+                setSuccess(false);
+            }, 2000);
+
+            return true;
+        }catch (e) {
+            setErrorMsg('OOPS. Something went wrong. Please try again');
+            setError(true);
+            setTimeout(function(){
+                setErrorMsg('');
+                setError(false);
+            }, 2000);
+            return false;
+        }
     };
 
     return(
         <div className={classes.root}>
             {/* {console.log(purchaseDetails.purchases)} */}
+            <SimpleSnackbar
+                type="success"
+                openState={success}
+                message={successMsg}
+            />
+
+            <SimpleSnackbar
+                type="warning"
+                openState={error}
+                message={errorMsg}
+            />
 
             <Grid container spacing={1}>
-                <Grid item xs={6} >              
+                <Grid item xs={6} >
                     <Typography
                         style={{fontSize: '14px', paddingTop: '20px', marginRight: '50px'}}
                         className={`text-center text-dark`}
@@ -124,10 +261,9 @@ const DayView = props => {
                     :
                     pageName === false ?
 
-                    purchases.map((purchase) => <SingleDayView  key={purchase.id} purchase={purchase} purchaseEntry={purchase} deleteStoreProduct={deleteProductHandler.bind(this)} updateStockEntry={props.updateStockEntry} updatePriceEntry={props.updateStockEntry} />)
+                    purchases.map((purchase) => <SingleDayView updateEntryDate={updateEntryDate.bind(this)} key={purchase.id} purchase={purchase} purchaseEntry={purchase} deleteStoreProduct={deleteProductHandler.bind(this)} updateStockQuantity={updateStockQuantity.bind(this)} updatePriceEntry={updatePriceEntry.bind(this)} />)
                     :
-                    purchases.map((purchase) => <ProductDay  key={purchase.id} purchase={purchase} purchaseEntry={purchase} prodName={name} deleteStoreProduct={deleteProductHandler.bind(this)} updateStockEntry={props.updateStockEntry} updatePriceEntry={props.updateStockEntry} />)
-
+                    purchases.map((purchase) => <ProductDay key={purchase.id} updateEntryDate={updateEntryDate.bind(this)} purchase={purchase} purchaseEntry={purchase} prodName={name} deleteStoreProduct={deleteProductHandler.bind(this)} updateStockQuantity={updateStockQuantity.bind(this)} updatePriceEntry={updatePriceEntry.bind(this)} />)
                 }
             </Box>
 

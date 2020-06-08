@@ -11,13 +11,17 @@ import WeekView from './WeekView';
 import MonthView from './MonthView';
 import YearView from './YearView';
 import DateToggle from "../../../../components/DateToggle/DateToggle";
-
+import getUnixTime from 'date-fns/getUnixTime';
+import SimpleSnackbar from "../../../../components/Snackbar/SimpleSnackbar";
 
 class SortDate extends Component{
-
     state={
         activeStep: 0,
         pageName: false,
+        error: false,
+        errorMsg: '',
+        success: false,
+        successMsg: '',
     }
 
     getStepContent = step => {
@@ -84,13 +88,13 @@ class SortDate extends Component{
         }
     };
 
-
     render(){
         return(
             <div>
                 <DateToggle
                     setView={this.setStepContentView.bind(this)}
                 />
+
                 {this.getStepContent(this.state.activeStep)}
 
             </div>

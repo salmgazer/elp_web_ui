@@ -17,7 +17,6 @@ import BarcodeImage from "../../../assets/img/barcode.png";
 
 const StockProductSingle = props => {
     let branchProduct = props.product[0];
-    console.log(branchProduct)
     const [product , setProduct] = useState('');
     const [lastHistory , setLastHistory] = useState('');
     const [name , setName] = useState('');
@@ -42,7 +41,7 @@ const StockProductSingle = props => {
         setLastHistory(fetchLastHistory);
         setName(newProduct.name);
         setImage(new ProductServiceHandler(product).getProductImage());
-        setProductQuantity(await new BranchStockService().getProductStockQuantity(branchProduct.productId));
+        setProductQuantity(await productHandler.getProductQuantity());
         setCompanyStocks(await new BranchStockService().getBranchStockQuantities(branchProduct.productId));
         setCostPrice(await productHandler.getCostPrice());
     };

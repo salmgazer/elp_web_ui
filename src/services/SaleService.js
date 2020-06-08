@@ -367,7 +367,7 @@ console.log(todaySales)
             weekFormatSales.push({...await SaleService.getSaleFormatAsync(value) , day: key})
         }
 
-        //console.log(weekFormatSales)
+        console.log(weekFormatSales)
         return weekFormatSales;
     }
 
@@ -437,14 +437,6 @@ console.log(todaySales)
             quantity += parseFloat(await SaleService.getSaleProductQuantity(sale[step].saleId));
         }
 
-        // switch (duration) {
-        //     case 'week':
-        //         sale = await SaleService.weekSalesFormat(sale);
-        //     case 'month':
-        //         sale = await SaleService.monthSalesFormat(sale);
-        //     // case 'year':
-        //     //     sale = await SaleService.yearSalesFormat(sale);
-        // }
         if (duration === 'week') {
             sale = await SaleService.weekSalesFormat(sale);
         } else if (duration === 'month') {

@@ -21,9 +21,10 @@ const useStyles = makeStyles(theme => ({
 
 const values = new DateServiceHandler().getStoreMonths()
 
-const WeekView = props => {
+const MonthView = props => {
     console.log(new DateServiceHandler().getStoreMonths());
-    
+    console.log(new DateServiceHandler().getStoreYears());
+
     const classes = useStyles();
     const [selectedMonth, setSelectedMonth] = React.useState(values[(new Date().getMonth())].value);
     const [purchaseDetails , setPurchaseDetails] = useState(false);
@@ -45,15 +46,18 @@ const WeekView = props => {
     });
 
     const getPurchaseDetails = async (date) => {
-        const response = await new PurchaseService().getPurchaseDetails('month', date);
+        let response = [];
+
         if (pageName === true){
             const branchProduct = props.product[0];
             const newProduct = await branchProduct.product.fetch();
             setName(newProduct.name);
+            response = await new PurchaseService().getProductPurchaseDetails('month', date, newProduct.id);
+        }else {
+            response = await new PurchaseService().getPurchaseDetails('month', date);
         }
         setPurchaseDetails(response);
         setPurchases(response.purchases);
-        console.log(response)
     };
 
 
@@ -61,7 +65,7 @@ const WeekView = props => {
         <div className={classes.root}>
 
             <Grid container spacing={1}>
-                <Grid item xs={6} >              
+                <Grid item xs={6} >
                     <Typography
                         style={{fontSize: '14px', paddingTop: '20px', marginRight: '50px'}}
                         className={`text-center text-dark`}
@@ -119,9 +123,9 @@ const WeekView = props => {
                     :
                     pageName === false ?
 
-                    purchases.map((purchase) => <SingleMonthView  key={purchase.id} purchase={purchase} purchaseEntry={purchase} />)
+                    purchases.map((purchase , index) => <SingleMonthView  key={index} purchase={purchase} />)
                     :
-                    purchases.map((purchase) => <ProductMonth  key={purchase.id} purchase={purchase} purchaseEntry={purchase} prodName={name} />)
+                    purchases.map((purchase , index) => <ProductMonth  key={index} purchase={purchase} purchaseEntry={purchase} prodName={name} />)
                 }
             </Box>
 
@@ -135,4 +139,4 @@ const WeekView = props => {
 
 }
 
-export default withRouter(WeekView);
+export default withRouter(MonthView);

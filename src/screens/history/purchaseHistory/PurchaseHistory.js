@@ -143,7 +143,7 @@ class PurchaseHistory extends Component {
                     <Button
                         variant="outlined"
                         style={{border: '1px solid #DAAB59', color: '#333333', padding: '5px 50px', marginRight: '10px', textTransform: 'none', fontSize:'17px'}}
-                        onClick={() => this.props.history.push(paths.stock)}
+                        onClick={() => this.props.history.push(paths.purchase_history)}
                     >
                         Back
                     </Button>

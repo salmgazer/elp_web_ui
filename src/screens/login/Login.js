@@ -154,6 +154,7 @@ const Login = props => {
             await SyncService.sync(companyId, LocalInfo.branchId, userId, database);
             console.log("DONE SYNCING");
             await CashflowService.exportDefaultCashflowCategories();
+            await CashflowService.makeStockLegit();
 
             history.push(paths.dashboard)
         }else{

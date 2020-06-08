@@ -27,14 +27,14 @@ export default class InvoiceService {
         console.log(sales)
         switch (duration) {
             case 'day':
-                return sales.filter(sale => isSameDay(fromUnixTime(new Date(sale.salesDate)) , day));
+                return sales.filter(sale => isSameDay(fromUnixTime(sale.salesDate) , day));
             case 'week':
                 //console.log(isSameWeek(sale.salesDate, day))
-                return sales.filter(sale => isSameWeek(fromUnixTime(new Date(sale.salesDate)) , day));
+                return sales.filter(sale => isSameWeek(fromUnixTime(sale.salesDate) , day));
             case 'month':
-                return sales.filter(sale => isSameMonth(fromUnixTime(new Date(sale.salesDate)) , day));
+                return sales.filter(sale => isSameMonth(fromUnixTime(sale.salesDate) , day));
             case 'year':
-                return sales.filter(sale => isSameYear(fromUnixTime(new Date(sale.salesDate)) , day));
+                return sales.filter(sale => isSameYear(fromUnixTime(sale.salesDate) , day));
         }
     }
 

@@ -19,6 +19,7 @@ import {faCalculator} from "@fortawesome/free-solid-svg-icons";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import Paper from "@material-ui/core/Paper/Paper";
 import InputBase from "@material-ui/core/InputBase/InputBase";
+import fromUnixTime from 'date-fns/fromUnixTime';
 
 import format from "date-fns/format";
 import BranchStockService from '../../../../../services/BranchStockService';
@@ -42,6 +43,7 @@ const SingleDayView = props => {
     const [name , setName] = useState(false);
     const [image , setImage] = useState(false);
     const [product, setProduct] = useState(false);
+    const [selectedDate , setSelectedDate] = useState('')
     const [formFields , setFormFields] = useState({
         quantity: 1,
     });
@@ -119,14 +121,35 @@ const SingleDayView = props => {
     };
 
     const deleteHistoryHandler = (pId , event) => {
-        props.deleteStoreProduct(pId , event);
         setMainDialog(false);
+
+        const response = props.deleteStoreProduct(pId , event);
+
+        if(response){
+            setSelectedDate('');
+        }
     };
 
-    const updateStockEntry = () => {
-        console.log(formFields)
-        props.updateStockEntry(purchase.id, formFields);
-        setMainDialog(false);
+    const updateStockQuantity = () => {
+        const response = props.updateStockQuantity(purchase.id, formFields);
+
+        if(response){
+            setSelectedDate('');
+            setMainDialog(false);
+        }
+    };
+
+    const setDateValue = (value) => {
+        setSelectedDate(value)
+    }
+
+    const updateDateEntry = () => {
+        const response = props.updateEntryDate(purchase.id , selectedDate);
+
+        if(response){
+            setSelectedDate('');
+            setMainDialog(false);
+        }
     };
 
     const updatePriceEntry = () => {
@@ -227,7 +250,7 @@ const SingleDayView = props => {
 
                             <label className={`text-dark py-2 text-center`} style={{fontSize: '18px', fontWeight: '600', paddingTop: '100px'}}> Pick new date </label>
 
-                            <Dates style={{margin: '5px 40px 0px 40px', border: '1px solid #e5e5e5', backgroundColor: '#FFFFFF', width: '150px'}} />
+                            <Dates initialValue={fromUnixTime(purchase.stockDate)} getValue={setDateValue.bind(this)} style={{margin: '5px 40px 0px 40px', border: '1px solid #e5e5e5', backgroundColor: '#FFFFFF', width: '150px'}} />
 
                             <Grid container spacing={1} style={{marginTop: '50px'}}>
                                 <Grid item xs={6}>
@@ -242,9 +265,10 @@ const SingleDayView = props => {
 
                                 <Grid item xs={6}>
                                     <Button
+                                        disabled={!selectedDate}
                                         variant="contained"
                                         style={{'backgroundColor': '#DAAB59' , color: '#333333', padding: '5px 15px', textTransform: 'none', fontSize:'15px'}}
-                                        // onClick={updateStockEntry.bind(this)}
+                                        onClick={updateDateEntry.bind(this)}
                                     >
                                         Save changes
                                     </Button>
@@ -272,7 +296,7 @@ const SingleDayView = props => {
                                     <Button
                                         variant="contained"
                                         style={{'backgroundColor': '#DAAB59' , color: '#333333', padding: '5px 15px', textTransform: 'none', fontSize:'15px'}}
-                                        onClick={updateStockEntry.bind(this)}
+                                        onClick={updateStockQuantity.bind(this)}
                                     >
                                         Save changes
                                     </Button>

@@ -5,7 +5,6 @@ import SingleProductBox from "../../../../components/Product/SingleProductBox";
 import Typography from "@material-ui/core/Typography/Typography";
 
 const StockSearchMode = props => {
-    //const products = props.stock;
     const branchProducts = props.branchProducts;
 
     const [searchValue , setSearchValue] = useState({
@@ -19,8 +18,6 @@ const StockSearchMode = props => {
 
         setSearchValue(oldFormFields);
 
-        //const products = await BranchProductService.searchProduct(value);
-        //console.log(products);
         props.searchProduct(value);
     };
 
@@ -68,7 +65,6 @@ const StockSearchMode = props => {
                         <SingleProductBox product={branchProduct} key={branchProduct.id} addProductHandler={addProductHandler.bind(this, branchProduct.id)}/>
                     )
                 }
-
             </Grid>
         </div>
     );

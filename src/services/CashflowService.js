@@ -6,6 +6,8 @@ import format from "date-fns/format";
 import database from "../models/database";
 import Cashflow from "../models/cashflow/Cashflow";
 import * as Q from "@nozbe/watermelondb/QueryDescription";
+import BranchProductStock from "../models/branchesProductsStocks/BranchProductStock";
+import BranchProductStockHistory from "../models/branchesProductsStocksHistories/BranchProductStockHistory";
 
 export default class CashflowService {
     static async exportDefaultCashflowCategories() {
@@ -86,5 +88,27 @@ export default class CashflowService {
             Q.where('branchId' , LocalInfo.branchId),
             Q.where('dateAdded' , getUnixTime(new Date(day)))
         ).fetch();
+    }
+
+    static makeStockLegit = async () => {
+        const branchProductStock = await database.collections.get(BranchProductStock.table).query().fetch();
+        const branchProductStockHistory = await database.collections.get(BranchProductStockHistory.table).query().fetch();
+
+        for (let i = 0; i < branchProductStock.length; i++){
+            const branchP = branchProductStock[i];
+            const stockDate = branchP._raw.updated_at / 1000;
+
+            await new ModelAction('BranchProductStock').update(branchP.id , {
+                stockDate: stockDate
+            });
+        }
+
+        for (let i = 0; i < branchProductStockHistory.length; i++){
+            const branchC = branchProductStockHistory[i];
+            const stockDate = branchC._raw.updated_at / 1000;
+            await new ModelAction('BranchProductStockHistory').update(branchC.id , {
+                stockDate: stockDate
+            });
+        }
     }
 }
