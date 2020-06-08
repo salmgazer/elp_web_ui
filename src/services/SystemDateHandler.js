@@ -7,6 +7,7 @@ import startOfYear from "date-fns/startOfYear";
 import format from "date-fns/format";
 import LocalInfo from "./LocalInfo";
 import getUnixTime from 'date-fns/getUnixTime';
+import lastDayOfYear from 'date-fns/lastDayOfYear';
 
 export default class SystemDateHandler {
     constructor(){
@@ -42,38 +43,24 @@ export default class SystemDateHandler {
             end: endDate
         });
 
-        return months.map((month , index) => {
-            if(months.length !== index + 1){
-                return {
-                    value: format(month, 'MM/dd/yyyy'),
-                    label: `${format(month , 'MMMM')}`
-                }
-            }else{
-                return {
-                    value: format(month, 'MM/dd/yyyy'),
-                    label: `${format(month , 'MMMM')}`
-                }
+        return months.map((month) => {
+            return {
+                value: format(month, 'MM/dd/yyyy'),
+                label: `${format(month , 'MMMM - yyyy')}`
             }
         });
     }
 
-    getStoreYears(startDate = new Date(startOfYear(new Date())) , endDate = new Date(lastDayOfMonth(new Date()))){
+    getStoreYears(startDate = new Date(startOfYear(new Date())) , endDate = new Date(lastDayOfYear(new Date()))){
         const years = eachYearOfInterval({
             start: startDate,
             end: endDate
         });
 
-        return years.map((year , index) => {
-            if(years.length !== index + 1){
-                return {
-                    value: format(year, 'MM/dd/yyyy'),
-                    label: `${format(year , 'yyyy')} `
-                }
-            }else{
-                return {
-                    value: format(year, 'MM/dd/yyyy'),
-                    label: `${format(year , 'yyyy')}`
-                }
+        return years.map((year) => {
+            return {
+                value: format(year, 'MM/dd/yyyy'),
+                label: `${format(year , 'yyyy')}`
             }
         });
     }

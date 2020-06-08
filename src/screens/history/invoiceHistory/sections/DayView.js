@@ -48,6 +48,7 @@ const DayView = props => {
     const [selectedDate, setSelectedDate] = useState(new Date());
     const pageName = props.pageName;
     const [name , setName] = useState('');
+    const [customer , setCustomer] = useState('');
 
     const handleDateChange = date => {
         setSelectedDate(date);
@@ -66,11 +67,20 @@ const DayView = props => {
     });
 
     const getInvoiceDetails = async (date) => {
-        const response = await new InvoiceService().getInvoiceDetails('day' , date);
+        console.log(date);
+        let response = [];
+
         if (pageName === true){
-            const branchCustomer= props.customer[0];
+            const branchCustomer = props.customer[0];
             const newCustomer = await branchCustomer.customer.fetch();
+
+            response = await new InvoiceService().getInvoiceDetailsbyCustomer('day' , date , newCustomer.id);
+
             setName(newCustomer.firstName);
+            console.log(response , branchCustomer.id)
+            setCustomer(newCustomer);
+        }else{
+            response = await new InvoiceService().getInvoiceDetails('day' , date);
         }
         setInvoiceDetails(response);
         setInvoices(response.invoices);
@@ -83,7 +93,6 @@ const DayView = props => {
 
     return(
         <div className={classes.root}>
-            {console.log(invoiceDetails.invoices)}
 
             <Grid container spacing={1}>
 
@@ -149,7 +158,7 @@ const DayView = props => {
 
                     invoices.map((invoice) => <SingleDayInvoice  key={invoice.id} invoice={invoice} deleteProduct={deleteProductHandler.bind(this)} updateSaleEntry={props.updateSaleEntry} />)
                     :
-                    invoices.map((invoice) => <SingleDayInvoice  key={invoice.id} invoice={invoice} prodName={name} />)
+                    invoices.map((invoice) => <SingleDayInvoice  key={invoice.id} invoice={invoice} prodName={name} customer={customer}/>)
 
                 }
             </Box>

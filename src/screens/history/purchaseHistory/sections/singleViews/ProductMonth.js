@@ -11,7 +11,7 @@ const ProductMonth = props => {
     * */
 
    const purchase = props.purchase;
-   const prodName = props.prodName;
+   /*const prodName = props.prodName;
    const [product, setProduct] = useState(false);
    const [name , setName] = useState(false);
    const [quantity , setQuantity] = useState('');
@@ -26,9 +26,9 @@ const ProductMonth = props => {
     });
 
     const getQuantity = async () => {
-        /*
+        /!*
         * @todo get entries via query on model
-        * */
+        * *!/
        const newProduct = await props.purchaseEntry.product.fetch();
        setProduct(newProduct);
         // const name = new ProductServiceHandler(prod).getProductName();
@@ -38,45 +38,41 @@ const ProductMonth = props => {
        const quant = await BranchStockService.getStockProductQuantity(purchase.id);
        setCostPrice(costP);
        setQuantity(quant);
-    };
+    };*/
 
     return(
-        <div>
-            {prodName === name
-                ?
-                <div>
-                    <Grid container spacing={1} className={`shadow1 mb-3 borderRadius10`}>
-                        <Grid item xs={2}>
-                            <Card
-                                className="shadow1"
-                                style={{
-                                    margin: '10px auto',  
-                                    backgroundPosition: 'center', 
-                                    backgroundSize: 'cover', 
-                                    width: '50px', 
-                                    borderRadius: '50%', 
-                                    height: '50px', 
-                                    padding: '0px'
-                                }}
-                            >
-                                <EventIcon style={{position: 'center', marginTop: '12px'}} />
-                            </Card>
-                        </Grid>
-                        <Grid item xs={10} style={{display: 'table', height: '60px', margin: '8px 0px'}}>
-                            <div style={{textAlign: 'left', display: 'table-cell', verticalAlign: 'middle'}}>
-                                <span className='text-dark font-weight-bold' >{format(new Date(purchase.createdAt) , "eeee, MMMM do, yyyy")} | {format(new Date(purchase.createdAt) , "h:mm a")}</span>
-                                <div className="font-weight-light mt-1" style={{ fontSize: '13px'}}>Quantity {quantity}</div>
-                                <div className="font-weight-light mt-1" style={{ fontSize: '13px'}}>Cost : GHC {costPrice}</div>
-                            </div>
-                        </Grid>
-
-                    </Grid> 
+        <Grid container spacing={1} className={`shadow1 mb-3 borderRadius10`}>
+            <Grid item xs={2}>
+                <Card
+                    className="shadow1"
+                    style={{
+                        margin: '10px auto',
+                        backgroundPosition: 'center',
+                        backgroundSize: 'cover',
+                        width: '50px',
+                        borderRadius: '50%',
+                        height: '50px',
+                        padding: '0px'
+                    }}
+                >
+                    <EventIcon style={{position: 'center', marginTop: '12px'}} />
+                </Card>
+            </Grid>
+            <Grid item xs={10} style={{display: 'table', height: '60px', margin: '8px 0px'}}>
+                <div style={{textAlign: 'left', display: 'table-cell', verticalAlign: 'middle'}}>
+                    <span className='text-dark font-weight-bold' >{purchase.week}</span>
+                    {
+                        purchase.quantity === 0 ?
+                            <div className="font-weight-bold mt-1" style={{ fontSize: '13px' , color: '#DA5959'}}>No purchases made</div>
+                            :
+                            <>
+                                <div className="font-weight-light mt-1" style={{ fontSize: '13px'}}>Quantity: {purchase.quantity} {purchase.quantity > 1 ? 'items' : 'item'}</div>
+                                <div className="font-weight-light mt-1" style={{ fontSize: '13px'}}>Cost: GHC {parseFloat(purchase.costPrice).toFixed(2)}</div>
+                            </>
+                    }
                 </div>
-                :
-
-                ''
-            }
-        </div>
+            </Grid>
+        </Grid>
     );
 };
 

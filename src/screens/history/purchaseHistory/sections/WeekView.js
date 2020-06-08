@@ -23,7 +23,7 @@ const values = new DateServiceHandler().getStoreWeeks()
 
 const WeekView = props => {
     console.log(new DateServiceHandler().getStoreWeeks());
-    
+
     const classes = useStyles();
     const [selectedWeek, setSelectedWeek] = React.useState(values[0].value);
 
@@ -46,15 +46,18 @@ const WeekView = props => {
     });
 
     const getPurchaseDetails = async (date) => {
-        const response = await new PurchaseService().getPurchaseDetails('week', date);
+        let response = [];
+
         if (pageName === true){
             const branchProduct = props.product[0];
             const newProduct = await branchProduct.product.fetch();
             setName(newProduct.name);
+            response = await new PurchaseService().getProductPurchaseDetails('week', date, newProduct.id);
+        }else {
+            response = await new PurchaseService().getPurchaseDetails('week', date);
         }
         setPurchaseDetails(response);
         setPurchases(response.purchases);
-        console.log(response)
     };
 
 
@@ -62,7 +65,7 @@ const WeekView = props => {
         <div className={classes.root}>
 
             <Grid container spacing={1}>
-                <Grid item xs={4} >              
+                <Grid item xs={4} >
                     <Typography
                         style={{fontSize: '14px', paddingTop: '20px'}}
                         className={`text-center text-dark`}
@@ -121,9 +124,9 @@ const WeekView = props => {
                     :
                     pageName === false ?
 
-                    purchases.map((purchase) => <SingleWeekView  key={purchase.id} purchase={purchase} purchaseEntry={purchase}  />)
+                    purchases.map((purchase , index) => <SingleWeekView key={index} purchase={purchase} />)
                     :
-                    purchases.map((purchase) => <ProductWeek  key={purchase.id} purchase={purchase} purchaseEntry={purchase} prodName={name} />)
+                    purchases.map((purchase , index) => <ProductWeek key={index} purchase={purchase} purchaseEntry={purchase} prodName={name} />)
                 }
             </Box>
 

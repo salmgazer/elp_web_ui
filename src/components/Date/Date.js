@@ -6,39 +6,44 @@ import {
   MuiPickersUtilsProvider,
   KeyboardDatePicker,
 } from '@material-ui/pickers';
+import LocalInfo from "../../services/LocalInfo";
+import format from "date-fns/format";
+import database from "../../models/database";
 
  const MaterialUIPickers= (props) => {
-  // The first commit of Material-UI
-  const [selectedDate, setSelectedDate] = React.useState(props.selectedDate);
+     const getDate = props.initialDate ? new Date(props.initialDate) : new Date();
+     const [selectedDate, setSelectedDate] = React.useState(getDate);
 
-  const handleDateChange = date => {
-    setSelectedDate(date);
-    props.getValue(date);
-  };
+     const handleDateChange = async date => {
+         props.getValue(date);
+         setSelectedDate(new Date(date));
+     };
 
-  return (
-    <MuiPickersUtilsProvider utils={DateFnsUtils}>
-        <Grid container justify="space-around">
-            <KeyboardDatePicker
-                disableToolbar
-                variant="outlined"
-                label={props.label}
-                format="dd/MM/yyyy"
-                margin="normal"
-                id="date-picker"
-                name={props.inputName}
-                className='text-dark font-weight-bold'
-                style={props.style}
-                size='small'
-                value={selectedDate}
-                onChange={handleDateChange}
-                KeyboardButtonProps={{
-                    'aria-label': 'change date',
-                }}
-            />
-        </Grid>
-    </MuiPickersUtilsProvider>
-  );
+     return (
+         <div>
+             <MuiPickersUtilsProvider utils={DateFnsUtils} style={{
+                 padding: '2px 10px',
+                 backgroundColor: '#FFFFFF'
+             }}>
+                 <KeyboardDatePicker
+                     disableToolbar
+                     variant="outlined"
+                     format="dd/MM/yyyy"
+                     margin="normal"
+                     id="date-picker"
+                     disableFuture={true}
+                     className='text-dark font-weight-bold my-1'
+                     style={{...props.style, padding: '3px 0px', paddingLeft: '20px', border: '1px solid #e5e5e5', backgroundColor: '#FFFFFF', float: 'center', width: '150px', fontWeight: '400', fontSize: '18px' , lineHeight: '1.6' , marginTop: '2px'}}
+                     size='small'
+                     value={selectedDate}
+                     onChange={handleDateChange}
+                     KeyboardButtonProps={{
+                         'aria-label': 'change date',
+                     }}
+                 />
+             </MuiPickersUtilsProvider>
+         </div>
+     );
 }
 
 export default MaterialUIPickers;

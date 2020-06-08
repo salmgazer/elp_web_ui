@@ -19,13 +19,12 @@ import FileCopyIcon from '@material-ui/icons/FileCopy';
 import PrintIcon from '@material-ui/icons/Print';
 import ListItemText from '@material-ui/core/ListItemText';
 import paths from "../../../utilities/paths";
-import {withRouter} from "react-router";
+import {withRouter} from "react-router-dom";
 
 import OrderSortDate from './sections/OrderSortDate';
 import OrderSortSupplier from './sections/OrderSortSupplier';
 
 class OrderHistory extends Component {
-
     state={
         value: 0,
         isShowDrawer: false,
@@ -145,7 +144,7 @@ class OrderHistory extends Component {
                         style={{border: '1px solid #DAAB59', color: '#333333', padding: '5px 50px', marginRight: '10px', textTransform: 'none', fontSize:'17px'}}
                         onClick={() => this.props.history.push(paths.stock)}
                     >
-                        Back  
+                        Back
                     </Button>
                     <Button
                         variant="contained"

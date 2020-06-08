@@ -14,6 +14,8 @@ import SingleDayView from './productViews/SingleDayView';
 import ProductDay from './productViews/ProductDay';
 import CardsSection from '../../../../components/Sections/CardsSection';
 import SaleService from "../../../../services/SaleService";
+import SimpleSnackbar from "../../../../components/Snackbar/SimpleSnackbar";
+import InvoiceService from "../../../../services/InvoiceService";
 
 const useStyles = makeStyles(theme => ({
     root: {
@@ -27,6 +29,10 @@ const DayView = props => {
     const [saleDetails , setSaleDetails] = useState(false);
     const [sales , setSales] = useState([]);
     const pageName = props.pageName;
+    const [error , setError] = useState(false);
+    const [errorMsg , setErrorMsg] = useState('');
+    const [success , setSuccess] = useState(false);
+    const [successMsg , setSuccessMsg] = useState('');
 
     const [name , setName] = useState('');
 
@@ -44,12 +50,19 @@ const DayView = props => {
     });
 
     const getSaleDetails = async (date) => {
-        const response = await new SaleService().getSalesDetails('day', date);
+        console.log(date);
+        let response = [];
+
         if (pageName === true){
             const branchProduct = props.product[0];
             const newProduct = await branchProduct.product.fetch();
             setName(newProduct.name);
+
+            response = await new SaleService().getProductSalesDetails('day', date , branchProduct.id);
+        }else{
+            response = await new SaleService().getSalesDetails('day', date);
         }
+
         setSaleDetails(response);
         setSales(response.sales);
         console.log(response)
@@ -61,7 +74,17 @@ const DayView = props => {
 
     return(
         <div className={classes.root}>
-            {console.log(saleDetails.sales)}
+            <SimpleSnackbar
+                type="success"
+                openState={success}
+                message={successMsg}
+            />
+
+            <SimpleSnackbar
+                type="warning"
+                openState={error}
+                message={errorMsg}
+            />
 
             <Grid container spacing={1}>
                 <Grid item xs={6} >
@@ -119,7 +142,6 @@ const DayView = props => {
                     </div>
                     :
 
-                    // sales.map((sale) => <SingleDayView  key={sale.id} sale={sale} />)
                     pageName === false ?
 
                     sales.map((sale) => <SingleDayView  key={sale.id} sale={sale} saleEntry={sale} deleteStoreProduct={deleteProductHandler.bind(this)} updateSaleEntry={props.updateSaleEntry} updatePriceEntry={props.updateSaleEntry} updateDateEntry={props.updateSaleEntry} />)

@@ -19,6 +19,7 @@ import BoxDefault from "../../components/Box/BoxDefault";
 import CardDefault from "../../components/Cards/CardDefault";
 import SettingsIcon from '@material-ui/icons/Settings';
 import Drawer from "../../components/Drawer/Drawer";
+import getUnixTime from 'date-fns/getUnixTime';
 
 import LocalInfo from '../../services/LocalInfo';
 import Manufacturer from "../../models/manufacturers/Manufacturer";
@@ -41,6 +42,7 @@ import StockMovement from "../../models/stockMovements/StockMovement";
 import AuditEntries from "../../models/auditEntry/AuditEntries";
 import Audits from "../../models/audit/Audit";
 import confirmImg from "../../assets/img/dashboard.png";
+import CashflowService from "../../services/CashflowService";
 
 const useStyles = makeStyles(theme => ({
     root: {
@@ -99,7 +101,7 @@ const Dashboard = props => {
 
     const getCompanyDetails = async () => {
         const response = await new CompanyService().getSalesDetails('today');
-
+        //await CashflowService.makeStockLegit()
         setCompanySales(response);
     };
     /*
@@ -164,7 +166,6 @@ const Dashboard = props => {
     console.log(cartEntries);
     //console.log(cartEntriesQ);
     console.log("********************************");
-
 
     /*const attachProducts = () => {
         let m = 0;

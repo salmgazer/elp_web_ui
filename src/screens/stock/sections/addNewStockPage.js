@@ -505,7 +505,7 @@ const AddNewStockPage = props => {
                             <Grid
                                 item xs={5}
                             >
-                                <UnitCost id="right_input" label={`Unit price`} inputName="costPrice" initialValue="" getValue={setInputValue.bind(this)} >
+                                <UnitCost id="right_input" label={`Unit price`} inputName="costPrice" initialValue={unitPrice || ""} getValue={setInputValue.bind(this)} >
                                     <FontAwesomeIcon onClick={openCalculator.bind(this)} icon={faCalculator} fixedWidth />
                                 </UnitCost>
                             </Grid>
@@ -652,7 +652,7 @@ const AddNewStockPage = props => {
                             style={{fontWeight: '300', fontSize: '17px' , margin: '0px 0px 20px', padding: '4px'}}
                             className={`text-center mx-auto`}
                         >
-                            New cost price: GHC {formFields.costPrice || costPrice}
+                            Current cost price: GHC {formFields.costPrice || costPrice}
                         </Typography>
 
                         {/*<label className={`text-dark py-2 text-left`} style={{fontSize: '18px'}}> New cost price</label>

@@ -4,41 +4,37 @@ import format from "date-fns/format";
 import BoxDefault from '../../../../../components/Box/BoxDefault';
 
 import SaleService from '../../../../../services/SaleService';
+import SingleCustomerInvoiceView from "../components/singleCustomerInvoiceView";
 
 
 const CustomerWeek = props => {
-    /*
-    * @todo format receipt number as required...
-    * */
-   const invoice = props.invoice;
-   const prodName = props.prodName;
-   const [customer , setCustomer] = useState(false);
-   const [total , setTotal] = useState(false);
-   const [payment , setPayment] = useState(false);
-
-    useEffect(() => {
-        // You need to restrict it at some point
-        // This is just dummy code and should be replaced by actual
-        if (!customer || !payment || !total) {
-            getCustomer();
-        }
-    });
-
-    const getCustomer = async () => {
-        const response = await invoice.customer.fetch();
-        /*
-        * @todo get entries via query on model
-        * */
-        const saleTotal = await SaleService.getSaleEntryAmountById(invoice.id);
-        const paymentStatus = await SaleService.getSalePaymentStatus(invoice.id);
-        setCustomer(response);
-        setTotal(saleTotal);
-        setPayment(paymentStatus);
-    };
+    const invoice = props.invoice;
+    const invoices = invoice.invoices;
 
     return(
         <div>
-            {prodName === `${customer.firstName}`
+            <BoxDefault
+                bgcolor="background.paper"
+                p={1}
+                className={'boxDefault mb-5'}
+                style={{marginTop: '5px' }}
+            >
+                <Grid container className={`bordered pt-2 pb-2`}>
+                    <Grid item xs={7}>
+                        <span className='text-dark text-left' style={{ fontSize: '15px'}} >{format(new Date(invoice.day) , "eeee, MMMM do, yyyy")}</span>
+                    </Grid>
+                    <Grid item xs={5} className={`text-right pr-2`}>
+                        <span className='text-dark font-weight-light text-right' style={{ fontSize: '13px'}} >Total : GHC {parseFloat(invoice.total).toFixed(2)}</span>
+                    </Grid>
+                </Grid>
+
+                {
+                    invoices.map((item) =>
+                        <SingleCustomerInvoiceView key={item.id} invoice={item}/>
+                    )
+                }
+
+                {/*{prodName === `${customer.firstName}`
                 ?
                 <div>
                     <BoxDefault
@@ -74,7 +70,8 @@ const CustomerWeek = props => {
                 </div>
                 :
                 ''
-            }
+            }*/}
+            </BoxDefault>
         </div>
     );
 };

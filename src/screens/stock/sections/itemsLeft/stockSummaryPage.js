@@ -13,8 +13,6 @@ import SecondaryButton from "../../../../components/Buttons/SecondaryButton";
 import Box from "@material-ui/core/Box/Box";
 
 const StockSummaryPage = props => {
-
-
     const backHandler = () => {
         props.setView(0);
     };

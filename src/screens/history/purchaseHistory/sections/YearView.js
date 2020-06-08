@@ -21,9 +21,9 @@ const useStyles = makeStyles(theme => ({
 
 const values = new DateServiceHandler().getStoreYears()
 
-const WeekView = props => {
+const YearView = props => {
     console.log(new DateServiceHandler().getStoreYears());
-    
+
     const classes = useStyles();
     const [selectedYear, setSelectedYear] = React.useState(values[0].value);
     const [purchaseDetails , setPurchaseDetails] = useState(false);
@@ -45,15 +45,18 @@ const WeekView = props => {
     });
 
     const getPurchaseDetails = async (date) => {
-        const response = await new PurchaseService().getPurchaseDetails('year', date);
+        let response = [];
+
         if (pageName === true){
             const branchProduct = props.product[0];
             const newProduct = await branchProduct.product.fetch();
             setName(newProduct.name);
+            response = await new PurchaseService().getProductPurchaseDetails('year', date, newProduct.id);
+        }else {
+            response = await new PurchaseService().getPurchaseDetails('year', date);
         }
         setPurchaseDetails(response);
         setPurchases(response.purchases);
-        console.log(response)
     };
 
 
@@ -61,7 +64,7 @@ const WeekView = props => {
         <div className={classes.root}>
 
             <Grid container spacing={1}>
-                <Grid item xs={6} >              
+                <Grid item xs={6} >
                     <Typography
                         style={{fontSize: '14px', paddingTop: '20px', marginRight: '50px'}}
                         className={`text-center text-dark`}
@@ -120,7 +123,7 @@ const WeekView = props => {
                     :
                     pageName === false ?
 
-                    purchases.map((purchase) => <SingleYearView  key={purchase.id} purchase={purchase} purchaseEntry={purchase} />)
+                    purchases.map((purchase , index) => <SingleYearView  key={index} purchase={purchase} />)
                     :
                     purchases.map((purchase) => <ProductYear  key={purchase.id} purchase={purchase} purchaseEntry={purchase} prodName={name} />)
                 }
@@ -136,4 +139,4 @@ const WeekView = props => {
 
 }
 
-export default withRouter(WeekView);
+export default withRouter(YearView);

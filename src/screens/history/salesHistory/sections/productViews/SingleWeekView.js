@@ -9,24 +9,6 @@ import SaleService from '../../../../../services/SaleService';
 const SingleWeekView = props => {
     const sale = props.sale;
     console.log(sale)
-    /*const [total , setTotal] = useState(false);
-    const [profit , setProfit] = useState(false);
-
-    useEffect(() => {
-        // You need to restrict it at some point
-        // This is just dummy code and should be replaced by actual
-        if ( !profit || !total) {
-            getProfit();
-        }
-    });
-
-    const getProfit = async () => {
-        const total = await SaleService.getSaleEntryAmountById(sale.saleId);
-        const profit = await SaleService.getSaleEntryProfitById(sale.saleId);
-
-        setTotal(total);
-        setProfit(profit);
-    };*/
 
     return(
         <Grid container spacing={1} className={`shadow1 mb-3 borderRadius10`}>

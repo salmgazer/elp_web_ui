@@ -56,7 +56,6 @@ const useStyles = makeStyles(theme => ({
 const SingleDayView = props => {
     const classes = useStyles();
     const sale = props.sale;
-    const prodName = props.prodName;
     const [mainDialog, setMainDialog] = React.useState(false);
     const [value, setValue] = React.useState(0);
     const [product, setProduct] = useState(false);
@@ -64,7 +63,6 @@ const SingleDayView = props => {
     const [image , setImage] = useState(false);
     const [quantity , setQuantity] = useState(false);
     const [totalPrice , setTotalPrice] = useState(false);
-    // const [saleEntries , setSaleEntries] = useState([]);
     const [formFields , setFormFields] = useState({
         quantity: 1,
     });
@@ -165,45 +163,40 @@ const SingleDayView = props => {
 
     return(
         <div>
-            {prodName === name
-                ?
-                <Grid container spacing={1} className={`shadow1 mb-3 borderRadius10`}>
-                    <Grid item xs={3}>
-                        <Card
-                            className="shadow1"
-                            style={{
-                                margin: '15px auto',
-                                backgroundImage: `url(${image})`,
-                                backgroundPosition: 'center',
-                                backgroundSize: 'cover',
-                                width: '60px',
-                                borderRadius: '50%',
-                                height: '60px',
-                                padding: '0px'
-                            }}
-                        />
-                    </Grid>
-                    <Grid item xs={6} style={{display: 'table', height: '60px', margin: '8px 0px'}}>
-                        <div style={{textAlign: 'left', display: 'table-cell', verticalAlign: 'middle'}}>
-                        <span className='text-dark font-weight-bold' >{name}</span>
-                            <div className="font-weight-light mt-1" style={{ fontSize: '13px'}}>Quantity: {quantity}</div>
-                            <div className="font-weight-light mt-1" style={{ fontSize: '13px'}}>Sales: GHC {totalPrice}</div>
-                            <div className="font-weight-light mt-1" style={{ fontSize: '13px'}}>Profit: GHC {(totalPrice) - (sale.costPrice * quantity)}</div>
-                        </div>
-                    </Grid>
-
-                    <Grid item xs={3} style={{height: '60px', margin: '10px 0px 0px 0px'}}>
-                        <span className='text-dark font-weight-bold' >{format(new Date(sale.createdAt) , "h:mm a")}</span>
-                        <EditIcon
-                            onClick={openDialogHandler.bind(this)}
-                            style={{fontSize: '30px', color: '#DAAB59', textAlign: 'right'}}
-                        />
-                    </Grid>
+            <Grid container spacing={1} className={`shadow1 mb-3 borderRadius10`}>
+                <Grid item xs={3}>
+                    <Card
+                        className="shadow1"
+                        style={{
+                            margin: '15px auto',
+                            backgroundImage: `url(${image})`,
+                            backgroundPosition: 'center',
+                            backgroundSize: 'cover',
+                            width: '60px',
+                            borderRadius: '50%',
+                            height: '60px',
+                            padding: '0px'
+                        }}
+                    />
                 </Grid>
-                :
-                ''
-            }
-            
+                <Grid item xs={6} style={{display: 'table', height: '60px', margin: '8px 0px'}}>
+                    <div style={{textAlign: 'left', display: 'table-cell', verticalAlign: 'middle'}}>
+                        <span className='text-dark font-weight-bold' >{name}</span>
+                        <div className="font-weight-light mt-1" style={{ fontSize: '13px'}}>Quantity: {quantity}</div>
+                        <div className="font-weight-light mt-1" style={{ fontSize: '13px'}}>Sales: GHC {totalPrice}</div>
+                        <div className="font-weight-light mt-1" style={{ fontSize: '13px'}}>Profit: GHC {(totalPrice) - (sale.costPrice * quantity)}</div>
+                    </div>
+                </Grid>
+
+                <Grid item xs={3} style={{height: '60px', margin: '10px 0px 0px 0px'}}>
+                    <span className='text-dark font-weight-bold' >{format(new Date(sale.createdAt) , "h:mm a")}</span>
+                    <EditIcon
+                        onClick={openDialogHandler.bind(this)}
+                        style={{fontSize: '30px', color: '#DAAB59', textAlign: 'right'}}
+                    />
+                </Grid>
+            </Grid>
+
             <MainDialog handleDialogClose={closeDialogHandler.bind(this)} states={mainDialog} >
                 <div className="row pt-0 mx-auto text-center w-100" >
                     <Grid container spacing={1} className={`shadow1 mb-3 borderRadius10`}>
@@ -317,10 +310,6 @@ const SingleDayView = props => {
                         </TabPanel>
 
                         <TabPanel value={value} index={2}  >
-
-                            {/* <UnitCost style={{margin: '50px'}} id="price_input" label={`Selling price`} inputName="costPrice" initialValue={totalPrice} getValue={setPriceValue.bind(this)} >
-                                <FontAwesomeIcon  icon={faCalculator} fixedWidth />
-                            </UnitCost> */}
                             <label className={`text-dark py-2 text-center`} style={{fontSize: '18px', fontWeight: '600'}}> New selling price </label>
 
                             <Paper className={classes.root} id="selling_price" >
@@ -365,18 +354,11 @@ const SingleDayView = props => {
                                     </Button>
                                 </Grid>
                             </Grid>
-                          
                         </TabPanel>
-
                     </SwipeableViews>
-
-
-
                 </div>
             </MainDialog>
-
         </div>
-
     );
 };
 

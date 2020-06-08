@@ -95,7 +95,6 @@ const useStyles = makeStyles(theme => ({
     }
 }));
 
-
 const SupplierStock = props => {
     const classes = useStyles();
     const [error , setError] = useState(false);
