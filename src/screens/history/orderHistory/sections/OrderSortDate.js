@@ -14,13 +14,13 @@ import DateToggle from "../../../../components/DateToggle/DateToggle";
 class OrderSortDate extends Component{
 
     state={
-        activeStep: 1,
+        activeStep: 0,
         pageName: false,
     }
 
     getStepContent = step => {
         switch (step) {
-            case 1:
+            case 0:
                 return <DayView setView={this.setStepContentView.bind(this)} pageName={this.state.pageName} deleteProduct={this.deleteProduct.bind(this)}  updateStockEntry={this.updateStockEntry.bind(this)} />;
             case 2:
                 return <WeekView setView={this.setStepContentView.bind(this)} pageName={this.state.pageName} />;
@@ -30,7 +30,7 @@ class OrderSortDate extends Component{
                 return <YearView setView={this.setStepContentView.bind(this)} pageName={this.state.pageName} />;
             case 5:
                 return <Payment setView={this.setStepContentView.bind(this)}  />;
-            case 0:
+            case 1:
                 return <DaySupplierView setView={this.setStepContentView.bind(this)} supplierDetails={this.state.suppliers} />;
     
             default:
@@ -76,16 +76,35 @@ class OrderSortDate extends Component{
     async updateStockEntry(pId, formFields){
         console.log(formFields)
         console.log(pId)
-        try {
-            const status = new ModelAction('BranchProductStock').update(pId, formFields);
-            console.log(status)
-            if(status){
-                return true;
+        if (formFields.costPrice) {
+            const data = {
+                costPrice: parseFloat(formFields.costPrice)
+            };
+            try {
+                const status = new ModelAction('BranchProductStock').update(pId, data);
+                console.log(status)
+                if(status){
+                    return true;
+                }
+                alert('Something went wrong');
+                return false;
+            }catch (e) {
+                return false;
             }
-            alert('Something went wrong');
-            return false;
-        }catch (e) {
-            return false;
+        }
+        else {
+        
+            try {
+                const status = new ModelAction('BranchProductStock').update(pId, formFields);
+                console.log(status)
+                if(status){
+                    return true;
+                }
+                alert('Something went wrong');
+                return false;
+            }catch (e) {
+                return false;
+            }
         }
     };
 

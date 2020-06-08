@@ -69,16 +69,35 @@ class SortDate extends Component{
     async updateSaleEntry(pId, formFields){
         console.log(formFields)
         console.log(pId)
-        try {
-            const status = new ModelAction('SaleEntry').update(pId, formFields);
-            console.log(status)
-            if(status){
-                return true;
+        if (formFields.sellingPrice) {
+            const data = {
+                sellingPrice: parseFloat(formFields.sellingPrice)
+            };
+            try {
+                const status = new ModelAction('SaleEntry').update(pId, data);
+                console.log(status)
+                if(status){
+                    return true;
+                }
+                alert('Something went wrong');
+                return false;
+            }catch (e) {
+                return false;
             }
-            alert('Something went wrong');
-            return false;
-        }catch (e) {
-            return false;
+        }
+        else {
+        
+            try {
+                const status = new ModelAction('SaleEntry').update(pId, formFields);
+                console.log(status)
+                if(status){
+                    return true;
+                }
+                alert('Something went wrong');
+                return false;
+            }catch (e) {
+                return false;
+            }
         }
     };
 

@@ -71,16 +71,37 @@ class SortDate extends Component{
     };
 
     async updateStockEntry(pId, formFields){
-        const data = {
-            costPrice: parseFloat(formFields.costPrice)
-        };
-
-        try {
-            await new ModelAction('BranchProductStock').update(pId, data);
-
-            return true;
-        }catch (e) {
-            return false;
+        console.log(formFields)
+        console.log(pId)
+        if (formFields.costPrice) {
+            const data = {
+                costPrice: parseFloat(formFields.costPrice)
+            };
+            try {
+                const status = new ModelAction('BranchProductStock').update(pId, data);
+                console.log(status)
+                if(status){
+                    return true;
+                }
+                alert('Something went wrong');
+                return false;
+            }catch (e) {
+                return false;
+            }
+        }
+        else {
+        
+            try {
+                const status = new ModelAction('BranchProductStock').update(pId, formFields);
+                console.log(status)
+                if(status){
+                    return true;
+                }
+                alert('Something went wrong');
+                return false;
+            }catch (e) {
+                return false;
+            }
         }
     };
 
