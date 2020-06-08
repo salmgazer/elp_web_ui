@@ -22,9 +22,6 @@ const useStyles = makeStyles(theme => ({
 const values = new DateServiceHandler().getStoreMonths()
 
 const MonthView = props => {
-    console.log(new DateServiceHandler().getStoreMonths());
-    console.log(new DateServiceHandler().getStoreYears());
-
     const classes = useStyles();
     const [selectedMonth, setSelectedMonth] = React.useState(values[(new Date().getMonth())].value);
     const [purchaseDetails , setPurchaseDetails] = useState(false);

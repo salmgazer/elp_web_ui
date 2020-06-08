@@ -28,6 +28,7 @@ const useStyles = makeStyles(theme => ({
     const [selectedWeek, setSelectedWeek] = React.useState(values[0].value);
     const pageName = props.pageName;
     const [name , setName] = useState('');
+    const [customer , setCustomer] = useState('');
 
     const handleChange = event => {
         setSelectedWeek(event.target.value);
@@ -47,11 +48,19 @@ const useStyles = makeStyles(theme => ({
 
     const getInvoiceDetails = async (date) => {
         console.log(date);
-        const response = await new InvoiceService().getInvoiceDetails('week' , date);
+        let response = [];
+
         if (pageName === true){
-            const branchCustomer= props.customer[0];
+            const branchCustomer = props.customer[0];
             const newCustomer = await branchCustomer.customer.fetch();
+
+            response = await new InvoiceService().getInvoiceDetailsbyCustomer('week' , date , newCustomer.id);
+
             setName(newCustomer.firstName);
+            console.log(response , branchCustomer.id)
+            setCustomer(newCustomer);
+        }else{
+            response = await new InvoiceService().getInvoiceDetails('week' , date);
         }
         setInvoiceDetails(response);
         setInvoices(response.invoices);
@@ -62,7 +71,7 @@ const useStyles = makeStyles(theme => ({
         <div className={classes.root}>
 
             <Grid container spacing={1}>
-                <Grid item xs={4} >              
+                <Grid item xs={4} >
                     <Typography
                         style={{fontSize: '14px', paddingTop: '20px'}}
                         className={`text-center text-dark`}
@@ -125,10 +134,10 @@ const useStyles = makeStyles(theme => ({
                 :
                 pageName === false ?
 
-                invoices.map((invoice) => <SingleWeekView  key={invoice.id} invoice={invoice} />)
+                invoices.map((invoice , index) => <SingleWeekView  key={index} invoice={invoice} />)
                 :
-                invoices.map((invoice) => <CustomerWeek  key={invoice.id} invoice={invoice} prodName={name} />)
-                
+                invoices.map((invoice , index) => <CustomerWeek customer={customer} key={index} invoice={invoice} prodName={name} />)
+
             }
 
         </div>

@@ -19,7 +19,7 @@ import FileCopyIcon from '@material-ui/icons/FileCopy';
 import PrintIcon from '@material-ui/icons/Print';
 import ListItemText from '@material-ui/core/ListItemText';
 import paths from "../../../utilities/paths";
-import {withRouter} from "react-router";
+import {withRouter} from "react-router-dom";
 
 import SortDate from './sections/SortDate';
 import SortProduct from './sections/SortProduct';

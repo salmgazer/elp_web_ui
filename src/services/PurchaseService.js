@@ -100,6 +100,7 @@ export default class PurchaseService {
             return r;
         }, []);
 
+        console.log(newPurchases)
         for (const [key, value] of Object.entries(newPurchases)) {
             weekFormatSales.push({...await PurchaseService.getSaleFormatAsync(value) , day: key})
         }
@@ -236,6 +237,7 @@ export default class PurchaseService {
     }
 
     async getPurchaseDetails(duration , date) {
+        console.log(date)
         let purchase = await PurchaseService.getPurchaseHistory(duration , date);
 
         console.log(purchase);

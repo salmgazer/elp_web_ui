@@ -45,12 +45,18 @@ const useStyles = makeStyles(theme => ({
 
     const getSaleDetails = async (date) => {
         console.log(date);
-        const response = await new SaleService().getSalesDetails('month', date);
+        let response = [];
+
         if (pageName === true){
             const branchProduct = props.product[0];
             const newProduct = await branchProduct.product.fetch();
             setName(newProduct.name);
+
+            response = await new SaleService().getProductSalesDetails('month', date , branchProduct.id);
+        }else{
+            response = await new SaleService().getSalesDetails('month', date);
         }
+
         setSaleDetails(response);
         setSales(response.sales);
         console.log(response)
@@ -110,7 +116,7 @@ const useStyles = makeStyles(theme => ({
                                     style={{fontSize: '16px'}}
                                     className={`text-center text-dark`}
                                 >
-                                    No sales made 
+                                    No sales made
                                 </Typography>
                             </Grid>
                         </Grid>
@@ -118,10 +124,10 @@ const useStyles = makeStyles(theme => ({
                     :
                     pageName === false ?
 
-                    sales.map((sale) => <SingleMonthView  key={sale.id} sale={sale} />)
+                    sales.map((sale , index) => <SingleMonthView  key={index} sale={sale} />)
                     :
-                    sales.map((sale) => <ProductMonth  key={sale.id} sale={sale} saleEntry={sale} prodName={name} />)
-                    
+                    sales.map((sale , index) => <ProductMonth  key={index} sale={sale} prodName={name} />)
+
                 }
             </Box>
             {/* <Box style={{marginTop: '5px' , paddingBottom: '60px'}} p={1} className={`mt-3 mb-5`}>

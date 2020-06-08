@@ -11,6 +11,17 @@ import isSameMonth from "date-fns/isSameMonth";
 import isSameYear from "date-fns/isSameYear";
 import SystemDateHandler from './SystemDateHandler';
 import fromUnixTime from 'date-fns/fromUnixTime';
+import startOfMonth from "date-fns/startOfMonth";
+import lastDayOfMonth from "date-fns/lastDayOfMonth";
+import eachWeekOfInterval from "date-fns/eachWeekOfInterval";
+import format from "date-fns/format";
+import startOfWeek from "date-fns/startOfWeek";
+import endOfWeek from "date-fns/endOfWeek";
+import getWeekOfMonth from "date-fns/getWeekOfMonth";
+import isWithinInterval from "date-fns/isWithinInterval";
+import startOfYear from "date-fns/startOfYear";
+import lastDayOfYear from "date-fns/lastDayOfYear";
+import eachMonthOfInterval from "date-fns/eachMonthOfInterval";
 
 export default class SaleService {
     async makeSell(data , paymentType){
@@ -319,6 +330,29 @@ console.log(todaySales)
         }
     }
 
+    static async getProductSalesHistory(duration , date , branchProductId){
+        const sales = await new ModelAction('SaleEntry').findByColumnNotObserve(
+            {
+                name: 'branchProductId',
+                value: branchProductId,
+                fxn: 'eq'
+            }
+        );
+
+        const day = new Date(date);
+
+        switch (duration) {
+            case 'day':
+                return sales.filter(sale => isSameDay(fromUnixTime(sale.entryDate), day));
+            case 'week':
+                return sales.filter(sale => isSameWeek(fromUnixTime(sale.entryDate), day));
+            case 'month':
+                return sales.filter(sale => isSameMonth(fromUnixTime(sale.entryDate), day));
+            case 'year':
+                return sales.filter(sale => isSameYear(fromUnixTime(sale.entryDate), day));
+        }
+    }
+
     static async getSaleFormatAsync(sale){
         let costPrice = 0;
         let profit = 0;
@@ -371,41 +405,118 @@ console.log(todaySales)
         return weekFormatSales;
     }
 
-    static async monthSalesFormat (sales){
-        let monthFormatSales = [];
-        const weekDays = new SystemDateHandler().getStoreWeeks();
+    static async monthSalesFormat (sales , date){
+        const newDate = new Date(date);
+        let weekFormatSales = [];
+        let monthWeekSales = [];
 
-        const newSales = sales.reduce((r, a) => {
-            for (let index = 0; index < weekDays.length; index++) {
-                console.log(weekDays[index].value)
-                r = sales.filter(sale => isSameWeek(new Date(sale.entryDate), weekDays[index].value));
-                r[a.entryDate] = [...r[a.entryDate] || [], a];
+        const monthStart = startOfMonth(newDate , { weekStartsOn: 1 });
+        const monthEnd = lastDayOfMonth(newDate , { weekStartsOn: 1 });
+
+        const weeksInMonth = eachWeekOfInterval({
+            start: monthStart,
+            end: monthEnd
+        }, { weekStartsOn: 1 });
+
+        /*
+        * @todo there is an issue with weeks that start in other previous month...
+        * */
+        for (let i = 0; i < weeksInMonth.length; i++) {
+            const startDate = format(startOfWeek(weeksInMonth[i] , { weekStartsOn: 1 }), 'MM/dd/yyyy');
+            let lastDate = '';
+            if(weeksInMonth.length !== i + 1){
+                lastDate = format(endOfWeek(weeksInMonth[i] , { weekStartsOn: 1 }), 'MM/dd/yyyy');
+            }else{
+                lastDate = `${format(monthEnd, 'MM/dd/yyyy')}`;
             }
-            return r;
-        }, []);
+            let week = getWeekOfMonth(weeksInMonth[i]);
 
-        console.log(newSales)
+            week = `Week ${week} : ${startDate} - ${lastDate}`;
 
-        for (const [key, value] of Object.entries(newSales)) {
-            monthFormatSales.push({...await SaleService.getSaleFormatAsync(value) , week: key})
+            monthWeekSales[week] = [];
         }
-        return monthFormatSales;
+
+        for (let index = 0; index < sales.length; index++){
+            const day = new Date(fromUnixTime(sales[index].entryDate));
+
+            const startDate = format(startOfWeek(day , { weekStartsOn: 1 }), 'MM/dd/yyyy');
+            let lastDate = format(endOfWeek(day , { weekStartsOn: 1 }), 'MM/dd/yyyy');
+
+            const sameMonth = isSameMonth(new Date(startDate), new Date(lastDate));
+
+            if(sameMonth){
+                lastDate = format(endOfWeek(day , { weekStartsOn: 1 }), 'MM/dd/yyyy');
+            }else{
+                lastDate = `${format(monthEnd, 'MM/dd/yyyy')}`;
+            }
+
+            let week = getWeekOfMonth(day);
+
+            week = `Week ${week} : ${startDate} - ${lastDate}`;
+
+            const isValid = isWithinInterval((day), {
+                start: new Date(startDate),
+                end: new Date(lastDate)
+            });
+
+            if(isValid) {
+                monthWeekSales[week] = [...monthWeekSales[week] || [], sales[index]];
+            }
+        }
+
+        for (const [key, value] of Object.entries(monthWeekSales)) {
+            weekFormatSales.push({...await SaleService.getSaleFormatAsync(value) , week: key})
+        }
+
+        return weekFormatSales;
     }
 
-    static async yearSalesFormat (sales){
-        let yearFormatSales = []
-        const newSales = sales.reduce((r, a) => {
-            r = new SystemDateHandler().getStoreMonths();
-            r[a.entryDate] = [...r[a.entryDate] || [], a];
-            return r;
-        }, []);
+    static async yearSalesFormat (sales , date){
+        console.log(date)
+        const newDate = new Date(date);
+        let yearFormatSales = [];
+        let yearMonthSales = [];
 
-        for (const [key, value] of Object.entries(newSales)) {
+        const yearStart = startOfYear(newDate);
+
+        const isYear = isSameYear(newDate, new Date());
+        let yearEnd = '';
+
+        if(isYear){
+            yearEnd = new Date();
+        }else{
+            yearEnd = lastDayOfYear(newDate);
+        }
+        console.log(yearStart , yearEnd)
+        const monthsInYear = eachMonthOfInterval({
+            start: yearStart,
+            end: yearEnd
+        });
+
+
+        for (let i = 0; i < monthsInYear.length; i++) {
+            const month = format(monthsInYear[i] , 'MMMM yyyy');
+
+            yearMonthSales[month] = [];
+        }
+
+        for (let index = 0; index < sales.length; index++){
+            const day = new Date(fromUnixTime(sales[index].entryDate));
+
+            let month = format(day , 'MMMM yyyy');
+            const isValid = isSameYear(day , newDate);
+
+            if(isValid) {
+                yearMonthSales[month] = [...yearMonthSales[month] || [], sales[index]];
+            }
+        }
+
+
+        for (const [key, value] of Object.entries(yearMonthSales)) {
             yearFormatSales.push({...await SaleService.getSaleFormatAsync(value) , month: key})
         }
 
         return yearFormatSales;
-
     }
 
     async getSalesDetails(duration , date) {
@@ -440,9 +551,58 @@ console.log(todaySales)
         if (duration === 'week') {
             sale = await SaleService.weekSalesFormat(sale);
         } else if (duration === 'month') {
-            sale = await SaleService.monthSalesFormat(sale);
+            sale = await SaleService.monthSalesFormat(sale , date);
         } else if (duration === 'year') {
-            sale = await SaleService.yearSalesFormat(sale);
+            sale = await SaleService.yearSalesFormat(sale , date);
+        }
+
+        console.log(sale)
+
+        return {
+            sales: sale,
+            costPrice,
+            profit,
+            credit,
+            sellingPrice,
+            quantity
+        }
+    }
+
+    async getProductSalesDetails(duration , date , branchProductId) {
+        let sale = await SaleService.getProductSalesHistory(duration , date , branchProductId);
+
+        let costPrice = 0;
+        let profit = 0;
+        let credit = 0;
+        let sellingPrice = 0;
+        let quantity = 0;
+
+        for (let step = 0; step < sale.length; step++) {
+            costPrice += parseFloat(await SaleService.getSaleEntryCostPriceById(sale[step].saleId));
+        }
+
+        for (let step = 0; step < sale.length; step++) {
+            profit += parseFloat(await SaleService.getSaleEntryProfitById(sale[step].saleId));
+        }
+
+        for (let step = 0; step < sale.length; step++) {
+            credit += parseFloat(await SaleService.getSaleEntryCreditById(sale[step].saleId));
+        }
+
+        for (let step = 0; step < sale.length; step++) {
+            sellingPrice += parseFloat(await SaleService.getSaleEntrySellingPriceById(sale[step].saleId));
+        }
+
+        for (let step = 0; step < sale.length; step++) {
+            quantity += parseFloat(await SaleService.getSaleProductQuantity(sale[step].saleId));
+        }
+
+        if (duration === 'week') {
+            sale = await SaleService.weekSalesFormat(sale);
+        } else if (duration === 'month') {
+            sale = await SaleService.monthSalesFormat(sale , date);
+        } else if (duration === 'year') {
+            sale = await SaleService.yearSalesFormat(sale , date);
         }
 
         console.log(sale)

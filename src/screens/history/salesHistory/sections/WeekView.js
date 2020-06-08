@@ -47,12 +47,18 @@ const WeekView = props => {
 
     const getSaleDetails = async (date) => {
         console.log(date);
-        const response = await new SaleService().getSalesDetails('week', date);
+        let response = [];
+
         if (pageName === true){
             const branchProduct = props.product[0];
             const newProduct = await branchProduct.product.fetch();
             setName(newProduct.name);
+
+            response = await new SaleService().getProductSalesDetails('week', date , branchProduct.id);
+        }else{
+            response = await new SaleService().getSalesDetails('week', date);
         }
+
         setSaleDetails(response);
         setSales(response.sales);
         console.log(response)
@@ -124,7 +130,7 @@ const WeekView = props => {
 
                     sales.map((sale , index) => <SingleWeekView  key={index} sale={sale} />)
                     :
-                    sales.map((sale , index) => <ProductWeek  key={index} sale={sale} saleEntry={sale} prodName={name} />)
+                    sales.map((sale , index) => <ProductWeek  key={index} sale={sale} prodName={name} />)
 
                 }
             </Box>

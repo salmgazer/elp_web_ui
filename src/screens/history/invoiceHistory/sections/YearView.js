@@ -48,11 +48,16 @@ const useStyles = makeStyles(theme => ({
 
     const getInvoiceDetails = async (date) => {
         console.log(date);
-        const response = await new InvoiceService().getInvoiceDetails('year' , date);
+        let response = [];
+
         if (pageName === true){
+            response = await new InvoiceService().getInvoiceDetails('year' , date);
+
             const branchCustomer= props.customer[0];
             const newCustomer = await branchCustomer.customer.fetch();
             setName(newCustomer.firstName);
+        }else{
+            response = await new InvoiceService().getInvoiceDetails('year' , date);
         }
         setInvoiceDetails(response);
         setInvoices(response.invoices);
@@ -126,10 +131,10 @@ const useStyles = makeStyles(theme => ({
                         </div>
                     </BoxDefault>
                     :
-                   
+
                     pageName === false ?
 
-                    invoices.map((invoice) => <SingleYearView  key={invoice.id} invoice={invoice} />)
+                    invoices.map((invoice , index) => <SingleYearView  key={index} invoice={invoice} />)
                     :
                     invoices.map((invoice) => <CustomerYear  key={invoice.id} invoice={invoice} prodName={name} />)
 

@@ -48,12 +48,18 @@ const useStyles = makeStyles(theme => ({
 
     const getSaleDetails = async (date) => {
         console.log(date);
-        const response = await new SaleService().getSalesDetails('year', date);
+        let response = [];
+
         if (pageName === true){
             const branchProduct = props.product[0];
             const newProduct = await branchProduct.product.fetch();
             setName(newProduct.name);
+
+            response = await new SaleService().getProductSalesDetails('year', date , branchProduct.id);
+        }else{
+            response = await new SaleService().getSalesDetails('year', date);
         }
+
         setSaleDetails(response);
         setSales(response.sales);
         console.log(response)
@@ -122,10 +128,10 @@ const useStyles = makeStyles(theme => ({
                     :
                     pageName === false ?
 
-                    sales.map((sale) => <SingleYearView  key={sale.id} sale={sale} />)
+                    sales.map((sale , index) => <SingleYearView  key={index} sale={sale} />)
                     :
-                    sales.map((sale) => <ProductYear  key={sale.id} sale={sale} saleEntry={sale} prodName={name} />)
-                    
+                    sales.map((sale , index) => <ProductYear  key={index} sale={sale} prodName={name} />)
+
                 }
             </Box>
 

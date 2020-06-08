@@ -17,15 +17,13 @@ const useStyles = makeStyles(theme => ({
     root: {
       flexGrow: 1,
     }
-  }));
+}));
 
-  const values = new SystemDateHandler().getStoreMonths()
+const values = new SystemDateHandler().getStoreMonths()
 
-  const MonthView = props => {
-    console.log(new SystemDateHandler().getStoreMonths());
-
+const MonthView = props => {
     const classes = useStyles();
-    const [selectedMonth, setSelectedMonth] = React.useState(values[0].value);
+    const [selectedMonth, setSelectedMonth] = React.useState(values[(new Date().getMonth())].value);
     const pageName = props.pageName;
     const [name , setName] = useState('');
 
@@ -47,11 +45,16 @@ const useStyles = makeStyles(theme => ({
 
     const getInvoiceDetails = async (date) => {
         console.log(date);
-        const response = await new InvoiceService().getInvoiceDetails('month' , date);
+        let response = [];
+
         if (pageName === true){
+            response = await new InvoiceService().getInvoiceDetails('month' , date);
+
             const branchCustomer= props.customer[0];
             const newCustomer = await branchCustomer.customer.fetch();
             setName(newCustomer.firstName);
+        }else{
+            response = await new InvoiceService().getInvoiceDetails('month' , date);
         }
         setInvoiceDetails(response);
         setInvoices(response.invoices);
@@ -61,7 +64,6 @@ const useStyles = makeStyles(theme => ({
     return(
         <div className={classes.root}>
 
-            {/* <HistoryDrawer pageName="Purchased items" user='April' values={values} /> */}
             <Grid container spacing={1}>
                 <Grid item xs={6} >
                     <Typography
@@ -85,10 +87,10 @@ const useStyles = makeStyles(theme => ({
                             native: true,
                         }}
                         variant="outlined"
-                        >
+                    >
                         {values.map(option => (
                             <option key={option.value} value={option.value}>
-                            {option.label}
+                                {option.label}
                             </option>
                         ))}
                     </TextField>
@@ -128,10 +130,10 @@ const useStyles = makeStyles(theme => ({
                     :
                     pageName === false ?
 
-                    invoices.map((invoice) => <SingleMonthView  key={invoice.id} invoice={invoice} />)
+                    invoices.map((invoice , index) => <SingleMonthView  key={index} invoice={invoice} />)
                     :
                     invoices.map((invoice) => <CustomerMonth  key={invoice.id} invoice={invoice} prodName={name} />)
-            
+
                 }
 
         </div>

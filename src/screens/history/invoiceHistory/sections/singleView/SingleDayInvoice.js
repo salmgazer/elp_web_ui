@@ -9,12 +9,21 @@ import Typography from '@material-ui/core/Typography';
 import SingleDayProduct from './SingleDayProduct';
 import format from "date-fns/format";
 import SaleService from "../../../../../services/SaleService";
+import Avatar from "@material-ui/core/Avatar/Avatar";
+import {makeStyles} from "@material-ui/core";
 
+const useStyles = makeStyles(theme => ({
+    primaryColor: {
+        width: theme.spacing(3),
+        height: theme.spacing(3),
+        color: '#FFFFFF',
+        backgroundColor: '#DAAB59',
+    }
+}));
 
 const SingleDayInvoice = props => {
-    /*
-    * @todo format receipt number as required...
-    * */
+    const classes = useStyles();
+
     const invoice = props.invoice;
     const [customer , setCustomer] = useState(false);
     const [saleEntries , setSaleEntries] = useState([]);
@@ -65,8 +74,23 @@ const SingleDayInvoice = props => {
         <div>
             <Grid container spacing={1} className={`shadow1 mb-3 borderRadius10`}>
 
-                <Grid item xs={1}></Grid>
-                <Grid item xs={7} style={{display: 'table', height: '60px', margin: '8px 0px'}} onClick={openDialogHandler.bind(this)} >
+                <Grid item xs={3} sm>
+                    <Avatar
+                        alt={`${customer.firstName} ${customer.otherNames}`}
+                        //src={Woman}
+                        className={classes.primaryColor}
+                        style={{
+                            width: "45px",
+                            height: "45px",
+                            borderRadius: "50%",
+                            margin: '10px auto',
+                            textAlign: 'center'
+                        }}
+                    >
+                        {'C'}
+                    </Avatar>
+                </Grid>
+                <Grid item xs={5} style={{display: 'table', height: '60px', margin: '8px 0px'}} onClick={openDialogHandler.bind(this)} >
                     <div style={{textAlign: 'left', display: 'table-cell', verticalAlign: 'middle'}}>
                     <span className='text-dark font-weight-bold' style={{ fontSize: '16px'}}>{`${customer.firstName} ${customer.otherNames}`}</span>
                         <div className="font-weight-light mt-1" style={{ fontSize: '14px'}}>INV. {invoice.receiptNumber.slice(0,8)}</div>
