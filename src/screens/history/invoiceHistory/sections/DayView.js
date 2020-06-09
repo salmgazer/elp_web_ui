@@ -17,6 +17,8 @@ import { withRouter } from "react-router-dom";
 import SingleDayInvoice from './singleView/SingleDayInvoice';
 import InvoiceService from "../../../../services/InvoiceService";
 import CardsSection from '../../../../components/Sections/CardsSection';
+import SearchInput from "../../../Components/Input/SearchInput";
+
 
 const useStyles = makeStyles(theme => ({
     root: {
@@ -57,6 +59,9 @@ const DayView = props => {
 
     const [invoiceDetails , setInvoiceDetails] = useState(false);
     const [invoices , setInvoices] = useState([]);
+    const [searchValue , setSearchValue] = useState({
+        search: ''
+    });
 
     useEffect(() => {
       // You need to restrict it at some point
@@ -91,23 +96,29 @@ const DayView = props => {
         props.deleteProduct(event);
     };
 
+    const setInputValue = async (name , value) => {
+        const {...oldFormFields} = searchValue;
+        let invoice = [];
+
+        oldFormFields[name] = value;
+
+        setSearchValue(oldFormFields);
+
+        invoice = await new InvoiceService().searchInvoice(value);
+        setInvoices(invoice);
+        
+    };
+
     return(
         <div className={classes.root}>
 
             <Grid container spacing={1}>
-
-                <Grid item xs={6} style={{padding: '2px 4px', marginTop: '18px'}}>
-                    <Paper className={classes.search} >
-                        <IconButton className={classes.iconButton} aria-label="search">
-                            <SearchIcon />
-                        </IconButton>
-                        <InputBase
-                            style={{fontSize: '11px'}}
-                            className={`${classes.input} search-box`}
-                            placeholder="Search for an invoice"
-                            inputProps={{ 'aria-label': 'Search for an invoice' }}
-                        />
-                    </Paper>
+                <Grid item xs={6} style={{padding: '2px 1px', marginTop: '12px'}}>
+                    <SearchInput
+                        inputName="search"
+                        getValue={setInputValue.bind(this)}
+                        styles={{width: '100%'}}
+                    />
                 </Grid>
 
                 <Grid item xs={6} >

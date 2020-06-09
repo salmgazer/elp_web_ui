@@ -17,6 +17,7 @@ import BranchStockService from "../../services/BranchStockService";
 import BranchProductStock from "../../models/branchesProductsStocks/BranchProductStock";
 import AssignBarcode from './sections/AssignBarcode';
 import BranchProduct from "../../models/branchesProducts/BranchProduct";
+import ModelAction from "../../services/ModelAction";
 
 class DirectiveViewStock extends Component{
     state = {
@@ -96,7 +97,7 @@ class DirectiveViewStock extends Component{
             case 6:
                 return <MoveStock product={this.state.currentProduct} setView={this.setStepContentView.bind(this)} moveStock={this.moveStock.bind(this)} />;
             case 7:
-                return <AssignBarcode setView={this.setStepContentView.bind(this)} />
+                return <AssignBarcode setView={this.setStepContentView.bind(this)} product={this.state.currentProduct} addProductBarcode={this.addProductBarcode.bind(this)} />
             default:
                 return 'Complete';
         }
@@ -145,6 +146,26 @@ class DirectiveViewStock extends Component{
             activeStep: 1
         });
     };
+
+    /*
+    *  Add product barcode
+    **/
+
+   addProductBarcode = (pId, productBarcode) => {
+        try {
+            const status = new ModelAction('Product').update(pId, productBarcode);
+            console.log(status)
+            if(status){
+                return true;
+            }
+            alert('Something went wrong');
+            return false;
+        }catch (e) {
+            return false;
+        }
+   }
+
+    
 
     /*
     * Add new stock

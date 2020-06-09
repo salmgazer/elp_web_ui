@@ -1,5 +1,6 @@
 import React, {useEffect, useState} from 'react';
 import SectionNavbars from "../../../components/Sections/SectionNavbars";
+import { BrowserBarcodeReader } from '@zxing/library';
 import ArrowBackIcon from '@material-ui/icons/ArrowBack';
 import Typography from "@material-ui/core/Typography";
 import Don from '../../../assets/img/Don.jpg';
@@ -12,6 +13,70 @@ import GraphicEqIcon from '@material-ui/icons/GraphicEq';
 import Button from "@material-ui/core/Button/Button";
 
 const AssignBarcode = props => {
+
+    let branchProduct = props.product[0];
+    const [product , setProduct] = useState('');
+    const [name , setName] = useState('');
+    const [barcodeNumber , setBarcodeNumber] = useState();
+    const codeReader = new BrowserBarcodeReader();
+    const beepSound = new Audio('data:audio/wav;base64,UklGRl9vT19XQVZFZm10IBAAAAABAAEAQB8AAEAfAAABAAgAZGF0YU'+Array(1e3).join(123));
+    let selectedDeviceId;
+
+    codeReader
+    .listVideoInputDevices()
+    .then(videoInputDevices => {
+        videoInputDevices.forEach(device =>
+            console.log(`${device.label}, ${device.deviceId}`)
+        );
+
+        selectedDeviceId = videoInputDevices[0].deviceId;
+
+        let userAgent = navigator.userAgent.toLowerCase();
+        let android = userAgent.indexOf("android") > -1;
+
+        if (videoInputDevices.length >= 1) {
+            if(android) {
+                selectedDeviceId = videoInputDevices[1].deviceId
+            }
+        }
+
+        document.getElementById('barOverlay').addEventListener('click', () => {
+            document.getElementById('barOverlay').style.display = 'none';
+
+            codeReader
+                .decodeOnceFromVideoDevice(selectedDeviceId, 'video')
+                .then(result => {
+                    alert(result.text);
+                    beepSound.play();
+                    setBarcodeNumber(result.text);
+                    codeReader.reset();
+                    document.getElementById('barOverlay').style.display = 'block';
+                })
+                .catch(err => {
+                    //document.getElementById('barError').textContent = err;
+                    console.log(err)
+                });
+        });
+    })
+    .catch(err => console.error(err));
+
+    useEffect(() => {
+        if (!product) {
+            getProduct();
+        }
+    }, []);
+
+    const getProduct = async () => {
+        const newProduct = await branchProduct.product.fetch();
+        console.log(newProduct);
+        setProduct(newProduct);
+        setBarcodeNumber(newProduct.barCode);
+        setName(newProduct.name);
+    };
+
+    const addProductBarcode = () => {
+        props.addProductBarcode(product.id, barcodeNumber);
+    }
 
     const backHandler = () => {
         props.setView(1);
@@ -35,7 +100,7 @@ const AssignBarcode = props => {
                     style={{fontSize: '18px' , margin: '0px 0px', padding: '8px'}}
                     className={`text-center mx-auto text-dark font-weight-bold`}
                 >
-                    Fanta
+                    {name}
                 </Typography>
             </div>
 
@@ -83,6 +148,7 @@ const AssignBarcode = props => {
                         id="outlined-adornment-amount"
                         placeholder="Barcode number appears here"
                         size="small"
+                        value={barcodeNumber}
                         style={{width: '280px'}}
                         startAdornment={<InputAdornment position="start"><GraphicEqIcon /> </InputAdornment>}
                     />
@@ -91,6 +157,7 @@ const AssignBarcode = props => {
                 <Button
                     variant="contained"
                     style={{'backgroundColor': '#DAAB59' , color: '#333333', padding: '5px 70px', textTransform: 'none', marginTop: '30px', fontSize: '17px'}}
+                    onClick={addProductBarcode.bind(this)}
                 >
                     Finish
                 </Button>
