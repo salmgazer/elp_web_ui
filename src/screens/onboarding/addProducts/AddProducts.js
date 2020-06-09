@@ -137,7 +137,9 @@ class AddProducts extends Component{
             localStorage.removeItem('branchProductsAdded');
             console.log(addedProducts);
         }
-
+        /*
+        * @todo why did you use the single operator...
+        * */
         if (typeof branchProductsRemoved != "undefined" && branchProductsRemoved != null && branchProductsRemoved.length != null
             && branchProductsRemoved.length > 0) {
             console.log(branchProductsRemoved);
@@ -162,7 +164,7 @@ class AddProducts extends Component{
 
             localStorage.removeItem('branchDeletedHistory');
         }
-        //await SyncService.sync(LocalInfo.companyId, LocalInfo.branchId, LocalInfo.userId, this.props.database);
+        await SyncService.sync(LocalInfo.companyId, LocalInfo.branchId, LocalInfo.userId, database);
 
         const returnPage = localStorage.getItem('returnPage') || '';
         localStorage.removeItem('returnPage');
