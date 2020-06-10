@@ -157,13 +157,13 @@ const Drawer = props => {
             </span>
 
             <List className="drawerDefault" style={{background:'#403C3C', color: '#FFFFFF'}}>
-                <Divider />
-                <ListItem button key={1} onClick={handleClick} >
+                {/* <Divider /> */}
+                {/* <ListItem button key={1} onClick={handleClick} >
                     <ListItemIcon><StoreIcon style={{color: '#FFFFFF'}} /></ListItemIcon>
                     <ListItemText primary="My stores" />
                     {open ? <ExpandLess /> : <ExpandMore />}
-                </ListItem>
-                <Collapse in={open} timeout="auto" unmountOnExit>
+                </ListItem> */}
+                {/* <Collapse in={open} timeout="auto" unmountOnExit>
                     <List component="div" disablePadding>
                         <ListItem button className={classes.nested}>
                             <ListItemIcon> <StoreIcon style={{color: '#FFFFFF'}} /> </ListItemIcon>
@@ -174,7 +174,7 @@ const Drawer = props => {
                             <ListItemText primary="Store 2" />
                         </ListItem>
                     </List>
-                </Collapse>
+                </Collapse> */}
                 <Divider />
                 <ListItem button key={2} onClick={() => history.push(paths.sell)}>
                     <ListItemIcon><ShoppingCartIcon style={{color: '#FFFFFF'}} /></ListItemIcon>
@@ -196,10 +196,35 @@ const Drawer = props => {
                     <ListItemText primary="Dashboard" />
                 </ListItem>
                 <Divider />
-                <ListItem button key={6} onClick={() => history.push(paths.admin)}>
+                <ListItem button key={6} onClick={handleClick}>
                     <ListItemIcon><PersonIcon style={{color: '#FFFFFF'}} /></ListItemIcon>
                     <ListItemText primary="Admin" />
+                    {open ? <ExpandLess /> : <ExpandMore />}
                 </ListItem>
+                <Collapse in={open} timeout="auto" unmountOnExit>
+                    <List component="div" disablePadding>
+                        <ListItem button className={classes.nested}>
+                            <ListItemIcon> <StoreIcon style={{color: '#FFFFFF'}} /> </ListItemIcon>
+                            <ListItemText primary="Shop information" />
+                        </ListItem>
+                        <ListItem button className={classes.nested}>
+                            <ListItemIcon> <StoreIcon style={{color: '#FFFFFF'}} /> </ListItemIcon>
+                            <ListItemText primary="Stock" />
+                        </ListItem>
+                        <ListItem button className={classes.nested} onClick={() => history.push(paths.employees)}>
+                            <ListItemIcon> <StoreIcon style={{color: '#FFFFFF'}} /> </ListItemIcon>
+                            <ListItemText primary="Employees" />
+                        </ListItem>
+                        <ListItem button className={classes.nested} onClick={() => history.push(paths.admin_customers)}>
+                            <ListItemIcon> <StoreIcon style={{color: '#FFFFFF'}} /> </ListItemIcon>
+                            <ListItemText primary="Customers" />
+                        </ListItem>
+                        <ListItem button className={classes.nested} onClick={() => history.push(paths.suppliers)}>
+                            <ListItemIcon> <StoreIcon style={{color: '#FFFFFF'}} /> </ListItemIcon>
+                            <ListItemText primary="Suppliers" />
+                        </ListItem>
+                    </List>
+                </Collapse>
                 <Divider />
                 <ListItem button key={7} onClick={() => history.push(paths.get_startedAudit)}>
                     <ListItemIcon><VisibilityIcon style={{color: '#FFFFFF'}} /></ListItemIcon>

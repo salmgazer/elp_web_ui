@@ -7,16 +7,19 @@ import SwipeableViews from "react-swipeable-views";
 import LocalAtmIcon from '@material-ui/icons/LocalAtm';
 import PhoneAndroidIcon from '@material-ui/icons/PhoneAndroid';
 import ScheduleIcon from '@material-ui/icons/Schedule';
-import CardGiftcardIcon from '@material-ui/icons/CardGiftcard';
+// import CardGiftcardIcon from '@material-ui/icons/CardGiftcard';
 import TabPanel from "../../../../components/Tabs/TabPanel";
 import AppBar from '@material-ui/core/AppBar';
 import Box from "@material-ui/core/Box/Box";
 import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
 import Button from "@material-ui/core/Button/Button";
-import ArrowBackIosIcon from '@material-ui/icons/ArrowBackIos';
+import ArrowBackIcon from '@material-ui/icons/ArrowBack';
 import { withRouter } from "react-router-dom";
+
 import ViewCash from './ViewCash';
+import ViewMobileMoney  from './ViewMobileMoney';
+import ViewCredit from './ViewCredit';
 import MainDialog from "../../../../components/Dialog/MainDialog";
 import ErrorImage from '../../../../assets/img/error.png';
 import CancelIcon from '@material-ui/icons/Cancel';
@@ -159,12 +162,16 @@ const CheckoutView = props => {
 
     return(
         <div className={classes.root}>
-            <SectionNavbars title="Payment" >
-                <ArrowBackIosIcon
-                    onClick={backHandler.bind(this)}
-                    style={{fontSize: '2rem'}}
-                />
-            </SectionNavbars>
+            <SectionNavbars 
+                title="Payment"
+                leftIcon={
+                    <div onClick={backHandler.bind(this)}>
+                        <ArrowBackIcon
+                            style={{fontSize: '2rem'}}
+                        />
+                    </div>
+                }
+            />
 
             <SimpleSnackbar
                 type="warning"
@@ -173,8 +180,8 @@ const CheckoutView = props => {
             >
             </SimpleSnackbar>
 
-            <Box style={{marginTop: '5px' , paddingBottom: '60px'}} p={1} className={`mt-3 mb-5`}>
-                <Grid container spacing={1} className={`shadow1 mb-3 borderRadius10`} style={{display: 'table', height: '90px', margin: '8px 0px'}} >
+            <Box style={{marginTop: '5px' , paddingBottom: '60px'}} >
+                <Grid container spacing={1} className={`shadow1 mb-1 borderRadius10`} style={{display: 'table', height: '90px', margin: '0px 0px 8px 5px', width: '98%'}} >
                     <Typography component="p" style={{ margin: '20px 0px 0px 0px', fontSize: '18px' }} >
                             Amount due
                         </Typography>
@@ -194,9 +201,9 @@ const CheckoutView = props => {
                     aria-label="full width tabs example"
                 >
                     <Tab className={classes.tabs} label="Cash" icon={<LocalAtmIcon style={{color: '#DAAB59'}} />} {...a11yProps(0)} />
-                    <Tab onClick={openDialogHandler.bind(this)} className={classes.tabs} label="MoMo" icon={<PhoneAndroidIcon style={{color: '#DAAB59'}} />} {...a11yProps(1)} />
-                    <Tab onClick={openDialogHandler.bind(this)} className={classes.tabs} label="Credit" icon={<ScheduleIcon style={{color: '#DAAB59'}} />} {...a11yProps(2)} />
-                    <Tab onClick={openDialogHandler.bind(this)} className={classes.tabs} label="Other" icon={<CardGiftcardIcon style={{color: '#DAAB59'}} />} {...a11yProps(3)} />
+                    <Tab className={classes.tabs} label="Mobile Money" icon={<PhoneAndroidIcon style={{color: '#DAAB59'}} />} {...a11yProps(1)} />
+                    <Tab className={classes.tabs} label="Credit" icon={<ScheduleIcon style={{color: '#DAAB59'}} />} {...a11yProps(2)} />
+                    {/* <Tab onClick={openDialogHandler.bind(this)} className={classes.tabs} label="Other" icon={<CardGiftcardIcon style={{color: '#DAAB59'}} />} {...a11yProps(3)} /> */}
                 </Tabs>
             </AppBar>
 
@@ -214,14 +221,19 @@ const CheckoutView = props => {
                     />
                 </TabPanel>
                 <TabPanel value={value} index={1}  >
-
+                    <ViewMobileMoney
+                        openAddCustomerModal={openAddDialog.bind(this)}
+                        getFormFields={paymentDetails.bind(this)}
+                    />
                 </TabPanel>
                 <TabPanel value={value} index={2}  >
+                    <ViewCredit 
 
+                    />
                 </TabPanel>
-                <TabPanel value={value} index={3}  >
+                {/* <TabPanel value={value} index={3}  >
 
-                </TabPanel>
+                </TabPanel> */}
             </SwipeableViews>
 
             <AddCustomerModal

@@ -86,16 +86,16 @@ const ReconciliationReport = props => {
             </div>
 
             <Grid container spacing={1} style={{marginTop: '60px'}} >
-                <Grid item xs={5.5}>
-                    <Dates style={{padding: '3px 0px', marginLeft: '5px', border: '1px solid #e5e5e5', backgroundColor: '#FFFFFF', float: 'center', width: '150px', fontWeight: '400', fontSize: '18px' , lineHeight: '1.6' , marginTop: '2px'}} />
+                <Grid item xs={5}>
+                    <Dates style={{marginLeft: '10px'}} />
                 </Grid>
 
                 <Grid item xs={1}>
-                    <p  className='text-dark font-weight-bold' style={{marginTop: '10px'}}>to</p>
+                    <p  className='text-dark font-weight-bold' style={{marginTop: '10px', marginLeft: '10px'}}>to</p>
                 </Grid>
 
-                <Grid item xs={5.5}>
-                    <Dates style={{padding: '3px 0px', marginLeft: '5px', border: '1px solid #e5e5e5', backgroundColor: '#FFFFFF', float: 'center', width: '150px', fontWeight: '400', fontSize: '18px' , lineHeight: '1.6' , marginTop: '2px'}} />
+                <Grid item xs={6}>
+                    <Dates />
                 </Grid>
             </Grid>
 

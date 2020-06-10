@@ -15,6 +15,7 @@ import Box from "@material-ui/core/Box/Box";
 import { withRouter } from "react-router-dom";
 
 import SingleDayInvoice from './singleView/SingleDayInvoice';
+import CustomerDay from './singleView/CustomerDay';
 import InvoiceService from "../../../../services/InvoiceService";
 import CardsSection from '../../../../components/Sections/CardsSection';
 import SearchInput from "../../../Components/Input/SearchInput";
@@ -169,7 +170,7 @@ const DayView = props => {
 
                     invoices.map((invoice) => <SingleDayInvoice  key={invoice.id} invoice={invoice} deleteProduct={deleteProductHandler.bind(this)} updateSaleEntry={props.updateSaleEntry} />)
                     :
-                    invoices.map((invoice) => <SingleDayInvoice  key={invoice.id} invoice={invoice} prodName={name} customer={customer}/>)
+                    invoices.map((invoice) => <CustomerDay  key={invoice.id} invoice={invoice} prodName={name} deleteProduct={deleteProductHandler.bind(this)} updateSaleEntry={props.updateSaleEntry} />)
 
                 }
             </Box>

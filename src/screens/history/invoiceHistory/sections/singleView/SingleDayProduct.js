@@ -22,6 +22,7 @@ import QuantityInput from "../../../../Components/Input/QuantityInput";
 import IconButton from '@material-ui/core/IconButton';
 import {faCalculator} from "@fortawesome/free-solid-svg-icons";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
+import BoxDefault from '../../../../../components/Box/BoxDefault';
 
 
 const useStyles = makeStyles(theme => ({
@@ -139,8 +140,9 @@ const SingleDayProduct = props => {
     };
 
     return(
-        <div className="row pt-0 mx-auto text-center w-100" >                    
-            <Grid container spacing={1} className={`shadow1 mb-3 borderRadius10`}>
+        <div className="row pt-0 mx-auto text-center w-100" >   
+                           
+            <Grid container spacing={1} className={`bordered rounded mb-3 pt-1 pb-1`}>
                 <Grid item xs={3}>
                     <Card
                         className="shadow1"
@@ -158,14 +160,14 @@ const SingleDayProduct = props => {
                 </Grid>
                 <Grid item xs={6} style={{display: 'table', height: '60px', margin: '8px 0px'}}>
                     <div style={{textAlign: 'left', display: 'table-cell', verticalAlign: 'middle'}}>
-                        <span className='text-dark font-weight-bold' style={{ fontSize: '14px'}} >{name}</span>
-                        <div className="font-weight-light mt-1" style={{ fontSize: '13px'}}>Quantity: {quantity}</div>
-                        <div className="font-weight-light mt-1" style={{ fontSize: '13px', color: 'red'}}>Total Price: GHC {totalPrice}</div>
+                        <div className='text-dark font-weight-bold' style={{ fontSize: '14px', marginBottom: '5px'}} >{name}</div>
+                        <div className="font-weight-light mt-1" style={{ fontSize: '13px', marginBottom: '5px'}}>Quantity: {quantity}</div>
+                        <div className="font-weight-light mt-1" style={{ fontSize: '13px', color: 'red', marginBottom: '5px'}}>Total Price: GHC {totalPrice}</div>
                     </div>
                 </Grid>
 
                 <Grid item xs={3} style={{height: '60px', margin: '10px 0px 0px 0px'}}>  
-                    <span className='text-dark font-weight-bold' style={{ fontSize: '13px'}} >{format(new Date(saleEntry.createdAt) , "h:mm a")}</span>
+                    <div className='text-dark font-weight-bold' style={{ fontSize: '13px', marginBottom: '10px'}} >{format(new Date(saleEntry.createdAt) , "h:mm a")}</div>
                     <EditIcon
                         onClick={openDialogHandler.bind(this)}
                         style={{fontSize: '20px', color: '#DAAB59', textAlign: 'right'}}
@@ -174,7 +176,7 @@ const SingleDayProduct = props => {
             </Grid>
 
             <MainDialog handleDialogClose={closeDialogHandler.bind(this)} states={mainDialog} >
-                <div className="row p-3 pt-0 mx-auto text-center w-100" >
+                <div className="row pt-0 mx-auto text-center w-100" >
                     <Grid container spacing={1} className={`shadow1 mb-3 borderRadius10`}>
                         <Grid item xs={3}>
                             <Card

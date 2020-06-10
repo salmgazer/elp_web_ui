@@ -11,7 +11,7 @@ import YearView from './sections/reconciliation/YearView';
 
 class Reconciliation extends Component{
     state={
-        activeStep: 0,
+        activeStep: 5,
         detailsList: [
             {
                 'id': '1',
