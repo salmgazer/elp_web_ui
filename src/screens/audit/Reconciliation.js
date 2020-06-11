@@ -8,10 +8,11 @@ import ReconciliationHistory from './sections/reconciliation/ReconciliationHisto
 import WeekView from './sections/reconciliation/WeekView';
 import MonthView from './sections/reconciliation/MonthView';
 import YearView from './sections/reconciliation/YearView';
+import ReconcilationService from "../../services/ReconcilationService";
 
 class Reconciliation extends Component{
     state={
-        activeStep: 0,
+        activeStep: 5,
         detailsList: [
             {
                 'id': '1',
@@ -75,7 +76,7 @@ class Reconciliation extends Component{
             case 4:
                 return <YearView setView={this.setStepContentView.bind(this)} reconciliations={this.state.detailsList} />
             case 5:
-                return <MainPage setView={this.setStepContentView.bind(this)}  />;
+                return <MainPage generateReport={this.generateReport.bind(this)} setView={this.setStepContentView.bind(this)}  />;
             case 6:
                 return <ReconciliationReport setView={this.setStepContentView.bind(this)} balance='600' cash='600' />
             case 0:
@@ -91,6 +92,12 @@ class Reconciliation extends Component{
         this.setState({
             activeStep: step
         });
+    };
+
+    generateReport = async (duration, startDate, endDate) => {
+        const response = await new ReconcilationService().getBranchReconcilationDetails(duration, startDate, endDate);
+
+        console.log(response);
     };
 
     render(){

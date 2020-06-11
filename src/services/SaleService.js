@@ -9,7 +9,6 @@ import isSameDay from "date-fns/isSameDay";
 import isSameWeek from "date-fns/isSameWeek";
 import isSameMonth from "date-fns/isSameMonth";
 import isSameYear from "date-fns/isSameYear";
-import SystemDateHandler from './SystemDateHandler';
 import fromUnixTime from 'date-fns/fromUnixTime';
 import startOfMonth from "date-fns/startOfMonth";
 import lastDayOfMonth from "date-fns/lastDayOfMonth";
@@ -22,6 +21,9 @@ import isWithinInterval from "date-fns/isWithinInterval";
 import startOfYear from "date-fns/startOfYear";
 import lastDayOfYear from "date-fns/lastDayOfYear";
 import eachMonthOfInterval from "date-fns/eachMonthOfInterval";
+import BranchSupplierOrder from "../models/branchSupplierOrder/BranchSupplierOrder";
+import * as Q from "@nozbe/watermelondb/QueryDescription";
+import SaleEntries from "../models/saleEntry/SaleEntries";
 
 export default class SaleService {
     async makeSell(data , paymentType){
@@ -307,6 +309,13 @@ console.log(todaySales)
         return sales;
     }
 
+    static async getSalesHistoryInDuration(branchId , startDate , endDate){
+        return database.collections.get(SaleEntries.table).query(
+            Q.where('entryDate' , Q.between(startDate , endDate)),
+            Q.where('branchId' , branchId)
+        ).fetch();
+    }
+
     static async getSalesHistory(duration , date){
         const sales = await new ModelAction('SaleEntry').findByColumnNotObserve(
             {
@@ -401,7 +410,6 @@ console.log(todaySales)
             weekFormatSales.push({...await SaleService.getSaleFormatAsync(value) , day: key})
         }
 
-        console.log(weekFormatSales)
         return weekFormatSales;
     }
 

@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {withRouter} from "react-router";
+import {withRouter} from "react-router-dom";
 
 import OwnerMainPage from './owner/OwnerMainPage';
 import CollectionHistory from './owner/CollectionHistory';

@@ -7,10 +7,21 @@ import isSameYear from "date-fns/isSameYear";
 import BranchStockService from './BranchStockService';
 import format from "date-fns/format";
 import fromUnixTime from "date-fns/fromUnixTime";
+import database from "../models/database";
+import BranchProductStock from "../models/branchesProductsStocks/BranchProductStock";
+import * as Q from "@nozbe/watermelondb/QueryDescription";
+import BranchSupplierOrder from "../models/branchSupplierOrder/BranchSupplierOrder";
 
 export default class OrderService {
     constructor(){
         this.branchId = LocalInfo.branchId;
+    }
+
+    static async getOrdersInDuration(branchId , startDate , endDate){
+        return database.collections.get(BranchSupplierOrder.table).query(
+            Q.where('orderDate' , Q.between(startDate , endDate)),
+            Q.where('branchId' , branchId)
+        ).fetch();
     }
 
     static async getOrderHistory(duration , date){
@@ -58,7 +69,7 @@ export default class OrderService {
 
         for (let step = 0; step < order.length; step++) {
             quantity += parseFloat(await BranchStockService.getStockProductQuantity(order[step].id));
-            
+
             const branchProduct = await new ModelAction('BranchProduct').findByColumnNotObserve({
                 name: 'productId',
                 value: order[step].productId,

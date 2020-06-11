@@ -6,8 +6,6 @@ import isSameMonth from "date-fns/isSameMonth";
 import isSameYear from "date-fns/isSameYear";
 import BranchStockService from './BranchStockService';
 import fromUnixTime from "date-fns/fromUnixTime";
-import SystemDateHandler from "./SystemDateHandler";
-import getMonth from 'date-fns/getMonth';
 import startOfMonth from 'date-fns/startOfMonth';
 import lastDayOfMonth from 'date-fns/lastDayOfMonth';
 import getWeekOfMonth from 'date-fns/getWeekOfMonth';
@@ -19,6 +17,9 @@ import isWithinInterval from 'date-fns/isWithinInterval';
 import startOfYear from "date-fns/startOfYear";
 import lastDayOfYear from 'date-fns/lastDayOfYear';
 import eachMonthOfInterval from 'date-fns/eachMonthOfInterval';
+import database from "../models/database";
+import BranchProductStock from "../models/branchesProductsStocks/BranchProductStock";
+import * as Q from "@nozbe/watermelondb/QueryDescription";
 
 export default class PurchaseService {
     constructor(){
@@ -71,6 +72,13 @@ export default class PurchaseService {
             case 'year':
                 return purchases.filter(purchase => isSameYear(fromUnixTime(purchase.stockDate), day));
         }
+    }
+
+    static async getPuchasesInDuration(branchId , startDate , endDate){
+        return database.collections.get(BranchProductStock.table).query(
+            Q.where('stockDate' , Q.between(startDate , endDate)),
+            Q.where('branchId' , branchId)
+        ).fetch();
     }
 
     static async getSaleFormatAsync(purchase){

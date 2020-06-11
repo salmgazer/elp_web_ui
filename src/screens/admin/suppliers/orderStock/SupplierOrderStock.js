@@ -1,20 +1,16 @@
 import React, {Component} from 'react';
-import LocalInfo from "../../../../services/LocalInfo";
 import {withDatabase} from "@nozbe/watermelondb/DatabaseProvider";
 import withObservables from "@nozbe/with-observables";
 import { withRouter } from "react-router-dom";
 import {Q} from "@nozbe/watermelondb";
-import database from "../../../../models/database";
 import {confirmAlert} from "react-confirm-alert";
 import ModelAction from "../../../../services/ModelAction";
-import paths from "../../../../utilities/paths";
 import SupplierService from "../../../../services/SupplierService";
 import SupplierStockView from "./sections/SupplierStockView";
 import AddSupplierOrderItem from "./sections/AddSupplierOrderItem";
 import BranchStockService from "../../../../services/BranchStockService";
 import BranchProductStock from "../../../../models/branchesProductsStocks/BranchProductStock";
 import AddedStockOrderView from "./sections/AddedStockOrderView";
-import CartView from "../../../sell/cart/sections/ViewCart";
 import PaySupplierOrder from "./sections/PaySupplierOrder";
 
 class SupplierOrderStock extends Component {
@@ -121,7 +117,7 @@ class SupplierOrderStock extends Component {
     async searchProductHandler(searchValue){
         try{
             const products = await new SupplierService().searchBranchSupplierProduct(searchValue);
-console.log(products)
+
             this.setState({
                 branchSupplierProducts: products,
             });
