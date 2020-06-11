@@ -14,7 +14,9 @@ import Checkbox from '@material-ui/core/Checkbox';
 import FormControlLabel from "@material-ui/core/FormControlLabel/FormControlLabel";
 import { ValidatorForm, TextValidator} from 'react-material-ui-form-validator';
 import Api from "../../../services/Api";
-
+import {confirmAlert} from "react-confirm-alert";
+import paths from "../../../utilities/paths";
+import { useHistory } from "react-router-dom";
 
 const GreenCheckbox = withStyles({
     root: {
@@ -25,7 +27,6 @@ const GreenCheckbox = withStyles({
     },
     checked: {},
 })(props => <Checkbox color="default" {...props} />);
-
 
 const useStyles = makeStyles(theme => ({
     root: {
@@ -90,6 +91,7 @@ const PasswordTextField = withStyles({
 })(TextValidator);
 
 export default function AccountInformationSection(props) {
+    let history = useHistory();
     const PersonalInformationForm = useRef(null);
     const [error , setError] = useState('none');
     const [errorMsg , setErrorMsg] = useState('');
@@ -214,6 +216,24 @@ console.log(value , formFields.username)
 
             if(response.data.valid === false){
                 props.isValid(false);
+                confirmAlert({
+                    title: 'Account',
+                    message: 'Do you already have an account?',
+                    buttons: [
+                        {
+                            label: 'Yes',
+                            onClick: () => {
+                                history.push(paths.login)
+                            }
+                        },
+                        {
+                            label: 'No',
+                            onClick: () => {
+                                return false;
+                            }
+                        }
+                    ]
+                });
                 setError('block');
                 setErrorMsg('Username exists in database. Use another username');
             }else{
@@ -225,6 +245,29 @@ console.log(value , formFields.username)
         }
 
     };
+
+    useEffect(() => {
+        // custom rule will have name 'isUserExist'
+        ValidatorForm.addValidationRule('isUserExist', async (value) => {
+            //const { ...formData } = formFields;
+            try{
+                let response = await new Api('others').index(
+                    {},
+                    {},
+                    `https://core-api-dev.mystoreaid.net/v1/client/users/exists?username=${value}`,
+                    {},
+                );
+
+                if(response.data.valid === false){
+                    return false;
+                }
+                return true;
+            } catch (e) {
+                return false;
+            }
+        });
+    });
+
 
     const handleChangeHandler = (event) => {
         const { ...formData }  = formFields;
@@ -284,13 +327,11 @@ console.log(value , formFields.username)
                         validatorListener={handleFormValidation}
                         onChange={usernameFormatter}
                         value={formFields.username}
-                        validators={['required', 'minStringLength:3']}
-                        errorMessages={['Username is a required field', 'The minimum length for username is 3']}
+                        validators={['required', 'minStringLength:3' , 'isUserExist']}
+                        errorMessages={['Username is a required field', 'The minimum length for username is 3', 'Username exists in database. Use another username']}
                         helperText=""
                         id="username"
                     />
-
-                    <span style={{display: `${error}` , color: 'red' , fontSize: '10px' , textAlign: 'center'}}>{errorMsg}</span>
                 </Grid>
                 <Grid item xs={12}>
                     <ValidationTextField
@@ -341,65 +382,6 @@ console.log(value , formFields.username)
                         onChange={checkPassword}
                     />
                 </Grid>
-
-                {/*<Grid item xs={12}>
-                    <FakeFormControl className={clsx(classes.margin, classes.textField)} variant="outlined">
-                        <InputLabel htmlFor="outlined-adornment-password">Password</InputLabel>
-                        <PasswordTextField
-                            id="password"
-                            type={showPassword.showPassword ? 'text' : 'password'}
-                            value={formFields.password}
-                            validators={['required', 'minStringLength:4']}
-                            errorMessages={['Password is a required field', 'The minimum length for password is 4']}
-                            helperText=""
-                            required
-                            name="password"
-                            onChange={handleChangeHandler}
-                            endAdornment={
-                                <InputAdornment position="end">
-                                    <IconButton
-                                        aria-label="toggle password visibility"
-                                        onClick={handleClickShowPassword}
-                                        onMouseDown={handleMouseDownPassword}
-                                        edge="end"
-                                    >
-                                        {showPassword.showPassword ? <Visibility /> : <VisibilityOff />}
-                                    </IconButton>
-                                </InputAdornment>
-                            }
-                            labelWidth={70}
-                        />
-                    </FakeFormControl>
-                </Grid>*/}
-                {/*<Grid item xs={12}>
-                    <FakeFormControl className={clsx(classes.margin, classes.textField)} variant="outlined">
-                        <InputLabel htmlFor="outlined-adornment-password">Confirm password</InputLabel>
-                        <PasswordTextField
-                            id="passwordConfirm"
-                            type={showPassword.showPassword ? 'text' : 'password'}
-                            value={formFields.passwordRepeat}
-                            validators={['required', 'isPasswordMatch']}
-                            errorMessages={['Password confirmation is a required field', 'password mismatch']}
-                            helperText=""
-                            onChange={handleChangeHandler}
-                            name="passwordRepeat"
-                            required
-                            endAdornment={
-                                <InputAdornment position="end">
-                                    <IconButton
-                                        aria-label="toggle password visibility"
-                                        onClick={handleClickShowPassword}
-                                        onMouseDown={handleMouseDownPassword}
-                                        edge="end"
-                                    >
-                                        {showPassword.showPassword ? <Visibility /> : <VisibilityOff />}
-                                    </IconButton>
-                                </InputAdornment>
-                            }
-                            labelWidth={70}
-                        />
-                    </FakeFormControl>
-                </Grid>*/}
             </ValidatorForm>
         </Paper>
     );

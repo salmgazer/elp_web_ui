@@ -253,7 +253,10 @@ const StockMainPage = props => {
                         <SecondaryButton classes={`mr-2`} onClick={() => history.push(paths.suppliers)} >
                             Suppliers
                         </SecondaryButton>
-                        <SecondaryButton onClick={() => history.push(paths.add_products)}>
+                        <SecondaryButton onClick={() => {
+                            localStorage.setItem("redirectPath" , paths.stock);
+                            history.push(paths.add_products);
+                        }}>
                             Add products
                         </SecondaryButton>
                     </Box>

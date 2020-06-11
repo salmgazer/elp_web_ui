@@ -46,7 +46,7 @@ const SingleDayInvoice = props => {
         /*
         * @todo get entries via query on model
         * */
-        const entries = await invoice.sale_entries.fetch(); //await new SaleService().getSaleProductsById(invoice.id);
+        const entries = await invoice.salesEntries.fetch(); //await new SaleService().getSaleProductsById(invoice.id);
         const saleTotal = await SaleService.getSaleEntryAmountById(invoice.id);
         const paymentStatus = await SaleService.getSalePaymentStatus(invoice.id);
         setCustomer(response);
@@ -64,23 +64,23 @@ const SingleDayInvoice = props => {
                 ?
                 <Grid container spacing={1} className={`shadow1 mb-3 borderRadius10`}>
 
-                <Grid item xs={1}></Grid>
-                <Grid item xs={7} style={{display: 'table', height: '60px', margin: '8px 0px'}} onClick={openDialogHandler.bind(this)} >
-                    <div style={{textAlign: 'left', display: 'table-cell', verticalAlign: 'middle'}}>
-                    <span className='text-dark font-weight-bold' style={{ fontSize: '16px'}}>{`${customer.firstName} ${customer.otherNames}`}</span>
-                        <div className="font-weight-light mt-1" style={{ fontSize: '14px'}}>INV. {invoice.receiptNumber.slice(0,8)}</div>
-                        <div className="font-weight-light mt-1" style={{ fontSize: '14px'}}>Sales: GHC {total}</div>
-                    </div>
-                </Grid>
+                    <Grid item xs={1}></Grid>
+                    <Grid item xs={7} style={{display: 'table', height: '60px', margin: '8px 0px'}} onClick={openDialogHandler.bind(this)} >
+                        <div style={{textAlign: 'left', display: 'table-cell', verticalAlign: 'middle'}}>
+                        <span className='text-dark font-weight-bold' style={{ fontSize: '16px'}}>{`${customer.firstName} ${customer.otherNames}`}</span>
+                            <div className="font-weight-light mt-1" style={{ fontSize: '14px'}}>INV. {invoice.receiptNumber.slice(0,8)}</div>
+                            <div className="font-weight-light mt-1" style={{ fontSize: '14px'}}>Sales: GHC {total}</div>
+                        </div>
+                    </Grid>
 
-                <Grid item xs={4} style={{height: '60px', margin: '10px 0px 0px 0px'}} onClick={openDialogHandler.bind(this)} >
-                    <div style={{textAlign: 'right', display: 'table-cell', verticalAlign: 'middle'}}>
-                        <div className="font-weight-light mt-1" style={{ fontSize: '14px'}}>  {format(new Date(invoice.createdAt) , "h:mm a")}</div>
-                        <div className="font-weight-light mt-1" style={{ fontSize: '14px', color: 'green'}}> {payment}</div>
-                    </div>
-                </Grid>
+                    <Grid item xs={4} style={{height: '60px', margin: '10px 0px 0px 0px'}} onClick={openDialogHandler.bind(this)} >
+                        <div style={{textAlign: 'right', display: 'table-cell', verticalAlign: 'middle'}}>
+                            <div className="font-weight-light mt-1" style={{ fontSize: '14px'}}>  {format(new Date(invoice.createdAt) , "h:mm a")}</div>
+                            <div className="font-weight-light mt-1" style={{ fontSize: '14px', color: 'green'}}> {payment}</div>
+                        </div>
+                    </Grid>
 
-            </Grid>
+                </Grid>
                 :
                 ''
             }

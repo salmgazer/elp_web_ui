@@ -1,5 +1,4 @@
 import React, {Component} from 'react';
-import { makeStyles, useTheme } from '@material-ui/core/styles';
 import {withRouter} from "react-router-dom";
 import ForgotPassword from "./sections/ForgotPassword";
 import './forgotPassword.scss';
@@ -10,7 +9,7 @@ import ConfirmSMS from "./sections/ConfirmSMS";
 class ForgottenPassword extends Component{
     state={
         isDrawerShow: false,
-        activeStep: 0,
+        activeStep: 2,
     };
 
     getStepContent = step => {

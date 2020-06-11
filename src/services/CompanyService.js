@@ -5,6 +5,8 @@ import isWeek from "date-fns/isThisWeek";
 import isThisMonth from 'date-fns/isThisMonth'
 import isYear from "date-fns/isThisYear";
 import SaleService from "./SaleService";
+import Sales from "../models/sales/Sales";
+import fromUnixTime from 'date-fns/fromUnixTime';
 
 export default class CompanyService {
     /*constructor (suppliers_company = LocalInfo.companies[0]) {
@@ -25,7 +27,7 @@ export default class CompanyService {
     }
 
     static async getSales(duration) {
-        const branches = (LocalInfo.branches).map(branch => branch.branchId);
+        const branches = (LocalInfo.branches).map(branch => branch.id);
 
         const sales = await new ModelAction('Sales').findByColumnNotObserve(
             {
@@ -39,13 +41,13 @@ export default class CompanyService {
 
         switch (duration) {
             case 'today':
-                return sales.filter(sale => isToday(sale.createdAt));
+                return sales.filter(sale => isToday(fromUnixTime(sale.salesDate)));
             case 'week':
-                return sales.filter(sale => isWeek(sale.createdAt));
+                return sales.filter(sale => isWeek(fromUnixTime(sale.salesDate)));
             case 'month':
-                return sales.filter(sale => isThisMonth(sale.createdAt));
+                return sales.filter(sale => isThisMonth(fromUnixTime(sale.salesDate)));
             case 'year':
-                return sales.filter(sale => isYear(sale.createdAt));
+                return sales.filter(sale => isYear(fromUnixTime(sale.salesDate)));
         }
 
     }

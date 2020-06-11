@@ -28,9 +28,10 @@ const useStyles = makeStyles(theme => ({
 }));
 
 const PriceInput = props => {
+    console.log(props.initialValue)
     const classes = useStyles();
     const inputName = props.inputName;
-    const [quantity , setQuantity] = useState();
+    const [quantity , setQuantity] = useState(parseFloat(props.initialValue).toFixed(2) || '');
 
     const setValueHandler = (event) => {
         event.persist();

@@ -8,8 +8,8 @@ export default class Sales extends Model {
     static deletable = false;
 
     static associations = {
-        saleEntries: { type: 'has_many', key: 'saleId' },
-        saleInstallments: { type: 'has_many', key: 'saleId' },
+        sale_entries: { type: 'has_many', key: 'saleId' },
+        sale_installments: { type: 'has_many', key: 'saleId' },
         customers: {type: 'belongs_to' , key: 'customerId'},
     };
 
@@ -26,14 +26,17 @@ export default class Sales extends Model {
     @field('salesDate') salesDate;
     @field('receiptNumber') receiptNumber;
     @children('sale_entries') sale_entries;
-    @children('saleInstallments') saleInstallments;
+    @children('sale_installments') sale_installments;
 
     @readonly @date('created_at') createdAt;
     @readonly @date('updated_at') updatedAt;
 
-    salesEntries = this.collections
-        .get('sale_entries')
-        .query(Q.where('saleId' , this.id));
+    salesEntries(){
+        return this.collections.get('sale_entries')
+            .query(
+                Q.where('saleId', this.id)
+            ).fetch();
+    }
 
     static columns = salesSchema.columns.map(c => c.name);
 }

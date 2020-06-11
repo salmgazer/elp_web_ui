@@ -13,7 +13,7 @@ const Step1 = (props) => {
             <p style={{marginTop: '60px', fontSize: '18px', fontWeight: '400', color: '#333333'}}>Select product categories you sell</p>
 
             <div className="scrollWrapper">
-                {categories.map((item) => <CategorySingle _viewSubCategory={props.clickFnc} key={item.id} item={item}/>)}
+                {categories.map((item) => <CategorySingle activeItem={props.activeItem} _viewSubCategory={props.clickFnc} key={item.id} item={item}/>)}
             </div>
 
             <Box style={{marginTop: '5px'}} p={1}>

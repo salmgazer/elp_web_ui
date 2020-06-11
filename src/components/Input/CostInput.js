@@ -30,7 +30,7 @@ const useStyles = makeStyles(theme => ({
 const CostInput = props => {
     const classes = useStyles();
     const inputName = props.inputName;
-    const [quantity , setQuantity] = useState(parseFloat(props.initialValue) || '');
+    const [quantity , setQuantity] = useState(parseFloat(props.initialValue).toFixed(2) || '');
 
     const setValueHandler = (event) => {
         event.persist();

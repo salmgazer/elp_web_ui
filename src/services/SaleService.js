@@ -21,7 +21,6 @@ import isWithinInterval from "date-fns/isWithinInterval";
 import startOfYear from "date-fns/startOfYear";
 import lastDayOfYear from "date-fns/lastDayOfYear";
 import eachMonthOfInterval from "date-fns/eachMonthOfInterval";
-import BranchSupplierOrder from "../models/branchSupplierOrder/BranchSupplierOrder";
 import * as Q from "@nozbe/watermelondb/QueryDescription";
 import SaleEntries from "../models/saleEntry/SaleEntries";
 
@@ -266,7 +265,7 @@ export default class SaleService {
     * */
     async getTodaySalesDetails() {
         const todaySales = await new BranchService().getTodaySales();
-console.log(todaySales)
+
         let total = 0;
         let profit = 0;
         for (let step = 0; step < todaySales.length; step++) {
@@ -528,7 +527,7 @@ console.log(todaySales)
     }
 
     async getSalesDetails(duration , date) {
-        let sale = await SaleService.getSalesHistory(duration , date);
+        let sale = (await SaleService.getSalesHistory(duration , date)).reverse();
 
         let costPrice = 0;
         let profit = 0;
@@ -577,7 +576,7 @@ console.log(todaySales)
     }
 
     async getProductSalesDetails(duration , date , branchProductId) {
-        let sale = await SaleService.getProductSalesHistory(duration , date , branchProductId);
+        let sale = (await SaleService.getProductSalesHistory(duration , date , branchProductId)).reverse();
 
         let costPrice = 0;
         let profit = 0;

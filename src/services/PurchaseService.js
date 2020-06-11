@@ -246,7 +246,7 @@ export default class PurchaseService {
 
     async getPurchaseDetails(duration , date) {
         console.log(date)
-        let purchase = await PurchaseService.getPurchaseHistory(duration , date);
+        let purchase = (await PurchaseService.getPurchaseHistory(duration , date)).reverse();
 
         console.log(purchase);
         let costPrice = 0;
@@ -295,7 +295,7 @@ export default class PurchaseService {
     }
 
     async getProductPurchaseDetails(duration , date , productId) {
-        let purchase = await PurchaseService.getProductPurchaseHistory(duration , date , productId);
+        let purchase = (await PurchaseService.getProductPurchaseHistory(duration , date , productId)).reverse();
         console.log(duration,date,productId)
         console.log(purchase);
         let costPrice = 0;

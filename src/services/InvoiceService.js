@@ -5,6 +5,8 @@ import isSameWeek from "date-fns/isSameWeek";
 import isSameMonth from "date-fns/isSameMonth";
 import isSameYear from "date-fns/isSameYear";
 import SaleService from "./SaleService";
+import database from "../models/database";
+import * as Q from "@nozbe/watermelondb/QueryDescription";
 import fromUnixTime from "date-fns/fromUnixTime";
 import startOfMonth from "date-fns/startOfMonth";
 import lastDayOfMonth from "date-fns/lastDayOfMonth";
@@ -34,6 +36,20 @@ export default class InvoiceService {
             total,
             invoices: invoice
         }
+    }
+
+    /*
+    * Search for an invoice
+    * */
+    async searchInvoice(searchValue) {
+        const invoice = await new ModelAction('Sales').findByColumnNotObserve({
+            name: 'receiptNumber',
+            value: searchValue,
+            fxn: 'like'
+        });
+
+        return  database.collections.get('sales').query(Q.where('id',
+        Q.oneOf(invoice.map(i => i.id))), Q.where('branchId', LocalInfo.branchId)).fetch();
     }
 
     static async weekSalesFormat(invoices){
@@ -207,7 +223,7 @@ export default class InvoiceService {
 
     async getInvoiceDetails(duration , date) {
         console.log(date)
-        let invoice = await InvoiceService.getInvoiceHistory(duration , date);
+        let invoice = (await InvoiceService.getInvoiceHistory(duration , date)).reverse();
         console.log(invoice);
         let costPrice = 0;
         let profit = 0;
@@ -277,7 +293,7 @@ export default class InvoiceService {
     }
 
     async getInvoiceDetailsbyCustomer (duration , date , customerId) {
-        let invoice = (await InvoiceService.getInvoiceHistorybyCustomer(duration , date , customerId));
+        let invoice = (await InvoiceService.getInvoiceHistorybyCustomer(duration , date , customerId)).reverse();
         console.log(invoice);
         let costPrice = 0;
         let profit = 0;

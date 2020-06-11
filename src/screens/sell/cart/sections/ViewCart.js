@@ -152,7 +152,7 @@ const CartView = props => {
             />
 
             <SimpleSnackbar
-                type="warning"
+                type="success"
                 openState={error}
                 message={errorMsg}
             >

@@ -19,7 +19,6 @@ import BoxDefault from "../../components/Box/BoxDefault";
 import CardDefault from "../../components/Cards/CardDefault";
 import SettingsIcon from '@material-ui/icons/Settings';
 import Drawer from "../../components/Drawer/Drawer";
-import getUnixTime from 'date-fns/getUnixTime';
 
 import LocalInfo from '../../services/LocalInfo';
 import Manufacturer from "../../models/manufacturers/Manufacturer";
@@ -42,7 +41,6 @@ import StockMovement from "../../models/stockMovements/StockMovement";
 import AuditEntries from "../../models/auditEntry/AuditEntries";
 import Audits from "../../models/audit/Audit";
 import confirmImg from "../../assets/img/dashboard.png";
-import CashflowService from "../../services/CashflowService";
 
 const useStyles = makeStyles(theme => ({
     root: {
@@ -87,7 +85,6 @@ const useStyles = makeStyles(theme => ({
 
 const Dashboard = props => {
     const classes = useStyles();
-    const [text , setText] = useState();
     const [companySales , setCompanySales] = useState(false);
     const [isDrawerShow , setIsDrawerShow] = useState(false);
 
@@ -466,7 +463,6 @@ const EnhancedDashboard = withDatabase(
     branchProducts: database.collections.get(BranchProduct.table).query(Q.where('branchId', localStorage.getItem('activeBranch'))).observe(),
     stockMovements: database.collections.get(StockMovement.table).query().fetch(),
     testProducts: database.collections.get(BranchProduct.table).query().observe(),
-    //cartQuantity: database.collections.get(CartEntry.table).query(Q.where('id', new CartService().cartId())).observe(),
     branchProductStock: database.collections.get(BranchProductStock.table).query().observe(),
     branchProductStockHistory: database.collections.get(BranchProductStockHistory.table).query().observe(),
     brands: database.collections.get(Brand.table).query().observe(),
@@ -479,8 +475,6 @@ const EnhancedDashboard = withDatabase(
     purchases: database.collections.get(BranchPurchases.table).query().observe(),
     cartEntries: new ModelAction('CartEntry').index(),
     saleInstallments: database.collections.get(SaleInstallments.table).query().observe(),
-    //saleInstallments: new ModelAction('SaleInstallment').index(),
-    //cartEntriesQ: new ModelAction('CartEntry').findById(new CartService().cartId()),
     testBranch: new ModelAction('BranchProduct').findByColumn({
         name: 'branchId',
         value: LocalInfo.branchId,
