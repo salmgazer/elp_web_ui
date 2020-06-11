@@ -41,7 +41,7 @@ export default class OrderService {
     }
 
     async getOrderDetails(duration , date) {
-        const order = await OrderService.getOrderHistory(duration , date);
+        const order = (await OrderService.getOrderHistory(duration , date)).reverse();
         console.log(order);
         let costPrice = 0;
         let profit = 0;

@@ -23,6 +23,7 @@ import ViewCredit from './ViewCredit';
 import MainDialog from "../../../../components/Dialog/MainDialog";
 import ErrorImage from '../../../../assets/img/error.png';
 import CancelIcon from '@material-ui/icons/Cancel';
+import CustomersModal from "../../../../components/Modal/Customer/CustomersModal";
 import AddCustomerModal from "../../../../components/Modal/Customer/AddCustomerModal";
 import CustomerService from "../../../../services/CustomerService";
 import SaleService from "../../../../services/SaleService";
@@ -94,7 +95,11 @@ const CheckoutView = props => {
 
     const closeDialogHandler = (event) => {
         setMainDialog(false);
-        setValue(0);
+        setAddDialog(false);
+    };
+
+    const getCustomerDialog = async() => {
+        setMainDialog(true);
     };
 
     const openDialogHandler = (event) => {
@@ -214,7 +219,7 @@ const CheckoutView = props => {
                 <TabPanel value={value} index={0} >
                     <ViewCash
                         currentCustomer={customerName}
-                        openAddCustomerModal={openAddDialog.bind(this)}
+                        openAddCustomerModal={getCustomerDialog.bind(this)}
                         cartAmount={props.cartTotalAmount}
                         customerId={props.currentCustomer}
                         getFormFields={paymentDetails.bind(this)}
@@ -236,13 +241,21 @@ const CheckoutView = props => {
                 </TabPanel> */}
             </SwipeableViews>
 
+            <CustomersModal
+                customers={props.customers}
+                openState={mainDialog}
+                setCustomer={setCustomerHandler.bind(this)}
+                handleClose={() => setMainDialog(false)}
+                openAddCustomerModal={openAddDialog.bind(this)}
+            />
+
             <AddCustomerModal
                 openCustomerAddState={addDialog}
                 setCustomer={setAddCustomerHandler.bind(this)}
                 handleClose={() => setAddDialog(false)}
             />
 
-            <MainDialog handleDialogClose={closeDialogHandler.bind(this)} states={mainDialog} >
+            {/* <MainDialog handleDialogClose={closeDialogHandler.bind(this)} states={mainDialog} >
                 <div className="row p-3 pt-0 mx-auto text-center w-100" >
                     <CancelIcon  style={{position: 'relative', float: 'right', fontSize: '2rem'}}
                         onClick={closeDialogHandler.bind(this)}
@@ -291,7 +304,7 @@ const CheckoutView = props => {
                     </div>
 
                 </div>
-            </MainDialog>
+            </MainDialog> */}
 
             <Box
                 className="shadow1"

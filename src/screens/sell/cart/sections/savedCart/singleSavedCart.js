@@ -40,7 +40,7 @@ const SingleSavedCart = props => {
                 >
                     {`${customer.firstName} ${customer.otherNames}`}
                 </div>
-                <div className="mt-1" style={{fontSize: '14px'}}>{`GHC : ${cartTotal}`}</div>
+                <div className="mt-1" style={{fontSize: '14px'}}>{`GHC ${cartTotal}`}</div>
                 <div className="font-weight-light mt-1" style={{fontSize: '14px'}}>{format(new Date(cartDetails.createdAt) , "HH:mm a")}</div>
             </Grid>
 

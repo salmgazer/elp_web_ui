@@ -23,6 +23,9 @@ import PrimaryLoader from "../../components/Loader/Loader";
 import SimpleSnackbar from "../../components/Snackbar/SimpleSnackbar";
 import SyncService from "../../services/SyncService";
 import CashflowService from "../../services/CashflowService";
+import IconButton from "@material-ui/core/IconButton/IconButton";
+import Visibility from '@material-ui/icons/Visibility';
+import VisibilityOff from '@material-ui/icons/VisibilityOff';
 
 const useStyles = makeStyles(theme => ({
     root: {
@@ -200,7 +203,8 @@ const Login = props => {
             initialState={{
               isShown: false,
               password: "",
-              usernameOrPhone: ""
+              usernameOrPhone: "",
+              showPassword: false
             }}
           >
             {({ state, setState }) => (
@@ -286,7 +290,7 @@ const Login = props => {
                                               <ValidationTextField
                                                   id="password"
                                                   onChange={event => setState({ password: event.target.value })}
-                                                  type={state.isShown ? 'text' : 'password'}
+                                                  type={state.showPassword ? 'text' : 'password'}
                                                   value={state.password}
                                                   validators={['required', 'minStringLength:2']}
                                                   errorMessages={['Password is a required field', 'The minimum length for password is 6']}
@@ -294,10 +298,20 @@ const Login = props => {
                                                   label="password"
                                                   helperText=""
                                                   InputProps={{
-                                                      startAdornment:
-                                                          <InputAdornment position="start">
-                                                              <LockIcon />
-                                                          </InputAdornment>
+                                                    startAdornment:
+                                                        <InputAdornment position="start">
+                                                            <LockIcon />
+                                                        </InputAdornment>,
+                                                    endAdornment:
+                                                    <InputAdornment position="end">
+                                                        <IconButton
+                                                            aria-label="toggle password visibility"
+                                                            onClick={event => setState({ showPassword: !state.showPassword })}
+                                                            edge="end"
+                                                        >
+                                                            {state.showPassword ? <Visibility /> : <VisibilityOff />}
+                                                        </IconButton>
+                                                    </InputAdornment>
                                                   }}
                                               />
                                           </Grid>

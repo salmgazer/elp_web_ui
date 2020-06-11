@@ -42,7 +42,7 @@ const CardsSection = props => {
                 <Grid item xs={3}>
                     <Paper className={classes.paper}>
                         <Typography className={classes.title} component="p" >
-                            Cost price
+                            Cost value
                         </Typography>
                         <Typography className={classes.text} >
                             GHC {props.costPrice}
@@ -53,7 +53,7 @@ const CardsSection = props => {
                 <Grid item xs={3}>
                     <Paper className={classes.paper}>
                         <Typography className={classes.title} component="p" >
-                            Selling price
+                            Sales value
                         </Typography>
                         <Typography className={classes.text} >
                             GHC {props.sellingPrice}

@@ -520,7 +520,7 @@ console.log(todaySales)
     }
 
     async getSalesDetails(duration , date) {
-        let sale = await SaleService.getSalesHistory(duration , date);
+        let sale = (await SaleService.getSalesHistory(duration , date)).reverse();
 
         let costPrice = 0;
         let profit = 0;
@@ -569,7 +569,7 @@ console.log(todaySales)
     }
 
     async getProductSalesDetails(duration , date , branchProductId) {
-        let sale = await SaleService.getProductSalesHistory(duration , date , branchProductId);
+        let sale = (await SaleService.getProductSalesHistory(duration , date , branchProductId)).reverse();
 
         let costPrice = 0;
         let profit = 0;

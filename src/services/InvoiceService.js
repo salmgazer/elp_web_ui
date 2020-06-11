@@ -223,7 +223,7 @@ export default class InvoiceService {
 
     async getInvoiceDetails(duration , date) {
         console.log(date)
-        let invoice = await InvoiceService.getInvoiceHistory(duration , date);
+        let invoice = (await InvoiceService.getInvoiceHistory(duration , date)).reverse();
         console.log(invoice);
         let costPrice = 0;
         let profit = 0;
@@ -293,7 +293,7 @@ export default class InvoiceService {
     }
 
     async getInvoiceDetailsbyCustomer (duration , date , customerId) {
-        let invoice = (await InvoiceService.getInvoiceHistorybyCustomer(duration , date , customerId));
+        let invoice = (await InvoiceService.getInvoiceHistorybyCustomer(duration , date , customerId)).reverse();
         console.log(invoice);
         let costPrice = 0;
         let profit = 0;

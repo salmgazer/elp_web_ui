@@ -11,150 +11,10 @@ import { withRouter } from "react-router-dom";
 import SaleService from "../../../../services/SaleService";
 import database from "../../../../models/database";
 import paths from "../../../../utilities/paths";
-import Grid from '@material-ui/core/Grid';
 import ReactToPrint from "react-to-print";
 import LocalInfo from '../../../../services/LocalInfo';
 import CartService from "../../../../services/CartService";
-
-class PrintRec extends React.Component {
-    props= {
-        products: [],
-        receiptNumber: '',
-        date: '',
-        seller: '',
-        customer: '',
-        totalQty: '',
-        totalAmt: '',
-        amtPaid: '',
-        changeRem: ''
-    }
-
-    render() {
-        const style={
-            td: {
-                border: 'none',
-                textAlign: 'right',
-                padding: '8px',
-                fontSize: '13px',
-            }
-        }
-
-    return (
-
-        <div style={{width: '35%'}}>
-            <Grid container spacing={1}>
-                <Grid item xs={12}>
-                    <Paper >
-                        <Typography style={{backgroundColor: 'black', color: 'white', textAlign: 'center', fontSize: '13px'}}>
-                            {LocalInfo.branch.name}
-                        </Typography>
-                    </Paper>
-                </Grid>
-            </Grid>
-            <Grid container spacing={1}>
-                <Grid item xs={12}>
-                    <Typography style={{textAlign: 'center', fontSize: '13px'}}>
-                        {LocalInfo.branch.location}
-                    </Typography>
-                </Grid>
-            </Grid>
-            <Grid container spacing={1}>
-                <Grid item xs={12}>
-                    <Typography style={{textAlign: 'center', fontSize: '13px'}}>
-                        {LocalInfo.branch.phone}
-                    </Typography>
-                </Grid>
-            </Grid>
-
-            <Grid container spacing={1} style={{ marginBottom: '20px'}} >
-                <Grid item xs={2}>
-                </Grid>
-                <Grid item xs={8}>
-                    <table style={{borderCollapse: 'collapse', width: '100%', fontSize: '13px'}} align='center'>
-                        <tr>
-                            <td className={style.td}>Receipt No. :</td>
-                            <td className={style.td}>{this.props.receiptNumber}</td>
-                        </tr>
-                        <tr>
-                            <td className={style.td}>Date :</td>
-                            <td className={style.td}>{this.props.date}</td>
-                        </tr>
-                        <tr>
-                            <td className={style.td}> Seller :</td>
-                            <td className={style.td}>{this.props.seller}</td>
-                        </tr>
-                        <tr>
-                            <td className={style.td}> Customer :</td>
-                            <td className={style.td}>{this.props.customer}</td>
-                        </tr>
-                    </table>
-                </Grid>
-                <Grid item xs={2}>
-                </Grid>
-            </Grid>
-
-
-
-            <table style={{borderCollapse: 'collapse', width: '100%', marginBottom: '20px', border: 'solid', fontSize: '13px'}} align='center'>
-                <thead style={{border: 'solid'}}>
-                    <th style={{border: 'solid'}}>Item</th>
-                    <th style={{border: 'solid'}}>Qty</th>
-                    <th style={{border: 'solid'}}>Price</th>
-                    <th style={{border: 'solid'}}>Total</th>
-                </thead>
-                {this.props.products.map((item) =>
-
-                    <tbody style={{border: 'solid'}}>
-                        <tr>
-                        <td style={{border: 'solid'}}>{item.name}</td>
-                        <td style={{border: 'solid'}}>{item.quantity}</td>
-                        <td style={{border: 'solid'}}>{item.sellingPrice}</td>
-                        <td style={{border: 'solid'}}>{item.quantity * item.sellingPrice}</td>
-                        </tr>
-                    </tbody>
-                )}
-            </table>
-
-            <Grid container spacing={1}>
-                <Grid item xs={12}>
-                    <table style={{borderCollapse: 'collapse', width: '100%', fontSize: '13px'}} align='center'>
-                        <tr>
-                            <td className={style.td}>Item count :</td>
-                            <td className={style.td}>{this.props.totalQty}</td>
-                        </tr>
-                        <tr>
-                            <td className={style.td}>Total :</td>
-                            <td className={style.td}>{this.props.totalAmt}</td>
-                        </tr>
-                        <tr>
-                            <td className={style.td}>Amount paid :</td>
-                            <td className={style.td}>{this.props.amtPaid}</td>
-                        </tr>
-                        <tr>
-                            <td className={style.td}>Change :</td>
-                            <td className={style.td}>{this.props.changeRem}</td>
-                        </tr>
-                    </table>
-                </Grid>
-            </Grid>
-            <Grid container spacing={1}>
-                <Grid item xs={12}>
-                    <Typography style={{textAlign: 'center', fontSize: '13px'}}>
-                        Thank you for your patronage
-                    </Typography>
-                </Grid>
-            </Grid>
-            <Grid container spacing={1}>
-                <Grid item xs={12}>
-                    <Typography style={{textAlign: 'center', fontSize: '13px'}}>
-                        Developed by El Parah
-                    </Typography>
-                </Grid>
-            </Grid>
-        </div>
-    );
-    }
-}
+import PrintRec from './PrintRec';
 
 const useStyles = makeStyles(theme => ({
     root: {
@@ -201,6 +61,7 @@ const CheckoutView = props => {
     const [date , setDate] = useState(0);
     const [seller , setSeller] = useState('');
     const [customerName, setCustomerName] = React.useState('');
+    const [products , setProducts] = useState([]);
 
     useEffect(() => {
         // You need to restrict it at some point
@@ -227,6 +88,8 @@ const CheckoutView = props => {
         setSalesId(total);
         setAmountPaid((parseFloat(localStorage.getItem('amountPaid'))).toFixed(2));
         setSalesTotal((parseFloat(total)).toFixed(2));
+
+        setProducts(lastsale);
     };
 
     const classes = useStyles();
@@ -298,7 +161,7 @@ const CheckoutView = props => {
                 <div style={{ display: "none" }}>
                     <PrintRec
                         ref={componentRef}
-                        products={props.products}
+                        products={products}
                         date= {date}
                         receiptNumber={receipt}
                         seller= {seller}
