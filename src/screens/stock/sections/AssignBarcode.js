@@ -11,6 +11,7 @@ import FormControl from '@material-ui/core/FormControl';
 import InputAdornment from '@material-ui/core/InputAdornment';
 import GraphicEqIcon from '@material-ui/icons/GraphicEq';
 import Button from "@material-ui/core/Button/Button";
+import SimpleSnackbar from "../../../components/Snackbar/SimpleSnackbar";
 
 const AssignBarcode = props => {
 
@@ -20,6 +21,10 @@ const AssignBarcode = props => {
     const [barcodeNumber , setBarcodeNumber] = useState();
     const codeReader = new BrowserBarcodeReader();
     const beepSound = new Audio('data:audio/wav;base64,UklGRl9vT19XQVZFZm10IBAAAAABAAEAQB8AAEAfAAABAAgAZGF0YU'+Array(1e3).join(123));
+    const [error , setError] = useState(false);
+    const [errorMsg , setErrorMsg] = useState('');
+    const [success , setSuccess] = useState(false);
+    const [successMsg , setSuccessMsg] = useState('');
     let selectedDeviceId;
 
     codeReader
@@ -69,14 +74,33 @@ const AssignBarcode = props => {
     const getProduct = async () => {
         const newProduct = await branchProduct.product.fetch();
         console.log(newProduct);
+        console.log(newProduct.barCode);
         setProduct(newProduct);
         setBarcodeNumber(newProduct.barCode);
         setName(newProduct.name);
     };
 
     const addProductBarcode = () => {
-        props.addProductBarcode(product.id, barcodeNumber);
-    }
+        const response = props.addProductBarcode(product.id, barcodeNumber);
+
+        if(response){
+            setSuccessMsg('Product barcode was successfully changed');
+            setSuccess(true);
+            setTimeout(function(){
+                setSuccessMsg('');
+                setSuccess(false);
+            }, 2000);
+            setBarcodeNumber('');
+            props.setView(0);
+        }else{
+            setErrorMsg('OOPS. Something went wrong. Please try again');
+            setError(true);
+            setTimeout(function(){
+                setErrorMsg('');
+                setError(false);
+            }, 2000);
+        }
+    };
 
     const backHandler = () => {
         props.setView(1);
@@ -93,6 +117,18 @@ const AssignBarcode = props => {
                 }
             />
 
+            <SimpleSnackbar
+                type="success"
+                openState={success}
+                message={successMsg}
+            />
+
+            <SimpleSnackbar
+                type="warning"
+                openState={error}
+                message={errorMsg}
+            />
+
             <div className="row pt-0 mx-0 text-center shadow1" style={{marginTop: '60px'}}>
                 <Typography
                     component="p"
@@ -105,7 +141,7 @@ const AssignBarcode = props => {
             </div>
 
             <div id="barOverlay" className="text-center text-white"
-                 style={{backgroundImage: `url(${Don})`, backgroundRepeat: 'no-repeat' , backgroundPosition: 'top', backgroundSize: '80% 250px', position: 'absolute', height: '40vh',zIndex: '1000',width: '100%',backgroundColor: '#919191',opacity: '0.4', outlineOffset: '0px', outline: '15px solid rgb(145, 145, 145)', marginTop: '18px'}}>
+                 style={{backgroundSize: '80% 250px', position: 'absolute', height: '40vh',zIndex: '1000',width: '100%',backgroundColor: '#919191',opacity: '0.4', outlineOffset: '0px', outline: '15px solid rgb(145, 145, 145)', marginTop: '18px'}}>
                 <p className="text-center w-100 font-weight-bold"
                    style={{marginTop: '30%',fontSize: '20px',color: 'black'}}>Click to scan
                     barcode of product</p>
@@ -134,7 +170,7 @@ const AssignBarcode = props => {
                 p={1}
                 style={{position:'relative', zIndex: 1030,  right: 0, left: 0, bottom: '1.0rem', width: '90%', minHeight: '250px', marginLeft: '10px'}}
             >
-            
+
                 <Typography
                     component="h5"
                     variant="h5"
@@ -148,7 +184,9 @@ const AssignBarcode = props => {
                         id="outlined-adornment-amount"
                         placeholder="Barcode number appears here"
                         size="small"
+                        type="number"
                         value={barcodeNumber}
+                        onChange={event => setBarcodeNumber(event.target.value)}
                         style={{width: '280px'}}
                         startAdornment={<InputAdornment position="start"><GraphicEqIcon /> </InputAdornment>}
                     />
@@ -161,10 +199,10 @@ const AssignBarcode = props => {
                 >
                     Finish
                 </Button>
-          
+
             </Box>
 
-            
+
 
         </div>
     )

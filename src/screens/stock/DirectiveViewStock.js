@@ -151,21 +151,19 @@ class DirectiveViewStock extends Component{
     *  Add product barcode
     **/
 
-   addProductBarcode = (pId, productBarcode) => {
+   addProductBarcode = async(pId, productBarcode) => {
         try {
-            const status = new ModelAction('Product').update(pId, productBarcode);
-            console.log(status)
-            if(status){
-                return true;
-            }
-            alert('Something went wrong');
-            return false;
+            await new ModelAction('Product').update(pId, {
+                barCode: productBarcode
+            });
+
+            return true;
         }catch (e) {
             return false;
         }
    }
 
-    
+
 
     /*
     * Add new stock
