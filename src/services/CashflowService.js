@@ -116,7 +116,6 @@ export default class CashflowService {
     }
 
     async getDateSalesDetails(duration , day) {
-        console.log(duration , day)
         const sales = await new SaleService().getSalesDetails(duration , day);
         const purchases = await new PurchaseService().getPurchaseDetails(duration , day);
 

@@ -12,7 +12,6 @@ import HourglassEmptyRoundedIcon from '@material-ui/icons/HourglassEmptyRounded'
 
 const SingleCollectionView = props => {
     const collection = props.collection;
-    console.log(fromUnixTime(collection.dateAdded))
 
     const approveCollection = async() => {
         await confirmAlert({

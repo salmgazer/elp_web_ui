@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {withRouter} from "react-router-dom";
+import {withRouter , useLocation} from "react-router-dom";
 
 import OwnerMainPage from './owner/OwnerMainPage';
 import CollectionHistory from './owner/CollectionHistory';
@@ -42,7 +42,6 @@ class Owner extends Component {
     async componentDidMount() {
         const { history, database , myDateCollections , myTodayCollection, todayCollection , approvedCollections, pendingCollection , collections , dateCollections} = this.props;
 
-        console.log(todayCollection)
         await this.setState({
             todayCollection: LocalInfo.branchRole === 'owner' ? todayCollection.reverse() : myTodayCollection.reverse(),
             pendingCollection: pendingCollection.reverse(),
@@ -55,7 +54,9 @@ class Owner extends Component {
 
     async componentDidUpdate(prevProps) {
         const { history, database , myDateCollections , myTodayCollection , todayCollection , approvedCollections, pendingCollection , collections , dateCollections} = this.props;
-
+        console.log('#######################')
+        console.log(todayCollection)
+        console.log('#######################')
         if(collections.length !== prevProps.collections.length || todayCollection.length !== prevProps.todayCollection.length || pendingCollection.length !== prevProps.pendingCollection.length || approvedCollections.length !== prevProps.approvedCollections.length){
             await this.setState({
                 todayCollection: LocalInfo.branchRole === 'owner' ? todayCollection.reverse() : myTodayCollection.reverse(),
@@ -124,8 +125,26 @@ class Owner extends Component {
     async addNewCollection(formFields){
         try {
             const response = await CashflowService.addCollection(formFields);
-
+            const day = LocalInfo.workingDate;
             if(response){
+                /*let col = [];
+
+                if(LocalInfo.branchRole === 'owner'){
+                    col = await database.collections.get(Cashflow.table).query(
+                        Q.where('branchId' , LocalInfo.branchId),
+                        Q.where('dateAdded' , Q.between(getUnixTime(startOfDay(new Date(day))) , getUnixTime(endOfDay(new Date(day)))))
+                    ).fetch();
+                }else {
+                    col = await database.collections.get(Cashflow.table).query(
+                        Q.where('branchId' , LocalInfo.branchId),
+                        Q.where('createdBy' , LocalInfo.userId),
+                        Q.where('dateAdded' , Q.between(getUnixTime(startOfDay(new Date(day))) , getUnixTime(endOfDay(new Date(day)))))
+                    ).fetch()
+                }
+                console.log(col)
+                this.setState({
+                    todayCollection: col.reverse()
+                });*/
                 return response;
             }else {
                 return false;

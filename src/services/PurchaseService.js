@@ -58,10 +58,8 @@ export default class PurchaseService {
                 fxn: 'eq'
             }
         );
-        console.log(purchases)
         const day = new Date(date);
 
-        console.log(day)
         switch (duration) {
             case 'day':
                 return purchases.filter(purchase => isSameDay(fromUnixTime(purchase.stockDate) , day));
@@ -245,10 +243,8 @@ export default class PurchaseService {
     }
 
     async getPurchaseDetails(duration , date) {
-        console.log(date)
         let purchase = (await PurchaseService.getPurchaseHistory(duration , date));
 
-        console.log(purchase);
         let costPrice = 0;
         let quantity = 0;
         let profit = 0;

@@ -64,6 +64,7 @@ import SalesReturns from "./screens/returns/sales/SalesReturns";
 import StockReturns from "./screens/returns/stock/StockReturns";
 import CustomerCare from "./screens/customerCare/CustomerCare";
 import Delivery from "./screens/delivery/Delivery";
+import history from "./utilities/history";
 
 function NoMatch() {
   let location = useLocation();
@@ -92,12 +93,12 @@ class App extends React.Component {
   }
 
   render() {
-    const appName = "El-Parah Retail App";
+      const appName = "El-Parah Retail App";
 
     return (
       <DatabaseProvider database={database}>
         <div className="App">
-          <Router>
+          <Router history={history}>
             <Switch>
               <Route
                 exact
