@@ -6,7 +6,7 @@ import DateFnsUtils from '@date-io/date-fns';
 import {
   MuiPickersUtilsProvider,
   KeyboardDatePicker,
-} from '@material-ui/pickers'; 
+} from '@material-ui/pickers';
 import Grid from '@material-ui/core/Grid';
 //import Date from '../../../components/Date/Date';
 import Box from "@material-ui/core/Box/Box";
@@ -25,7 +25,6 @@ const useStyles = makeStyles(theme => ({
 }));
 
 const AuditHistory = props => {
-
     const classes = useStyles();
     const auditEntries = props.auditEntries;
     const [selectedDate, setSelectedDate] = React.useState(new Date());
@@ -61,8 +60,7 @@ const AuditHistory = props => {
 
     return(
         <div>
-
-            <SectionNavbar 
+            <SectionNavbar
                 title="Audit History"
                 leftIcon={
                     <div onClick={setView.bind(this , 0)}>
@@ -72,9 +70,9 @@ const AuditHistory = props => {
                     </div>
                 }
             />
-                
+
             <Grid container spacing={1} className={classes.root} justify="space-around" >
-                
+
                 {/* <Date style={{width: '150px', border: '1px solid #DAAB59'}}/> */}
                 <MuiPickersUtilsProvider utils={DateFnsUtils}>
                     <KeyboardDatePicker
@@ -93,7 +91,7 @@ const AuditHistory = props => {
                         }}
                     />
                 </MuiPickersUtilsProvider>
-               
+
             </Grid>
 
             <Box style={{ paddingBottom: '60px'}} p={1} className={`mt-3 mb-5`}>
@@ -120,7 +118,7 @@ const AuditHistory = props => {
                     </div>
                     :
 
-                    auditList.map((audit) => <SingleAuditView  key={audit.id} dateAudited={audit} setView={props.setView} auditProducts={auditProducts.bind(this, audit.id)} deleteAuditEntry={props.deleteProductHandler} />)  
+                    auditList.map((audit) => <SingleAuditView  key={audit.id} dateAudited={audit} setView={props.setView} auditProducts={auditProducts.bind(this, audit.id)} deleteAuditEntry={props.deleteProductHandler} />)
 
                 }
 
@@ -137,7 +135,7 @@ const AuditHistory = props => {
                     style={{border: '1px solid #DAAB59', color: '#333333', padding: '5px 50px', marginRight: '10px', textTransform: 'none', fontSize:'17px'}}
                     onClick={setView.bind(this , 0)}
                 >
-                    Back  
+                    Back
                 </Button>
                 <Button
                     variant="contained"

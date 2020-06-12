@@ -17,22 +17,14 @@ import startOfDay from 'date-fns/startOfDay';
 import endOfDay from 'date-fns/endOfDay';
 import AddCollectionOwner from "./owner/addCollectionOwner";
 import AttendantMainPage from "./owner/AttendantMainPage";
-import BranchService from "../../services/BranchService";
 const day = format(new Date() , 'MM/dd/yyyy');
 
 const selectedDay = format(new Date(localStorage.getItem('collectionDate')) , 'MM/dd/yyyy');
-let view = 0;
-
-if(LocalInfo.branchRole === 'owner' && parseInt(localStorage.getItem('employees')) > 1){
-    view = 0;
-}else{
-
-}
 
 class Owner extends Component {
     state={
-        //activeStep: LocalInfo.branchRole === 'owner' && parseInt(localStorage.getItem('employees')) > 0 ? 0 : 4,
-        activeStep: LocalInfo.branchRole === 'owner' ? 0 : 4,
+        activeStep: LocalInfo.branchRole === 'owner' && parseInt(localStorage.getItem('employees')) > 1 ? 0 : 4,
+        //activeStep: LocalInfo.branchRole === 'owner' ? 0 : 4,
         todayCollection:[],
         pendingCollection:[],
         collections: [],
