@@ -55,7 +55,7 @@ class Owner extends Component {
             todayCollection: LocalInfo.branchRole === 'owner' ? todayCollection.reverse() : myTodayCollection.reverse(),
             pendingCollection: pendingCollection.reverse(),
             collections: collections.reverse(),
-            branchDetails: await new BranchService().getSalesDetails('today'),
+            branchDetails: await new CashflowService().getDateSalesDetails('day' , LocalInfo.workingDate),
             dateCollections: LocalInfo.branchRole === 'owner' ? myDateCollections.reverse() : dateCollections.reverse(),
             approvedCollections: approvedCollections.reverse()
         });
@@ -69,7 +69,7 @@ class Owner extends Component {
                 todayCollection: LocalInfo.branchRole === 'owner' ? todayCollection.reverse() : myTodayCollection.reverse(),
                 pendingCollection: pendingCollection.reverse(),
                 collections: collections.reverse(),
-                branchDetails: await new BranchService().getSalesDetails('today'),
+                branchDetails: await new CashflowService().getDateSalesDetails('day' , LocalInfo.workingDate),
                 dateCollections: LocalInfo.branchRole === 'owner' ? myDateCollections.reverse() : dateCollections.reverse(),
                 approvedCollections: approvedCollections.reverse()
             });

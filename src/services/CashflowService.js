@@ -8,6 +8,9 @@ import Cashflow from "../models/cashflow/Cashflow";
 import * as Q from "@nozbe/watermelondb/QueryDescription";
 import BranchProductStock from "../models/branchesProductsStocks/BranchProductStock";
 import BranchProductStockHistory from "../models/branchesProductsStocksHistories/BranchProductStockHistory";
+import SaleService from "./SaleService";
+import BranchService from "./BranchService";
+import PurchaseService from "./PurchaseService";
 
 export default class CashflowService {
     static async exportDefaultCashflowCategories() {
@@ -110,5 +113,18 @@ export default class CashflowService {
                 stockDate: stockDate
             });
         }
+    }
+
+    async getDateSalesDetails(duration , day) {
+        console.log(duration , day)
+        const sales = await new SaleService().getSalesDetails(duration , day);
+        const purchases = await new PurchaseService().getPurchaseDetails(duration , day);
+
+        return {
+            total: sales.sellingPrice,
+            profit: sales.profit,
+            credit: sales.credit,
+            purchases: purchases.costPrice
+        };
     }
 }

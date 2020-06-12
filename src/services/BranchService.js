@@ -226,7 +226,7 @@ export default class BranchService {
     * @return number - promise
     * */
     async getSalesDetails(duration , branchId = LocalInfo.branchId) {
-        const sales = await BranchService.getSales(duration , branchId);
+        const sales = await BranchService.getSales(duration);
 
         let total = 0;
         let profit = 0;
