@@ -62,7 +62,7 @@ class SortDate extends Component{
                {
                    label: 'Yes',
                    onClick: () => {
-                       new ModelAction('BranchProductStock').destroy(pId);
+                       new ModelAction('BranchProductStock').softDelete(pId);
                    }
                },
                {
@@ -95,7 +95,7 @@ class SortDate extends Component{
             }
         }
         else {
-        
+
             try {
                 const status = new ModelAction('BranchProductStock').update(pId, formFields);
                 console.log(status)

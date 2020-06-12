@@ -527,7 +527,7 @@ export default class SaleService {
     }
 
     async getSalesDetails(duration , date) {
-        let sale = (await SaleService.getSalesHistory(duration , date)).reverse();
+        let sale = (await SaleService.getSalesHistory(duration , date));
 
         let costPrice = 0;
         let profit = 0;
@@ -566,7 +566,7 @@ export default class SaleService {
         console.log(sale)
 
         return {
-            sales: sale,
+            sales: sale.reverse(),
             costPrice,
             profit,
             credit,
@@ -576,7 +576,7 @@ export default class SaleService {
     }
 
     async getProductSalesDetails(duration , date , branchProductId) {
-        let sale = (await SaleService.getProductSalesHistory(duration , date , branchProductId)).reverse();
+        let sale = (await SaleService.getProductSalesHistory(duration , date , branchProductId));
 
         let costPrice = 0;
         let profit = 0;
@@ -615,7 +615,7 @@ export default class SaleService {
         console.log(sale)
 
         return {
-            sales: sale,
+            sales: sale.reverse(),
             costPrice,
             profit,
             credit,

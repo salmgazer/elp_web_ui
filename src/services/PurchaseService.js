@@ -246,7 +246,7 @@ export default class PurchaseService {
 
     async getPurchaseDetails(duration , date) {
         console.log(date)
-        let purchase = (await PurchaseService.getPurchaseHistory(duration , date)).reverse();
+        let purchase = (await PurchaseService.getPurchaseHistory(duration , date));
 
         console.log(purchase);
         let costPrice = 0;
@@ -266,15 +266,27 @@ export default class PurchaseService {
                 value: purchase[step].productId,
                 fxn: 'eq'
             });
-            const sell = quantity * branchProduct[0].sellingPrice;
 
-            sellingPrice = parseFloat(sell);
+            if(branchProduct.length !== 0){
+                const sell = quantity * branchProduct[0].sellingPrice;
+
+                sellingPrice = parseFloat(sell);
+            }
+
         }
 
         profit = sellingPrice - costPrice;
 
+        if (duration === 'week') {
+            purchase = await PurchaseService.weekSalesFormat(purchase);
+        } else if (duration === 'month') {
+            purchase = await PurchaseService.monthSalesFormat(purchase , date);
+        } else if (duration === 'year') {
+            purchase = await PurchaseService.yearSalesFormat(purchase , date);
+        }
+
         return {
-            purchases: purchase,
+            purchases: purchase.reverse(),
             costPrice,
             quantity,
             profit,
@@ -283,7 +295,7 @@ export default class PurchaseService {
     }
 
     async getProductPurchaseDetails(duration , date , productId) {
-        let purchase = (await PurchaseService.getProductPurchaseHistory(duration , date , productId)).reverse();
+        let purchase = (await PurchaseService.getProductPurchaseHistory(duration , date , productId));
         console.log(duration,date,productId)
         console.log(purchase);
         let costPrice = 0;
@@ -303,9 +315,12 @@ export default class PurchaseService {
                 value: purchase[step].productId,
                 fxn: 'eq'
             });
-            const sell = quantity * branchProduct[0].sellingPrice;
 
-            sellingPrice = parseFloat(sell);
+            if(branchProduct.length !== 0){
+                const sell = quantity * branchProduct[0].sellingPrice;
+
+                sellingPrice = parseFloat(sell);
+            }
         }
 
         for (let step = 0; step < purchase.length; step++) {
@@ -323,7 +338,7 @@ export default class PurchaseService {
         }
 
         return {
-            purchases: purchase,
+            purchases: purchase.reverse(),
             costPrice,
             quantity,
             profit,

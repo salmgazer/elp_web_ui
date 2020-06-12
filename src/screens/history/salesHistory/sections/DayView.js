@@ -16,6 +16,8 @@ import CardsSection from '../../../../components/Sections/CardsSection';
 import SaleService from "../../../../services/SaleService";
 import SimpleSnackbar from "../../../../components/Snackbar/SimpleSnackbar";
 import InvoiceService from "../../../../services/InvoiceService";
+import {confirmAlert} from "react-confirm-alert";
+import ModelAction from "../../../../services/ModelAction";
 
 const useStyles = makeStyles(theme => ({
     root: {
@@ -69,7 +71,45 @@ const DayView = props => {
     };
 
     const deleteProductHandler = (event) => {
-        props.deleteProduct(event);
+        confirmAlert({
+            title: 'Confirm to delete',
+            message: 'Are you sure you want to delete this entry.',
+            buttons: [
+                {
+                    label: 'Yes',
+                    onClick: async () => {
+                        try {
+
+                            await new ModelAction('SaleEntry').softDelete(event);
+
+                            setSuccessMsg('Sale deleted successfully');
+                            setSuccess(true);
+                            await getSaleDetails(selectedDate);
+                            setTimeout(function(){
+                                setSuccessMsg('');
+                                setSuccess(false);
+                            }, 2000);
+
+                            return true;
+                        } catch (e) {
+                            setErrorMsg('OOPS. Something went wrong. Please try again');
+                            setError(true);
+                            setTimeout(function(){
+                                setErrorMsg('');
+                                setError(false);
+                            }, 2000);
+                            return false;
+                        }
+                    }
+                },
+                {
+                    label: 'No',
+                    onClick: () => {
+                        return false;
+                    }
+                }
+            ]
+        })
     };
 
     return(

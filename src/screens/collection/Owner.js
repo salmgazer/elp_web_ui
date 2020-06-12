@@ -20,7 +20,8 @@ const selectedDay = format(new Date(localStorage.getItem('collectionDate')) , 'M
 
 class Owner extends Component {
     state={
-        activeStep: LocalInfo.branchRole === 'owner' && parseInt(localStorage.getItem('employees')) > 0 ? 0 : 4,
+        //activeStep: LocalInfo.branchRole === 'owner' && parseInt(localStorage.getItem('employees')) > 0 ? 0 : 4,
+        activeStep: LocalInfo.branchRole === 'owner' ? 0 : 4,
         todayCollection:[],
         pendingCollection:[],
         collections: [],
