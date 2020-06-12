@@ -17,6 +17,7 @@ import SimpleSnackbar from "../../../../components/Snackbar/SimpleSnackbar";
 class SortDate extends Component{
     state={
         activeStep: 0,
+        currentProduct: {},
         pageName: false,
         error: false,
         errorMsg: '',

@@ -21,7 +21,7 @@ import AuditHistoryDetails from './sections/AuditHistoryDetails';
 class Audit extends Component {
     state = {
         isDrawerShow: false,
-        activeStep: 3,
+        activeStep: 0,
         spCount: 0,
         branchProducts: [],
         currentProduct: 0,
@@ -92,7 +92,7 @@ class Audit extends Component {
             case 2:
                 return <AuditedProductsView balanceAllHandler={this.balanceAllHandler.bind(this)} productAdd={this.showAddView.bind(this)} deleteProductHandler={this.deleteProduct.bind(this)} auditEntries={this.state.auditEntries} setView={this.setStepContentView.bind(this)} />;
             case 3:
-                return <AuditHistory setView={this.setStepContentView.bind(this)} auditEntries={this.state.auditEntries} auditProducts={this.showAuditProductsView.bind(this)} />
+                return <AuditHistory setView={this.setStepContentView.bind(this)} auditEntries={this.state.auditEntries} auditProducts={this.showAuditProductsView.bind(this)} deleteProductHandler={this.deleteAuditProduct.bind(this)} />
             case 4:
                 return <AuditHistoryDetails setView={this.setStepContentView.bind(this)} currentAudit={this.state.currentAudit} deleteProductHandler={this.deleteAuditProduct.bind(this)} />
             default:

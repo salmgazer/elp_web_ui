@@ -263,19 +263,7 @@ export default class PurchaseService {
             sellingPrice = parseFloat(sell);
         }
 
-        for (let step = 0; step < purchase.length; step++) {
-            profit += parseFloat(await BranchStockService.getStockEntryProfitById(purchase[step].id));
-        }
-
         profit = sellingPrice - costPrice;
-
-        if (duration === 'week') {
-            purchase = await PurchaseService.weekSalesFormat(purchase);
-        } else if (duration === 'month') {
-            purchase = await PurchaseService.monthSalesFormat(purchase , date);
-        } else if (duration === 'year') {
-            purchase = await PurchaseService.yearSalesFormat(purchase , date);
-        }
 
         return {
             purchases: purchase,

@@ -1,4 +1,4 @@
-import React, {useState}  from 'react';
+import React, {useEffect, useState}  from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import SectionNavbar from '../../../components/Sections/SectionNavbars';
 import ArrowBackIosIcon from '@material-ui/icons/ArrowBackIos';
@@ -61,11 +61,27 @@ const AuditHistory = props => {
     const [type, setType] = useState(10);
     const [successDialog, setSuccessDialog] = useState(false);
     const [loading , setLoading] = useState(false);
+    const [auditDetails , setAuditDetails] = useState(false);
     const [errorMsg , setErrorMsg] = useState('');
     const [error , setError] = useState(false);
 
     const handleTypeChange = event => {
         setType(event.target.value);
+        sortDetails(event.target.value);
+    };
+
+    useEffect(() => {
+        // You need to restrict it at some point
+        // This is just dummy code and should be replaced by actual
+        if (!auditDetails) {
+            sortDetails(type);
+        }
+    });
+
+    const sortDetails = async (date) => {
+        console.log(date);
+        let response = [];
+        setAuditDetails(response);
     };
 
     const backHandler = (event) => {

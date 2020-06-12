@@ -220,7 +220,9 @@ const BottomMenu = props => {
             <div
                 style={{flex: 1}}
                 className={`text-center icon-color`}
-                onClick={() => history.push(paths.purchase_history)}
+                onClick={() => history.push(paths.purchase_history, {pageName: true, product: props.branchProduct.productId})}
+                //onClick={addProductHandler.bind(this, branchProduct.productId)}
+
             >
                 <AccessTimeIcon
                     style={{fontSize: '25px'}}
