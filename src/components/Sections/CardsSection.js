@@ -3,6 +3,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
 import Paper from '@material-ui/core/Paper';
+import LocalInfo from "../../services/LocalInfo";
 
 const useStyles = makeStyles(theme => ({
     root: {
@@ -26,7 +27,8 @@ const CardsSection = props => {
     const classes = useStyles();
 
     return (
-        <div>
+        LocalInfo.branchRole ?
+            <div>
             <Grid container spacing={1}>
                 <Grid item xs={3}>
                     <Paper className={classes.paper}>
@@ -74,6 +76,8 @@ const CardsSection = props => {
 
             </Grid>
         </div>
+            :
+            ""
     )
 
 }

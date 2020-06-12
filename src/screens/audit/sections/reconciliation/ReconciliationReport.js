@@ -19,6 +19,7 @@ import ShareIcon from '@material-ui/icons/Share';
 import CloudUploadIcon from '@material-ui/icons/CloudUpload';
 import FileCopyIcon from '@material-ui/icons/FileCopy';
 import PrintIcon from '@material-ui/icons/Print';
+import subDays from "date-fns/subDays";
 
 const useStyles = makeStyles(theme => ({
     paper: {
@@ -28,6 +29,9 @@ const useStyles = makeStyles(theme => ({
 }));
 
 const ReconciliationReport = props => {
+    const [variant, setVariant] = useState('day');
+    const [startDay , setDay] = useState(subDays(new Date() , 1));
+    const [endDay , setEndDay] = useState(new Date());
 
     const [isShowDrawer , setIsShowDrawer] = useState(false);
 
@@ -37,6 +41,18 @@ const ReconciliationReport = props => {
 
      const setView = (view) => {
         props.setView(view);
+    };
+
+    const setValue = value => {
+        setVariant(value);
+    };
+
+    const setStartDate = (value) => {
+        console.log(value)
+    };
+
+    const setEndDate = (value) => {
+        console.log(value)
     };
 
     const classes = useStyles();
@@ -85,76 +101,113 @@ const ReconciliationReport = props => {
                 </BottomDrawer>
             </div>
 
-            <Grid container spacing={1} style={{marginTop: '60px'}} >
+            <Grid container spacing={1} className={`mx-auto mt-6 shadow1 mb-3 pb-2 pt-2`} >
                 <Grid item xs={5}>
-                    <Dates style={{marginLeft: '10px'}} />
+                    {
+                        variant === "day" ?
+                            <Dates
+                                style={{
+                                    padding: '3px 0px',
+                                    marginLeft: '5px',
+                                    border: '1px solid #e5e5e5',
+                                    backgroundColor: '#FFFFFF',
+                                    float: 'center',
+                                    fontWeight: '400',
+                                    fontSize: '18px' ,
+                                    lineHeight: '1.6' ,
+                                    marginTop: '2px'
+                                }}
+                                initialDate={startDay}
+                                getValue={setStartDate.bind(this)}
+                            />
+                            :
+                            ""
+                    }
                 </Grid>
 
                 <Grid item xs={1}>
-                    <p  className='text-dark font-weight-bold' style={{marginTop: '10px', marginLeft: '10px'}}>to</p>
+                    <p  className='text-dark text-center font-weight-bold' style={{marginTop: '10px'}}>to</p>
                 </Grid>
 
-                <Grid item xs={6}>
-                    <Dates />
+                <Grid item xs={5}>
+                    {
+                        variant === "day" ?
+                            <Dates
+                                style={{
+                                    padding: '3px 0px',
+                                    marginLeft: '5px',
+                                    border: '1px solid #e5e5e5',
+                                    backgroundColor: '#FFFFFF',
+                                    float: 'center',
+                                    fontWeight: '400',
+                                    fontSize: '18px',
+                                    lineHeight: '1.6',
+                                    marginTop: '2px'
+                                }}
+                                initialDate={endDay}
+                                getValue={setEndDate.bind(this)}
+                            />
+                            :
+                            ""
+                    }
                 </Grid>
             </Grid>
 
-            <Box >
-                <Grid container spacing={1} className={`shadow1 mb-3 borderRadius10`} style={{display: 'table', height: '90px', margin: '8px 0px'}} >
-                    <Typography component="p" style={{ margin: '20px 0px 0px 0px', fontSize: '14px', fontStyle: 'italic' }} >
+            <Box className={`shadow1 mb-3 borderRadius10 mx-2`}>
+                <Grid container spacing={1}>
+                    <Typography component="p" style={{ width: '100%', margin: '20px auto 5px', fontSize: '18px', fontStyle: 'italic', fontWeight: '300' }} >
                         Total sales made this period was:
                     </Typography>
-                    <Typography className='text-dark font-weight-bold' style={{ fontSize: '25px' }} >
+                    <Typography componenet="p" className='text-dark font-weight-bold w-100 mb-3' style={{ fontSize: '25px' }} >
                         GHC 1000
                     </Typography>
                 </Grid>
+
+                <Typography className='text-dark font-weight-bold' style={{ fontSize: '16px', marginBottom: '10px', color: '#707070'}} >
+                    Minus
+                </Typography>
+
+                <Grid container spacing={1}>
+                    <Grid item xs={4}>
+                        <Paper className={classes.paper}>
+                            <Switch label='include' style={{fontSize: '10px'}} />
+                            <Typography component="p" style={{ margin: '10px 0px 0px 0px', fontSize: '13px' }} >
+                                Total credit
+                            </Typography>
+                            <Typography className='text-dark font-weight-bold' style={{ fontSize: '20px' }} >
+                                GHC 300
+                            </Typography>
+                        </Paper>
+                    </Grid>
+
+                    <Grid item xs={4}>
+                        <Paper className={classes.paper}>
+                            <Switch label='include' style={{fontSize: '10px'}} />
+                            <Typography component="p" style={{ margin: '10px 0px 0px 0px', fontSize: '13px' }} >
+                                Expenses
+                            </Typography>
+                            <Typography className='text-dark font-weight-bold' style={{ fontSize: '20px' }} >
+                                GHC 400
+                            </Typography>
+                        </Paper>
+                    </Grid>
+
+                    <Grid item xs={4}>
+                        <Paper className={classes.paper}>
+                            <Switch label='include' style={{fontSize: '10px'}} />
+                            <Typography component="p" style={{ margin: '10px 0px 0px 0px', fontSize: '13px' }} >
+                                Purchases
+                            </Typography>
+                            <Typography className='text-dark font-weight-bold' style={{ fontSize: '20px' }} >
+                                GHC 300
+                            </Typography>
+                        </Paper>
+                    </Grid>
+
+                </Grid>
             </Box>
 
-            <Typography className='text-dark font-weight-bold' style={{ fontSize: '15px', marginBottom: '10px'}} >
-                Minus
-            </Typography>
-
-            
-            <Grid container spacing={1}>
-                <Grid item xs={4}>
-                    <Paper className={classes.paper}>
-                        <Switch label='include' style={{fontSize: '10px'}} />
-                        <Typography component="p" style={{ margin: '10px 0px 0px 0px', fontSize: '13px' }} >
-                            Total credit
-                        </Typography>
-                        <Typography className='text-dark font-weight-bold' style={{ fontSize: '20px' }} >
-                            GHC 300
-                        </Typography>
-                    </Paper>
-                </Grid>
-                
-                <Grid item xs={4}>
-                    <Paper className={classes.paper}>
-                        <Switch label='include' style={{fontSize: '10px'}} />
-                        <Typography component="p" style={{ margin: '10px 0px 0px 0px', fontSize: '13px' }} >
-                            Expenses
-                        </Typography>
-                        <Typography className='text-dark font-weight-bold' style={{ fontSize: '20px' }} >
-                            GHC 400
-                        </Typography>
-                    </Paper>
-                </Grid>
-
-                <Grid item xs={4}>
-                    <Paper className={classes.paper}>
-                        <Switch label='include' style={{fontSize: '10px'}} />
-                        <Typography component="p" style={{ margin: '10px 0px 0px 0px', fontSize: '13px' }} >
-                            Purchases
-                        </Typography>
-                        <Typography className='text-dark font-weight-bold' style={{ fontSize: '20px' }} >
-                            GHC 300
-                        </Typography>
-                    </Paper>
-                </Grid>
-
-            </Grid>
-
-            <Box style={{marginTop: '30px'}} >
+            <Box style={{marginTop: '10px'}} >
                 <Grid container spacing={1}>
                     <Grid item xs={6} className={`shadow1 mb-3 borderRadius10`} style={{display: 'table', height: '90px', margin: '15px 0px'}} >
                         <Typography component="p" style={{ margin: '20px 0px 0px 0px', fontSize: '13px' }} >
@@ -164,7 +217,7 @@ const ReconciliationReport = props => {
                                 GHC {props.balance}
                             </Typography>
                     </Grid>
-                
+
                     <Grid item xs={6} className={`shadow1 mb-3 borderRadius10`} style={{display: 'table', height: '90px', margin: '15px 0px'}} >
                         <Typography component="p" style={{ margin: '20px 0px 0px 0px', fontSize: '13px' }} >
                                 Cash you have is
@@ -176,9 +229,9 @@ const ReconciliationReport = props => {
                 </Grid>
             </Box>
 
-            
 
-            { props.cash - props.balance  > "0" ? 
+
+            { props.cash - props.balance  > "0" ?
                 <CardDefault styles={{width: '90%', marginTop: '5px', backgroundColor: '#9ffca7', borderRadius: '25px'}}>
                     <Typography
                         className='text-dark font-weight-bold'
@@ -188,24 +241,24 @@ const ReconciliationReport = props => {
 
                     </Typography>
                 </CardDefault>
-                : props.cash - props.balance  < "0" ? 
+                : props.cash - props.balance  < "0" ?
                     <CardDefault styles={{width: '90%', marginTop: '5px', backgroundColor: '#fc7c66', borderRadius: '25px'}}>
                         <Typography
                             className='text-dark font-weight-bold'
                             style={{fontSize: '18px', padding: '0px', color: 'black'}}
                         >
                             Result: Your cash is GHC {props.balance - props.cash} less
-                            
+
                         </Typography>
                     </CardDefault>
-                : 
+                :
                 <CardDefault styles={{width: '90%', marginTop: '5px', backgroundColor: '#5ecbf7', borderRadius: '25px'}}>
                     <Typography
                         className='text-dark font-weight-bold'
                         style={{fontSize: '18px', padding: '0px', color: 'black'}}
                     >
                         Result: It is balanced
-                        
+
                     </Typography>
                 </CardDefault>
             }

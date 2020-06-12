@@ -149,7 +149,6 @@ const Login = props => {
             * @todo
             * push user details to watermelon...
             * */
-            const activeBranch = LocalInfo.branchId;
             const userAccess = JSON.parse(LocalInfo.userAccess);
             console.log(userAccess);
             const companyId = LocalInfo.companyId;
@@ -306,7 +305,7 @@ const Login = props => {
                                                     <InputAdornment position="end">
                                                         <IconButton
                                                             aria-label="toggle password visibility"
-                                                            onClick={event => setState({ showPassword: !state.showPassword })}
+                                                            onClick={() => setState({ showPassword: !state.showPassword })}
                                                             edge="end"
                                                         >
                                                             {state.showPassword ? <Visibility /> : <VisibilityOff />}

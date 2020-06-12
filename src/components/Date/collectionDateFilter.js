@@ -17,37 +17,27 @@ const CollectionDateFilter = props => {
     };
 
     return (
-        <div>
-            {/*<Typography
-                component="h6"
-                variant="h6"
-                style={{fontWeight: '400', fontSize: '18px' , lineHeight: '1.6'}}
-                className={`mx-auto text-dark my-1`}
-            >
-                {date.toDateString()}
-            </Typography>*/}
-            <MuiPickersUtilsProvider utils={DateFnsUtils} style={{
-                padding: '2px 10px',
-                backgroundColor: '#FFFFFF'
-            }}>
-                <KeyboardDatePicker
-                    disableToolbar
-                    variant="outlined"
-                    format="dd/MM/yyyy"
-                    margin="normal"
-                    id="date-picker"
-                    disableFuture={true}
-                    className='text-dark font-weight-bold my-1'
-                    style={{...props.style, padding: '3px 0px', paddingLeft: '20px', border: '1px solid #e5e5e5', backgroundColor: '#FFFFFF', float: 'center', width: '150px', fontWeight: '400', fontSize: '18px' , lineHeight: '1.6' , marginTop: '2px'}}
-                    size='small'
-                    value={selectedDate}
-                    onChange={handleDateChange}
-                    KeyboardButtonProps={{
-                        'aria-label': 'change date',
-                    }}
-                />
-            </MuiPickersUtilsProvider>
-        </div>
+        <MuiPickersUtilsProvider utils={DateFnsUtils} style={{
+            padding: '2px 10px',
+            backgroundColor: '#FFFFFF'
+        }}>
+            <KeyboardDatePicker
+                disableToolbar
+                variant="outlined"
+                format="dd/MM/yyyy"
+                margin="normal"
+                id="date-picker"
+                disableFuture={true}
+                className='text-dark font-weight-bold my-1'
+                style={{...props.style, padding: '3px 0px', paddingLeft: '20px', border: '1px solid #e5e5e5', backgroundColor: '#FFFFFF', float: 'center', width: '150px', fontWeight: '400', fontSize: '18px' , lineHeight: '1.6' , marginTop: '2px'}}
+                size='small'
+                value={selectedDate}
+                onChange={handleDateChange}
+                KeyboardButtonProps={{
+                    'aria-label': 'change date',
+                }}
+            />
+        </MuiPickersUtilsProvider>
     );
 };
 

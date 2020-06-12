@@ -1,4 +1,4 @@
-import React, {Component, useEffect, useState} from 'react';
+import React, {Component} from 'react';
 import { withRouter } from "react-router-dom";
 import ArrowBackIcon from "@material-ui/core/SvgIcon/SvgIcon";
 import paths from "../../../utilities/paths";
@@ -22,6 +22,7 @@ class CategorySetup extends Component{
         subcategories: [],
         errorDialog: false,
         errorMsg: '',
+        activeItem: 0,
     };
 
     async componentDidMount() {
@@ -56,7 +57,8 @@ class CategorySetup extends Component{
         });
 
         this.setState({
-            subcategories: searchResults
+            subcategories: searchResults,
+            activeItem: itemId
         });
     };
 
@@ -149,7 +151,7 @@ class CategorySetup extends Component{
 
         switch (step) {
             case 0:
-                return <Step1 addSubCategory={this.addSubCategoryHandler.bind(this)} removeSubCategory={this.removeSubCategoryHandler.bind(this)} clickFnc={this.selectCategoryHandler.bind(this)} categories={categories} subcategories={subcategories}/> ;
+                return <Step1 activeItem={this.state.activeItem} addSubCategory={this.addSubCategoryHandler.bind(this)} removeSubCategory={this.removeSubCategoryHandler.bind(this)} clickFnc={this.selectCategoryHandler.bind(this)} categories={categories} subcategories={subcategories}/> ;
             case 1:
                 return <Step2 search={this.searchHandler.bind(this)} addSubCategory={this.addSubCategoryHandler.bind(this)} removeSubCategory={this.removeSubCategoryHandler.bind(this)} subcategories={shop_subcategories}/>;
             default:
@@ -206,7 +208,6 @@ class CategorySetup extends Component{
 
     render(){
         const steps = this.getSteps();
-        console.log(JSON.parse(localStorage.getItem('categoryLookup')));
 
         const counter = ((this.state.subcategories).filter(item => item.owned === true)).length;
 

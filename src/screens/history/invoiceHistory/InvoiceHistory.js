@@ -54,7 +54,6 @@ class InvoiceHistory extends Component {
 
         return(
             <div>
-
                 <SectionNavbars
                     title="Invoice history"
                     leftIcon={

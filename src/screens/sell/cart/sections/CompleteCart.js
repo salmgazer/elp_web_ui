@@ -15,6 +15,8 @@ import ReactToPrint from "react-to-print";
 import LocalInfo from '../../../../services/LocalInfo';
 import CartService from "../../../../services/CartService";
 import PrintRec from './PrintRec';
+import fromUnixTime from 'date-fns/fromUnixTime';
+import format from "date-fns/format";
 
 const useStyles = makeStyles(theme => ({
     root: {
@@ -76,8 +78,9 @@ const CheckoutView = props => {
         const total = await SaleService.getSaleEntryAmountPaidById(sale);
         const qty = await SaleService.getSaleProductQuantity(sale);
         const lastsale = await SaleService.getLastSale();
-        console.log(lastsale);
-        const recDate = lastsale.salesDate;
+        const need = await new SaleService().getSaleProductsById(sale);
+        console.log(need);
+        const recDate = format(fromUnixTime(lastsale.salesDate) , "eeee, MMMM do, yyyy");
         const rec = lastsale.receiptNumber;
         setCustomerName(await new CartService().getCartCustomer(props.currentCustomer));
         setSeller(LocalInfo.username);
@@ -89,7 +92,7 @@ const CheckoutView = props => {
         setAmountPaid((parseFloat(localStorage.getItem('amountPaid'))).toFixed(2));
         setSalesTotal((parseFloat(total)).toFixed(2));
 
-        setProducts(lastsale);
+        setProducts(need);
     };
 
     const classes = useStyles();
@@ -170,7 +173,8 @@ const CheckoutView = props => {
                         totalAmt= {`GHC ${salesTotal}`}
                         amtPaid= {`GHC ${amountPaid}`}
                         changeRem= {`GHC ${amountPaid - salesTotal}`}
-                     /></div>
+                     />
+                </div>
 
             </Paper>
 

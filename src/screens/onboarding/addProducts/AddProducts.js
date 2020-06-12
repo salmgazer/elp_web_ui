@@ -17,6 +17,7 @@ import LocalInfo from "../../../services/LocalInfo";
 import paths from "../../../utilities/paths";
 import database from "../../../models/database";
 import ProductRequest from "../../admin/productRequest/ProductRequest";
+import { useHistory } from "react-router-dom";
 
 class AddProducts extends Component{
     state = {
@@ -166,11 +167,11 @@ class AddProducts extends Component{
         }
         await SyncService.sync(LocalInfo.companyId, LocalInfo.branchId, LocalInfo.userId, database);
 
-        const returnPage = localStorage.getItem('returnPage') || '';
-        localStorage.removeItem('returnPage');
+        const returnPage = localStorage.getItem('redirectPath') || '';
+        localStorage.removeItem('redirectPath');
 
         if(returnPage){
-            this.props.history.push(paths[returnPage]);
+            this.props.history.push(returnPage);
         }
 
         this.setState({
@@ -221,30 +222,29 @@ class AddProducts extends Component{
         });
     };
 
-    undoAddProducts = () => {
+    undoAddProducts = (productId) => {
         let branchProductsAdded = JSON.parse(localStorage.getItem('branchProductsAdded')) || [];
         branchProductsAdded = branchProductsAdded.filter((item => item.productId !== this.state.currentProduct[0].id));
 
         localStorage.setItem('branchProductsAdded' , JSON.stringify(branchProductsAdded));
 
-        let branchProductsRemoved = JSON.parse(localStorage.getItem('branchProductsRemoved')) || [];
+        //let branchProductsRemoved = JSON.parse(localStorage.getItem('branchProductsRemoved')) || [];
 
         let old_list = this.state.productList;
 
-        const productIndex = old_list.findIndex((item => item.id === (this.state.currentProduct)));
+        const productIndex = old_list.findIndex((item => item.id === (productId)));
         const item = {...old_list[productIndex]};
 
-        if(item.owned){
+        if(item.stock.length === 1){
             item.owned = false;
+            item.stock = [];
+            item.history = [];
+        }else if (item.stock.length > 1){
+            item.stock.pop();
+            item.history.pop();
         }
 
-        branchProductsRemoved.push(this.state.currentProduct);
-        item.stock = [];
-
         old_list[productIndex] = item;
-
-        console.log(item);
-        localStorage.setItem('branchProductsRemoved' , JSON.stringify(branchProductsRemoved));
 
         localStorage.setItem('storeProductsLookup' , JSON.stringify(old_list));
 

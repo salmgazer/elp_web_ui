@@ -8,7 +8,6 @@ import Grid from '@material-ui/core/Grid';
 import { ValidatorForm, TextValidator} from 'react-material-ui-form-validator';
 import phoneFormat from '../../../services/phoneFormatter';
 import Api from "../../../services/Api";
-import paths from "../../../utilities/paths";
 
 const useStyles = makeStyles(theme => ({
     root: {
@@ -79,8 +78,14 @@ export default function PersonalInformationSection(props) {
     * */
     const addDashes = async (event) => {
         event.persist();
+        const re = /[\d -]+/g;
 
         const value = event.target.value;
+
+        if(!(value === "" || re.test(value))){
+            return false;
+        }
+
         if(event.target.value.length <= 12){
             event.target.value = phoneFormat(event.target.value);
 
@@ -113,42 +118,6 @@ export default function PersonalInformationSection(props) {
             }
 
         }
-
-        return false;
-        /*event.persist();
-        const value = event.target.value;
-        if(event.target.value.length <= 12){
-            event.target.value = phoneFormat(event.target.value);
-            console.log(event.target.value , value)
-            await handleChange(event);
-
-            setError('none');
-            setErrorMsg('');
-            console.log(formFields , userFields)
-            if(value.length === 12){
-                try {
-                    let response = await new Api('others').index(
-                        {},
-                        {},
-                        `https://core-api-dev.mystoreaid.net/v1/client/users/exists?phone=${value}`,
-                        {},
-                    );
-
-                    if(response.data.valid === false){
-                        props.isValid(false);
-                        setError('block');
-                        setErrorMsg('Number exists in database. Use another number');
-                    }else{
-                        props.isValid(true);
-                        setError('none');
-                        setErrorMsg('');
-                    }
-                } catch (error) {
-                    console.log('Could not check username. Please enter again!');
-                }
-            }
-            return true;
-        }*/
 
         return false;
     };
