@@ -16,7 +16,10 @@ const CollectionHistory = props => {
     const collection = props.collection;
 
     const backHandler = (event) => {
-        const view = LocalInfo.branchRole === 'owner' && parseInt(localStorage.getItem('employees')) > 0 ? 0 : 4
+        /*
+        * @change this when employees is ready
+        * */
+        const view =  LocalInfo.branchRole === 'owner' ? 0 : 4; //LocalInfo.branchRole === 'owner' && parseInt(localStorage.getItem('employees')) > 0 ? 0 : 4
         props.setView(view);
     };
 

@@ -107,7 +107,7 @@ const Dashboard = props => {
     const username = JSON.parse(localStorage.getItem('userDetails')).firstName;
     console.log(username);
 
-    const { audits, auditedEntries, history, testProducts, stockMovements, purchases, branchProducts, branchProductStock, branchProductStockHistory, brands, manufacturers, products, database, customers, branchCustomers , sales , saleEntries , saleInstallments , carts , cartEntries, testBranch , cartEntriesQ } = props;
+    const { audits, auditedEntries, history, testProducts, stockMovements, purchases, branchProducts, branchProductStock, branchProductStockHistory, brands, manufacturers, products, database, customers, branchCustomers , sales , saleEntries , saleInstallments , carts , cartEntries, testBranch ,cashFlow, cartEntriesQ } = props;
     // const database = useDatabase();
 
     const createBrand = async() => {
@@ -128,6 +128,7 @@ const Dashboard = props => {
     }
 
     console.log('#####################################')
+    console.log(cashFlow);
     console.log(audits);
     console.log(auditedEntries);
     console.log(stockMovements);
@@ -480,6 +481,7 @@ const EnhancedDashboard = withDatabase(
         value: LocalInfo.branchId,
         fxn: 'eq'
     }),
+  cashFlow: new ModelAction('Cashflow').indexNotObserve(),
     branchCustomers: database.collections.get(BranchCustomer.table).query().observe(),
 
   }))(withRouter(Dashboard))

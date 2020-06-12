@@ -55,7 +55,6 @@ const useStyles = makeStyles(theme => ({
 }));
 
 const AttendantMainPage = props => {
-
     const classes = useStyles();
     const collection = props.collection;
     const pendingCollection = props.pendingCollection;

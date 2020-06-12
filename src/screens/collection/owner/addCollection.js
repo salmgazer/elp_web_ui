@@ -57,7 +57,7 @@ const AddCollection = props => {
     const [formFields , setFormFields] = useState({
         amount: '',
         type: 'cash-in',
-        category: 'sales',
+        category: 'Sales',
         status: 'approved'
     });
 

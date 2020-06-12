@@ -14,8 +14,6 @@ import Drawer from "../../../components/Drawer/Drawer";
 import SystemDate from "../../../components/Date/SystemDate";
 import SingleRecentView from './SingleRecentView';
 import SimpleSnackbar from "../../../components/Snackbar/SimpleSnackbar";
-import SupplierService from "../../../services/SupplierService";
-import paths from "../../../utilities/paths";
 
 const useStyles = makeStyles(theme => ({
     root: {
@@ -70,7 +68,7 @@ const AddCollectionOwner = props => {
     const [success , setSuccess] = useState(false);
     const [successMsg , setSuccessMsg] = useState('');
     const [loading , setLoading] = useState(false);
-
+console.log(collection)
     const historyHandler = (event) => {
         props.setView(1);
     };
