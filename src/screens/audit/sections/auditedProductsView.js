@@ -5,19 +5,16 @@ import Button from "@material-ui/core/Button/Button";
 import Box from "@material-ui/core/Box/Box";
 import Grid from "@material-ui/core/Grid/Grid";
 import Paper from "@material-ui/core/Paper/Paper";
-import InputBase from "@material-ui/core/InputBase/InputBase";
-import IconButton from '@material-ui/core/IconButton';
-import SearchIcon from '@material-ui/icons/Search';
 import Select from "@material-ui/core/Select/Select";
 import MenuItem from "@material-ui/core/MenuItem/MenuItem";
 import {makeStyles} from "@material-ui/core";
 import AddedProductSingle from "./viewAdded/AddedSingleView";
 import SectionNavbars from "../../../components/Sections/SectionNavbars";
-import ArrowBackIosIcon from '@material-ui/icons/ArrowBackIos';
+import MenuIcon from '@material-ui/icons/Menu';
 import Drawer from "../../../components/Drawer/Drawer";
 import SimpleSnackbar from "../../../components/Snackbar/SimpleSnackbar";
 import {confirmAlert} from "react-confirm-alert";
-import AuditService from "../../../services/AuditService";
+import SearchInput from "../../Components/Input/SearchInput";
 
 const useStyles = makeStyles(theme => ({
     root: {
@@ -55,15 +52,19 @@ const useStyles = makeStyles(theme => ({
 
 const AuditedProductsView = props => {
     const quantity = props.pro_quantity;
-    const [type, setType] = useState(10);
+    const [type, setType] = useState('all');
     const [isDrawerShow , setIsDrawerShow] = useState(false);
     const [successDialog, setSuccessDialog] = useState(false);
     const [loading , setLoading] = useState(false);
     const [errorMsg , setErrorMsg] = useState('');
     const [error , setError] = useState(false);
+    const [searchValue , setSearchValue] = useState({
+        search: ''
+    });
 
     const handleTypeChange = event => {
         setType(event.target.value);
+        props.changeAuditedProductsType(event.target.value)
     };
 
     const backHandler = (event) => {
@@ -131,6 +132,16 @@ const AuditedProductsView = props => {
         //props.productEdit(pId , 3);
     };
 
+    const setInputValue = (name , value) => {
+        const {...oldFormFields} = searchValue;
+
+        oldFormFields[name] = value;
+
+        setSearchValue(oldFormFields);
+
+        props.searchAuditedHandler(value);
+    };
+
     const classes = useStyles();
 
     return(
@@ -139,7 +150,7 @@ const AuditedProductsView = props => {
                 title={`Audit`}
                 leftIcon={
                     <div onClick={() => setIsDrawerShow(true)}>
-                        <ArrowBackIosIcon
+                        <MenuIcon
                             style={{fontSize: '2rem'}}
                         />
                     </div>
@@ -178,16 +189,10 @@ const AuditedProductsView = props => {
 
                 <Grid container spacing={1}>
                     <Grid item xs={6} style={{padding: '4px 8px'}}>
-                        <Paper className={classes.root} >
-                            <InputBase
-                                className={`${classes.input} search-box`}
-                                placeholder="Search for a product"
-                                inputProps={{ 'aria-label': 'Search for a product' }}
-                            />
-                            <IconButton className={classes.iconButton} aria-label="search">
-                                <SearchIcon />
-                            </IconButton>
-                        </Paper>
+                        <SearchInput
+                            inputName="search"
+                            getValue={setInputValue.bind(this)}
+                        />
                     </Grid>
 
                     <Grid item xs={6} style={{padding: '4px 8px'}}>
@@ -197,10 +202,10 @@ const AuditedProductsView = props => {
                                 onChange={handleTypeChange}
                                 style={{width: '100%' , backgroundColor: 'rgba(255, 255, 255, 0)' , border: 'none'}}
                             >
-                                <MenuItem value={10}>All products</MenuItem>
-                                <MenuItem value={30}>Positive difference</MenuItem>
-                                <MenuItem value={20}>Negative difference</MenuItem>
-                                <MenuItem value={40}>Zero difference</MenuItem>
+                                <MenuItem value="all">All products</MenuItem>
+                                <MenuItem value="positive">Positive difference</MenuItem>
+                                <MenuItem value="negative">Negative difference</MenuItem>
+                                <MenuItem value="zero">Zero difference</MenuItem>
                             </Select>
                         </Paper>
                     </Grid>

@@ -8,7 +8,7 @@ export default class Audits extends Model {
     static deletable = false;
 
     static associations = {
-        auditEntries: { type: 'has_many', key: 'auditId' },
+        audit_entries: { type: 'has_many', key: 'auditId' },
     };
 
     static displayColumn = 'id';
@@ -21,7 +21,7 @@ export default class Audits extends Model {
     @readonly @date('updated_at') updatedAt;
 
     auditEntries = this.collections
-        .get('auditEntries')
+        .get('audit_entries')
         .query(Q.where('auditId' , this.id));
 
     static columns = auditSchema.columns.map(c => c.name);

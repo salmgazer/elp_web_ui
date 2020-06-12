@@ -3,12 +3,12 @@ import database from "../models/database";
 import {v4 as uuid} from "uuid";
 import Audits from "../models/audit/Audit";
 import ModelAction from "./ModelAction";
-import * as Q from "@nozbe/watermelondb/QueryDescription";
 import AuditEntries from "../models/auditEntry/AuditEntries";
 import BranchStockService from "./BranchStockService";
-import format from "date-fns/format";
 import isSameDay from "date-fns/isSameDay";
 import SaleService from "./SaleService";
+import { Q } from '@nozbe/watermelondb';
+import getUnixTime from "date-fns/getUnixTime";
 
 export default class AuditService {
     constructor(){
@@ -17,17 +17,27 @@ export default class AuditService {
 
     async auditId() {
         if(!await database.adapter.getLocal("auditId")){
-            const dataCollection = database.collections.get(Audits.table);
+            try{
+                const response = await new ModelAction('Audits').post({
+                    branchId: LocalInfo.branchId,
+                    createdBy: LocalInfo.userId,
+                });
+console.log(response)
+                await database.adapter.setLocal("auditId" , response.id);
+            }catch (e) {
+                console.log("Problem creating audit identifier");
+                return false
+            }
+            /*await database.action(async () => {
+                console.log('problemss')
 
-            await database.action(async () => {
                 const newAudit = await dataCollection.create(audit => {
                     audit.branchId = LocalInfo.branchId;
                     audit.createdBy = LocalInfo.userId;
                     audit._raw.id = uuid()
                 });
 
-                await database.adapter.setLocal("auditId" , await newAudit.id);
-            });
+            });*/
         }
 
         const auditId = await database.adapter.getLocal("auditId");
@@ -48,10 +58,49 @@ export default class AuditService {
         return await quantity.length;
     }
 
+    async changeAuditedProductsType(value) {
+        const collection = await database.collections.get(AuditEntries.table);
+        const auditId = await this.auditId();
+
+        const entries = await collection.query(
+            Q.where('auditId' , auditId)
+        ).fetch();
+
+        switch (value) {
+            case 'all':
+                return entries;
+            case 'zero':
+                return entries.filter((entry) => entry.storeQuantity === entry.quantityCounted);
+            case 'positive':
+                return entries.filter((entry) => entry.quantityCounted > entry.storeQuantity);
+            case 'negative':
+                return entries.filter((entry) => entry.quantityCounted < entry.storeQuantity);
+        }
+    }
+
+    /*
+    * Search for a branch product
+    * */
+    async searchBranchAuditedProduct(searchValue) {
+        const auditId = await this.auditId();
+
+        const products = await new ModelAction('Product').findByColumnNotObserve({
+            name: 'name',
+            value: searchValue,
+            fxn: 'like'
+        });
+
+        return database.collections.get(AuditEntries.table).query(
+            Q.where('productId', Q.oneOf(products.map(p => p.id))),
+            Q.where('branchId', LocalInfo.branchId),
+            Q.where('auditId' , auditId)
+        ).fetch();
+    }
+
     async addProductToAudit(data) {
         const auditId = await this.auditId();
 
-        const dataCollection = database.collections.get('auditEntries');
+        const dataCollection = database.collections.get(AuditEntries.table);
 
         let product = await dataCollection.query(
             Q.where('auditId' , auditId),
@@ -115,12 +164,16 @@ export default class AuditService {
     }
 
     async balanceAllProducts(auditId = this.auditId()) {
-        try{
+        try {
             const auditEntries = await new ModelAction('AuditEntries').findByColumnNotObserve({
                 name: 'auditId',
                 value: await auditId,
                 fxn: 'eq'
             });
+
+            /*
+            * @todo change audit date current working date
+            * */
 
             const salesColumn = {
                 type: 'audit',
@@ -128,7 +181,7 @@ export default class AuditService {
                 customerId: 0,
                 discount: 0,
                 branchId: LocalInfo.branchId,
-                salesDate: format(new Date(), 'MM/dd/yyyy'),
+                salesDate: getUnixTime(new Date()),
                 receiptNumber: uuid(),
                 createdBy: LocalInfo.userId,
             };
@@ -137,7 +190,7 @@ export default class AuditService {
             const sale = await SaleService.getLastSale();
 
             auditEntries.map((entry) => {
-                if(entry.quantityCounted > entry.storeQuantity){
+                if (entry.quantityCounted > entry.storeQuantity) {
                     console.log("Stock")
 
                     const formFields = {
@@ -149,11 +202,12 @@ export default class AuditService {
                         productId: entry.productId,
                         branchProductId: entry.branchProductId,
                         branchId: LocalInfo.branchId,
+                        stockDate: getUnixTime(new Date()),
                     };
 
                     new BranchStockService().addStock(formFields);
 
-                }else if(entry.storeQuantity > entry.quantityCounted){
+                } else if (entry.storeQuantity > entry.quantityCounted) {
                     console.log("Sale")
                     const entryColumns = {
                         productId: entry.productId,
@@ -162,6 +216,7 @@ export default class AuditService {
                         quantity: parseFloat(entry.storeQuantity - entry.quantityCounted),
                         saleId: sale.id,
                         discount: 0,
+                        entryDate: getUnixTime(new Date()),
                         costPrice: entry.costPrice,
                         branchId: entry.branchId,
                         branchProductId: entry.branchProductId,
@@ -176,7 +231,7 @@ export default class AuditService {
                 amountPaid: await SaleService.getSaleEntryAmountById(sale.id)
             };
 
-            SaleService.makePayment(sale , data);
+            SaleService.makePayment(sale, data);
             localStorage.removeItem("auditId");
             await database.adapter.removeLocal("auditId");
             return true;
@@ -197,9 +252,9 @@ export default class AuditService {
 
         console.log(day)
         console.log(auditEntries)
-            
+
         return auditEntries.filter(audit => isSameDay(new Date(audit.createdAt) , day));
-        
+
     }
 
     async getAuditDetails(date) {

@@ -8,6 +8,7 @@ import Typography from "@material-ui/core/Typography/Typography";
 import SearchInput from "../../../Components/Input/SearchInput";
 import BranchProductService from "../../../../services/BranchProductService";
 import AuditService from "../../../../services/AuditService";
+import SystemDate from "../../../../components/Date/SystemDate";
 
 const useStyles = makeStyles(theme => ({
     root: {
@@ -99,6 +100,7 @@ const AuditSearchMode = props => {
                     </Grid>
 
                     <Grid item xs={4} style={{padding: '4px 8px'}} className={`mx-auto`}>
+                        {/*<SystemDate/>*/}
                         <Typography
                             component="h6"
                             variant="h6"

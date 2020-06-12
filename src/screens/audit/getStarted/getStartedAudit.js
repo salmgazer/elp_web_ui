@@ -81,14 +81,23 @@ const GetStartedAudit = props => {
                         variant="contained"
                         style={{'backgroundColor': '#DAAB59' , width: '90%', borderRadius: '3px', color: '#333333', padding: '8px 50px', margin: '10px auto', fontSize: '18px', fontWeight: '700'}}
                         className={`capitalization`}
-                        onClick={() => history.push(paths.audit)}
+                        onClick={() => props.setView(0)}
                     >
                         Start audit
                     </Button><br/>
 
-                    <Link to={paths.forgot_password} style={{textDecorationColor: '#333333'}}>
+                    <Typography
+                        variant="h5"
+                        component="p"
+                        style={{textDecoration:'underline', textDecorationColor: '#333333',marginBottom: '20px', fontSize: '20px' ,fontWeight: '500' , color: '#403C3C', marginTop: '30px'}}
+                        className="p-3"
+                        onClick={() => props.setView(3)}
+                    >
+                        View audit history
+                    </Typography>
+                    {/*<Link to={props.setView(3)} style={{textDecorationColor: '#333333'}}>
                         <span  style={{'marginTop': '30px', marginBottom: '20px', color: '#403C3C', fontSize: '20px'}}>View audit history</span> <br/>
-                    </Link>
+                    </Link>*/}
                 </BoxDefault>
             </div>
         </div>

@@ -19,7 +19,7 @@ export default class BranchStockService{
             branchId: formFields.branchId,
             productId: formFields.productId,
             type: formFields.type,
-            stockDate:  getUnixTime(new Date(LocalInfo.workingDate)),
+            stockDate:  formFields.stockDate || getUnixTime(new Date(LocalInfo.workingDate)),
             branchProductId: formFields.branchProductId,
             costPrice: parseFloat(formFields.costPrice),
             createdBy: LocalInfo.userId,

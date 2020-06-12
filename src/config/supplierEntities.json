@@ -9,22 +9,6 @@
       "contact": ""
     },
     {
-      "table": "manufacturers",
-      "entity": "Manufacturer",
-      "name": "Manufacturer",
-      "fields": ["name"],
-      "nameFields": ["name"],
-      "contact": ""
-    },
-    {
-      "table": "brands",
-      "entity": "Brand",
-      "name": "Brand",
-      "fields": ["name"],
-      "nameFields": ["name"],
-      "contact": ""
-    },
-    {
       "table": "customers",
       "entity": "Customer",
       "name": "Customer",

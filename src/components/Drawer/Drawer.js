@@ -226,7 +226,7 @@ const Drawer = props => {
                     </List>
                 </Collapse>
                 <Divider />
-                <ListItem button key={7} onClick={() => history.push(paths.get_startedAudit)}>
+                <ListItem button key={7} onClick={() => history.push(paths.audit)}>
                     <ListItemIcon><VisibilityIcon style={{color: '#FFFFFF'}} /></ListItemIcon>
                     <ListItemText primary="Audit" />
                 </ListItem>
