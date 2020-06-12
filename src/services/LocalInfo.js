@@ -91,7 +91,10 @@ export default class LocalInfo {
   }
 
   static get branchRole() {
-    return this.branch.role;
+    if(this.branch){
+        return this.branch.role;
+    }
+    return null;
   }
 
   static get companyPermissions() {
