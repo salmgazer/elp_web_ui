@@ -55,7 +55,7 @@ class Sell extends Component {
 
         const salesTodayDetails = await new SaleService().getTodaySalesDetails();
 
-        if(this.state.savedCart.length !== savedCarts.length || this.state.currentCustomer !== await CartService.getCartCustomerId() || this.props.cartQuantity !== prevProps.cartQuantity || branchCustomers.length !== prevProps.branchCustomers.length || this.state.cartTotalProduct !== await CartService.getCartProductQuantity()){
+        if(this.state.savedCart.length !== savedCarts.length || this.state.currentCustomer !== await CartService.getCartCustomerId() || cartQuantity !== prevProps.cartQuantity || branchCustomers.length !== prevProps.branchCustomers.length || this.state.cartTotalProduct !== await CartService.getCartProductQuantity()){
             this.setState({
                 spCount: cartQuantity,
                 customers: branchCustomers,

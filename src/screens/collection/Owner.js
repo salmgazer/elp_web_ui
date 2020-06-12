@@ -188,12 +188,12 @@ const EnhancedOwner = withDatabase(
     withObservables(['todayCollection' ,'myDateCollections' , 'myTodayCollection' , 'pendingCollection' , 'approvedCollections', 'collections' , 'dateCollections'], ({ database , todayCollection, myDateCollections , myTodayCollection, pendingCollection ,approvedCollections, collections , dateCollections }) => ({
         todayCollection: database.collections.get(Cashflow.table).query(
             Q.where('branchId' , LocalInfo.branchId),
-            Q.where('dateAdded' , Q.between(getUnixTime(startOfDay(new Date(selectedDay))) , getUnixTime(endOfDay(new Date(selectedDay)))))
+            Q.where('dateAdded' , Q.between(getUnixTime(startOfDay(new Date(LocalInfo.workingDate))) , getUnixTime(endOfDay(new Date(LocalInfo.workingDate)))))
         ).observe(),
         myTodayCollection: database.collections.get(Cashflow.table).query(
             Q.where('branchId' , LocalInfo.branchId),
             Q.where('createdBy' , LocalInfo.userId),
-            Q.where('dateAdded' , Q.between(getUnixTime(startOfDay(new Date(selectedDay))) , getUnixTime(endOfDay(new Date(selectedDay)))))
+            Q.where('dateAdded' , Q.between(getUnixTime(startOfDay(new Date(LocalInfo.workingDate))) , getUnixTime(endOfDay(new Date(LocalInfo.workingDate)))))
         ).observe(),
         pendingCollection: database.collections.get(Cashflow.table).query(
             Q.where('branchId' , LocalInfo.branchId),
