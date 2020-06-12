@@ -79,7 +79,7 @@ class Owner extends Component {
             case 3:
                 return <AddCollectionOwner changeCollectionDate={this.changeCollectionDate.bind(this)} branchDetails={this.state.branchDetails} addNewCollection={this.addNewCollection.bind(this)} setView={this.setStepContentView.bind(this)} collection={this.state.todayCollection} />;
             case 4:
-                return <AttendantMainPage addNewCollection={this.addNewCollection.bind(this)} branchDetails={this.state.branchDetails} disapproveCollection={this.disapproveCollection.bind(this)} approveCollection={this.approveCollection.bind(this)} setView={this.setStepContentView.bind(this)} pendingCollection={this.state.todayCollection} collection={this.state.pendingCollection} />;
+                return <AttendantMainPage addNewCollection={this.addNewCollection.bind(this)} branchDetails={this.state.branchDetails} disapproveCollection={this.disapproveCollection.bind(this)} approveCollection={this.approveCollection.bind(this)} setView={this.setStepContentView.bind(this)} collection={this.state.todayCollection} />;
             default:
                 return 'Complete';
         }

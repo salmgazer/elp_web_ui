@@ -57,7 +57,7 @@ const useStyles = makeStyles(theme => ({
 const AttendantMainPage = props => {
     const classes = useStyles();
     const collection = props.collection;
-    const pendingCollection = props.pendingCollection;
+    console.log(collection)
     const [isDrawerShow , setIsDrawerShow] = useState(false);
     const [error , setError] = useState(false);
     const [errorMsg , setErrorMsg] = useState('');

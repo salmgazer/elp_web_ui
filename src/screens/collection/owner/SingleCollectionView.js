@@ -68,7 +68,7 @@ const SingleCollectionView = props => {
                 </Grid>
 
                 {
-                    localStorage.getItem('employees') > 0 && LocalInfo.branchRole === 'owner' ?
+                    localStorage.getItem('employees') > 1 && LocalInfo.branchRole === 'owner' ?
                         <Grid item xs={2} style={{ paddingTop: "20px", fontSize: '14px' }} >
                             {
                                 collection.status === 'pending' ?
@@ -90,6 +90,19 @@ const SingleCollectionView = props => {
                                         Approved
                                     </>
                             }
+                        </Grid>
+                        : ''
+                }
+
+                {
+                    (!localStorage.getItem('employees')) && LocalInfo.branchRole === 'owner' ?
+                        <Grid item xs={2} style={{ paddingTop: "20px", fontSize: '14px' }} >
+                            <CheckCircleIcon
+                                onClick={disapproveCollection}
+                                style={{fontSize: '30px', color: '#2B8870'}}
+                            />
+                            <br/>
+                            Approved
                         </Grid>
                         : ''
                 }

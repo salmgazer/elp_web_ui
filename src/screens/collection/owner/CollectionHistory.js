@@ -14,7 +14,7 @@ import LocalInfo from "../../../services/LocalInfo";
 
 const CollectionHistory = props => {
     const collection = props.collection;
-
+console.log(collection)
     const backHandler = (event) => {
         /*
         * @change this when employees is ready
