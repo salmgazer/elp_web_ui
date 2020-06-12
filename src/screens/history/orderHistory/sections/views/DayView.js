@@ -90,7 +90,7 @@ const useStyles = makeStyles(theme => ({
                 </Grid>
             </Grid>
                 
-            <CardsSection quantity={orderDetails.quantity} costPrice={orderDetails.costPrice} sellingPrice={orderDetails.sellingPrice} profit={orderDetails.profit} profitName="Expected Profit" />
+            <CardsSection quantity={orderDetails.quantity} costPrice={orderDetails.costPrice} sellingPrice={orderDetails.sellingPrice} profit={orderDetails.profit} profitName="Expected profit" />
             {/* <CardsSection quantity='4' costPrice='300' sellingPrice='400' profit='100' profitName="Amount owed" /> */}
 
             

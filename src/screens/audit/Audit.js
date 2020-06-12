@@ -16,9 +16,6 @@ import Audits from "../../models/audit/Audit";
 import AuditHistory from './sections/AuditHistory';
 import AuditHistoryDetails from './sections/AuditHistoryDetails';
 import GetStartedAudit from "./getStarted/getStartedAudit";
-import paths from "../../utilities/paths";
-import CartService from "../../services/CartService";
-import BranchCustomer from "../../models/branchesCustomer/BranchCustomer";
 
 class Audit extends Component {
     state = {
@@ -29,32 +26,6 @@ class Audit extends Component {
         currentProduct: 0,
         currentAudit: 0,
         auditEntries: [],
-        productList: [
-            {
-                'prod_id': '1',
-                'name': 'Milo Sachet 50g',
-                'image': 'no_image.png',
-                'app': '50',
-                'count': '40',
-                'difference': '10'
-            },
-            {
-                'prod_id': '2',
-                'name': 'Ena pa mackrel',
-                'image': 'no_image.png',
-                'app': '50',
-                'count': '50',
-                'difference': '0'
-            },
-            {
-                'prod_id': '3',
-                'name': 'Gino tomato paste',
-                'image': 'no_image.png',
-                'app': '50',
-                'count': '60',
-                'difference': '-10'
-            }
-        ]
     };
 
     async componentDidMount() {
@@ -94,7 +65,7 @@ class Audit extends Component {
             case 2:
                 return <AuditedProductsView changeAuditedProductsType={this.changeAuditedProductsType.bind(this)} searchAuditedHandler={this.searchAuditedHandler.bind(this)} balanceAllHandler={this.balanceAllHandler.bind(this)} productAdd={this.showAddView.bind(this)} deleteProductHandler={this.deleteProduct.bind(this)} auditEntries={this.state.auditEntries} setView={this.setStepContentView.bind(this)} />;
             case 3:
-                return <AuditHistory setView={this.setStepContentView.bind(this)} auditEntries={this.state.auditEntries} auditProducts={this.showAuditProductsView.bind(this)} />
+                return <AuditHistory setView={this.setStepContentView.bind(this)} auditEntries={this.state.auditEntries} auditProducts={this.showAuditProductsView.bind(this)} deleteProductHandler={this.deleteAuditProduct.bind(this)} />
             case 4:
                 return <AuditHistoryDetails setView={this.setStepContentView.bind(this)} currentAudit={this.state.currentAudit} deleteProductHandler={this.deleteAuditProduct.bind(this)} />
             case 5:
@@ -117,7 +88,7 @@ class Audit extends Component {
         console.log(value)
         try {
             const products = await new AuditService().changeAuditedProductsType(value);
-console.log(products)
+
             this.setState({
                 auditEntries: products,
             });
@@ -274,20 +245,8 @@ const EnhancedAudit = withDatabase(
         audits: database.collections.get(Audits.table).query().observe(),
         auditedEntries: database.collections.get(AuditEntries.table).query(Q.where('auditId' , localStorage.getItem('auditId'))).observe(),
         auditEntriesQuantity: AuditService.auditEntryQuantity(),
-        /*currentCustomer: database.adapter.getLocal("activeCustomer") === null || 0 ? 0 : database.adapter.getLocal("activeCustomer"),
-        cart: database.collections.get('carts').query(Q.where('id' , localStorage.getItem('cartId'))).observe(),
-        branchCustomers: database.collections.get(BranchCustomer.table).query(Q.where('branchId' , LocalInfo.branchId)).observe(),
-        cartEntries: database.collections.get('cart_entries').query(Q.where('cartId' , localStorage.getItem('cartId'))).observe(),*/
     }))(withRouter(Audit))
 );
 
-/*const EnhancedAudit = withDatabase(
-    withObservables(['branchProducts', 'auditedEntries'], ({ branchProducts , database , auditedEntries}) => ({
-        branchProducts: new BranchService(LocalInfo.branchId).getProducts(),
-        auditEntriesQuantity: AuditService.auditEntryQuantity(),
-        audits: database.collections.get(Audits.table).query().observe(),
-        auditedEntries: database.collections.get(AuditEntries.table).query(Q.where('auditId' , localStorage.getItem('auditId'))).observe(),
-    }))(withRouter(Audit))
-);*/
 
 export default EnhancedAudit;

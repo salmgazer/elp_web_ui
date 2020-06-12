@@ -73,13 +73,13 @@ const ProductView = props => {
                     :
                     branchProducts.map((branchProduct) =>
                     <Grid key={branchProduct.productId} item xs={4} style={{padding: '4px 8px' , position: 'relative'}} className={`mx-0 px-1`}>
-                    <div
-                        onClick={addProductHandler.bind(this, branchProduct.productId)}
-                    >
-                        <ProductCard product={branchProduct.product.fetch()}>
-                            
-                        </ProductCard>
-                    </div>
+                        <div
+                            onClick={addProductHandler.bind(this, branchProduct.productId)}
+                        >
+                            <ProductCard product={branchProduct.product.fetch()}>
+                                
+                            </ProductCard>
+                        </div>
                     </Grid>
                     )
                 }

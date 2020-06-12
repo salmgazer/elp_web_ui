@@ -2,16 +2,26 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="f0e589bc-4276-4788-a686-0858c0f1eaa6" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/Drawer/Drawer.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/Drawer/Drawer.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/config/supplierEntities.json" beforeDir="false" afterPath="$PROJECT_DIR$/src/config/supplierEntities.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/models/audit/Audit.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/models/audit/Audit.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/screens/audit/Audit.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/screens/audit/Audit.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/screens/audit/getStarted/getStartedAudit.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/screens/audit/getStarted/getStartedAudit.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/screens/audit/sections/auditedProductsView.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/screens/audit/sections/auditedProductsView.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/screens/audit/sections/searchMode/AuditSearchMode.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/screens/audit/sections/searchMode/AuditSearchMode.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/services/AuditService.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/services/AuditService.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/services/BranchStockService.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/services/BranchStockService.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/screens/audit/sections/AuditHistory.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/screens/audit/sections/AuditHistory.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/screens/audit/sections/AuditHistoryDetails.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/screens/audit/sections/AuditHistoryDetails.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/screens/audit/sections/auditHistory/SingleAuditView.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/screens/audit/sections/auditHistory/SingleAuditView.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/screens/history/invoiceHistory/sections/DayView.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/screens/history/invoiceHistory/sections/DayView.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/screens/history/invoiceHistory/sections/MonthView.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/screens/history/invoiceHistory/sections/MonthView.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/screens/history/invoiceHistory/sections/WeekView.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/screens/history/invoiceHistory/sections/WeekView.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/screens/history/invoiceHistory/sections/YearView.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/screens/history/invoiceHistory/sections/YearView.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/screens/history/orderHistory/sections/views/DayView.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/screens/history/orderHistory/sections/views/DayView.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/screens/history/orderHistory/sections/views/MonthView.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/screens/history/orderHistory/sections/views/MonthView.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/screens/history/orderHistory/sections/views/WeekView.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/screens/history/orderHistory/sections/views/WeekView.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/screens/history/orderHistory/sections/views/YearView.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/screens/history/orderHistory/sections/views/YearView.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/screens/history/purchaseHistory/sections/DayView.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/screens/history/purchaseHistory/sections/DayView.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/screens/history/purchaseHistory/sections/MonthView.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/screens/history/purchaseHistory/sections/MonthView.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/screens/history/purchaseHistory/sections/PurchaseSortDate.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/screens/history/purchaseHistory/sections/PurchaseSortDate.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/screens/history/purchaseHistory/sections/SProductView.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/screens/history/purchaseHistory/sections/SProductView.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/screens/history/purchaseHistory/sections/WeekView.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/screens/history/purchaseHistory/sections/WeekView.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/screens/history/purchaseHistory/sections/YearView.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/screens/history/purchaseHistory/sections/YearView.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/screens/stock/sections/BottomMenu.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/screens/stock/sections/BottomMenu.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/services/PurchaseService.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/services/PurchaseService.js" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -124,7 +134,7 @@
       </usages-collector>
       <usages-collector id="statistics.file.extensions.edit">
         <counts>
-          <entry key="js" value="21186" />
+          <entry key="js" value="21187" />
           <entry key="json" value="374" />
           <entry key="scss" value="21" />
         </counts>
@@ -132,7 +142,7 @@
       <usages-collector id="statistics.file.types.edit">
         <counts>
           <entry key="JSON" value="374" />
-          <entry key="JavaScript" value="21186" />
+          <entry key="JavaScript" value="21187" />
           <entry key="SCSS" value="21" />
         </counts>
       </usages-collector>
@@ -148,8 +158,8 @@
           <file pinned="false" current-in-tab="true">
             <entry file="file://$PROJECT_DIR$/src/screens/audit/Audit.js">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="278">
-                  <caret line="116" column="25" selection-start-line="116" selection-start-column="25" selection-end-line="116" selection-end-column="25" />
+                <state>
+                  <caret line="27" column="25" selection-start-line="27" selection-start-column="25" selection-end-line="27" selection-end-column="25" />
                   <folding>
                     <element signature="e#0#41#0" expanded="true" />
                   </folding>
@@ -160,7 +170,7 @@
           <file pinned="false" current-in-tab="false">
             <entry file="file://$PROJECT_DIR$/src/services/SaleService.js">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="-6118">
+                <state relative-caret-position="-6141">
                   <caret line="23" column="19" selection-start-line="23" selection-end-line="24" />
                 </state>
               </provider>
@@ -169,8 +179,8 @@
           <file pinned="false" current-in-tab="false">
             <entry file="file://$PROJECT_DIR$/src/services/BranchService.js">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="69">
-                  <caret line="32" column="18" lean-forward="true" selection-start-line="32" selection-start-column="18" selection-end-line="32" selection-end-column="18" />
+                <state relative-caret-position="48">
+                  <caret line="32" column="18" selection-start-line="32" selection-start-column="18" selection-end-line="32" selection-end-column="18" />
                 </state>
               </provider>
             </entry>
@@ -178,7 +188,7 @@
           <file pinned="false" current-in-tab="false">
             <entry file="file://$PROJECT_DIR$/src/models/auditEntry/AuditEntries.js">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="380">
+                <state relative-caret-position="360">
                   <caret line="22" column="27" selection-start-line="22" selection-start-column="12" selection-end-line="22" selection-end-column="27" />
                 </state>
               </provider>
@@ -187,7 +197,7 @@
           <file pinned="false" current-in-tab="false">
             <entry file="file://$PROJECT_DIR$/src/screens/audit/sections/auditedProductsView.js">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="90">
+                <state relative-caret-position="36">
                   <caret line="54" column="41" selection-start-line="54" selection-start-column="41" selection-end-line="54" selection-end-column="41" />
                   <folding>
                     <element signature="e#0#38#0" expanded="true" />
@@ -199,7 +209,7 @@
           <file pinned="false" current-in-tab="false">
             <entry file="file://$PROJECT_DIR$/src/screens/audit/sections/viewAdded/AddedSingleView.js">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="-564">
+                <state relative-caret-position="-566">
                   <caret line="8" column="6" selection-start-line="8" selection-start-column="6" selection-end-line="8" selection-end-column="6" />
                 </state>
               </provider>
@@ -208,8 +218,8 @@
           <file pinned="false" current-in-tab="false">
             <entry file="file://$PROJECT_DIR$/src/screens/audit/sections/mainAuditView.js">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="190">
-                  <caret line="10" column="14" lean-forward="true" selection-start-line="10" selection-end-line="11" />
+                <state relative-caret-position="180">
+                  <caret line="10" column="14" selection-start-line="10" selection-end-line="11" />
                 </state>
               </provider>
             </entry>
@@ -217,8 +227,8 @@
           <file pinned="false" current-in-tab="false">
             <entry file="file://$PROJECT_DIR$/src/screens/audit/sections/searchMode/AuditSearchMode.js">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="37">
-                  <caret line="84" column="17" lean-forward="true" selection-start-line="84" selection-start-column="17" selection-end-line="84" selection-end-column="17" />
+                <state relative-caret-position="-37">
+                  <caret line="84" column="17" selection-start-line="84" selection-start-column="17" selection-end-line="84" selection-end-column="17" />
                 </state>
               </provider>
             </entry>
@@ -226,8 +236,8 @@
           <file pinned="false" current-in-tab="false">
             <entry file="file://$PROJECT_DIR$/src/models/audit/Audit.js">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="361">
-                  <caret line="19" column="25" lean-forward="true" selection-start-line="19" selection-start-column="25" selection-end-line="19" selection-end-column="25" />
+                <state relative-caret-position="342">
+                  <caret line="19" column="25" selection-start-line="19" selection-start-column="25" selection-end-line="19" selection-end-column="25" />
                   <folding>
                     <element signature="e#0#44#0" expanded="true" />
                   </folding>
@@ -238,7 +248,7 @@
           <file pinned="false" current-in-tab="false">
             <entry file="file://$PROJECT_DIR$/src/models/saleEntry/SaleEntries.js">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="95">
+                <state relative-caret-position="90">
                   <caret line="5" column="32" selection-start-line="5" selection-start-column="20" selection-end-line="5" selection-end-column="32" />
                   <folding>
                     <element signature="e#0#44#0" expanded="true" />
@@ -254,8 +264,8 @@
           <file pinned="false" current-in-tab="false">
             <entry file="file://$PROJECT_DIR$/src/models/models.js">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="431">
-                  <caret line="45" column="13" lean-forward="true" selection-start-line="45" selection-start-column="13" selection-end-line="45" selection-end-column="13" />
+                <state relative-caret-position="386">
+                  <caret line="45" column="13" selection-start-line="45" selection-start-column="13" selection-end-line="45" selection-end-column="13" />
                   <folding>
                     <element signature="e#0#35#0" expanded="true" />
                   </folding>
@@ -266,7 +276,7 @@
           <file pinned="false" current-in-tab="false">
             <entry file="file://$PROJECT_DIR$/src/models/database.js">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="38">
+                <state relative-caret-position="36">
                   <caret line="2" column="26" selection-start-line="2" selection-start-column="26" selection-end-line="2" selection-end-column="26" />
                 </state>
               </provider>
@@ -286,8 +296,8 @@
           <file pinned="false" current-in-tab="false">
             <entry file="file://$PROJECT_DIR$/src/screens/sell/sell/Sell.js">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="118">
-                  <caret line="173" column="6" lean-forward="true" selection-start-line="173" selection-start-column="6" selection-end-line="173" selection-end-column="6" />
+                <state relative-caret-position="-55">
+                  <caret line="173" column="6" selection-start-line="173" selection-start-column="6" selection-end-line="173" selection-end-column="6" />
                   <folding>
                     <element signature="e#0#39#0" expanded="true" />
                   </folding>
@@ -298,7 +308,7 @@
           <file pinned="false" current-in-tab="false">
             <entry file="file://$PROJECT_DIR$/src/screens/sell/sell/sections/SellView.js">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="213">
+                <state relative-caret-position="27">
                   <caret line="214" column="209" selection-start-line="214" selection-start-column="196" selection-end-line="214" selection-end-column="209" />
                 </state>
               </provider>
@@ -307,7 +317,7 @@
           <file pinned="false" current-in-tab="false">
             <entry file="file://$PROJECT_DIR$/src/screens/sell/sell/sections/SearchMode/SellSearchMode.js">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="480">
+                <state relative-caret-position="376">
                   <caret line="119" column="27" selection-start-line="119" selection-start-column="14" selection-end-line="119" selection-end-column="27" />
                 </state>
               </provider>
@@ -316,8 +326,8 @@
           <file pinned="false" current-in-tab="false">
             <entry file="file://$PROJECT_DIR$/src/screens/sell/cart/Cart.js">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="214">
-                  <caret line="121" column="17" lean-forward="true" selection-start-line="121" selection-start-column="17" selection-end-line="121" selection-end-column="17" />
+                <state relative-caret-position="93">
+                  <caret line="121" column="17" selection-start-line="121" selection-start-column="17" selection-end-line="121" selection-end-column="17" />
                   <folding>
                     <element signature="e#0#39#0" expanded="true" />
                   </folding>
@@ -340,7 +350,7 @@
           <file pinned="false" current-in-tab="false">
             <entry file="file://$PROJECT_DIR$/src/services/BranchStockService.js">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="285">
+                <state relative-caret-position="270">
                   <caret line="21" column="47" selection-start-line="21" selection-start-column="47" selection-end-line="21" selection-end-column="47" />
                 </state>
               </provider>
@@ -359,7 +369,6 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>Quantity</find>
       <find>updateStockEntry</find>
       <find>mt-7</find>
       <find>getSuppliedAmountOwed</find>
@@ -389,6 +398,7 @@
       <find>database</find>
       <find>auditEntryQuantity</find>
       <find>searchHandler</find>
+      <find>productList</find>
     </findStrings>
   </component>
   <component name="Git.Settings">
@@ -446,8 +456,8 @@
         <option value="$PROJECT_DIR$/src/screens/audit/sections/searchMode/AuditSearchMode.js" />
         <option value="$PROJECT_DIR$/src/services/BranchStockService.js" />
         <option value="$PROJECT_DIR$/src/screens/audit/sections/auditedProductsView.js" />
-        <option value="$PROJECT_DIR$/src/screens/audit/Audit.js" />
         <option value="$PROJECT_DIR$/src/services/AuditService.js" />
+        <option value="$PROJECT_DIR$/src/screens/audit/Audit.js" />
       </list>
     </option>
   </component>
@@ -3915,12 +3925,12 @@
       <workItem from="1590696789552" duration="46595000" />
       <workItem from="1591024217198" duration="153331000" />
       <workItem from="1591732361733" duration="614000" />
-      <workItem from="1591814456964" duration="66590000" />
+      <workItem from="1591814456964" duration="66705000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="276361000" />
+    <option name="totallyTimeSpent" value="276476000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="1913" y="-7" width="1550" height="878" extended-state="6" />
@@ -4245,8 +4255,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/screens/sell/cart/Cart.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="214">
-          <caret line="121" column="17" lean-forward="true" selection-start-line="121" selection-start-column="17" selection-end-line="121" selection-end-column="17" />
+        <state relative-caret-position="93">
+          <caret line="121" column="17" selection-start-line="121" selection-start-column="17" selection-end-line="121" selection-end-column="17" />
           <folding>
             <element signature="e#0#39#0" expanded="true" />
           </folding>
@@ -4273,7 +4283,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/models/database.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="38">
+        <state relative-caret-position="36">
           <caret line="2" column="26" selection-start-line="2" selection-start-column="26" selection-end-line="2" selection-end-column="26" />
         </state>
       </provider>
@@ -4307,8 +4317,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/models/models.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="431">
-          <caret line="45" column="13" lean-forward="true" selection-start-line="45" selection-start-column="13" selection-end-line="45" selection-end-column="13" />
+        <state relative-caret-position="386">
+          <caret line="45" column="13" selection-start-line="45" selection-start-column="13" selection-end-line="45" selection-end-column="13" />
           <folding>
             <element signature="e#0#35#0" expanded="true" />
           </folding>
@@ -4327,8 +4337,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/models/audit/Audit.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="361">
-          <caret line="19" column="25" lean-forward="true" selection-start-line="19" selection-start-column="25" selection-end-line="19" selection-end-column="25" />
+        <state relative-caret-position="342">
+          <caret line="19" column="25" selection-start-line="19" selection-start-column="25" selection-end-line="19" selection-end-column="25" />
           <folding>
             <element signature="e#0#44#0" expanded="true" />
           </folding>
@@ -4337,14 +4347,14 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/screens/audit/sections/searchMode/AuditSearchMode.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="37">
-          <caret line="84" column="17" lean-forward="true" selection-start-line="84" selection-start-column="17" selection-end-line="84" selection-end-column="17" />
+        <state relative-caret-position="-37">
+          <caret line="84" column="17" selection-start-line="84" selection-start-column="17" selection-end-line="84" selection-end-column="17" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/models/saleEntry/SaleEntries.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="95">
+        <state relative-caret-position="90">
           <caret line="5" column="32" selection-start-line="5" selection-start-column="20" selection-end-line="5" selection-end-column="32" />
           <folding>
             <element signature="e#0#44#0" expanded="true" />
@@ -4354,29 +4364,29 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/services/BranchStockService.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="285">
+        <state relative-caret-position="270">
           <caret line="21" column="47" selection-start-line="21" selection-start-column="47" selection-end-line="21" selection-end-column="47" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/screens/sell/sell/sections/SearchMode/SellSearchMode.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="480">
+        <state relative-caret-position="376">
           <caret line="119" column="27" selection-start-line="119" selection-start-column="14" selection-end-line="119" selection-end-column="27" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/screens/sell/sell/sections/SellView.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="213">
+        <state relative-caret-position="27">
           <caret line="214" column="209" selection-start-line="214" selection-start-column="196" selection-end-line="214" selection-end-column="209" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/screens/sell/sell/Sell.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="118">
-          <caret line="173" column="6" lean-forward="true" selection-start-line="173" selection-start-column="6" selection-end-line="173" selection-end-column="6" />
+        <state relative-caret-position="-55">
+          <caret line="173" column="6" selection-start-line="173" selection-start-column="6" selection-end-line="173" selection-end-column="6" />
           <folding>
             <element signature="e#0#39#0" expanded="true" />
           </folding>
@@ -4385,55 +4395,45 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/services/BranchService.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="69">
-          <caret line="32" column="18" lean-forward="true" selection-start-line="32" selection-start-column="18" selection-end-line="32" selection-end-column="18" />
+        <state relative-caret-position="48">
+          <caret line="32" column="18" selection-start-line="32" selection-start-column="18" selection-end-line="32" selection-end-column="18" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/services/SaleService.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-6118">
+        <state relative-caret-position="-6141">
           <caret line="23" column="19" selection-start-line="23" selection-end-line="24" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/models/auditEntry/AuditEntries.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="380">
+        <state relative-caret-position="360">
           <caret line="22" column="27" selection-start-line="22" selection-start-column="12" selection-end-line="22" selection-end-column="27" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/screens/audit/sections/viewAdded/AddedSingleView.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-564">
+        <state relative-caret-position="-566">
           <caret line="8" column="6" selection-start-line="8" selection-start-column="6" selection-end-line="8" selection-end-column="6" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/screens/audit/sections/mainAuditView.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="190">
-          <caret line="10" column="14" lean-forward="true" selection-start-line="10" selection-end-line="11" />
+        <state relative-caret-position="180">
+          <caret line="10" column="14" selection-start-line="10" selection-end-line="11" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/screens/audit/sections/auditedProductsView.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="90">
+        <state relative-caret-position="36">
           <caret line="54" column="41" selection-start-line="54" selection-start-column="41" selection-end-line="54" selection-end-column="41" />
           <folding>
             <element signature="e#0#38#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/screens/audit/Audit.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="278">
-          <caret line="116" column="25" selection-start-line="116" selection-start-column="25" selection-end-line="116" selection-end-column="25" />
-          <folding>
-            <element signature="e#0#41#0" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -4444,6 +4444,16 @@
           <caret line="68" selection-start-line="68" selection-end-line="68" />
           <folding>
             <element signature="e#0#36#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/screens/audit/Audit.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state>
+          <caret line="27" column="25" selection-start-line="27" selection-start-column="25" selection-end-line="27" selection-end-column="25" />
+          <folding>
+            <element signature="e#0#41#0" expanded="true" />
           </folding>
         </state>
       </provider>

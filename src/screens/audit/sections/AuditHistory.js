@@ -120,7 +120,7 @@ const AuditHistory = props => {
                     </div>
                     :
 
-                    auditList.map((audit) => <SingleAuditView  key={audit.id} dateAudited={audit} setView={props.setView} auditProducts={auditProducts.bind(this, audit.id)} />)  
+                    auditList.map((audit) => <SingleAuditView  key={audit.id} dateAudited={audit} setView={props.setView} auditProducts={auditProducts.bind(this, audit.id)} deleteAuditEntry={props.deleteProductHandler} />)  
 
                 }
 

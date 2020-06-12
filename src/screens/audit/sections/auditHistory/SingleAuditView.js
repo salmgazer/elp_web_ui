@@ -3,6 +3,7 @@ import Grid from "@material-ui/core/Grid/Grid";
 import AccessTimeIcon from '@material-ui/icons/AccessTime';
 import Button from "@material-ui/core/Button/Button";
 import format from "date-fns/format";
+import DeleteIcon from '@material-ui/icons/Delete';
 
 const SingleAuditView = props => {
     const dateAudit = props.dateAudited;
@@ -11,6 +12,10 @@ const SingleAuditView = props => {
     //    props.setView(1);
     // };
 
+    const deleteHistoryHandler = (pId) => {
+        console.log(pId)
+        props.deleteAuditEntry(pId);
+    };
 
     return(
         <div>
@@ -19,7 +24,7 @@ const SingleAuditView = props => {
                     <AccessTimeIcon />
                 </Grid>
 
-                <Grid item xs={7} style={{display: 'table', height: '60px', margin: '8px 0px'}}>
+                <Grid item xs={5} style={{display: 'table', height: '60px', margin: '8px 0px'}}>
                     <div style={{textAlign: 'left', display: 'table-cell', verticalAlign: 'middle'}}>
                         <span className='text-dark font-weight-bold' >{format(new Date(dateAudit.createdAt) , "do MMMM, yyyy")} </span>
                         <div className="font-weight-light mt-1" style={{ fontSize: '13px'}}>{format(new Date(dateAudit.createdAt) , "h:mm a")}</div>
@@ -33,7 +38,7 @@ const SingleAuditView = props => {
                     </div>
                 </Grid>
 
-                <Grid item xs={3} style={{ marginTop: '20px'}}>  
+                <Grid item xs={5} style={{ marginTop: '20px'}}>  
                     <Button
                         variant="outlined"
                         style={{border: '1px solid #DAAB59', color: '#DAAB59', padding: '5px 10px', textTransform: 'none', fontSize:'13px'}}
@@ -41,6 +46,12 @@ const SingleAuditView = props => {
                     >
                         View  
                     </Button>
+                    <div className={`deleteIcon2 shadow1 text-center`} style={{display: 'inline-block' , marginRight:'5px'}}>
+                        <DeleteIcon
+                            onClick={deleteHistoryHandler.bind(this , dateAudit.id)}
+                            style={{fontSize: '20px', color: '#DAAB59', marginTop: '5px'}}
+                        />
+                    </div>
                 </Grid>
             </Grid>
 
