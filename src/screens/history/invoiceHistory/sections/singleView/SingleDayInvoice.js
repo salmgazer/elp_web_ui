@@ -91,7 +91,7 @@ const SingleDayInvoice = props => {
                             textAlign: 'center'
                         }}
                     >
-                        {'C'}
+                        {(customer.firstName).charAt(0).toUpperCase()}
                     </Avatar>
                 </Grid>
                 <Grid item xs={5} style={{display: 'table', height: '60px', margin: '8px 0px'}} onClick={openDialogHandler.bind(this)} >

@@ -9,7 +9,7 @@ import 'react-confirm-alert/src/react-confirm-alert.css';
 import Snackbar from '@material-ui/core/Snackbar';
 import MuiAlert from '@material-ui/lab/Alert';
 import SimpleSnackbar from "../../../components/Snackbar/SimpleSnackbar";
-import ArrowBackIosIcon from '@material-ui/icons/ArrowBackIos';
+import ArrowBackIcon from '@material-ui/icons/ArrowBack';
 import SectionNavbars from "../../../components/Sections/SectionNavbars";
 import ProductServiceHandler from '../../../services/ProductServiceHandler';
 import BranchProductService from "../../../services/BranchProductService";
@@ -150,7 +150,7 @@ const AddAuditProductView = props => {
                 title={`Audit`}
                 leftIcon={
                     <div onClick={() => props.setView(0)}>
-                        <ArrowBackIosIcon
+                        <ArrowBackIcon
                             style={{fontSize: '2rem'}}
                         />
                     </div>

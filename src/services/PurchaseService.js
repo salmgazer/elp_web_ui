@@ -251,11 +251,11 @@ export default class PurchaseService {
         let sellingPrice = 0;
 
         for (let step = 0; step < purchase.length; step++) {
-            costPrice += parseFloat(await BranchStockService.getStockEntryCostPriceById(purchase[step].id));
+            costPrice += parseFloat(await BranchStockService.getStockEntryCostPriceById(purchase[step].id)).toFixed(2);
         }
 
         for (let step = 0; step < purchase.length; step++) {
-            quantity += parseFloat(await BranchStockService.getStockProductQuantity(purchase[step].id));
+            quantity += parseFloat(await BranchStockService.getStockProductQuantity(purchase[step].id)).toFixed(2);
 
             const branchProduct = await new ModelAction('BranchProduct').findByColumnNotObserve({
                 name: 'productId',
@@ -266,12 +266,12 @@ export default class PurchaseService {
             if(branchProduct.length !== 0){
                 const sell = quantity * branchProduct[0].sellingPrice;
 
-                sellingPrice = parseFloat(sell);
+                sellingPrice = parseFloat(sell).toFixed(2);
             }
 
         }
 
-        profit = sellingPrice - costPrice;
+        profit = parseFloat(sellingPrice - costPrice).toFixed(2);
 
         if (duration === 'week') {
             purchase = await PurchaseService.weekSalesFormat(purchase);
@@ -300,11 +300,11 @@ export default class PurchaseService {
         let sellingPrice = 0;
 
         for (let step = 0; step < purchase.length; step++) {
-            costPrice += parseFloat(await BranchStockService.getStockEntryCostPriceById(purchase[step].id));
+            costPrice += parseFloat(await BranchStockService.getStockEntryCostPriceById(purchase[step].id)).toFixed(2);
         }
 
         for (let step = 0; step < purchase.length; step++) {
-            quantity += parseFloat(await BranchStockService.getStockProductQuantity(purchase[step].id));
+            quantity += parseFloat(await BranchStockService.getStockProductQuantity(purchase[step].id)).toFixed(2);
 
             const branchProduct = await new ModelAction('BranchProduct').findByColumnNotObserve({
                 name: 'productId',
@@ -315,7 +315,7 @@ export default class PurchaseService {
             if(branchProduct.length !== 0){
                 const sell = quantity * branchProduct[0].sellingPrice;
 
-                sellingPrice = parseFloat(sell);
+                sellingPrice = parseFloat(sell).toFixed(2);
             }
         }
 
@@ -323,7 +323,7 @@ export default class PurchaseService {
             profit += parseFloat(await BranchStockService.getStockEntryProfitById(purchase[step].id));
         }
 
-        profit = sellingPrice - costPrice;
+        profit = parseFloat(sellingPrice - costPrice).toFixed(2);
 
         if (duration === 'week') {
             purchase = await PurchaseService.weekSalesFormat(purchase);

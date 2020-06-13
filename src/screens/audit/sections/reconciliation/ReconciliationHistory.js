@@ -1,6 +1,6 @@
 import React, {useState} from 'react';
 import SectionNavbar from '../../../../components/Sections/SectionNavbars';
-import ArrowBackIosIcon from '@material-ui/icons/ArrowBackIos';
+import ArrowBackIcon from '@material-ui/icons/ArrowBack';
 import MoreVertIcon from '@material-ui/icons/MoreVert';
 import SystemDate from '../../../../components/Date/SystemDate';
 import Grid from '@material-ui/core/Grid';
@@ -32,7 +32,7 @@ const ReconciliationHistory = props => {
                 title={`Reconciliation history`}
                 leftIcon={
                     <div onClick={backHandler.bind(this)}>
-                        <ArrowBackIosIcon
+                        <ArrowBackIcon
                             style={{fontSize: '2rem'}}
                         />
                     </div>

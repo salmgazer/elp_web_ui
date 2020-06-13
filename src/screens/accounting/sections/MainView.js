@@ -13,6 +13,7 @@ import SwipeableViews from "react-swipeable-views";
 import TabPanel from "../../../components/Tabs/TabPanel";
 import Box from "@material-ui/core/Box/Box";
 import Button from "@material-ui/core/Button/Button";
+import Drawer from "../../../components/Drawer/Drawer";
 
 import ViewCashIn from './ViewCashIn';
 import ViewReport from './ViewReport';
@@ -125,6 +126,7 @@ const cashInValues = [
 const MainView = props => {
     const classes = useStyles();
     const [value , setValue] = useState(0);
+    const [isDrawerShow , setIsDrawerShow] = useState(false);
     const a11yProps = (index) => {
         return {
             id: `full-width-tab-${index}`,
@@ -181,11 +183,21 @@ const MainView = props => {
                     style={{fontSize: '2rem'}}
                 />
                 }
+                leftIcon={
+                    <div onClick={() => setIsDrawerShow(true)}>
+                        <MenuIcon
+                            style={{fontSize: '2rem'}}
+                        />
+                    </div>
+                }
+            />
+
+            <div
+                onClick={() => setIsDrawerShow(false)}
+                onKeyDown={() => setIsDrawerShow(false)}
             >
-                <MenuIcon
-                    style={{fontSize: '2rem'}}
-                />
-            </SectionNavbar>
+                <Drawer isShow={isDrawerShow} />
+            </div>
 
             <Grid container spacing={1} className={classes.root} >
                 <Grid item xs={4}>

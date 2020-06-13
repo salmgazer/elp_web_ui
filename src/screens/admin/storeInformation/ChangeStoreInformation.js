@@ -16,6 +16,7 @@ import {TextValidator, ValidatorForm} from "react-material-ui-form-validator";
 import FormControl from "@material-ui/core/FormControl/FormControl";
 import LocationModal from '../../../components/Modal/option/LocationModal';
 import Select from "@material-ui/core/Select/Select";
+import ArrowBackIcon from '@material-ui/icons/ArrowBack';
 
 const useStyles = makeStyles(theme => ({
     root: {
@@ -101,8 +102,8 @@ const AddBranch = props => {
             <SectionNavbars
                 title="Shop information"
                 leftIcon={
-                    <div onClick={() => history.push(paths.admin)}>
-                        <ArrowBackIosIcon
+                    <div onClick={() => history.goBack()} >
+                        <ArrowBackIcon
                             style={{fontSize: '2rem'}}
                         />
                     </div>

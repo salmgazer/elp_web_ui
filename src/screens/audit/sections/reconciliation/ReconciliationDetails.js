@@ -1,7 +1,7 @@
 import React, {useState} from 'react';
 // import { makeStyles } from '@material-ui/core/styles';
 import SectionNavbar from '../../../../components/Sections/SectionNavbars';
-import ArrowBackIosIcon from '@material-ui/icons/ArrowBackIos';
+import ArrowBackIcon from '@material-ui/icons/ArrowBack';
 import MoreVertIcon from '@material-ui/icons/MoreVert';
 import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
@@ -50,7 +50,7 @@ const ReconciliationDetails = props => {
                 title={`Reconciliation report`}
                 leftIcon={
                     <div onClick={setView.bind(this , 6)}>
-                        <ArrowBackIosIcon
+                        <ArrowBackIcon
                             style={{fontSize: '2rem'}}
                         />
                     </div>

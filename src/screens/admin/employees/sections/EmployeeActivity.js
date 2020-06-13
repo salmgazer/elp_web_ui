@@ -1,11 +1,8 @@
 import React, {useState} from 'react';
-import {makeStyles} from "@material-ui/core";
 import {withRouter} from "react-router";
-import ArrowBackIosIcon from '@material-ui/icons/ArrowBackIos';
 import Grid from '@material-ui/core/Grid';
 import Paper from '@material-ui/core/Paper';
 import Box from "@material-ui/core/Box/Box";
-import Typography from '@material-ui/core/Typography';
 import Button from "@material-ui/core/Button/Button";
 import TextField from '@material-ui/core/TextField';
 import MoreVertIcon from '@material-ui/icons/MoreVert';
@@ -16,12 +13,12 @@ import CloudUploadIcon from '@material-ui/icons/CloudUpload';
 import FileCopyIcon from '@material-ui/icons/FileCopy';
 import PrintIcon from '@material-ui/icons/Print';
 import ListItemText from '@material-ui/core/ListItemText';
+import ArrowBackIcon from '@material-ui/icons/ArrowBack';
+
 
 import SectionNavbars from "../../../../components/Sections/SectionNavbars";
-import BottomMenu from '../singlePages/BottomMenu';
 import SingleActivity from '../singlePages/SingleActivity';
 import BottomDrawer from "../../../../components/Drawer/BottomDrawer/BottomDrawer";
-import BoxDefault from '../../../../components/Box/BoxDefault';
 import SystemDate from '../../../../components/Date/SystemDate';
 
 const values = [
@@ -58,7 +55,7 @@ const EmployeeActivity = props => {
                 title="Activities"
                 leftIcon={
                     <div onClick={backHandler.bind(this)}>
-                        <ArrowBackIosIcon
+                        <ArrowBackIcon
                             style={{fontSize: '2rem'}}
                         />
                     </div>

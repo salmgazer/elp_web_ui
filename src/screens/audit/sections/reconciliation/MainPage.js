@@ -1,6 +1,5 @@
 import React , {useState} from 'react';
-import SectionNavbar from '../../../../components/Sections/SectionNavbars';
-import ArrowBackIosIcon from '@material-ui/icons/ArrowBackIos';
+import SectionNavbars from '../../../../components/Sections/SectionNavbars';
 import Box from "@material-ui/core/Box/Box";
 import Wallet from '../../../../assets/img/wallet.png';
 import Paper from '@material-ui/core/Paper';
@@ -10,11 +9,14 @@ import Dates from '../../../../components/Date/Date';
 import Button from "@material-ui/core/Button/Button";
 import DateTogglerGrouped from "../../../../components/DateToggle/DateTogglerGrouped";
 import subDays from 'date-fns/subDays';
+import MenuIcon from '@material-ui/icons/Menu';
+import Drawer from "../../../../components/Drawer/Drawer";
 
 const MainPage = props => {
     const [variant, setVariant] = useState('day');
     const [startDay , setDay] = useState(subDays(new Date() , 1));
     const [endDay , setEndDay] = useState(new Date());
+    const [isDrawerShow , setIsDrawerShow] = useState(false);
 
     const changeView = (event) => {
         props.setView(6);
@@ -46,16 +48,23 @@ const MainPage = props => {
 
     return (
         <div>
-            <SectionNavbar
-                title="Reconciliation"
+            <SectionNavbars
+                title={`Reconciliation`}
                 leftIcon={
-                    <div>
-                        <ArrowBackIosIcon
+                    <div onClick={() => setIsDrawerShow(true)}>
+                        <MenuIcon
                             style={{fontSize: '2rem'}}
                         />
                     </div>
                 }
             />
+
+            <div
+                onClick={() => setIsDrawerShow(false)}
+                onKeyDown={() => setIsDrawerShow(false)}
+            >
+                <Drawer isShow={isDrawerShow} />
+            </div>
 
             <Box component="div" m={2} style={{marginTop: '100px'}}>
                 <img className="img100" src={Wallet} alt={'test'}/>

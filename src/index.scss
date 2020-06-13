@@ -316,6 +316,29 @@ code {
   align-items: center;
   margin: auto 0px;
 }
+.textItem {
+  flex: 1;
+  width: 60px;
+  height: 30px;
+  color: #333333;
+  font-size: 15px;
+  border-radius: 3px;
+  justify-content: center;
+  align-items: center;
+  padding: 5px;
+}
+.specialDelete {
+  flex: 1;
+  width: 50px;
+  height: 40px;
+  color: #333333;
+  font-size: 12px;
+  line-height: 12px;
+  border-radius: 3px;
+  justify-content: center;
+  align-items: center;
+  margin: auto 0px;
+}
 
 .darkHeader{
   color: #333333;

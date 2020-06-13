@@ -113,7 +113,7 @@ const StockMainPage = props => {
                                 <ListItemIcon><LibraryAddIcon style={{color: '#707070'}} /></ListItemIcon>
                                 <ListItemText primary="Move stock between branches" />
                             </ListItem>*/}
-                            <ListItem button key={8}>
+                            <ListItem button key={8} onClick={() => history.push(paths.add_products)} >
                                 <ListItemIcon><ArrowForwardOutlinedIcon style={{color: '#707070'}} /></ListItemIcon>
                                 <ListItemText primary="Request for new product" />
                             </ListItem>

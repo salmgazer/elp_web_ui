@@ -52,7 +52,7 @@ export default class OrderService {
     }
 
     async getOrderDetails(duration , date) {
-        const order = (await OrderService.getOrderHistory(duration , date)).reverse();
+        const order = (await OrderService.getOrderHistory(duration , date));
         console.log(order);
         let costPrice = 0;
         let profit = 0;
@@ -60,15 +60,15 @@ export default class OrderService {
         let quantity = 0;
 
         for (let step = 0; step < order.length; step++) {
-            costPrice += parseFloat(await BranchStockService.getStockEntryCostPriceById(order[step].id));
+            costPrice += parseFloat(await BranchStockService.getStockEntryCostPriceById(order[step].id)).toFixed(2);
         }
 
         for (let step = 0; step < order.length; step++) {
-            profit += parseFloat(await BranchStockService.getStockEntryProfitById(order[step].id));
+            profit += parseFloat(await BranchStockService.getStockEntryProfitById(order[step].id)).toFixed(2);
         }
 
         for (let step = 0; step < order.length; step++) {
-            quantity += parseFloat(await BranchStockService.getStockProductQuantity(order[step].id));
+            quantity += parseFloat(await BranchStockService.getStockProductQuantity(order[step].id)).toFixed(2);
 
             const branchProduct = await new ModelAction('BranchProduct').findByColumnNotObserve({
                 name: 'productId',
@@ -77,13 +77,13 @@ export default class OrderService {
             });
             const sell = quantity * branchProduct[0].sellingPrice;
 
-            sellingPrice = parseFloat(sell);
+            sellingPrice = parseFloat(sell).toFixed(2);
         }
 
-        profit = sellingPrice - costPrice;
+        profit = parseFloat(sellingPrice - costPrice).toFixed(2);
 
         return {
-            orders: order,
+            orders: order.reverse(),
             costPrice,
             profit,
             sellingPrice,

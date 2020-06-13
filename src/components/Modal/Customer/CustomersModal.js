@@ -19,12 +19,12 @@ const CustomersModal = props => {
     return (
         <div>
             <MainDialog handleDialogClose={props.handleClose} states={openState} >
-                <div className="row p-3 pt-0 mx-auto text-center w-100" >
+                <div className="row pt-0 mx-auto text-center w-100" >
 
                     <Typography
                         component="h2"
                         variant="h5"
-                        style={{fontSize: '18px' , paddingBottom: '20px'}}
+                        style={{fontSize: '18px' , padding: '20px 0px'}}
                         className={`text-center mb-2 mx-auto w-100 text-dark font-weight-bold`}
                     >
                         Assign customer to cart

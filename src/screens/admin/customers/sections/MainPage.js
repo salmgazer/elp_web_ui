@@ -1,15 +1,14 @@
-import React, {useState} from "react";
+import React from "react";
 import { withRouter } from "react-router-dom";
 import Component from "@reactions/component";
 import paths from "../../../../utilities/paths";
 import CssBaseline from "@material-ui/core/CssBaseline/CssBaseline";
-import ArrowBackIosIcon from '@material-ui/icons/ArrowBackIos';
 import Box from "@material-ui/core/Box/Box";
 import CustomerImg from "../../../../assets/img/customer.png";
 import Button from "@material-ui/core/Button/Button";
 import BoxDefault from "../../../../components/Box/BoxDefault";
 import SectionNavbars from "../../../../components/Sections/SectionNavbars";
-
+import ArrowBackIcon from '@material-ui/icons/ArrowBack';
 
 const Customers = props => {
 
@@ -33,8 +32,8 @@ const Customers = props => {
                         <SectionNavbars
                             title="Customers"
                             leftIcon={
-                                <div onClick={() => history.push(paths.admin)}>
-                                    <ArrowBackIosIcon
+                                <div onClick={() => history.goBack()} >
+                                    <ArrowBackIcon
                                         style={{fontSize: '2rem'}}
                                     />
                                 </div>

@@ -2,8 +2,6 @@ import React, {useState} from "react";
 import { withRouter } from "react-router-dom";
 import {makeStyles, withStyles} from "@material-ui/core";
 import SectionNavbars from "../../../components/Sections/SectionNavbars";
-import ArrowBackIosIcon from '@material-ui/icons/ArrowBackIos';
-import paths from "../../../utilities/paths";
 import Grid from '@material-ui/core/Grid';
 import Paper from '@material-ui/core/Paper';
 import Radio from '@material-ui/core/Radio';
@@ -16,6 +14,7 @@ import {TextValidator, ValidatorForm} from "react-material-ui-form-validator";
 import FormControl from "@material-ui/core/FormControl/FormControl";
 import LocationModal from '../../../components/Modal/option/LocationModal';
 import Select from "@material-ui/core/Select/Select";
+import ArrowBackIcon from '@material-ui/icons/ArrowBack';
 
 const useStyles = makeStyles(theme => ({
     root: {
@@ -101,8 +100,8 @@ const AddBranch = props => {
             <SectionNavbars
                 title="Add Branch"
                 leftIcon={
-                    <div onClick={() => history.push(paths.admin)}>
-                        <ArrowBackIosIcon
+                    <div onClick={() => history.goBack()} >
+                        <ArrowBackIcon
                             style={{fontSize: '2rem'}}
                         />
                     </div>
@@ -228,7 +227,7 @@ const AddBranch = props => {
                 <Button
                     variant="outlined"
                     style={{border: '1px solid #DAAB59', color: '#DAAB59', padding: '5px 50px', marginRight: '10px', textTransform: 'Capitalize'}}
-                    onClick={() => history.push(paths.admin)}
+                    onClick={() => history.goBack()}
                 >
                     Back
                 </Button>

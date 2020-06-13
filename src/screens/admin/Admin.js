@@ -10,13 +10,11 @@ import {makeStyles} from "@material-ui/core";
 import Paper from '@material-ui/core/Paper';
 import ButtonBase from '@material-ui/core/ButtonBase';
 import ArrowForwardIosIcon from '@material-ui/icons/ArrowForwardIos';
-import Woman from '../../assets/img/woman.jpg';
+import Avatar from "@material-ui/core/Avatar";
 import Typography from "@material-ui/core/Typography/Typography";
 import SectionNavbars from "../../components/Sections/SectionNavbars";
 import Drawer from "../../components/Drawer/Drawer";
 import MenuIcon from '@material-ui/icons/Menu';
-import MoreVertIcon from '@material-ui/icons/MoreVert';
-import Container from "@material-ui/core/Container/Container";
 import LocalInfo from "../../services/LocalInfo";
 
 const useStyles = makeStyles(theme => ({
@@ -62,13 +60,7 @@ const useStyles = makeStyles(theme => ({
 
 const Admin = props => {
     const classes = useStyles();
-    const [isShowDrawer , setIsShowDrawer] = useState(false);
     const [isDrawerShow , setIsDrawerShow] = useState(false);
-
-    /*
-    * @todo replace user name with localInfo details.
-    * */
-    const username = JSON.parse(localStorage.getItem('userDetails')).firstName;
 
     const { history } = props;
 
@@ -85,17 +77,10 @@ const Admin = props => {
 
 
                         <SectionNavbars
-                            title="Stock"
+                            title="Admin"
                             leftIcon={
                                 <div onClick={() => setIsDrawerShow(true)}>
                                     <MenuIcon
-                                        style={{fontSize: '2rem'}}
-                                    />
-                                </div>
-                            }
-                            icons={
-                                <div onClick={() => setIsShowDrawer(true)}>
-                                    <MoreVertIcon
                                         style={{fontSize: '2rem'}}
                                     />
                                 </div>
@@ -112,12 +97,22 @@ const Admin = props => {
                         <div style={{ position: "fixed", top:"80px", width:"100%" }}>
                             <Paper className={classes.paper}>
                                 <Grid container spacing={2}>
-                                    <Grid item xs={4} sm>
-                                        <ButtonBase className={classes.image}>
-                                            <img className={classes.img} alt="complex" src={Woman} style={{width: "60px" , height: "60px" , borderRadius: "50%"}}></img>
-                                        </ButtonBase>
+                                    <Grid item xs={3} sm>
+                                        <Avatar
+                                            alt={LocalInfo.userFullName}
+                                            className={classes.primaryColor}
+                                            style={{
+                                                width: "60px",
+                                                height: "60px",
+                                                borderRadius: "50%",
+                                                margin: '5px auto',
+                                                textAlign: 'center'
+                                            }}
+                                        >
+                                            {(LocalInfo.userFullName).charAt(0).toUpperCase()}
+                                        </Avatar>
                                     </Grid>
-                                    <Grid item xs={6} sm container>
+                                    <Grid item xs={7} sm container>
                                         <Grid item xs container direction="column" spacing={2} style={{textAlign: "left"}}>
                                             <Grid item xs>
                                                 <Typography style={{fontSize: "1rem" , fontWeight: "600"}}>

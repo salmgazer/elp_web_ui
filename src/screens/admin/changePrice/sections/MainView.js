@@ -88,7 +88,7 @@ const MainView = props => {
                 <Button
                     variant="contained"
                     style={{'backgroundColor': '#DAAB59' , color: '#333333', padding: '5px 20px', fontSize: '14px'}}
-                    onClick={() => history.push(paths.admin)}
+                    onClick={() => history.goBack()}
                     className={`capitalization font-weight-bold text-dark`}
                 >
                     Cancel

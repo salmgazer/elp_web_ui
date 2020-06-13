@@ -4,13 +4,13 @@ import {makeStyles} from "@material-ui/core";
 import SectionNavbars from "../../../../components/Sections/SectionNavbars";
 import SearchInput from "../../../Components/Input/SearchInput";
 import CustomerImg from "../../../../assets/img/customer.png";
-import ArrowBackIosIcon from '@material-ui/icons/ArrowBackIos';
 import Grid from '@material-ui/core/Grid';
 import SingleCustomer from './singleViews/SingleCustomer';
 import Box from "@material-ui/core/Box/Box";
 import Button from "@material-ui/core/Button/Button";
 import Typography from '@material-ui/core/Typography';
 import AddCustomerModal from "../../../../components/Modal/Customer/AddCustomerModal";
+import ArrowBackIcon from '@material-ui/icons/ArrowBack';
 
 const useStyles = makeStyles(theme => ({
     root: {
@@ -62,7 +62,7 @@ const ViewCustomers = props => {
                 title="Customers"
                 leftIcon={
                     <div onClick={changeView.bind(this)}>
-                        <ArrowBackIosIcon
+                        <ArrowBackIcon
                             style={{fontSize: '2rem'}}
                         />
                     </div>

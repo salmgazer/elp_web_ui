@@ -38,19 +38,21 @@ const SingleAuditView = props => {
                     </div>
                 </Grid>
 
-                <Grid item xs={5} style={{ marginTop: '20px'}}>  
-                    <Button
-                        variant="outlined"
-                        style={{border: '1px solid #DAAB59', color: '#DAAB59', padding: '5px 10px', textTransform: 'none', fontSize:'13px'}}
-                        onClick={props.auditProducts}
-                    >
-                        View  
-                    </Button>
-                    <div className={`deleteIcon2 shadow1 text-center`} style={{display: 'inline-block' , marginRight:'5px'}}>
-                        <DeleteIcon
-                            onClick={deleteHistoryHandler.bind(this , dateAudit.id)}
-                            style={{fontSize: '20px', color: '#DAAB59', marginTop: '5px'}}
-                        />
+                <Grid item xs={3} style={{height: '60px', margin: '13px 0px'}}>
+                    <div style={{ width:'100%'}}>
+                        <div className={`textItem shadow1 text-center`} style={{display: 'inline-block'}}>
+                            <div onClick={props.auditProducts} >View</div>
+                        </div>
+                    </div>
+                </Grid>
+                <Grid item xs={2} style={{height: '60px', margin: '13px 0px'}}>
+                    <div style={{ width:'100%'}}>
+                        <div className={`specialDelete shadow1 text-center`} style={{display: 'inline-block' , marginRight:'5px'}}>
+                            <DeleteIcon
+                                onClick={deleteHistoryHandler.bind(this , dateAudit.id)}
+                                style={{fontSize: '1.5rem', color: '#DAAB59', marginTop: '5px'}}
+                            />
+                        </div>
                     </div>
                 </Grid>
             </Grid>

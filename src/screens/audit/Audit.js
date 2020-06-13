@@ -20,7 +20,7 @@ import GetStartedAudit from "./getStarted/getStartedAudit";
 class Audit extends Component {
     state = {
         isDrawerShow: false,
-        activeStep: 5,
+        activeStep: 3,
         spCount: 0,
         branchProducts: [],
         currentProduct: 0,
@@ -67,7 +67,7 @@ class Audit extends Component {
             case 3:
                 return <AuditHistory setView={this.setStepContentView.bind(this)} auditEntries={this.state.auditEntries} auditProducts={this.showAuditProductsView.bind(this)} deleteProductHandler={this.deleteAuditProduct.bind(this)} />
             case 4:
-                return <AuditHistoryDetails setView={this.setStepContentView.bind(this)} currentAudit={this.state.currentAudit} deleteProductHandler={this.deleteAuditProduct.bind(this)} />
+                return <AuditHistoryDetails setView={this.setStepContentView.bind(this)} changeAuditedProductsType={this.changeSingleProductsType.bind(this)} currentAudit={this.state.currentAudit} deleteProductHandler={this.deleteAuditProduct.bind(this)} searchAuditedHandler={this.searchAuditedHandler.bind(this)} />
             case 5:
                 return <GetStartedAudit setView={this.setStepContentView.bind(this)} />
             default:
@@ -91,6 +91,22 @@ class Audit extends Component {
 
             this.setState({
                 auditEntries: products,
+            });
+        }catch (e) {
+            return false
+        }
+    };
+
+    /*
+    * Set changeAuditedProductsType
+    * */
+    changeSingleProductsType = async (value) => {
+        console.log(value)
+        try {
+            const products = await new AuditService().changeAuditedProductsType(value);
+
+            this.setState({
+                currentAudit: products
             });
         }catch (e) {
             return false
@@ -156,7 +172,7 @@ class Audit extends Component {
     /*
     * View a products stock
     * */
-    showAuditProductsView = (auditId) => {
+    showAuditProductsView = (auditId, step) => {
         const old_list = this.state.auditEntries;
 
         //Find index of specific object using findIndex method.
@@ -164,7 +180,7 @@ class Audit extends Component {
 
         this.setState({
             currentAudit: itemIndex,
-            activeStep: 4
+            activeStep: step
         });
     };
 

@@ -8,7 +8,6 @@ import {makeStyles, withStyles} from "@material-ui/core";
 import Paper from '@material-ui/core/Paper';
 import ButtonBase from '@material-ui/core/ButtonBase';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
-import ArrowBackIosIcon from '@material-ui/icons/ArrowBackIos';
 import Typography from "@material-ui/core/Typography/Typography";
 import SectionNavbars from "../../../components/Sections/SectionNavbars";
 import Box from "@material-ui/core/Box/Box";
@@ -27,6 +26,10 @@ import IconButton from "@material-ui/core/IconButton/IconButton";
 import Visibility from "@material-ui/core/SvgIcon/SvgIcon";
 import clsx from 'clsx';
 import Input from '@material-ui/core/Input';
+import ArrowBackIcon from '@material-ui/icons/ArrowBack';
+import Avatar from "@material-ui/core/Avatar";
+import LocalInfo from "../../../services/LocalInfo";
+
 
 const GreenCheckbox = withStyles({
     root: {
@@ -133,8 +136,8 @@ const AccountInformation = props => {
                         <SectionNavbars
                             title="Account information"
                             leftIcon={
-                                <div onClick={() => history.push(paths.admin)} >
-                                    <ArrowBackIosIcon
+                                <div onClick={() => history.goBack()} >
+                                    <ArrowBackIcon
                                         style={{fontSize: '2rem'}}
                                     />
                                 </div>
@@ -145,15 +148,25 @@ const AccountInformation = props => {
                             <Paper style={{padding: "0px 30px 0px 30px"}}>
                                 <br /><br /><br /><br />
                                 <Grid container spacing={2}>
-                                    <Grid item xs={4} sm>
-                                        <ButtonBase className={classes.image}>
-                                            <img className={classes.img} alt="complex" src={Woman} style={{width: "80px" , height: "80px" , borderRadius: "50%"}}></img>
-                                        </ButtonBase>
+                                    <Grid item xs={3} sm>
+                                        <Avatar
+                                            alt={LocalInfo.userFullName}
+                                            className={classes.primaryColor}
+                                            style={{
+                                                width: "60px",
+                                                height: "60px",
+                                                borderRadius: "50%",
+                                                margin: '5px auto',
+                                                textAlign: 'center'
+                                            }}
+                                        >
+                                            {(LocalInfo.userFullName).charAt(0).toUpperCase()}
+                                        </Avatar>
                                     </Grid>
-                                    <Grid item xs={8} sm container>
+                                    <Grid item xs={9} sm container>
                                         <form className={classes.root} noValidate autoComplete="off">
-                                            <TextField id="standard-basic" label="" defaultValue="Pearl" style={{borderBottom: "1px solid #c3c3c3" , marginBottom: "10px" , padding: "2px 5px"}}/>
-                                            <TextField id="standard-basic" label="" defaultValue="Makafui Gemegah" style={{borderBottom: "1px solid #c3c3c3" , padding: "2px 5px"}}/>
+                                            <TextField id="standard-basic" label=""  style={{borderBottom: "1px solid #c3c3c3" , marginBottom: "10px" , padding: "2px 5px"}}/>
+                                            <TextField id="standard-basic" label=""  style={{borderBottom: "1px solid #c3c3c3" , padding: "2px 5px"}}/>
                                         </form>
 
                                     </Grid>
@@ -186,7 +199,7 @@ const AccountInformation = props => {
                                     <Grid item xs={5} sm container style={{borderBottom: "1px solid #d8d2d2" }}>
                                         <Grid item xs container direction="column" spacing={2} style={{textAlign: "right" , paddingBottom: "2px"}}>
                                             <Grid item xs>
-                                                0545454544
+                                                {/* {LocalInfo.branch.phone} */}
                                             </Grid>
                                         </Grid>
                                     </Grid>
@@ -213,7 +226,7 @@ const AccountInformation = props => {
                                         <Grid item xs container direction="column" spacing={2} style={{textAlign: "right" , paddingBottom: "2px"}}>
                                             <Grid item xs>
                                                 {/*<TextField id="standard-basic" label="" value="0547845784" />*/}
-                                                pearlgee
+                                                
                                             </Grid>
                                         </Grid>
                                     </Grid>
@@ -245,7 +258,7 @@ const AccountInformation = props => {
                                                         style={{width: "135px"}}
                                                         id="standard-adornment-password"
                                                         type={values.showPassword ? 'text' : 'password'}
-                                                        value={values.password ? 'text' : 'yourpasswordgoeshere'}
+                                                        // value={values.password ? 'text' : 'yourpasswordgoeshere'}
                                                         onChange={handleChange('password')}
                                                         endAdornment={
                                                             <InputAdornment position="end">
@@ -294,6 +307,7 @@ const AccountInformation = props => {
                                     variant="outlined"
                                     style={{border: '1px solid #DAAB59', color: '#DAAB59', padding: '5px 50px'}}
                                     className={classes.button}
+                                    onClick={() => history.goBack()}
                                 >
                                     Cancel
                                 </Button>

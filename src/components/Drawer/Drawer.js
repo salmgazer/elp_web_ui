@@ -196,10 +196,10 @@ const Drawer = props => {
                     <ListItemText primary="Dashboard" />
                 </ListItem>
                 <Divider />
-                <ListItem button key={6} onClick={handleClick}>
-                    <ListItemIcon><PersonIcon style={{color: '#FFFFFF'}} /></ListItemIcon>
-                    <ListItemText primary="Admin" />
-                    {open ? <ExpandLess /> : <ExpandMore />}
+                <ListItem button key={6} >
+                    <ListItemIcon onClick={() => history.push(paths.admin)} ><PersonIcon style={{color: '#FFFFFF'}} /></ListItemIcon>
+                    <ListItemText primary="Admin" onClick={() => history.push(paths.admin)}/>
+                    {open ? <ExpandLess onClick={handleClick} /> : <ExpandMore onClick={handleClick} />}
                 </ListItem>
                 <Collapse in={open} timeout="auto" unmountOnExit>
                     <List component="div" disablePadding>
