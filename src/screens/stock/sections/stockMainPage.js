@@ -25,6 +25,7 @@ import ArrowForwardOutlinedIcon from '@material-ui/icons/ArrowForwardOutlined';
 import KeyboardReturnIcon from '@material-ui/icons/KeyboardReturn';
 import HistoryOutlinedIcon from '@material-ui/icons/HistoryOutlined';
 import RedeemIcon from '@material-ui/icons/Redeem';
+import SwapHorizIcon from '@material-ui/icons/SwapHoriz';
 import {withRouter} from 'react-router-dom';
 import ReportProblemOutlinedIcon from '@material-ui/icons/ReportProblemOutlined';
 
@@ -97,6 +98,10 @@ const StockMainPage = props => {
                         onKeyDown={() => setIsShowDrawer(false)}
                     >
                         <BottomDrawer isShow={isShowDrawer}>
+                            <ListItem button key={3} onClick={() => history.push(paths.stock_movement)}>
+                                <ListItemIcon><SwapHorizIcon/></ListItemIcon>
+                                <ListItemText primary="Stock movement" />
+                            </ListItem>
                             <ListItem button key={4} onClick={() => history.push(paths.purchase_history)}>
                                 <ListItemIcon><HistoryOutlinedIcon/></ListItemIcon>
                                 <ListItemText primary="Purchase history" />

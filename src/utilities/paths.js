@@ -48,4 +48,5 @@ export default {
     stock_returns: "/stock-returns",
     customer_care: "/customer-care",
     delivery: "/delivery",
+    stock_movement: "/stock-movement",
 };

@@ -1,86 +1,99 @@
 import React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
-import Grid from '@material-ui/core/Grid';
-import Typography from '@material-ui/core/Typography';
+import Grid from "@material-ui/core/Grid/Grid";
 import Paper from '@material-ui/core/Paper';
-import LocalInfo from "../../services/LocalInfo";
+import Typography from '@material-ui/core/Typography';
 
 const useStyles = makeStyles(theme => ({
     root: {
       flexGrow: 1,
+
     },
     title: {
         fontSize: 9,
     },
     text: {
-        fontSize: 15,
+        fontSize: 13,
         fontWeight: 'bold',
     },
     paper: {
       padding: theme.spacing(1),
-      textAlign: 'center',
+      textAlign: 'center', 
     }
   }));
 
-const CardsSection = props => {
+const SingleDayView = props => {
 
+    const product = props.item;
     const classes = useStyles();
 
-    return (
-        LocalInfo.branchRole ?
-            <div>
-            <Grid container spacing={1}>
-                <Grid item xs={3}>
+    return(
+        <div>
+            <Grid container spacing={1} className={`shadow1 mb-3 borderRadius10`}>
+                <Grid item xs={9} style={{display: 'table', height: '30px', margin: '5px 0px'}}>
+                    <div style={{textAlign: 'left', display: 'table-cell', verticalAlign: 'middle'}}>
+                        <span className='text-dark font-weight-bold' >{product.name}</span>
+                        <div className="font-weight-light mt-1" style={{ fontSize: '14px', color: '#8D6725'}}>Done on {product.date}, @ {product.time}</div>
+                    </div>
+                </Grid>
+
+                <Grid item xs={3} style={{height: '30px', marginTop: '5px'}} >
+                    <span className='text-dark font-weight-bold' >{product.time}</span>
+                </Grid>
+
+                 
+                <Grid item xs={3.5}>
                     <Paper className={classes.paper}>
                         <Typography className={classes.title} component="p" >
-                            Quantity
+                            Opening balance
                         </Typography>
                         <Typography className={classes.text} >
-                            {props.quantity}
-                            {/*  {props.quantity > 1 ? 'items' : 'item'} */}
+                            3.5
+                        </Typography>
+                    </Paper>
+                </Grid>
+                
+                <Grid item xs={2.5}>
+                    <Paper className={classes.paper}>
+                        <Typography className={classes.title} component="p" >
+                            Purchased
+                        </Typography>
+                        <Typography className={classes.text} >
+                            0
                         </Typography>
                     </Paper>
                 </Grid>
 
-                <Grid item xs={3}>
+                <Grid item xs={2}>
                     <Paper className={classes.paper}>
                         <Typography className={classes.title} component="p" >
-                            Cost value
+                            Sold
                         </Typography>
                         <Typography className={classes.text} >
-                            GHC {props.costPrice}
+                            55
                         </Typography>
                     </Paper>
                 </Grid>
 
-                <Grid item xs={3}>
+                <Grid item xs={3.5}>
                     <Paper className={classes.paper}>
                         <Typography className={classes.title} component="p" >
-                            Sales value
+                            Closing balance
                         </Typography>
                         <Typography className={classes.text} >
-                            GHC {props.sellingPrice}
+                            66.5
                         </Typography>
                     </Paper>
                 </Grid>
 
-                <Grid item xs={3}>
-                    <Paper className={classes.paper}>
-                        <Typography className={classes.title} component="p" >
-                            {props.profitName}
-                        </Typography>
-                        <Typography className={classes.text} >
-                            GHC {props.profit}
-                        </Typography>
-                    </Paper>
+             
+ 
                 </Grid>
+           
 
-            </Grid>
         </div>
-            :
-            ""
-    )
 
-}
+    );
+};
 
-export default CardsSection;
+export default SingleDayView;

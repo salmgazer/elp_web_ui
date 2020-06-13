@@ -65,6 +65,7 @@ import StockReturns from "./screens/returns/stock/StockReturns";
 import CustomerCare from "./screens/customerCare/CustomerCare";
 import Delivery from "./screens/delivery/Delivery";
 import history from "./utilities/history";
+import StockMovement from "./screens/stock/sections/StockMovement";
 
 function NoMatch() {
   let location = useLocation();
@@ -494,6 +495,14 @@ class App extends React.Component {
                         setPageBackground();
                         this.setTitle(`Delivery | ${appName}`);
                         return <Delivery />;
+                    }}
+                />
+                <Route
+                    path={paths.stock_movement}
+                    render={() => {
+                        setPageBackground();
+                        this.setTitle(`Stock Movement | ${appName}`);
+                        return <StockMovement />;
                     }}
                 />
               <Route path="*">

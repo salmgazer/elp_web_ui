@@ -6,19 +6,16 @@ import Paper from '@material-ui/core/Paper';
 import LocalInfo from "../../services/LocalInfo";
 
 const useStyles = makeStyles(theme => ({
-    root: {
-      flexGrow: 1,
-    },
     title: {
-        fontSize: 9,
+        fontSize: 8,
     },
     text: {
-        fontSize: 15,
+        fontSize: 13,
         fontWeight: 'bold',
     },
     paper: {
       padding: theme.spacing(1),
-      textAlign: 'center',
+      textAlign: 'center', 
     }
   }));
 
@@ -27,17 +24,38 @@ const CardsSection = props => {
     const classes = useStyles();
 
     return (
-        LocalInfo.branchRole ?
-            <div>
+
+        <div>
             <Grid container spacing={1}>
                 <Grid item xs={3}>
                     <Paper className={classes.paper}>
                         <Typography className={classes.title} component="p" >
-                            Quantity
+                            Opening balance
                         </Typography>
                         <Typography className={classes.text} >
-                            {props.quantity}
-                            {/*  {props.quantity > 1 ? 'items' : 'item'} */}
+                            {props.openingBalance}
+                        </Typography>
+                    </Paper>
+                </Grid>
+                
+                <Grid item xs={2}>
+                    <Paper className={classes.paper}>
+                        <Typography className={classes.title} component="p" >
+                            Purchased
+                        </Typography>
+                        <Typography className={classes.text} >
+                            {props.purchase}
+                        </Typography>
+                    </Paper>
+                </Grid>
+
+                <Grid item xs={2}>
+                    <Paper className={classes.paper}>
+                        <Typography className={classes.title} component="p" >
+                            Sold
+                        </Typography>
+                        <Typography className={classes.text} >
+                            {props.sales}
                         </Typography>
                     </Paper>
                 </Grid>
@@ -45,40 +63,27 @@ const CardsSection = props => {
                 <Grid item xs={3}>
                     <Paper className={classes.paper}>
                         <Typography className={classes.title} component="p" >
-                            Cost value
+                            Closing balance
                         </Typography>
                         <Typography className={classes.text} >
-                            GHC {props.costPrice}
+                            {props.closingBalance}
                         </Typography>
                     </Paper>
                 </Grid>
 
-                <Grid item xs={3}>
+                <Grid item xs={2}>
                     <Paper className={classes.paper}>
                         <Typography className={classes.title} component="p" >
-                            Sales value
+                            Difference
                         </Typography>
                         <Typography className={classes.text} >
-                            GHC {props.sellingPrice}
+                            {props.difference}
                         </Typography>
                     </Paper>
                 </Grid>
-
-                <Grid item xs={3}>
-                    <Paper className={classes.paper}>
-                        <Typography className={classes.title} component="p" >
-                            {props.profitName}
-                        </Typography>
-                        <Typography className={classes.text} >
-                            GHC {props.profit}
-                        </Typography>
-                    </Paper>
-                </Grid>
-
+                
             </Grid>
         </div>
-            :
-            ""
     )
 
 }
