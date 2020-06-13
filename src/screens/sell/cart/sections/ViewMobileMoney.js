@@ -6,16 +6,20 @@ import PersonAddIcon from '@material-ui/icons/PersonAdd';
 
 const values = [
     {
-      value: 'Vodafone',
-      label: 'Vodafone Cash',
+      value: 'credit',
+      label: 'Credit',
     },
     {
-      value: 'MTN Momo',
-      label: 'MTN Momo',
+      value: 'mobile money',
+      label: 'Mobile Money',
     },
     {
-      value: 'AirtelTigo',
-      label: 'AirtelTigo Cash',
+      value: 'cheque',
+      label: 'Cheque',
+    },
+    {
+      value: 'debit',
+      label: 'Debit/VISA',
     }
   ];
 
@@ -23,12 +27,12 @@ const ViewCash = props => {
     const [formFields , setFormFields] = useState({
         customer: props.customerId,
         type: 'sales',
-        phoneNumber: ''
+        amountPaid: ''
     });
 
-    const [selectedServProv, setSelectedServProv] = React.useState(values[0].value);
+    const [selectedPayment, setSelectedPayment] = React.useState(values[0].value);
     const handleChange = event => {
-        setSelectedServProv(event.target.value);
+        setSelectedPayment(event.target.value);
     };
 
     const setInputValue = (event) => {
@@ -63,9 +67,9 @@ const ViewCash = props => {
 
                     <TextField
                         select
-                        label="Service provider"
+                        label="Payment method"
                         size="small"
-                        value={selectedServProv}
+                        value={selectedPayment}
                         style={{margin: '25px', width: '210px'}}
                         onChange={handleChange}
                         color="#DAAB59"
@@ -82,13 +86,13 @@ const ViewCash = props => {
                     </TextField>
 
                     <TextField
-                        label="Phone number"
+                        label="Amount Paid"
                         variant="outlined"
                         size="small"
                         onChange={(event) => setInputValue(event)}
-                        name={`phoneNumber`}
-                        value={formFields['phoneNumber']}
-                        style={{margin: '25px 25px 50px 25px'}}
+                        name={`amountPaid`}
+                        value={formFields['amountPaid']}
+                        style={{margin: '25px'}}
                     />
                 </form>
             </Paper>
