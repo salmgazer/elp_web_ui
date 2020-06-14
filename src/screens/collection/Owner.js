@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {withRouter , useLocation} from "react-router-dom";
+import {withRouter} from "react-router-dom";
 
 import OwnerMainPage from './owner/OwnerMainPage';
 import CollectionHistory from './owner/CollectionHistory';
@@ -23,8 +23,8 @@ const selectedDay = format(new Date(localStorage.getItem('collectionDate')) , 'M
 
 class Owner extends Component {
     state={
-        activeStep: LocalInfo.branchRole === 'owner' && parseInt(localStorage.getItem('employees')) > 1 ? 0 : 4,
-        //activeStep: LocalInfo.branchRole === 'owner' ? 0 : 4,
+        //activeStep: LocalInfo.branchRole === 'owner' && parseInt(localStorage.getItem('employees')) > 1 ? 0 : 4,
+        activeStep: LocalInfo.branchRole === 'owner' ? 0 : 4,
         todayCollection:[],
         pendingCollection:[],
         collections: [],
