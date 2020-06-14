@@ -17,6 +17,8 @@ import CustomerService from "../../../../services/CustomerService";
 import CartService from "../../../../services/CartService";
 import SimpleSnackbar from "../../../../components/Snackbar/SimpleSnackbar";
 import ArrowBackIcon from '@material-ui/icons/ArrowBack';
+import {confirmAlert} from "react-confirm-alert";
+import ModelAction from "../../../../services/ModelAction";
 
 const useStyles = makeStyles(theme => ({
     root: {
@@ -52,6 +54,8 @@ const CartView = props => {
     const [error , setError] = useState(false);
     const [errorMsg , setErrorMsg] = useState('');
     const counter = props.cartTotalProducts;
+    const [success , setSuccess] = useState(false);
+    const [successMsg , setSuccessMsg] = useState('');
     //console.log(props.currentCustomer)
     //console.log(customerName)
 
@@ -111,10 +115,6 @@ const CartView = props => {
         setAddDialog(true);
     };
 
-    const deleteProductHandler = (event) => {
-        props.deleteProduct(event);
-    };
-
     const openCheckoutHandler = (event) => {
         props.setView(1);
     };
@@ -130,6 +130,46 @@ const CartView = props => {
         props.setCustomerHandler(lastCustomer.id);
         setAddDialog(false);
         setMainDialog(false);
+    };
+
+    const deleteProductHandler = (pId) => {
+        confirmAlert({
+            title: 'Confirm to delete',
+            message: 'Are you sure you want to delete this product.',
+            buttons: [
+                {
+                    label: 'Yes',
+                    onClick: async () => {
+                        try {
+                            await new ModelAction('CartEntry').destroy(pId);
+
+                            setSuccessMsg('Cart entry deleted successfully');
+                            setSuccess(true);
+                            setTimeout(function(){
+                                setSuccessMsg('');
+                                setSuccess(false);
+                            }, 2000);
+
+                            return true;
+                        } catch (e) {
+                            setErrorMsg('OOPS. Something went wrong. Please try again');
+                            setError(true);
+                            setTimeout(function(){
+                                setErrorMsg('');
+                                setError(false);
+                            }, 2000);
+                            return false;
+                        }
+                    }
+                },
+                {
+                    label: 'No',
+                    onClick: () => {
+                        return false;
+                    }
+                }
+            ]
+        })
     };
 
     return(
@@ -153,10 +193,15 @@ const CartView = props => {
 
             <SimpleSnackbar
                 type="success"
+                openState={success}
+                message={successMsg}
+            />
+
+            <SimpleSnackbar
+                type="warning"
                 openState={error}
                 message={errorMsg}
-            >
-            </SimpleSnackbar>
+            />
 
             <Grid container spacing={1}>
                 <Grid item xs={6}>

@@ -1,26 +1,17 @@
 import React from "react";
 import { withRouter } from "react-router-dom";
 import Component from "@reactions/component";
-import { useDatabase } from "@nozbe/watermelondb/hooks";
-import { Q } from "@nozbe/watermelondb";
-
 import Grid from '@material-ui/core/Grid';
 import paths from "../../../utilities/paths";
 import CssBaseline from "@material-ui/core/CssBaseline/CssBaseline";
 import {makeStyles} from "@material-ui/core";
-// import MenuIcon from '@material-ui/icons/Menu';
 import Paper from '@material-ui/core/Paper';
 import BoxDefault from "../../../components/Box/BoxDefault";
-// import ButtonBase from '@material-ui/core/ButtonBase';
 import ArrowBackIcon from '@material-ui/icons/ArrowBack';
 import Typography from "@material-ui/core/Typography/Typography";
 import SectionNavbars from "../../../components/Sections/SectionNavbars";
-import Drawer from "../../../components/Drawer/Drawer";
 import "./AddWarehouse.scss";
 import LocalInfo from '../../../services/LocalInfo';
-// import Container from "@material-ui/core/Container/Container";
-// import ViewWelcome from "../../getStarted/sections/ViewWelcome";
-// import ViewStore from "../../getStarted/sections/ViewStore";
 import Box from "@material-ui/core/Box/Box";
 import warehouseImg from "../../../assets/img/warehouse.png";
 import Button from "@material-ui/core/Button/Button";
@@ -67,40 +58,6 @@ const useStyles = makeStyles(theme => ({
     }
 }));
 
-const apiUrl = "";
-
-async function getUserStoreFromLocal(database, user, store) {
-    return database.collections
-        .get("users_stores")
-        .query(Q.where("user_id", user.id), Q.where("store_id", store.id))
-        .fetch();
-}
-
-async function getUserFromLocal(database, usernameOrPhone, password) {
-    return database.collections
-        .get("users")
-        .query(
-            Q.where("username", usernameOrPhone),
-            Q.or(Q.where("phone", usernameOrPhone)),
-            Q.where("password", password)
-        )
-        .fetch();
-}
-
-async function getStore(database) {
-    return database.collections
-        .get("stores")
-        .query()
-        .fetch();
-}
-
-async function getUsersFromLocal(database) {
-    return database.collections
-        .get("users")
-        .query()
-        .fetch();
-}
-
 const AddWarehouse = props => {
     const classes = useStyles();
 
@@ -111,14 +68,10 @@ const AddWarehouse = props => {
     console.log(username);
 
     const { history } = props;
-    const database = useDatabase();
 
     if (LocalInfo.storeId && LocalInfo.userId) {
         history.push(paths.home);
     }
-
-    const [isStore , setIsStore] = React.useState(false);
-
 
     return (
         <div style={{height: '100vh'}}>
@@ -132,13 +85,16 @@ const AddWarehouse = props => {
                         <CssBaseline />
 
 
-                        <SectionNavbars title={`Admin`}>
-                            <ArrowBackIcon
-                                onClick={() => history.push(paths.admin)}
-                            />
-                        </SectionNavbars>
-
-                        <Drawer isShow={state.isDrawerShow} />
+                        <SectionNavbars
+                            title="Add warehouse"
+                            leftIcon={
+                                <div onClick={() => history.goBack()} >
+                                    <ArrowBackIcon
+                                        style={{fontSize: '2rem'}}
+                                    />
+                                </div>
+                            }
+                        />
 
                         <div style={{ position: "fixed", top:"60px", width:"100%" }}>
                             <Paper className={classes.paper}>

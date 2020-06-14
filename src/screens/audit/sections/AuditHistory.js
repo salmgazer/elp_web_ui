@@ -1,7 +1,7 @@
 import React, {useEffect, useState} from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import SectionNavbar from '../../../components/Sections/SectionNavbars';
-import ArrowBackIosIcon from '@material-ui/icons/ArrowBackIos';
+import ArrowBackIcon from '@material-ui/icons/ArrowBack';
 import DateFnsUtils from '@date-io/date-fns';
 import {
   MuiPickersUtilsProvider,
@@ -16,6 +16,9 @@ import {withRouter} from 'react-router-dom';
 
 import SingleAuditView from './auditHistory/SingleAuditView';
 import AuditService from '../../../services/AuditService';
+import {confirmAlert} from "react-confirm-alert";
+import ModelAction from "../../../services/ModelAction";
+import SimpleSnackbar from "../../../components/Snackbar/SimpleSnackbar";
 
 const useStyles = makeStyles(theme => ({
     root: {
@@ -29,6 +32,11 @@ const AuditHistory = props => {
     const auditEntries = props.auditEntries;
     const [selectedDate, setSelectedDate] = React.useState(new Date());
     const [auditList , setAuditList] = useState([]);
+    const [purchaseDetails , setPurchaseDetails] = useState(false);
+    const [error , setError] = useState(false);
+    const [errorMsg , setErrorMsg] = useState('');
+    const [success , setSuccess] = useState(false);
+    const [successMsg , setSuccessMsg] = useState('');
 
     const handleDateChange = date => {
         setSelectedDate(date);
@@ -36,7 +44,7 @@ const AuditHistory = props => {
     };
 
     useEffect(() => {
-        if (!auditList) {
+        if (!purchaseDetails) {
             getAuditDetails(selectedDate);
         }
     });
@@ -44,6 +52,7 @@ const AuditHistory = props => {
     const getAuditDetails = async (date) => {
         const response = await new AuditService().getAuditDetails(date);
         setAuditList(response.audits);
+        setPurchaseDetails(true);
         console.log(response)
         console.log(response.audits)
     };
@@ -54,7 +63,48 @@ const AuditHistory = props => {
 
     const auditProducts = (id) => {
         console.log(id);
-        props.auditProducts(id);
+        props.auditProducts(id, 4);
+    };
+
+    const deleteAuditProduct = async (pId) => {
+        await confirmAlert({
+            title: 'Confirm to delete',
+            message: 'Are you sure you want to delete this product.',
+            buttons: [
+                {
+                    label: 'Yes',
+                    onClick: async () => {
+                        try {
+                            await new ModelAction('AuditEntries').destroy(pId);
+
+                            setSuccessMsg('Audit entry deleted successfully');
+                            setSuccess(true);
+                            getAuditDetails(selectedDate);
+                            setTimeout(function(){
+                                setSuccessMsg('');
+                                setSuccess(false);
+                            }, 2000);
+
+                            return true;
+                        } catch (e) {
+                            setErrorMsg('OOPS. Something went wrong. Please try again');
+                            setError(true);
+                            setTimeout(function(){
+                                setErrorMsg('');
+                                setError(false);
+                            }, 2000);
+                            return false;
+                        }  
+                    }
+                },
+                {
+                    label: 'No',
+                    onClick: () => {
+                        return false;
+                    }
+                }
+            ]
+        })
     };
 
 
@@ -64,11 +114,23 @@ const AuditHistory = props => {
                 title="Audit History"
                 leftIcon={
                     <div onClick={setView.bind(this , 0)}>
-                        <ArrowBackIosIcon
+                        <ArrowBackIcon
                             style={{fontSize: '2rem'}}
                         />
                     </div>
                 }
+            />
+
+            <SimpleSnackbar
+                type="success"
+                openState={success}
+                message={successMsg}
+            />
+
+            <SimpleSnackbar
+                type="warning"
+                openState={error}
+                message={errorMsg}
             />
 
             <Grid container spacing={1} className={classes.root} justify="space-around" >
@@ -118,7 +180,7 @@ const AuditHistory = props => {
                     </div>
                     :
 
-                    auditList.map((audit) => <SingleAuditView  key={audit.id} dateAudited={audit} setView={props.setView} auditProducts={auditProducts.bind(this, audit.id)} deleteAuditEntry={props.deleteProductHandler} />)
+                    auditList.map((audit) => <SingleAuditView  key={audit.id} dateAudited={audit} setView={props.setView} auditProducts={auditProducts.bind(this, audit.id)} deleteAuditEntry={deleteAuditProduct.bind(this)} />)
 
                 }
 

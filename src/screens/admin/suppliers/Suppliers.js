@@ -12,6 +12,8 @@ import BoxDefault from "../../../components/Box/BoxDefault";
 import Drawer from "../../../components/Drawer/Drawer";
 import SectionNavbars from "../../../components/Sections/SectionNavbars";
 import MenuIcon from '@material-ui/icons/Menu';
+import ArrowBackIcon from '@material-ui/icons/ArrowBack';
+
 
 const useStyles = makeStyles(theme => ({
     root: {
@@ -89,8 +91,8 @@ const Suppliers = props => {
                         <SectionNavbars
                             title="Suppliers"
                             leftIcon={
-                                <div onClick={() => setIsDrawerShow(true)}>
-                                    <MenuIcon
+                                <div onClick={() => history.goBack()} >
+                                    <ArrowBackIcon
                                         style={{fontSize: '2rem'}}
                                     />
                                 </div>

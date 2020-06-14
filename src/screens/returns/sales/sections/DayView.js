@@ -1,7 +1,7 @@
 import React from "react";
 import {withRouter } from "react-router-dom";
 import SectionNavbars from "../../../../components/Sections/SectionNavbars";
-import ArrowBackIosIcon from '@material-ui/icons/ArrowBackIos';
+import ArrowBackIcon from '@material-ui/icons/ArrowBack';
 import Grid from '@material-ui/core/Grid';
 import Typography from "@material-ui/core/Typography/Typography";
 import DateToggle from '../../../../components/DateToggle/DateToggle';
@@ -35,7 +35,7 @@ const DayView = props => {
                 title="Sales returns"
                 leftIcon={
                     <div onClick={() => setView(1)} >
-                        <ArrowBackIosIcon
+                        <ArrowBackIcon
                             style={{fontSize: '2rem'}}
                         />
                     </div>

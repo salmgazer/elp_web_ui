@@ -536,23 +536,23 @@ export default class SaleService {
         let quantity = 0;
 
         for (let step = 0; step < sale.length; step++) {
-            costPrice += parseFloat(await SaleService.getSaleEntryCostPriceById(sale[step].saleId));
+            costPrice += parseFloat(await SaleService.getSaleEntryCostPriceById(sale[step].saleId)).toFixed(2);
         }
 
         for (let step = 0; step < sale.length; step++) {
-            profit += parseFloat(await SaleService.getSaleEntryProfitById(sale[step].saleId));
+            profit += parseFloat(await SaleService.getSaleEntryProfitById(sale[step].saleId)).toFixed(2);
         }
 
         for (let step = 0; step < sale.length; step++) {
-            credit += parseFloat(await SaleService.getSaleEntryCreditById(sale[step].saleId));
+            credit += parseFloat(await SaleService.getSaleEntryCreditById(sale[step].saleId)).toFixed(2);
         }
 
         for (let step = 0; step < sale.length; step++) {
-            sellingPrice += parseFloat(await SaleService.getSaleEntrySellingPriceById(sale[step].saleId));
+            sellingPrice += parseFloat(await SaleService.getSaleEntrySellingPriceById(sale[step].saleId)).toFixed(2);
         }
 
         for (let step = 0; step < sale.length; step++) {
-            quantity += parseFloat(await SaleService.getSaleProductQuantity(sale[step].saleId));
+            quantity += parseFloat(await SaleService.getSaleProductQuantity(sale[step].saleId)).toFixed(2);
         }
 
         if (duration === 'week') {
@@ -583,23 +583,23 @@ export default class SaleService {
         let quantity = 0;
 
         for (let step = 0; step < sale.length; step++) {
-            costPrice += parseFloat(await SaleService.getSaleEntryCostPriceById(sale[step].saleId));
+            costPrice += parseFloat(await SaleService.getSaleEntryCostPriceById(sale[step].saleId)).toFixed(2);
         }
 
         for (let step = 0; step < sale.length; step++) {
-            profit += parseFloat(await SaleService.getSaleEntryProfitById(sale[step].saleId));
+            profit += parseFloat(await SaleService.getSaleEntryProfitById(sale[step].saleId)).toFixed(2);
         }
 
         for (let step = 0; step < sale.length; step++) {
-            credit += parseFloat(await SaleService.getSaleEntryCreditById(sale[step].saleId));
+            credit += parseFloat(await SaleService.getSaleEntryCreditById(sale[step].saleId)).toFixed(2);
         }
 
         for (let step = 0; step < sale.length; step++) {
-            sellingPrice += parseFloat(await SaleService.getSaleEntrySellingPriceById(sale[step].saleId));
+            sellingPrice += parseFloat(await SaleService.getSaleEntrySellingPriceById(sale[step].saleId)).toFixed(2);
         }
 
         for (let step = 0; step < sale.length; step++) {
-            quantity += parseFloat(await SaleService.getSaleProductQuantity(sale[step].saleId));
+            quantity += parseFloat(await SaleService.getSaleProductQuantity(sale[step].saleId)).toFixed(2);
         }
 
         if (duration === 'week') {

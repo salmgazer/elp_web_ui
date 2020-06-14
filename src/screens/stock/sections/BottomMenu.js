@@ -183,6 +183,7 @@ const BottomMenu = props => {
                 style={{
                     flex: 1,
                 }}
+                onClick={() => setView(5)}
             >
                 <AddShoppingCartOutlinedIcon
                     style={{fontSize: '25px'}}
@@ -192,7 +193,7 @@ const BottomMenu = props => {
                     component="h6"
                     variant="h6"
                     style={{fontSize: '12px'}}
-                    onClick={() => setView(5)}
+                    
                 >
                     Add stock
                 </Typography>

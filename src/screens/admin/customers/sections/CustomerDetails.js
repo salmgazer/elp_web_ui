@@ -2,7 +2,6 @@ import React, {useEffect, useState} from "react";
 import { withRouter } from "react-router-dom";
 import {makeStyles} from "@material-ui/core";
 import SectionNavbars from "../../../../components/Sections/SectionNavbars";
-import ArrowBackIosIcon from '@material-ui/icons/ArrowBackIos';
 import Paper from '@material-ui/core/Paper';
 import Grid from '@material-ui/core/Grid';
 import Typography from "@material-ui/core/Typography/Typography";
@@ -20,7 +19,7 @@ import AccountCircleIcon from '@material-ui/icons/AccountCircle';
 import InvoiceService from "../../../../services/InvoiceService";
 import UpdateCustomerModal from "../../../../components/Modal/Customer/UpdateCustomerModal";
 import CreditCustomerModal from "../../../../components/Modal/Customer/CreditCustomerModal";
-
+import ArrowBackIcon from '@material-ui/icons/ArrowBack';
 
 const useStyles = makeStyles(theme => ({
     root: {
@@ -89,7 +88,7 @@ const CustomerDetails = props => {
                 title="Customers"
                 leftIcon={
                     <div onClick={backHandler.bind(this)}>
-                        <ArrowBackIosIcon
+                        <ArrowBackIcon
                             style={{fontSize: '2rem'}}
                         />
                     </div>

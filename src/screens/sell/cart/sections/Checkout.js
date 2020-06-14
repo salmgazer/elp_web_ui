@@ -206,8 +206,8 @@ const CheckoutView = props => {
                     aria-label="full width tabs example"
                 >
                     <Tab className={classes.tabs} label="Cash" icon={<LocalAtmIcon style={{color: '#DAAB59'}} />} {...a11yProps(0)} />
-                    <Tab className={classes.tabs} label="Mobile Money" icon={<PhoneAndroidIcon style={{color: '#DAAB59'}} />} {...a11yProps(1)} />
-                    <Tab className={classes.tabs} label="Credit" icon={<ScheduleIcon style={{color: '#DAAB59'}} />} {...a11yProps(2)} />
+                    <Tab className={classes.tabs} label="Other payment" icon={<PhoneAndroidIcon style={{color: '#DAAB59'}} />} {...a11yProps(1)} />
+                    {/* <Tab className={classes.tabs} label="Credit" icon={<ScheduleIcon style={{color: '#DAAB59'}} />} {...a11yProps(2)} /> */}
                     {/* <Tab onClick={openDialogHandler.bind(this)} className={classes.tabs} label="Other" icon={<CardGiftcardIcon style={{color: '#DAAB59'}} />} {...a11yProps(3)} /> */}
                 </Tabs>
             </AppBar>
@@ -227,15 +227,15 @@ const CheckoutView = props => {
                 </TabPanel>
                 <TabPanel value={value} index={1}  >
                     <ViewMobileMoney
-                        openAddCustomerModal={openAddDialog.bind(this)}
+                        openAddCustomerModal={getCustomerDialog.bind(this)}
                         getFormFields={paymentDetails.bind(this)}
                     />
                 </TabPanel>
-                <TabPanel value={value} index={2}  >
+                {/* <TabPanel value={value} index={2}  >
                     <ViewCredit 
 
                     />
-                </TabPanel>
+                </TabPanel> */}
                 {/* <TabPanel value={value} index={3}  >
 
                 </TabPanel> */}

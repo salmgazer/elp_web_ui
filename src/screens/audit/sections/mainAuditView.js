@@ -7,7 +7,6 @@ import TabPanel from "../../../components/Tabs/TabPanel";
 import SwipeableViews from "react-swipeable-views";
 import Box from "@material-ui/core/Box/Box";
 import {withRouter} from 'react-router-dom';
-import paths from "../../../utilities/paths";
 import MenuIcon from '@material-ui/icons/Menu';
 import SectionNavbars from "../../../components/Sections/SectionNavbars";
 import SecondaryButton from "../../../components/Buttons/SecondaryButton";

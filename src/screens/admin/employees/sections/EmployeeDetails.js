@@ -1,15 +1,14 @@
 import React, {useState} from 'react';
 import {makeStyles} from "@material-ui/core";
 import {withRouter} from "react-router";
-import ArrowBackIosIcon from '@material-ui/icons/ArrowBackIos';
 import Grid from '@material-ui/core/Grid';
 import Paper from '@material-ui/core/Paper';
 import Avatar from "@material-ui/core/Avatar";
 import EditIcon from '@material-ui/icons/Edit';
 import Box from "@material-ui/core/Box/Box";
 import Typography from '@material-ui/core/Typography';
-import Button from "@material-ui/core/Button/Button";
 import TextField from '@material-ui/core/TextField';
+import ArrowBackIcon from '@material-ui/icons/ArrowBack';
 
 import SectionNavbars from "../../../../components/Sections/SectionNavbars";
 import BoxDefault from "../../../../components/Box/BoxDefault";
@@ -58,7 +57,7 @@ const EmployeeDetails = props => {
                 title="Employees"
                 leftIcon={
                     <div onClick={backHandler.bind(this)}>
-                        <ArrowBackIosIcon
+                        <ArrowBackIcon
                             style={{fontSize: '2rem'}}
                         />
                     </div>

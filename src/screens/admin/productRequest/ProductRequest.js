@@ -10,6 +10,7 @@ import Paper from '@material-ui/core/Paper';
 import Typography from "@material-ui/core/Typography/Typography";
 import Box from "@material-ui/core/Box/Box";
 import Button from "@material-ui/core/Button/Button";
+import ArrowBackIcon from '@material-ui/icons/ArrowBack';
 
 
 const useStyles = makeStyles(theme => ({
@@ -41,8 +42,8 @@ const ProductRequest = props => {
             <SectionNavbars
                 title="Product Request"
                 leftIcon={
-                    <div onClick={() => history.push(paths.admin)}>
-                        <ArrowBackIosIcon
+                    <div onClick={() => history.goBack()}>
+                        <ArrowBackIcon
                             style={{fontSize: '2rem'}}
                         />
                     </div>

@@ -1,10 +1,11 @@
 import React, {useState} from 'react';
-import ArrowBackIosIcon from '@material-ui/icons/ArrowBackIos';
 import Grid from '@material-ui/core/Grid';
 import Paper from '@material-ui/core/Paper';
 import Typography from '@material-ui/core/Typography';
 import Switch from '../../../../components/Switch/Switch';
 import {withRouter} from "react-router";
+import ArrowBackIcon from '@material-ui/icons/ArrowBack';
+
 
 import SectionNavbars from "../../../../components/Sections/SectionNavbars";
 import SearchInput from "../../../Components/Input/SearchInput";
@@ -36,7 +37,7 @@ const EditPermission = props => {
                 title="Permissions"
                 leftIcon={
                     <div onClick={backHandler.bind(this)}>
-                        <ArrowBackIosIcon
+                        <ArrowBackIcon
                             style={{fontSize: '2rem'}}
                         />
                     </div>

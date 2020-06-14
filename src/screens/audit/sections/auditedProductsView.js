@@ -10,7 +10,7 @@ import MenuItem from "@material-ui/core/MenuItem/MenuItem";
 import {makeStyles} from "@material-ui/core";
 import AddedProductSingle from "./viewAdded/AddedSingleView";
 import SectionNavbars from "../../../components/Sections/SectionNavbars";
-import MenuIcon from '@material-ui/icons/Menu';
+import ArrowBackIcon from '@material-ui/icons/ArrowBack';
 import Drawer from "../../../components/Drawer/Drawer";
 import SimpleSnackbar from "../../../components/Snackbar/SimpleSnackbar";
 import {confirmAlert} from "react-confirm-alert";
@@ -147,10 +147,10 @@ const AuditedProductsView = props => {
     return(
         <div>
             <SectionNavbars
-                title={`Audit`}
+                title="Audit"
                 leftIcon={
-                    <div onClick={() => setIsDrawerShow(true)}>
-                        <MenuIcon
+                    <div onClick={backHandler.bind(this)} >
+                        <ArrowBackIcon
                             style={{fontSize: '2rem'}}
                         />
                     </div>

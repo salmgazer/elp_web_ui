@@ -1,7 +1,5 @@
 import React, {Component} from 'react';
 import SectionNavbars from "../../../components/Sections/SectionNavbars";
-import Drawer from "../../../components/Drawer/Drawer";
-import MenuIcon from '@material-ui/icons/Menu';
 import MoreVertIcon from '@material-ui/icons/MoreVert';
 import AppBar from '@material-ui/core/AppBar';
 import Tabs from "@material-ui/core/Tabs/Tabs";
@@ -20,6 +18,7 @@ import PrintIcon from '@material-ui/icons/Print';
 import ListItemText from '@material-ui/core/ListItemText';
 import paths from "../../../utilities/paths";
 import {withRouter} from "react-router-dom";
+import ArrowBackIcon from '@material-ui/icons/ArrowBack';
 
 import PurchaseSortDate from './sections/PurchaseSortDate';
 import PurchaseSortProduct from './sections/PurchaseSortProduct';
@@ -29,7 +28,6 @@ class PurchaseHistory extends Component {
     state={
         value: 0,
         isShowDrawer: false,
-        isDrawerShow: false,
     }
 
     props={
@@ -59,8 +57,8 @@ class PurchaseHistory extends Component {
                 <SectionNavbars
                     title="Purchase history"
                     leftIcon={
-                        <div onClick={() => this.setState({isDrawerShow: true})}>
-                            <MenuIcon
+                        <div onClick={() => this.props.history.goBack()}>
+                            <ArrowBackIcon
                                 style={{fontSize: '2rem'}}
                             />
                         </div>
@@ -73,13 +71,6 @@ class PurchaseHistory extends Component {
                         </div>
                     }
                 />
-
-                <div
-                    onClick={() => this.setState({isDrawerShow: false})}
-                    onKeyDown={() => this.setState({isDrawerShow: false})}
-                >
-                    <Drawer isShow={this.state.isDrawerShow} />
-                </div>
 
                 <div
                     onClick={() => this.setState({isShowDrawer: false})}
@@ -143,7 +134,7 @@ class PurchaseHistory extends Component {
                     <Button
                         variant="outlined"
                         style={{border: '1px solid #DAAB59', color: '#333333', padding: '5px 50px', marginRight: '10px', textTransform: 'none', fontSize:'17px'}}
-                        onClick={() => this.props.history.push(paths.stock)}
+                        onClick={() => this.props.history.goBack()}
                     >
                         Back
                     </Button>

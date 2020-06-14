@@ -1,6 +1,5 @@
 import React, {Component} from 'react';
 import SectionNavbars from "../../../components/Sections/SectionNavbars";
-import MenuIcon from '@material-ui/icons/Menu';
 import MoreVertIcon from '@material-ui/icons/MoreVert';
 import AppBar from '@material-ui/core/AppBar';
 import Tabs from "@material-ui/core/Tabs/Tabs";
@@ -9,7 +8,6 @@ import SwipeableViews from "react-swipeable-views";
 import TabPanel from "../../../components/Tabs/TabPanel";
 import Box from "@material-ui/core/Box/Box";
 import Button from "@material-ui/core/Button/Button";
-import Drawer from '../../../components/Drawer/Drawer';
 import BottomDrawer from "../../../components/Drawer/BottomDrawer/BottomDrawer";
 import ListItem from '@material-ui/core/ListItem';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
@@ -20,6 +18,7 @@ import PrintIcon from '@material-ui/icons/Print';
 import ListItemText from '@material-ui/core/ListItemText';
 import paths from "../../../utilities/paths";
 import {withRouter} from "react-router-dom";
+import ArrowBackIcon from '@material-ui/icons/ArrowBack';
 
 import OrderSortDate from './sections/OrderSortDate';
 import OrderSortSupplier from './sections/OrderSortSupplier';
@@ -28,7 +27,6 @@ class OrderHistory extends Component {
     state={
         value: 0,
         isShowDrawer: false,
-        isDrawerShow: false,
     }
 
     props={
@@ -58,8 +56,8 @@ class OrderHistory extends Component {
                 <SectionNavbars
                     title="Order history"
                     leftIcon={
-                        <div onClick={() => this.setState({isDrawerShow: true})}>
-                            <MenuIcon
+                        <div onClick={() => this.props.history.goBack()}>
+                            <ArrowBackIcon
                                 style={{fontSize: '2rem'}}
                             />
                         </div>
@@ -72,13 +70,6 @@ class OrderHistory extends Component {
                         </div>
                     }
                 />
-
-                <div
-                    onClick={() => this.setState({isDrawerShow: false})}
-                    onKeyDown={() => this.setState({isDrawerShow: false})}
-                >
-                    <Drawer isShow={this.state.isDrawerShow} />
-                </div>
 
                 <div
                     onClick={() => this.setState({isShowDrawer: false})}
@@ -142,7 +133,7 @@ class OrderHistory extends Component {
                     <Button
                         variant="outlined"
                         style={{border: '1px solid #DAAB59', color: '#333333', padding: '5px 50px', marginRight: '10px', textTransform: 'none', fontSize:'17px'}}
-                        onClick={() => this.props.history.push(paths.stock)}
+                        onClick={() => this.props.history.goBack()}
                     >
                         Back
                     </Button>

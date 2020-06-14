@@ -36,7 +36,8 @@ const CardsSection = props => {
                             Quantity
                         </Typography>
                         <Typography className={classes.text} >
-                            {props.quantity} {props.quantity > 1 ? 'items' : 'item'}
+                            {props.quantity}
+                            {/*  {props.quantity > 1 ? 'items' : 'item'} */}
                         </Typography>
                     </Paper>
                 </Grid>

@@ -13,6 +13,8 @@ import CompleteView from "./sections/CompleteView";
 import './changePrice.scss';
 import paths from "../../../utilities/paths";
 import ArrowBackIosIcon from '@material-ui/icons/ArrowBackIos';
+import ArrowBackIcon from '@material-ui/icons/ArrowBack';
+
 
 import LocalInfo from "../../../services/LocalInfo";
 import BranchService from "../../../services/BranchService";
@@ -237,8 +239,8 @@ class ChangePrice extends Component{
                 <SectionNavbars 
                     title="Change prices" 
                     leftIcon={
-                        <div onClick={() => this.props.history.push(paths.admin)}>
-                            <ArrowBackIosIcon
+                        <div onClick={() => this.props.history.goBack()}>
+                            <ArrowBackIcon
                                 style={{fontSize: '2rem'}}
                             />
                         </div>

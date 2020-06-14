@@ -12,6 +12,7 @@ import SectionNavbars from "../../../components/Sections/SectionNavbars";
 import Box from "@material-ui/core/Box/Box";
 import Button from "@material-ui/core/Button/Button";
 import {TextValidator, ValidatorForm} from "react-material-ui-form-validator";
+import ArrowBackIcon from '@material-ui/icons/ArrowBack';
 
 const useStyles = makeStyles(theme => ({
     root: {
@@ -70,8 +71,8 @@ const VerifyPhone = props => {
                         <SectionNavbars
                             title="Account information"
                             leftIcon={
-                                <div onClick={() => history.push(paths.account_info)} >
-                                    <ArrowBackIosIcon
+                                <div onClick={() => history.goBack()} >
+                                    <ArrowBackIcon
                                         style={{fontSize: '2rem'}}
                                     />
                                 </div>

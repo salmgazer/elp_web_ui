@@ -38,7 +38,7 @@ const ItemsLowStock = (props) => {
             </div>
 
             <Container
-                maxWidth="sm"
+                //maxWidth="sm"
                 style={{width: '100%'}}
             >
                 {products.map((product) => <LowStockProductSingle addNewProductStockView={props.addNewProductStockView} key={product.id} product={product}/>)}

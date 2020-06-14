@@ -1,7 +1,7 @@
 import React from "react";
 import {withRouter } from "react-router-dom";
 import SectionNavbars from "../../../../components/Sections/SectionNavbars";
-import ArrowBackIosIcon from '@material-ui/icons/ArrowBackIos';
+import ArrowBackIcon from '@material-ui/icons/ArrowBack';
 import Button from "@material-ui/core/Button/Button";
 import Paper from '@material-ui/core/Paper';
 import Grid from '@material-ui/core/Grid';
@@ -24,7 +24,7 @@ const ReturnsProducts = props => {
                 title="Return Purchases"
                 leftIcon={
                     <div onClick={() => setView(0)} >
-                        <ArrowBackIosIcon
+                        <ArrowBackIcon
                             style={{fontSize: '2rem'}}
                         />
                     </div>

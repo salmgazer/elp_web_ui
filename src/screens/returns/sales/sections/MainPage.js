@@ -2,8 +2,7 @@ import React, {useState} from "react";
 import {withRouter } from "react-router-dom";
 import {makeStyles} from "@material-ui/core";
 import SectionNavbars from "../../../../components/Sections/SectionNavbars";
-import ArrowBackIosIcon from '@material-ui/icons/ArrowBackIos';
-import paths from "../../../../utilities/paths";
+import ArrowBackIcon from '@material-ui/icons/ArrowBack';
 import Grid from '@material-ui/core/Grid';
 import SearchInput from "../../../Components/Input/SearchInput";
 import Paper from '@material-ui/core/Paper';
@@ -54,8 +53,8 @@ const MainPage = props => {
             <SectionNavbars
                 title="Sales returns"
                 leftIcon={
-                    <div onClick={() => history.push(paths.sell)}>
-                        <ArrowBackIosIcon
+                    <div onClick={() => history.goBack()} >
+                        <ArrowBackIcon
                             style={{fontSize: '2rem'}}
                         />
                     </div>
@@ -126,7 +125,7 @@ const MainPage = props => {
                 <Button
                     variant="outlined"
                     style={{border: '1px solid #DAAB59', color: '#DAAB59', padding: '5px 50px', marginRight: '10px', textTransform: 'Capitalize'}}
-                    onClick={() => history.push(paths.sell)}
+                    onClick={() => history.goBack()}
                 >
                     Cancel
                 </Button>

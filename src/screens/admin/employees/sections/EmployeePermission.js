@@ -1,10 +1,10 @@
-import React, {useState} from 'react';
-import ArrowBackIosIcon from '@material-ui/icons/ArrowBackIos';
+import React from 'react';
 import Grid from '@material-ui/core/Grid';
 import Paper from '@material-ui/core/Paper';
 import Typography from '@material-ui/core/Typography';
 import Box from "@material-ui/core/Box/Box";
 import {withRouter} from "react-router";
+import ArrowBackIcon from '@material-ui/icons/ArrowBack';
 
 import SectionNavbars from "../../../../components/Sections/SectionNavbars";
 import SinglePermission from '../singlePages/SingleAllPermission';
@@ -21,7 +21,7 @@ const EmployeePermission = props => {
                 title="Permissions"
                 leftIcon={
                     <div onClick={backHandler.bind(this)}>
-                        <ArrowBackIosIcon
+                        <ArrowBackIcon
                             style={{fontSize: '2rem'}}
                         />
                     </div>
