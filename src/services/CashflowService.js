@@ -71,7 +71,8 @@ export default class CashflowService {
     static async approveCollection(id){
         console.log(id)
         return await new ModelAction('Cashflow').update(id , {
-            status: 'approved'
+            status: 'approved',
+            statusChangedBy: LocalInfo.userId
         });
     }
 

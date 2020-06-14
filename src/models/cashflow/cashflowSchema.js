@@ -7,6 +7,7 @@ const cashflowSchema = {
         { name: 'branchId', type: 'string' },
         { name: 'status', type: 'string' },
         { name: 'createdBy', type: 'string' },
+        { name: 'statusChangedBy', type: 'string' },
         { name: 'dateAdded', type: 'number' },
         { name: 'created_at', type: 'number' },
         { name: 'updated_at', type: 'number' },

@@ -3,7 +3,7 @@ import {field, date, text, relation, readonly, children} from '@nozbe/watermelon
 import branchSupplierStockSchema from './branchSupplerStockSchema';
 
 export default class BranchSupplierStock extends Model {
-    static table = 'branch_supplier_stock';
+    static table = 'branch_supplier_stocks';
     static deletable = true;
 
     static associations = {

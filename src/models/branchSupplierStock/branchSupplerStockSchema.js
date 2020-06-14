@@ -1,5 +1,5 @@
 const branchSupplierStockSchema = {
-    name: 'branch_supplier_stock',
+    name: 'branch_supplier_stocks',
     columns : [
         { name: 'branchProductStockId', type: 'string' },
         { name: 'branchId', type: 'string' },

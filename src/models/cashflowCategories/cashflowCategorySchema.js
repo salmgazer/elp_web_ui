@@ -4,7 +4,6 @@ const cashflowCategorySchema = {
         { name: 'name', type: 'string' },
         { name: 'type', type: 'string' },
         { name: 'status', type: 'string' },
-        { name: 'createdBy', type: 'string' },
         { name: 'created_at', type: 'number' },
         { name: 'updated_at', type: 'number' },
     ]

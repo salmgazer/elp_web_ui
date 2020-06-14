@@ -3,104 +3,87 @@
     {
       "name" : "Sales",
       "type" : "cash-in",
-      "status" : "active",
-      "createdBy" : "06f449fa-7a9a-4221-bd48-8f22f3bacbc0"
+      "status" : "active"
     },
     {
       "name" : "Loan",
       "type" : "cash-in",
-      "status" : "active",
-      "createdBy" : "06f449fa-7a9a-4221-bd48-8f22f3bacbc0"
+      "status" : "active"
     },
     {
       "name" : "Owner",
       "type" : "cash-in",
-      "status" : "active",
-      "createdBy" : "06f449fa-7a9a-4221-bd48-8f22f3bacbc0"
+      "status" : "active"
     },
     {
       "name" : "Offloading fee",
       "type" : "cash-out",
-      "status" : "active",
-      "createdBy" : "06f449fa-7a9a-4221-bd48-8f22f3bacbc0"
+      "status" : "active"
     },
     {
       "name" : "Food",
       "type" : "cash-out",
-      "status" : "active",
-      "createdBy" : "06f449fa-7a9a-4221-bd48-8f22f3bacbc0"
+      "status" : "active"
     },
     {
       "name" : "Transport",
       "type" : "cash-out",
-      "status" : "active",
-      "createdBy" : "06f449fa-7a9a-4221-bd48-8f22f3bacbc0"
+      "status" : "active"
     },
     {
       "name" : "Cleaning services",
       "type" : "cash-out",
-      "status" : "active",
-      "createdBy" : "06f449fa-7a9a-4221-bd48-8f22f3bacbc0"
+      "status" : "active"
     },
     {
       "name" : "Software expenses",
       "type" : "cash-out",
-      "status" : "active",
-      "createdBy" : "06f449fa-7a9a-4221-bd48-8f22f3bacbc0"
+      "status" : "active"
     },
     {
       "name" : "Salary",
       "type" : "cash-out",
-      "status" : "active",
-      "createdBy" : "06f449fa-7a9a-4221-bd48-8f22f3bacbc0"
+      "status" : "active"
     },
     {
       "name" : "Electricity",
       "type" : "cash-out",
-      "status" : "active",
-      "createdBy" : "06f449fa-7a9a-4221-bd48-8f22f3bacbc0"
+      "status" : "active"
     },
     {
       "name" : "Water",
       "type" : "cash-out",
-      "status" : "active",
-      "createdBy" : "06f449fa-7a9a-4221-bd48-8f22f3bacbc0"
+      "status" : "active"
     },
     {
       "name" : "Local Authority",
       "type" : "cash-out",
-      "status" : "active",
-      "createdBy" : "06f449fa-7a9a-4221-bd48-8f22f3bacbc0"
+      "status" : "active"
     },
     {
       "name" : "Business Operation Fee",
       "type" : "cash-out",
-      "status" : "active",
-      "createdBy" : "06f449fa-7a9a-4221-bd48-8f22f3bacbc0"
+      "status" : "active"
     },
     {
       "name" : "Fuel",
       "type" : "cash-out",
-      "status" : "active",
-      "createdBy" : "06f449fa-7a9a-4221-bd48-8f22f3bacbc0"
+      "status" : "active"
     },
     {
       "name" : "Rent",
       "type" : "cash-out",
-      "status" : "active",
-      "createdBy" : "06f449fa-7a9a-4221-bd48-8f22f3bacbc0"
+      "status" : "active"
     },
     {
       "name" : "Gift",
       "type" : "cash-out",
-      "status" : "active",
-      "createdBy" : "06f449fa-7a9a-4221-bd48-8f22f3bacbc0"
+      "status" : "active"
     },
     {
       "name" : "Susu/Savings",
       "type" : "cash-out",
-      "status" : "active",
-      "createdBy" : "06f449fa-7a9a-4221-bd48-8f22f3bacbc0"
+      "status" : "active"
     }
   ]
 }

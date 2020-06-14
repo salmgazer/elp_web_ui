@@ -19,6 +19,7 @@ export default class Cashflow extends Model {
     @field('categoryId') categoryId;
     @field('status') status;
     @field('createdBy') createdBy;
+    @field('statusChangedBy') statusChangedBy;
     @field('dateAdded') dateAdded;
     @date('created_at') createdAt;
     @date('updated_at') updatedAt;
