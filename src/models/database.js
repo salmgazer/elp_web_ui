@@ -20,7 +20,6 @@ import BranchPurchases from "./branchPurchases/BranchPurchases";
 import StockMovement from "./stockMovements/StockMovement";
 import Audits from "./audit/Audit";
 import AuditEntries from "./auditEntry/AuditEntries";
-
 import SuppliersCompany from "./suppliers_company/SuppliersCompany";
 import BranchSuppliers from "./branchSuppliers/BranchSuppliers";
 import BranchSupplierProducts from "./branchSupplierProducts/BranchSupplierProducts";
@@ -29,6 +28,7 @@ import BranchSupplierOrder from "./branchSupplierOrder/BranchSupplierOrder";
 import BranchSupplierOrderPaymentInstallment from "./branchSupplierOrderPaymentInstallment/BranchSupplierOrderPaymentInstallment";
 import CashflowCategory from "./cashflowCategories/CashflowCategory";
 import Cashflow from "./cashflow/Cashflow";
+import BranchSupplierStock from "./branchSupplierStock/BranchSupplierStock";
 
 const adapter = new LokiJSAdapter({
   schema,
@@ -56,14 +56,17 @@ export default new Database({
     StockMovement,
     Audits,
     AuditEntries,
+    /*
     SuppliersCompany,
     BranchSuppliers,
+    BranchSupplierStock,
     BranchSupplierProducts,
     BranchSupplierSalespersons,
     BranchSupplierOrder,
     BranchSupplierOrderPaymentInstallment,
     CashflowCategory,
-    Cashflow,
+    Cashflow
+    */
   ],
   actionsEnabled: true
 });

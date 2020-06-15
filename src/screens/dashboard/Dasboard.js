@@ -481,8 +481,10 @@ const EnhancedDashboard = withDatabase(
         value: LocalInfo.branchId,
         fxn: 'eq'
     }),
+    /*
   cashFlow: new ModelAction('Cashflow').indexNotObserve(),
     branchCustomers: database.collections.get(BranchCustomer.table).query().observe(),
+    */
 
   }))(withRouter(Dashboard))
 );

@@ -27,6 +27,7 @@ import cashflowSchema from "./cashflow/cashflowSchema";
 // latest migrations should be at the top entry level of the migrations array
 export default schemaMigrations({
   migrations: [
+    /*
       {
           toVersion: 13,
           steps: [
@@ -45,6 +46,7 @@ export default schemaMigrations({
               createTable(branchSupplierOrderPaymentInstallmentSchema),
           ]
       },
+    */
       {
           toVersion: 11,
           steps: [

@@ -28,7 +28,7 @@ import cashflowCategorySchema from "./cashflowCategories/cashflowCategorySchema"
 import cashflowSchema from "./cashflow/cashflowSchema";
 
 export default appSchema({
-  version: 13, // must always match the latest migration number in migrations.js
+  version: 11, // must always match the latest migration number in migrations.js 13
   tables: [
     tableSchema(brandSchema),
     tableSchema(manufacturerSchema),
@@ -48,7 +48,7 @@ export default appSchema({
     tableSchema(stockMovementSchema),
     tableSchema(auditSchema),
     tableSchema(auditEntriesSchema),
-    tableSchema(suppliersCompanySchema),
+    /* tableSchema(suppliersCompanySchema),
     tableSchema(branchSuppliersSchema),
     tableSchema(branchSupplierProductSchema),
     tableSchema(branchSupplierSalespersonsSchema),
@@ -56,5 +56,6 @@ export default appSchema({
     tableSchema(branchSupplierOrderPaymentInstallmentSchema),
     tableSchema(cashflowCategorySchema),
     tableSchema(cashflowSchema),
+     */
   ]
 });

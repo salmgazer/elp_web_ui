@@ -35,19 +35,60 @@ export default class SyncService {
           const {changes, timestamp} = await response.data;
           LocalInfo.lastSyncedAt = timestamp;
 
-          for (let m = 0; m < globalModels.length; m++) {
-            const records = await database.collections
-              .get(globalModels[m].table)
-              .query()
-              .fetch()
+          changes.branch_supplier_order_payment_installments = {
+            created: [],
+            deleted: [],
+            updated: []
+          };
 
-            const deleted = records.map(record => record.prepareDestroyPermanently())
-            database.action(async () => {
-              await database.batch(...deleted);
-            });
+          changes.suppliers_companies = {
+            created: [],
+            deleted: [],
+            updated: []
+          };
+
+          changes.carts = {
+            created: [],
+            deleted: [],
+            updated: []
+          };
+
+          changes.cart_entries = {
+            created: [],
+            deleted: [],
+            updated: []
+          };
+
+          const tableKeys = Object.keys(database.collections.map);
+          const changesKeys = Object.keys(changes);
+          changesKeys.forEach(changeKey => {
+            const table = tableKeys.find(key => key === changeKey);
+            if (!table) {
+              console.log(`${changeKey} NO NO NO`);
+              delete changes[changeKey];
+            } else {
+              console.log(`${changeKey} exists`);
+            }
+          });
+
+          console.log(tableKeys.length);
+          console.log(changesKeys.length);
+
+          for (let m = 0; m < globalModels.length; m++) {
+            const collection = database.collections.get(globalModels[m].table);
+            const records = await collection.query().fetch();
+
+
+            if (records.length > 0) {
+              const deleted = records.map(record => record.prepareDestroyPermanently());
+              await database.action(async () => {
+                await database.batch(...deleted);
+              });
+            }
           }
 
-          console.log(changes);
+
+          // console.log(changes);
           /*
           console.log(changes.products);
 
@@ -106,6 +147,8 @@ export default class SyncService {
             }
           });
           */
+
+          console.log(changes);
 
           return {changes, timestamp};
         },

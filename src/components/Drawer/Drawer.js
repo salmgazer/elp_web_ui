@@ -186,10 +186,13 @@ const Drawer = props => {
                     <ListItemText primary="Stock" />
                 </ListItem>
                 <Divider />
+              {/*
                 <ListItem button key={4} onClick={() => history.push(paths.collection_owner)}>
-                    <ListItemIcon><AttachMoneyIcon style={{color: '#FFFFFF'}} /></ListItemIcon>
-                    <ListItemText primary="Collection" />
+                  <ListItemIcon><AttachMoneyIcon style={{color: '#FFFFFF'}}/></ListItemIcon>
+                  <ListItemText primary="Collection"/>
                 </ListItem>
+                */
+              }
                 <Divider />
                 <ListItem button key={5} onClick={() => history.push(paths.dashboard)}>
                     <ListItemIcon><DashboardIcon style={{color: '#FFFFFF'}} /></ListItemIcon>

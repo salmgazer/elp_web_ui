@@ -155,11 +155,11 @@ const Login = props => {
             const userId = userAccess.user.userId;
             await SyncService.sync(companyId, LocalInfo.branchId, userId, database);
             console.log("DONE SYNCING");
-            await CashflowService.exportDefaultCashflowCategories();
-            await CashflowService.makeStockLegit();
+            // await CashflowService.exportDefaultCashflowCategories();
+            // await CashflowService.makeStockLegit();
 
             history.push(paths.dashboard)
-        }else{
+        } else {
             document.getElementById("loginForm").reset();
             setLoading(false);
             await setErrorDialog(true);
