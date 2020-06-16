@@ -36,7 +36,7 @@ const useStyles = makeStyles(theme => ({
         textAlign: `center !important`,
     },
     error: {
-        border: '1px solid red',
+        border: '1px solid #D34343',
     },
     iconButton: {
         padding: 10,
@@ -160,8 +160,8 @@ const ViewSingleProduct = props => {
                         <Typography
                             component="p"
                             variant="h6"
-                            style={{fontSize: '10px' , margin: '3px 0px', paddingTop: '5px' , color: `red !important` , float: 'right'}}
-                            className={`font-weight-light`}
+                            style={{fontSize: '10px' , margin: '3px 0px', paddingTop: '5px' , color: '#D34343' , float: 'right'}}
+                            className={`font-weight-bold`}
                         >
                             { entryTotal / quantity < cartEntry.costPrice ? 'Invalid amount' : ''}
                         </Typography>

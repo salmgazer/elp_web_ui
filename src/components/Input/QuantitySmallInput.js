@@ -14,8 +14,8 @@ const useStyles = makeStyles(theme => ({
         padding: '2px 5px',
         alignItems: 'center',
         borderRadius: '5px',
-        height: '30px',
-        border: 'none',
+        height: '25px',
+        border: '1px solid #e5e5e5',
         fontSize: '0.9rem',
         lineHeight: '1.5',
         transition: 'border-color .15s ease-in-out,box-shadow .15s ease-in-out',
@@ -83,7 +83,6 @@ const QuantitySmallInput = props => {
         if(max !== 0 && parseFloat(event.target.value) >= max){
             return false;
         }
-        console.log('You are here')
         setQuantity(parseFloat(event.target.value));
         props.getValue(inputName , parseFloat(event.target.value));
 
@@ -97,7 +96,7 @@ const QuantitySmallInput = props => {
                 <Grid
                     item xs={3}
                     className={`text-right py-2`}
-                    style={{color: '#D34343'}}
+                    style={{color: '#DAAB59'}}
                 >
                     <RemoveCircleOutlineOutlinedIcon onClick={decreaseQ} className={`icon-font-small text-right`}/>
                 </Grid>
@@ -115,7 +114,7 @@ const QuantitySmallInput = props => {
                 <Grid
                     item xs={3}
                     className={`text-left py-2`}
-                    style={{color: '#53BF77'}}
+                    style={{color: '#DAAB59'}}
                 >
                     <AddCircleOutlineOutlinedIcon onClick={increaseQ} className={`icon-font-small`}/>
                 </Grid>
