@@ -9,9 +9,9 @@ import ListItemText from '@material-ui/core/ListItemText';
 import VisibilityIcon from '@material-ui/icons/Visibility';
 import StoreIcon from '@material-ui/icons/Store';
 import ShoppingCartIcon from '@material-ui/icons/ShoppingCart';
-import ListAltIcon from '@material-ui/icons/ListAlt';
+import FormatListBulletedIcon from '@material-ui/icons/FormatListBulleted';
 import './Drawer.scss';
-import AttachMoneyIcon from '@material-ui/icons/AttachMoney';
+import Avatar from "@material-ui/core/Avatar/Avatar";
 import DashboardIcon from '@material-ui/icons/Dashboard';
 import PersonIcon from '@material-ui/icons/Person';
 import SettingsIcon from '@material-ui/icons/Settings';
@@ -22,16 +22,21 @@ import LocalInfo from "../../services/LocalInfo";
 import AccountBalanceWalletIcon from '@material-ui/icons/AccountBalanceWallet';
 import SyncService from "../../services/SyncService";
 import { useDatabase } from "@nozbe/watermelondb/hooks";
-import Backdrop from '@material-ui/core/Backdrop';
-import ProgressLabel from 'react-progress-label';
+// import Backdrop from '@material-ui/core/Backdrop';
+// import ProgressLabel from 'react-progress-label';
 import AuthService from "../../services/AuthService";
 import Collapse from '@material-ui/core/Collapse';
 import ExpandLess from '@material-ui/icons/ExpandLess';
 import ExpandMore from '@material-ui/icons/ExpandMore';
+import FiberManualRecordIcon from '@material-ui/icons/FiberManualRecord';
+import CloudDoneIcon from '@material-ui/icons/CloudDone';
+import SyncIcon from '@material-ui/icons/Sync';
+import HelpIcon from '@material-ui/icons/Help';
+import ListIcon from '@material-ui/icons/List';
 
 const useStyles = makeStyles((theme) => ({
     list: {
-        width: 250,
+        width: 280,
     },
     fullList: {
         width: 'auto',
@@ -57,7 +62,7 @@ const Drawer = props => {
         setOpen(!open);
     };
 
-    const [syncOpen, setSyncOpen] = React.useState(false);
+    // const [syncOpen, setSyncOpen] = React.useState(false);
 
     const database = useDatabase();
 
@@ -73,55 +78,55 @@ const Drawer = props => {
         setState({ ['left']: open });
     };
 
-    const handleSyncClose = () => {
-        setSyncOpen(false);
-    };
-    const handleSyncToggle = () => {
-        setSyncOpen(!syncOpen);
-    };
+    // const handleSyncClose = () => {
+    //     setSyncOpen(false);
+    // };
+    // const handleSyncToggle = () => {
+    //     setSyncOpen(!syncOpen);
+    // };
 
-    const sync = async() => {
-        setSyncOpen(true);
-        backDrop();
-        await SyncService.sync(LocalInfo.companyId, LocalInfo.branchId, LocalInfo.userId, database);
+    // const sync = async() => {
+    //     setSyncOpen(true);
+    //     backDrop();
+    //     await SyncService.sync(LocalInfo.companyId, LocalInfo.branchId, LocalInfo.userId, database);
 
-        //alert("About to sync");
-        //alert("Done syncing");
-        //handleSyncClose();
-    }
+    //     //alert("About to sync");
+    //     //alert("Done syncing");
+    //     //handleSyncClose();
+    // }
 
-    const backDrop = () => {
-        console.log('I was here')
-        return (
-            <Backdrop className={classes.backdrop} open={syncOpen}>
-                <ProgressLabel
-                    progress={localStorage.getItem("currentRequestProgress")}
-                    fillColor="rgb(248,247,243)"
-                    trackColor="#fff"
-                    progressColor="#DAAB59"
-                    progressWidth={10}
-                    trackWidth={16}
-                    trackBorderWidth={1}
-                    trackBorderColor="rgb(232,223,209)"
-                    cornersWidth={5}
-                    size={130}
-                    text={localStorage.getItem("currentRequestName")}
-                    textProps={{
-                        x: '50%',
-                        y: '50%',
-                        dx: 8,
-                        dy: 8,
-                        textAnchor: 'middle',
-                        style: {
-                            fontSize: 28,
-                            fontWeight: '500',
-                            fill: '#ac884c'
-                        }
-                    }}
-                />
-            </Backdrop>
-        )
-    }
+    // const backDrop = () => {
+    //     console.log('I was here')
+    //     return (
+    //         <Backdrop className={classes.backdrop} open={syncOpen}>
+    //             <ProgressLabel
+    //                 progress={localStorage.getItem("currentRequestProgress")}
+    //                 fillColor="rgb(248,247,243)"
+    //                 trackColor="#fff"
+    //                 progressColor="#DAAB59"
+    //                 progressWidth={10}
+    //                 trackWidth={16}
+    //                 trackBorderWidth={1}
+    //                 trackBorderColor="rgb(232,223,209)"
+    //                 cornersWidth={5}
+    //                 size={130}
+    //                 text={localStorage.getItem("currentRequestName")}
+    //                 textProps={{
+    //                     x: '50%',
+    //                     y: '50%',
+    //                     dx: 8,
+    //                     dy: 8,
+    //                     textAnchor: 'middle',
+    //                     style: {
+    //                         fontSize: 28,
+    //                         fontWeight: '500',
+    //                         fill: '#ac884c'
+    //                     }
+    //                 }}
+    //             />
+    //         </Backdrop>
+    //     )
+    // }
 
     const logout = async() => {
         try {
@@ -142,115 +147,109 @@ const Drawer = props => {
         >
             <span className="drawerDefault"
                 onClick={() => history.push(paths.dashboard)}
-                style={{display: 'flex', position: 'relative', background: '#403C3C', lineHeight: '27px', color: '#ffffff'}}
+                style={{display: 'flex', position: 'relative', background: '#ffffff', lineHeight: '27px', color: '#403C3C'}}
             >
                 <div className="ham-top-div">
-                    <div className="ham-top-div-inner">
+                    {/* <div className="ham-top-div-inner">
                         <StoreIcon style={{fontSize: '70px', color: '#000000'}}/>
+                    </div> */}
+                    <div>
+                        <Avatar
+                            alt={LocalInfo.company.name}
+                            //src={Woman}
+                            className={classes.primaryColor}
+                            style={{
+                                width: "45px",
+                                height: "45px",
+                                borderRadius: "50%",
+                                margin: '10px auto',
+                                textAlign: 'left',
+                                color: '#000000',
+                                backgroundColor: '#EBBAB3',
+                            }}
+                        >
+                            {(LocalInfo.company.name).charAt(0).toUpperCase()}
+                        </Avatar>
                     </div>
                     <div className="" style={{ padding:'10px 16px'}}>
                         <span className="large" id="s_name">{ LocalInfo.company.name }</span><br/>
-                        <span className="small" id="b_name">{ LocalInfo.branch.name }</span><br/>
-                        <span className="medium" id="u_name">{ LocalInfo.userFullName }</span>
+                        <span className="medium" id="b_name">{ LocalInfo.userFullName }  <FiberManualRecordIcon style={{fontSize: '10px'}} />  { LocalInfo.branch.name } branch</span><br/>
+                        {/* <span className="medium" id="u_name">{ LocalInfo.userFullName }</span> */}
                     </div>
 		        </div>
             </span>
 
-            <List className="drawerDefault" style={{background:'#403C3C', color: '#FFFFFF'}}>
-                {/* <Divider /> */}
-                {/* <ListItem button key={1} onClick={handleClick} >
-                    <ListItemIcon><StoreIcon style={{color: '#FFFFFF'}} /></ListItemIcon>
-                    <ListItemText primary="My stores" />
-                    {open ? <ExpandLess /> : <ExpandMore />}
-                </ListItem> */}
-                {/* <Collapse in={open} timeout="auto" unmountOnExit>
-                    <List component="div" disablePadding>
-                        <ListItem button className={classes.nested}>
-                            <ListItemIcon> <StoreIcon style={{color: '#FFFFFF'}} /> </ListItemIcon>
-                            <ListItemText primary="Store 1" />
-                        </ListItem>
-                        <ListItem button className={classes.nested}>
-                            <ListItemIcon> <StoreIcon style={{color: '#FFFFFF'}} /> </ListItemIcon>
-                            <ListItemText primary="Store 2" />
-                        </ListItem>
-                    </List>
-                </Collapse> */}
-                <Divider />
+            <List className="drawerDefault" style={{background:'#FFFFFF', color: '#403C3C'}}>
+                
+                <ListItem button key={1}  >
+                    <ListItemIcon><CloudDoneIcon style={{color: '#403C3C'}} /></ListItemIcon>
+                    <ListItemText primary="Last sync: 10 mins ago" />
+                    <SyncIcon />
+                </ListItem>
+               
                 <ListItem button key={2} onClick={() => history.push(paths.sell)}>
-                    <ListItemIcon><ShoppingCartIcon style={{color: '#FFFFFF'}} /></ListItemIcon>
+                    <ListItemIcon><ShoppingCartIcon style={{color: '#403C3C'}} /></ListItemIcon>
                     <ListItemText primary="Sell" />
                 </ListItem>
-                <Divider />
+                
                 <ListItem button key={3} onClick={() => history.push(paths.stock)}>
-                    <ListItemIcon><ListAltIcon style={{color: '#FFFFFF'}} /></ListItemIcon>
+                    <ListItemIcon><FormatListBulletedIcon style={{color: '#403C3C'}} /></ListItemIcon>
                     <ListItemText primary="Stock" />
                 </ListItem>
-                <Divider />
-              {/*
-                <ListItem button key={4} onClick={() => history.push(paths.collection_owner)}>
-                  <ListItemIcon><AttachMoneyIcon style={{color: '#FFFFFF'}}/></ListItemIcon>
-                  <ListItemText primary="Collection"/>
-                </ListItem>
-                */
-              }
-                <Divider />
+        
                 <ListItem button key={5} onClick={() => history.push(paths.dashboard)}>
-                    <ListItemIcon><DashboardIcon style={{color: '#FFFFFF'}} /></ListItemIcon>
+                    <ListItemIcon><DashboardIcon style={{color: '#403C3C'}} /></ListItemIcon>
                     <ListItemText primary="Dashboard" />
                 </ListItem>
                 <Divider />
+
                 <ListItem button key={6} >
-                    <ListItemIcon onClick={() => history.push(paths.admin)} ><PersonIcon style={{color: '#FFFFFF'}} /></ListItemIcon>
+                    <ListItemIcon onClick={() => history.push(paths.admin)} ><SettingsIcon style={{color: '#403C3C'}} /></ListItemIcon>
                     <ListItemText primary="Admin" onClick={() => history.push(paths.admin)}/>
                     {open ? <ExpandLess onClick={handleClick} /> : <ExpandMore onClick={handleClick} />}
                 </ListItem>
                 <Collapse in={open} timeout="auto" unmountOnExit>
                     <List component="div" disablePadding>
                         <ListItem button className={classes.nested}>
-                            <ListItemIcon> <StoreIcon style={{color: '#FFFFFF'}} /> </ListItemIcon>
+                            <ListItemIcon> <StoreIcon style={{color: '#403C3C'}} /> </ListItemIcon>
                             <ListItemText primary="Shop information" />
                         </ListItem>
                         <ListItem button className={classes.nested}>
-                            <ListItemIcon> <StoreIcon style={{color: '#FFFFFF'}} /> </ListItemIcon>
+                            <ListItemIcon> <FormatListBulletedIcon style={{color: '#403C3C'}} /> </ListItemIcon>
                             <ListItemText primary="Stock" />
                         </ListItem>
                         <ListItem button className={classes.nested} onClick={() => history.push(paths.employees)}>
-                            <ListItemIcon> <StoreIcon style={{color: '#FFFFFF'}} /> </ListItemIcon>
+                            <ListItemIcon> <PersonIcon style={{color: '#403C3C'}} /> </ListItemIcon>
                             <ListItemText primary="Employees" />
                         </ListItem>
                         <ListItem button className={classes.nested} onClick={() => history.push(paths.admin_customers)}>
-                            <ListItemIcon> <StoreIcon style={{color: '#FFFFFF'}} /> </ListItemIcon>
+                            <ListItemIcon> <PersonIcon style={{color: '#403C3C'}} /> </ListItemIcon>
                             <ListItemText primary="Customers" />
                         </ListItem>
                         <ListItem button className={classes.nested} onClick={() => history.push(paths.suppliers)}>
-                            <ListItemIcon> <StoreIcon style={{color: '#FFFFFF'}} /> </ListItemIcon>
+                            <ListItemIcon> <PersonIcon style={{color: '#403C3C'}} /> </ListItemIcon>
                             <ListItemText primary="Suppliers" />
                         </ListItem>
                     </List>
                 </Collapse>
-                <Divider />
+                
                 <ListItem button key={7} onClick={() => history.push(paths.audit)}>
-                    <ListItemIcon><VisibilityIcon style={{color: '#FFFFFF'}} /></ListItemIcon>
+                    <ListItemIcon><VisibilityIcon style={{color: '#403C3C'}} /></ListItemIcon>
                     <ListItemText primary="Audit" />
                 </ListItem>
-                <Divider />
+               
                 <ListItem button key={8} onClick={() => history.push(paths.reconciliation)}>
-                    <ListItemIcon><AccountBalanceWalletIcon style={{color: '#FFFFFF'}} /></ListItemIcon>
+                    <ListItemIcon><AccountBalanceWalletIcon style={{color: '#403C3C'}} /></ListItemIcon>
                     <ListItemText primary="Reconcilation" />
                 </ListItem>
-                <Divider />
-              <ListItem button key={10} onClick={sync}>
-                <ListItemIcon><SettingsIcon style={{color: '#FFFFFF'}} /></ListItemIcon>
-                <ListItemText primary="Sync" />
-              </ListItem>
-              <Divider />
+              
                 <ListItem button key={11}>
-                    <ListItemIcon><SettingsIcon style={{color: '#FFFFFF'}} /></ListItemIcon>
+                    <ListItemIcon><HelpIcon style={{color: '#403C3C'}} /></ListItemIcon>
                     <ListItemText primary="Help" />
                 </ListItem>
-                <Divider />
+               
                 <ListItem button key={12} onClick={logout}>
-                    <ListItemIcon><ExitToAppIcon style={{color: '#FFFFFF'}} /></ListItemIcon>
+                    <ListItemIcon><ExitToAppIcon style={{color: '#403C3C'}} /></ListItemIcon>
                     <ListItemText primary="Logout" />
                 </ListItem>
             </List>

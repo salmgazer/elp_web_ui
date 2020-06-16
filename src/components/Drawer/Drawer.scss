@@ -10,7 +10,7 @@
     background-color: #98919187;
   }
   .MuiTypography-body1 {
-    font-size: 1.2rem !important;
+    font-size: 15px !important;
   }
   .MuiListItem-root {
     padding-top: 10px !important;
@@ -53,10 +53,12 @@
   }
 
   .medium {
-    font-size: 17px;
+    font-size: 16px;
   }
 
   .large {
-    font-size: 17px;
+    font-size: 20px;
+    text-transform: uppercase;
+    font-weight: 600;
   }
 }
