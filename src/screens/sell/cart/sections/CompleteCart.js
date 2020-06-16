@@ -58,6 +58,7 @@ const CheckoutView = props => {
     const [salesId , setSalesId] = useState(0);
     const [salesTotal , setSalesTotal] = useState(0);
     const [amountPaid , setAmountPaid] = useState(0);
+    const [paymentType , setPaymentType] = useState(0);
     const [quantity , setQuantity] = useState(0);
     const [receipt , setReceipt] = useState(0);
     const [date , setDate] = useState(0);
@@ -75,20 +76,21 @@ const CheckoutView = props => {
 
     const getSalesId = async () => {
         const sale = await database.adapter.getLocal("saleId");
-        const total = await SaleService.getSaleEntryAmountPaidById(sale);
+        const total = await SaleService.getSaleEntryAmountById(sale);
         const qty = await SaleService.getSaleProductQuantity(sale);
         const lastsale = await SaleService.getLastSale();
         const need = await new SaleService().getSaleProductsById(sale);
         console.log(need);
+
         const recDate = format(fromUnixTime(lastsale.salesDate) , "eeee, MMMM do, yyyy");
         const rec = lastsale.receiptNumber;
         setCustomerName(await new CartService().getCartCustomer(props.currentCustomer));
         setSeller(LocalInfo.username);
         setReceipt(rec.slice(0,8));
-        //const total = await SaleService.getSaleEntryAmountById(sale);
         setQuantity(qty);
         setDate(recDate);
-        setSalesId(total);
+        setPaymentType(lastsale.paymentType)
+        setSalesId(sale);
         setAmountPaid((parseFloat(localStorage.getItem('amountPaid'))).toFixed(2));
         setSalesTotal((parseFloat(total)).toFixed(2));
 
@@ -97,17 +99,23 @@ const CheckoutView = props => {
 
     const classes = useStyles();
 
-    const backHandler = (event) => {
-        props.setView(1);
-    };
-
     return(
         <div className={classes.root} >
 
-            <ArrowBackIcon  style={{position: 'relative', float: 'left', fontSize: '2rem', marginLeft: '10px'}}
-                onClick={backHandler.bind(this)}
-
-            />
+            <div
+                style={{
+                    position: 'relative',
+                    float: 'left',
+                    fontSize: '1.2rem',
+                    marginLeft: '10px'
+                }}
+                onClick={() => history.push(paths.sell)}
+            >
+                <ArrowBackIcon style={{float: 'left', fontSize: '1.5rem', marginRight: '5px'}} />
+                <Typography className='text-dark font-weight-light' style={{ float: 'left', textDecoration: 'underline', textDecorationColor: '#333333' }} >
+                    Continue Selling
+                </Typography>
+            </div>
 
             <Box component="div" m={2} style={{margin: '16px 0px 0px 0px'}}>
                 <img className="img100" src={SuccessImage} alt={'test'}/>
@@ -132,10 +140,19 @@ const CheckoutView = props => {
                         <td className={classes.td}>Paid :</td>
                         <td className={classes.td}>{`GHC ${amountPaid}`}</td>
                     </tr>
-                    <tr>
-                        <td className={classes.td}> Change :</td>
-                        <td className={classes.td}>{`GHC ${amountPaid - salesTotal}`}</td>
-                    </tr>
+                    {
+                        paymentType === 'credit' ? (
+                                <tr>
+                                    <td className={classes.td}>Outstanding :</td>
+                                    <td className={classes.td}>GHC {(parseFloat(salesTotal) - parseFloat(amountPaid)).toFixed(2)}</td>
+                                </tr>
+                            ):
+                            <tr>
+                                <td className={classes.td}> Change :</td>
+                                <td className={classes.td}>{`GHC ${amountPaid - salesTotal}`}</td>
+                            </tr>
+                    }
+
                 </table>
 
                 {/* <Button
@@ -149,16 +166,17 @@ const CheckoutView = props => {
                 </Button> */}
                 <ReactToPrint
                     trigger={() =>
-                    <Button
-                        variant="outlined"
-                        style={{fontSize: '16px', }}
-                        className={classes.button}
-                        // onClick={print}
-                    >
-                        <LocalPrintshopIcon />
-                        &nbsp; Print receipt
-                    </Button> }
-
+                        <Button
+                            variant="outlined"
+                            style={{fontSize: '16px', }}
+                            className={classes.button}
+                            // onClick={print}
+                        >
+                            <LocalPrintshopIcon />
+                            &nbsp; Print receipt
+                        </Button>
+                    }
+                    onAfterPrint={() => history.push(paths.sell)}
                     content={() => componentRef.current}
                 />
                 <div style={{ display: "none" }}>
@@ -170,15 +188,16 @@ const CheckoutView = props => {
                         seller= {seller}
                         customer= {customerName}
                         totalQty= {quantity}
-                        totalAmt= {`GHC ${salesTotal}`}
-                        amtPaid= {`GHC ${amountPaid}`}
+                        paymentType={paymentType}
+                        totalAmt= {salesTotal}
+                        amtPaid= {amountPaid}
                         changeRem= {`GHC ${amountPaid - salesTotal}`}
                      />
                 </div>
 
             </Paper>
 
-            <div
+            {/*<div
                 onClick={() => history.push(paths.sell)}
             >
                 <Button
@@ -195,7 +214,7 @@ const CheckoutView = props => {
                 >
                     Continue selling
                 </Button>
-            </div>
+            </div>*/}
 
 
         </div>

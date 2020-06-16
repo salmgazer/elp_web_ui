@@ -65,6 +65,14 @@ const CheckoutView = props => {
     const [btnValue , setBtnValue] = React.useState(false);
     const [customerName, setCustomerName] = React.useState('');
     const [customerId , setCustomerId] = React.useState('');
+    const [formData , setFormData] = React.useState(
+        {
+            amountPaid: '',
+            changeDue: '',
+            customer: props.customerId,
+            type: 0
+        }
+    );
     //console.log(props.currentCustomer)
     //console.log(customerName)
 
@@ -120,7 +128,12 @@ const CheckoutView = props => {
     const setCustomerHandler = (customer) => {
         console.log(customer)
         props.setCustomerHandler(customer);
-        //console.log(props.currentCustomer)
+
+        /*if(formData.type === 2 && customerId === 0) {
+            setBtnValue(false);
+        }else{
+            setBtnValue(true);
+        }*/
     };
 
     const setAddCustomerHandler = async() => {
@@ -146,13 +159,44 @@ const CheckoutView = props => {
             }, 1000);
             setBtnValue(false);
         }
+
+        const {...oldFormFields} = formFields;
+        oldFormFields['customer'] = customerId;
         setCartData(formFields)
+    };
+
+    const otherPaymentFormFields = (formFields) => {
+        if(formFields.type === 2 && customerId === 0){
+            setErrorMsg(`Please set a customer for credit sales`);
+            setError(true);
+            setTimeout(function(){
+                setError(false);
+            }, 3000);
+            setBtnValue(false);
+        }else if(formFields.type !== 2 && parseFloat(formFields.amountPaid) >= parseFloat(props.cartTotalAmount)){
+            setErrorMsg(`Amount paid must be greater than ${props.cartTotalAmount}`);
+            setError(true);
+            setTimeout(function(){
+                setError(false);
+            }, 1000);
+            setBtnValue(false);
+        }else {
+            setBtnValue(true);
+        }
+
+        const {...oldFormFields} = formFields;
+        oldFormFields['customer'] = customerId;
+
+        console.log(formFields)
+        setCartData(formFields)
+        setFormData(formFields)
     };
 
     const completeSellHandler = async() => {
         //console.log(cartData)
         try {
-            await new SaleService().makeSell(cartData , value);
+            console.log(cartData)
+            await new SaleService().makeSell(cartData , cartData.type);
             props.setView(2);
         }catch (e) {
 
@@ -162,7 +206,7 @@ const CheckoutView = props => {
 
     return(
         <div className={classes.root}>
-            <SectionNavbars 
+            <SectionNavbars
                 title="Payment"
                 leftIcon={
                     <div onClick={backHandler.bind(this)}>
@@ -191,7 +235,7 @@ const CheckoutView = props => {
                 </Grid>
             </Box>
 
-            <AppBar position="static" color="white">
+            <AppBar position="static" color="default">
                 <Tabs
                     value={value}
                     onChange={handleChange}
@@ -222,12 +266,15 @@ const CheckoutView = props => {
                 </TabPanel>
                 <TabPanel value={value} index={1}  >
                     <ViewMobileMoney
+                        currentCustomer={customerName}
                         openAddCustomerModal={getCustomerDialog.bind(this)}
-                        getFormFields={paymentDetails.bind(this)}
+                        cartAmount={props.cartTotalAmount}
+                        customerId={props.currentCustomer}
+                        getFormFields={otherPaymentFormFields.bind(this)}
                     />
                 </TabPanel>
                 {/* <TabPanel value={value} index={2}  >
-                    <ViewCredit 
+                    <ViewCredit
 
                     />
                 </TabPanel> */}

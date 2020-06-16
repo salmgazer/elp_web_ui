@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {withRouter} from "react-router";
+import {withRouter} from "react-router-dom";
 import CartView from "./sections/ViewCart";
 import {confirmAlert} from "react-confirm-alert";
 import Checkout from "./sections/Checkout";
@@ -13,20 +13,23 @@ import BranchCustomer from "../../../models/branchesCustomer/BranchCustomer";
 import LocalInfo from "../../../services/LocalInfo";
 
 class Cart extends Component{
-    state={
-        isDrawerShow: false,
-        cartId: new CartService().cartId(),
-        activeStep: 0,
-        productList: [],
-        cartTotalProduct: 0,
-        cartTotalAmount: 0,
-        cartEntries: this.props.cartEntries,
-        customers: [],
-        currentCustomer: 0,
-    };
+    constructor(props){
+        super(props);
+        this.state = {
+            isDrawerShow: false,
+            cartId: new CartService().cartId(),
+            activeStep: 0,
+            productList: [],
+            cartTotalProduct: 0,
+            cartTotalAmount: 0,
+            cartEntries: this.props.cartEntries,
+            customers: [],
+            currentCustomer: 0,
+        }
+    }
 
     async componentDidMount() {
-        const { history, database , cartQuantity , cart , cartEntries , branchCustomers ,currentCustomer} = this.props;
+        const {cartEntries , branchCustomers} = this.props;
 
         this.state.cartId = await new CartService().cartId();
 
@@ -40,7 +43,7 @@ class Cart extends Component{
     }
 
     async componentDidUpdate(prevProps) {
-        const { history, database , cartQuantity , cart , cartEntries , branchCustomers , currentCustomer} = this.props;
+        const {branchCustomers} = this.props;
 
         if(this.state.currentCustomer !== await CartService.getCartCustomerId() || this.props.cartEntries !== prevProps.cartEntries || branchCustomers.length !== prevProps.branchCustomers.length || this.state.cartTotalProduct !== await CartService.getCartProductQuantity()){
             await this.setState({
@@ -56,7 +59,7 @@ class Cart extends Component{
     getStepContent = step => {
         switch (step) {
             case 0:
-                return <CartView setCustomerHandler={this.setCustomerHandler.bind(this)} currentCustomer={this.state.currentCustomer} customers={this.state.customers} cartTotalAmount={this.state.cartTotalAmount} cartTotalProducts={this.state.cartTotalProduct} changeQuantity={this.changeProductQuantityHandler.bind(this)} entries={this.state.cartEntries} setView={this.setStepContentView.bind(this)} products={this.state.productList} deleteProduct={this.deleteProduct.bind(this)} />;
+                return <CartView setCustomerHandler={this.setCustomerHandler.bind(this)} currentCustomer={this.state.currentCustomer} customers={this.state.customers} cartTotalAmount={this.state.cartTotalAmount} cartTotalProducts={this.state.cartTotalProduct} changePrice={this.changeProductPriceHandler.bind(this)} changeQuantity={this.changeProductQuantityHandler.bind(this)} entries={this.state.cartEntries} setView={this.setStepContentView.bind(this)} products={this.state.productList} deleteProduct={this.deleteProduct.bind(this)} />;
             case 1:
                 return <Checkout setCustomerHandler={this.setCustomerHandler.bind(this)} currentCustomer={this.state.currentCustomer} customers={this.state.customers} cartTotalAmount={this.state.cartTotalAmount} setView={this.setStepContentView.bind(this)} />;
             case 2:
@@ -80,7 +83,7 @@ class Cart extends Component{
                 {
                     label: 'Yes',
                     onClick: () => {
-                        new ModelAction('CartEntry').destroy(pId);
+                        new ModelAction('CartEntry').softDelete(pId);
                     }
                 },
                 {
@@ -93,15 +96,38 @@ class Cart extends Component{
         })
     };
 
-    async changeProductQuantityHandler(cartEntry , event){
+    async changeProductQuantityHandler(cartEntry , value){
         try {
-            let status = new CartService().updateCartEntryDetails(cartEntry , event.target.value);
+            let status = new CartService().updateCartEntryDetails(cartEntry , value);
             status = await status;
 
             if(status){
+                this.setState({
+                    productList: await new CartService().getCartProducts(),
+                    cartTotalProduct: await CartService.getCartProductQuantity(),
+                    cartTotalAmount: await CartService.getCartEntryAmount(),
+                });
                 return true;
             }
-            alert('Invalid quantity');
+            return false;
+        }catch (e) {
+            return false;
+        }
+    }
+
+    async changeProductPriceHandler(cartEntry , value){
+        try {
+            let status = new CartService().updateCartEntryPrice(cartEntry , value);
+            status = await status;
+
+            if(status){
+                this.setState({
+                    productList: await new CartService().getCartProducts(),
+                    cartTotalProduct: await CartService.getCartProductQuantity(),
+                    cartTotalAmount: await CartService.getCartEntryAmount(),
+                });
+                return true;
+            }
             return false;
         }catch (e) {
             return false;

@@ -5,7 +5,7 @@ import RemoveCircleOutlineOutlinedIcon from '@material-ui/icons/RemoveCircleOutl
 import Paper from "@material-ui/core/Paper/Paper";
 import InputBase from "@material-ui/core/InputBase/InputBase";
 import {makeStyles} from "@material-ui/core";
-import '../../../components/Input/styles/SellInput.scss'
+import './styles/SellInput.scss'
 
 const useStyles = makeStyles(theme => ({
     root: {
@@ -14,8 +14,8 @@ const useStyles = makeStyles(theme => ({
         padding: '2px 5px',
         alignItems: 'center',
         borderRadius: '5px',
-        height: '30px',
-        border: 'none',
+        height: '25px',
+        border: '1px solid #e5e5e5',
         fontSize: '0.9rem',
         lineHeight: '1.5',
         transition: 'border-color .15s ease-in-out,box-shadow .15s ease-in-out',
@@ -30,11 +30,11 @@ const useStyles = makeStyles(theme => ({
     }
 }));
 
-const SellQuantityInput = props => {
+const QuantitySmallInput = props => {
     const max = props.max || 0;
     const min = props.min || 0;
     const classes = useStyles();
-    const [quantity , setQuantity] = useState(1);
+    const [quantity , setQuantity] = useState(props.initialValue);
     const inputName = props.inputName;
 
     const increaseQ = () => {
@@ -83,25 +83,20 @@ const SellQuantityInput = props => {
         if(max !== 0 && parseFloat(event.target.value) >= max){
             return false;
         }
-        console.log('You are here')
         setQuantity(parseFloat(event.target.value));
         props.getValue(inputName , parseFloat(event.target.value));
 
     };
 
     return(
-        <div className={`w-50 mx-auto SellInput`}>
-            {
-                props.label ?
-                    <label className={`text-dark`} style={{fontSize: '15px', fontWeight: '400'}}> {props.label}</label>
-                : ''
-            }
+        <div className={`${props.size ? 'w-75' : 'w-50'} mx-auto SellInput`}>
+            <label className={`text-dark`} style={{fontSize: '15px', fontWeight: '400'}}> {props.label}</label>
 
-            <Grid container spacing={1} className={`mb-2 my-2 py-1 px-2 rounded borderRadius10`} style={{border: '1px solid #DAAB59'}}>
+            <Grid container spacing={1} className={`mb-2 my-2 py-1 px-2 rounded borderRadius10`}>
                 <Grid
                     item xs={3}
                     className={`text-right py-2`}
-                    style={{color: '#D34343'}}
+                    style={{color: '#DAAB59'}}
                 >
                     <RemoveCircleOutlineOutlinedIcon onClick={decreaseQ} className={`icon-font-small text-right`}/>
                 </Grid>
@@ -119,7 +114,7 @@ const SellQuantityInput = props => {
                 <Grid
                     item xs={3}
                     className={`text-left py-2`}
-                    style={{color: '#53BF77'}}
+                    style={{color: '#DAAB59'}}
                 >
                     <AddCircleOutlineOutlinedIcon onClick={increaseQ} className={`icon-font-small`}/>
                 </Grid>
@@ -128,4 +123,4 @@ const SellQuantityInput = props => {
     );
 };
 
-export default SellQuantityInput;
+export default QuantitySmallInput;

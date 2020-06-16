@@ -3,14 +3,12 @@ import Grid from "@material-ui/core/Grid";
 import Paper from "@material-ui/core/Paper";
 import {makeStyles} from "@material-ui/core";
 import ShoppingCartOutlinedIcon from '@material-ui/icons/ShoppingCartOutlined';
-import AddIcon from "../../../../../components/ClickableIcons/AddIcon";
+//import AddIcon from "../../../../../components/ClickableIcons/AddIcon";
 import ProductCard from "../../../../../components/Cards/ProductCard";
-import WarningIcon from "../../../../../components/ClickableIcons/WarningIcon";
+//import WarningIcon from "../../../../../components/ClickableIcons/WarningIcon";
 import Typography from "@material-ui/core/Typography/Typography";
-import ProductServiceHandler from "../../../../../services/ProductServiceHandler";
 import SearchInput from "../../../../Components/Input/SearchInput";
 import BranchProductService from "../../../../../services/BranchProductService";
-import SingleProductBox from "../../../../../components/Product/SingleProductBox";
 import Button from "@material-ui/core/Button/Button";
 import SimpleSnackbar from "../../../../../components/Snackbar/SimpleSnackbar";
 import SingleProductMainCard from "../singleProductMainCard";
@@ -49,29 +47,32 @@ const useStyles = makeStyles(theme => ({
 }));
 
 const SellSearchMode = props => {
-    const [searchValue , setSearchValue] = useState({
+    const [searchValue, setSearchValue] = useState({
         search: ''
     });
-    const [error , setError] = useState(false);
-    const [errorMsg , setErrorMsg] = useState('');
-    const [productAdded , setProductAdded] = useState(false);
+    const [error, setError] = useState(false);
+    const [errorMsg, setErrorMsg] = useState('');
+    const [productAdded, setProductAdded] = useState(false);
 
     const branchProducts = props.branchProducts;
 
     const classes = useStyles();
-    //const products = new ProductServiceHandler(props.products).getStoreProducts();
 
     const addProductHandler = (id) => {
-        props.productAdd(id , 1);
+        props.productAdd(id, 1);
     };
 
-    const addProductOneHandler = async (productId , branchProductId , sellingPrice, branchProduct) => {
+    /*
+    * @todo resolve isProductSellable...
+    * */
+
+    const addProductOneHandler = async (productId, branchProductId, sellingPrice, branchProduct) => {
         const quantity = await new BranchProductService(branchProduct).getProductQuantity();
 
-        if(quantity < 1){
+        if (quantity < 1) {
             setErrorMsg('Product is out of stock. Please refill');
             setError(true);
-            setTimeout(function(){
+            setTimeout(function () {
                 setError(false);
             }, 3000);
             return false;
@@ -88,17 +89,17 @@ const SellSearchMode = props => {
 
         const status = props.addToCart(formFields);
 
-        if(status){
+        if (status) {
             await setProductAdded(true);
 
-            setTimeout(function(){
+            setTimeout(function () {
                 setProductAdded(false);
             }, 2000)
 
-        }else{
+        } else {
             setErrorMsg('OOPS Something went wrong. Please try again');
             setError(true);
-            setTimeout(function(){
+            setTimeout(function () {
                 setError(false);
             }, 3000);
             return false;
@@ -107,10 +108,9 @@ const SellSearchMode = props => {
 
     const removeProductHandler = (id) => {
         console.log(id);
-        //props.removeProduct(id);
     };
 
-    const setInputValue = (name , value) => {
+    const setInputValue = (name, value) => {
         const {...oldFormFields} = searchValue;
 
         oldFormFields[name] = value;
@@ -148,24 +148,24 @@ const SellSearchMode = props => {
                 </SimpleSnackbar>
 
                 <Grid item xs={5} style={{padding: '4px 8px'}} onClick={() => props.setView(2)}>
-                    <Paper className={`${classes.cart} text-center`} >
+                    <Paper className={`${classes.cart} text-center`}>
                         <span className={`mx-auto italize font-weight-light`}
-                            style={{fontSize: '15px' , lineHeight: '1.5rem'}}
+                              style={{fontSize: '15px', lineHeight: '1.5rem'}}
                         >
                             <ShoppingCartOutlinedIcon style={{fontSize: '16px'}}/>
                             Saved Cart
                             <span style={{
-                                    fontSize: '12px',
-                                    color: '#000000',
-                                    position: 'absolute',
-                                    top: 0,
-                                    right: '5%',
-                                    backgroundColor: '#daab59',
-                                    width: '20px',
-                                    height: '20px',
-                                    borderRadius: '50%',
-                                    fontWeight: '500'
-                                }}
+                                fontSize: '12px',
+                                color: '#000000',
+                                position: 'absolute',
+                                top: 0,
+                                right: '5%',
+                                backgroundColor: '#daab59',
+                                width: '20px',
+                                height: '20px',
+                                borderRadius: '50%',
+                                fontWeight: '500'
+                            }}
                             >
                                 {props.savedCartCount}
                             </span>
@@ -178,7 +178,7 @@ const SellSearchMode = props => {
                 <Typography
                     component="h6"
                     variant="h6"
-                    style={{fontWeight: '500', fontSize: '18px' , margin: '3px 0px', paddingTop: '5px'}}
+                    style={{fontWeight: '500', fontSize: '18px', margin: '3px 0px', paddingTop: '5px'}}
                 >
                     Quick add
                 </Typography>
@@ -203,47 +203,15 @@ const SellSearchMode = props => {
                         </Grid>
                         :
                         branchProducts.map((branchProduct) =>
-                            <Grid key={branchProduct.productId} item xs={4} style={{padding: '4px 8px' , position: 'relative'}} className={`mx-0 px-1`}>
-                                <SingleProductMainCard branchProduct={branchProduct} posFunc={addProductOneHandler} negFunc={removeProductHandler} />
+                            <Grid key={branchProduct.productId} item xs={4}
+                                  style={{padding: '4px 8px', position: 'relative'}} className={`mx-0 px-1`}>
+                                <SingleProductMainCard branchProduct={branchProduct} posFunc={addProductOneHandler}
+                                                       negFunc={removeProductHandler}/>
 
-                                {/*{ new BranchProductService(branchProduct).isProductSellable() === false ?
-                                    <div
-                                        onClick={removeProductHandler.bind(this , branchProduct.productId)}
-                                    >
-                                        <WarningIcon
-                                            styles={{
-                                                width: '30px',
-                                                height: '30px',
-                                                borderRadius: '50%',
-                                                top: '-2px',
-                                                float: 'right',
-                                                position: 'absolute',
-                                                right: '-2px',
-                                                color: '#DA5959',
-                                            }}
-                                        />
-                                    </div>:
-                                    <div
-                                        onClick={addProductOneHandler.bind(this, branchProduct.productId, branchProduct.id , new BranchProductService(branchProduct).getSellingPrice(), branchProduct)}
-                                    >
-                                        <AddIcon
-                                            styles={{
-                                                width: '30px',
-                                                height: '30px',
-                                                borderRadius: '50%',
-                                                top: '-2px',
-                                                float: 'right',
-                                                position: 'absolute',
-                                                right: '-2px',
-                                                color: '#DAAB59',
-                                            }}
-                                        />
-                                    </div>
-                                }*/}
                                 <div
                                     onClick={
                                         new BranchProductService(branchProduct).isProductSellable() === false ?
-                                            removeProductHandler.bind(this , branchProduct.productId)
+                                            removeProductHandler.bind(this, branchProduct.productId)
                                             :
                                             addProductHandler.bind(this, branchProduct.productId)
 
@@ -256,7 +224,6 @@ const SellSearchMode = props => {
                             </Grid>
                         )
                     }
-
                 </Grid>
             </div>
         </div>

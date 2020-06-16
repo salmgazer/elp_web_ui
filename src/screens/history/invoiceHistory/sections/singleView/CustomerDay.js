@@ -9,9 +9,20 @@ import Typography from '@material-ui/core/Typography';
 import SingleDayProduct from './SingleDayProduct';
 import format from "date-fns/format";
 import SaleService from "../../../../../services/SaleService";
+import Avatar from "@material-ui/core/Avatar/Avatar";
+import {makeStyles} from "@material-ui/core";
 
-
+const useStyles = makeStyles(theme => ({
+    primaryColor: {
+        width: theme.spacing(3),
+        height: theme.spacing(3),
+        color: '#FFFFFF',
+        backgroundColor: '#DAAB59',
+    }
+}));
 const SingleDayInvoice = props => {
+    const classes = useStyles();
+
     /*
     * @todo format receipt number as required...
     * */
@@ -46,16 +57,13 @@ const SingleDayInvoice = props => {
         /*
         * @todo get entries via query on model
         * */
-        const entries = await invoice.salesEntries.fetch(); //await new SaleService().getSaleProductsById(invoice.id);
+        const entries = await invoice.salesEntries(); //await new SaleService().getSaleProductsById(invoice.id);
         const saleTotal = await SaleService.getSaleEntryAmountById(invoice.id);
         const paymentStatus = await SaleService.getSalePaymentStatus(invoice.id);
         setCustomer(response);
         setTotal(saleTotal);
         setPayment(paymentStatus);
         setSaleEntries(entries);
-
-        /*console.log('$$$$$$$$$$$$$$$$$$$$$$$$$$$$$')
-        console.log(invoice.saleEntries.fetch())*/
     };
 
     return(
@@ -64,19 +72,34 @@ const SingleDayInvoice = props => {
                 ?
                 <Grid container spacing={1} className={`shadow1 mb-3 borderRadius10`}>
 
-                    <Grid item xs={1}></Grid>
-                    <Grid item xs={7} style={{display: 'table', height: '60px', margin: '8px 0px'}} onClick={openDialogHandler.bind(this)} >
+                    <Grid item xs={3} sm>
+                        <Avatar
+                            alt={customer ? `${customer.firstName} ${customer.otherNames}` : 'Cash Customer'}
+                            //src={Woman}
+                            className={classes.primaryColor}
+                            style={{
+                                width: "45px",
+                                height: "45px",
+                                borderRadius: "50%",
+                                margin: '10px auto',
+                                textAlign: 'center'
+                            }}
+                        >
+                            {customer ? (customer.firstName).charAt(0).toUpperCase() : 'C'}
+                        </Avatar>
+                    </Grid>
+                    <Grid item xs={5} style={{display: 'table', height: '60px', margin: '8px 0px'}} onClick={openDialogHandler.bind(this)} >
                         <div style={{textAlign: 'left', display: 'table-cell', verticalAlign: 'middle'}}>
-                        <span className='text-dark font-weight-bold' style={{ fontSize: '16px'}}>{`${customer.firstName} ${customer.otherNames}`}</span>
+                            <span className='text-dark font-weight-bold' style={{ fontSize: '16px'}}>{customer ? `${customer.firstName} ${customer.otherNames}` : 'Cash Customer'}</span>
                             <div className="font-weight-light mt-1" style={{ fontSize: '14px'}}>INV. {invoice.receiptNumber.slice(0,8)}</div>
                             <div className="font-weight-light mt-1" style={{ fontSize: '14px'}}>Sales: GHC {total}</div>
                         </div>
                     </Grid>
 
-                    <Grid item xs={4} style={{height: '60px', margin: '10px 0px 0px 0px'}} onClick={openDialogHandler.bind(this)} >
+                    <Grid item xs={4} style={{height: '60px', margin: '10px 0px 0px 0px' , float: 'right'}} onClick={openDialogHandler.bind(this)} >
                         <div style={{textAlign: 'right', display: 'table-cell', verticalAlign: 'middle'}}>
-                            <div className="font-weight-light mt-1" style={{ fontSize: '14px'}}>  {format(new Date(invoice.createdAt) , "h:mm a")}</div>
-                            <div className="font-weight-light mt-1" style={{ fontSize: '14px', color: 'green'}}> {payment}</div>
+                            <div className="font-weight-bold mt-1" style={{ fontSize: '14px', float: 'right'}}>  {format(new Date(invoice.createdAt) , "h:mm a")}</div>
+                            <div className="font-weight-light mt-1" style={{ fontSize: '14px', color: 'green', float: 'right'}}> {payment}</div>
                         </div>
                     </Grid>
 
@@ -95,7 +118,7 @@ const SingleDayInvoice = props => {
 
                         <Grid item xs={7} style={{display: 'table', height: '60px', margin: '8px 0px'}}>
                             <div style={{textAlign: 'left', display: 'table-cell', verticalAlign: 'middle'}}>
-                                <span className='text-dark font-weight-bold' style={{ fontSize: '15px'}} ></span>
+                                <div className='text-dark font-weight-bold' style={{ fontSize: '16px', marginLeft: '10px'}} >{customer ? `${customer.firstName} ${customer.otherNames}` : 'Cash Customer'}</div>
                                 <div className="font-weight-light mt-1" style={{ fontSize: '13px'}}>INV. {invoice.receiptNumber.slice(0,8)}</div>
                                 <div className="font-weight-light mt-1" style={{ fontSize: '13px'}}> {format(new Date(invoice.createdAt) , "h:mm a")}</div>
                             </div>

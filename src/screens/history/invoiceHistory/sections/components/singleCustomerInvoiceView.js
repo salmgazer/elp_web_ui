@@ -45,8 +45,7 @@ const SingleCustomerInvoiceView = (props) => {
         <Grid container className={`bordered pt-2 pb-2`}>
             <Grid item xs={3} sm>
                 <Avatar
-                    alt={`${customer.firstName} ${customer.otherNames}`}
-                    //src={Woman}
+                    alt={customer ? `${customer.firstName} ${customer.otherNames}` : 'Cash Customer'}
                     className={classes.primaryColor}
                     style={{
                         width: "45px",
@@ -62,7 +61,7 @@ const SingleCustomerInvoiceView = (props) => {
 
             <Grid item xs={6} style={{display: 'table', height: '30px', margin: '8px 0px'}}>
                 <div style={{textAlign: 'left', display: 'table-cell', verticalAlign: 'middle'}}>
-                    <span className='text-dark font-weight-bold' style={{ fontSize: '16px'}} >{`${customer.firstName} ${customer.otherNames}`}</span>
+                    <span className='text-dark font-weight-bold' style={{ fontSize: '16px'}}>{customer ? `${customer.firstName} ${customer.otherNames}` : 'Cash Customer'}</span>
                     <div className="font-weight-light mt-1" style={{ fontSize: '13px'}}>Total sales: GHC {total}</div>
                 </div>
             </Grid>
@@ -71,9 +70,9 @@ const SingleCustomerInvoiceView = (props) => {
                 <div style={{textAlign: 'left', display: 'table-cell', verticalAlign: 'middle'}}>
                     {
                         payment === 'Full payment' ?
-                            <div className="font-weight-light mt-1" style={{ fontSize: '14px', color: 'green'}}> {payment}</div>
+                            <div className="font-weight-light mt-1" style={{ fontSize: '14px', color: 'green', float: 'right'}}> {payment}</div>
                         :
-                            <div className="font-weight-light mt-1" style={{ fontSize: '10px', color: 'red'}}> {payment} </div>
+                            <div className="font-weight-light mt-1" style={{ fontSize: '12px', color: 'red' , float: 'right'}}> {payment} </div>
                     }
                 </div>
             </Grid>

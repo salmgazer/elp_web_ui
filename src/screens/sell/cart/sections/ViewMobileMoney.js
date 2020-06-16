@@ -22,39 +22,22 @@ const GreenRadio = withStyles({
     checked: {},
   })((props) => <Radio color="default" {...props} />);
 
-const values = [
-    {
-      value: 'credit',
-      label: 'Credit',
-    },
-    {
-      value: 'mobile money',
-      label: 'Mobile Money',
-    },
-    {
-      value: 'cheque',
-      label: 'Cheque',
-    },
-    {
-      value: 'debit',
-      label: 'Debit/VISA',
-    }
-  ];
-
 const ViewCash = props => {
+    const [value, setValue] = React.useState(2);
+
     const [formFields , setFormFields] = useState({
         customer: props.customerId,
-        type: 'sales',
-        amountPaid: ''
+        type: value,
+        amountPaid: '',
+        changeDue: 0,
+        /*amountGiven: '',*/
     });
-    const [value, setValue] = React.useState('credit');
+
     const handleRadioChange = (event) => {
         setValue(event.target.value);
-      };
-
-    const [selectedPayment, setSelectedPayment] = React.useState(values[0].value);
-    const handleChange = event => {
-        setSelectedPayment(event.target.value);
+        const {...oldFormFields} = formFields;
+        oldFormFields['type'] = event.target.value;
+        props.getFormFields(oldFormFields);
     };
 
     const setInputValue = (event) => {
@@ -64,7 +47,17 @@ const ViewCash = props => {
         const value = event.target.value;
         const {...oldFormFields} = formFields;
 
+        /*if(name === 'amountGiven'){
+            changeDue = (parseFloat(value) - (parseFloat(formFields.amountPaid) || 0)).toFixed(2) || 0;
+        }else{
+            changeDue = (parseFloat(formFields.amountGiven) - (parseFloat(value) || 0)).toFixed(2) || 0;
+        }*/
+        const changeDue = (parseFloat(value) - parseFloat(props.cartAmount)).toFixed(2);
         oldFormFields[name] = value;
+
+        if(changeDue > 0){
+            oldFormFields['changeDue'] = changeDue;
+        }
 
         setFormFields(oldFormFields);
         props.getFormFields(oldFormFields);
@@ -110,19 +103,29 @@ const ViewCash = props => {
                     <Grid container  style={{textAlign: 'left', marginLeft: '5px'}}  >
                         <FormControl component="fieldset">
                             <FormLabel component="legend" style={{marginLeft: '30px'}}>Payment method</FormLabel>
+
                             <RadioGroup aria-label="payment" name="payment" value={value} onChange={handleRadioChange}>
-                            <Grid item xs={6}  >
-                            <FormControlLabel value="credit" control={<GreenRadio />} label="Credit" style={{marginLeft: '20px'}}/>
-                            <FormControlLabel value="cheque" control={<GreenRadio />} label="Cheque" style={{marginLeft: '20px'}}/>
-                            </Grid>
-                            <Grid item xs={6} >
-                            <FormControlLabel value="mobile" control={<GreenRadio />} label="Mobile money" />
-                            <FormControlLabel value="debit"  control={<GreenRadio />} label="Debit/VISA card" />
-                            </Grid>
+                                <Grid item xs={6}>
+                                    <FormControlLabel value={2} control={<GreenRadio />} label="Credit" style={{marginLeft: '20px'}}/>
+                                    <FormControlLabel value={3} control={<GreenRadio />} label="Cheque" style={{marginLeft: '20px'}}/>
+                                </Grid>
+                                <Grid item xs={6}>
+                                    <FormControlLabel value={1} control={<GreenRadio />} label="Mobile money" />
+                                    <FormControlLabel value={4}  control={<GreenRadio />} label="Debit/VISA card" />
+                                </Grid>
                             </RadioGroup>
-                            
                         </FormControl>
                     </Grid>
+
+                    {/*<TextField
+                        label="Amount Given"
+                        variant="outlined"
+                        size="small"
+                        name={`amountGiven`}
+                        onChange={(event) => setInputValue(event)}
+                        value={formFields['amountGiven']}
+                        style={{margin: '25px 25px 10px'}}
+                    />*/}
 
                     <TextField
                         label="Amount Paid"
@@ -131,7 +134,7 @@ const ViewCash = props => {
                         onChange={(event) => setInputValue(event)}
                         name={`amountPaid`}
                         value={formFields['amountPaid']}
-                        style={{margin: '25px'}}
+                        style={{margin: '25px 25px'}}
                     />
                 </form>
             </Paper>

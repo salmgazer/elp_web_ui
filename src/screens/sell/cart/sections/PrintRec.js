@@ -5,37 +5,26 @@ import SingleReceipt from './BoxView/SingleReceipt';
 import LocalInfo from '../../../../services/LocalInfo';
 import Paper from '@material-ui/core/Paper';
 import SaleService from "../../../../services/SaleService";
-import format from "date-fns/format";
-import fromUnixTime from "date-fns/fromUnixTime";
-import CartService from "../../../../services/CartService";
 
 class PrintRec extends React.Component {
-    state= {
-        receiptNumber: '',
-        date: '',
-        seller: '',
-        customer: '',
-        totalQty: '',
-        totalAmt: '',
-        amtPaid: '',
-        changeRem: '',
-        saleEntries: [],
+    constructor(props){
+        super(props);
+        this.state = {
+            receiptNumber: '',
+            date: '',
+            seller: '',
+            customer: '',
+            totalQty: '',
+            totalAmt: '',
+            amtPaid: '',
+            changeRem: '',
+            saleEntries: [],
+        }
     }
 
     async componentDidMount() {
         const lastsale = await SaleService.getLastSale();
-        const total = await SaleService.getSaleEntryAmountPaidById(lastsale.id);
-        const qty = await SaleService.getSaleProductQuantity(lastsale.id);
-        const recDate = format(fromUnixTime(lastsale.salesDate) , "eeee, MMMM do, yyyy");
-        const rec = lastsale.receiptNumber;
-
-        const props = this.props;
-
-        console.log('$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$');
-        console.log(props)
         const entries = await lastsale.sale_entries.fetch();
-        console.log('$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$');
-        console.log(entries);
 
         await this.setState({
             saleEntries: entries
@@ -99,6 +88,10 @@ class PrintRec extends React.Component {
                                 <td className={style.td}> Customer :</td>
                                 <td className={style.td}>{this.props.customer}</td>
                             </tr>
+                            <tr>
+                                <td className={style.td}> Payment type :</td>
+                                <td className={style.td}>{this.props.paymentType}</td>
+                            </tr>
                         </table>
                     </Grid>
                     <Grid item xs={2}>
@@ -128,16 +121,24 @@ class PrintRec extends React.Component {
                             </tr>
                             <tr>
                                 <td className={style.td}>Total :</td>
-                                <td className={style.td}>{this.props.totalAmt}</td>
+                                <td className={style.td}>{`GHC ${this.props.totalAmt}`}</td>
                             </tr>
                             <tr>
                                 <td className={style.td}>Amount paid :</td>
-                                <td className={style.td}>{this.props.amtPaid}</td>
+                                <td className={style.td}>{`GHC ${this.props.amtPaid}`}</td>
                             </tr>
-                            <tr>
-                                <td className={style.td}>Change :</td>
-                                <td className={style.td}>{this.props.changeRem}</td>
-                            </tr>
+                            {
+                                this.props.paymentType === 'credit' ? (
+                                    <tr>
+                                        <td className={style.td}>Outstanding :</td>
+                                        <td className={style.td}>GHC {(parseFloat(this.props.totalAmt) - parseFloat(this.props.amtPaid)).toFixed(2)}</td>
+                                    </tr>
+                                ):
+                                    <tr>
+                                        <td className={style.td}>Change :</td>
+                                        <td className={style.td}>{this.props.changeRem}</td>
+                                    </tr>
+                            }
                         </table>
                     </Grid>
                 </Grid>

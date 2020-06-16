@@ -75,7 +75,9 @@ export default class SaleService {
             case 2:
                 return 'credit';
             case 3:
-                return 'other';
+                return 'cheque';
+            case 4:
+                return 'card';
             default:
                 return 'cash';
         }
@@ -221,35 +223,35 @@ export default class SaleService {
     }
 
     static async getSaleProductQuantity(saleId){
-        return ((await new SaleService().getSaleProductsById(saleId))).reduce((a, b) => a + (b['quantity'] || 0), 0);
+        return ((await new SaleService().getSaleProductsById(saleId))).reduce((a, b) => parseFloat(a) + (parseFloat(b['quantity']) || 0), 0);
     }
 
     /*
     * Get sale total profit by Id
     * */
     static async getSaleEntryProfitById(saleId){
-        return ((await new SaleService().getSaleProductsById(saleId))).reduce((a, b) => parseFloat(a) + parseFloat(new SaleService().getSaleEntryProfit(b) || 0), 0).toFixed(2);
+        return ((await new SaleService().getSaleProductsById(saleId))).reduce((a, b) => parseFloat(a) + parseFloat(new SaleService().getSaleEntryProfit(b) || 0), 0);
     }
 
     /*
     * Get sale total cost price by Id
     * */
     static async getSaleEntryCostPriceById(saleId){
-        return ((await new SaleService().getSaleProductsById(saleId))).reduce((a, b) => parseFloat(a) + parseFloat(new SaleService().getSaleEntryCostPrice(b) || 0), 0).toFixed(2);
+        return ((await new SaleService().getSaleProductsById(saleId))).reduce((a, b) => parseFloat(a) + parseFloat(new SaleService().getSaleEntryCostPrice(b) || 0), 0);
     }
 
     /*
     * Get sale total cost price by Id
     * */
     static async getSaleEntrySellingPriceById(saleId){
-        return ((await new SaleService().getSaleProductsById(saleId))).reduce((a, b) => parseFloat(a) + parseFloat(new SaleService().getSaleEntrySellingPrice(b) || 0), 0).toFixed(2);
+        return ((await new SaleService().getSaleProductsById(saleId))).reduce((a, b) => parseFloat(a) + parseFloat(new SaleService().getSaleEntrySellingPrice(b) || 0), 0);
     }
 
     /*
     * Get sale total amountPaid by Id
     * */
     static async getSaleEntryAmountPaidById(saleId){
-        return ((await new SaleService().getSalePaymentById(saleId))).reduce((a, b) => parseFloat(a) + parseFloat(b.amount || 0), 0).toFixed(2);
+        return ((await new SaleService().getSalePaymentById(saleId))).reduce((a, b) => parseFloat(a) + parseFloat(b.amount || 0), 0);
     }
 
     /*
@@ -536,23 +538,23 @@ export default class SaleService {
         let quantity = 0;
 
         for (let step = 0; step < sale.length; step++) {
-            costPrice += parseFloat(await SaleService.getSaleEntryCostPriceById(sale[step].saleId)).toFixed(2);
+            costPrice += parseFloat(await SaleService.getSaleEntryCostPriceById(sale[step].saleId));
         }
 
         for (let step = 0; step < sale.length; step++) {
-            profit += parseFloat(await SaleService.getSaleEntryProfitById(sale[step].saleId)).toFixed(2);
+            profit += parseFloat(await SaleService.getSaleEntryProfitById(sale[step].saleId));
         }
 
         for (let step = 0; step < sale.length; step++) {
-            credit += parseFloat(await SaleService.getSaleEntryCreditById(sale[step].saleId)).toFixed(2);
+            credit += parseFloat(await SaleService.getSaleEntryCreditById(sale[step].saleId));
         }
 
         for (let step = 0; step < sale.length; step++) {
-            sellingPrice += parseFloat(await SaleService.getSaleEntrySellingPriceById(sale[step].saleId)).toFixed(2);
+            sellingPrice += parseFloat(await SaleService.getSaleEntrySellingPriceById(sale[step].saleId));
         }
 
         for (let step = 0; step < sale.length; step++) {
-            quantity += parseFloat(await SaleService.getSaleProductQuantity(sale[step].saleId)).toFixed(2);
+            quantity += parseFloat(await SaleService.getSaleProductQuantity(sale[step].saleId));
         }
 
         if (duration === 'week') {
@@ -565,10 +567,10 @@ export default class SaleService {
 
         return {
             sales: sale.reverse(),
-            costPrice,
-            profit,
-            credit,
-            sellingPrice,
+            costPrice: costPrice.toFixed(2),
+            profit: profit.toFixed(2),
+            credit: credit.toFixed(2),
+            sellingPrice: sellingPrice.toFixed(2),
             quantity
         }
     }
@@ -583,23 +585,23 @@ export default class SaleService {
         let quantity = 0;
 
         for (let step = 0; step < sale.length; step++) {
-            costPrice += parseFloat(await SaleService.getSaleEntryCostPriceById(sale[step].saleId)).toFixed(2);
+            costPrice += parseFloat(await SaleService.getSaleEntryCostPriceById(sale[step].saleId));
         }
 
         for (let step = 0; step < sale.length; step++) {
-            profit += parseFloat(await SaleService.getSaleEntryProfitById(sale[step].saleId)).toFixed(2);
+            profit += parseFloat(await SaleService.getSaleEntryProfitById(sale[step].saleId));
         }
 
         for (let step = 0; step < sale.length; step++) {
-            credit += parseFloat(await SaleService.getSaleEntryCreditById(sale[step].saleId)).toFixed(2);
+            credit += parseFloat(await SaleService.getSaleEntryCreditById(sale[step].saleId));
         }
 
         for (let step = 0; step < sale.length; step++) {
-            sellingPrice += parseFloat(await SaleService.getSaleEntrySellingPriceById(sale[step].saleId)).toFixed(2);
+            sellingPrice += parseFloat(await SaleService.getSaleEntrySellingPriceById(sale[step].saleId));
         }
 
         for (let step = 0; step < sale.length; step++) {
-            quantity += parseFloat(await SaleService.getSaleProductQuantity(sale[step].saleId)).toFixed(2);
+            quantity += parseFloat(await SaleService.getSaleProductQuantity(sale[step].saleId));
         }
 
         if (duration === 'week') {
@@ -614,10 +616,10 @@ export default class SaleService {
 
         return {
             sales: sale.reverse(),
-            costPrice,
-            profit,
-            credit,
-            sellingPrice,
+            costPrice: costPrice.toFixed(2),
+            profit: profit.toFixed(2),
+            credit: credit.toFixed(2),
+            sellingPrice: sellingPrice.toFixed(2),
             quantity
         }
     }

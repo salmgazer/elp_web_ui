@@ -32,8 +32,8 @@ import Carts from "../../models/carts/Carts";
 import CartEntry from "../../models/cartEntry/CartEntry";
 import BranchProductStock from "../../models/branchesProductsStocks/BranchProductStock";
 import BranchProductStockHistory from "../../models/branchesProductsStocksHistories/BranchProductStockHistory";
-import {v4 as uuid} from 'uuid';
-import BranchCustomer from "../../models/branchesCustomer/BranchCustomer";
+//import {v4 as uuid} from 'uuid';
+//import BranchCustomer from "../../models/branchesCustomer/BranchCustomer";
 import SaleInstallments from "../../models/saleInstallments/SaleInstallment";
 import CompanyService from "../../services/CompanyService";
 import BranchPurchases from "../../models/branchPurchases/BranchPurchases";
@@ -98,7 +98,6 @@ const Dashboard = props => {
 
     const getCompanyDetails = async () => {
         const response = await new CompanyService().getSalesDetails('today');
-        //await CashflowService.makeStockLegit()
         setCompanySales(response);
     };
     /*
@@ -110,7 +109,7 @@ const Dashboard = props => {
     const { audits, auditedEntries, history, testProducts, stockMovements, purchases, branchProducts, branchProductStock, branchProductStockHistory, brands, manufacturers, products, database, customers, branchCustomers , sales , saleEntries , saleInstallments , carts , cartEntries, testBranch ,cashFlow, cartEntriesQ } = props;
     // const database = useDatabase();
 
-    const createBrand = async() => {
+    /*const createBrand = async() => {
         const columns = {
             id: uuid(),
             name: 'Mane',
@@ -125,7 +124,7 @@ const Dashboard = props => {
         console.log(new ModelAction('Brand').index())
         console.log(mew);
         console.log("**************************");
-    }
+    }*/
 
     console.log('#####################################')
     console.log(cashFlow);
@@ -175,7 +174,7 @@ const Dashboard = props => {
         });
 
     };*/
-  const createCustomer = async () => {
+  /*const createCustomer = async () => {
     const customerToCreate = { id: uuid(), name: "New guy", location: "Oyibi", phone: "0543344100", createdAt: Date.now(), updatedAt: Date.now() };
     database.action(async () => {
       const customerCollection = await database.collections.get(Customer.table);
@@ -190,7 +189,7 @@ const Dashboard = props => {
       //alert(`Successfully created the customer ${newCustomer.name}`);
       alert(`Successfully created the sales ${newBrand.id}`);
     });
-  };
+  };*/
 
 
     if (LocalInfo.storeId && LocalInfo.userId) {

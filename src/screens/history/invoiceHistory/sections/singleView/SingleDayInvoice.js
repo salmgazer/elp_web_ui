@@ -26,7 +26,6 @@ const useStyles = makeStyles(theme => ({
 
 const SingleDayInvoice = props => {
     const classes = useStyles();
-    const { history } = props;
 
     const invoice = props.invoice;
     const [customer , setCustomer] = useState(false);
@@ -58,16 +57,13 @@ const SingleDayInvoice = props => {
         /*
         * @todo get entries via query on model
         * */
-        const entries = await invoice.salesEntries.fetch(); //await new SaleService().getSaleProductsById(invoice.id);
+        const entries = await invoice.salesEntries(); //await new SaleService().getSaleProductsById(invoice.id);
         const saleTotal = await SaleService.getSaleEntryAmountById(invoice.id);
         const paymentStatus = await SaleService.getSalePaymentStatus(invoice.id);
         setCustomer(response);
         setTotal(saleTotal);
         setPayment(paymentStatus);
         setSaleEntries(entries);
-
-        /*console.log('$$$$$$$$$$$$$$$$$$$$$$$$$$$$$')
-        console.log(invoice.saleEntries.fetch())*/
     };
 
     const deleteProductHandler = (event) => {
@@ -80,7 +76,7 @@ const SingleDayInvoice = props => {
 
                 <Grid item xs={3} sm>
                     <Avatar
-                        alt={`${customer.firstName} ${customer.otherNames}`}
+                        alt={customer ? `${customer.firstName} ${customer.otherNames}` : 'Cash Customer'}
                         //src={Woman}
                         className={classes.primaryColor}
                         style={{
@@ -91,21 +87,21 @@ const SingleDayInvoice = props => {
                             textAlign: 'center'
                         }}
                     >
-                        {(customer.firstName).charAt(0).toUpperCase()}
+                        {customer ? (customer.firstName).charAt(0).toUpperCase() : 'C'}
                     </Avatar>
                 </Grid>
                 <Grid item xs={5} style={{display: 'table', height: '60px', margin: '8px 0px'}} onClick={openDialogHandler.bind(this)} >
                     <div style={{textAlign: 'left', display: 'table-cell', verticalAlign: 'middle'}}>
-                    <span className='text-dark font-weight-bold' style={{ fontSize: '16px'}}>{`${customer.firstName} ${customer.otherNames}`}</span>
+                    <span className='text-dark font-weight-bold' style={{ fontSize: '16px'}}>{customer ? `${customer.firstName} ${customer.otherNames}` : 'Cash Customer'}</span>
                         <div className="font-weight-light mt-1" style={{ fontSize: '14px'}}>INV. {invoice.receiptNumber.slice(0,8)}</div>
                         <div className="font-weight-light mt-1" style={{ fontSize: '14px'}}>Sales: GHC {total}</div>
                     </div>
                 </Grid>
 
-                <Grid item xs={4} style={{height: '60px', margin: '10px 0px 0px 0px'}} onClick={openDialogHandler.bind(this)} >
+                <Grid item xs={4} style={{height: '60px', margin: '10px 0px 0px 0px' , float: 'right'}} onClick={openDialogHandler.bind(this)} >
                     <div style={{textAlign: 'right', display: 'table-cell', verticalAlign: 'middle'}}>
-                        <div className="font-weight-bold mt-1" style={{ fontSize: '14px'}}>  {format(new Date(invoice.createdAt) , "h:mm a")}</div>
-                        <div className="font-weight-light mt-1" style={{ fontSize: '14px', color: 'green'}}> {payment}</div>
+                        <div className="font-weight-bold mt-1" style={{ fontSize: '14px', float: 'right'}}>  {format(new Date(invoice.createdAt) , "h:mm a")}</div>
+                        <div className="font-weight-light mt-1" style={{ fontSize: '14px', color: 'green', float: 'right'}}> {payment}</div>
                     </div>
                 </Grid>
 
@@ -120,7 +116,7 @@ const SingleDayInvoice = props => {
 
                         <Grid item xs={7} style={{display: 'table', height: '60px', margin: '8px 0px'}}>
                             <div style={{textAlign: 'left', display: 'table-cell', verticalAlign: 'middle'}}>
-                                <div className='text-dark font-weight-bold' style={{ fontSize: '16px', marginLeft: '10px'}} >{`${customer.firstName} ${customer.otherNames}`}</div>
+                                <div className='text-dark font-weight-bold' style={{ fontSize: '16px', marginLeft: '10px'}} >{customer ? `${customer.firstName} ${customer.otherNames}` : 'Cash Customer'}</div>
                                 <div className="font-weight-light mt-1" style={{ fontSize: '15px', marginLeft: '10px'}}>INV. {invoice.receiptNumber.slice(0,8)}</div>
                                 <div className="font-weight-light mt-1" style={{ fontSize: '15px', marginLeft: '10px'}}> {format(new Date(invoice.createdAt) , "h:mm a")}</div>
                             </div>
@@ -132,7 +128,7 @@ const SingleDayInvoice = props => {
                                 <div>
                                     <div style={{textAlign: 'right', display: 'table-cell', verticalAlign: 'right'}}>
                                         <div className="font-weight-bold" style={{ fontSize: '13px', color: 'red', marginBottom: '5px'}}>{payment}</div>
-                                
+
                                         <Button
                                             variant="outlined"
                                             style={{
@@ -183,7 +179,7 @@ const SingleDayInvoice = props => {
                                     Sell again
                                 </Link>
 
-                                
+
 
                                 <Link href="#/invoice-history" onClick={closeDialogHandler.bind(this)}  style={{textAlign: 'right', color: '#DAAB59'}} >
                                     Close

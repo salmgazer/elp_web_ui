@@ -16,22 +16,19 @@ import CloudUploadIcon from '@material-ui/icons/CloudUpload';
 import FileCopyIcon from '@material-ui/icons/FileCopy';
 import PrintIcon from '@material-ui/icons/Print';
 import ListItemText from '@material-ui/core/ListItemText';
-import paths from "../../../utilities/paths";
 import {withRouter} from "react-router-dom";
 import ArrowBackIcon from '@material-ui/icons/ArrowBack';
-
 
 import SortDate from './sections/SortDate';
 import SortProduct from './sections/SortProduct';
 
 class SalesHistory extends Component {
-    state={
-        value: 0,
-        isShowDrawer: false,
-    }
-
-    props={
-        history: this.props
+    constructor(props){
+        super(props);
+        this.state = {
+            value: 0,
+            isShowDrawer: false,
+        }
     }
 
     handleChange = (event, newValue) => {
@@ -95,7 +92,7 @@ class SalesHistory extends Component {
                     </BottomDrawer>
                 </div>
 
-                <AppBar position="static" color="white">
+                <AppBar position="static" color="default">
                     <Tabs
                         value={this.state.value}
                         onChange={this.handleChange}

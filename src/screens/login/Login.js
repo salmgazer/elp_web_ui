@@ -22,7 +22,6 @@ import InputAdornment from '@material-ui/core/InputAdornment';
 import PrimaryLoader from "../../components/Loader/Loader";
 import SimpleSnackbar from "../../components/Snackbar/SimpleSnackbar";
 import SyncService from "../../services/SyncService";
-import CashflowService from "../../services/CashflowService";
 import IconButton from "@material-ui/core/IconButton/IconButton";
 import Visibility from '@material-ui/icons/Visibility';
 import VisibilityOff from '@material-ui/icons/VisibilityOff';
@@ -84,40 +83,6 @@ const ValidationTextField = withStyles({
     },
 })(TextValidator);
 
-const apiUrl = "";
-
-async function getUserStoreFromLocal(database, user, store) {
-  return database.collections
-    .get("users_stores")
-    .query(Q.where("user_id", user.id), Q.where("store_id", store.id))
-    .fetch();
-}
-
-async function getUserFromLocal(database, usernameOrPhone, password) {
-  return database.collections
-    .get("users")
-    .query(
-      Q.where("username", usernameOrPhone),
-      Q.or(Q.where("phone", usernameOrPhone)),
-      Q.where("password", password)
-    )
-    .fetch();
-}
-
-async function getStore(database) {
-  return database.collections
-    .get("stores")
-    .query()
-    .fetch();
-}
-
-async function getUsersFromLocal(database) {
-  return database.collections
-    .get("users")
-    .query()
-    .fetch();
-}
-
 const Login = props => {
     const classes = useStyles();
     const loginForm = useRef(null);
@@ -155,8 +120,6 @@ const Login = props => {
             const userId = userAccess.user.userId;
             await SyncService.sync(companyId, LocalInfo.branchId, userId, database);
             console.log("DONE SYNCING");
-            // await CashflowService.exportDefaultCashflowCategories();
-            // await CashflowService.makeStockLegit();
 
             history.push(paths.dashboard)
         } else {
@@ -169,31 +132,6 @@ const Login = props => {
                 setErrorDialog(false);
             }, 3000);
         }
-
-        //history.push(paths.dashboard);
-
-        // try to get store from local db
-        /*let stores = await getStore(database);
-
-        if (!stores || stores.length < 1) {
-          //store is not on local db, get from api
-
-          /!* @todo create an API access class *!/
-          const storesResponse = await fetch(
-            `${apiUrl}/stores?username_or_phone=${usernameOrPhone}`,
-            {
-              headers: { "Content-Type": "application/json" }
-            }
-          );
-          const storesFromAPI = await storesResponse.json();
-          stores = storesFromAPI.data;
-        }
-
-        if (stores && stores.length > 0) {
-        } else {
-          alert(`You are not associated to any store`);
-          return;
-        }*/
     };
 
     return (
@@ -227,14 +165,6 @@ const Login = props => {
                           <Box component="div" style={{paddingTop: '50px', marginTop: '0px'}}>
                               <img style={{width: '230px', height: '150px'}} className="img-responsive" src={Logo} alt={'My Store Aid Logo'}/>
                           </Box>
-                          {/*<Typography
-                              variant="h6"
-                              component="h6"
-                              fontSize="1.25rem"
-                              style={{marginBottom: '30px', paddingTop: '5px'}}
-                          >
-                              Mobile POS App
-                          </Typography>*/}
 
                           <Box component="div" className={classes.padding1} style={{width: '230px', paddingBottom: '40px' ,margin: '0 auto', color: '#403C3C'}}>
                               <ValidatorForm
@@ -269,8 +199,8 @@ const Login = props => {
                                                   value={state.usernameOrPhone}
                                                   label="username/contact"
                                                   name="usernameOrPhone"
-                                                  validators={['required', 'minStringLength:4']}
-                                                  errorMessages={['Username is a required field', 'The minimum length for username is 4']}
+                                                  validators={['required', 'minStringLength:3']}
+                                                  errorMessages={['Username is a required field', 'The minimum length for username is 3']}
                                                   helperText=""
                                                   InputProps={{
                                                       startAdornment:

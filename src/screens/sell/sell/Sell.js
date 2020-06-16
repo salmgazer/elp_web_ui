@@ -18,24 +18,27 @@ import ModelAction from "../../../services/ModelAction";
 import paths from "../../../utilities/paths";
 
 class Sell extends Component {
-    state = {
-        isDrawerShow: false,
-        salesMade: 175,
-        profitMade: 50,
-        activeStep: 0,
-        spCount: 0,
-        productList: [],
-        savedCart: [],
-        branchProducts: [],
-        customers: [],
-        currentCustomer: 0,
-        salesTodayDetails: {},
-        history: {},
-        cartTotalProduct: 0,
-    };
+    constructor(props){
+        super(props);
+        this.state = {
+            isDrawerShow: false,
+            salesMade: 175,
+            profitMade: 50,
+            activeStep: 0,
+            spCount: 0,
+            productList: [],
+            savedCart: [],
+            branchProducts: [],
+            customers: [],
+            currentCustomer: 0,
+            salesTodayDetails: {},
+            history: {},
+            cartTotalProduct: 0,
+        }
+    }
 
     async componentDidMount() {
-        const { history, database , branchProducts , cartQuantity , branchCustomers , savedCarts} = this.props;
+        const {branchProducts , cartQuantity , branchCustomers , savedCarts} = this.props;
 
         const salesTodayDetails = await new SaleService().getTodaySalesDetails();
 
@@ -51,7 +54,7 @@ class Sell extends Component {
     }
 
     async componentDidUpdate(prevProps) {
-        const { history, database , branchProducts , cartQuantity , branchCustomers , savedCarts } = this.props;
+        const {cartQuantity , branchCustomers , savedCarts } = this.props;
 
         const salesTodayDetails = await new SaleService().getTodaySalesDetails();
 

@@ -47,7 +47,6 @@ const useStyles = makeStyles(theme => ({
 const CartView = props => {
     const [mainDialog, setMainDialog] = React.useState(false);
     const [addDialog, setAddDialog] = React.useState(false);
-    const [checkUser , setCheckUser] = React.useState(false);
     const [user , setUser] = React.useState(false);
     const [customerName, setCustomerName] = React.useState('');
     const [customerId , setCustomerId] = React.useState('');
@@ -72,16 +71,8 @@ const CartView = props => {
         setCustomerName(await new CartService().getCartCustomer(props.currentCustomer));
     };
 
-    const handleChange = event => {
-        setUser(event.target.value);
-    };
-
     const classes = useStyles();
 
-    const closeDialogHandler = (event) => {
-        setMainDialog(false);
-        setAddDialog(false);
-    };
 
     const openDialogHandler = async() => {
         if(props.currentCustomer === 0){
@@ -203,7 +194,7 @@ const CartView = props => {
                 message={errorMsg}
             />
 
-            <Grid container spacing={1}>
+            <Grid container spacing={1} className={`px-4 mt-2`}>
                 <Grid item xs={6}>
                     <Paper className={classes.paper}>
                         <Typography className={classes.title} component="p" >
@@ -238,7 +229,7 @@ const CartView = props => {
                 {customerName}
             </Button>
 
-            <Box style={{marginTop: '5px' , paddingBottom: '60px'}} p={1} className={`mt-3 mb-5`}>
+            <Box style={{marginTop: '5px' , margin: '2px 5px', paddingBottom: '60px'}} p={1} className={`mt-3 mb-5`}>
                 {props.products.length === 0
                     ?
                     <div className={`rounded mx-1 my-2 p-2 bordered`}>
@@ -259,7 +250,7 @@ const CartView = props => {
                         </Grid>
                     </div>
                     :
-                    props.products.map((item) => <AddedProductSingle changeQuantity={props.changeQuantity} deleteStoreProduct={deleteProductHandler.bind(this)} key={item.id} item={item}/>)
+                    props.products.map((item) => <AddedProductSingle changeQuantity={props.changeQuantity} changePrice={props.changePrice} deleteStoreProduct={deleteProductHandler.bind(this)} key={item.id} item={item}/>)
                 }
             </Box>
 

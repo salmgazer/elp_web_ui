@@ -240,6 +240,10 @@ code {
   border: 1px solid #dee2e6!important;
 }
 
+.bordered-sm {
+  border: 0.5px solid #dee2e6!important;
+}
+
 .activeBorder{
   border: 1px solid #DAAB59!important;
 }
@@ -250,6 +254,9 @@ code {
 
 .borderRadius10 {
   border-radius: 10px;
+}
+.borderRadius5 {
+  border-radius: 5px;
 }
 
 .rounded-circle {
@@ -512,6 +519,12 @@ button.Mui-disabled {
   -webkit-box-shadow: 1px 1px 6px 3px rgba(227,227,227,0.54);
   -moz-box-shadow: 1px 1px 6px 3px rgba(227,227,227,0.54);
   box-shadow: 1px 1px 6px 3px rgba(227,227,227,0.54);
+}
+
+.shadow2 {
+  -webkit-box-shadow: 1px 1px 6px 1px rgba(227,227,227,0.54);
+  -moz-box-shadow: 1px 1px 6px 1px rgba(227,227,227,0.54);
+  box-shadow: 1px 1px 6px 1px rgba(227,227,227,0.54);
 }
 
 .shadow-ng {

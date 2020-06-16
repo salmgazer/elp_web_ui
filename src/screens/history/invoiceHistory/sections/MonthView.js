@@ -25,6 +25,7 @@ const MonthView = props => {
     const [selectedMonth, setSelectedMonth] = React.useState(values[(new Date().getMonth())].value);
     const pageName = props.pageName;
     const [name , setName] = useState('');
+    const [customer , setCustomer] = useState('');
 
     const handleChange = event => {
       setSelectedMonth(event.target.value);
@@ -43,21 +44,21 @@ const MonthView = props => {
     });
 
     const getInvoiceDetails = async (date) => {
-        console.log(date);
         let response = [];
 
         if (pageName === true){
-            response = await new InvoiceService().getInvoiceDetails('month' , date);
-
-            const branchCustomer= props.customer[0];
+            const branchCustomer = props.customer[0];
             const newCustomer = await branchCustomer.customer.fetch();
+
+            response = await new InvoiceService().getInvoiceDetailsbyCustomer('month' , date , newCustomer.id);
+
             setName(newCustomer.firstName);
+            setCustomer(newCustomer);
         }else{
             response = await new InvoiceService().getInvoiceDetails('month' , date);
         }
         setInvoiceDetails(response);
         setInvoices(response.invoices);
-        console.log(response)
     };
 
     return(
@@ -131,7 +132,7 @@ const MonthView = props => {
 
                     invoices.map((invoice , index) => <SingleMonthView  key={index} invoice={invoice} />)
                     :
-                    invoices.map((invoice) => <CustomerMonth  key={invoice.id} invoice={invoice} prodName={name} />)
+                    invoices.map((invoice , index) => <CustomerMonth customer={customer} key={index} invoice={invoice} prodName={name} />)
 
                 }
 

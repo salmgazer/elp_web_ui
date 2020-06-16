@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {withRouter} from "react-router";
+import {withRouter} from "react-router-dom";
 import ModelAction from "../../../../services/ModelAction";
 import {confirmAlert} from "react-confirm-alert";
 
@@ -11,10 +11,12 @@ import Payment from '../../orderHistory/sections/views/Payment';
 import DateToggle from "../../../../components/DateToggle/DateToggle";
 
 class InvoiceSortDate extends Component {
-
-    state={
-        activeStep: 0,
-        pageName: false,
+    constructor(props){
+        super(props);
+        this.state = {
+            activeStep: 0,
+            pageName: false,
+        }
     }
 
     getStepContent = step => {
@@ -89,7 +91,7 @@ class InvoiceSortDate extends Component {
             }
         }
         else {
-        
+
             try {
                 const status = new ModelAction('SaleEntry').update(pId, formFields);
                 console.log(status)

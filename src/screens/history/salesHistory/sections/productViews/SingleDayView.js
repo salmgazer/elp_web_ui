@@ -15,7 +15,7 @@ import Paper from "@material-ui/core/Paper/Paper";
 import InputBase from "@material-ui/core/InputBase/InputBase";
 import Button from "@material-ui/core/Button/Button";
 import QuantityInput from "../../../../Components/Input/QuantityInput";
-import UnitCost from '../../../../Components/Input/UnitCost';
+//import UnitCost from '../../../../Components/Input/UnitCost';
 import InputAdornment from '@material-ui/core/InputAdornment';
 import IconButton from '@material-ui/core/IconButton';
 import {faCalculator} from "@fortawesome/free-solid-svg-icons";
@@ -23,6 +23,7 @@ import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 
 import ProductServiceHandler from "../../../../../services/ProductServiceHandler";
 import format from "date-fns/format";
+import fromUnixTime from "date-fns/fromUnixTime";
 
 
 const useStyles = makeStyles(theme => ({
@@ -63,15 +64,12 @@ const SingleDayView = props => {
     const [image , setImage] = useState(false);
     const [quantity , setQuantity] = useState(false);
     const [totalPrice , setTotalPrice] = useState(false);
-    // const [saleEntries , setSaleEntries] = useState([]);
+    const [selectedDate , setSelectedDate] = useState('');
     const [formFields , setFormFields] = useState({
         quantity: 1,
     });
     const [priceFields , setPriceFields] = useState({
         sellingPrice: '',
-    });
-    const [dateField , setDateField] = useState({
-        entryDate: '',
     });
 
     function a11yProps(index) {
@@ -133,10 +131,7 @@ const SingleDayView = props => {
     };
 
     const setDate = (value) => {
-        const {...oldFormFields} = dateField;
-        oldFormFields['entryDate'] = format(value, 'MM/dd/yyyy');
-        setDateField(oldFormFields);
-        console.log(format(new Date(), 'MM/dd/yyyy'))
+        setSelectedDate(value)
     };
 
     const deleteHistoryHandler = (pId , event) => {
@@ -145,21 +140,25 @@ const SingleDayView = props => {
     };
 
     const updateSaleEntry = () => {
-        console.log(formFields)
-        props.updateSaleEntry(sale.id, formFields);
-        setMainDialog(false);
+        const response = props.updateSaleEntry(sale.id, formFields);
+
+        if(response){
+            setMainDialog(false);
+        }
     };
 
     const updatePriceEntry = () => {
-        console.log(priceFields)
         props.updatePriceEntry(sale.id, priceFields);
         setMainDialog(false);
     };
 
-    const updateDate = () => {
-        console.log(dateField)
-        props.updateDateEntry(sale.id, dateField);
-        setMainDialog(false);
+    const updateDateEntry = () => {
+        const response = props.updateDateEntry(sale.id, selectedDate);
+
+        if(response){
+            setSelectedDate('');
+            setMainDialog(false);
+        }
     };
 
     return(
@@ -233,7 +232,7 @@ const SingleDayView = props => {
 
                     </Grid>
 
-                    <AppBar position="static" color="white">
+                    <AppBar position="static" color="default">
                         <Tabs
                             value={value}
                             onChange={handleChange}
@@ -256,7 +255,7 @@ const SingleDayView = props => {
 
                             <label className={`text-dark py-2 text-center`} style={{fontSize: '18px', fontWeight: '600', paddingTop: '100px'}}> Pick new date </label>
 
-                            <Dates style={{margin: '5px 40px 0px 40px', border: '1px solid #e5e5e5', backgroundColor: '#FFFFFF', width: '150px'}} selectedDate={sale.entryDate} getValue={setDate.bind(this)} />
+                            <Dates style={{margin: '5px 40px 0px 40px', border: '1px solid #e5e5e5', backgroundColor: '#FFFFFF', width: '150px'}} initialValue={fromUnixTime(sale.entryDate)} getValue={setDate.bind(this)} />
 
                             <Grid container spacing={1} style={{marginTop: '50px'}}>
                                 <Grid item xs={6}>
@@ -273,7 +272,7 @@ const SingleDayView = props => {
                                     <Button
                                         variant="contained"
                                         style={{'backgroundColor': '#DAAB59' , color: '#333333', padding: '5px 15px', textTransform: 'none', fontSize:'15px'}}
-                                        onClick={updateDate.bind(this)}
+                                        onClick={updateDateEntry.bind(this)}
                                     >
                                         Save changes
                                     </Button>
@@ -359,7 +358,7 @@ const SingleDayView = props => {
                                     </Button>
                                 </Grid>
                             </Grid>
-                          
+
                         </TabPanel>
 
                     </SwipeableViews>

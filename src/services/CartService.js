@@ -104,6 +104,43 @@ export default class CartService {
 
     /*
     * @var cartEntry
+    * @var new price
+    * @return new cartEntry
+    * */
+    async updateCartEntryPrice(cartEntry , price){
+
+        //1. Check if quantity of product is valid
+        //2. Update quantity of entry
+        /*const branchProduct = await cartEntry.branchProduct.fetch();
+        let branchProductQuantity = new BranchProductService(branchProduct).getCostPrice();
+        branchProductQuantity = await branchProductQuantity;*/
+        const discount = (parseFloat(cartEntry.sellingPrice - parseFloat(price)));
+
+        //if(branchProductQuantity < price){
+            try {
+                new ModelAction('CartEntry').update(cartEntry.id , {
+                    cartId: cartEntry.cartId,
+                    branchId: cartEntry.branchId,
+                    productId: cartEntry.productId,
+                    branchProductId: cartEntry.branchProductId,
+                    sellingPrice: cartEntry.sellingPrice,
+                    entryDate: cartEntry.entryDate,
+                    costPrice: cartEntry.costPrice,
+                    discount: discount,
+                    quantity: cartEntry.quantity,
+                });
+
+                return true;
+            } catch (e) {
+                return false;
+            }
+        /*}else{
+            return false
+        }*/
+    }
+
+    /*
+    * @var cartEntry
     * @var new quantity
     * @return new cartEntry
     * */
@@ -114,7 +151,6 @@ export default class CartService {
         let branchProductQuantity = new BranchProductService(branchProduct).getProductQuantity();
         branchProductQuantity = await branchProductQuantity;
         if(branchProductQuantity >= quantity){
-            console.log(quantity);
             try {
                 new ModelAction('CartEntry').update(cartEntry.id , {
                     cartId: cartEntry.cartId,
@@ -223,7 +259,7 @@ export default class CartService {
         const currentCustomer = await database.adapter.getLocal("activeCustomer");
 
         if(typeof currentCustomer === 'undefined' || currentCustomer === null || currentCustomer == 0){
-            return 'Assign Customer';
+            return 'Cash Customer';
         }
         const customers = await new BranchService().getCustomers();
 

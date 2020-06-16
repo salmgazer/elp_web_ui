@@ -88,8 +88,8 @@ const SellView = props => {
                 onKeyDown={() => setIsShowDrawer(false)}
             >
                 <BottomDrawer isShow={isShowDrawer}>
-                    <ListItem 
-                        button 
+                    <ListItem
+                        button
                         key={7}
                         onClick={() => history.push(paths.sales_returns)}
                     >
@@ -138,58 +138,62 @@ const SellView = props => {
                         marginBottom: '10px' ,
                     }}
                 >
-                    <CardDefault
-                        styles={{
+                    <div
+                        style={{
                             marginTop: '0px' ,
                             flex: 1,
                             marginRight: '10px',
                             borderRadius: '15px',
                         }}
-                    >
-                        <Typography
-                            component="p"
-                            variant="h6"
-                            style={{fontWeight: '300', fontSize: '0.9rem'}}
-                            className="italize"
-                        >
-                            Sales
-                        </Typography>
+                        onClick={() => history.push(paths.sales_history)}>
+                        <CardDefault>
+                            <Typography
+                                component="p"
+                                variant="h6"
+                                style={{fontWeight: '300', fontSize: '0.9rem'}}
+                                className="italize"
+                            >
+                                Sales
+                            </Typography>
 
-                        <Typography
-                            component="p"
-                            variant="h6"
-                            style={{fontWeight: '700', fontSize: '1.0rem'}}
-                        >
-                            GHC {salesMade}
-                        </Typography>
+                            <Typography
+                                component="p"
+                                variant="h6"
+                                style={{fontWeight: '700', fontSize: '1.0rem'}}
+                            >
+                                GHC {salesMade}
+                            </Typography>
 
-                    </CardDefault>
+                        </CardDefault>
+                    </div>
 
-                    <CardDefault
-                        styles={{
+                    <div
+                        style={{
                             marginTop: '0px' ,
                             flex: 1,
                             marginLeft: '10px',
                             borderRadius: '15px',
                         }}
-                    >
-                        <Typography
-                            component="p"
-                            variant="h6"
-                            style={{fontWeight: '300', fontSize: '0.9rem'}}
-                            className="italize"
-                        >
-                            Profit
-                        </Typography>
+                        onClick={() => history.push(paths.sales_history)}>
+                        <CardDefault>
+                            <Typography
+                                component="p"
+                                variant="h6"
+                                style={{fontWeight: '300', fontSize: '0.9rem'}}
+                                className="italize"
+                            >
+                                Profit
+                            </Typography>
 
-                        <Typography
-                            component="p"
-                            variant="h6"
-                            style={{fontWeight: '700', fontSize: '1.0rem'}}
-                        >
-                            GHC {profitMade}
-                        </Typography>
-                    </CardDefault>
+                            <Typography
+                                component="p"
+                                variant="h6"
+                                style={{fontWeight: '700', fontSize: '1.0rem'}}
+                            >
+                                GHC {profitMade}
+                            </Typography>
+                        </CardDefault>
+                    </div>
                 </div>
 
                 <AppBar position="static" color="default">
@@ -206,7 +210,7 @@ const SellView = props => {
                     </Tabs>
                 </AppBar>
 
-                <SwipeableViews
+            <SwipeableViews
                 index={value}
                 onChangeIndex={handleChangeIndex}
                 style={{backgroundColor: '#F3F3F3'}}
@@ -251,9 +255,6 @@ const SellView = props => {
                         >
                             {spCount}
                         </span>
-                        {/*<span style={{paddingBottom: '10px' , fontSize: '12px', color: '#962C2C'}}>
-                            {spCount}
-                        </span>*/}
                     </SecondaryButton>
                 </div>
             </Box>

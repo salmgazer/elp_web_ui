@@ -39,8 +39,6 @@ const AddProductView = props => {
         branchId: LocalInfo.branchId,
     });
 
-
-    console.log(product)
     /*
     * Get product details from handler
     * */
@@ -129,9 +127,9 @@ const AddProductView = props => {
         setCalculatorDialog(value);
     };
 
-    const undoProductAdd = () => {
+    /*const undoProductAdd = () => {
         props.undoAddProduct(product.id);
-    };
+    };*/
 
     const productHistory = productDetails.getProductHistory();
 
@@ -154,11 +152,11 @@ const AddProductView = props => {
                 openState={successDialog}
                 message={`New product added successfully`}
             >
-                <Button color="secondary" size="small"
+                {/*<Button color="secondary" size="small"
                     onClick={undoProductAdd}
                 >
                     UNDO
-                </Button>
+                </Button>*/}
             </SimpleSnackbar>
 
             <div className="row p-0 pt-0 mx-0 text-center shadow1">

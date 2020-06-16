@@ -9,11 +9,13 @@ import MonthView from './MonthView';
 import YearView from './YearView';
 import DateToggle from "../../../../components/DateToggle/DateToggle";
 
-
 class SortDate extends Component{
-    state={
-        activeStep: 0,
-        pageName: false,
+    constructor(props){
+        super(props);
+        this.state = {
+            activeStep: 0,
+            pageName: false,
+        }
     }
 
     getStepContent = step => {
@@ -67,33 +69,27 @@ class SortDate extends Component{
     };
 
     async updateSaleEntry(pId, formFields){
-        console.log(formFields)
-        console.log(pId)
         if (formFields.sellingPrice) {
             const data = {
                 sellingPrice: parseFloat(formFields.sellingPrice)
             };
             try {
                 const status = new ModelAction('SaleEntry').update(pId, data);
-                console.log(status)
                 if(status){
                     return true;
                 }
-                alert('Something went wrong');
                 return false;
             }catch (e) {
                 return false;
             }
         }
         else {
-
             try {
                 const status = new ModelAction('SaleEntry').update(pId, formFields);
-                console.log(status)
                 if(status){
                     return true;
                 }
-                alert('Something went wrong');
+                console.log('Something went wrong');
                 return false;
             }catch (e) {
                 return false;

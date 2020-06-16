@@ -232,23 +232,23 @@ export default class InvoiceService {
         let quantity = 0;
 
         for (let step = 0; step < invoice.length; step++) {
-            costPrice += parseFloat(await SaleService.getSaleEntryCostPriceById(invoice[step].id)).toFixed(2);
+            costPrice += parseFloat(await SaleService.getSaleEntryCostPriceById(invoice[step].id));
         }
 
         for (let step = 0; step < invoice.length; step++) {
-            profit += parseFloat(await SaleService.getSaleEntryProfitById(invoice[step].id)).toFixed(2);
+            profit += parseFloat(await SaleService.getSaleEntryProfitById(invoice[step].id));
         }
 
         for (let step = 0; step < invoice.length; step++) {
-            credit += parseFloat(await SaleService.getSaleEntryCreditById(invoice[step].id)).toFixed(2);
+            credit += parseFloat(await SaleService.getSaleEntryCreditById(invoice[step].id));
         }
 
         for (let step = 0; step < invoice.length; step++) {
-            sellingPrice += parseFloat(await SaleService.getSaleEntrySellingPriceById(invoice[step].id)).toFixed(2);
+            sellingPrice += parseFloat(await SaleService.getSaleEntrySellingPriceById(invoice[step].id));
         }
 
         for (let step = 0; step < invoice.length; step++) {
-            quantity += parseFloat(await SaleService.getSaleProductQuantity(invoice[step].id)).toFixed(2);
+            quantity += parseFloat(await SaleService.getSaleProductQuantity(invoice[step].id));
         }
 
         if (duration === 'week') {
@@ -261,10 +261,10 @@ export default class InvoiceService {
 
         return {
             invoices: invoice.reverse(),
-            costPrice,
-            profit,
-            credit,
-            sellingPrice,
+            costPrice: costPrice.toFixed(2),
+            profit: profit.toFixed(2),
+            credit: profit.toFixed(2),
+            sellingPrice: profit.toFixed(2),
             quantity
         }
     }
@@ -302,23 +302,23 @@ export default class InvoiceService {
         let quantity = 0;
 
         for (let step = 0; step < invoice.length; step++) {
-            costPrice += parseFloat(await SaleService.getSaleEntryCostPriceById(invoice[step].id)).toFixed(2);
+            costPrice += parseFloat(await SaleService.getSaleEntryCostPriceById(invoice[step].id));
         }
 
         for (let step = 0; step < invoice.length; step++) {
-            profit += parseFloat(await SaleService.getSaleEntryProfitById(invoice[step].id)).toFixed(2);
+            profit += parseFloat(await SaleService.getSaleEntryProfitById(invoice[step].id));
         }
 
         for (let step = 0; step < invoice.length; step++) {
-            credit += parseFloat(await SaleService.getSaleEntryCreditById(invoice[step].id)).toFixed(2);
+            credit += parseFloat(await SaleService.getSaleEntryCreditById(invoice[step].id));
         }
 
         for (let step = 0; step < invoice.length; step++) {
-            sellingPrice += parseFloat(await SaleService.getSaleEntrySellingPriceById(invoice[step].id)).toFixed(2);
+            sellingPrice += parseFloat(await SaleService.getSaleEntrySellingPriceById(invoice[step].id));
         }
 
         for (let step = 0; step < invoice.length; step++) {
-            quantity += parseFloat(await SaleService.getSaleProductQuantity(invoice[step].id)).toFixed(2);
+            quantity += parseFloat(await SaleService.getSaleProductQuantity(invoice[step].id));
         }
 
         if (duration === 'week') {
@@ -331,10 +331,10 @@ export default class InvoiceService {
 
         return {
             invoices: invoice.reverse(),
-            costPrice,
-            profit,
-            credit,
-            sellingPrice,
+            costPrice: costPrice.toFixed(2),
+            profit: profit.toFixed(2),
+            credit: profit.toFixed(2),
+            sellingPrice: profit.toFixed(2),
             quantity
         }
     }

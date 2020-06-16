@@ -161,7 +161,6 @@ const DayView = props => {
     };
 
     const updateEntryDate = async (stockId, date) => {
-        console.log(stockId,getUnixTime(date))
         const data = {
             stockDate: getUnixTime(date)
         };
