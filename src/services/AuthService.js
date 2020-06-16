@@ -2,7 +2,6 @@ import LocalInfo from "../services/LocalInfo";
 import Api from './Api';
 import format from "date-fns/format";
 import GenerateOTP from './GenerateString';
-import CashflowService from "./CashflowService";
 import paths from "../utilities/paths";
 
 const jwt = require('jsonwebtoken');

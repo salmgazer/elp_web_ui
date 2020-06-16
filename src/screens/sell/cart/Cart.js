@@ -59,7 +59,7 @@ class Cart extends Component{
     getStepContent = step => {
         switch (step) {
             case 0:
-                return <CartView setCustomerHandler={this.setCustomerHandler.bind(this)} currentCustomer={this.state.currentCustomer} customers={this.state.customers} cartTotalAmount={this.state.cartTotalAmount} cartTotalProducts={this.state.cartTotalProduct} changeQuantity={this.changeProductQuantityHandler.bind(this)} entries={this.state.cartEntries} setView={this.setStepContentView.bind(this)} products={this.state.productList} deleteProduct={this.deleteProduct.bind(this)} />;
+                return <CartView setCustomerHandler={this.setCustomerHandler.bind(this)} currentCustomer={this.state.currentCustomer} customers={this.state.customers} cartTotalAmount={this.state.cartTotalAmount} cartTotalProducts={this.state.cartTotalProduct} changePrice={this.changeProductPriceHandler.bind(this)} changeQuantity={this.changeProductQuantityHandler.bind(this)} entries={this.state.cartEntries} setView={this.setStepContentView.bind(this)} products={this.state.productList} deleteProduct={this.deleteProduct.bind(this)} />;
             case 1:
                 return <Checkout setCustomerHandler={this.setCustomerHandler.bind(this)} currentCustomer={this.state.currentCustomer} customers={this.state.customers} cartTotalAmount={this.state.cartTotalAmount} setView={this.setStepContentView.bind(this)} />;
             case 2:
@@ -104,10 +104,30 @@ class Cart extends Component{
             if(status){
                 this.setState({
                     productList: await new CartService().getCartProducts(),
+                    cartTotalProduct: await CartService.getCartProductQuantity(),
+                    cartTotalAmount: await CartService.getCartEntryAmount(),
                 });
                 return true;
             }
-            alert('Invalid quantity');
+            return false;
+        }catch (e) {
+            return false;
+        }
+    }
+
+    async changeProductPriceHandler(cartEntry , value){
+        try {
+            let status = new CartService().updateCartEntryPrice(cartEntry , value);
+            status = await status;
+
+            if(status){
+                this.setState({
+                    productList: await new CartService().getCartProducts(),
+                    cartTotalProduct: await CartService.getCartProductQuantity(),
+                    cartTotalAmount: await CartService.getCartEntryAmount(),
+                });
+                return true;
+            }
             return false;
         }catch (e) {
             return false;
