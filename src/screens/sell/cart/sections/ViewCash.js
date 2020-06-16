@@ -10,7 +10,7 @@ const ViewCash = props => {
         amountPaid: '',
         changeDue: '',
         customer: props.customerId,
-        type: 'sales'
+        type: 0
     });
 
     const setInputValue = (event) => {

@@ -85,7 +85,6 @@ export default class ModelAction {
     * @return object
     * */
     async post(columns){
-        console.log(columns , this.table , this.columns)
         const dataCollection = this.database.collections.get(this.table);
         let postItem = '';
         await this.database.action(async () => {
@@ -94,13 +93,9 @@ export default class ModelAction {
                 item.createdBy = LocalInfo.userId;
                 this.columns.map((column) => item[column] = columns[column])
             });
-
-            console.log(postItem)
-        })
-        console.log(postItem)
+        });
 
         return postItem;
-
     }
 
     /*
@@ -110,7 +105,6 @@ export default class ModelAction {
     * */
     async update(id , columns){
         const dataCollection = await this.database.collections.get(this.table).find(id);
-        console.log(this.columns , this.table)
 
         let postItem = '';
 
@@ -123,7 +117,6 @@ export default class ModelAction {
                 })
             });
         });
-        console.log(postItem)
 
         return postItem;
     }
@@ -159,7 +152,6 @@ export default class ModelAction {
     * @return object
     * */
     async destroy(id){
-        console.log(id)
         const dataCollection = await this.database.collections.get(this.table).find(id);
 
         await this.database.action(async () => {

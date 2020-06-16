@@ -1,8 +1,7 @@
 import React , { useState, useEffect } from 'react';
 import BranchProductService from "../../../../services/BranchProductService";
 import WarningIcon from "../../../../components/ClickableIcons/WarningIcon";
-import AddIcon from "../../../../components/ClickableIcons/AddIcon";
-
+//import AddIcon from "../../../../components/ClickableIcons/AddIcon";
 
 const SingleProductMainCard = (props) => {
     const branchProduct = props.branchProduct;
@@ -19,16 +18,13 @@ const SingleProductMainCard = (props) => {
 
     const productHandler = new BranchProductService(branchProduct);
     const getProduct = async () => {
-        console.log('@@@@@@@@@@@@@@@@@@@@@')
-        console.log(await productHandler.isProductSellable())
-        console.log('@@@@@@@@@@@@@@@@@@@@@')
         setIsSellable(await productHandler.isProductSellable())
         setItemFetched(true);
     };
 
-    const addProductOneHandler = () => {
+    /*const addProductOneHandler = () => {
         props.posFunc(branchProduct.productId, branchProduct.id , new BranchProductService(branchProduct).getSellingPrice(), branchProduct)
-    }
+    }*/
 
     const removeProductHandler = () => {
         props.negFunc(branchProduct.productId);
@@ -53,24 +49,24 @@ const SingleProductMainCard = (props) => {
                 />
             </div>
             :
-            <div
-                onClick={addProductOneHandler}
-            >
-                <AddIcon
-                    styles={{
-                        width: '30px',
-                        height: '30px',
-                        borderRadius: '50%',
-                        top: '-2px',
-                        float: 'right',
-                        position: 'absolute',
-                        right: '-2px',
-                        color: '#DAAB59',
-                    }}
-                />
-            </div>
-
+            ''
     )
 };
 
+{/*<div
+    onClick={addProductOneHandler}
+>
+    <AddIcon
+        styles={{
+            width: '30px',
+            height: '30px',
+            borderRadius: '50%',
+            top: '-2px',
+            float: 'right',
+            position: 'absolute',
+            right: '-2px',
+            color: '#DAAB59',
+        }}
+    />
+</div>*/}
 export default SingleProductMainCard;

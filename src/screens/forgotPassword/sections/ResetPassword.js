@@ -98,8 +98,6 @@ const ResetPassword = props => {
         setFormFields(formData);
     };
 
-    //Logic for sending SMS
-
     const submit = async () => {
         const userData = {
             userId: localStorage.getItem('randomId'),
@@ -107,7 +105,6 @@ const ResetPassword = props => {
             password: formFields.password,
         };
 
-        console.log(userData);
         try{
             let response = await new Api('others').update(
                 userData,
@@ -119,7 +116,6 @@ const ResetPassword = props => {
             setSuccessMsg('Your password has been changed successfully. Please login to your account');
             setSuccessDialog(true);
 
-            console.log(response);
             setTimeout(function(){
                 setSuccessDialog(false);
             }, 2000);

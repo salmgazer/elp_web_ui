@@ -47,7 +47,6 @@ const useStyles = makeStyles(theme => ({
 const CartView = props => {
     const [mainDialog, setMainDialog] = React.useState(false);
     const [addDialog, setAddDialog] = React.useState(false);
-    const [checkUser , setCheckUser] = React.useState(false);
     const [user , setUser] = React.useState(false);
     const [customerName, setCustomerName] = React.useState('');
     const [customerId , setCustomerId] = React.useState('');
@@ -72,16 +71,8 @@ const CartView = props => {
         setCustomerName(await new CartService().getCartCustomer(props.currentCustomer));
     };
 
-    const handleChange = event => {
-        setUser(event.target.value);
-    };
-
     const classes = useStyles();
 
-    const closeDialogHandler = (event) => {
-        setMainDialog(false);
-        setAddDialog(false);
-    };
 
     const openDialogHandler = async() => {
         if(props.currentCustomer === 0){

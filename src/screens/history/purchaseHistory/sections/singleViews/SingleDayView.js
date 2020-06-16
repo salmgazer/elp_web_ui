@@ -105,14 +105,6 @@ const SingleDayView = props => {
         setFormFields(oldFormFields);
     };
 
-    // const setPriceValue = (name , value) => {
-    //     const {...oldFormFields} = priceFields;
-    //     setCostPrice(value);
-    //     // const price = (value / quantity).toFixed(2);
-    //     oldFormFields['costPrice'] = value/quantity;
-    //     setPriceFields(oldFormFields);
-    // };
-
     const setPriceValue = (event) => {
         const {...oldFormFields} = priceFields;
         setCostPrice(event.target.value);

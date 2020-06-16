@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {withRouter} from "react-router";
+import {withRouter} from "react-router-dom";
 import CartView from "./sections/ViewCart";
 import {confirmAlert} from "react-confirm-alert";
 import Checkout from "./sections/Checkout";
@@ -13,20 +13,23 @@ import BranchCustomer from "../../../models/branchesCustomer/BranchCustomer";
 import LocalInfo from "../../../services/LocalInfo";
 
 class Cart extends Component{
-    state={
-        isDrawerShow: false,
-        cartId: new CartService().cartId(),
-        activeStep: 0,
-        productList: [],
-        cartTotalProduct: 0,
-        cartTotalAmount: 0,
-        cartEntries: this.props.cartEntries,
-        customers: [],
-        currentCustomer: 0,
-    };
+    constructor(props){
+        super(props);
+        this.state = {
+            isDrawerShow: false,
+            cartId: new CartService().cartId(),
+            activeStep: 0,
+            productList: [],
+            cartTotalProduct: 0,
+            cartTotalAmount: 0,
+            cartEntries: this.props.cartEntries,
+            customers: [],
+            currentCustomer: 0,
+        }
+    }
 
     async componentDidMount() {
-        const { history, database , cartQuantity , cart , cartEntries , branchCustomers ,currentCustomer} = this.props;
+        const {cartEntries , branchCustomers} = this.props;
 
         this.state.cartId = await new CartService().cartId();
 
@@ -40,7 +43,7 @@ class Cart extends Component{
     }
 
     async componentDidUpdate(prevProps) {
-        const { history, database , cartQuantity , cart , cartEntries , branchCustomers , currentCustomer} = this.props;
+        const {branchCustomers} = this.props;
 
         if(this.state.currentCustomer !== await CartService.getCartCustomerId() || this.props.cartEntries !== prevProps.cartEntries || branchCustomers.length !== prevProps.branchCustomers.length || this.state.cartTotalProduct !== await CartService.getCartProductQuantity()){
             await this.setState({

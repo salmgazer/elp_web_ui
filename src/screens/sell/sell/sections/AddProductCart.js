@@ -43,8 +43,6 @@ const useStyles = makeStyles(theme => ({
 
 
 const AddProductCart = props => {
-    const { history } = props;
-
     const branchProduct = props.product[0];
     const [product , setProduct] = useState('');
     const [name , setName] = useState('');
@@ -125,7 +123,7 @@ const AddProductCart = props => {
             setTimeout(function(){
                 setProductAdded(false);
                 props.setView(0);
-            }, 3000)
+            }, 1000)
 
         }else{
             setErrorMsg('OOPS Something went wrong. Please try again');
@@ -153,7 +151,6 @@ const AddProductCart = props => {
 
         const discount = (parseFloat(formFields.sellingPrice - sp)).toFixed(2);
         const {...oldFormFields} = formFields;
-        //console.log(sp , formFields.sellingPrice , discount)
 
         oldFormFields['discount'] = discount;
 
@@ -164,7 +161,7 @@ const AddProductCart = props => {
 
     const setUnitPriceHandler = event => {
         console.log(formFields.sellingPrice , branchProduct.sellingPrice)
-        const sp = (parseFloat(event.target.value));
+        const sp = (event.target.value);
 
         if (sp < costPrice) {
             setErrorMsg('Selling price can not be less than cost price');
@@ -198,6 +195,9 @@ const AddProductCart = props => {
         setSellingPrice(sp.toFixed(2));
     };
 
+    /*
+    * @todo validation for all numeric fields
+    * */
     const openDialogHandler = async() => {
         if(props.currentCustomer === 0){
             setMainDialog(true);
@@ -261,9 +261,9 @@ const AddProductCart = props => {
                 openState={productAdded}
                 message={`New product added successfully`}
             >
-                <Button color="secondary" size="small" onClick={props.undoProductAdd}>
+                {/*<Button color="secondary" size="small" onClick={props.undoProductAdd}>
                     UNDO
-                </Button>
+                </Button>*/}
             </SimpleSnackbar>
 
             <SimpleSnackbar
@@ -363,7 +363,7 @@ const AddProductCart = props => {
                                 <Grid container spacing={1} className='mt-3 mx-0'>
                                     <Grid item xs={5} className={`pr-0`}>
                                         <label className={`text-center text-dark`} style={{fontSize: '11px'}}>Total
-                                            discount</label>
+                                            new price</label>
                                         <Paper className={`${classes.root} text-center`}>
                                             <InputBase
                                                 className={`${classes.input} search-box text-center`}
@@ -375,11 +375,6 @@ const AddProductCart = props => {
                                         </Paper>
                                     </Grid>
 
-                                    {/*<Grid item xs={2} className={`pt-4`}
-                                          style={{fontSize: '16px', color: '#daab59'}}
-                                    >
-                                        or
-                                    </Grid>*/}
                                     <Grid
                                         item xs={2}
                                     >
@@ -390,7 +385,7 @@ const AddProductCart = props => {
 
                                     <Grid item xs={5} className={`pr-0`}>
                                         <label className={`text-center text-dark`} style={{fontSize: '11px'}}>Unit
-                                            discount</label>
+                                            new price</label>
                                         <Paper className={`${classes.root} text-center`}>
                                             <InputBase
                                                 className={`${classes.input} search-box text-center`}

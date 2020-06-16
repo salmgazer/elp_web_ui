@@ -223,7 +223,7 @@ export default class CartService {
         const currentCustomer = await database.adapter.getLocal("activeCustomer");
 
         if(typeof currentCustomer === 'undefined' || currentCustomer === null || currentCustomer == 0){
-            return 'Assign Customer';
+            return 'Cash Customer';
         }
         const customers = await new BranchService().getCustomers();
 

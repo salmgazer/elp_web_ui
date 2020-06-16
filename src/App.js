@@ -10,7 +10,7 @@ import VerifySMS from "./screens/verifySMS/Verify_sms";
 import Dashboard from "./screens/dashboard/Dasboard";
 
 import {
-  HashRouter as Router,
+  BrowserRouter as Router,
   Switch,
   Route,
   useLocation

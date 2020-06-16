@@ -108,6 +108,17 @@ export default function AccountInformationSection(props) {
         passwordRepeat: userFields.passwordRepeat,
     });
 
+    useEffect(() => {
+        // custom rule will have name 'isPasswordMatch'
+        ValidatorForm.addValidationRule('isPasswordMatch', (value) => {
+            const { ...formData } = formFields;
+            if (value !== formData.password) {
+                return false;
+            }
+            return true;
+        });
+    });
+
     const checkPassword = (event) => {
         const { ...formData }  = formFields;
         formData[event.target.name] = event.target.value;
@@ -132,7 +143,7 @@ export default function AccountInformationSection(props) {
 
         ValidatorForm.addValidationRule('isUsernamePasswordMatch', (value) => {
             const { ...values } = props.formData;
-console.log(value , formFields.username)
+
             if (value == formFields.username) {
                 return false;
             }
@@ -145,46 +156,23 @@ console.log(value , formFields.username)
 
         if(event.target.checked === true){
             const { ...formData }  = formFields;
-
             let f = userFields.phone;
-
             f = f.replace(/-/g , "");
 
             formData['username'] = f;
-            /*if (event.target.name === 'password') {
-                this.form.isFormValid(false);
-            }*/
             const {...fakeEvent} = event;
             fakeEvent.target.name = "username";
             fakeEvent.target.value = f;
-
-            //await usernameFormatter(fakeEvent);
-            /*setFormFields(formData);
-            props.collectData(fakeEvent);*/
             await usernameFormatter(fakeEvent);
-            /*ValidatorForm.addValidationRule('isUsernamePasswordMatch', (value) => {
-                const { ...values } = props.formData;
-
-                if (value == formFields.password) {
-                    return false;
-                }
-                return true;
-            });*/
         }else{
             const { ...formData }  = formFields;
-
             formData['username'] = '';
-            /*if (event.target.name === 'password') {
-                this.form.isFormValid(false);
-            }*/
-
             const {...fakeEvent} = event;
             fakeEvent.target.name = "username";
             fakeEvent.target.value = '';
             setFormFields(formData);
             props.collectData(fakeEvent);
         }
-
     };
 
     const handleClickShowPassword = () => {
@@ -243,13 +231,12 @@ console.log(value , formFields.username)
         } catch (error) {
             console.log('Could not check username. Please enter again!');
         }
-
     };
 
     useEffect(() => {
         // custom rule will have name 'isUserExist'
         ValidatorForm.addValidationRule('isUserExist', async (value) => {
-            //const { ...formData } = formFields;
+
             try{
                 let response = await new Api('others').index(
                     {},
@@ -268,19 +255,6 @@ console.log(value , formFields.username)
         });
     });
 
-
-    const handleChangeHandler = (event) => {
-        const { ...formData }  = formFields;
-        //console.log(formData.firstName);
-        formData[event.target.name] = event.target.value;
-        /*if (event.target.name === 'password') {
-            this.form.isFormValid(false);
-        }*/
-
-        setFormFields(formData);
-        props.collectData(event);
-    };
-
     const handleChange = (event) => {
         const { ...formData }  = formFields;
         formData[event.target.name] = event.target.value;
@@ -293,6 +267,10 @@ console.log(value , formFields.username)
     };
 
     const classes = useStyles();
+
+    /*
+    *@todo resolve password field success
+    * */
 
     return (
         <Paper className={classes.paper}>
@@ -327,13 +305,75 @@ console.log(value , formFields.username)
                         validatorListener={handleFormValidation}
                         onChange={usernameFormatter}
                         value={formFields.username}
-                        validators={['required', 'minStringLength:3' , 'isUserExist']}
-                        errorMessages={['Username is a required field', 'The minimum length for username is 3', 'Username exists in database. Use another username']}
+                        validators={['required', 'minStringLength:4' , 'isUserExist']}
+                        errorMessages={['Username is a required field', 'The minimum length for username is 4', 'Username exists in database. Use another username']}
                         helperText=""
                         id="username"
                     />
                 </Grid>
+                <Grid item xs={12} className={`mb-3`}>
+                    <PasswordTextField
+                        className={classes.margin}
+                        label="Password"
+                        required
+                        variant="outlined"
+                        name="password"
+                        validatorListener={handleFormValidation}
+                        onChange={handleChange}
+                        value={formFields.password}
+                        validators={['required', 'minStringLength:4']}
+                        errorMessages={['Password is a required field', 'The minimum length for password is 4']}
+                        helperText=""
+                        id="password"
+                        type={showPassword ? 'text' : 'password'}
+                        InputProps={{
+                            endAdornment:
+                                <InputAdornment position="end">
+                                    <IconButton
+                                        aria-label="toggle password visibility"
+                                        onClick={handleClickShowPassword}
+                                        onMouseDown={handleMouseDownPassword}
+                                        edge="start"
+                                    >
+                                        {showPassword.showPassword ? <Visibility /> : <VisibilityOff />}
+                                    </IconButton>
+                                </InputAdornment>
+
+                        }}
+                    />
+                </Grid>
+
                 <Grid item xs={12}>
+                    <PasswordTextField
+                        className={classes.margin}
+                        label="Confirm password"
+                        required
+                        variant="outlined"
+                        name="passwordRepeat"
+                        validatorListener={handleFormValidation}
+                        id="passwordConfirm"
+                        type={showPassword ? 'text' : 'password'}
+                        value={formFields.passwordRepeat}
+                        onChange={handleChange}
+                        validators={['isPasswordMatch', 'required']}
+                        errorMessages={['Passwords don\'t match', 'Password confirmation is a required field', 'password mismatch']}
+                        helperText=""
+                        InputProps={{
+                            endAdornment:
+                                <InputAdornment position="end">
+                                    <IconButton
+                                        aria-label="toggle password visibility"
+                                        onClick={handleClickShowPassword}
+                                        onMouseDown={handleMouseDownPassword}
+                                        edge="start"
+                                    >
+                                        {showPassword.showPassword ? <Visibility /> : <VisibilityOff />}
+                                    </IconButton>
+                                </InputAdornment>
+                        }}
+                    />
+                </Grid>
+                {/*<Grid item xs={12}>
                     <ValidationTextField
                         className={classes.margin}
                         label="Password"
@@ -381,7 +421,7 @@ console.log(value , formFields.username)
                         helperText=""
                         onChange={checkPassword}
                     />
-                </Grid>
+                </Grid>*/}
             </ValidatorForm>
         </Paper>
     );

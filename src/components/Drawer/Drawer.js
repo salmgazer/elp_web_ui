@@ -30,13 +30,16 @@ import ExpandLess from '@material-ui/icons/ExpandLess';
 import ExpandMore from '@material-ui/icons/ExpandMore';
 import FiberManualRecordIcon from '@material-ui/icons/FiberManualRecord';
 import CloudDoneIcon from '@material-ui/icons/CloudDone';
-import SyncIcon from '@material-ui/icons/Sync';
+//import SyncIcon from '@material-ui/icons/Sync';
 import HelpIcon from '@material-ui/icons/Help';
-import ListIcon from '@material-ui/icons/List';
+import formatDistanceToNow from 'date-fns/formatDistanceToNow';
+import fromUnixTime from 'date-fns/fromUnixTime';
 
 const useStyles = makeStyles((theme) => ({
     list: {
-        width: 280,
+        width: 320,
+        height: '100%',
+        backgroundColor: `#ffffff !important`
     },
     fullList: {
         width: 'auto',
@@ -56,13 +59,17 @@ const Drawer = props => {
     const [state, setState] = React.useState({
         left: props.isShow,
     });
+    const lastSync = formatDistanceToNow(
+        fromUnixTime(LocalInfo.lastSyncedAt / 1000)
+    );
+
     const [open, setOpen] = React.useState(false);
 
     const handleClick = () => {
         setOpen(!open);
     };
 
-    // const [syncOpen, setSyncOpen] = React.useState(false);
+    const [syncOpen, setSyncOpen] = React.useState(false);
 
     const database = useDatabase();
 
@@ -78,22 +85,22 @@ const Drawer = props => {
         setState({ ['left']: open });
     };
 
-    // const handleSyncClose = () => {
-    //     setSyncOpen(false);
-    // };
-    // const handleSyncToggle = () => {
-    //     setSyncOpen(!syncOpen);
-    // };
+    const handleSyncClose = () => {
+         setSyncOpen(false);
+    };
+    /*const handleSyncToggle = () => {
+         setSyncOpen(!syncOpen);
+    };*/
 
-    // const sync = async() => {
-    //     setSyncOpen(true);
-    //     backDrop();
-    //     await SyncService.sync(LocalInfo.companyId, LocalInfo.branchId, LocalInfo.userId, database);
+     const sync = async() => {
+         setSyncOpen(true);
+         //backDrop();
+         await SyncService.sync(LocalInfo.companyId, LocalInfo.branchId, LocalInfo.userId, database);
 
-    //     //alert("About to sync");
-    //     //alert("Done syncing");
-    //     //handleSyncClose();
-    // }
+         alert("About to sync");
+         alert("Done syncing");
+         handleSyncClose();
+     };
 
     // const backDrop = () => {
     //     console.log('I was here')
@@ -136,7 +143,7 @@ const Drawer = props => {
         }catch (e) {
             console.log(e)
         }
-    }
+    };
 
     const sideList = side => (
         <div
@@ -180,23 +187,32 @@ const Drawer = props => {
             </span>
 
             <List className="drawerDefault" style={{background:'#FFFFFF', color: '#403C3C'}}>
-                
+
                 <ListItem button key={1}  >
                     <ListItemIcon><CloudDoneIcon style={{color: '#403C3C'}} /></ListItemIcon>
-                    <ListItemText primary="Last sync: 10 mins ago" />
-                    <SyncIcon />
+                    <ListItemText primary={`Last sync: ${lastSync} ago`} />
+                    <ListItemText
+                        style={{
+                            padding: '5px 10px',
+                            borderRadius: '5px',
+                        }}
+                        className={`shadow1 text-center`}
+                        primary="Sync"
+                        onClick={sync}
+                    />
+                    {/*<SyncIcon />*/}
                 </ListItem>
-               
+
                 <ListItem button key={2} onClick={() => history.push(paths.sell)}>
                     <ListItemIcon><ShoppingCartIcon style={{color: '#403C3C'}} /></ListItemIcon>
                     <ListItemText primary="Sell" />
                 </ListItem>
-                
+
                 <ListItem button key={3} onClick={() => history.push(paths.stock)}>
                     <ListItemIcon><FormatListBulletedIcon style={{color: '#403C3C'}} /></ListItemIcon>
                     <ListItemText primary="Stock" />
                 </ListItem>
-        
+
                 <ListItem button key={5} onClick={() => history.push(paths.dashboard)}>
                     <ListItemIcon><DashboardIcon style={{color: '#403C3C'}} /></ListItemIcon>
                     <ListItemText primary="Dashboard" />
@@ -232,22 +248,22 @@ const Drawer = props => {
                         </ListItem>
                     </List>
                 </Collapse>
-                
+
                 <ListItem button key={7} onClick={() => history.push(paths.audit)}>
                     <ListItemIcon><VisibilityIcon style={{color: '#403C3C'}} /></ListItemIcon>
                     <ListItemText primary="Audit" />
                 </ListItem>
-               
+
                 <ListItem button key={8} onClick={() => history.push(paths.reconciliation)}>
                     <ListItemIcon><AccountBalanceWalletIcon style={{color: '#403C3C'}} /></ListItemIcon>
                     <ListItemText primary="Reconcilation" />
                 </ListItem>
-              
+
                 <ListItem button key={11}>
                     <ListItemIcon><HelpIcon style={{color: '#403C3C'}} /></ListItemIcon>
                     <ListItemText primary="Help" />
                 </ListItem>
-               
+
                 <ListItem button key={12} onClick={logout}>
                     <ListItemIcon><ExitToAppIcon style={{color: '#403C3C'}} /></ListItemIcon>
                     <ListItemText primary="Logout" />

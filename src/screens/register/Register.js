@@ -179,7 +179,7 @@ const Register = props => {
         phone: '',
         companyName: '',
         location: '',
-        businessCategoryId: '',
+        businessCategoryId: 0,
         storeType: 'Retail',
         username: '',
         password: '',
@@ -208,9 +208,7 @@ const Register = props => {
         const { ...formData }  = data;
 
         formData[event.target.name] = event.target.value;
-        /*if (event.target.name === 'password') {
-            this.form.isFormValid(false);
-        }*/
+
         setData(formData);
     };
 
@@ -218,9 +216,6 @@ const Register = props => {
         const { ...formData }  = data;
 
         formData['isValid'] = !result;
-        /*if (event.target.name === 'password') {
-            this.form.isFormValid(false);
-        }*/
 
         setData(formData);
     };
@@ -235,10 +230,6 @@ const Register = props => {
 
     const handleFinish = async() => {
         setLoading(true);
-        console.log(data);
-        /*
-        * Handle registration here...
-        * */
 
         let req = await new AuthService().register(data);
 
@@ -250,8 +241,6 @@ const Register = props => {
             localStorage.setItem('userContact' , req.user.phone);
             localStorage.setItem('userOTP' , req.user.otp);
             localStorage.setItem('firstName' , req.user.firstName);
-
-            console.log(req);
         }else{
             setLoading(false);
             await setErrorDialog(true);
@@ -292,7 +281,7 @@ const Register = props => {
             <div>
                 {activeStep === steps.length - 1 ? (
                     <div>
-                        <Typography className={classes.instructions}>{getStepContent(activeStep)}</Typography>
+                        <div className={classes.instructions}>{getStepContent(activeStep)}</div>
                         <Box
                             boxShadow={1}
                             bgcolor="background.paper"
@@ -333,7 +322,11 @@ const Register = props => {
                     </div>
                 ) : (
                     <div>
-                        <Typography className={classes.instructions}>{getStepContent(activeStep)}</Typography>
+                        <div
+                            className={classes.instructions}
+                        >
+                            {getStepContent(activeStep)}
+                        </div>
                         <Box
                             boxShadow={1}
                             bgcolor="background.paper"

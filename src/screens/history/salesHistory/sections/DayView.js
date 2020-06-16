@@ -15,9 +15,9 @@ import ProductDay from './productViews/ProductDay';
 import CardsSection from '../../../../components/Sections/CardsSection';
 import SaleService from "../../../../services/SaleService";
 import SimpleSnackbar from "../../../../components/Snackbar/SimpleSnackbar";
-import InvoiceService from "../../../../services/InvoiceService";
 import {confirmAlert} from "react-confirm-alert";
 import ModelAction from "../../../../services/ModelAction";
+import getUnixTime from "date-fns/getUnixTime";
 
 const useStyles = makeStyles(theme => ({
     root: {
@@ -112,6 +112,87 @@ const DayView = props => {
         })
     };
 
+    const updateSaleEntry =  async(pId, formFields) => {
+        if (formFields.sellingPrice) {
+            const data = {
+                sellingPrice: parseFloat(formFields.sellingPrice)
+            };
+
+            try {
+                await new ModelAction('SaleEntry').update(pId, data);
+
+                setSuccessMsg('Price successfully changed');
+                setSuccess(true);
+                getSaleDetails(selectedDate);
+                setTimeout(function () {
+                    setSuccessMsg('');
+                    setSuccess(false);
+                }, 2000);
+
+                return true;
+            } catch (e) {
+                setErrorMsg('OOPS. Something went wrong. Please try again');
+                setError(true);
+                setTimeout(function () {
+                    setErrorMsg('');
+                    setError(false);
+                }, 2000);
+                return false;
+            }
+        }
+        else {
+            try {
+                await new ModelAction('SaleEntry').update(pId, formFields);
+
+                setSuccessMsg('Quantity successfully changed');
+                setSuccess(true);
+                getSaleDetails(selectedDate);
+                setTimeout(function () {
+                    setSuccessMsg('');
+                    setSuccess(false);
+                }, 2000);
+
+                return true;
+            } catch (e) {
+                setErrorMsg('OOPS. Something went wrong. Please try again');
+                setError(true);
+                setTimeout(function () {
+                    setErrorMsg('');
+                    setError(false);
+                }, 2000);
+                return false;
+            }
+        }
+    };
+
+    const updateEntryDate = async (entryId, date) => {
+        const data = {
+            entryDate: getUnixTime(date)
+        };
+
+        try {
+            await new ModelAction('SaleEntry').update(entryId, data);
+
+            setSuccessMsg('Date successfully changed');
+            setSuccess(true);
+            getSaleDetails(selectedDate);
+            setTimeout(function () {
+                setSuccessMsg('');
+                setSuccess(false);
+            }, 2000);
+
+            return true;
+        } catch (e) {
+            setErrorMsg('OOPS. Something went wrong. Please try again');
+            setError(true);
+            setTimeout(function () {
+                setErrorMsg('');
+                setError(false);
+            }, 2000);
+            return false;
+        }
+    }
+
     return(
         <div className={classes.root}>
             <SimpleSnackbar
@@ -184,9 +265,9 @@ const DayView = props => {
 
                     pageName === false ?
 
-                    sales.map((sale) => <SingleDayView  key={sale.id} sale={sale} saleEntry={sale} deleteStoreProduct={deleteProductHandler.bind(this)} updateSaleEntry={props.updateSaleEntry} updatePriceEntry={props.updateSaleEntry} updateDateEntry={props.updateSaleEntry} />)
+                    sales.map((sale) => <SingleDayView  key={sale.id} sale={sale} saleEntry={sale} deleteStoreProduct={deleteProductHandler.bind(this)} updateSaleEntry={updateSaleEntry.bind(this)} updatePriceEntry={updateSaleEntry.bind(this)} updateDateEntry={updateEntryDate.bind(this)} />)
                     :
-                    sales.map((sale) => <ProductDay  key={sale.id} sale={sale} saleEntry={sale} prodName={name} deleteStoreProduct={deleteProductHandler.bind(this)} updateSaleEntry={props.updateSaleEntry} updatePriceEntry={props.updateSaleEntry} updateDateEntry={props.updateSaleEntry} />)
+                    sales.map((sale) => <ProductDay  key={sale.id} sale={sale} saleEntry={sale} prodName={name} deleteStoreProduct={deleteProductHandler.bind(this)} updateSaleEntry={updateSaleEntry.bind(this)} updatePriceEntry={updateSaleEntry.bind(this)} updateDateEntry={updateEntryDate.bind(this)} />)
 
                 }
             </Box>

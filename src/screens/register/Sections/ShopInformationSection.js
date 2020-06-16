@@ -159,11 +159,6 @@ export default function ShopInformationSection(props) {
         storeType: userFields.storeType,
     });
 
-    const [state, setState] = useState({
-        storeCaregory: '',
-        name: 'Select a store type',
-    });
-
     useEffect(() => {
         (
             async function getCategories(){
@@ -176,16 +171,15 @@ export default function ShopInformationSection(props) {
 
     const inputLabel = React.useRef(null);
     const [labelWidth, setLabelWidth] = React.useState(0);
+
     useEffect(() => {
         setLabelWidth(inputLabel.current.offsetWidth);
     }, []);
 
     const handleChangeHandler = (event) => {
         const { ...formData }  = formFields;
-        //console.log(formData.firstName);
         formData[event.target.name] = event.target.value;
         setFormFields(formData);
-        console.log(formData)
         props.collectData(event);
     };
     const handleFormValidation = async(result) => {
@@ -195,7 +189,7 @@ export default function ShopInformationSection(props) {
     //handleFormValidation(true);
 
     return (
-        <Paper className={classes.paper} style={{'margin-bottom': '80px'}}>
+        <Paper className={classes.paper} style={{'marginBottom': '80px'}}>
             <ValidatorForm
                 ref={PersonalInformationForm}
                 onError={handleFormValidation}
@@ -243,7 +237,7 @@ export default function ShopInformationSection(props) {
                         <ValidationSelectField
                             native
                             onChange={handleChangeHandler}
-                            value={formFields.storeCategory}
+                            value={formFields.businessCategoryId}
                             labelWidth={labelWidth}
                             inputProps={{
                                 name: 'businessCategoryId',
