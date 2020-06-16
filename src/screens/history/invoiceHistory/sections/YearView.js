@@ -23,12 +23,12 @@ const useStyles = makeStyles(theme => ({
   const values = new SystemDateHandler().getStoreYears()
 
   const YearView = props => {
-    console.log(new SystemDateHandler().getStoreYears());
 
     const classes = useStyles();
     const [selectedYear, setSelectedYear] = React.useState(values[0].value);
     const pageName = props.pageName;
     const [name , setName] = useState('');
+    const [customer , setCustomer] = useState('');
 
     const handleChange = event => {
       setSelectedYear(event.target.value);
@@ -47,21 +47,21 @@ const useStyles = makeStyles(theme => ({
     });
 
     const getInvoiceDetails = async (date) => {
-        console.log(date);
         let response = [];
 
         if (pageName === true){
-            response = await new InvoiceService().getInvoiceDetails('year' , date);
-
-            const branchCustomer= props.customer[0];
+            const branchCustomer = props.customer[0];
             const newCustomer = await branchCustomer.customer.fetch();
+
+            response = await new InvoiceService().getInvoiceDetailsbyCustomer('year' , date , newCustomer.id);
+
             setName(newCustomer.firstName);
+            setCustomer(newCustomer);
         }else{
-            response = await new InvoiceService().getInvoiceDetails('year' , date);
+            response = await new InvoiceService().getInvoiceDetails('month' , date);
         }
         setInvoiceDetails(response);
         setInvoices(response.invoices);
-        console.log(response)
     };
 
     return(
@@ -136,7 +136,7 @@ const useStyles = makeStyles(theme => ({
 
                     invoices.map((invoice , index) => <SingleYearView  key={index} invoice={invoice} />)
                     :
-                    invoices.map((invoice) => <CustomerYear  key={invoice.id} invoice={invoice} prodName={name} />)
+                    invoices.map((invoice , index) => <CustomerYear customer={customer} key={index} invoice={invoice} prodName={name} />)
 
                 }
 

@@ -47,7 +47,6 @@ const useStyles = makeStyles(theme => ({
     });
 
     const getInvoiceDetails = async (date) => {
-        console.log(date);
         let response = [];
 
         if (pageName === true){
@@ -57,14 +56,12 @@ const useStyles = makeStyles(theme => ({
             response = await new InvoiceService().getInvoiceDetailsbyCustomer('week' , date , newCustomer.id);
 
             setName(newCustomer.firstName);
-            console.log(response , branchCustomer.id)
             setCustomer(newCustomer);
         }else{
             response = await new InvoiceService().getInvoiceDetails('week' , date);
         }
         setInvoiceDetails(response);
         setInvoices(response.invoices);
-        console.log(response)
     };
 
     return(

@@ -16,7 +16,6 @@ import CloudUploadIcon from '@material-ui/icons/CloudUpload';
 import FileCopyIcon from '@material-ui/icons/FileCopy';
 import PrintIcon from '@material-ui/icons/Print';
 import ListItemText from '@material-ui/core/ListItemText';
-import paths from "../../../utilities/paths";
 import {withRouter} from "react-router-dom";
 import ArrowBackIcon from '@material-ui/icons/ArrowBack';
 
@@ -24,13 +23,12 @@ import InvoiceSortDate from './sections/InvoiceSortDate';
 import InvoiceSortCustomer from './sections/InvoiceSortCustomer';
 
 class InvoiceHistory extends Component {
-    state={
-        value: 0,
-        isShowDrawer: false,
-    }
-
-    props={
-        history: this.props
+    constructor(props){
+        super(props);
+        this.state = {
+            value: 0,
+            isShowDrawer: false,
+        }
     }
 
     handleChange = (event, newValue) => {
