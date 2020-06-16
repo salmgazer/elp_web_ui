@@ -3,7 +3,6 @@ import Paper from '@material-ui/core/Paper';
 import TextField from '@material-ui/core/TextField';
 import Tooltip from '@material-ui/core/Tooltip';
 import PersonAddIcon from '@material-ui/icons/PersonAdd';
-import InputBase from "@material-ui/core/InputBase/InputBase";
 
 const ViewCash = props => {
     const [formFields , setFormFields] = useState({

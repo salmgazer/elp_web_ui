@@ -68,27 +68,27 @@ const ValidationTextField = withStyles({
     },
 })(TextValidator);
 
-const PasswordTextField = withStyles({
-    root: {
-        '& input:valid + fieldset': {
-            borderColor: 'green',
-            borderWidth: 2,
-        },
-        '& input:invalid:not:focus + fieldset': {
-            borderColor: 'red',
-            borderWidth: 2,
-        },
-        '& input:invalid:focus + fieldset': {
-            borderColor: '#DAAB59',
-            borderWidth: 2,
-        },
-        '& input:valid:focus + fieldset': {
-            borderLeftWidth: 6,
-            borderColor: '#DAAB59',
-            padding: '4px !important', // override inline-style
-        },
-    },
-})(TextValidator);
+// const PasswordTextField = withStyles({
+//     root: {
+//         '& input:valid + fieldset': {
+//             borderColor: 'green',
+//             borderWidth: 2,
+//         },
+//         '& input:invalid:not:focus + fieldset': {
+//             borderColor: 'red',
+//             borderWidth: 2,
+//         },
+//         '& input:invalid:focus + fieldset': {
+//             borderColor: '#DAAB59',
+//             borderWidth: 2,
+//         },
+//         '& input:valid:focus + fieldset': {
+//             borderLeftWidth: 6,
+//             borderColor: '#DAAB59',
+//             padding: '4px !important', // override inline-style
+//         },
+//     },
+// })(TextValidator);
 
 export default function AccountInformationSection(props) {
     let history = useHistory();
@@ -115,7 +115,7 @@ export default function AccountInformationSection(props) {
         props.collectData(event);
 
         ValidatorForm.addValidationRule('isPasswordMatch', (value) => {
-            const { ...values } = props.formData;
+            //const { ...values } = props.formData;
 
             if (value !== formFields.password) {
                 return false;
@@ -131,9 +131,9 @@ export default function AccountInformationSection(props) {
         props.collectData(event);
 
         ValidatorForm.addValidationRule('isUsernamePasswordMatch', (value) => {
-            const { ...values } = props.formData;
+            //const { ...values } = props.formData;
 console.log(value , formFields.username)
-            if (value == formFields.username) {
+            if (value === formFields.username) {
                 return false;
             }
             return true;
@@ -269,17 +269,17 @@ console.log(value , formFields.username)
     });
 
 
-    const handleChangeHandler = (event) => {
-        const { ...formData }  = formFields;
-        //console.log(formData.firstName);
-        formData[event.target.name] = event.target.value;
-        /*if (event.target.name === 'password') {
-            this.form.isFormValid(false);
-        }*/
+    // const handleChangeHandler = (event) => {
+    //     const { ...formData }  = formFields;
+    //     //console.log(formData.firstName);
+    //     formData[event.target.name] = event.target.value;
+    //     /*if (event.target.name === 'password') {
+    //         this.form.isFormValid(false);
+    //     }*/
 
-        setFormFields(formData);
-        props.collectData(event);
-    };
+    //     setFormFields(formData);
+    //     props.collectData(event);
+    // };
 
     const handleChange = (event) => {
         const { ...formData }  = formFields;

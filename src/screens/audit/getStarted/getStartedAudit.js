@@ -1,25 +1,17 @@
 import React, {useState} from 'react';
-import {makeStyles} from "@material-ui/core";
 import './GetStartedAudit.scss';
 import Typography from "@material-ui/core/Typography/Typography";
 import Box from "@material-ui/core/Box/Box";
 import auditImg from "../../../assets/img/audit.png";
 import BoxDefault from "../../../components/Box/BoxDefault";
 import Button from "@material-ui/core/Button/Button";
-import paths from "../../../utilities/paths";
-import {Link , withRouter} from "react-router-dom";
+import {withRouter} from "react-router-dom";
 import MenuIcon from '@material-ui/icons/Menu';
 import SectionNavbars from "../../../components/Sections/SectionNavbars";
 import Drawer from "../../../components/Drawer/Drawer";
 
-const useStyles = makeStyles(theme => ({
-    root: {
-        width: '100%',
-    },
-}));
 
 const GetStartedAudit = props => {
-    const { history } = props;
 
     const [isDrawerShow , setIsDrawerShow] = useState(false);
 

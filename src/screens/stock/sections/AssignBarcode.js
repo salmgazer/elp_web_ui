@@ -3,7 +3,6 @@ import SectionNavbars from "../../../components/Sections/SectionNavbars";
 import { BrowserBarcodeReader } from '@zxing/library';
 import ArrowBackIcon from '@material-ui/icons/ArrowBack';
 import Typography from "@material-ui/core/Typography";
-import Don from '../../../assets/img/Don.jpg';
 import Grid from '@material-ui/core/Grid';
 import Box from "@material-ui/core/Box/Box";
 import OutlinedInput from '@material-ui/core/OutlinedInput';

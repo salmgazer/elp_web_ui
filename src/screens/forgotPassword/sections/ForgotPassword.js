@@ -67,7 +67,7 @@ const ValidationTextField = withStyles({
 })(TextValidator);
 
 const ForgotPassword = props => {
-    const { history } = props;
+    // const { history } = props;
     const [successDialog, setSuccessDialog] = useState(false);
     const [successMsg, setSuccessMsg] = useState('');
     const [errorDialog, setErrorDialog] = useState(false);

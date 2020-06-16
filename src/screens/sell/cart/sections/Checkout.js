@@ -6,7 +6,6 @@ import Tab from "@material-ui/core/Tab/Tab";
 import SwipeableViews from "react-swipeable-views";
 import LocalAtmIcon from '@material-ui/icons/LocalAtm';
 import PhoneAndroidIcon from '@material-ui/icons/PhoneAndroid';
-import ScheduleIcon from '@material-ui/icons/Schedule';
 // import CardGiftcardIcon from '@material-ui/icons/CardGiftcard';
 import TabPanel from "../../../../components/Tabs/TabPanel";
 import AppBar from '@material-ui/core/AppBar';
@@ -19,10 +18,6 @@ import { withRouter } from "react-router-dom";
 
 import ViewCash from './ViewCash';
 import ViewMobileMoney  from './ViewMobileMoney';
-import ViewCredit from './ViewCredit';
-import MainDialog from "../../../../components/Dialog/MainDialog";
-import ErrorImage from '../../../../assets/img/error.png';
-import CancelIcon from '@material-ui/icons/Cancel';
 import CustomersModal from "../../../../components/Modal/Customer/CustomersModal";
 import AddCustomerModal from "../../../../components/Modal/Customer/AddCustomerModal";
 import CustomerService from "../../../../services/CustomerService";
@@ -93,18 +88,18 @@ const CheckoutView = props => {
         };
       }
 
-    const closeDialogHandler = (event) => {
-        setMainDialog(false);
-        setAddDialog(false);
-    };
+    // const closeDialogHandler = (event) => {
+    //     setMainDialog(false);
+    //     setAddDialog(false);
+    // };
 
     const getCustomerDialog = async() => {
         setMainDialog(true);
     };
 
-    const openDialogHandler = (event) => {
-        setMainDialog(true);
-    };
+    // const openDialogHandler = (event) => {
+    //     setMainDialog(true);
+    // };
 
     const handleChange = (event, newValue) => {
       setValue(newValue);
