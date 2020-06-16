@@ -194,7 +194,7 @@ const CartView = props => {
                 message={errorMsg}
             />
 
-            <Grid container spacing={1}>
+            <Grid container spacing={1} className={`px-4 mt-2`}>
                 <Grid item xs={6}>
                     <Paper className={classes.paper}>
                         <Typography className={classes.title} component="p" >
@@ -229,7 +229,7 @@ const CartView = props => {
                 {customerName}
             </Button>
 
-            <Box style={{marginTop: '5px' , paddingBottom: '60px'}} p={1} className={`mt-3 mb-5`}>
+            <Box style={{marginTop: '5px' , margin: '2px 5px', paddingBottom: '60px'}} p={1} className={`mt-3 mb-5`}>
                 {props.products.length === 0
                     ?
                     <div className={`rounded mx-1 my-2 p-2 bordered`}>

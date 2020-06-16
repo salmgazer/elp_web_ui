@@ -12,7 +12,6 @@ import StorefrontOutlinedIcon from '@material-ui/icons/StorefrontOutlined';
 import PhoneAndroidOutlinedIcon from '@material-ui/icons/PhoneAndroidOutlined';
 import StepConnector from '@material-ui/core/StepConnector';
 import Button from '@material-ui/core/Button';
-import Typography from '@material-ui/core/Typography';
 import Box from '@material-ui/core/Box';
 import paths from "../../utilities/paths";
 import SectionNavbars from '../../components/Sections/SectionNavbars';

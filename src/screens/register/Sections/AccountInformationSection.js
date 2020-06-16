@@ -305,8 +305,8 @@ export default function AccountInformationSection(props) {
                         validatorListener={handleFormValidation}
                         onChange={usernameFormatter}
                         value={formFields.username}
-                        validators={['required', 'minStringLength:4' , 'isUserExist']}
-                        errorMessages={['Username is a required field', 'The minimum length for username is 4', 'Username exists in database. Use another username']}
+                        validators={['required', 'minStringLength:3' , 'isUserExist']}
+                        errorMessages={['Username is a required field', 'The minimum length for username is 3', 'Username exists in database. Use another username']}
                         helperText=""
                         id="username"
                     />

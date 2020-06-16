@@ -143,7 +143,7 @@ const CheckoutView = props => {
                     {
                         paymentType === 'credit' ? (
                                 <tr>
-                                    <td className={classes.td}>Debt owed :</td>
+                                    <td className={classes.td}>Outstanding :</td>
                                     <td className={classes.td}>GHC {(parseFloat(salesTotal) - parseFloat(amountPaid)).toFixed(2)}</td>
                                 </tr>
                             ):

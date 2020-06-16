@@ -161,7 +161,7 @@ const AddProductCart = props => {
 
     const setUnitPriceHandler = event => {
         console.log(formFields.sellingPrice , branchProduct.sellingPrice)
-        const sp = (event.target.value);
+        let sp = (event.target.value);
 
         if (sp < costPrice) {
             setErrorMsg('Selling price can not be less than cost price');
@@ -189,10 +189,14 @@ const AddProductCart = props => {
         oldFormFields['discount'] = discount;
 
         setFormFields(oldFormFields);
+
         setUnitPrice(sp);
-        const tp = (parseFloat(event.target.value) * quantity);
+        if(sp.length === 0){
+            sp = 0;
+        }
+        const tp = (parseFloat(event.target.value) * quantity) || 0;
         setTotalPrice(tp.toFixed(2));
-        setSellingPrice(sp.toFixed(2));
+        setSellingPrice((parseFloat(sp)).toFixed(2));
     };
 
     /*

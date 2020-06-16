@@ -199,8 +199,8 @@ const Login = props => {
                                                   value={state.usernameOrPhone}
                                                   label="username/contact"
                                                   name="usernameOrPhone"
-                                                  validators={['required', 'minStringLength:4']}
-                                                  errorMessages={['Username is a required field', 'The minimum length for username is 4']}
+                                                  validators={['required', 'minStringLength:3']}
+                                                  errorMessages={['Username is a required field', 'The minimum length for username is 3']}
                                                   helperText=""
                                                   InputProps={{
                                                       startAdornment:

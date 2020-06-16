@@ -83,7 +83,7 @@ class Cart extends Component{
                 {
                     label: 'Yes',
                     onClick: () => {
-                        new ModelAction('CartEntry').destroy(pId);
+                        new ModelAction('CartEntry').softDelete(pId);
                     }
                 },
                 {
@@ -96,12 +96,15 @@ class Cart extends Component{
         })
     };
 
-    async changeProductQuantityHandler(cartEntry , event){
+    async changeProductQuantityHandler(cartEntry , value){
         try {
-            let status = new CartService().updateCartEntryDetails(cartEntry , event.target.value);
+            let status = new CartService().updateCartEntryDetails(cartEntry , value);
             status = await status;
 
             if(status){
+                this.setState({
+                    productList: await new CartService().getCartProducts(),
+                });
                 return true;
             }
             alert('Invalid quantity');

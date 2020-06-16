@@ -130,7 +130,7 @@ class PrintRec extends React.Component {
                             {
                                 this.props.paymentType === 'credit' ? (
                                     <tr>
-                                        <td className={style.td}>Debt owed :</td>
+                                        <td className={style.td}>Outstanding :</td>
                                         <td className={style.td}>GHC {(parseFloat(this.props.totalAmt) - parseFloat(this.props.amtPaid)).toFixed(2)}</td>
                                     </tr>
                                 ):
