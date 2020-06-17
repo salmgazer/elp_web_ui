@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useEffect, useState} from "react";
 import {withRouter } from "react-router-dom";
 import SectionNavbars from "../../../../components/Sections/SectionNavbars";
 import ArrowBackIcon from '@material-ui/icons/ArrowBack';
@@ -14,14 +14,49 @@ import CardsSection from '../../../../components/Sections/CardsSection';
 import Box from "@material-ui/core/Box/Box";
 import Button from "@material-ui/core/Button/Button";
 import SingleDay from './singlePages/SingleDay';
+import InvoiceService from "../../../../services/InvoiceService";
 
 const DayView = props => {
 
     const [selectedDate, setSelectedDate] = React.useState(new Date());
-    const returns = props.returns;
+    //const returns = props.returns;
+    const pageName = props.pageName;
+    const [name , setName] = useState('');
+    const [invoiceDetails , setInvoiceDetails] = useState(false);
+    const [invoices , setInvoices] = useState([]);
 
     const handleDateChange = date => {
         setSelectedDate(date);
+        getInvoiceDetails(date);
+    };
+
+    useEffect(() => {
+        // You need to restrict it at some point
+        // This is just dummy code and should be replaced by actual
+        if (!name) {
+            getInvoiceDetails(selectedDate);
+        }
+    });
+
+    const getInvoiceDetails = async (date) => {
+        console.log(date);
+        let response = [];
+
+        if (pageName === true){
+            const branchCustomer = props.customer[0];
+            const newCustomer = await branchCustomer.customer.fetch();
+            console.log(newCustomer);
+
+            response = await new InvoiceService().getInvoiceDetailsbyCustomer('day' , date , newCustomer.id);
+
+            setName(`${newCustomer.firstName} ${newCustomer.otherNames}`);
+            console.log(response , branchCustomer.id)
+        }else{
+            response = await new InvoiceService().getInvoiceDetails('day' , date);
+        }
+        setInvoiceDetails(response);
+        setInvoices(response.invoices);
+        console.log(response)
     };
 
     const setView = (step) => {
@@ -58,7 +93,7 @@ const DayView = props => {
                         style={{fontSize: '14px', paddingTop: '20px'}}
                         className={`text-center text-dark`}
                     >
-                        Pearl Gemegah
+                        {name}
                     </Typography>
                 </Grid>
 
@@ -83,10 +118,11 @@ const DayView = props => {
                 </Grid>
             </Grid>
 
-            <CardsSection quantity='4' costPrice='20' sellingPrice='50' profit='30' profitName="Profit" />
+            <CardsSection quantity={invoiceDetails.quantity} costPrice={invoiceDetails.costPrice} sellingPrice={invoiceDetails.sellingPrice} profit={invoiceDetails.profit} profitName="Sales profit" />
+            {/* <CardsSection quantity='4' costPrice='20' sellingPrice='50' profit='30' profitName="Profit" /> */}
 
             <Box style={{marginTop: '5px' , paddingBottom: '60px'}} p={1} className={`mt-3 mb-5`}>
-                {returns.length === 0
+                {invoices.length === 0
                     ?
                     <div className={`rounded mx-1 my-2 p-2 bordered`}>
                         <Grid container spacing={1} className={`py-1`}>
@@ -106,7 +142,7 @@ const DayView = props => {
                         </Grid>
                     </div>
                     :
-                    returns.map((item) => <SingleDay key={item.id} returns={item} setView={props.setView} />)  
+                    invoices.map((item) => <SingleDay key={item.id} invoice={item} prodName={name} setView={props.setView} returnProducts={props.returnProducts} />)  
                 }
             </Box>
 

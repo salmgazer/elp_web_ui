@@ -22,7 +22,7 @@ const useStyles = makeStyles(theme => ({
 const ViewCustomers = props => {
 
     const classes = useStyles();
-    const { history } = props;
+    //const { history } = props;
     const branchCustomers = props.branchCustomers;
     const [addDialog, setAddDialog] = React.useState(false);
     const [searchValue , setSearchValue] = useState({

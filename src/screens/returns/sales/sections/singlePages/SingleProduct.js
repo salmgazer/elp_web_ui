@@ -1,17 +1,53 @@
-import React from 'react';
+import React, {useEffect , useState}  from 'react';
 import Card from "@material-ui/core/Card/Card";
 import Grid from "@material-ui/core/Grid/Grid";
 import UndoIcon from '@material-ui/icons/Undo';
 import Button from "@material-ui/core/Button/Button";
 import MainDialog from '../../../../../components/Dialog/MainDialog';
 import QuantityInput from "../../../../Components/Input/QuantityInput";
+import ProductServiceHandler from "../../../../../services/ProductServiceHandler";
+import SaleService from "../../../../../services/SaleService";
+import format from "date-fns/format";
 
 const SingleProduct = props => {
 
-    const product = props.product;
+    const saleEntry = props.saleEntry;
     const [mainDialog, setMainDialog] = React.useState(false);
+    const [product, setProduct] = useState('');
+    const [name , setName] = useState('');
+    const [image , setImage] = useState('');
+    const [totalPrice , setTotalPrice] = useState('');
+    const [quantity , setQuantity] = useState(false);
+    const [formFields , setFormFields] = useState({
+        quantity: 1,
+    });
 
-    const image = `https://elparah.store/admin/upload/${product.image}`;
+    useEffect(() => {
+        // You need to restrict it at some point
+        // This is just dummy code and should be replaced by actual
+        if (!product) {
+            getProduct();
+        }
+    });
+
+    const getProduct = async () => {
+        const newProduct = await props.saleEntry.product.fetch();
+        setProduct(newProduct);
+        setImage(new ProductServiceHandler(product).getProductImage());
+        setTotalPrice(new SaleService().getSaleEntrySellingPrice(props.saleEntry));
+        //setTotalPrice(saleEntry.sellingPrice);
+        setName((newProduct.name).length > 20 ? (newProduct.name).slice(0 , 20) + '...' : newProduct.name);
+        setQuantity(saleEntry.quantity);
+    };
+
+    const setInputValue = (name , value) => {
+        const {...oldFormFields} = formFields;
+        setTotalPrice(((saleEntry.quantity - value) * saleEntry.sellingPrice));
+        setQuantity(saleEntry.quantity - value);
+        oldFormFields['quantity'] = (saleEntry.quantity - value);
+        setFormFields(oldFormFields);
+    };
+
 
     const closeDialogHandler = (event) => {
         setMainDialog(false);
@@ -20,8 +56,13 @@ const SingleProduct = props => {
     const openDialogHandler = (event) => {
         setMainDialog(true);
     };
-    
 
+    const updateSaleEntry = () => {
+        console.log(formFields)
+        props.updateSaleEntry(saleEntry.id, formFields);
+        setMainDialog(false);
+    };
+    
     return(
         <div>
             <Grid container spacing={1} className={`shadow1 mb-3 borderRadius10`}>
@@ -42,14 +83,14 @@ const SingleProduct = props => {
                 </Grid>
                 <Grid item xs={6} style={{display: 'table', height: '60px', margin: '8px 0px'}} >
                     <div style={{textAlign: 'left', display: 'table-cell', verticalAlign: 'middle'}}>
-                        <span className='text-dark font-weight-bold' >{product.name}</span>
-                        <div className="font-weight-light mt-1" style={{ fontSize: '14px'}}>Quantity: {product.quantity}</div>
-                        <div className="font-weight-light mt-1" style={{ fontSize: '14px'}}>Cost: GHC {product.cost}</div>
+                        <span className='text-dark font-weight-bold' >{name}</span>
+                        <div className="font-weight-light mt-1" style={{ fontSize: '14px'}}>Quantity: {quantity}</div>
+                        <div className="font-weight-light mt-1" style={{ fontSize: '14px'}}>Cost: GHC {totalPrice}</div>
                     </div>
                 </Grid>
 
                 <Grid item xs={3} style={{height: '60px', margin: '10px 0px 0px 0px'}}  >
-                    <div className="font-weight-light mt-1" style={{ fontSize: '14px'}}>{product.date}</div>
+                    <div className="font-weight-light mt-1" style={{ fontSize: '14px'}}>{format(new Date(saleEntry.createdAt) , "h:mm a")}</div>
                     <Button
                         variant="outlined"
                         style={{color: '#DAAB59', textTransform: 'none', fontSize: '10px', padding: '0px 0px'}}
@@ -82,14 +123,14 @@ const SingleProduct = props => {
                         </Grid>
                         <Grid item xs={9} style={{display: 'table', height: '60px', margin: '8px 0px'}}>
                             <div style={{textAlign: 'left', display: 'table-cell', verticalAlign: 'middle'}}>
-                                <span className='text-dark font-weight-bold' >{product.name}</span>
-                                <div className="font-weight-light mt-1" style={{ fontSize: '13px'}}>Quantity: {product.quantity}</div>
-                                <div className="font-weight-light mt-1" style={{ fontSize: '13px'}}>Cost: GHC {product.cost}</div>
+                                <span className='text-dark font-weight-bold' >{name}</span>
+                                <div className="font-weight-light mt-1" style={{ fontSize: '13px'}}>Quantity: {quantity}</div>
+                                <div className="font-weight-light mt-1" style={{ fontSize: '13px'}}>Cost: GHC {totalPrice}</div>
                             </div>
                         </Grid>
                     </Grid>
 
-                    <QuantityInput style={{width: '100%', margin: '50px', paddingBottom: '30px'}} label={`Quantity`} inputName="quantity" />
+                    <QuantityInput style={{width: '100%', margin: '50px', paddingBottom: '30px'}} label={`Quantity to return`} inputName="quantity" getValue={setInputValue.bind(this)} />
 
                     <Grid container spacing={1} style={{marginTop: '50px'}}>
                         <Grid item xs={6}>

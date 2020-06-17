@@ -1,8 +1,5 @@
-import ModelAction from "./ModelAction";
-import BranchService from "./BranchService";
 import { Q } from '@nozbe/watermelondb'
 import database from '../models/database';
-import LocalInfo from "./LocalInfo";
 
 export default class BranchProductService {
     constructor(branchProduct){

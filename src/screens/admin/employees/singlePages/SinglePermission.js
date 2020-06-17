@@ -1,4 +1,4 @@
-import React, {useEffect , useState} from 'react';
+import React from 'react';
 import Grid from '@material-ui/core/Grid';
 import Switch from '../../../../components/Switch/Switch';
 import CheckBox from '../../../../components/CheckBox/CheckBox';
@@ -7,10 +7,6 @@ import CheckBox from '../../../../components/CheckBox/CheckBox';
 const SinglePermission = props => {
 
     const permission = props.permission;
-    // const [total , setTotal] = useState(false);
-    // const [payment , setPayment] = useState(false);
-
-
 
     return ( 
         <div>

@@ -1,4 +1,4 @@
-import React , { useState, useEffect } from "react";
+import React from "react";
 import { withRouter } from "react-router-dom";
 import Grid from '@material-ui/core/Grid';
 import BoxDefault from '../../../../components/Box/BoxDefault';
@@ -10,23 +10,6 @@ import DeleteIcon from "@material-ui/icons/Delete";
 const SingleViewCustomer = props => {
 
     const employee = props.employee;
-    // const [name , setName] = useState('');
-    // const [number , setNumber] = useState('');
-
-    // useEffect(() => {
-    //     // You need to restrict it at some point
-    //     // This is just dummy code and should be replaced by actual
-    //     if (!employee) {
-    //         getCustomer();
-    //     }
-    // }, []);
-
-    // const getCustomer = async () => {
-    //     const newEmployee = await props.employee;
-    //     setCustomer(newEmployee);
-    //     setName(newEmployee.name);
-    //     setNumber(newEmployee.phone);
-    // };
 
     const setView = (step) => {
         props.setView(step);

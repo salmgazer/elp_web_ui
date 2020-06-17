@@ -1,7 +1,6 @@
 import LocalInfo from "./LocalInfo";
 import database from "../models/database";
 import {v4 as uuid} from "uuid";
-import Audits from "../models/audit/Audit";
 import ModelAction from "./ModelAction";
 import AuditEntries from "../models/auditEntry/AuditEntries";
 import BranchStockService from "./BranchStockService";
@@ -75,6 +74,8 @@ console.log(response)
                 return entries.filter((entry) => entry.quantityCounted > entry.storeQuantity);
             case 'negative':
                 return entries.filter((entry) => entry.quantityCounted < entry.storeQuantity);
+            default:
+                return 'error';
         }
     }
 

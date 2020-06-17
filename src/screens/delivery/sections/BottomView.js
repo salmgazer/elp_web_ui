@@ -1,10 +1,7 @@
 import React from 'react';
 import Grid from "@material-ui/core/Grid";
 import Typography from "@material-ui/core/Typography/Typography";
-import AddShoppingCartOutlinedIcon from '@material-ui/icons/AddShoppingCartOutlined';
-import SwapHorizOutlinedIcon from '@material-ui/icons/SwapHorizOutlined';
 import AccessTimeIcon from '@material-ui/icons/AccessTime';
-import CreateOutlinedIcon from '@material-ui/icons/CreateOutlined';
 import { withRouter } from "react-router-dom";
 import paths from "../../../utilities/paths";
 import HomeIcon from '@material-ui/icons/Home';

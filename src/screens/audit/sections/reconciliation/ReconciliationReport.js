@@ -43,9 +43,9 @@ const ReconciliationReport = props => {
         props.setView(view);
     };
 
-    const setValue = value => {
-        setVariant(value);
-    };
+    // const setValue = value => {
+    //     setVariant(value);
+    // };
 
     const setStartDate = (value) => {
         console.log(value)

@@ -12,7 +12,7 @@ const SupplierCard = (props) => {
         if (!supplier) {
             getSupplier();
         }
-    }, []);
+    });
 
     const getSupplier = async () => {
         const newSupplier = await props.supplier;

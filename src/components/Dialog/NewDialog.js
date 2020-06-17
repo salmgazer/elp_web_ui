@@ -36,7 +36,6 @@ const DialogActions = withStyles(theme => ({
 }))(MuiDialogActions);
 
 export default function CustomizedDialogs(props) {
-  const [open, setOpen] = React.useState(props.states);
 
   const handleClose = () => {
     props.handleDialogClose();

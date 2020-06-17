@@ -1,8 +1,7 @@
-import React, {useEffect , useState} from 'react';
+import React from 'react';
 import Card from "@material-ui/core/Card/Card";
 import Grid from "@material-ui/core/Grid/Grid";
 import EventIcon from '@material-ui/icons/Event';
-import BranchStockService from '../../../../../services/BranchStockService';
 import format from "date-fns/format";
 
 const ProductWeek = props => {
@@ -11,34 +10,6 @@ const ProductWeek = props => {
     * */
 
    const purchase = props.purchase;
-   /*const prodName = props.prodName;
-   const [product, setProduct] = useState(false);
-   const [name , setName] = useState(false);
-   const [quantity , setQuantity] = useState('');
-   const [costPrice , setCostPrice] = useState('');*/
-
-    /*useEffect(() => {
-        // You need to restrict it at some point
-        // This is just dummy code and should be replaced by actual
-        if (!quantity || !costPrice ) {
-            getQuantity();
-        }
-    });*/
-
-    /*const getQuantity = async () => {
-        /!*
-        * @todo get entries via query on model
-        * *!/
-       const newProduct = await props.purchaseEntry.product.fetch();
-       setProduct(newProduct);
-        // const name = new ProductServiceHandler(prod).getProductName();
-        setName((newProduct.name).length > 20 ? (newProduct.name).slice(0 , 20) + '...' : newProduct.name);
-
-       const costP = await BranchStockService.getStockEntryCostPriceById(purchase.id);
-       const quant = await BranchStockService.getStockProductQuantity(purchase.id);
-       setCostPrice(costP);
-       setQuantity(quant);
-    };*/
 
     return(
         <Grid container spacing={1} className={`shadow1 mb-3 borderRadius10`}>

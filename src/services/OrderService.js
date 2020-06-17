@@ -8,7 +8,6 @@ import BranchStockService from './BranchStockService';
 import format from "date-fns/format";
 import fromUnixTime from "date-fns/fromUnixTime";
 import database from "../models/database";
-import BranchProductStock from "../models/branchesProductsStocks/BranchProductStock";
 import * as Q from "@nozbe/watermelondb/QueryDescription";
 import BranchSupplierOrder from "../models/branchSupplierOrder/BranchSupplierOrder";
 
@@ -48,6 +47,8 @@ export default class OrderService {
                 return orders.filter(order => isSameMonth(format(fromUnixTime(new Date(order.createdAt)), 'MM/dd/yyyy') , day));
             case 'year':
                 return orders.filter(order => isSameYear(format(fromUnixTime(new Date(order.createdAt)), 'MM/dd/yyyy') , day));
+            default :
+                return 'error';
         }
     }
 

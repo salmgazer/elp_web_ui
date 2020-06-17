@@ -2,17 +2,11 @@ import React from 'react';
 import Grid from "@material-ui/core/Grid";
 import Typography from "@material-ui/core/Typography/Typography";
 import { withRouter } from "react-router-dom";
-import PhoneIcon from '@material-ui/icons/Phone';
 import DeleteOutlinedIcon from '@material-ui/icons/DeleteOutlined';
 import MenuIcon from '@material-ui/icons/Menu';
 import PersonIcon from '@material-ui/icons/Person';
 
-import paths from "../../../../utilities/paths";
-import LocalInfo from "../../../../services/LocalInfo";
-
 const BottomMenu = props => {
-    const { history } = props;
-    const number = props.number;
     
     const setView = (step) => {
         props.setView(step);

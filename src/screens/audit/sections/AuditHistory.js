@@ -8,7 +8,6 @@ import {
   KeyboardDatePicker,
 } from '@material-ui/pickers';
 import Grid from '@material-ui/core/Grid';
-//import Date from '../../../components/Date/Date';
 import Box from "@material-ui/core/Box/Box";
 import Button from "@material-ui/core/Button/Button";
 import Typography from '@material-ui/core/Typography';
@@ -29,7 +28,6 @@ const useStyles = makeStyles(theme => ({
 
 const AuditHistory = props => {
     const classes = useStyles();
-    const auditEntries = props.auditEntries;
     const [selectedDate, setSelectedDate] = React.useState(new Date());
     const [auditList , setAuditList] = useState([]);
     const [purchaseDetails , setPurchaseDetails] = useState(false);

@@ -1,8 +1,7 @@
-import React, {useEffect, useState}  from 'react';
+import React, {useState}  from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import SectionNavbars from '../../../components/Sections/SectionNavbars';
 import Grid from '@material-ui/core/Grid';
-// import Date from '../../../components/Date/SystemDate';
 import Box from "@material-ui/core/Box/Box";
 import Paper from '@material-ui/core/Paper';
 import SearchInput from "../../Components/Input/SearchInput";
@@ -15,7 +14,6 @@ import {confirmAlert} from "react-confirm-alert";
 import ArrowBackIcon from '@material-ui/icons/ArrowBack';
 
 import SingleProductView from './auditHistory/SingleProductView';
-// import AddedProductSingle from "./viewAdded/AddedSingleView";
 
 const useStyles = makeStyles(theme => ({
     root: {
@@ -43,7 +41,6 @@ const useStyles = makeStyles(theme => ({
         transition: 'border-color .15s ease-in-out,box-shadow .15s ease-in-out',
     },
     input: {
-        //marginLeft: theme.spacing(1),
         flex: 1,
     },
     iconButton: {

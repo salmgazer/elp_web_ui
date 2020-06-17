@@ -14,8 +14,6 @@ import Drawer from "../../../components/Drawer/Drawer";
 import SystemDate from "../../../components/Date/SystemDate";
 import SingleRecentView from './SingleRecentView';
 import SimpleSnackbar from "../../../components/Snackbar/SimpleSnackbar";
-import SupplierService from "../../../services/SupplierService";
-import paths from "../../../utilities/paths";
 
 const useStyles = makeStyles(theme => ({
     root: {

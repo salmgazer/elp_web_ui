@@ -218,6 +218,8 @@ export default class InvoiceService {
                 return sales.filter(sale => isSameMonth(fromUnixTime(sale.salesDate) , day));
             case 'year':
                 return sales.filter(sale => isSameYear(fromUnixTime(sale.salesDate) , day));
+            default :
+                return 'error';
         }
     }
 
@@ -289,6 +291,8 @@ export default class InvoiceService {
                 return sales.filter(sale => isSameMonth(fromUnixTime(sale.salesDate) , day));
             case 'year':
                 return sales.filter(sale => isSameYear(fromUnixTime(sale.salesDate) , day));
+            default :
+                return 'error';
         }
     }
 

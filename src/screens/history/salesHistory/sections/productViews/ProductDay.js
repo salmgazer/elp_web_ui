@@ -15,7 +15,6 @@ import Paper from "@material-ui/core/Paper/Paper";
 import InputBase from "@material-ui/core/InputBase/InputBase";
 import Button from "@material-ui/core/Button/Button";
 import QuantityInput from "../../../../Components/Input/QuantityInput";
-import UnitCost from '../../../../Components/Input/UnitCost';
 import InputAdornment from '@material-ui/core/InputAdornment';
 import IconButton from '@material-ui/core/IconButton';
 import {faCalculator} from "@fortawesome/free-solid-svg-icons";

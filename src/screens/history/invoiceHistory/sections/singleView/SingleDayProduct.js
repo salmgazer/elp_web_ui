@@ -22,7 +22,6 @@ import QuantityInput from "../../../../Components/Input/QuantityInput";
 import IconButton from '@material-ui/core/IconButton';
 import {faCalculator} from "@fortawesome/free-solid-svg-icons";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
-import BoxDefault from '../../../../../components/Box/BoxDefault';
 
 
 const useStyles = makeStyles(theme => ({

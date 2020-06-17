@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useEffect , useState}  from "react";
 import {withRouter } from "react-router-dom";
 import SectionNavbars from "../../../../components/Sections/SectionNavbars";
 import ArrowBackIcon from '@material-ui/icons/ArrowBack';
@@ -30,20 +30,30 @@ const ReturnsProducts = props => {
                     </div>
                 }
                 icons={
-                    <div>
-                        <Button
-                            variant="contained"
-                            style={{'backgroundColor': 'white' , color: '#DAAB59', padding: '5px 20px', textTransform: 'none', fontSize:'17px'}}
-                        >
-                            Return all
-                        </Button>
+                    
+                    // <Button
+                    //     variant="contained"
+                    //     style={{'backgroundColor': 'white' , color: '#DAAB59', padding: '5px 20px', textTransform: 'none', fontSize:'17px'}}
+                    // >
+                    //     Return all
+                    // </Button>
+
+                    <div
+                    style={{
+                        padding: '5px 10px',
+                        borderRadius: '5px',
+                    }}
+                    className={`shadow1 text-center`}
+                    primary="Sync"
+                    >
                     </div>
+                   
                 }
             />
 
             <Paper style={{marginTop: '60px'}} >
-                <Grid container style={{paddingTop: "7px"}}>
-                    <Grid item xs={6} style={{display: 'table', height: '60px', margin: '8px 0px'}} direction="column" >  
+                <Grid container style={{paddingTop: "7px"}} >
+                    <Grid item xs={6} style={{display: 'table', height: '60px', margin: '8px 0px'}}  >  
                         <div style={{textAlign: 'left', display: 'table-cell', verticalAlign: 'middle'}}>
                             <span className='text-dark font-weight-bold' style={{ marginLeft: '15px'}} >{customer.name}</span>
                             <div className="font-weight-light mt-1" style={{ fontSize: '14px', marginLeft: '15px'}}>{customer.date}</div>
@@ -56,13 +66,13 @@ const ReturnsProducts = props => {
                             variant="contained"
                             style={{'backgroundColor': '#ffff' , padding: '5px 15px', height: '60px' , width: '80%', textTransform: 'none'}}
                         >
-                            <Grid container>
-                                <Grid item xs={12} spacing={2} style={{textAlign: "center"}}>
+                            <Grid container spacing={2}>
+                                <Grid item xs={12} style={{textAlign: "center"}}>
                                     <Typography  style={{fontSize: "13px"}}>
                                         Total cost :
                                     </Typography>
                                 </Grid>
-                                <Grid item xs={12} spacing={2} style={{textAlign: "center"}}>
+                                <Grid item xs={12} style={{textAlign: "center"}}>
                                     <Typography  style={{fontSize: "17px", fontWeight: "600"}}>
                                         GHC {customer.cost}
                                     </Typography>
@@ -95,7 +105,7 @@ const ReturnsProducts = props => {
                         </Grid>
                     </div>
                     :
-                    products.map((item) => <SingleProduct key={item.id} product={item} />)  
+                    products.map((item) => <SingleProduct key={item.id} saleEntry={item} />)  
                 }
             </Box>
 

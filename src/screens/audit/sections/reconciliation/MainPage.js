@@ -18,17 +18,17 @@ const MainPage = props => {
     const [endDay , setEndDay] = useState(new Date());
     const [isDrawerShow , setIsDrawerShow] = useState(false);
 
-    const changeView = (event) => {
-        props.setView(6);
-    };
+    // const changeView = (event) => {
+    //     props.setView(6);
+    // };
 
     const viewHistory = (event) => {
         props.setView(7);
     };
 
-    const setView = (view) => {
-        props.setView(view);
-    };
+    // const setView = (view) => {
+    //     props.setView(view);
+    // };
 
     const setValue = value => {
       setVariant(value);

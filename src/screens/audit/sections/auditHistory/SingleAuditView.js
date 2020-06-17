@@ -1,16 +1,11 @@
-import React, {useEffect , useState} from 'react';
+import React from 'react';
 import Grid from "@material-ui/core/Grid/Grid";
 import AccessTimeIcon from '@material-ui/icons/AccessTime';
-import Button from "@material-ui/core/Button/Button";
 import format from "date-fns/format";
 import DeleteIcon from '@material-ui/icons/Delete';
 
 const SingleAuditView = props => {
     const dateAudit = props.dateAudited;
-
-    // const openProductsView = (event) => {
-    //    props.setView(1);
-    // };
 
     const deleteHistoryHandler = (pId) => {
         console.log(pId)

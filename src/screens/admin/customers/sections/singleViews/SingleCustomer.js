@@ -23,7 +23,7 @@ const SingleViewCustomer = props => {
         if (!customer) {
             getCustomer();
         }
-    }, []);
+    });
 
     const getCustomer = async () => {
         const newCustomer = await props.customer;

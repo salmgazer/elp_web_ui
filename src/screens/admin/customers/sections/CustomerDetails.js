@@ -46,7 +46,7 @@ const CustomerDetails = props => {
         if (!customer) {
             getCustomer();
         }
-    }, []);
+    });
 
     const getCustomer = async () => {
         const newCustomer = await branchCustomer.customer.fetch();

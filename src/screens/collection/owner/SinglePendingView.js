@@ -1,11 +1,9 @@
 import React from 'react';
-import Grid from '@material-ui/core/Grid';
 import Paper from '@material-ui/core/Paper';
 import Typography from "@material-ui/core/Typography/Typography";
 import Button from "@material-ui/core/Button/Button";
 import { withRouter } from "react-router-dom";
 import {confirmAlert} from "react-confirm-alert";
-import ModelAction from "../../../services/ModelAction";
 
 const SingleCollectionView = props => {
     const pendingCollection = props.pendingCollection;

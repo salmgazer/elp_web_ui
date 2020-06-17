@@ -1,6 +1,5 @@
 import React, {useState} from "react";
 import {withRouter } from "react-router-dom";
-import {makeStyles} from "@material-ui/core";
 import SectionNavbars from "../../../../components/Sections/SectionNavbars";
 import ArrowBackIcon from '@material-ui/icons/ArrowBack';
 import Grid from '@material-ui/core/Grid';
@@ -12,18 +11,9 @@ import Button from "@material-ui/core/Button/Button";
 import SingleCustomer from './singlePages/SingleCustomer';
 import DateModal from '../../../../components/Modal/option/DateModal';
 
-
-const useStyles = makeStyles(theme => ({
-    root: {
-      flexGrow: 1,
-      marginTop: '60px',
-    }
-}));
-
 const MainPage = props => {
 
     const { history } = props;
-    const classes = useStyles();
     const [dateDialog, setDateDialog] = React.useState(false);
     const branchCustomers = props.branchCustomers;
     const [searchValue , setSearchValue] = useState({
@@ -44,8 +34,9 @@ const MainPage = props => {
         setDateDialog(true);
     };
 
-    const setView = (step) => {
-        props.setView(step);
+    const addCustomerHandler = (id) => {
+        console.log(id);
+        props.customerAdd(id, 0);
     };
 
     return (
@@ -99,14 +90,18 @@ const MainPage = props => {
                             style={{fontSize: '16px'}}
                             className={`text-center text-dark w-100`}
                         >
-                            No customer/invoice found
+                            No customer found
                         </Typography>
                     </div>
                 </Grid>
                 :
                 branchCustomers.map((branchCustomer) =>
-                <Grid key={branchCustomer.id} item xs={12} onClick={() => setView(0)} >
-                    <SingleCustomer customer = {branchCustomer} />
+                <Grid key={branchCustomer.customerId} item xs={12}>
+                    <div
+                        onClick={addCustomerHandler.bind(this, branchCustomer.customerId)}
+                    >
+                        <SingleCustomer customer={branchCustomer.customer.fetch()} />
+                    </div>
                 </Grid>
                 )
             }

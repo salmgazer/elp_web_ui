@@ -23,7 +23,6 @@ const selectedDay = format(new Date(localStorage.getItem('collectionDate')) , 'M
 
 class Owner extends Component {
     state={
-        //activeStep: LocalInfo.branchRole === 'owner' && parseInt(localStorage.getItem('employees')) > 1 ? 0 : 4,
         activeStep: LocalInfo.branchRole === 'owner' ? 0 : 4,
         todayCollection:[],
         pendingCollection:[],
@@ -40,7 +39,7 @@ class Owner extends Component {
     };
 
     async componentDidMount() {
-        const { history, database , myDateCollections , myTodayCollection, todayCollection , approvedCollections, pendingCollection , collections , dateCollections} = this.props;
+        const {  myDateCollections , myTodayCollection, todayCollection , approvedCollections, pendingCollection , collections , dateCollections} = this.props;
 
         await this.setState({
             todayCollection: LocalInfo.branchRole === 'owner' ? todayCollection.reverse() : myTodayCollection.reverse(),
@@ -53,7 +52,7 @@ class Owner extends Component {
     }
 
     async componentDidUpdate(prevProps) {
-        const { history, database , myDateCollections , myTodayCollection , todayCollection , approvedCollections, pendingCollection , collections , dateCollections} = this.props;
+        const {  myDateCollections , myTodayCollection , todayCollection , approvedCollections, pendingCollection , collections , dateCollections} = this.props;
         console.log('#######################')
         console.log(todayCollection)
         console.log('#######################')
@@ -125,7 +124,6 @@ class Owner extends Component {
     async addNewCollection(formFields){
         try {
             const response = await CashflowService.addCollection(formFields);
-            const day = LocalInfo.workingDate;
             if(response){
                 /*let col = [];
 

@@ -1,17 +1,11 @@
-import React, {useEffect , useState} from 'react';
+import React from 'react';
 import Card from "@material-ui/core/Card/Card";
 import Grid from "@material-ui/core/Grid/Grid";
 import EventIcon from '@material-ui/icons/Event';
-
-
-import SaleService from "../../../../../services/SaleService";
-import BranchService from "../../../../../services/BranchService";
-import LocalInfo from "../../../../../services/LocalInfo";
 import format from "date-fns/format";
 
 const ProductWeek = props => {
     const sale = props.sale;
-    const prodName = props.prodName;
 
     return(
         <Grid container spacing={1} className={`shadow1 mb-3 borderRadius10`}>

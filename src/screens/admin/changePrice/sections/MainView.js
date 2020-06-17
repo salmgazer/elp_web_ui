@@ -9,8 +9,6 @@ import SearchMode from "./SearchMode";
 import BarcodeMode from "./BarcodeMode";
 import Box from "@material-ui/core/Box/Box";
 import Button from "@material-ui/core/Button/Button";
-import {makeStyles} from "@material-ui/core";
-import paths from "../../../../utilities/paths";
 
 const MainView = props => {
     const branchProducts = props.branchProducts;
@@ -23,33 +21,12 @@ const MainView = props => {
         };
     };
 
-    const addProduct = (pId , event) => {
-        console.log(`${pId} from mainview`);
-        props.productAdd(pId , 1);
-    };
-
-    const removeProduct = (pId , event) => {
-        console.log(`${pId} from removeView`);
-        props.removeProduct(pId);
-    };
-
-    const useStyles = () => makeStyles(theme => ({
-        root: {
-            backgroundColor: theme.palette.background.paper,
-            width: 500,
-        },
-    }));
-
     const handleChange = (event, newValue) => {
         setValue(newValue);
     };
 
     const handleChangeIndex = index => {
         setValue(index);
-    };
-
-    const addedProductsViewHandler = event => {
-        props.setView(2);
     };
 
     return(
