@@ -35,7 +35,7 @@ class SortSupplier extends Component{
     }
 
     async componentDidUpdate(prevProps) {
-        const { history, database , branchSuppliers } = this.props;
+        const { branchSuppliers } = this.props;
 
         if(prevProps.branchSuppliers.length !== branchSuppliers.length){
             this.setState({

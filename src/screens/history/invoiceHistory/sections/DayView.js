@@ -1,15 +1,11 @@
 import React, {useEffect, useState} from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import Grid from '@material-ui/core/Grid';
-import SearchIcon from '@material-ui/icons/Search';
-import IconButton from '@material-ui/core/IconButton';
-import InputBase from '@material-ui/core/InputBase';
 import DateFnsUtils from '@date-io/date-fns';
 import {
   MuiPickersUtilsProvider,
   KeyboardDatePicker,
 } from '@material-ui/pickers';
-import Paper from '@material-ui/core/Paper';
 import Typography from '@material-ui/core/Typography';
 import Box from "@material-ui/core/Box/Box";
 import { withRouter } from "react-router-dom";
@@ -51,7 +47,6 @@ const DayView = props => {
     const [selectedDate, setSelectedDate] = useState(new Date());
     const pageName = props.pageName;
     const [name , setName] = useState('');
-    const [customer , setCustomer] = useState('');
 
     const handleDateChange = date => {
         setSelectedDate(date);
@@ -84,7 +79,6 @@ const DayView = props => {
 
             setName(newCustomer.firstName);
             console.log(response , branchCustomer.id)
-            setCustomer(newCustomer);
         }else{
             response = await new InvoiceService().getInvoiceDetails('day' , date);
         }

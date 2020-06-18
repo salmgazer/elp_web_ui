@@ -38,7 +38,6 @@ const useStyles = makeStyles(theme => ({
 
 const AddedProductView = props => {
     const [mainDialog, setMainDialog] = React.useState(false);
-    const quantity = props.pro_quantity;
     const [type, setType] = useState(10);
 
     const closeDialogHandler = (event) => {
@@ -59,14 +58,6 @@ const AddedProductView = props => {
 
     const finsihHandler = (event) => {
         props.setView(4);
-    };
-
-    const deleteProductHandler = (event) => {
-        props.deleteProduct(event);
-    };
-
-    const editProductHandler = (pId , event) => {
-        props.productEdit(pId , 3);
     };
 
     const classes = useStyles();

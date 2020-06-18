@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useEffect, useState} from "react";
 import {withRouter } from "react-router-dom";
 import SectionNavbars from "../../../../components/Sections/SectionNavbars";
 import ArrowBackIcon from '@material-ui/icons/ArrowBack';
@@ -10,17 +10,50 @@ import CardsSection from '../../../../components/Sections/CardsSection';
 import TextField from '@material-ui/core/TextField';
 import Box from "@material-ui/core/Box/Box";
 import Button from "@material-ui/core/Button/Button";
-import SingleDay from './singlePages/SingleDay';
+import CustomerYear from '../../../history/invoiceHistory/sections/singleView/CustomerYear';
+import InvoiceService from '../../../../services/InvoiceService';
 
 const YearView = props => {
 
     const values = new SystemDateHandler().getStoreYears();
     const [selectedYear, setSelectedYear] = React.useState(values[0].value);
-    const returns = props.returns;
+    const pageName = props.pageName;
+    const [name , setName] = useState('');
+    const [customer , setCustomer] = useState('');
 
     const handleChange = event => {
-        setSelectedYear(event.target.value);
+      setSelectedYear(event.target.value);
+      getInvoiceDetails(event.target.value);
     };
+
+    const [invoiceDetails , setInvoiceDetails] = useState(false);
+    const [invoices , setInvoices] = useState([]);
+
+    useEffect(() => {
+        // You need to restrict it at some point
+        // This is just dummy code and should be replaced by actual
+          if (!invoiceDetails) {
+              getInvoiceDetails(selectedYear);
+          }
+      });
+  
+      const getInvoiceDetails = async (date) => {
+          let response = [];
+  
+          if (pageName === true){
+              const branchCustomer = props.customer[0];
+              const newCustomer = await branchCustomer.customer.fetch();
+  
+              response = await new InvoiceService().getInvoiceDetailsbyCustomer('year' , date , newCustomer.id);
+  
+              setName(newCustomer.firstName);
+              setCustomer(newCustomer);
+          }else{
+              response = await new InvoiceService().getInvoiceDetails('month' , date);
+          }
+          setInvoiceDetails(response);
+          setInvoices(response.invoices);
+      };
 
     const setView = (step) => {
         props.setView(step);
@@ -56,7 +89,7 @@ const YearView = props => {
                         style={{fontSize: '14px', paddingTop: '20px'}}
                         className={`text-center text-dark`}
                     >
-                        Pearl Gemegah
+                        {name}
                     </Typography>
                 </Grid>
 
@@ -83,10 +116,10 @@ const YearView = props => {
                 </Grid>
             </Grid>
 
-            <CardsSection quantity='4' costPrice='20' sellingPrice='50' profit='30' profitName="Profit" />
+            <CardsSection quantity={invoiceDetails.quantity} costPrice={invoiceDetails.costPrice} sellingPrice={invoiceDetails.sellingPrice} profit={invoiceDetails.profit} profitName="Sales profit" />
 
             <Box style={{marginTop: '5px' , paddingBottom: '60px'}} p={1} className={`mt-3 mb-5`}>
-                {returns.length === 0
+                {invoices.length === 0
                     ?
                     <div className={`rounded mx-1 my-2 p-2 bordered`}>
                         <Grid container spacing={1} className={`py-1`}>
@@ -107,7 +140,7 @@ const YearView = props => {
                     </div>
                     :
 
-                    returns.map((item) => <SingleDay key={item.id} returns={item} setView={props.setView} />)
+                    invoices.map((invoice , index) => <CustomerYear customer={customer} key={index} invoice={invoice} prodName={name} />)
                     
                 }
             </Box>

@@ -11,7 +11,6 @@ import ProductYear from './singleViews/ProductYear';
 import CardsSection from '../../../../components/Sections/CardsSection';
 import DateServiceHandler from "../../../../services/SystemDateHandler";
 import PurchaseService from "../../../../services/PurchaseService";
-import BranchStockService from "../../../../services/BranchStockService";
 
 const useStyles = makeStyles(theme => ({
     root: {

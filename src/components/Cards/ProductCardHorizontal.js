@@ -5,8 +5,6 @@ import Typography from "@material-ui/core/Typography/Typography";
 import ButtonBase from "@material-ui/core/ButtonBase/ButtonBase";
 import ProductServiceHandler from "../../services/ProductServiceHandler";
 
-
-
 const ProductCardHorizontal = props => {
     const [product , setProduct] = useState('');
     const [name , setName] = useState('');
@@ -20,7 +18,7 @@ const ProductCardHorizontal = props => {
         if (!product) {
             getProduct();
         }
-    }, []);
+    });
 
     const getProduct = async () => {
         const newProduct = await props.product;

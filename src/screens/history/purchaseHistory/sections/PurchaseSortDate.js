@@ -2,17 +2,12 @@ import React, {Component} from 'react';
 import {withRouter} from "react-router";
 import {confirmAlert} from "react-confirm-alert";
 import ModelAction from "../../../../services/ModelAction";
-import * as Q from "@nozbe/watermelondb/QueryDescription";
-import BranchStockService from "../../../../services/BranchStockService";
-import BranchProductStock from "../../../../models/branchesProductsStocks/BranchProductStock";
 
 import DayView from './DayView';
 import WeekView from './WeekView';
 import MonthView from './MonthView';
 import YearView from './YearView';
 import DateToggle from "../../../../components/DateToggle/DateToggle";
-import getUnixTime from 'date-fns/getUnixTime';
-import SimpleSnackbar from "../../../../components/Snackbar/SimpleSnackbar";
 
 class SortDate extends Component{
     state={

@@ -3,7 +3,6 @@ import SectionNavbars from "../../../components/Sections/SectionNavbars";
 import { BrowserBarcodeReader } from '@zxing/library';
 import ArrowBackIcon from '@material-ui/icons/ArrowBack';
 import Typography from "@material-ui/core/Typography";
-import Don from '../../../assets/img/Don.jpg';
 import Grid from '@material-ui/core/Grid';
 import Box from "@material-ui/core/Box/Box";
 import OutlinedInput from '@material-ui/core/OutlinedInput';
@@ -50,10 +49,11 @@ const AssignBarcode = props => {
 
             codeReader
                 .decodeOnceFromVideoDevice(selectedDeviceId, 'video')
-                .then(result => {
+                .then( async result => {
                     alert(result.text);
                     beepSound.play();
                     setBarcodeNumber(result.text);
+                    await addProductBarcode();
                     codeReader.reset();
                     document.getElementById('barOverlay').style.display = 'block';
                 })
@@ -80,7 +80,7 @@ const AssignBarcode = props => {
         setName(newProduct.name);
     };
 
-    const addProductBarcode = () => {
+    const addProductBarcode = async () => {
         const response = props.addProductBarcode(product.id, barcodeNumber);
 
         if(response){

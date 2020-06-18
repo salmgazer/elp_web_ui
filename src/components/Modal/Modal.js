@@ -1,6 +1,5 @@
 import React from 'react';
 import { withStyles } from '@material-ui/core/styles';
-import Button from '@material-ui/core/Button';
 import Dialog from '@material-ui/core/Dialog';
 import MuiDialogTitle from '@material-ui/core/DialogTitle';
 import MuiDialogContent from '@material-ui/core/DialogContent';
@@ -51,7 +50,6 @@ const DialogActions = withStyles(theme => ({
 }))(MuiDialogActions);
 
 const Modal = props => {
-    const open = React.useState(props.states);
 
     const handleClose = () => {
         props.handleClose();

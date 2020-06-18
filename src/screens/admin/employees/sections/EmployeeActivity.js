@@ -45,10 +45,6 @@ const EmployeeActivity = props => {
         props.setView(4);
     };
 
-    const setView = (step) => {
-        props.setView(step);
-    };
-
     return (
         <div>
             <SectionNavbars

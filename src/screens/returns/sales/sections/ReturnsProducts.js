@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState}  from "react";
 import {withRouter } from "react-router-dom";
 import SectionNavbars from "../../../../components/Sections/SectionNavbars";
 import ArrowBackIcon from '@material-ui/icons/ArrowBack';
@@ -8,14 +8,61 @@ import Grid from '@material-ui/core/Grid';
 import Typography from "@material-ui/core/Typography/Typography";
 import Box from "@material-ui/core/Box/Box";
 import SingleProduct from './singlePages/SingleProduct';
+import SimpleSnackbar from "../../../../components/Snackbar/SimpleSnackbar";
+import ModelAction from "../../../../services/ModelAction";
 
 const ReturnsProducts = props => {
 
-    const customer = props.customer;
     const products = props.products;
+    const [error , setError] = useState(false);
+    const [errorMsg , setErrorMsg] = useState('');
+    const [success , setSuccess] = useState(false);
+    const [successMsg , setSuccessMsg] = useState('');
+    const storedCustomer = JSON.parse(localStorage.getItem("customerDetails"));
 
     const setView = (step) => {
         props.setView(step);
+    };
+
+    const updateSaleEntry =  async(pId, formFields) => {
+        if (formFields.quantity === 0) {
+
+            console.log('happy')
+        }
+        else {
+            console.log('ok')
+        }
+    };
+
+    const returnAll =  async(allProducts) => {
+
+        /*
+        *@todo create table for stock returns
+        */
+        try {
+            for (let i=0; i<allProducts.length; i++) {
+                await new ModelAction('SaleEntry').softDelete(allProducts[i].id);
+            }
+                setSuccessMsg('Items deleted successfully');
+                setSuccess(true);
+                setTimeout(function () {
+                    setSuccessMsg('');
+                    setSuccess(false);
+                    setView(0);
+                }, 2000);
+
+                return true;
+        } catch (e) {
+            setErrorMsg('OOPS. Something went wrong. Please try again');
+            setError(true);
+            setTimeout(function () {
+                setErrorMsg('');
+                setError(false);
+                props.setView(0);
+            }, 2000);
+            return false;
+        }
+
     };
 
     return (
@@ -29,25 +76,36 @@ const ReturnsProducts = props => {
                         />
                     </div>
                 }
-                icons={
-                    <div>
-                        <Button
-                            variant="contained"
-                            style={{'backgroundColor': 'white' , color: '#DAAB59', padding: '5px 20px', textTransform: 'none', fontSize:'17px'}}
-                        >
-                            Return all
-                        </Button>
-                    </div>
+                icons={                  
+                    <Button
+                        variant="contained"
+                        style={{'backgroundColor': 'white' , color: '#DAAB59', padding: '5px 20px', textTransform: 'none', fontSize:'17px'}}
+                        onClick={returnAll.bind(this, products)} 
+                    >
+                        Return all
+                    </Button>                  
                 }
+            />
+            
+            <SimpleSnackbar
+                type="success"
+                openState={success}
+                message={successMsg}
+            />
+
+            <SimpleSnackbar
+                type="warning"
+                openState={error}
+                message={errorMsg}
             />
 
             <Paper style={{marginTop: '60px'}} >
-                <Grid container style={{paddingTop: "7px"}}>
-                    <Grid item xs={6} style={{display: 'table', height: '60px', margin: '8px 0px'}} direction="column" >  
+                <Grid container style={{paddingTop: "7px"}} >
+                    <Grid item xs={6} style={{display: 'table', height: '60px', margin: '8px 0px'}}  >  
                         <div style={{textAlign: 'left', display: 'table-cell', verticalAlign: 'middle'}}>
-                            <span className='text-dark font-weight-bold' style={{ marginLeft: '15px'}} >{customer.name}</span>
-                            <div className="font-weight-light mt-1" style={{ fontSize: '14px', marginLeft: '15px'}}>{customer.date}</div>
-                            <div className="font-weight-light mt-1" style={{ fontSize: '14px', marginLeft: '15px'}}> {customer.time}</div>
+                            <span className='text-dark font-weight-bold' style={{ marginLeft: '15px'}} >{storedCustomer.name}</span>
+                            <div className="font-weight-light mt-1" style={{ fontSize: '14px', marginLeft: '15px'}}>{storedCustomer.date}</div>
+                            <div className="font-weight-light mt-1" style={{ fontSize: '14px', marginLeft: '15px'}}> {storedCustomer.time}</div>
                         </div>
                     </Grid>
 
@@ -57,14 +115,14 @@ const ReturnsProducts = props => {
                             style={{'backgroundColor': '#ffff' , padding: '5px 15px', height: '60px' , width: '80%', textTransform: 'none'}}
                         >
                             <Grid container>
-                                <Grid item xs={12} spacing={2} style={{textAlign: "center"}}>
+                                <Grid item xs={12} style={{textAlign: "center"}}>
                                     <Typography  style={{fontSize: "13px"}}>
                                         Total cost :
                                     </Typography>
                                 </Grid>
-                                <Grid item xs={12} spacing={2} style={{textAlign: "center"}}>
+                                <Grid item xs={12} style={{textAlign: "center"}}>
                                     <Typography  style={{fontSize: "17px", fontWeight: "600"}}>
-                                        GHC {customer.cost}
+                                        GHC {storedCustomer.totalPrice}
                                     </Typography>
                                 </Grid>
                             </Grid>
@@ -95,7 +153,7 @@ const ReturnsProducts = props => {
                         </Grid>
                     </div>
                     :
-                    products.map((item) => <SingleProduct key={item.id} product={item} />)  
+                    products.map((item) => <SingleProduct key={item.id} saleEntry={item} updateSaleEntry={updateSaleEntry.bind(this)} />)  
                 }
             </Box>
 

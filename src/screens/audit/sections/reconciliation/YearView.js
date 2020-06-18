@@ -1,5 +1,4 @@
 import React, {useState} from 'react';
-// import { makeStyles } from '@material-ui/core/styles';
 import SectionNavbar from '../../../../components/Sections/SectionNavbars';
 import ArrowBackIcon from '@material-ui/icons/ArrowBack';
 import MoreVertIcon from '@material-ui/icons/MoreVert';
@@ -19,17 +18,11 @@ import TextField from '@material-ui/core/TextField';
 import SingleDetail from './singleViews/SingleDetail';
 import SystemDateHandler from "../../../../services/SystemDateHandler";
 
-// const useStyles = makeStyles(theme => ({
-//     paper: {
-//       padding: theme.spacing(1),
-//       textAlign: 'center'
-//     }
-// }));
+
 
 const values = new SystemDateHandler().getStoreYears()
 
 const YearView = props => {
-    // const classes = useStyles();
     const [selectedYear, setSelectedYear] = React.useState(values[0].value);
     const [isShowDrawer , setIsShowDrawer] = useState(false);
     const reconciliations = props.reconciliations;

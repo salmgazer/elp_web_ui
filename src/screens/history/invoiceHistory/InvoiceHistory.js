@@ -92,7 +92,7 @@ class InvoiceHistory extends Component {
                     </BottomDrawer>
                 </div>
 
-                <AppBar position="static" color="white">
+                <AppBar position="static" color="transparent">
                     <Tabs
                         value={this.state.value}
                         onChange={this.handleChange}

@@ -3,7 +3,6 @@ import { makeStyles } from '@material-ui/core/styles';
 import ArrowBackIcon from '@material-ui/icons/ArrowBack';
 import Box from "@material-ui/core/Box/Box";
 import SuccessImage from '../../../../../assets/img/success.png';
-import Grid from "@material-ui/core/Grid/Grid";
 import Typography from '@material-ui/core/Typography';
 import TextField from '@material-ui/core/TextField';
 import Paper from '@material-ui/core/Paper';

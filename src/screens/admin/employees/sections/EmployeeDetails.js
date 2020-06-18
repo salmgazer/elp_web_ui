@@ -1,5 +1,4 @@
 import React, {useState} from 'react';
-import {makeStyles} from "@material-ui/core";
 import {withRouter} from "react-router";
 import Grid from '@material-ui/core/Grid';
 import Paper from '@material-ui/core/Paper';
@@ -15,12 +14,6 @@ import BoxDefault from "../../../../components/Box/BoxDefault";
 import CardGridComponent from "../singlePages/CardComponent.js";
 import BottomMenu from '../singlePages/BottomMenu';
 
-const useStyles = makeStyles(theme => ({
-    root: {
-      flexGrow: 1,
-      marginTop: '60px',
-    }
-}));
 
 const values = [
     {
@@ -35,7 +28,6 @@ const values = [
 
 const EmployeeDetails = props => {
 
-    const classes = useStyles();
     const employee = props.currentEmployee;
     const [type, setType] = useState(10);
 

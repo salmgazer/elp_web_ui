@@ -16,7 +16,6 @@ class NoAttendant extends Component {
             'amount': '300'
             }
         ]
-        // todayCollection:[]
     }
 
     getStepContent = step => {

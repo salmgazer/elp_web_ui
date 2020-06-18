@@ -11,8 +11,6 @@ import { withRouter } from "react-router-dom";
 import SectionNavbars from "../../../components/Sections/SectionNavbars";
 import Drawer from "../../../components/Drawer/Drawer";
 import SingleRecentView from './SingleRecentView';
-import SinglePendingView from './SinglePendingView';
-import AddCircleRoundedIcon from '@material-ui/icons/AddCircleRounded';
 import SystemDate from "../../../components/Date/SystemDate";
 import TextField from "@material-ui/core/TextField/TextField";
 import SimpleSnackbar from "../../../components/Snackbar/SimpleSnackbar";

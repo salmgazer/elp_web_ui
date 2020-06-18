@@ -11,7 +11,6 @@ import Paper from '@material-ui/core/Paper';
 import TextField from '@material-ui/core/TextField';
 import Button from "@material-ui/core/Button/Button";
 import EditIcon from '@material-ui/icons/Edit';
-import DeleteIcon from '@material-ui/icons/Delete';
 import Modal from '../../../components/Modal/Modal';
 
 const useStyles = makeStyles(theme => ({
@@ -79,10 +78,6 @@ const ViewCashIn = props => {
 
     const handChange = e => {
         props.handle(e);
-    };
-
-    const deleteHistoryHandler = (pId , event) => {
-        props.deleteCollection(pId , event);
     };
     
 

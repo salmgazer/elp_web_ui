@@ -1,9 +1,7 @@
-import React, {useEffect , useState} from 'react';
+import React from 'react';
 import Grid from "@material-ui/core/Grid/Grid";
-import format from "date-fns/format";
 import BoxDefault from '../../../../../components/Box/BoxDefault';
 
-import SaleService from '../../../../../services/SaleService';
 import SingleCustomerInvoiceView from "../components/singleCustomerInvoiceView";
 
 const SingleYearView = props => {

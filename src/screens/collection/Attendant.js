@@ -17,7 +17,6 @@ class Attendant extends Component {
             'approval': 'no'
             }
         ]
-        // todayCollection:[]
     }
 
     getStepContent = step => {

@@ -88,6 +88,7 @@ const BarcodeMode = props => {
         if(barcodeNumber === '' || typeof barcodeNumber === 'undefined'){
             await setErrorMessage('Barcode empty. Please try again.');
             await setErrorDialog(true);
+            return false;
         }
         const product = await props.searchBarcode(barcodeNumber);
 

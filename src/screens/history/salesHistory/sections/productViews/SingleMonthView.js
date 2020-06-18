@@ -3,8 +3,6 @@ import Card from "@material-ui/core/Card/Card";
 import Grid from "@material-ui/core/Grid/Grid";
 import EventIcon from '@material-ui/icons/Event';
 
-import format from "date-fns/format";
-
 const SingleMonthView = props => {
     const sale = props.sale;
     console.log(sale)

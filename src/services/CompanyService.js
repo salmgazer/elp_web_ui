@@ -5,7 +5,6 @@ import isWeek from "date-fns/isThisWeek";
 import isThisMonth from 'date-fns/isThisMonth'
 import isYear from "date-fns/isThisYear";
 import SaleService from "./SaleService";
-import Sales from "../models/sales/Sales";
 import fromUnixTime from 'date-fns/fromUnixTime';
 
 export default class CompanyService {
@@ -48,6 +47,8 @@ export default class CompanyService {
                 return sales.filter(sale => isThisMonth(fromUnixTime(sale.salesDate)));
             case 'year':
                 return sales.filter(sale => isYear(fromUnixTime(sale.salesDate)));
+            default: 
+                return 'error';
         }
 
     }

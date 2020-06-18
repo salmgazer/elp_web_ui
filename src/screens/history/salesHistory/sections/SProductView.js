@@ -1,7 +1,6 @@
-import React, {useState, useEffect} from 'react';
+import React, {useState} from 'react';
 import Typography from '@material-ui/core/Typography';
 import './View.scss';
-import { makeStyles } from '@material-ui/core/styles';
 import Button from "@material-ui/core/Button/Button";
 import Grid from "@material-ui/core/Grid/Grid";
 

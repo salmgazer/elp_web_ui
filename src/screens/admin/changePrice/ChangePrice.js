@@ -1,7 +1,6 @@
 import React, {Component} from 'react';
-import MenuIcon from '@material-ui/icons/Menu';
 import SectionNavbars from "../../../components/Sections/SectionNavbars";
-import { makeStyles, useTheme } from '@material-ui/core/styles';
+import { makeStyles } from '@material-ui/core/styles';
 import {withRouter} from "react-router";
 import './sections/ChangePrice.scss';
 import MainView from "./sections/MainView";
@@ -11,8 +10,6 @@ import {confirmAlert} from "react-confirm-alert";
 import EditProductView from "./sections/EditProductView";
 import CompleteView from "./sections/CompleteView";
 import './changePrice.scss';
-import paths from "../../../utilities/paths";
-import ArrowBackIosIcon from '@material-ui/icons/ArrowBackIos';
 import ArrowBackIcon from '@material-ui/icons/ArrowBack';
 
 
@@ -62,7 +59,7 @@ class ChangePrice extends Component{
     };
 
     async componentDidMount() {
-        const { branchProducts, history } = this.props;
+        const { branchProducts } = this.props;
 
 
 

@@ -1,5 +1,4 @@
 import React, {useState} from 'react';
-// import { makeStyles } from '@material-ui/core/styles';
 import SectionNavbar from '../../../../components/Sections/SectionNavbars';
 import ArrowBackIcon from '@material-ui/icons/ArrowBack';
 import MoreVertIcon from '@material-ui/icons/MoreVert';
@@ -19,17 +18,9 @@ import TextField from '@material-ui/core/TextField';
 import SingleDetail from './singleViews/SingleDetail';
 import SystemDateHandler from "../../../../services/SystemDateHandler";
 
-// const useStyles = makeStyles(theme => ({
-//     paper: {
-//       padding: theme.spacing(1),
-//       textAlign: 'center'
-//     }
-// }));
-
 const values = new SystemDateHandler().getStoreMonths()
 
 const MonthView = props => {
-    // const classes = useStyles();
     const [selectedMonth, setSelectedMonth] = React.useState(values[(new Date().getMonth())].value);
     const [isShowDrawer , setIsShowDrawer] = useState(false);
     const reconciliations = props.reconciliations;

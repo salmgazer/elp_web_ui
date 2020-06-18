@@ -1,12 +1,7 @@
 import React, {useState} from 'react';
 import Typography from '@material-ui/core/Typography';
-import SearchIcon from '@material-ui/icons/Search';
-import IconButton from '@material-ui/core/IconButton';
-import InputBase from '@material-ui/core/InputBase';
 import Paper from '@material-ui/core/Paper';
 import { makeStyles } from '@material-ui/core/styles';
-import Box from "@material-ui/core/Box/Box";
-import Card from "@material-ui/core/Card/Card";
 import Grid from "@material-ui/core/Grid/Grid";
 import SearchInput from "../../../../Components/Input/SearchInput";
 import SupplierCard from '../../../../../components/Cards/SupplierCard';

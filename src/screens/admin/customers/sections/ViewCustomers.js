@@ -22,7 +22,7 @@ const useStyles = makeStyles(theme => ({
 const ViewCustomers = props => {
 
     const classes = useStyles();
-    const { history } = props;
+    //const { history } = props;
     const branchCustomers = props.branchCustomers;
     const [addDialog, setAddDialog] = React.useState(false);
     const [searchValue , setSearchValue] = useState({
@@ -95,17 +95,19 @@ const ViewCustomers = props => {
                     </Typography>
                 </div>
                 :
-                branchCustomers.map((branchCustomer) =>
-                <Grid key={branchCustomer.customerId} item xs={12} >
-                <div
-                    onClick={viewCustomerDetails.bind(this, branchCustomer.customerId)}
-                >
-                    <SingleCustomer customer={branchCustomer.customer.fetch()}>
-                        
-                    </SingleCustomer>
+                <div style={{marginBottom: '60px'}}>
+                {    branchCustomers.map((branchCustomer) =>
+                    <Grid key={branchCustomer.customerId} item xs={12} >
+                    <div
+                        onClick={viewCustomerDetails.bind(this, branchCustomer.customerId)}
+                    >
+                        <SingleCustomer customer={branchCustomer.customer.fetch()}>
+                            
+                        </SingleCustomer>
+                    </div>
+                    </Grid>
+                    )}
                 </div>
-                </Grid>
-                )
             }
 
             {/* {props.customersList.map((item) => <SingleCustomer  key={item.id} customers={item} setView={props.setView} />)} */}

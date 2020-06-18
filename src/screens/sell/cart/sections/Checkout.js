@@ -17,10 +17,10 @@ import { withRouter } from "react-router-dom";
 
 import ViewCash from './ViewCash';
 import ViewMobileMoney  from './ViewMobileMoney';
-import SaleService from "../../../../services/SaleService";
 import CartService from "../../../../services/CartService";
 import SimpleSnackbar from "../../../../components/Snackbar/SimpleSnackbar";
 import CustomerListDrawer from "../../../../components/Drawer/CustomerListDrawer/CustomerListDrawer";
+import SaleService from "../../../../services/SaleService";
 
 const useStyles = makeStyles(theme => ({
     root: {

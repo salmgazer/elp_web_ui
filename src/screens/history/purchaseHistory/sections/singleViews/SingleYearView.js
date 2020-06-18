@@ -1,9 +1,7 @@
-import React, {useEffect , useState} from 'react';
+import React from 'react';
 import Card from "@material-ui/core/Card/Card";
 import Grid from "@material-ui/core/Grid/Grid";
 import EventIcon from '@material-ui/icons/Event';
-import BranchStockService from '../../../../../services/BranchStockService';
-import format from "date-fns/format";
 
 const SingleYearView = props => {
     /*const product = props.weekItems;

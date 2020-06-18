@@ -86,6 +86,7 @@ const AddBranch = props => {
 
     const handleChange = event => {
         setValue(event.target.value);
+        setCategories();
     };
 
     const handleFormValidation = (result) => {
@@ -167,7 +168,6 @@ const AddBranch = props => {
                                 </Typography>
                                 <ValidationSelectField
                                     native
-                                    
                                     inputProps={{
                                         name: 'storeCategory',
                                         id: 'storeCategory',

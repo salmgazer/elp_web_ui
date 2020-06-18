@@ -4,7 +4,6 @@ import LocalInfo from "./LocalInfo";
 import * as Q from "@nozbe/watermelondb/QueryDescription";
 import database from "../models/database";
 import BranchSupplierProducts from "../models/branchSupplierProducts/BranchSupplierProducts";
-import BranchProduct from "../models/branchesProducts/BranchProduct";
 import {v4 as uuid} from "uuid";
 import BranchSupplierOrder from "../models/branchSupplierOrder/BranchSupplierOrder";
 import BranchSuppliers from "../models/branchSuppliers/BranchSuppliers";
@@ -15,7 +14,7 @@ export default class SupplierService {
             const supplierId = localStorage.getItem("supplierId");
 
             const dataCollection = database.collections.get(BranchSupplierOrder.table);
-            const workingDate = await database.adapter.getLocal("workingDate");
+            // const workingDate = await database.adapter.getLocal("workingDate");
 
             await database.action(async () => {
                 const newOrder = await dataCollection.create(order => {

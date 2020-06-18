@@ -1,8 +1,6 @@
 import React from 'react';
 import Grid from '@material-ui/core/Grid';
 import CheckCircleIcon from '@material-ui/icons/CheckCircle';
-import CancelIcon from '@material-ui/icons/Cancel';
-import HourglassFullIcon from '@material-ui/icons/HourglassFull';
 import { withRouter } from "react-router-dom";
 import {confirmAlert} from "react-confirm-alert";
 import CheckCircleRoundedIcon from '@material-ui/icons/CheckCircleRounded';

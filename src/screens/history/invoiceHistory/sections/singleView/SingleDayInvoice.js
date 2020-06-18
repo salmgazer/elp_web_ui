@@ -34,8 +34,6 @@ const SingleDayInvoice = props => {
     const [payment , setPayment] = useState(false);
     const [mainDialog, setMainDialog] = useState(false);
 
-    const preventDefault = event => event.preventDefault();
-
     const closeDialogHandler = (event) => {
         setMainDialog(false);
     };

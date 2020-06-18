@@ -7,9 +7,9 @@ import './successDialog.scss';
 export default function SuccessDialog(props) {
     const [open, setOpen] = React.useState(props.states);
 
-    const handleClickOpen = () => {
-        setOpen(true);
-    };
+    // const handleClickOpen = () => {
+    //     setOpen(true);
+    // };
 
     const handleClose = () => {
         setOpen(false);

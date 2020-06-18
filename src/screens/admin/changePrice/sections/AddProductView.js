@@ -12,7 +12,7 @@ import Snackbar from '@material-ui/core/Snackbar';
 import MuiAlert from '@material-ui/lab/Alert';
 
 import BranchProductService from "../../../../services/BranchProductService";
-import BranchStockService from "../../../../services/BranchStockService";
+// import BranchStockService from "../../../../services/BranchStockService";
 import ProductServiceHandler from "../../../../services/ProductServiceHandler";
 import LocalInfo from "../../../../services/LocalInfo";
 
@@ -51,7 +51,7 @@ const AddProductView = props => {
     const [name , setName] = useState('');
     const [image , setImage] = useState('');
     const [product , setProduct] = useState('');
-    const [lastHistory , setLastHistory] = useState('');
+    // const [lastHistory , setLastHistory] = useState('');
     const [costPrice , setCostPrice] = useState(0);
     const [sellingPrice , setSellingPrice] = useState(branchProduct.sellingPrice);
     const [errorDialog, setErrorDialog] = useState(false);
@@ -72,15 +72,15 @@ const AddProductView = props => {
         if (!product) {
             getProduct();
         }
-    }, []);
+    });
 
     const productHandler = new BranchProductService(branchProduct);
 
     const getProduct = async () => {
         const newProduct = await branchProduct.product.fetch();
-        const fetchLastHistory = await new BranchStockService().getLastProductStock(branchProduct.productId);
+        //const fetchLastHistory = await new BranchStockService().getLastProductStock(branchProduct.productId);
         setProduct(newProduct);
-        setLastHistory(fetchLastHistory);
+        //setLastHistory(fetchLastHistory);
         setName(newProduct.name);
         setImage(new ProductServiceHandler(product).getProductImage());
         setCostPrice(await productHandler.getCostPrice());

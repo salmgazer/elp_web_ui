@@ -126,7 +126,7 @@ export default function AccountInformationSection(props) {
         props.collectData(event);
 
         ValidatorForm.addValidationRule('isPasswordMatch', (value) => {
-            const { ...values } = props.formData;
+            //const { ...values } = props.formData;
 
             if (value !== formFields.password) {
                 return false;

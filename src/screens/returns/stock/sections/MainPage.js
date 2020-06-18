@@ -1,6 +1,5 @@
 import React, {useState} from "react";
 import {withRouter } from "react-router-dom";
-import {makeStyles} from "@material-ui/core";
 import SectionNavbars from "../../../../components/Sections/SectionNavbars";
 import ArrowBackIcon from '@material-ui/icons/ArrowBack';
 import Grid from '@material-ui/core/Grid';
@@ -12,18 +11,9 @@ import Button from "@material-ui/core/Button/Button";
 import SingleSupplier from './singlePages/SingleSupplier';
 import DateModal from '../../../../components/Modal/option/DateModal';
 
-
-const useStyles = makeStyles(theme => ({
-    root: {
-      flexGrow: 1,
-      marginTop: '60px',
-    }
-}));
-
 const MainPage = props => {
 
     const { history } = props;
-    const classes = useStyles();
     const [dateDialog, setDateDialog] = React.useState(false);
     const branchSuppliers = props.branchSuppliers;
     const [searchValue , setSearchValue] = useState({

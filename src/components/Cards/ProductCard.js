@@ -2,8 +2,6 @@ import React , { useState, useEffect } from 'react';
 import Paper from "@material-ui/core/Paper/Paper";
 import Typography from "@material-ui/core/Typography/Typography";
 import ProductServiceHandler from "../../services/ProductServiceHandler";
-import AuditService from "../../services/AuditService";
-
 
 const ProductCard = (props) => {
     const [product , setProduct] = useState('');
@@ -18,7 +16,7 @@ const ProductCard = (props) => {
         if (!product) {
             getProduct();
         }
-    }, []);
+    });
 
     const getProduct = async () => {
         const newProduct = await props.product;

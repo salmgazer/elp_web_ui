@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React from 'react';
 import Grid from "@material-ui/core/Grid";
 import StoreMallDirectoryRoundedIcon from '@material-ui/icons/StoreMallDirectoryRounded';
 import {Link, withRouter} from 'react-router-dom';

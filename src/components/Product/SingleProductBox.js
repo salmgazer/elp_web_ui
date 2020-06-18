@@ -1,6 +1,5 @@
 import React, {useEffect, useState} from 'react';
 import ProductCard from "../Cards/ProductCard";
-import ProductServiceHandler from "../../services/ProductServiceHandler";
 import Grid from "@material-ui/core/Grid/Grid";
 import BranchProductService from "../../services/BranchProductService";
 
@@ -15,7 +14,7 @@ const SingleProductBox = props => {
         if (!quantity || !costPrice) {
             getProduct();
         }
-    }, []);
+    });
 
     const productHandler = new BranchProductService(branchProduct);
 

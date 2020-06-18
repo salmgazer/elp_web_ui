@@ -1,14 +1,35 @@
-import React from "react";
+import React , { useState, useEffect }  from "react";
 import { withRouter } from "react-router-dom";
 import Grid from '@material-ui/core/Grid';
 import BoxDefault from '../../../../../components/Box/BoxDefault';
 import Card from "@material-ui/core/Card/Card";
 import AccountCircleIcon from '@material-ui/icons/AccountCircle';
-
+import InvoiceService from "../../../../../services/InvoiceService";
+import format from "date-fns/format";
+import fromUnixTime from 'date-fns/fromUnixTime';
 
 const SingleViewCustomer = props => {
 
-    const customer = props.customer;
+    const [customer , setCustomer] = useState('');
+    const [name , setName] = useState('');
+    const [lastPurchase , setLastPurchase] = useState('');
+
+    useEffect(() => {
+        // You need to restrict it at some point
+        // This is just dummy code and should be replaced by actual
+        if (!customer) {
+            getCustomer();
+        }
+    });
+
+    const getCustomer = async () => {
+        const newCustomer = await props.customer;
+        const response = await new InvoiceService().getCustomerHistory(newCustomer.id);
+        console.log(response);
+        setCustomer(newCustomer);
+        setName(newCustomer.firstName + ' ' + newCustomer.otherNames);
+        setLastPurchase(response.invoice);
+    };
 
     return(
 
@@ -39,8 +60,11 @@ const SingleViewCustomer = props => {
 
                     <Grid item xs={9} style={{display: 'table', height: '60px', margin: '8px 0px'}} >
                         <div style={{textAlign: 'left', display: 'table-cell', verticalAlign: 'middle'}}>
-                            <span className='text-dark font-weight-bold' >{customer.name}</span>
-                            <div className="font-weight-light mt-1" style={{ fontSize: '13px', marginTop: '5px'}}>Last purchase: {customer.date}</div>
+                            <span className='text-dark font-weight-bold' >{name}</span>
+                            <div className="font-weight-light mt-1" style={{ fontSize: '13px', marginTop: '5px'}}>
+                                Last purchase:  {lastPurchase ? format(new Date(lastPurchase.createdAt) , "do MMMM, yyyy | h:mm a") : 'No purchase made'}
+                                
+                            </div>
                         </div>
                     </Grid>
                     

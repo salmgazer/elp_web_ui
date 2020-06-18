@@ -1,5 +1,4 @@
 import React, {useState} from 'react';
-import {makeStyles} from "@material-ui/core";
 import {withRouter} from "react-router";
 import Grid from '@material-ui/core/Grid';
 import Paper from '@material-ui/core/Paper';
@@ -13,16 +12,8 @@ import SectionNavbars from "../../../../components/Sections/SectionNavbars";
 import SearchInput from "../../../Components/Input/SearchInput";
 import EmployeeImage from '../../../../assets/img/employee.png';
 
-const useStyles = makeStyles(theme => ({
-    root: {
-      flexGrow: 1,
-      marginTop: '60px',
-    }
-}));
-
 const EmployeesList = props => {
 
-    const classes = useStyles();
     const { history } = props;
     const [searchValue , setSearchValue] = useState({
         search: ''

@@ -1,7 +1,7 @@
 import MainDialog from "../Modal";
 import Typography from "@material-ui/core/Typography/Typography";
 import Button from "@material-ui/core/Button/Button";
-import React, {useState} from "react";
+import React from "react";
 import SystemDate from '../../Date/SystemDate';
 
 const AddCustomerModal = props => {
