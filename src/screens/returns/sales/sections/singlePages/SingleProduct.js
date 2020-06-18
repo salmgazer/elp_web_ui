@@ -14,12 +14,18 @@ const SingleProduct = props => {
     const saleEntry = props.saleEntry;
     const [mainDialog, setMainDialog] = React.useState(false);
     const [product, setProduct] = useState('');
-    const [name , setName] = useState('');
+    const [productName , setName] = useState('');
     const [image , setImage] = useState('');
     const [totalPrice , setTotalPrice] = useState('');
     const [quantity , setQuantity] = useState(false);
     const [formFields , setFormFields] = useState({
         quantity: 1,
+        id: saleEntry.id,
+        name: '',
+        image: '',
+        totalPrice: '',
+        initialQuantity: '',
+        sellingPrice: ''
     });
 
     useEffect(() => {
@@ -35,16 +41,20 @@ const SingleProduct = props => {
         setProduct(newProduct);
         setImage(new ProductServiceHandler(product).getProductImage());
         setTotalPrice(new SaleService().getSaleEntrySellingPrice(props.saleEntry));
-        //setTotalPrice(saleEntry.sellingPrice);
         setName((newProduct.name).length > 20 ? (newProduct.name).slice(0 , 20) + '...' : newProduct.name);
         setQuantity(saleEntry.quantity);
     };
 
-    const setInputValue = (name , value) => {
+    const setInputValue = (name, value) => {
         const {...oldFormFields} = formFields;
         setTotalPrice(((saleEntry.quantity - value) * saleEntry.sellingPrice));
         setQuantity(saleEntry.quantity - value);
-        oldFormFields['quantity'] = (saleEntry.quantity - value);
+        oldFormFields['quantity'] = ( value);
+        oldFormFields['totalPrice'] = (( value) * saleEntry.sellingPrice);
+        oldFormFields['image'] = image;
+        oldFormFields['name'] = productName;
+        oldFormFields['initialQuantity'] = saleEntry.quantity;
+        oldFormFields['sellingPrice'] = saleEntry.sellingPrice;
         setFormFields(oldFormFields);
     };
 
@@ -58,9 +68,15 @@ const SingleProduct = props => {
     };
 
     const updateSaleEntry = () => {
+        let data = JSON.parse(localStorage.getItem('data')) || [];
+        
         console.log(formFields)
-        props.updateSaleEntry(saleEntry.id, formFields);
-        setMainDialog(false);
+        const response = props.updateSaleEntry(saleEntry.id, formFields);
+        data.push(formFields);
+        localStorage.setItem('data', JSON.stringify(data));
+        if(response){
+            setMainDialog(false);
+        }
     };
     
     return(
@@ -83,7 +99,7 @@ const SingleProduct = props => {
                 </Grid>
                 <Grid item xs={6} style={{display: 'table', height: '60px', margin: '8px 0px'}} >
                     <div style={{textAlign: 'left', display: 'table-cell', verticalAlign: 'middle'}}>
-                        <span className='text-dark font-weight-bold' >{name}</span>
+                        <span className='text-dark font-weight-bold' >{productName}</span>
                         <div className="font-weight-light mt-1" style={{ fontSize: '14px'}}>Quantity: {quantity}</div>
                         <div className="font-weight-light mt-1" style={{ fontSize: '14px'}}>Cost: GHC {totalPrice}</div>
                     </div>
@@ -123,7 +139,7 @@ const SingleProduct = props => {
                         </Grid>
                         <Grid item xs={9} style={{display: 'table', height: '60px', margin: '8px 0px'}}>
                             <div style={{textAlign: 'left', display: 'table-cell', verticalAlign: 'middle'}}>
-                                <span className='text-dark font-weight-bold' >{name}</span>
+                                <span className='text-dark font-weight-bold' >{productName}</span>
                                 <div className="font-weight-light mt-1" style={{ fontSize: '13px'}}>Quantity: {quantity}</div>
                                 <div className="font-weight-light mt-1" style={{ fontSize: '13px'}}>Cost: GHC {totalPrice}</div>
                             </div>
@@ -147,7 +163,7 @@ const SingleProduct = props => {
                             <Button
                                 variant="contained"
                                 style={{'backgroundColor': '#DAAB59' , color: '#333333', padding: '5px 40px', textTransform: 'none', fontSize:'15px'}}
-                                onClick={closeDialogHandler.bind(this)}
+                                onClick={updateSaleEntry.bind(this)}
                             >
                                 Return
                             </Button>

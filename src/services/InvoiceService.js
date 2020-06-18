@@ -334,12 +334,78 @@ export default class InvoiceService {
         }
 
         return {
-            invoices: invoice.reverse(),
+            invoices: invoice,
             costPrice: costPrice.toFixed(2),
             profit: profit.toFixed(2),
-            credit: profit.toFixed(2),
-            sellingPrice: profit.toFixed(2),
+            credit: credit.toFixed(2),
+            sellingPrice: sellingPrice.toFixed(2),
             quantity
+        }
+    }
+
+    async getCustomerHistory (customerId){
+        const sales = await new ModelAction('Sales').findByColumnNotObserve(
+            {
+                name: 'customerId',
+                value: customerId,
+                fxn: 'eq'
+            }
+        );
+
+        const list = sales.reverse();
+
+        return {invoice: list[0]}
+
+    }
+
+    static async getHistorybyCustomer (customerId){
+        const sales = await new ModelAction('Sales').findByColumnNotObserve(
+            {
+                name: 'customerId',
+                value: customerId,
+                fxn: 'eq'
+            }
+        );
+        
+        return sales;
+    }
+
+    async getDetailsbyCustomer (customerId) {
+        let invoice = (await InvoiceService.getHistorybyCustomer(customerId)).reverse();
+        console.log(invoice);
+        let costPrice = 0;
+        let profit = 0;
+        let credit = 0;
+        let sellingPrice = 0;
+        let quantity = 0;
+
+        for (let step = 0; step < invoice.length; step++) {
+            costPrice += parseFloat(await SaleService.getSaleEntryCostPriceById(invoice[step].id));
+        }
+
+        for (let step = 0; step < invoice.length; step++) {
+            profit += parseFloat(await SaleService.getSaleEntryProfitById(invoice[step].id));
+        }
+
+        for (let step = 0; step < invoice.length; step++) {
+            credit += parseFloat(await SaleService.getSaleEntryCreditById(invoice[step].id));
+        }
+
+        for (let step = 0; step < invoice.length; step++) {
+            sellingPrice += parseFloat(await SaleService.getSaleEntrySellingPriceById(invoice[step].id));
+        }
+
+        for (let step = 0; step < invoice.length; step++) {
+            quantity += parseFloat(await SaleService.getSaleProductQuantity(invoice[step].id));
+        }
+
+        return {
+            invoices: invoice,
+            costPrice: costPrice.toFixed(2),
+            profit: profit.toFixed(2),
+            credit: credit.toFixed(2),
+            sellingPrice: sellingPrice.toFixed(2),
+            quantity: quantity
         }
     }
 }

@@ -95,7 +95,8 @@ const MainPage = props => {
                     </div>
                 </Grid>
                 :
-                branchCustomers.map((branchCustomer) =>
+                <div style={{marginBottom: '60px'}}>
+                {branchCustomers.map((branchCustomer) =>
                 <Grid key={branchCustomer.customerId} item xs={12}>
                     <div
                         onClick={addCustomerHandler.bind(this, branchCustomer.customerId)}
@@ -103,7 +104,8 @@ const MainPage = props => {
                         <SingleCustomer customer={branchCustomer.customer.fetch()} />
                     </div>
                 </Grid>
-                )
+                )}
+                </div>
             }
 
             <DateModal

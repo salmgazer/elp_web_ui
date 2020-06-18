@@ -49,10 +49,11 @@ const AssignBarcode = props => {
 
             codeReader
                 .decodeOnceFromVideoDevice(selectedDeviceId, 'video')
-                .then(result => {
+                .then( async result => {
                     alert(result.text);
                     beepSound.play();
                     setBarcodeNumber(result.text);
+                    await addProductBarcode();
                     codeReader.reset();
                     document.getElementById('barOverlay').style.display = 'block';
                 })
@@ -79,7 +80,7 @@ const AssignBarcode = props => {
         setName(newProduct.name);
     };
 
-    const addProductBarcode = () => {
+    const addProductBarcode = async () => {
         const response = props.addProductBarcode(product.id, barcodeNumber);
 
         if(response){

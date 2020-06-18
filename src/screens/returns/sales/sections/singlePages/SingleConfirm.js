@@ -5,9 +5,9 @@ import DeleteIcon from '@material-ui/icons/Delete';
 
 const ViewSingleProduct = props => {
     const product = props.item;
+    const storedProducts = JSON.parse(localStorage.getItem("data"));
 
-    const image = `https://elparah.store/admin/upload/${product.image}`;
-
+    const image = product.image;
 
     const deleteHistoryHandler = (pId , event) => {
         props.deleteReturnEntry(pId , event);
@@ -33,11 +33,11 @@ const ViewSingleProduct = props => {
             <Grid item xs={5} style={{display: 'table', height: '60px', margin: '8px 0px'}}>
                 <div style={{textAlign: 'left', display: 'table-cell', verticalAlign: 'middle'}}>
                     <span className='text-dark font-weight-bold'>{product.name}</span>
-                    <div className="font-weight-light mt-1" style={{ fontSize: '14px'}}>GHC {product.cost}</div>
+                    <div className="font-weight-light mt-1" style={{ fontSize: '14px'}}>GHC {product.totalPrice}</div>
                 </div>
             </Grid>
             <Grid item xs={2} style={{height: '60px', margin: '25px 0px 0px 0px'}}>
-                <input type="number" min="1" style={{width: '50px'}} />
+                <input type="number" min="1" style={{width: '50px'}} value={product.quantity} />
             </Grid>
             <Grid item xs={2} style={{height: '60px', margin: '20px 0px 0px 0px'}}>                       
                 <DeleteIcon

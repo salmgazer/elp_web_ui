@@ -25,6 +25,7 @@ const DayView = props => {
     const [invoiceDetails , setInvoiceDetails] = useState(false);
     const [invoices , setInvoices] = useState([]);
 
+
     const handleDateChange = date => {
         setSelectedDate(date);
         getInvoiceDetails(date);
@@ -142,7 +143,9 @@ const DayView = props => {
                         </Grid>
                     </div>
                     :
+
                     invoices.map((item) => <SingleDay key={item.id} invoice={item} prodName={name} setView={props.setView} returnProducts={props.returnProducts} />)  
+
                 }
             </Box>
 

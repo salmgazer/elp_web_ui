@@ -12,6 +12,12 @@ const SingleDayView = props => {
     const [customer , setCustomer] = useState(false);
     const [total , setTotal] = useState(false);
     const [saleEntries , setSaleEntries] = useState([]);
+    const [formFields , setFormFields] = useState({
+        name: '',
+        date: '',
+        time: '',
+        totalPrice: ''
+    });
 
     useEffect(() => {
         // You need to restrict it at some point
@@ -36,6 +42,16 @@ const SingleDayView = props => {
     const openReturnsHandler = (saleEntries) => {
         console.log(saleEntries);
         props.returnProducts(5, saleEntries);
+
+        const {...oldFormFields} = formFields;
+        //oldFormFields['totalPrice'] =;
+        oldFormFields['name'] = `${customer.firstName} ${customer.otherNames}`;
+        oldFormFields['date'] = format(new Date(invoice.createdAt) , "do MMMM, yyyy");
+        oldFormFields['time'] = format(new Date(invoice.createdAt) , "h:mm a");
+        oldFormFields['totalPrice'] = total;
+        setFormFields(oldFormFields);
+
+        localStorage.setItem('customerDetails', JSON.stringify(oldFormFields));
     };
 
     return(

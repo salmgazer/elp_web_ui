@@ -1,4 +1,4 @@
-import React, {useEffect , useState}  from "react";
+import React from "react";
 import {withRouter } from "react-router-dom";
 import SectionNavbars from "../../../../components/Sections/SectionNavbars";
 import ArrowBackIcon from '@material-ui/icons/ArrowBack';
@@ -9,13 +9,25 @@ import Typography from "@material-ui/core/Typography/Typography";
 import Box from "@material-ui/core/Box/Box";
 import SingleProduct from './singlePages/SingleProduct';
 
+
+
 const ReturnsProducts = props => {
 
-    const customer = props.customer;
     const products = props.products;
+    const storedCustomer = JSON.parse(localStorage.getItem("customerDetails"));
 
     const setView = (step) => {
         props.setView(step);
+    };
+
+    const updateSaleEntry =  async(pId, formFields) => {
+        if (formFields.quantity === 0) {
+
+            console.log('happy')
+        }
+        else {
+            console.log('ok')
+        }
     };
 
     return (
@@ -29,25 +41,13 @@ const ReturnsProducts = props => {
                         />
                     </div>
                 }
-                icons={
-                    
-                    // <Button
-                    //     variant="contained"
-                    //     style={{'backgroundColor': 'white' , color: '#DAAB59', padding: '5px 20px', textTransform: 'none', fontSize:'17px'}}
-                    // >
-                    //     Return all
-                    // </Button>
-
-                    <div
-                    style={{
-                        padding: '5px 10px',
-                        borderRadius: '5px',
-                    }}
-                    className={`shadow1 text-center`}
-                    primary="Sync"
+                icons={                  
+                    <Button
+                        variant="contained"
+                        style={{'backgroundColor': 'white' , color: '#DAAB59', padding: '5px 20px', textTransform: 'none', fontSize:'17px'}}
                     >
-                    </div>
-                   
+                        Return all
+                    </Button>                  
                 }
             />
 
@@ -55,9 +55,9 @@ const ReturnsProducts = props => {
                 <Grid container style={{paddingTop: "7px"}} >
                     <Grid item xs={6} style={{display: 'table', height: '60px', margin: '8px 0px'}}  >  
                         <div style={{textAlign: 'left', display: 'table-cell', verticalAlign: 'middle'}}>
-                            <span className='text-dark font-weight-bold' style={{ marginLeft: '15px'}} >{customer.name}</span>
-                            <div className="font-weight-light mt-1" style={{ fontSize: '14px', marginLeft: '15px'}}>{customer.date}</div>
-                            <div className="font-weight-light mt-1" style={{ fontSize: '14px', marginLeft: '15px'}}> {customer.time}</div>
+                            <span className='text-dark font-weight-bold' style={{ marginLeft: '15px'}} >{storedCustomer.name}</span>
+                            <div className="font-weight-light mt-1" style={{ fontSize: '14px', marginLeft: '15px'}}>{storedCustomer.date}</div>
+                            <div className="font-weight-light mt-1" style={{ fontSize: '14px', marginLeft: '15px'}}> {storedCustomer.time}</div>
                         </div>
                     </Grid>
 
@@ -66,7 +66,7 @@ const ReturnsProducts = props => {
                             variant="contained"
                             style={{'backgroundColor': '#ffff' , padding: '5px 15px', height: '60px' , width: '80%', textTransform: 'none'}}
                         >
-                            <Grid container spacing={2}>
+                            <Grid container>
                                 <Grid item xs={12} style={{textAlign: "center"}}>
                                     <Typography  style={{fontSize: "13px"}}>
                                         Total cost :
@@ -74,7 +74,7 @@ const ReturnsProducts = props => {
                                 </Grid>
                                 <Grid item xs={12} style={{textAlign: "center"}}>
                                     <Typography  style={{fontSize: "17px", fontWeight: "600"}}>
-                                        GHC {customer.cost}
+                                        GHC {storedCustomer.totalPrice}
                                     </Typography>
                                 </Grid>
                             </Grid>
@@ -105,7 +105,7 @@ const ReturnsProducts = props => {
                         </Grid>
                     </div>
                     :
-                    products.map((item) => <SingleProduct key={item.id} saleEntry={item} />)  
+                    products.map((item) => <SingleProduct key={item.id} saleEntry={item} updateSaleEntry={updateSaleEntry.bind(this)} />)  
                 }
             </Box>
 

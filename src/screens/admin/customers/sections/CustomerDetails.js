@@ -56,7 +56,7 @@ const CustomerDetails = props => {
         setLocation(newCustomer.location);
         console.log(newCustomer);
 
-        const response = await new InvoiceService().getInvoiceDetailsbyCustomer(newCustomer.id);
+        const response = await new InvoiceService().getDetailsbyCustomer(newCustomer.id);
         setInvoiceDetails(response);
         setInvoices(response.invoices);
         console.log(response)
