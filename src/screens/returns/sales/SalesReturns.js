@@ -25,7 +25,7 @@ class SalesReturns extends Component{
             currentCustomer: {},
             saleEntries: [],
             invoice: [],
-            pageName: true
+            pageName: false
         }
     }
 
@@ -40,66 +40,6 @@ class SalesReturns extends Component{
         });
     }
 
-    // state={
-    //     activeStep: 1,
-    //     branchCustomers: [
-    //         {
-    //             'name': 'Kwame Befo',
-    //             'date': '1st June 2020'
-    //         },
-    //         {
-    //             'name': 'Ama Serwaa',
-    //             'date': '25th April 2020'
-    //         },
-    //         {
-    //             'name': 'Poku Clif',
-    //             'date': 'yesterday'
-    //         }
-    //     ],
-    //     returns: [
-    //         {
-    //             'name': 'Kwame Befo',
-    //             'receiptNumber': '12345566',
-    //             'sales': '50',
-    //             'date': '7:00 pm'
-    //         },
-    //         {
-    //             'name': 'Kwame Befo',
-    //             'receiptNumber': '12345566',
-    //             'sales': '50',
-    //             'date': '5:00 pm'
-    //         }
-    //     ],
-    //     customer: {
-    //         'name': 'Pearl Gemegah',
-    //         'date': '25th April 2020',
-    //         'time': '4:00 pm',
-    //         'cost': '300'
-    //     },
-    //     products: [
-    //         {
-    //             'name': 'Beta Malt 500ml',
-    //             'quantity': '4',
-    //             'cost': '50',
-    //             'date': '5:00 pm',
-    //             'image': 'no_image.png'
-    //         },
-    //         {
-    //             'name': 'Sprite 500ml',
-    //             'quantity': '7',
-    //             'cost': '100',
-    //             'date': '5:00 pm',
-    //             'image': 'no_image.png'
-    //         }
-    //     ],
-    //     singleProduct: [
-    //         {
-    //             'name': 'Sprite 500ml',
-    //             'cost': '5',
-    //             'image': 'no_image.png'
-    //         }
-    //     ]
-    // }
 
     getStepContent = step => {
         switch (step) {
@@ -148,6 +88,7 @@ class SalesReturns extends Component{
         console.log(itemIndex)
         this.setState({
             currentCustomer: itemIndex,
+            pageName: true,
             activeStep: step
         });
     };

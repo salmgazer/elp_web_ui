@@ -2,11 +2,21 @@ import MainDialog from "../Modal";
 import Typography from "@material-ui/core/Typography/Typography";
 import Button from "@material-ui/core/Button/Button";
 import React from "react";
-import SystemDate from '../../Date/SystemDate';
+import DateFnsUtils from '@date-io/date-fns';
+import {
+  MuiPickersUtilsProvider,
+  KeyboardDatePicker,
+} from '@material-ui/pickers';
 
 const AddCustomerModal = props => {
 
     const openState = props.openDateDialog;
+    const [selectedDate, setSelectedDate] = React.useState(new Date());
+
+    const handleDateChange = date => {
+        setSelectedDate(date);
+        // getSaleDetails(date);
+      };
 
     return (
         <div>
@@ -28,6 +38,7 @@ const AddCustomerModal = props => {
                         <Button
                             variant="outlined"
                             style={{'backgroundColor': '#DAAB59' , color: '#333333', padding: '7px 50px', textTransform: 'none', fontSize:'17px'}}
+                            onClick={props.onClick}
                         >
                             Next
                         </Button>
@@ -40,8 +51,23 @@ const AddCustomerModal = props => {
                         <label className={`text-center`} style={{fontSize: '15px', marginBottom: '10px'}}> Date of sale</label>
                     </div>
 
-                    <SystemDate style={{margin: '20px 0px'}} />
-                   
+                    <MuiPickersUtilsProvider utils={DateFnsUtils}>
+                        <KeyboardDatePicker
+                            disableToolbar
+                            variant="outlined"
+                            format="dd/MM/yyyy"
+                            margin="normal"
+                            id="date-picker"
+                            className='text-dark font-weight-bold'
+                            style={{float: 'right', width: '140px',  border: '1px solid #e5e5e5', backgroundColor: '#FFFFFF', fontWeight: '400', fontSize: '18px' , lineHeight: '1.6'}}
+                            size='small'
+                            value={selectedDate}
+                            onChange={handleDateChange}
+                            KeyboardButtonProps={{
+                                'aria-label': 'change date',
+                            }}
+                        />
+                    </MuiPickersUtilsProvider>                   
 
                     <Button
                         variant="outlined"
@@ -49,11 +75,7 @@ const AddCustomerModal = props => {
                         
                     >
                         I do not remember the date
-                    </Button>
-
-                    
-
-                   
+                    </Button> 
 
                 </div>
             </MainDialog>
