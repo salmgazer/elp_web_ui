@@ -43,6 +43,9 @@ const CartView = props => {
     const [errorMsg , setErrorMsg] = useState('');
     const [success , setSuccess] = useState(false);
     const [successMsg , setSuccessMsg] = useState('');
+    const [check , setCheck] = useState(false);
+    const [qty , setQty] = useState('');
+    const [tAmt , setTAmt] = useState('');
     const storedProducts = JSON.parse(localStorage.getItem("data"));
     const storedCustomer = JSON.parse(localStorage.getItem("customerDetails"));
 
@@ -53,6 +56,26 @@ const CartView = props => {
     const setView = (step) => {
         props.setView(step);
     };
+
+    useEffect(() => {
+        // You need to restrict it at some point
+        // This is just dummy code and should be replaced by actual
+        if (!check) {
+            getInvoiceDetails();
+        }
+    });
+
+    const getInvoiceDetails = async () => {
+        setCheck(true);
+        let quant = 0;
+        let total = 0;
+        for (let i=0; i<storedProducts.length; i++) { 
+            quant += parseFloat(storedProducts[i].quantity);
+            total += parseFloat(storedProducts[i].sellingPrice);
+        }
+        setQty(quant);
+        setTAmt(total);
+    }
 
     const returnProd =  async() => {
         
@@ -105,66 +128,6 @@ const CartView = props => {
 
     }
 
-    const returnAll =  async(allProducts) => {
-
-        /*
-        *@todo create table for stock returns
-        */
-        for (let i=0; i<allProducts.length; i++) {
-            await new ModelAction('SaleEntry').softDelete(allProducts[i].id);
-        }
-
-        if (storedProducts[0].quantity === 0) {
-
-            try {
-                await new ModelAction('SaleEntry').softDelete(storedProducts[0].id);
-
-                setSuccessMsg('Item deleted successfully');
-                setSuccess(true);
-                
-                setTimeout(function () {
-                    setSuccessMsg('');
-                    setSuccess(false);
-                    setView(0);
-                }, 2000);
-
-                return true;
-            } catch (e) {
-                setErrorMsg('OOPS. Something went wrong. Please try again');
-                setError(true);
-                setTimeout(function () {
-                    setErrorMsg('');
-                    setError(false);
-                    props.setView(0);
-                }, 2000);
-                return false;
-            }
-        }
-        else {
-            try {
-                await new ModelAction('SaleEntry').update(storedProducts[0].id, storedProducts[0]);
-
-                setSuccessMsg('Item returned successfully');
-                setSuccess(true);
-                
-                setTimeout(function () {
-                    setSuccessMsg('');
-                    setSuccess(false);
-                }, 2000);
-
-                return true;
-            } catch (e) {
-                setErrorMsg('OOPS. Something went wrong. Please try again');
-                setError(true);
-                setTimeout(function () {
-                    setErrorMsg('');
-                    setError(false);
-                }, 2000);
-                return false;
-            }
-        }
-    };
-
     return(
         <div className={classes.root}>
             <SectionNavbars
@@ -197,7 +160,7 @@ const CartView = props => {
                             QUANTITY
                         </Typography>
                         <Typography variant="h6" component="h2" >
-                            {storedProducts[0].quantity}
+                            {qty}
                         </Typography>
                     </Paper>
                 </Grid>
@@ -208,7 +171,7 @@ const CartView = props => {
                             TOTAL
                         </Typography>
                         <Typography variant="h6" component="h2" >
-                            GHC {storedProducts[0].totalPrice}
+                            GHC {tAmt}
                         </Typography>
                     </Paper>
                 </Grid>
