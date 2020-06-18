@@ -5,7 +5,6 @@ import ArrowBackIcon from '@material-ui/icons/ArrowBack';
 import SimpleSnackbar from "../../../components/Snackbar/SimpleSnackbar";
 import Button from "@material-ui/core/Button/Button";
 import Typography from "@material-ui/core/Typography/Typography";
-import CostCalculator from "../../../components/Calculator/CostCalculator";
 import Grid from "@material-ui/core/Grid/Grid";
 import SwapHorizOutlinedIcon from '@material-ui/icons/SwapHorizOutlined';
 import InputBase from "@material-ui/core/InputBase/InputBase";
@@ -27,7 +26,6 @@ import { confirmAlert } from 'react-confirm-alert';
 import UnitCost from '../../Components/Input/UnitCost';
 import LocalInfo from "../../../services/LocalInfo";
 import BranchProductService from "../../../services/BranchProductService";
-import MuiAlert from '@material-ui/lab/Alert';
 import QuantityInput from "../../../components/Input/QuantityInput";
 
 const useStyles = makeStyles(theme => ({
@@ -50,6 +48,9 @@ const useStyles = makeStyles(theme => ({
     },
     iconButton: {
         padding: 10,
+    },
+    center: {
+        textAlign: 'center'
     }
 }));
 
@@ -139,10 +140,6 @@ function StyledRadio(props) {
     );
 }
 
-function Alert(props) {
-    return <MuiAlert elevation={6} variant="filled" {...props} />;
-}
-
 const AddNewStockPage = props => {
     const classes = useStyles();
     const optionGroupClasses = optionGroupStyles();
@@ -155,10 +152,9 @@ const AddNewStockPage = props => {
     const [costPrice , setCostPrice] = useState(0);
     const [quantityProduct , setQuantityProduct] = useState(0);
     const [totalPrice , setTotalPrice] = useState("");
-    const [unitPrice , setUnitPrice] = useState(0);
+    const [unitPrice , setUnitPrice] = useState("");
 
 
-    const [calculatorDialog, setCalculatorDialog] = useState(false);
     const [moneySourceDialog, setMoneySourceDialog] = useState(false);
     const [sellingPriceDialog, setSellingPriceDialog] = useState(false);
     const [loading , setLoading] = useState(true);
@@ -277,18 +273,6 @@ const AddNewStockPage = props => {
         });
     };
 
-    const getCalculatorValue = (value) => {
-        setInputValue('costPrice' , value);
-    };
-
-    const openCalculator = (event) => {
-        setCalculatorDialog(true);
-    };
-
-    const getCalculatorModalState = (value) => {
-        setCalculatorDialog(value);
-    };
-
     const OptionChangeHandler = (event) => {
         setInputValue('moneySource' , event.target.value);
 
@@ -325,17 +309,20 @@ const AddNewStockPage = props => {
     };
 
     const setInputValue = (name , value) => {
-        console.log(formFields)
         const {...oldFormFields} = formFields;
 
         if(name === 'costPrice'){
             setTotalPrice((value * formFields.quantity).toFixed(2));
-            setLoading(false);
         }else if(name === 'quantity'){
             setTotalPrice((value * formFields.costPrice).toFixed(2));
         }
 
         oldFormFields[name] = value;
+        if(oldFormFields.costPrice === "" || oldFormFields.quantity === "" || oldFormFields.costPrice === 0 || oldFormFields.quantity === 0){
+            setLoading(true)
+        }else{
+            setLoading(false)
+        }
 
         setFormFields(oldFormFields);
     };
@@ -384,6 +371,8 @@ const AddNewStockPage = props => {
 
         setFormFields(oldFormFields);
         setUnitPrice(cp.toFixed(2));
+        //setInputValue('costPrice' , cp.toFixed(2));
+
         setLoading(false);
     };
 
@@ -424,11 +413,11 @@ const AddNewStockPage = props => {
                 openState={successDialog}
                 message={`New product added successfully`}
             >
-                <Button color="secondary" size="small"
+                {/*<Button color="secondary" size="small"
                         onClick={props.undoAddProduct}
                 >
                     UNDO
-                </Button>
+                </Button>*/}
             </SimpleSnackbar>
             <SimpleSnackbar
                 openState={errorDialog}
@@ -440,8 +429,6 @@ const AddNewStockPage = props => {
                     {errorMsg}
                 </Alert>
             </Snackbar> */}
-
-            <CostCalculator product={product} calculatedPrice={getCalculatorValue.bind(this)} closeModal={getCalculatorModalState.bind(this)} calculatorDialog={calculatorDialog}/>
 
             <div className="row p-0 pt-0 mx-0 text-center shadow1">
                 <Typography
@@ -471,45 +458,48 @@ const AddNewStockPage = props => {
                 </Typography>
 
                 <div className={`rounded bordered mb-3 mx-3 px-3 py-3`}>
-                    <QuantityInput startValue={0} label={`Quantity to add`} inputName="quantity" getValue={setInputValue.bind(this)}/>
+                    <QuantityInput startValue={1} label={`Quantity to add`} inputName="quantity" getValue={setInputValue.bind(this)}/>
 
-                    {swapItem ?
-                        <Grid container spacing={1} className={`my-2`}>
-                            <Grid
-                                item xs={5}
-                            >
-                                <label className={`text-dark py-2 text-center`} style={{fontSize: '18px', fontWeight: '600'}}> Total cost</label>
+                    <Grid container spacing={1} className={`my-2`}>
+                        <Grid
+                            item xs={5}
+                        >
+                            <label className={`text-dark py-2 text-center`} style={{fontSize: '18px', fontWeight: '600'}}> Total cost</label>
 
-                                <Paper className={classes.root} id="left_input" >
-                                    <InputBase
-                                        className={`${classes.input} search-box text-center`}
-                                        type="tel"
-
-                                        defaultValue=''
-                                        value={totalPrice}
-                                        name="totalCost"
-                                        onChange={(event) => setTotalPriceHandler(event)}
-                                    />
-
-                                </Paper>
-                            </Grid>
-                            <Grid
-                                item xs={2}
-                            >
-                                <SwapHorizOutlinedIcon
-                                    className={`mt-4`}
-                                    onclick={swapText}
-                                    style={{fontSize: '25px'}}
+                            <Paper className={classes.root} id="left_input" >
+                                <InputBase
+                                    className={`${classes.input} search-box text-center`}
+                                    type="tel"
+                                    classes={{
+                                        input: classes.center
+                                    }}
+                                    defaultValue=''
+                                    value={totalPrice}
+                                    name="totalCost"
+                                    onChange={(event) => setTotalPriceHandler(event)}
                                 />
-                            </Grid>
-                            <Grid
-                                item xs={5}
-                            >
-                                <UnitCost id="right_input" label={`Unit price`} inputName="costPrice" initialValue={unitPrice || ""} getValue={setInputValue.bind(this)} >
-                                    <FontAwesomeIcon onClick={openCalculator.bind(this)} icon={faCalculator} fixedWidth />
-                                </UnitCost>
-                            </Grid>
+
+                            </Paper>
                         </Grid>
+                        <Grid
+                            item xs={2}
+                        >
+                            <SwapHorizOutlinedIcon
+                                className={`mt-4`}
+                                onclick={swapText}
+                                style={{fontSize: '25px'}}
+                            />
+                        </Grid>
+                        <Grid
+                            item xs={5}
+                        >
+                            <UnitCost product={product} id="right_input" label={`Unit price`} inputName="costPrice" initialValue={formFields.costPrice} getValue={setInputValue.bind(this)} >
+                                <FontAwesomeIcon icon={faCalculator} fixedWidth />
+                            </UnitCost>
+                        </Grid>
+                    </Grid>
+                    {/*{swapItem ?
+
                         :
 
                         <Grid container spacing={1} className={`my-2`}>
@@ -548,7 +538,7 @@ const AddNewStockPage = props => {
                                 </Paper>
                             </Grid>
                         </Grid>
-                    }
+                    }*/}
 
 
                     <Typography

@@ -1,7 +1,4 @@
 import MainDialog from "../../Dialog/MainDialog";
-import Typography from "@material-ui/core/Typography/Typography";
-import TextField from "@material-ui/core/TextField/TextField";
-import InputAdornment from "@material-ui/core/InputAdornment/InputAdornment";
 import PersonIcon from '@material-ui/icons/Person';
 import CallIcon from '@material-ui/icons/Call';
 import LocationOnIcon from '@material-ui/icons/LocationOn';
@@ -9,6 +6,7 @@ import Button from "@material-ui/core/Button/Button";
 import React, {useState} from "react";
 import CustomerService from "../../../services/CustomerService";
 import SimpleSnackbar from "../../Snackbar/SimpleSnackbar";
+import PrimaryTextField from "../../Input/TextField";
 
 const AddCustomerModal = props => {
     const [formFields , setFormFields] = useState({
@@ -21,10 +19,7 @@ const AddCustomerModal = props => {
     const [error , setError] = useState(false);
     const [errorMsg , setErrorMsg] = useState('');
 
-    const setInputValue = async(event) => {
-        const name = event.target.name;
-        const value = event.target.value;
-
+    const setInputValue = async(name , value) => {
         const {...oldFormFields} = formFields;
 
         if(name === 'name'){
@@ -36,7 +31,7 @@ const AddCustomerModal = props => {
         }
 
         if(name === 'phone'){
-            if(!await new CustomerService().getCustomerExist(event.target.value)){
+            if(!await new CustomerService().getCustomerExist(value)){
                 setErrorMsg('Customer already exist');
                 setError(true);
                 setTimeout(function(){
@@ -64,7 +59,31 @@ const AddCustomerModal = props => {
 
     return (
         <div>
-            <MainDialog handleDialogClose={props.handleClose} states={openState} >
+            <MainDialog
+                footer={
+                    (
+                        <Button
+                            variant="outlined"
+                            style={{
+                                backgroundColor: '#DAAB59',
+                                border: 'none',
+                                color: '#333333',
+                                padding: '5px 58px',
+                                textTransform: 'none',
+                                fontSize: '17px'
+                            }}
+                            onClick={addCustomerHandler.bind(this)}
+                            disabled={!btnState}
+                            className={`mx-auto text-center`}
+                        >
+                            Finish
+                        </Button>
+                    )
+                }
+                title={`Add new customer`}
+                handleDialogClose={props.handleClose}
+                states={openState}
+            >
                 <div className="row pt-0 mx-auto text-center w-100" >
                     <SimpleSnackbar
                         type="warning"
@@ -72,78 +91,36 @@ const AddCustomerModal = props => {
                         message={errorMsg}
                     >
                     </SimpleSnackbar>
-                    <Typography
-                        component="h2"
-                        variant="h5"
-                        style={{fontSize: '18px' , padding: '20px 0px'}}
-                        className={`text-center mb-2 mx-auto w-100 text-dark font-weight-bold`}
+
+                    <PrimaryTextField
+                        name="name"
+                        label="Name"
+                        type="text"
+                        value={formFields.name}
+                        getValue={setInputValue.bind(this)}
                     >
-                        Add new customer
-                    </Typography>
+                        <PersonIcon style={{color: '#DAAB59'}} />
+                    </PrimaryTextField>
 
-                    <div className="text-center mx-auto">
-                        <TextField
-                            label="Name"
-                            variant="outlined"
-                            onChange={setInputValue.bind(this)}
-                            name={`name`}
-                            defaultValue={formFields['name']}
-                            InputProps={{
-                                startAdornment: (
-                                    <InputAdornment position="start">
-                                        <PersonIcon style={{color: '#DAAB59'}} />
-                                    </InputAdornment>
-                                ),
-                            }}
-                        />
-                    </div>
+                    <PrimaryTextField
+                        name="phone"
+                        label="Contact"
+                        type="number"
+                        value={formFields.contact}
+                        getValue={setInputValue.bind(this)}
+                    >
+                        <CallIcon style={{color: '#DAAB59'}} />
+                    </PrimaryTextField>
 
-                    <div className="text-center mx-auto my-3">
-                        <TextField
-                            type="number"
-                            variant="outlined"
-                            label="Contact"
-                            name={`phone`}
-                            onChange={setInputValue.bind(this)}
-                            defaultValue={formFields['contact']}
-                            InputProps={{
-                                startAdornment: (
-                                    <InputAdornment position="start">
-                                        <CallIcon style={{color: '#DAAB59'}} />
-                                    </InputAdornment>
-                                ),
-                            }}
-                        />
-                    </div>
-
-                    <div className="text-center mx-auto my-3">
-                        <TextField
-                            label="Location"
-                            variant="outlined"
-                            name={`location`}
-                            onChange={setInputValue.bind(this)}
-                            defaultValue={formFields['location']}
-                            InputProps={{
-                                startAdornment: (
-                                    <InputAdornment position="start">
-                                        <LocationOnIcon style={{color: '#DAAB59'}} />
-                                    </InputAdornment>
-                                ),
-                            }}
-                        />
-                    </div>
-
-                    <div className="text-center mx-auto my-3">
-                        <Button
-                            variant="outlined"
-                            style={{'backgroundColor': '#DAAB59' , color: '#333333', padding: '7px 58px', textTransform: 'none', fontSize:'17px'}}
-                            onClick={addCustomerHandler.bind(this)}
-                            disabled={!btnState}
-                        >
-                            Finish
-                        </Button>
-                    </div>
-
+                    <PrimaryTextField
+                        name="location"
+                        label="Location"
+                        type="text"
+                        value={formFields.location}
+                        getValue={setInputValue.bind(this)}
+                    >
+                        <LocationOnIcon style={{color: '#DAAB59'}} />
+                    </PrimaryTextField>
                 </div>
             </MainDialog>
         </div>

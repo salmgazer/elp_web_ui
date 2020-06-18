@@ -1,9 +1,9 @@
 import React, {useState} from 'react';
-import PriceInput from "../../screens/Components/Input/PriceInput";
 import Box from "@material-ui/core/Box/Box";
 import Button from "@material-ui/core/Button/Button";
 import Modal from "../Modal/Modal";
 import './costPriceCalculator.scss';
+import PriceInput from "../Input/PriceInput";
 
 const CostCalculator = (props) => {
     const [formFields , setFormFields] = useState({
@@ -33,6 +33,7 @@ const CostCalculator = (props) => {
         const costPrice = (totalCost / (quantityPack * quantityRoll)).toFixed(2);
 
         props.calculatedPrice(costPrice);
+        console.log(costPrice)
         props.closeModal(false);
     };
 
@@ -69,9 +70,9 @@ const CostCalculator = (props) => {
                 title={[<div key={props.product.id} ><h5 className={`font-weight-bold text-dark my-0`}>Cost Price Calculator</h5><span style={{fontSize: '16px', fontWeight: '400'}}>{props.product.name}</span></div>]}
                 states={props.calculatorDialog}
             >
-                <PriceInput inputName="quantityRoll" initialValue={formFields.quantityRoll} getValue={setInputValue.bind(this)} label={`Quantity on a roll/box`}/>
-                <PriceInput inputName="quantityPack" initialValue={formFields.quantityPack} getValue={setInputValue.bind(this)} label={`How many boxes/pack did you buy`}/>
-                <PriceInput inputName="totalCost" initialValue={formFields.totalCost} getValue={setInputValue.bind(this)} label={`What was the total cost of all the items?`}/>
+                <PriceInput inputName="quantityRoll" getValue={setInputValue.bind(this)} label={`Quantity on a roll/box`}/>
+                <PriceInput inputName="quantityPack" getValue={setInputValue.bind(this)} label={`How many boxes/pack did you buy`}/>
+                <PriceInput inputName="totalCost" getValue={setInputValue.bind(this)} label={`What was the total cost of all the items?`}/>
             </Modal>
         </div>
     )

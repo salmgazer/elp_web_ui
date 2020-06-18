@@ -28,6 +28,7 @@ import RedeemIcon from '@material-ui/icons/Redeem';
 import SwapHorizIcon from '@material-ui/icons/SwapHoriz';
 import {withRouter} from 'react-router-dom';
 import ReportProblemOutlinedIcon from '@material-ui/icons/ReportProblemOutlined';
+import LibraryAddIcon from '@material-ui/icons/LibraryAdd';
 
 import Drawer from "../../../components/Drawer/Drawer";
 
@@ -109,6 +110,10 @@ const StockMainPage = props => {
                             <ListItem button key={5} onClick={() => history.push(paths.stock_returns)}>
                                 <ListItemIcon><KeyboardReturnIcon style={{color: '#707070'}} /></ListItemIcon>
                                 <ListItemText primary="Return purchase" />
+                            </ListItem>
+                            <ListItem onClick={() => history.push(paths.category_setup)} button key={6}>
+                                <ListItemIcon><LibraryAddIcon style={{color: '#707070'}} /></ListItemIcon>
+                                <ListItemText primary="Add categories" />
                             </ListItem>
                             {/*<ListItem button key={6}>
                                 <ListItemIcon><QueryBuilderIcon style={{color: '#707070'}} /></ListItemIcon>

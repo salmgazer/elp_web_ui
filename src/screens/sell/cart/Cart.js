@@ -11,6 +11,7 @@ import { Q } from '@nozbe/watermelondb'
 import ModelAction from "../../../services/ModelAction";
 import BranchCustomer from "../../../models/branchesCustomer/BranchCustomer";
 import LocalInfo from "../../../services/LocalInfo";
+import CustomerService from "../../../services/CustomerService";
 
 class Cart extends Component{
     constructor(props){
@@ -59,9 +60,9 @@ class Cart extends Component{
     getStepContent = step => {
         switch (step) {
             case 0:
-                return <CartView setCustomerHandler={this.setCustomerHandler.bind(this)} currentCustomer={this.state.currentCustomer} customers={this.state.customers} cartTotalAmount={this.state.cartTotalAmount} cartTotalProducts={this.state.cartTotalProduct} changePrice={this.changeProductPriceHandler.bind(this)} changeQuantity={this.changeProductQuantityHandler.bind(this)} entries={this.state.cartEntries} setView={this.setStepContentView.bind(this)} products={this.state.productList} deleteProduct={this.deleteProduct.bind(this)} />;
+                return <CartView searchCustomerHandler={this.searchCustomerHandler.bind(this)} setCustomerHandler={this.setCustomerHandler.bind(this)} currentCustomer={this.state.currentCustomer} customers={this.state.customers} cartTotalAmount={this.state.cartTotalAmount} cartTotalProducts={this.state.cartTotalProduct} changePrice={this.changeProductPriceHandler.bind(this)} changeQuantity={this.changeProductQuantityHandler.bind(this)} entries={this.state.cartEntries} setView={this.setStepContentView.bind(this)} products={this.state.productList} deleteProduct={this.deleteProduct.bind(this)} />;
             case 1:
-                return <Checkout setCustomerHandler={this.setCustomerHandler.bind(this)} currentCustomer={this.state.currentCustomer} customers={this.state.customers} cartTotalAmount={this.state.cartTotalAmount} setView={this.setStepContentView.bind(this)} />;
+                return <Checkout searchCustomerHandler={this.searchCustomerHandler.bind(this)} setCustomerHandler={this.setCustomerHandler.bind(this)} currentCustomer={this.state.currentCustomer} customers={this.state.customers} cartTotalAmount={this.state.cartTotalAmount} setView={this.setStepContentView.bind(this)} />;
             case 2:
                 return <CompleteCart setView={this.setStepContentView.bind(this)} products={this.state.productList} currentCustomer={this.state.currentCustomer} cartTotalProducts={this.state.cartTotalProduct} />;
             default:
@@ -95,6 +96,18 @@ class Cart extends Component{
             ]
         })
     };
+
+    async searchCustomerHandler(value) {
+        try {
+            const results = await new CustomerService().searchBranchCustomer(value);
+
+            this.setState({
+                customers: results
+            })
+        }catch (e) {
+            console.log(e)
+        }
+    }
 
     async changeProductQuantityHandler(cartEntry , value){
         try {

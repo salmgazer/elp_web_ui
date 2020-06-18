@@ -135,9 +135,9 @@ const SellSearchMode = props => {
                     openState={productAdded}
                     message={`New product added successfully`}
                 >
-                    <Button color="secondary" size="small" onClick={props.undoProductAdd}>
+                    {/*<Button color="secondary" size="small" onClick={props.undoProductAdd}>
                         UNDO
-                    </Button>
+                    </Button>*/}
                 </SimpleSnackbar>
 
                 <SimpleSnackbar

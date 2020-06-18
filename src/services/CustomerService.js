@@ -62,11 +62,13 @@ export default class CustomerService {
     * Search for a branch customer
     * */
     async searchBranchCustomer(searchValue) {
-        const customers = await new ModelAction('Customer').findByColumnNotObserve({
-            name: 'firstName' || 'otherNames',
-            value: searchValue,
-            fxn: 'like'
-        });
+        const customers = await database.collections.get('customers').query(
+            Q.or(
+                Q.where('firstName', Q.like(`%${Q.sanitizeLikeString(searchValue)}%`)),
+                Q.where('otherNames', Q.like(`%${Q.sanitizeLikeString(searchValue)}%`)),
+                Q.where('phone', Q.like(`%${Q.sanitizeLikeString(searchValue)}%`))
+            )
+        ).fetch();
 
         return  database.collections.get('branches_customers').query(Q.where('customerId',
         Q.oneOf(customers.map(c => c.id))), Q.where('branchId', LocalInfo.branchId)).fetch();

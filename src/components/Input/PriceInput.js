@@ -24,14 +24,18 @@ const useStyles = makeStyles(theme => ({
     },
     iconButton: {
         padding: 10,
+    },
+    center: {
+        textAlign: 'center'
     }
 }));
 
 const PriceInput = props => {
     console.log(props.initialValue)
     const classes = useStyles();
+    const initialValue = parseFloat(props.initialValue) ? parseFloat(props.initialValue).toFixed(2) : '';
     const inputName = props.inputName;
-    const [quantity , setQuantity] = useState(parseFloat(props.initialValue).toFixed(2) || '');
+    const [quantity , setQuantity] = useState(initialValue);
 
     const setValueHandler = (event) => {
         event.persist();
@@ -56,6 +60,9 @@ const PriceInput = props => {
                             className={`${classes.input} search-box text-center`}
                             type="tel"
                             value={quantity}
+                            classes={{
+                                input: classes.center
+                            }}
                             name={inputName}
                             onChange={(event) => setValueHandler(event)}
                         />

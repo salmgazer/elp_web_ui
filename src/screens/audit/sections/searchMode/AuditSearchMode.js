@@ -1,66 +1,21 @@
-import React, {useEffect, useState} from 'react';
+import React, {useState} from 'react';
 import Grid from "@material-ui/core/Grid";
 import {makeStyles} from "@material-ui/core";
-import AddIcon from "../../../../components/ClickableIcons/AddIcon";
 import ProductCard from "../../../../components/Cards/ProductCard";
-import CheckCircleIcon from '@material-ui/icons/CheckCircle';
 import Typography from "@material-ui/core/Typography/Typography";
 import SearchInput from "../../../Components/Input/SearchInput";
 import BranchProductService from "../../../../services/BranchProductService";
 import AuditService from "../../../../services/AuditService";
-import SystemDate from "../../../../components/Date/SystemDate";
-
-const useStyles = makeStyles(theme => ({
-    root: {
-        width: '100%',
-        display: 'flex',
-        padding: '2px 5px',
-        alignItems: 'center',
-        borderRadius: '30px',
-        height: '35px',
-        fontSize: '0.7rem',
-        lineHeight: '1.5',
-        transition: 'border-color .15s ease-in-out,box-shadow .15s ease-in-out',
-    },
-    cart: {
-        width: '95%',
-        display: 'flex',
-        padding: '2px 5px',
-        alignItems: 'center',
-        borderRadius: '6px',
-        height: '35px',
-        fontSize: '0.8rem',
-        lineHeight: '1.5',
-        transition: 'border-color .15s ease-in-out,box-shadow .15s ease-in-out',
-    },
-    input: {
-        marginLeft: theme.spacing(1),
-        flex: 1,
-        fontSize: '0.9rem',
-    },
-    iconButton: {
-        padding: 10,
-    }
-}));
 
 const AuditSearchMode = props => {
     const [searchValue , setSearchValue] = useState({
         search: ''
     });
-    const [prodState , setProdState] = useState(false);
 
     const branchProducts = props.branchProducts;
 
-    const classes = useStyles();
-    //const products = new ProductServiceHandler(props.products).getStoreProducts();
-
     const addProductHandler = (id) => {
         props.productAdd(id);
-    };
-
-    const removeProductHandler = (id) => {
-        console.log(id);
-        //props.removeProduct(id);
     };
 
     const setInputValue = (name , value) => {
@@ -72,18 +27,6 @@ const AuditSearchMode = props => {
 
         props.searchHandler(value);
     };
-
-   /* const checkProduct = async (productId) => {
-       const x = await new AuditService().getAuditProductDetails(productId);
-
-       if(x){
-           setProdState(true);
-       }else {
-           setProdState(false);
-       }
-
-       return '';
-    };*/
 
     return (
         <div>

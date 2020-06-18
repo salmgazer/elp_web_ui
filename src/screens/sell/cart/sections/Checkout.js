@@ -6,8 +6,6 @@ import Tab from "@material-ui/core/Tab/Tab";
 import SwipeableViews from "react-swipeable-views";
 import LocalAtmIcon from '@material-ui/icons/LocalAtm';
 import PhoneAndroidIcon from '@material-ui/icons/PhoneAndroid';
-import ScheduleIcon from '@material-ui/icons/Schedule';
-// import CardGiftcardIcon from '@material-ui/icons/CardGiftcard';
 import TabPanel from "../../../../components/Tabs/TabPanel";
 import AppBar from '@material-ui/core/AppBar';
 import Box from "@material-ui/core/Box/Box";
@@ -19,16 +17,10 @@ import { withRouter } from "react-router-dom";
 
 import ViewCash from './ViewCash';
 import ViewMobileMoney  from './ViewMobileMoney';
-import ViewCredit from './ViewCredit';
-import MainDialog from "../../../../components/Dialog/MainDialog";
-import ErrorImage from '../../../../assets/img/error.png';
-import CancelIcon from '@material-ui/icons/Cancel';
-import CustomersModal from "../../../../components/Modal/Customer/CustomersModal";
-import AddCustomerModal from "../../../../components/Modal/Customer/AddCustomerModal";
-import CustomerService from "../../../../services/CustomerService";
 import SaleService from "../../../../services/SaleService";
 import CartService from "../../../../services/CartService";
 import SimpleSnackbar from "../../../../components/Snackbar/SimpleSnackbar";
+import CustomerListDrawer from "../../../../components/Drawer/CustomerListDrawer/CustomerListDrawer";
 
 const useStyles = makeStyles(theme => ({
     root: {
@@ -36,13 +28,11 @@ const useStyles = makeStyles(theme => ({
       marginTop: '70px',
     },
     title: {
-              fontSize: 11,
-           },
+      fontSize: 11,
+    },
     paper: {
       padding: theme.spacing(1),
       textAlign: 'center',
-
-
     },
     tabs: {
         textTransform: 'none',
@@ -60,21 +50,28 @@ const useStyles = makeStyles(theme => ({
   }));
 
 const CheckoutView = props => {
-    const [cartData , setCartData] = React.useState('');
+    const [cartData , setCartData] = React.useState(
+        {
+            amountPaid: '',
+            changeDue: '',
+            customer: props.currentCustomer,
+            type: 0
+        }
+    );
     const classes = useStyles();
-    const [addDialog, setAddDialog] = React.useState(false);
-    const [mainDialog, setMainDialog] = React.useState(false);
     const [value, setValue] = React.useState(0);
     const [error , setError] = useState(false);
     const [errorMsg , setErrorMsg] = useState('');
     const [btnValue , setBtnValue] = React.useState(false);
     const [customerName, setCustomerName] = React.useState('');
     const [customerId , setCustomerId] = React.useState('');
+    const [isShowerCustomerDrawer , setIsShowerCustomerDrawer] = useState(false);
+
     const [formData , setFormData] = React.useState(
         {
             amountPaid: '',
             changeDue: '',
-            customer: props.customerId,
+            customer: props.currentCustomer,
             type: 0
         }
     );
@@ -99,27 +96,54 @@ const CheckoutView = props => {
             id: `full-width-tab-${index}`,
             'aria-controls': `full-width-tabpanel-${index}`,
         };
-      }
-
-    const closeDialogHandler = (event) => {
-        setMainDialog(false);
-        setAddDialog(false);
-    };
+    }
 
     const getCustomerDialog = async() => {
-        setMainDialog(true);
-    };
-
-    const openDialogHandler = (event) => {
-        setMainDialog(true);
+        setIsShowerCustomerDrawer(true);
     };
 
     const handleChange = (event, newValue) => {
-      setValue(newValue);
+        setValue(newValue);
+
+        if(newValue === 1){
+            const {...oldFormFields} = cartData;
+            oldFormFields['type'] = 2;
+            oldFormFields['customer'] = props.currentCustomer;
+            setCartData(oldFormFields);
+            setFormData(oldFormFields);
+
+            otherPaymentFormFields(oldFormFields);
+        }else {
+            const {...oldFormFields} = cartData;
+            oldFormFields['type'] = 0;
+            oldFormFields['customer'] = props.currentCustomer;
+            setCartData(oldFormFields);
+            setFormData(oldFormFields);
+
+            paymentDetails(cartData)
+        }
     };
 
     const handleChangeIndex = index => {
         setValue(index);
+
+        if(index === 1){
+            const {...oldFormFields} = cartData;
+            oldFormFields['type'] = 2;
+            oldFormFields['customer'] = props.currentCustomer;
+            setCartData(oldFormFields);
+            setFormData(oldFormFields);
+
+            otherPaymentFormFields(oldFormFields);
+        }else {
+            const {...oldFormFields} = cartData;
+            oldFormFields['type'] = 0;
+            oldFormFields['customer'] = props.currentCustomer;
+            setCartData(oldFormFields);
+            setFormData(oldFormFields);
+
+            paymentDetails(cartData)
+        }
     };
 
     const backHandler = (event) => {
@@ -131,29 +155,20 @@ const CheckoutView = props => {
     };*/
 
     const setCustomerHandler = (customer) => {
-        console.log(customer)
         props.setCustomerHandler(customer);
+        setIsShowerCustomerDrawer(false);
+        const {...oldFormFields} = cartData;
+        oldFormFields['customer'] = customer;
+        setCartData(oldFormFields);
+        setFormData(oldFormFields);
 
-        /*if(formData.type === 2 && customerId === 0) {
-            setBtnValue(false);
-        }else{
-            setBtnValue(true);
-        }*/
-    };
-
-    const setAddCustomerHandler = async() => {
-        const lastCustomer = await new CustomerService().getLastCustomer();
-        props.setCustomerHandler(lastCustomer.id);
-        setAddDialog(false);
-        setMainDialog(false);
-    };
-
-    const openAddDialog = () => {
-        setAddDialog(true);
+        if(parseFloat(value) === 1){
+            setCustomerId(customer);
+            otherPaymentFormFields(oldFormFields);
+        }
     };
 
     const paymentDetails = (formFields) => {
-        console.log(formFields.amountPaid , props.cartTotalAmount)
         if(value === 0 && parseFloat(formFields.amountPaid) >= parseFloat(props.cartTotalAmount)){
             setBtnValue(true);
         }else{
@@ -167,23 +182,23 @@ const CheckoutView = props => {
 
         const {...oldFormFields} = formFields;
         oldFormFields['customer'] = customerId;
-        setCartData(formFields)
+        setCartData(formFields);
+        setFormData(formFields);
     };
 
     const otherPaymentFormFields = (formFields) => {
-        if(formFields.type === 2 && customerId === 0){
-            setErrorMsg(`Please set a customer for credit sales`);
-            setError(true);
-            setTimeout(function(){
-                setError(false);
-            }, 3000);
+        if(parseFloat(formFields.type) === 2 && (formFields.customer === 0)){
             setBtnValue(false);
-        }else if(formFields.type !== 2 && parseFloat(formFields.amountPaid) >= parseFloat(props.cartTotalAmount)){
+            alert(`Please set a customer for credit sales`)
+        }else if(parseFloat(formFields.type) !== 2 && (formFields.amountPaid === "" || parseFloat(formFields.amountPaid) < parseFloat(props.cartTotalAmount))){
             setErrorMsg(`Amount paid must be greater than ${props.cartTotalAmount}`);
             setError(true);
             setTimeout(function(){
                 setError(false);
-            }, 1000);
+            }, 3000);
+
+            //alert(`Amount paid must be greater than ${props.cartTotalAmount}`)
+
             setBtnValue(false);
         }else {
             setBtnValue(true);
@@ -192,13 +207,16 @@ const CheckoutView = props => {
         const {...oldFormFields} = formFields;
         oldFormFields['customer'] = customerId;
 
-        console.log(formFields)
-        setCartData(formFields)
-        setFormData(formFields)
+        setCartData(formFields);
+        setFormData(formFields);
     };
 
     const completeSellHandler = async() => {
-        //console.log(cartData)
+        const {...oldFormFields} = cartData;
+        oldFormFields['customer'] = props.currentCustomer;
+        if(oldFormFields['amountPaid'] === ''){
+            oldFormFields['amountPaid'] = 0;
+        }
         try {
             console.log(cartData)
             await new SaleService().makeSell(cartData , cartData.type);
@@ -208,6 +226,9 @@ const CheckoutView = props => {
         }
     };
 
+    const setSearchValue = (value) => {
+        props.searchCustomerHandler(value);
+    };
 
     return(
         <div className={classes.root}>
@@ -243,7 +264,7 @@ const CheckoutView = props => {
             <AppBar position="static" color="default">
                 <Tabs
                     value={value}
-                    onChange={handleChange}
+                    onChange={handleChange.bind(this)}
                     indicatorColor="primary"
                     textColor="primary"
                     variant="fullWidth"
@@ -251,14 +272,13 @@ const CheckoutView = props => {
                 >
                     <Tab className={classes.tabs} label="Cash" icon={<LocalAtmIcon style={{color: '#DAAB59'}} />} {...a11yProps(0)} />
                     <Tab className={classes.tabs} label="Other payment" icon={<PhoneAndroidIcon style={{color: '#DAAB59'}} />} {...a11yProps(1)} />
-                    {/* <Tab className={classes.tabs} label="Credit" icon={<ScheduleIcon style={{color: '#DAAB59'}} />} {...a11yProps(2)} /> */}
-                    {/* <Tab onClick={openDialogHandler.bind(this)} className={classes.tabs} label="Other" icon={<CardGiftcardIcon style={{color: '#DAAB59'}} />} {...a11yProps(3)} /> */}
                 </Tabs>
             </AppBar>
 
             <SwipeableViews
                 index={value}
-                onChangeIndex={handleChangeIndex}
+                onChangeIndex={handleChangeIndex.bind(this)}
+                style={{ marginBottom: '60px'}}
             >
                 <TabPanel value={value} index={0} >
                     <ViewCash
@@ -272,86 +292,22 @@ const CheckoutView = props => {
                 <TabPanel value={value} index={1}  >
                     <ViewMobileMoney
                         currentCustomer={customerName}
+                        initialValue={parseFloat(formData.type) ? parseFloat(formData.type) : 2}
                         openAddCustomerModal={getCustomerDialog.bind(this)}
                         cartAmount={props.cartTotalAmount}
                         customerId={props.currentCustomer}
                         getFormFields={otherPaymentFormFields.bind(this)}
                     />
                 </TabPanel>
-                {/* <TabPanel value={value} index={2}  >
-                    <ViewCredit
-
-                    />
-                </TabPanel> */}
-                {/* <TabPanel value={value} index={3}  >
-
-                </TabPanel> */}
             </SwipeableViews>
 
-            <CustomersModal
-                customers={props.customers}
-                openState={mainDialog}
+            <CustomerListDrawer
+                handleClose={() => setIsShowerCustomerDrawer(false)}
                 setCustomer={setCustomerHandler.bind(this)}
-                handleClose={() => setMainDialog(false)}
-                openAddCustomerModal={openAddDialog.bind(this)}
+                customers={props.customers}
+                isShow={isShowerCustomerDrawer}
+                searchCustomerHandler={setSearchValue.bind(this)}
             />
-
-            <AddCustomerModal
-                openCustomerAddState={addDialog}
-                setCustomer={setAddCustomerHandler.bind(this)}
-                handleClose={() => setAddDialog(false)}
-            />
-
-            {/* <MainDialog handleDialogClose={closeDialogHandler.bind(this)} states={mainDialog} >
-                <div className="row p-3 pt-0 mx-auto text-center w-100" >
-                    <CancelIcon  style={{position: 'relative', float: 'right', fontSize: '2rem'}}
-                        onClick={closeDialogHandler.bind(this)}
-                    />
-
-                    <Typography
-
-                        variant="h2"
-                        style={{fontSize: '30px' }}
-                        className={`text-center mb-2 mx-auto w-100 text-dark font-weight-bold`}
-                    >
-                        Oops!
-                    </Typography>
-
-                    <Box component="div" m={2}>
-                        <img className="img100" src={ErrorImage} alt={'test'}/>
-                     </Box>
-
-                    <div className="text-center mx-auto my-3">
-                        <Typography
-                            component="p"
-                            variant="h6"
-                            style={{fontSize: '16px' , margin: '0px 0px', padding: '16px'}}
-                            className={`text-center mb-2 mx-auto w-90 text-dark font-weight-bold`}
-                        >
-                            Seems like you have discovered a premium feature.
-                        </Typography>
-
-                        <Typography
-                            component="p"
-                            variant="h6"
-                            style={{fontSize: '16px' , margin: '0px 0px', padding: '16px'}}
-                            className={`text-center mb-2 mx-auto w-90 text-dark font-weight-bold`}
-                        >
-                            Please upgrade to be able to process other payment methods.
-                        </Typography>
-                    </div>
-
-                    <div className="text-center mx-auto my-3">
-                        <Button
-                                variant="outlined"
-                                style={{'backgroundColor': '#DAAB59' , color: '#333333', padding: '7px 58px', textTransform: 'none', fontSize:'17px'}}
-                            >
-                                Upgrade now
-                        </Button>
-                    </div>
-
-                </div>
-            </MainDialog> */}
 
             <Box
                 className="shadow1"

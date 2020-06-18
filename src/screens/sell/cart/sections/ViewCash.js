@@ -3,7 +3,6 @@ import Paper from '@material-ui/core/Paper';
 import TextField from '@material-ui/core/TextField';
 import Tooltip from '@material-ui/core/Tooltip';
 import PersonAddIcon from '@material-ui/icons/PersonAdd';
-import InputBase from "@material-ui/core/InputBase/InputBase";
 
 const ViewCash = props => {
     const [formFields , setFormFields] = useState({
@@ -39,10 +38,11 @@ const ViewCash = props => {
                         variant="outlined"
                         size="small"
                         style={{margin: '25px 0px 25px 0px'}}
+                        onClick={props.openAddCustomerModal}
                     />
 
                     <Tooltip title="Add new" onClick={props.openAddCustomerModal}>
-                        <PersonAddIcon style={{fontSize: '30px',  color: '#DAAB59', marginTop: '30px', position: 'absolute', marginLeft: '15px'}}></PersonAddIcon>
+                        <PersonAddIcon style={{fontSize: '30px',  color: '#DAAB59', marginTop: '30px', position: 'absolute', marginLeft: '15px'}}/>
                     </Tooltip>
 
                     <TextField
