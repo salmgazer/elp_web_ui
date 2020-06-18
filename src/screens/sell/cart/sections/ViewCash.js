@@ -38,10 +38,11 @@ const ViewCash = props => {
                         variant="outlined"
                         size="small"
                         style={{margin: '25px 0px 25px 0px'}}
+                        onClick={props.openAddCustomerModal}
                     />
 
                     <Tooltip title="Add new" onClick={props.openAddCustomerModal}>
-                        <PersonAddIcon style={{fontSize: '30px',  color: '#DAAB59', marginTop: '30px', position: 'absolute', marginLeft: '15px'}}></PersonAddIcon>
+                        <PersonAddIcon style={{fontSize: '30px',  color: '#DAAB59', marginTop: '30px', position: 'absolute', marginLeft: '15px'}}/>
                     </Tooltip>
 
                     <TextField

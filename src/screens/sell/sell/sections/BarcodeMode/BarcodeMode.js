@@ -10,16 +10,8 @@ import SearchIcon from '@material-ui/icons/Search';
 import Button from "@material-ui/core/Button/Button";
 import Box from "@material-ui/core/Box/Box";
 import Don from '../../../../../assets/img/Don.jpg';
-import Snackbar from '@material-ui/core/Snackbar';
-import MuiAlert from '@material-ui/lab/Alert';
 import SimpleSnackbar from "../../../../../components/Snackbar/SimpleSnackbar";
-import ProductServiceHandler from "../../../../../services/ProductServiceHandler";
 import MainDialog from "../../../../../components/Dialog/MainDialog";
-
-
-function Alert(props) {
-    return <MuiAlert elevation={6} variant="filled" {...props} />;
-}
 
 const useStyles = makeStyles(theme => ({
     root: {

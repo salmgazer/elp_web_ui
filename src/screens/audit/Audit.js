@@ -16,17 +16,21 @@ import Audits from "../../models/audit/Audit";
 import AuditHistory from './sections/AuditHistory';
 import AuditHistoryDetails from './sections/AuditHistoryDetails';
 import GetStartedAudit from "./getStarted/getStartedAudit";
+import CartService from "../../services/CartService";
 
 class Audit extends Component {
-    state = {
-        isDrawerShow: false,
-        activeStep: 3,
-        spCount: 0,
-        branchProducts: [],
-        currentProduct: 0,
-        currentAudit: 0,
-        auditEntries: [],
-    };
+    constructor(props){
+        super(props);
+        this.state = {
+            isDrawerShow: false,
+            activeStep: 3,
+            spCount: 0,
+            branchProducts: [],
+            currentProduct: 0,
+            currentAudit: 0,
+            auditEntries: [],
+        }
+    }
 
     async componentDidMount() {
         const { history, database , branchProducts , auditedEntries , auditEntriesQuantity} = this.props;

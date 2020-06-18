@@ -11,14 +11,12 @@ import Box from "@material-ui/core/Box/Box";
 import AddedProductSingle from "./BoxView/BoxView";
 import { withRouter } from "react-router-dom";
 import paths from "../../../../utilities/paths";
-import CustomersModal from "../../../../components/Modal/Customer/CustomersModal";
-import AddCustomerModal from "../../../../components/Modal/Customer/AddCustomerModal";
-import CustomerService from "../../../../services/CustomerService";
 import CartService from "../../../../services/CartService";
 import SimpleSnackbar from "../../../../components/Snackbar/SimpleSnackbar";
 import ArrowBackIcon from '@material-ui/icons/ArrowBack';
 import {confirmAlert} from "react-confirm-alert";
 import ModelAction from "../../../../services/ModelAction";
+import CustomerListDrawer from "../../../../components/Drawer/CustomerListDrawer/CustomerListDrawer";
 
 const useStyles = makeStyles(theme => ({
     root: {
@@ -45,9 +43,6 @@ const useStyles = makeStyles(theme => ({
   }));
 
 const CartView = props => {
-    const [mainDialog, setMainDialog] = React.useState(false);
-    const [addDialog, setAddDialog] = React.useState(false);
-    const [user , setUser] = React.useState(false);
     const [customerName, setCustomerName] = React.useState('');
     const [customerId , setCustomerId] = React.useState('');
     const [error , setError] = useState(false);
@@ -55,6 +50,8 @@ const CartView = props => {
     const counter = props.cartTotalProducts;
     const [success , setSuccess] = useState(false);
     const [successMsg , setSuccessMsg] = useState('');
+    const [isShowerCustomerDrawer , setIsShowerCustomerDrawer] = useState(false);
+    const [isSaveCart , setIsSaveCart] = useState(false);
     //console.log(props.currentCustomer)
     //console.log(customerName)
 
@@ -76,13 +73,14 @@ const CartView = props => {
 
     const openDialogHandler = async() => {
         if(props.currentCustomer === 0){
-            setMainDialog(true);
+            setIsSaveCart(true);
+            setIsShowerCustomerDrawer(true);
         }else{
             const response = await new CartService().suspendCart();
 
             if (response) {
-                setErrorMsg('Cart saved');
-                setError(true);
+                setSuccessMsg('Cart saved');
+                setSuccess(true);
                 setTimeout(function(){
                     props.history.push(paths.sell);
                     setError(false);
@@ -99,11 +97,7 @@ const CartView = props => {
     };
 
     const getCustomerDialog = async() => {
-        setMainDialog(true);
-    };
-
-    const openAddDialog = (event) => {
-        setAddDialog(true);
+        setIsShowerCustomerDrawer(true);
     };
 
     const openCheckoutHandler = (event) => {
@@ -111,16 +105,11 @@ const CartView = props => {
     };
 
     const setCustomerHandler = (customer) => {
-        console.log(customer)
         props.setCustomerHandler(customer);
-        //console.log(props.currentCustomer)
-    };
-
-    const setAddCustomerHandler = async() => {
-        const lastCustomer = await new CustomerService().getLastCustomer();
-        props.setCustomerHandler(lastCustomer.id);
-        setAddDialog(false);
-        setMainDialog(false);
+        setIsShowerCustomerDrawer(false);
+        if(isSaveCart){
+            openDialogHandler();
+        }
     };
 
     const deleteProductHandler = (pId) => {
@@ -163,6 +152,10 @@ const CartView = props => {
         })
     };
 
+    const setSearchValue = (value) => {
+        props.searchCustomerHandler(value);
+    };
+
     return(
         <div className={classes.root}>
             <SectionNavbars
@@ -192,6 +185,14 @@ const CartView = props => {
                 type="warning"
                 openState={error}
                 message={errorMsg}
+            />
+
+            <CustomerListDrawer
+                handleClose={() => setIsShowerCustomerDrawer(false)}
+                setCustomer={setCustomerHandler.bind(this)}
+                customers={props.customers}
+                isShow={isShowerCustomerDrawer}
+                searchCustomerHandler={setSearchValue.bind(this)}
             />
 
             <Grid container spacing={1} className={`px-4 mt-2`}>
@@ -253,20 +254,6 @@ const CartView = props => {
                     props.products.map((item) => <AddedProductSingle changeQuantity={props.changeQuantity} changePrice={props.changePrice} deleteStoreProduct={deleteProductHandler.bind(this)} key={item.id} item={item}/>)
                 }
             </Box>
-
-            <CustomersModal
-                customers={props.customers}
-                openState={mainDialog}
-                setCustomer={setCustomerHandler.bind(this)}
-                handleClose={() => setMainDialog(false)}
-                openAddCustomerModal={openAddDialog.bind(this)}
-            />
-
-            <AddCustomerModal
-                openCustomerAddState={addDialog}
-                setCustomer={setAddCustomerHandler.bind(this)}
-                handleClose={() => setAddDialog(false)}
-            />
 
             {/*<Box
                 className="shadow1"

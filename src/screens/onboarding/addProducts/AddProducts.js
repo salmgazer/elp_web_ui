@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import { makeStyles, useTheme } from '@material-ui/core/styles';
+import { makeStyles } from '@material-ui/core/styles';
 import {withRouter} from "react-router-dom";
 import './sections/AddProducts.scss';
 import MainView from "./sections/MainView";
@@ -14,27 +14,24 @@ import { v1 as uuidv1 } from 'uuid';
 import getTime from 'date-fns/getTime';
 import SyncService from "../../../services/SyncService";
 import LocalInfo from "../../../services/LocalInfo";
-import paths from "../../../utilities/paths";
 import database from "../../../models/database";
 import ProductRequest from "../../admin/productRequest/ProductRequest";
-import { useHistory } from "react-router-dom";
 
 class AddProducts extends Component{
-    state = {
-        isDrawerShow: false,
-        value: 0,
-        storeProducts: 1,
-        loading: false,
-        activeStep: 0,
-        currentProduct: 0,
-        productList: [
-
-        ],
-        addedProducts: [
-
-        ],
-        searchValue: '',
-    };
+    constructor(props){
+        super(props);
+        this.state = {
+            isDrawerShow: false,
+            value: 0,
+            storeProducts: 1,
+            loading: false,
+            activeStep: 0,
+            currentProduct: 0,
+            productList: [],
+            addedProducts: [],
+            searchValue: '',
+        }
+    }
 
     async componentDidMount() {
         const branchId = localStorage.getItem('activeBranch');

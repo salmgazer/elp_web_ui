@@ -9,7 +9,7 @@ import CancelIcon from '@material-ui/icons/Cancel';
 
 const useStyles = makeStyles(theme => ({
     root: {
-        width: '100%',
+        //width: '100%',
         display: 'flex',
         padding: '2px 5px',
         alignItems: 'center',

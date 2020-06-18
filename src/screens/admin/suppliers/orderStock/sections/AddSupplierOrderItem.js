@@ -420,11 +420,11 @@ const AddSupplierOrderItem = props => {
                 openState={successDialog}
                 message={`New product added successfully`}
             >
-                <Button color="secondary" size="small"
+                {/*<Button color="secondary" size="small"
                         onClick={props.undoAddProduct}
                 >
                     UNDO
-                </Button>
+                </Button>*/}
             </SimpleSnackbar>
             <SimpleSnackbar
                 openState={errorDialog}

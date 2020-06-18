@@ -80,11 +80,11 @@ const StockProductSingle = props => {
                 openState={successDialog}
                 message={`New product added successfully`}
             >
-                <Button color="secondary" size="small"
+                {/*<Button color="secondary" size="small"
                         onClick={props.undoAddProduct}
                 >
                     UNDO
-                </Button>
+                </Button>*/}
             </SimpleSnackbar>
 
             <div className="row p-0 pt-0 mx-0 text-center shadow1">

@@ -27,12 +27,15 @@ const useStyles = makeStyles(theme => ({
     },
     iconButton: {
         padding: 10,
+    },
+    center: {
+        textAlign: 'center'
     }
 }));
 
 const QuantityInput = props => {
     const classes = useStyles();
-    const [quantity , setQuantity] = useState();
+    const [quantity , setQuantity] = useState(parseFloat(props.startValue) || '');
     const inputName = props.inputName;
 
     const increaseQ = () => {
@@ -92,6 +95,9 @@ const QuantityInput = props => {
                         <InputBase
                             className={`${classes.input} search-box text-center`}
                             type="tel"
+                            classes={{
+                                input: classes.center
+                            }}
                             value={quantity}
                             name={props.inputName}
                             onChange={(event) => setValueHandler(event)}

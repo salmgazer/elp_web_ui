@@ -5,6 +5,7 @@ import {makeStyles} from "@material-ui/core";
 import InputAdornment from '@material-ui/core/InputAdornment';
 import IconButton from '@material-ui/core/IconButton';
 import '../../../components/Input/styles/SellInput.scss';
+import CostCalculator from "../../../components/Calculator/CostCalculator";
 
 const useStyles = makeStyles(theme => ({
     root: {
@@ -26,24 +27,49 @@ const useStyles = makeStyles(theme => ({
     },
     iconButton: {
         padding: 10,
+    },
+    center: {
+        textAlign: 'center'
     }
 }));
 
 const CostInput = props => {
+    console.log(props.initialValue)
+    let value = props.initialValue;
     const classes = useStyles();
     const inputName = props.inputName;
-    const [quantity , setQuantity] = useState(parseFloat(props.initialValue) || '');
+    const [quantity , setQuantity] = useState(value);
+    const [calculatorDialog, setCalculatorDialog] = useState(false);
 
     const setValueHandler = (event) => {
         event.persist();
-        if(isNaN(event.target.value) || (event.target.value).length <= 0)
+        /*if(isNaN(event.target.value) || (event.target.value).length <= 0)
+        {
+            setQuantity();
+            return
+        }*/
+
+        setQuantity(event.target.value);
+        props.getValue(inputName , event.target.value);
+    };
+
+    const openCalculator = () => {
+        setCalculatorDialog(true);
+    };
+
+    const getCalculatorModalState = (value) => {
+        setCalculatorDialog(value);
+    };
+
+    const getCalculatorValue = (value) => {
+        if(isNaN(value) || (value).length <= 0)
         {
             setQuantity();
             return
         }
 
-        setQuantity(event.target.value);
-        props.getValue(inputName , event.target.value);
+        setQuantity(value);
+        props.getValue(inputName , value);
     };
 
     return(
@@ -54,14 +80,18 @@ const CostInput = props => {
                 <InputBase
                     className={`${classes.input} search-box text-center`}
                     type="tel"
-                    value={quantity}
+                    value={value}
                     name={inputName}
+                    classes={{
+                        input: classes.center
+                    }}
                     onChange={(event) => setValueHandler(event)}
                     endAdornment={
                         <InputAdornment position="end">
                             <IconButton
                                 aria-label="toggle password visibility"
                                 edge="end"
+                                onClick={openCalculator}
                             >
                                 {/* <FontAwesomeIcon onClick={openCalculator.bind(this)} icon={faCalculator} fixedWidth /> */}
                                 {props.children}
@@ -70,6 +100,9 @@ const CostInput = props => {
                     }
                 />
             </Paper>
+
+
+            <CostCalculator product={props.product} calculatedPrice={getCalculatorValue.bind(this)} closeModal={getCalculatorModalState.bind(this)} calculatorDialog={calculatorDialog}/>
         </div>
     );
 };

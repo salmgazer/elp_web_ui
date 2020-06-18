@@ -105,7 +105,7 @@ export default class ModelAction {
     * */
     async update(id , columns){
         const dataCollection = await this.database.collections.get(this.table).find(id);
-
+console.log(columns)
         let postItem = '';
 
         await this.database.action(async () => {

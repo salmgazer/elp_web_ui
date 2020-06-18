@@ -20,22 +20,25 @@ import BranchProduct from "../../models/branchesProducts/BranchProduct";
 import ModelAction from "../../services/ModelAction";
 
 class DirectiveViewStock extends Component{
-    state = {
-        activeStep: 0,
-        stockList: [],
-        branchProducts: [],
-        companyBranches: [],
-        currentProduct: {},
-        storeDetails: {
-            itemsInStore: '2000',
-            totalCostPrice: '50,000',
-            totalSellingPrice: '60,000',
-            totalExpectedProfit: '10,000',
-        },
-        itemsLeft: 0,
-        lowestStockItems: [],
-        outOfStockItems: [],
-    };
+    constructor(props){
+        super(props);
+        this.state = {
+            activeStep: 0,
+            stockList: [],
+            branchProducts: [],
+            companyBranches: [],
+            currentProduct: {},
+            storeDetails: {
+                itemsInStore: '2000',
+                totalCostPrice: '50,000',
+                totalSellingPrice: '60,000',
+                totalExpectedProfit: '10,000',
+            },
+            itemsLeft: 0,
+            lowestStockItems: [],
+            outOfStockItems: [],
+        }
+    }
 
     /*
     * Fetch all products when component is mounted
