@@ -1,8 +1,8 @@
 import React, {Component} from 'react';
 import SellView from "./sections/SellView";
-import AddProductCart from "./sections/AddProductCart";
+import AddProductCart from "../../../../sell/sell/sections/AddProductCart";
 import LocalInfo from "../../../../../services/LocalInfo";
-import SavedCart from "../cart/sections/savedCart/savedCart";
+import SavedCart from "../../../../sell/cart/sections/savedCart/savedCart";
 import BranchService from "../../../../../services/BranchService";
 import {withDatabase} from "@nozbe/watermelondb/DatabaseProvider";
 import withObservables from "@nozbe/with-observables";
