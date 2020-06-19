@@ -85,6 +85,7 @@ export default class ModelAction {
     * @return object
     * */
     async post(columns){
+        console.log(columns)
         const dataCollection = this.database.collections.get(this.table);
         let postItem = '';
         await this.database.action(async () => {

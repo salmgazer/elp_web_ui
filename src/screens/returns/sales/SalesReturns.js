@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {withRouter} from "react-router";
+import {withRouter} from "react-router-dom";
 import {withDatabase} from "@nozbe/watermelondb/DatabaseProvider";
 import withObservables from "@nozbe/with-observables";
 import BranchService from "../../../services/BranchService";
@@ -16,7 +16,6 @@ import CustomerService from '../../../services/CustomerService';
 
 
 class SalesReturns extends Component{
-
     constructor(props){
         super(props);
         this.state = {
@@ -39,67 +38,6 @@ class SalesReturns extends Component{
             branchCustomers: branchCustomers,
         });
     }
-
-    // state={
-    //     activeStep: 1,
-    //     branchCustomers: [
-    //         {
-    //             'name': 'Kwame Befo',
-    //             'date': '1st June 2020'
-    //         },
-    //         {
-    //             'name': 'Ama Serwaa',
-    //             'date': '25th April 2020'
-    //         },
-    //         {
-    //             'name': 'Poku Clif',
-    //             'date': 'yesterday'
-    //         }
-    //     ],
-    //     returns: [
-    //         {
-    //             'name': 'Kwame Befo',
-    //             'receiptNumber': '12345566',
-    //             'sales': '50',
-    //             'date': '7:00 pm'
-    //         },
-    //         {
-    //             'name': 'Kwame Befo',
-    //             'receiptNumber': '12345566',
-    //             'sales': '50',
-    //             'date': '5:00 pm'
-    //         }
-    //     ],
-    //     customer: {
-    //         'name': 'Pearl Gemegah',
-    //         'date': '25th April 2020',
-    //         'time': '4:00 pm',
-    //         'cost': '300'
-    //     },
-    //     products: [
-    //         {
-    //             'name': 'Beta Malt 500ml',
-    //             'quantity': '4',
-    //             'cost': '50',
-    //             'date': '5:00 pm',
-    //             'image': 'no_image.png'
-    //         },
-    //         {
-    //             'name': 'Sprite 500ml',
-    //             'quantity': '7',
-    //             'cost': '100',
-    //             'date': '5:00 pm',
-    //             'image': 'no_image.png'
-    //         }
-    //     ],
-    //     singleProduct: [
-    //         {
-    //             'name': 'Sprite 500ml',
-    //             'cost': '5',
-    //             'image': 'no_image.png'
-    //         }
-    //     ]
-    // }
 
     getStepContent = step => {
         switch (step) {
@@ -142,14 +80,22 @@ class SalesReturns extends Component{
     showAddView = async (customerId , step) => {
         const old_list = this.state.branchCustomers;
 
-        //Find index of specific object using findIndex method.
-        const itemIndex = old_list.filter((item => item.customerId === customerId));
+        if(customerId !== 0){
+            //Find index of specific object using findIndex method.
+            const itemIndex = old_list.filter((item => item.customerId === customerId));
 
-        console.log(itemIndex)
-        this.setState({
-            currentCustomer: itemIndex,
-            activeStep: step
-        });
+            console.log(itemIndex)
+            this.setState({
+                currentCustomer: itemIndex,
+                activeStep: step
+            });
+        }else{
+            this.setState({
+                currentCustomer: [],
+                activeStep: step
+            });
+        }
+
     };
 
     returnProducts = async (step, saleEntries) => {

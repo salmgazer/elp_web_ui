@@ -22,6 +22,7 @@ export default class CartService {
                     cart.branchId = LocalInfo.branchId;
                     cart.cartDate =  getUnixTime(new Date(LocalInfo.workingDate));
                     cart.status = 'active';
+                    cart.customerId = "0";
                     cart.createdBy = LocalInfo.userId;
                     cart._raw.id = uuid()
                 });
