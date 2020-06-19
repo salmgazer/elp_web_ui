@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect , useState} from 'react';
 import Card from "@material-ui/core/Card/Card";
 import Grid from "@material-ui/core/Grid/Grid";
 import UndoIcon from '@material-ui/icons/Undo';
@@ -6,12 +6,28 @@ import Button from "@material-ui/core/Button/Button";
 import MainDialog from '../../../../../components/Dialog/MainDialog';
 import QuantityInput from "../../../../Components/Input/QuantityInput";
 
+import format from "date-fns/format";
+import BranchStockService from '../../../../../services/BranchStockService';
+import ProductServiceHandler from "../../../../../services/ProductServiceHandler";
+
 const SingleProduct = props => {
 
-    const product = props.product;
+    const purchase = props.purchase;
     const [mainDialog, setMainDialog] = React.useState(false);
-
-    const image = `https://elparah.store/admin/upload/${product.image}`;
+    const [quantity , setQuantity] = useState(false);
+    const [costPrice , setCostPrice] = useState(false);
+    const [productName , setName] = useState('');
+    const [image , setImage] = useState(false);
+    const [product, setProduct] = useState(false);
+    const [formFields , setFormFields] = useState({
+        quantity: 1,
+        id: purchase.id,
+        name: '',
+        image: '',
+        costPrice: '',
+        initialQuantity: '',
+        altCostPrice: ''
+    });
 
     const closeDialogHandler = (event) => {
         setMainDialog(false);
@@ -19,6 +35,54 @@ const SingleProduct = props => {
 
     const openDialogHandler = (event) => {
         setMainDialog(true);
+    };
+
+    useEffect(() => {
+        // You need to restrict it at some point
+        // This is just dummy code and should be replaced by actual
+        if (!quantity) {
+            getProduct();
+        }
+    });
+
+    const getProduct = async () => {
+        /*
+        * @todo get entries via query on model
+        * */
+        const newProduct = await purchase.product.fetch();
+        setProduct(newProduct);
+        setImage(new ProductServiceHandler(product).getProductImage());
+        setName((newProduct.name).length > 20 ? (newProduct.name).slice(0 , 20) + '...' : newProduct.name);
+        const costP = await BranchStockService.getStockEntryCostPriceById(purchase.id);
+        const quant = await BranchStockService.getStockProductQuantity(purchase.id);
+        setCostPrice(costP);
+        setQuantity(quant);
+
+    };
+
+    const setInputValue = (name, value) => {
+        const {...oldFormFields} = formFields;
+        setCostPrice(((purchase.quantity - value) * purchase.costPrice));
+        setQuantity(purchase.quantity - value);
+        oldFormFields['quantity'] = (value);
+        oldFormFields['costPrice'] = (( value) * purchase.costPrice);
+        oldFormFields['image'] = image;
+        oldFormFields['name'] = productName;
+        oldFormFields['initialQuantity'] = purchase.quantity;
+        oldFormFields['altCostPrice'] = purchase.costPrice;
+        setFormFields(oldFormFields);
+    };
+
+    const updateStockEntry = () => {
+        let data = JSON.parse(localStorage.getItem('data')) || [];
+        
+        console.log(formFields)
+        const response = props.updateStockEntry(purchase.id, formFields);
+        data.push(formFields);
+        localStorage.setItem('data', JSON.stringify(data));
+        if(response){
+            setMainDialog(false);
+        }
     };
     
 
@@ -42,14 +106,14 @@ const SingleProduct = props => {
                 </Grid>
                 <Grid item xs={6} style={{display: 'table', height: '60px', margin: '8px 0px'}} >
                     <div style={{textAlign: 'left', display: 'table-cell', verticalAlign: 'middle'}}>
-                        <span className='text-dark font-weight-bold' >{product.name}</span>
-                        <div className="font-weight-light mt-1" style={{ fontSize: '14px'}}>Quantity: {product.quantity}</div>
-                        <div className="font-weight-light mt-1" style={{ fontSize: '14px'}}>Cost: GHC {product.cost}</div>
+                        <span className='text-dark font-weight-bold' >{productName}</span>
+                        <div className="font-weight-light mt-1" style={{ fontSize: '14px'}}>Quantity: {quantity}</div>
+                        <div className="font-weight-light mt-1" style={{ fontSize: '14px'}}>Cost: GHC {costPrice}</div>
                     </div>
                 </Grid>
 
                 <Grid item xs={3} style={{height: '60px', margin: '10px 0px 0px 0px'}}  >
-                    <div className="font-weight-light mt-1" style={{ fontSize: '14px'}}>{product.date}</div>
+                    <div className="font-weight-light mt-1" style={{ fontSize: '14px'}}>{format(new Date(purchase.createdAt) , "h:mm a")}</div>
                     <Button
                         variant="outlined"
                         style={{color: '#DAAB59', textTransform: 'none', fontSize: '10px', padding: '0px 0px'}}
@@ -82,14 +146,14 @@ const SingleProduct = props => {
                         </Grid>
                         <Grid item xs={9} style={{display: 'table', height: '60px', margin: '8px 0px'}}>
                             <div style={{textAlign: 'left', display: 'table-cell', verticalAlign: 'middle'}}>
-                                <span className='text-dark font-weight-bold' >{product.name}</span>
-                                <div className="font-weight-light mt-1" style={{ fontSize: '13px'}}>Quantity: {product.quantity}</div>
-                                <div className="font-weight-light mt-1" style={{ fontSize: '13px'}}>Cost: GHC {product.cost}</div>
+                                <span className='text-dark font-weight-bold' >{productName}</span>
+                                <div className="font-weight-light mt-1" style={{ fontSize: '13px'}}>Quantity: {quantity}</div>
+                                <div className="font-weight-light mt-1" style={{ fontSize: '13px'}}>Cost: GHC {costPrice}</div>
                             </div>
                         </Grid>
                     </Grid>
 
-                    <QuantityInput style={{width: '100%', margin: '50px', paddingBottom: '30px'}} label={`Quantity`} inputName="quantity" />
+                    <QuantityInput style={{width: '100%', margin: '50px', paddingBottom: '30px'}} label={`Quantity to return`} inputName="quantity" getValue={setInputValue.bind(this)} />
 
                     <Grid container spacing={1} style={{marginTop: '50px'}}>
                         <Grid item xs={6}>
@@ -106,7 +170,7 @@ const SingleProduct = props => {
                             <Button
                                 variant="contained"
                                 style={{'backgroundColor': '#DAAB59' , color: '#333333', padding: '5px 40px', textTransform: 'none', fontSize:'15px'}}
-                                onClick={closeDialogHandler.bind(this)}
+                                onClick={updateStockEntry.bind(this)}
                             >
                                 Return
                             </Button>

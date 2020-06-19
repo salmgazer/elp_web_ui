@@ -48,15 +48,15 @@ class SalesReturns extends Component{
             case 1:
                 return <MainPage setView={this.setStepContentView.bind(this)} searchCustomer={this.searchCustomerHandler.bind(this)} branchCustomers={this.state.branchCustomers} customerAdd={this.showAddView.bind(this)} />;
             case 2:
-                return <WeekView setView={this.setStepContentView.bind(this)} setStepContentView={this.setStepContentView.bind(this)} returns={this.state.returns}  />;
+                return <WeekView setView={this.setStepContentView.bind(this)} setStepContentView={this.setStepContentView.bind(this)} />;
             case 3:
-                return <MonthView setView={this.setStepContentView.bind(this)} setStepContentView={this.setStepContentView.bind(this)} returns={this.state.returns}  />;
+                return <MonthView setView={this.setStepContentView.bind(this)} setStepContentView={this.setStepContentView.bind(this)} />;
             case 4:
-                return <YearView setView={this.setStepContentView.bind(this)} setStepContentView={this.setStepContentView.bind(this)} returns={this.state.returns}  />;
+                return <YearView setView={this.setStepContentView.bind(this)} setStepContentView={this.setStepContentView.bind(this)}  />;
             case 5:
                 return <ReturnsProducts setView={this.setStepContentView.bind(this)} customer={this.state.currentCustomer} products={this.state.saleEntries} />;
             case 6:
-                return <ConfirmPage setView={this.setStepContentView.bind(this)} products={this.state.singleProduct} />;
+                return <ConfirmPage setView={this.setStepContentView.bind(this)} />;
             default:
                 return 'Complete';
         }

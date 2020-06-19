@@ -121,7 +121,7 @@ const Login = props => {
             await SyncService.sync(companyId, LocalInfo.branchId, userId, database);
             console.log("DONE SYNCING");
 
-            history.push(paths.dashboard)
+            history.push(paths.firstView)
         } else {
             document.getElementById("loginForm").reset();
             setLoading(false);

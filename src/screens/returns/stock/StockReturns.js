@@ -12,79 +12,42 @@ import ConfirmPage from './sections/ConfirmPage';
 
 class StockReturns extends Component{
 
-    state={
-        activeStep: 1,
-        branchSuppliers: [
-            {
-                'name': "Nico's Enterprise",
-                'date': '1st June 2020'
-            },
-            {
-                'name': 'Kasapreko Limited',
-                'date': '25th April 2020'
-            },
-            {
-                'name': 'Bell Aqua Water',
-                'date': 'yesterday'
-            }
-        ],
-        returns: [
-            {
-                'name': 'Kasapreko Limited',
-                'date': '1st June 2020',
-                'sales': '50',
-                'time': '7:00 pm'
-            },
-            {
-                'name': 'Kasapreko Limited',
-                'date': '1st June 2020',
-                'sales': '50',
-                'time': '5:00 pm'
-            }
-        ],
-        supplier: {
-            'name': 'Kasapreko Limited',
-            'date': '25th April 2020',
-            'time': '4:00 pm',
-            'cost': '50'
-        },
-        products: [
-            {
-                'name': 'Beta Malt 500ml',
-                'quantity': '4',
-                'cost': '50',
-                'date': '5:00 pm',
-                'image': 'no_image.png'
-            },
-            {
-                'name': 'Sprite 500ml',
-                'quantity': '7',
-                'cost': '100',
-                'date': '5:00 pm',
-                'image': 'no_image.png'
-            }
-        ],
-        singleProduct: [
-            {
-                'name': 'Sprite 500ml',
-                'cost': '5',
-                'image': 'no_image.png'
-            }
-        ]
+    constructor(props){
+        super(props);
+        this.state = {
+            activeStep: 0,
+            branchSuppliers: [],
+            currentSupplier: {},
+            currentProduct: {},
+            saleEntries: [],
+            invoice: [],
+            pageName: false
+        }
+    }
+
+        /*
+    * Fetch all products when component is mounted
+    * */
+    async componentDidMount() {
+        const { branchSuppliers } = this.props;
+
+        await this.setState({
+            branchSuppliers: branchSuppliers,
+        });
     }
 
     getStepContent = step => {
         switch (step) {
             case 0:
-                return <DayView setView={this.setStepContentView.bind(this)} setStepContentView={this.setStepContentView.bind(this)} returns={this.state.returns} />;
+                return <DayView setView={this.setStepContentView.bind(this)} setStepContentView={this.setStepContentView.bind(this)} pageName={this.state.pageName} supplier={this.state.currentSupplier} returnProducts={this.returnProducts.bind(this)} />;
             case 1:
-                return <MainPage setView={this.setStepContentView.bind(this)} branchSuppliers={this.state.branchSuppliers} />;
+                return <MainPage setView={this.setStepContentView.bind(this)} searchSupplier={this.searchSupplierHandler.bind(this)} branchSuppliers={this.state.branchSuppliers} supplierAdd={this.showAddView.bind(this)} />;
             case 2:
-                return <WeekView setView={this.setStepContentView.bind(this)} setStepContentView={this.setStepContentView.bind(this)} returns={this.state.returns}  />;
+                return <WeekView setView={this.setStepContentView.bind(this)} setStepContentView={this.setStepContentView.bind(this)} pageName={this.state.pageName}  />;
             case 3:
-                return <MonthView setView={this.setStepContentView.bind(this)} setStepContentView={this.setStepContentView.bind(this)} returns={this.state.returns}  />;
+                return <MonthView setView={this.setStepContentView.bind(this)} setStepContentView={this.setStepContentView.bind(this)} pageName={this.state.pageName}  />;
             case 4:
-                return <YearView setView={this.setStepContentView.bind(this)} setStepContentView={this.setStepContentView.bind(this)} returns={this.state.returns}  />;
+                return <YearView setView={this.setStepContentView.bind(this)} setStepContentView={this.setStepContentView.bind(this)} pageName={this.state.pageName} />;
             case 5:
                 return <ReturnsProducts setView={this.setStepContentView.bind(this)} supplier={this.state.supplier} products={this.state.products} />;
             case 6:
@@ -96,6 +59,15 @@ class StockReturns extends Component{
 
     setStepContentView = step => {
         this.setState({
+            activeStep: step
+        });
+    };
+
+
+    returnProducts = async (step, saleEntries) => {
+        console.log(saleEntries);
+        this.setState({
+            saleEntries: saleEntries,
             activeStep: step
         });
     };

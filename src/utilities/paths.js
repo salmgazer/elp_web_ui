@@ -49,4 +49,9 @@ export default {
     customer_care: "/customer-care",
     delivery: "/delivery",
     stock_movement: "/stock-movement",
+    dashboardV1: "/dashboard-version1",
+    dashboardV2: "/dashboard-version2",
+    newSell: "/new-sell",
+    newStock: "/new-stock",
+    firstView: "/first-view",
 };
