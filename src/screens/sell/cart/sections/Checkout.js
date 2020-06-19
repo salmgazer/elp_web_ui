@@ -218,7 +218,6 @@ const CheckoutView = props => {
             oldFormFields['amountPaid'] = 0;
         }
         try {
-            console.log(cartData)
             await new SaleService().makeSell(cartData , cartData.type);
             props.setView(2);
         }catch (e) {

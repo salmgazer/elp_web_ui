@@ -14,15 +14,17 @@ import purchaseSchema from "./branchPurchases/purchaseSchema";
 import stockMovementSchema from "./stockMovements/stockMovementSchema";
 import auditSchema from "./audit/auditSchema";
 import auditEntriesSchema from "./auditEntry/auditEntriesSchema";
+import stockReturnHistoriesSchema from "./stockReturnHistories/stockReturnHistoriesSchema";
+import saleReturnHistoriesSchema from "./saleReturnHistories/saleReturnHistoriesSchema";
 
-import suppliersCompanySchema from "./suppliers_company/suppliersCompanySchema";
+/*import suppliersCompanySchema from "./suppliers_company/suppliersCompanySchema";
 import branchSuppliersSchema from "./branchSuppliers/branchSuppliersSchema";
 import branchSupplierProductSchema from "./branchSupplierProducts/branchSupplierProductsSchema";
 import branchSupplierSalespersonsSchema from "./branchSupplierSalespersons/branchSupplierSalespersonsSchema";
 import branchSupplierOrderSchema from './branchSupplierOrder/branchSupplierOrderSchema';
 import branchSupplierOrderPaymentInstallmentSchema from "./branchSupplierOrderPaymentInstallment/branchSupplierOrderPaymentInstallmentSchema";
 import cashflowCategorySchema from "./cashflowCategories/cashflowCategorySchema";
-import cashflowSchema from "./cashflow/cashflowSchema";
+import cashflowSchema from "./cashflow/cashflowSchema";*/
 
 // latest migrations should be at the top entry level of the migrations array
 export default schemaMigrations({
@@ -47,6 +49,14 @@ export default schemaMigrations({
           ]
       },
     */
+
+      {
+          toVersion: 12,
+          steps: [
+              createTable(stockReturnHistoriesSchema),
+              createTable(saleReturnHistoriesSchema),
+          ]
+      },
       {
           toVersion: 11,
           steps: [

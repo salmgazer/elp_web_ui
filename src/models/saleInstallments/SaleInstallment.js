@@ -9,7 +9,7 @@ export default class SaleInstallments extends Model {
     static associations = {
         sales: { type: 'belongs_to' , key: 'saleId'},
         customers: { type: 'belongs_to' , key: 'customerId'},
-        users: { type: 'belongs_to' , key: 'createdBy'}
+        //users: { type: 'belongs_to' , key: 'createdBy'}
     };
 
     static displayColumn = 'id';
@@ -22,7 +22,7 @@ export default class SaleInstallments extends Model {
     @field('amount') amount;
     @relation('customers', 'customerId') customer;
     @relation('sales', 'saleId') sale;
-    @relation('users', 'createdBy') user;
+    //@relation('users', 'createdBy') user;
     @readonly @date('created_at') createdAt;
     @readonly @date('updated_at') updatedAt;
 

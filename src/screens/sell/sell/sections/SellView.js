@@ -27,6 +27,7 @@ import ReceiptIcon from '@material-ui/icons/Receipt';
 import Drawer from "../../../../components/Drawer/Drawer";
 import CardDefault from "../../../../components/Cards/CardDefault";
 import Typography from "@material-ui/core/Typography/Typography";
+import SettingsIcon from '@material-ui/icons/Settings';
 
 const SellView = props => {
     const { history } = props;
@@ -111,6 +112,14 @@ const SellView = props => {
                     >
                         <ListItemIcon><ReceiptIcon /></ListItemIcon>
                         <ListItemText primary="Invoices" />
+                    </ListItem>
+                    <ListItem
+                        button
+                        key={9}
+                        onClick={() => history.push(paths.invoice_history)}
+                    >
+                        <ListItemIcon><SettingsIcon /></ListItemIcon>
+                        <ListItemText primary="Settings" />
                     </ListItem>
                     <Divider/>
                     <ListItem
