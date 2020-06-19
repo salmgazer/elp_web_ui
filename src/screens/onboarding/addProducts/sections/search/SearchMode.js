@@ -1,13 +1,10 @@
-import React, {useState} from 'react';
+import React, {useState , Suspense} from 'react';
 import '../AddProducts.scss';
 import {
     makeStyles,
 } from '@material-ui/core/styles';
 import Grid from "@material-ui/core/Grid/Grid";
 import clsx from 'clsx';
-import ProductCard from "../../../../../components/Cards/ProductCard";
-import AddedIcon from "../../../../../components/ClickableIcons/AddedIcon";
-import AddIcon from "../../../../../components/ClickableIcons/AddIcon";
 import SearchInput from "../../../../Components/Input/SearchInput";
 import Radio from '@material-ui/core/Radio';
 import RadioGroup from '@material-ui/core/RadioGroup';
@@ -15,6 +12,10 @@ import FormControlLabel from '@material-ui/core/FormControlLabel';
 import FormControl from '@material-ui/core/FormControl';
 import Typography from "@material-ui/core/Typography";
 import Button from "@material-ui/core/Button";
+import PrimaryLoader from "../../../../../components/Loader/Loader";
+//import ProductsView from "./productsView";
+//import ProductCard from "../../../../../components/Cards/ProductCard";
+const ProductsView = React.lazy(() => import("./productsView"));
 
 const optionGroupStyles = makeStyles(theme => ({
     root: {
@@ -173,50 +174,9 @@ const SearchMode = props => {
             <Grid container spacing={1} className='mt-3'>
                 {
                     products.length > 0 ?
-                        products.map((item) =>
-                            <Grid key={item.id} item xs={4} style={{padding: '4px 8px' , position: 'relative'}} className={`mx-0 px-1`}>
-                                { item.owned ?
-                                    <div
-                                        onClick={removeProductHandler.bind(this , item.id)}
-                                    >
-                                        <AddedIcon
-                                            styles={{
-                                                width: '30px',
-                                                height: '30px',
-                                                borderRadius: '50%',
-                                                top: '-2px',
-                                                float: 'right',
-                                                position: 'absolute',
-                                                right: '-2px',
-                                                color: '#28a745',
-                                                zIndex: '1500',
-                                            }}
-                                        />
-                                    </div>:
-                                    <div
-                                        onClick={addProductHandler.bind(this, item.id)}
-                                    >
-                                        <AddIcon
-                                            styles={{
-                                                width: '30px',
-                                                height: '30px',
-                                                borderRadius: '50%',
-                                                top: '-2px',
-                                                float: 'right',
-                                                position: 'absolute',
-                                                right: '-2px',
-                                                color: '#DAAB59',
-                                                zIndex: '1500',
-                                            }}
-                                        />
-                                    </div>
-                                }
-                                <div onClick={addProductHandler.bind(this, item.id)}>
-                                <ProductCard product={item}>
-                                </ProductCard>
-                                </div>
-                            </Grid>
-                        )
+                        <Suspense fallback={<PrimaryLoader text={`Loading products`}/>}>
+                            {<ProductsView addProductHandler={addProductHandler.bind(this)} removeProductHandler={removeProductHandler.bind(this)} products={products} />}
+                        </Suspense>
                     :
                         <div style={{
                             display: 'flex',
