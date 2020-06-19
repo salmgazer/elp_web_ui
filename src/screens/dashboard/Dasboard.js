@@ -41,6 +41,8 @@ import StockMovement from "../../models/stockMovements/StockMovement";
 import AuditEntries from "../../models/auditEntry/AuditEntries";
 import Audits from "../../models/audit/Audit";
 import confirmImg from "../../assets/img/dashboard.png";
+import StockReturnHistories from "../../models/stockReturnHistories/StockReturnHistories";
+import SaleReturnHistories from "../../models/saleReturnHistories/SaleReturnHistories";
 
 const useStyles = makeStyles(theme => ({
     root: {
@@ -106,7 +108,7 @@ const Dashboard = props => {
     const username = JSON.parse(localStorage.getItem('userDetails')).firstName;
     console.log(username);
 
-    const { audits, auditedEntries, history, testProducts, stockMovements, purchases, branchProducts, branchProductStock, branchProductStockHistory, brands, manufacturers, products, database, customers, branchCustomers , sales , saleEntries , saleInstallments , carts , cartEntries, testBranch ,cashFlow, cartEntriesQ } = props;
+    const { saleReturnHistories, stockReturnHistories, audits, auditedEntries, history, testProducts, stockMovements, purchases, branchProducts, branchProductStock, branchProductStockHistory, brands, manufacturers, products, database, customers, branchCustomers , sales , saleEntries , saleInstallments , carts , cartEntries, testBranch ,cashFlow, cartEntriesQ } = props;
     // const database = useDatabase();
 
     /*const createBrand = async() => {
@@ -127,7 +129,9 @@ const Dashboard = props => {
     }*/
 
     console.log('#####################################')
-    console.log(cashFlow);
+    console.log(stockReturnHistories);
+    console.log(saleReturnHistories);
+    //console.log(cashFlow);
     console.log(audits);
     console.log(auditedEntries);
     console.log(stockMovements);
@@ -459,6 +463,8 @@ const Dashboard = props => {
 const EnhancedDashboard = withDatabase(
   withObservables([], ({ database }) => ({
     audits: database.collections.get(Audits.table).query().observe(),
+    stockReturnHistories: database.collections.get(StockReturnHistories.table).query().observe(),
+    saleReturnHistories: database.collections.get(SaleReturnHistories.table).query().observe(),
     auditedEntries: database.collections.get(AuditEntries.table).query().observe(),
     branchProducts: database.collections.get(BranchProduct.table).query(Q.where('branchId', localStorage.getItem('activeBranch'))).observe(),
     stockMovements: database.collections.get(StockMovement.table).query().fetch(),

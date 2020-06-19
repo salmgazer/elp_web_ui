@@ -22,9 +22,11 @@ import BranchSupplierProducts from "./branchSupplierProducts/BranchSupplierProdu
 import BranchSupplierSalespersons from "./branchSupplierSalespersons/BranchSupplierSalespersons";
 import BranchSupplierOrder from "./branchSupplierOrder/BranchSupplierOrder";
 import BranchSupplierOrderPaymentInstallment from "./branchSupplierOrderPaymentInstallment/BranchSupplierOrderPaymentInstallment";
-import CashflowCategory from "./cashflowCategories/CashflowCategory";
-import Cashflow from "./cashflow/Cashflow";
+/*import CashflowCategory from "./cashflowCategories/CashflowCategory";
+import Cashflow from "./cashflow/Cashflow";*/
 import BranchSupplierStock from "./branchSupplierStock/BranchSupplierStock";
+import StockReturnHistories from "./stockReturnHistories/StockReturnHistories";
+import SaleReturnHistories from "./saleReturnHistories/SaleReturnHistories";
 
 export default {
     Brand,
@@ -52,6 +54,8 @@ export default {
     BranchSupplierSalespersons,
     BranchSupplierOrder,
     BranchSupplierOrderPaymentInstallment,
+    StockReturnHistories,
+    SaleReturnHistories,
     /*
     CashflowCategory,
     Cashflow,

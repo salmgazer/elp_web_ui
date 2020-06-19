@@ -27,8 +27,11 @@ import ReceiptIcon from '@material-ui/icons/Receipt';
 import Drawer from "../../../../components/Drawer/Drawer";
 import CardDefault from "../../../../components/Cards/CardDefault";
 import Typography from "@material-ui/core/Typography/Typography";
+<<<<<<< HEAD
 import AccountBalanceWalletIcon from '@material-ui/icons/AccountBalanceWallet';
 import PeopleIcon from '@material-ui/icons/People';
+=======
+>>>>>>> a6d03a4ccb47eaefc0561e500d5d262915934542
 import SettingsIcon from '@material-ui/icons/Settings';
 
 const SellView = props => {
@@ -109,6 +112,7 @@ const SellView = props => {
                     </ListItem>
                     <ListItem
                         button
+<<<<<<< HEAD
                         key={3}
                         // onClick={() => history.push(paths.invoice_history)}
                     >
@@ -137,6 +141,12 @@ const SellView = props => {
                         //onClick={() => history.push(paths.sales_returns)}
                     >
                         <ListItemIcon><SettingsIcon/></ListItemIcon>
+=======
+                        key={9}
+                        onClick={() => history.push(paths.invoice_history)}
+                    >
+                        <ListItemIcon><SettingsIcon /></ListItemIcon>
+>>>>>>> a6d03a4ccb47eaefc0561e500d5d262915934542
                         <ListItemText primary="Settings" />
                     </ListItem>
                     <Divider/>

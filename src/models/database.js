@@ -20,6 +20,10 @@ import BranchPurchases from "./branchPurchases/BranchPurchases";
 import StockMovement from "./stockMovements/StockMovement";
 import Audits from "./audit/Audit";
 import AuditEntries from "./auditEntry/AuditEntries";
+import StockReturnHistories from "./stockReturnHistories/StockReturnHistories";
+import SaleReturnHistories from "./saleReturnHistories/SaleReturnHistories";
+
+/*
 import SuppliersCompany from "./suppliers_company/SuppliersCompany";
 import BranchSuppliers from "./branchSuppliers/BranchSuppliers";
 import BranchSupplierProducts from "./branchSupplierProducts/BranchSupplierProducts";
@@ -29,6 +33,7 @@ import BranchSupplierOrderPaymentInstallment from "./branchSupplierOrderPaymentI
 import CashflowCategory from "./cashflowCategories/CashflowCategory";
 import Cashflow from "./cashflow/Cashflow";
 import BranchSupplierStock from "./branchSupplierStock/BranchSupplierStock";
+*/
 
 const adapter = new LokiJSAdapter({
   schema,
@@ -56,6 +61,8 @@ export default new Database({
     StockMovement,
     Audits,
     AuditEntries,
+    StockReturnHistories,
+    SaleReturnHistories,
     /*
     SuppliersCompany,
     BranchSuppliers,
