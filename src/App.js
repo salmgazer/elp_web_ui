@@ -67,6 +67,12 @@ import Delivery from "./screens/delivery/Delivery";
 import history from "./utilities/history";
 import StockMovement from "./screens/stock/sections/StockMovement";
 
+import DashboardOne from './screens/newDashboards/version1/DashboardOne';
+import DashboardTwo from './screens/newDashboards/version2/DashboardTwo';
+import NewSell from './screens/newDashboards/version3/sell/sell/Sell';
+import NewStock from './screens/newDashboards/version3/stock/DirectiveViewStock';
+import FirstView from './screens/dashboard/FirstView';
+
 function NoMatch() {
   let location = useLocation();
 
@@ -503,6 +509,46 @@ class App extends React.Component {
                         setPageBackground();
                         this.setTitle(`Stock Movement | ${appName}`);
                         return <StockMovement />;
+                    }}
+                />
+                <Route
+                    path={paths.dashboardV1}
+                    render={() => {
+                        setPageBackground();
+                        this.setTitle(`Dashboard | ${appName}`);
+                        return <DashboardOne />;
+                    }}
+                />
+                <Route
+                    path={paths.dashboardV2}
+                    render={() => {
+                        setPageBackground();
+                        this.setTitle(`Dashboard | ${appName}`);
+                        return <DashboardTwo />;
+                    }}
+                />
+                <Route
+                    path={paths.newSell}
+                    render={() => {
+                        setPageBackground();
+                        this.setTitle(`Dashboard | ${appName}`);
+                        return <NewSell />;
+                    }}
+                />
+                <Route
+                    path={paths.newStock}
+                    render={() => {
+                        setPageBackground();
+                        this.setTitle(`Dashboard | ${appName}`);
+                        return <NewStock />;
+                    }}
+                />
+                <Route
+                    path={paths.firstView}
+                    render={() => {
+                        setPageBackground();
+                        this.setTitle(`Dashboard | ${appName}`);
+                        return <FirstView />;
                     }}
                 />
               <Route path="*">

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect , useState}  from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import ArrowBackIcon from '@material-ui/icons/ArrowBack';
 import SectionNavbars from "../../../../components/Sections/SectionNavbars";
@@ -9,6 +9,8 @@ import Button from "@material-ui/core/Button/Button";
 import Box from "@material-ui/core/Box/Box";
 import SingleConfirm from "./singlePages/SingleConfirm";
 import { withRouter } from "react-router-dom";
+import ModelAction from "../../../../services/ModelAction";
+import SimpleSnackbar from "../../../../components/Snackbar/SimpleSnackbar";
 
 const useStyles = makeStyles(theme => ({
     root: {
@@ -36,6 +38,14 @@ const useStyles = makeStyles(theme => ({
 const CartView = props => {
 
     const classes = useStyles();
+    const [error , setError] = useState(false);
+    const [errorMsg , setErrorMsg] = useState('');
+    const [success , setSuccess] = useState(false);
+    const [successMsg , setSuccessMsg] = useState('');
+    const [check , setCheck] = useState(false);
+    const [qty , setQty] = useState('');
+    const [tAmt , setTAmt] = useState('');
+    const storedProducts = JSON.parse(localStorage.getItem("data"));
 
     const deleteProductHandler = (event) => {
         props.deleteReturn(event);
@@ -45,17 +55,100 @@ const CartView = props => {
         props.setView(step);
     };
 
+    useEffect(() => {
+        // You need to restrict it at some point
+        // This is just dummy code and should be replaced by actual
+        if (!check) {
+            getReturnItems();
+        }
+    });
+
+    const getReturnItems = async () => {
+        setCheck(true);
+        let quant = 0;
+        let total = 0;
+        for (let i=0; i<storedProducts.length; i++) { 
+            quant += parseFloat(storedProducts[i].quantity);
+            total += parseFloat(storedProducts[i].costPrice);
+        }
+        setQty(quant);
+        setTAmt(total);
+    }
+
+    const returnProd =  async() => {
+        
+        /*
+        *@todo create table for stock returns
+        */
+
+        try {
+            for (let i=0; i<storedProducts.length; i++) {
+                console.log(storedProducts[i]);
+                storedProducts[i].quantity = storedProducts[i].initialQuantity - storedProducts[i].quantity;
+    
+                if (storedProducts[i].quantity === 0) {
+    
+                    await new ModelAction('BranchProductStock').softDelete(storedProducts[i].id);
+                    setSuccessMsg('Item deleted successfully');
+                    setSuccess(true);
+                    setTimeout(function () {
+                        setSuccessMsg('');
+                        setSuccess(false);
+                        setView(0);
+                    }, 2000);
+                        
+                }
+    
+                else {
+                  
+                    await new ModelAction('BranchProductStock').update(storedProducts[i].id, storedProducts[i]);
+                    setSuccessMsg('Item returned successfully');
+                    setSuccess(true);
+                    setTimeout(function () {
+                        setSuccessMsg('');
+                        setSuccess(false);
+                    }, 2000);
+          
+                }
+    
+            }
+            return true;
+        }
+        catch (e) {
+            setErrorMsg('OOPS. Something went wrong. Please try again');
+            setError(true);
+            setTimeout(function () {
+                setErrorMsg('');
+                setError(false);
+            }, 2000);
+            return false;
+        }
+
+    }
+
     return(
         <div className={classes.root}>
             <SectionNavbars
                 title="Return Purchases"
                 leftIcon={
-                    <div onClick={() => setView(5)}>
+                    <div onClick={() => setView(0)}>
                         <ArrowBackIcon
                             style={{fontSize: '2rem'}}
                         />
                     </div>
                 }
+            />
+
+            <SimpleSnackbar
+                type="success"
+                openState={success}
+                message={successMsg}
+            />
+
+            <SimpleSnackbar
+                type="warning"
+                openState={error}
+                message={errorMsg}
             />
 
             <Grid container spacing={1}>
@@ -65,7 +158,7 @@ const CartView = props => {
                             QUANTITY
                         </Typography>
                         <Typography variant="h6" component="h2" >
-                            12
+                            {qty}
                         </Typography>
                     </Paper>
                 </Grid>
@@ -76,23 +169,23 @@ const CartView = props => {
                             TOTAL
                         </Typography>
                         <Typography variant="h6" component="h2" >
-                            GHC 70.00
+                            GHC {tAmt}
                         </Typography>
                     </Paper>
                 </Grid>
             </Grid>
             
 
-            <Button
+            {/* <Button
                 variant="outlined"
                 style={{fontSize: '16px'}}
                 className={classes.button}
             >
                 Kasapreko Limited
-            </Button>
+            </Button> */}
 
             <Box style={{marginTop: '5px' , paddingBottom: '60px'}} p={1} className={`mt-3 mb-5`}>
-                {props.products.length === 0
+                {storedProducts.length === 0
                     ?
                     <div className={`rounded mx-1 my-2 p-2 bordered`}>
                         <Grid container spacing={1} className={`py-1`}>
@@ -112,7 +205,7 @@ const CartView = props => {
                         </Grid>
                     </div>
                     :
-                    props.products.map((item) => <SingleConfirm deleteReturnEntry={deleteProductHandler.bind(this)} key={item.id} item={item}/>)
+                    storedProducts.map((item) => <SingleConfirm deleteReturnEntry={deleteProductHandler.bind(this)} key={item.id} item={item}/>)
                 }
             </Box>
 
@@ -125,6 +218,7 @@ const CartView = props => {
                 <Button
                     variant="contained"
                     style={{'backgroundColor': '#DAAB59' , color: '#333333', padding: '5px 50px', textTransform: 'none', fontSize:'17px'}}
+                    onClick={returnProd.bind(this)}
                 >
                     Confirm
                 </Button>

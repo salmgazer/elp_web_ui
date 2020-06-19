@@ -39,6 +39,10 @@ const MainPage = props => {
         props.customerAdd(id, 0);
     };
 
+    const handleDateModal = (date) => {
+        props.handleDateModal(date, 0)
+    }
+
     return (
         <div>
             <SectionNavbars
@@ -120,6 +124,7 @@ const MainPage = props => {
             <DateModal
                 openDateDialog={dateDialog}
                 handleClose={() => setDateDialog(false)}
+                onClick={handleDateModal.bind(this)}
             />
 
             <Box

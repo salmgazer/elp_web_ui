@@ -1,21 +1,18 @@
 import React, {useState} from 'react';
-import SystemDate from "../../../../components/Date/SystemDate";
+import SystemDate from "../../../../../../components/Date/SystemDate";
 import Tabs from "@material-ui/core/Tabs/Tabs";
 import Tab from "@material-ui/core/Tab/Tab";
 import AppBar from "@material-ui/core/AppBar/AppBar";
-import TabPanel from "../../../../components/Tabs/TabPanel";
+import TabPanel from "../../../../../../components/Tabs/TabPanel";
 import SwipeableViews from "react-swipeable-views";
 import Box from "@material-ui/core/Box/Box";
 import {withRouter} from 'react-router-dom';
-import paths from "../../../../utilities/paths";
-import SellSearchMode from "./SearchMode/SellSearchMode";
-import MenuIcon from '@material-ui/icons/Menu';
-import SectionNavbars from "../../../../components/Sections/SectionNavbars";
-import BarcodeMode from "./BarcodeMode/BarcodeMode";
+import paths from "../../../../../../utilities/paths";
+import SellSearchMode from "../../../../../sell/sell/sections/SearchMode/SellSearchMode";
+import SectionNavbars from "../../../../../../components/Sections/SectionNavbars";
+import BarcodeMode from "../../../../../sell/sell/sections/BarcodeMode/BarcodeMode";
 import MoreVertIcon from '@material-ui/icons/MoreVert';
-import BottomDrawer from "../../../../components/Drawer/BottomDrawer/BottomDrawer";
-import ShoppingCartOutlinedIcon from '@material-ui/icons/ShoppingCartOutlined';
-import SecondaryButton from "../../../../components/Buttons/SecondaryButton";
+import BottomDrawer from "../../../../../../components/Drawer/BottomDrawer/BottomDrawer";
 import ListItem from "@material-ui/core/ListItem/ListItem";
 import ListItemIcon from "@material-ui/core/ListItemIcon/ListItemIcon";
 import RemoveShoppingCartOutlinedIcon from '@material-ui/icons/RemoveShoppingCartOutlined';
@@ -24,12 +21,13 @@ import CloseOutlinedIcon from '@material-ui/icons/CloseOutlined';
 import Divider from '@material-ui/core/Divider';
 import HistoryOutlinedIcon from '@material-ui/icons/HistoryOutlined';
 import ReceiptIcon from '@material-ui/icons/Receipt';
-import Drawer from "../../../../components/Drawer/Drawer";
-import CardDefault from "../../../../components/Cards/CardDefault";
+import CardDefault from "../../../../../../components/Cards/CardDefault";
 import Typography from "@material-ui/core/Typography/Typography";
 import AccountBalanceWalletIcon from '@material-ui/icons/AccountBalanceWallet';
 import PeopleIcon from '@material-ui/icons/People';
 import SettingsIcon from '@material-ui/icons/Settings';
+import ShoppingCartIcon from '@material-ui/icons/ShoppingCart';
+import BottomMenu from "./BottomMenu";
 
 const SellView = props => {
     const { history } = props;
@@ -40,7 +38,7 @@ const SellView = props => {
     const spCount = props.spCount;
     const [value , setValue] = useState(0);
     const [isShowDrawer , setIsShowDrawer] = useState(false);
-    const [isDrawerShow , setIsDrawerShow] = useState(false);
+    // const [isDrawerShow , setIsDrawerShow] = useState(false);
 
     const a11yProps = (index) => {
         return {
@@ -64,27 +62,19 @@ const SellView = props => {
             <SectionNavbars
                 title={`Sales`}
                 icons={
-                    <div onClick={() => setIsShowDrawer(!isShowDrawer)}>
+                    <div>
+                       <ShoppingCartIcon
+                            style={{fontSize: '2rem'}}
+                            onClick={() => history.push(paths.cart)}
+                        />
+
                         <MoreVertIcon
                             style={{fontSize: '2rem'}}
-                        />
-                    </div>
-                }
-                leftIcon={
-                    <div onClick={() => setIsDrawerShow(true)}>
-                        <MenuIcon
-                            style={{fontSize: '2rem'}}
+                            onClick={() => setIsShowDrawer(!isShowDrawer)}
                         />
                     </div>
                 }
             />
-
-            <div
-                onClick={() => setIsDrawerShow(false)}
-                onKeyDown={() => setIsDrawerShow(false)}
-            >
-                <Drawer isShow={isDrawerShow} />
-            </div>
 
             <div
                 onClick={() => setIsShowDrawer(false)}
@@ -253,6 +243,15 @@ const SellView = props => {
             </div>
 
             <Box
+                className="shadow1"
+                bgcolor="background.paper"
+                p={1}
+                style={{ height: '3.0rem', position: "fixed", bottom:"0", width:"100%" }}
+            >
+                <BottomMenu />
+            </Box>
+
+            {/* <Box
                 className={`shadow1 bg-white`}
                 p={1}
                 style={{ height: '2.5rem', position: "fixed", bottom:"0", width:"100%" }}
@@ -284,7 +283,7 @@ const SellView = props => {
                         </span>
                     </SecondaryButton>
                 </div>
-            </Box>
+            </Box> */}
         </div>
     )
 };

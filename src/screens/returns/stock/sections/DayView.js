@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useEffect, useState} from "react";
 import {withRouter } from "react-router-dom";
 import SectionNavbars from "../../../../components/Sections/SectionNavbars";
 import ArrowBackIcon from '@material-ui/icons/ArrowBack';
@@ -13,19 +13,91 @@ import {
 import CardsSection from '../../../../components/Sections/CardsSection';
 import Box from "@material-ui/core/Box/Box";
 import Button from "@material-ui/core/Button/Button";
-import SingleDay from './singlePages/SingleDay';
+import SingleProduct from './singlePages/SingleProduct';
+import PurchaseService from "../../../../services/PurchaseService";
+import SimpleSnackbar from "../../../../components/Snackbar/SimpleSnackbar";
+import ModelAction from "../../../../services/ModelAction";
 
 const DayView = props => {
 
     const [selectedDate, setSelectedDate] = React.useState(new Date());
-    const returns = props.returns;
+    const [purchaseDetails , setPurchaseDetails] = useState(false);
+    const [purchases , setPurchases] = useState([]);
+    // const pageName = props.pageName;
+    // const [name , setName] = useState('');
+    const [error , setError] = useState(false);
+    const [errorMsg , setErrorMsg] = useState('');
+    const [success , setSuccess] = useState(false);
+    const [successMsg , setSuccessMsg] = useState('');
 
     const handleDateChange = date => {
         setSelectedDate(date);
+        getPurchaseDetails(date);
+    };
+
+    useEffect(() => {
+        // You need to restrict it at some point
+        // This is just dummy code and should be replaced by actual
+            if (!purchaseDetails) {
+                getPurchaseDetails(selectedDate);
+            }
+        });
+    
+    const getPurchaseDetails = async (date) => {
+        const response = await new PurchaseService().getPurchaseDetails('day', date);
+        // if (pageName === true){
+        //     const branchProduct = props.product[0];
+        //     const newProduct = await branchProduct.product.fetch();
+        //     setName(newProduct.name);
+        // }
+        setPurchaseDetails(response);
+        setPurchases(response.purchases);
+        console.log(response)
     };
 
     const setView = (step) => {
         props.setView(step);
+    };
+
+    const updateStockEntry =  async(pId, formFields) => {
+        if (formFields.quantity === 0) {
+
+            console.log('happy')
+        }
+        else {
+            console.log('sad')
+        }
+    };
+
+    const returnAll =  async(allProducts) => {
+
+        /*
+        *@todo create table for stock returns
+        */
+        try {
+            for (let i=0; i<allProducts.length; i++) {
+                await new ModelAction('BranchProductStock').softDelete(allProducts[i].id);
+            }
+                setSuccessMsg('Items deleted successfully');
+                setSuccess(true);
+                setTimeout(function () {
+                    setSuccessMsg('');
+                    setSuccess(false);
+                    setView(0);
+                }, 2000);
+
+                return true;
+        } catch (e) {
+            setErrorMsg('OOPS. Something went wrong. Please try again');
+            setError(true);
+            setTimeout(function () {
+                setErrorMsg('');
+                setError(false);
+                props.setView(0);
+            }, 2000);
+            return false;
+        }
+
     };
 
     return (
@@ -40,6 +112,27 @@ const DayView = props => {
                         />
                     </div>
                 }
+                icons={                  
+                    <Button
+                        variant="contained"
+                        style={{'backgroundColor': 'white' , color: '#DAAB59', padding: '5px 20px', textTransform: 'none', fontSize:'17px'}}
+                        onClick={returnAll.bind(this, purchases)} 
+                    >
+                        Return all
+                    </Button>                  
+                }
+            />
+
+            <SimpleSnackbar
+                type="success"
+                openState={success}
+                message={successMsg}
+            />
+
+            <SimpleSnackbar
+                type="warning"
+                openState={error}
+                message={errorMsg}
             />
 
             <Grid container spacing={2} style={{marginTop: '60px'}} className={`pt-2`}>
@@ -54,12 +147,7 @@ const DayView = props => {
 
             <Grid container spacing={1} style={{marginTop: '5px', borderTop: "1px solid #d8d2d2"}}>
                 <Grid item xs={6} >
-                    <Typography
-                        style={{fontSize: '14px', paddingTop: '20px'}}
-                        className={`text-center text-dark`}
-                    >
-                        Pearl Gemegah
-                    </Typography>
+                    
                 </Grid>
 
                 <Grid item xs={6} >
@@ -83,10 +171,11 @@ const DayView = props => {
                 </Grid>
             </Grid>
 
-            <CardsSection quantity='4' costPrice='20' sellingPrice='50' profit='30' profitName="Profit" />
+            <CardsSection quantity={purchaseDetails.quantity} costPrice={purchaseDetails.costPrice} sellingPrice={purchaseDetails.sellingPrice} profit={purchaseDetails.profit} profitName="Expected profit" />
+            {/* <CardsSection quantity='4' costPrice='20' sellingPrice='50' profit='30' profitName="Profit" /> */}
 
             <Box style={{marginTop: '5px' , paddingBottom: '60px'}} p={1} className={`mt-3 mb-5`}>
-                {returns.length === 0
+                {purchases.length === 0
                     ?
                     <div className={`rounded mx-1 my-2 p-2 bordered`}>
                         <Grid container spacing={1} className={`py-1`}>
@@ -100,17 +189,17 @@ const DayView = props => {
                                     style={{fontSize: '16px'}}
                                     className={`text-center text-dark`}
                                 >
-                                    No sales made
+                                    No purchases made
                                 </Typography>
                             </Grid>
                         </Grid>
                     </div>
                     :
-                    returns.map((item) => <SingleDay key={item.id} returns={item} setView={props.setView} />)  
+                    purchases.map((item) => <SingleProduct key={item.id} purchase={item} updateStockEntry={updateStockEntry.bind(this)} />)  
                 }
             </Box>
 
-            <Box
+            {/* <Box
                 className="shadow1"
                 bgcolor="background.paper"
                 p={1}
@@ -122,6 +211,20 @@ const DayView = props => {
                     onClick={() => setView(1)}
                 >
                     Back  
+                </Button>
+            </Box> */}
+            <Box
+                className="shadow1"
+                bgcolor="background.paper"
+                p={1}
+                style={{ height: '2.5rem', position: "fixed", bottom:"0", width:"100%" }}
+            >
+                <Button
+                    variant="contained"
+                    style={{'backgroundColor': '#DAAB59' , color: '#333333', padding: '10px 50px', textTransform: 'none', fontSize: '17px'}}
+                    onClick={() => setView(6)}
+                >
+                    Finish
                 </Button>
             </Box>
 
