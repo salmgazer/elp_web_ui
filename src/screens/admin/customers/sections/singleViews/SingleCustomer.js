@@ -30,7 +30,7 @@ const SingleViewCustomer = props => {
         setCustomer(newCustomer);
         setName(newCustomer.firstName + ' ' + newCustomer.otherNames);
         setNumber(newCustomer.phone);
-        const response = await new InvoiceService().getInvoiceDetailsbyCustomer(newCustomer.id);
+        const response = await new InvoiceService().getDetailsbyCustomer(newCustomer.id);
         setInvoiceDetails(response);
     };
 
@@ -74,9 +74,9 @@ const SingleViewCustomer = props => {
                         </div>
                     </Grid>
 
-                    {invoiceDetails.credit > 0
+                    {invoiceDetails.credit < 0
                         ?
-                        <Grid item xs={4} style={{ margin: '20px 0px 0px 0px'}} >   
+                        <Grid item xs={4} style={{ margin: '15px 0px 0px 0px'}} >   
                             <Button
                                 variant="contained"
                                 style={{

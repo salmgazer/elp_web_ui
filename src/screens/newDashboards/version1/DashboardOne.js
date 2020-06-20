@@ -21,6 +21,7 @@ import Drawer from "../../../components/Drawer/Drawer";
 import HistoryOutlinedIcon from '@material-ui/icons/HistoryOutlined';
 import ShoppingCartIcon from '@material-ui/icons/ShoppingCart';
 import AddShoppingCartIcon from '@material-ui/icons/AddShoppingCart';
+import HomeWorkIcon from '@material-ui/icons/HomeWork';
 
 import LocalInfo from '../../../services/LocalInfo';
 // import Manufacturer from "../../../models/manufacturers/Manufacturer";
@@ -163,6 +164,13 @@ const Dashboard = props => {
                     leftIcon={
                         <div onClick={() => setIsDrawerShow(true)}>
                             <MenuIcon
+                                style={{fontSize: '2rem'}}
+                            />
+                        </div>
+                    }
+                    icons={
+                        <div onClick={() => history.push(paths.firstView)}>
+                            <HomeWorkIcon
                                 style={{fontSize: '2rem'}}
                             />
                         </div>

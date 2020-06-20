@@ -27,7 +27,8 @@ import AccountBalanceWalletIcon from '@material-ui/icons/AccountBalanceWallet';
 import PeopleIcon from '@material-ui/icons/People';
 import SettingsIcon from '@material-ui/icons/Settings';
 import ShoppingCartIcon from '@material-ui/icons/ShoppingCart';
-import BottomMenu from "./BottomMenu";
+import BottomMenu from "./AltBottomMenu";
+import HomeWorkIcon from '@material-ui/icons/HomeWork';
 
 const SellView = props => {
     const { history } = props;
@@ -71,6 +72,13 @@ const SellView = props => {
                         <MoreVertIcon
                             style={{fontSize: '2rem'}}
                             onClick={() => setIsShowDrawer(!isShowDrawer)}
+                        />
+                    </div>
+                }
+                leftIcon={
+                    <div onClick={() => history.push(paths.firstView)}>
+                        <HomeWorkIcon
+                            style={{fontSize: '2rem'}}
                         />
                     </div>
                 }

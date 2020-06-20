@@ -189,7 +189,7 @@ const CustomerDetails = props => {
                         <Button
                             variant="contained"
                             style={{'backgroundColor': '#ffff' , padding: '5px 5px', height: '55px'}}
-                            onClick={invoiceDetails.credit > 0
+                            onClick={invoiceDetails.credit < 0
                                 ?
                                 openDialogHandler.bind(this)
                                 :

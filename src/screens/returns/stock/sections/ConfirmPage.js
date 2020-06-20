@@ -84,11 +84,16 @@ const CartView = props => {
         try {
             for (let i=0; i<storedProducts.length; i++) {
                 console.log(storedProducts[i]);
+
+                await new ModelAction('StockReturnHistories').post(storedProducts[i]);
+
                 storedProducts[i].quantity = storedProducts[i].initialQuantity - storedProducts[i].quantity;
     
                 if (storedProducts[i].quantity === 0) {
     
                     await new ModelAction('BranchProductStock').softDelete(storedProducts[i].id);
+                    localStorage.removeItem('data');
+                    localStorage.removeItem('customerDetails');
                     setSuccessMsg('Item deleted successfully');
                     setSuccess(true);
                     setTimeout(function () {
@@ -102,6 +107,8 @@ const CartView = props => {
                 else {
                   
                     await new ModelAction('BranchProductStock').update(storedProducts[i].id, storedProducts[i]);
+                    localStorage.removeItem('data');
+                    localStorage.removeItem('customerDetails');
                     setSuccessMsg('Item returned successfully');
                     setSuccess(true);
                     setTimeout(function () {

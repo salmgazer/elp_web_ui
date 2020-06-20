@@ -2,6 +2,8 @@ import React , { useState, useEffect } from 'react';
 import Grid from '@material-ui/core/Grid';
 import Avatar from "@material-ui/core/Avatar/Avatar";
 import {makeStyles} from "@material-ui/core";
+import Button from "@material-ui/core/Button/Button";
+import InvoiceService from "../../services/InvoiceService";
 
 const useStyles = makeStyles(theme => ({
     primaryColor: {
@@ -16,6 +18,7 @@ const CustomerCard = (props) => {
     const classes = useStyles();
     const [customer , setCustomer] = useState('');
     const [name , setName] = useState('');
+    const [invoiceDetails , setInvoiceDetails] = useState(false);
 
     useEffect(() => {
         // You need to restrict it at some point
@@ -29,6 +32,8 @@ const CustomerCard = (props) => {
         const newCustomer = await props.customer;
         setCustomer(newCustomer);
         setName(newCustomer.firstName + ' ' + newCustomer.otherNames);
+        const response = await new InvoiceService().getDetailsbyCustomer(newCustomer.id);
+        setInvoiceDetails(response);
     };
 
     return(
@@ -52,10 +57,21 @@ const CustomerCard = (props) => {
                         </Avatar>
                     </Grid>
 
-                    <Grid item xs={9} style={{display: 'table', height: '60px', margin: '8px 0px'}} >
+                    <Grid item xs={6} style={{display: 'table', height: '60px', margin: '8px 0px'}} >
                         <div style={{textAlign: 'left', display: 'table-cell', verticalAlign: 'middle'}}>
                             <span className='text-dark font-weight-bold' style={{ fontSize: '16px'}}>{name ? `${name}` : 'Cash Customer'}</span>
+                            <div className="font-weight-light mt-1" style={{ fontSize: '13px'}}>GHC {invoiceDetails.credit} </div>
+                            <div className="font-weight-light mt-1" style={{ fontSize: '13px'}}>Due: 6/12/2020</div>
                         </div>
+                    </Grid>
+
+                    <Grid item xs={3} style={{ margin: '20px 0px 0px 0px'}}>  
+                        <Button
+                            variant="contained"
+                            style={{'backgroundColor': '#DAAB59' , color: '#333333', padding: '5px 10px', textTransform: 'none', fontSize:'13px'}}
+                        >
+                            Pay  
+                        </Button>
                     </Grid>
                     
                 </Grid>

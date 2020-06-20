@@ -72,6 +72,7 @@ import DashboardTwo from './screens/newDashboards/version2/DashboardTwo';
 import NewSell from './screens/newDashboards/version3/sell/sell/Sell';
 import NewStock from './screens/newDashboards/version3/stock/DirectiveViewStock';
 import FirstView from './screens/dashboard/FirstView';
+import CreditSales from './screens/creditSales/CreditSales';
 
 function NoMatch() {
   let location = useLocation();
@@ -549,6 +550,14 @@ class App extends React.Component {
                         setPageBackground();
                         this.setTitle(`Dashboard | ${appName}`);
                         return <FirstView />;
+                    }}
+                />
+                <Route
+                    path={paths.credit_sales}
+                    render={() => {
+                        setPageBackground();
+                        this.setTitle(`Credit Sales | ${appName}`);
+                        return <CreditSales />;
                     }}
                 />
               <Route path="*">

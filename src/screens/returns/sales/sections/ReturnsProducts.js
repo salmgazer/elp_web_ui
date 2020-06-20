@@ -41,6 +41,8 @@ const ReturnsProducts = props => {
         */
         try {
             for (let i=0; i<allProducts.length; i++) {
+                await new ModelAction('SaleReturnHistories').post(allProducts[i]);
+
                 await new ModelAction('SaleEntry').softDelete(allProducts[i].id);
             }
                 setSuccessMsg('Items deleted successfully');
@@ -48,7 +50,7 @@ const ReturnsProducts = props => {
                 setTimeout(function () {
                     setSuccessMsg('');
                     setSuccess(false);
-                    setView(0);
+                    props.setView(0);
                 }, 2000);
 
                 return true;

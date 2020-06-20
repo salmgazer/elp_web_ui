@@ -76,6 +76,8 @@ const DayView = props => {
         */
         try {
             for (let i=0; i<allProducts.length; i++) {
+                await new ModelAction('StockReturnHistories').post(allProducts[i]);
+
                 await new ModelAction('BranchProductStock').softDelete(allProducts[i].id);
             }
                 setSuccessMsg('Items deleted successfully');

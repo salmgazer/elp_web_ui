@@ -29,7 +29,8 @@ import SwapHorizIcon from '@material-ui/icons/SwapHoriz';
 import {withRouter} from 'react-router-dom';
 import ReportProblemOutlinedIcon from '@material-ui/icons/ReportProblemOutlined';
 import LibraryAddIcon from '@material-ui/icons/LibraryAdd';
-import BottomMenu from "./AltBottomMenu";
+import BottomMenu from "../../sell/sell/sections/AltBottomMenu";
+import HomeWorkIcon from '@material-ui/icons/HomeWork';
 
 import Drawer from "../../../../../components/Drawer/Drawer";
 
@@ -73,8 +74,8 @@ const StockMainPage = props => {
                     <SectionNavbars
                         title="Stock"
                         leftIcon={
-                            <div onClick={() => setIsDrawerShow(true)}>
-                                <MenuIcon
+                            <div onClick={() => history.push(paths.firstView)}>
+                                <HomeWorkIcon
                                     style={{fontSize: '2rem'}}
                                 />
                             </div>
@@ -259,7 +260,7 @@ const StockMainPage = props => {
                         className="shadow1"
                         bgcolor="background.paper"
                         p={1}
-                        style={{ height: '3.0rem', position: "fixed", bottom:"0", width:"100%" }}
+                        style={{ height: '4.0rem', position: "fixed", bottom:"0", width:"100%" }}
                     >
                         <BottomMenu />
                     </Box>

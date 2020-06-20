@@ -2,6 +2,7 @@ import React, {useState} from 'react';
 import Typography from '@material-ui/core/Typography';
 import Button from "@material-ui/core/Button/Button";
 import Grid from "@material-ui/core/Grid/Grid";
+import Box from "@material-ui/core/Box/Box";
 
 import CustomerCard from "../../../../components/Cards/CustomerCard";
 import SearchInput from "../../../Components/Input/SearchInput";
@@ -46,46 +47,42 @@ const CustomerView = props => {
                 </Grid>
             </Grid>
                 
-            <Grid
-                container
-                spacing={1}
-                className={`shadow1 boxMain mx-auto rounded mt-2`}
-                style={{width: '100%', padding: '10px 2% 20px' , marginBottom: '60px'}}
-            >
+            <Box style={{marginTop: '5px' , paddingBottom: '20px'}} p={1} className={`mt-3 mb-5`}>
                 {branchCustomers.length === 0
                     ?
-                    <Grid
-                        item xs={12}
-                        className={`text-left pl-2`}
-                    >
-                        <div className={`rounded mx-1 my-2 p-2 bordered`}>
-                            <Typography
-                                component="h6"
-                                variant="h6"
-                                style={{fontSize: '16px'}}
-                                className={`text-center text-dark w-100`}
+                    <div className={`rounded mx-1 my-2 p-2 bordered`}>
+                        <Grid container spacing={1} className={`py-1`}>
+                            <Grid
+                                item xs={12}
+                                className={`text-left pl-2`}
                             >
-                                No customer found
-                            </Typography>
-                        </div>
-                    </Grid>
+                                <Typography
+                                    component="h6"
+                                    variant="h6"
+                                    style={{fontSize: '16px'}}
+                                    className={`text-center text-dark`}
+                                >
+                                    No customer found
+                                </Typography>
+                            </Grid>
+                        </Grid>
+                    </div>
                     :
                     branchCustomers.map((branchCustomer) =>
-                    <Grid key={branchCustomer.customerId} item xs={4} style={{padding: '4px 8px' , position: 'relative'}} className={`mx-0 px-1`}>
                     <div
+                        key={branchCustomer.customerId}
                         onClick={addCustomerHandler.bind(this, branchCustomer.customerId)}
                     >
                         <CustomerCard customer={branchCustomer.customer.fetch()}>
                             
                         </CustomerCard>
                     </div>
-                    </Grid>
                     )
                 }
 
-            </Grid>
+            </Box>
 
-                <Button
+                {/* <Button
                     variant="outlined"
                     style={{
                         border: '1px solid #DAAB59', 
@@ -93,12 +90,13 @@ const CustomerView = props => {
                         padding: '5px 30px', 
                         textTransform: 'none', 
                         fontSize:'17px',
-                        marginTop: '100px', 
+                        marginTop: '20px', 
+                        marginBottom: '20px', 
                         textAlign: 'center'
                     }}
                 >
                     Scan Barcode   
-                </Button>
+                </Button> */}
 
         </div>
     );

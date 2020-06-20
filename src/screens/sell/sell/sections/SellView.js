@@ -110,7 +110,7 @@ const SellView = props => {
                     <ListItem
                         button
                         key={3}
-                        // onClick={() => history.push(paths.invoice_history)}
+                        onClick={() => history.push(paths.credit_sales)}
                     >
                         <ListItemIcon><AccountBalanceWalletIcon /></ListItemIcon>
                         <ListItemText primary="Credit view" />

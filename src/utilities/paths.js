@@ -54,4 +54,5 @@ export default {
     newSell: "/new-sell",
     newStock: "/new-stock",
     firstView: "/first-view",
+    credit_sales: '/credit-sales',
 };

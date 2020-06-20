@@ -23,7 +23,7 @@ class Audit extends Component {
         super(props);
         this.state = {
             isDrawerShow: false,
-            activeStep: 3,
+            activeStep: 5,
             spCount: 0,
             branchProducts: [],
             currentProduct: 0,

@@ -5,6 +5,7 @@ import UndoIcon from '@material-ui/icons/Undo';
 import Button from "@material-ui/core/Button/Button";
 import MainDialog from '../../../../../components/Dialog/MainDialog';
 import QuantityInput from "../../../../Components/Input/QuantityInput";
+import LocalInfo from "../../../../../services/LocalInfo";
 
 import format from "date-fns/format";
 import BranchStockService from '../../../../../services/BranchStockService';
@@ -20,7 +21,11 @@ const SingleProduct = props => {
     const [image , setImage] = useState(false);
     const [product, setProduct] = useState(false);
     const [formFields , setFormFields] = useState({
-        quantity: 1,
+        branchId: LocalInfo.branchId,
+        branchProductId: purchase.branchProductId,
+        createdBy: LocalInfo.userId,
+        productId: purchase.productId,
+        quantity: '',
         id: purchase.id,
         name: '',
         image: '',
@@ -69,7 +74,6 @@ const SingleProduct = props => {
         oldFormFields['image'] = image;
         oldFormFields['name'] = productName;
         oldFormFields['initialQuantity'] = purchase.quantity;
-        oldFormFields['altCostPrice'] = purchase.costPrice;
         setFormFields(oldFormFields);
     };
 

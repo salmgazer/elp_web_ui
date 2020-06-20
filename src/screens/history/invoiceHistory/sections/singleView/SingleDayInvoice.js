@@ -1,6 +1,6 @@
 import React, {useEffect , useState} from 'react';
 import Grid from "@material-ui/core/Grid/Grid";
-import MainDialog from '../../../../../components/Dialog/MainDialog';
+import MainDialog from '../../../../../components/Dialog/ProductDialog';
 import Button from "@material-ui/core/Button/Button";
 import Box from "@material-ui/core/Box/Box";
 import Typography from '@material-ui/core/Typography';

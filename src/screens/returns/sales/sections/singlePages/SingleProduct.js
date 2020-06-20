@@ -8,6 +8,7 @@ import QuantityInput from "../../../../Components/Input/QuantityInput";
 import ProductServiceHandler from "../../../../../services/ProductServiceHandler";
 import SaleService from "../../../../../services/SaleService";
 import format from "date-fns/format";
+import LocalInfo from "../../../../../services/LocalInfo";
 
 const SingleProduct = props => {
 
@@ -19,13 +20,17 @@ const SingleProduct = props => {
     const [totalPrice , setTotalPrice] = useState('');
     const [quantity , setQuantity] = useState(false);
     const [formFields , setFormFields] = useState({
-        quantity: 1,
+        branchId: LocalInfo.branchId,
+        branchProductId: saleEntry.branchProductId,
+        createdBy: LocalInfo.userId,
+        productId: saleEntry.productId,
+        quantity: '',
         id: saleEntry.id,
+        saleId: saleEntry.saleId,
         name: '',
         image: '',
-        totalPrice: '',
         initialQuantity: '',
-        sellingPrice: ''
+        sellingPrice: '',
     });
 
     useEffect(() => {
@@ -50,11 +55,10 @@ const SingleProduct = props => {
         setTotalPrice(((saleEntry.quantity - value) * saleEntry.sellingPrice));
         setQuantity(saleEntry.quantity - value);
         oldFormFields['quantity'] = ( value);
-        oldFormFields['totalPrice'] = (( value) * saleEntry.sellingPrice);
+        oldFormFields['sellingPrice'] = (( value) * saleEntry.sellingPrice);
         oldFormFields['image'] = image;
         oldFormFields['name'] = productName;
         oldFormFields['initialQuantity'] = saleEntry.quantity;
-        oldFormFields['sellingPrice'] = saleEntry.sellingPrice;
         setFormFields(oldFormFields);
     };
 

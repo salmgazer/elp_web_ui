@@ -5,6 +5,7 @@ import paths from "../../../utilities/paths";
 import CssBaseline from "@material-ui/core/CssBaseline/CssBaseline";
 import MenuIcon from '@material-ui/icons/Menu';
 import Paper from '@material-ui/core/Paper';
+import HomeWorkIcon from '@material-ui/icons/HomeWork';
 
 import Typography from "@material-ui/core/Typography/Typography";
 import SectionNavbars from "../../../components/Sections/SectionNavbars";
@@ -62,6 +63,13 @@ const Dashboard = props => {
                     leftIcon={
                         <div onClick={() => setIsDrawerShow(true)}>
                             <MenuIcon
+                                style={{fontSize: '2rem'}}
+                            />
+                        </div>
+                    }
+                    icons={
+                        <div onClick={() => history.push(paths.firstView)}>
+                            <HomeWorkIcon
                                 style={{fontSize: '2rem'}}
                             />
                         </div>
