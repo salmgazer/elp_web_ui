@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {withRouter} from "react-router";
+import {withRouter} from "react-router-dom";
 import {withDatabase} from "@nozbe/watermelondb/DatabaseProvider";
 import withObservables from "@nozbe/with-observables";
 import BranchService from "../../../services/BranchService";
@@ -16,7 +16,6 @@ import CustomerService from '../../../services/CustomerService';
 
 
 class SalesReturns extends Component{
-
     constructor(props){
         super(props);
         this.state = {
@@ -39,7 +38,6 @@ class SalesReturns extends Component{
             branchCustomers: branchCustomers,
         });
     }
-
 
     getStepContent = step => {
         switch (step) {
@@ -82,15 +80,21 @@ class SalesReturns extends Component{
     showAddView = async (customerId , step) => {
         const old_list = this.state.branchCustomers;
 
-        //Find index of specific object using findIndex method.
-        const itemIndex = old_list.filter((item => item.customerId === customerId));
+        if(customerId !== 0){
+            //Find index of specific object using findIndex method.
+            const itemIndex = old_list.filter((item => item.customerId === customerId));
 
-        console.log(itemIndex)
-        this.setState({
-            currentCustomer: itemIndex,
-            pageName: true,
-            activeStep: step
-        });
+            console.log(itemIndex)
+            this.setState({
+                currentCustomer: itemIndex,
+                activeStep: step
+            });
+        }else{
+            this.setState({
+                currentCustomer: [],
+                activeStep: step
+            });
+        }
     };
 
     returnProducts = async (step, saleEntries) => {

@@ -44,14 +44,20 @@ const DayView = props => {
         let response = [];
 
         if (pageName === true){
-            const branchCustomer = props.customer[0];
-            const newCustomer = await branchCustomer.customer.fetch();
-            console.log(newCustomer);
+            if(props.customer.length === 0){
+                response = await new InvoiceService().getInvoiceDetailsbyCustomer('day' , date , "0");
+                setName("Cash Customer");
+            }else{
+                const branchCustomer = props.customer[0];
+                const newCustomer = await branchCustomer.customer.fetch();
+                console.log(newCustomer);
 
-            response = await new InvoiceService().getInvoiceDetailsbyCustomer('day' , date , newCustomer.id);
+                response = await new InvoiceService().getInvoiceDetailsbyCustomer('day' , date , newCustomer.id);
 
-            setName(`${newCustomer.firstName} ${newCustomer.otherNames}`);
-            console.log(response , branchCustomer.id)
+                setName(`${newCustomer.firstName} ${newCustomer.otherNames}`);
+            }
+
+            console.log(response)
         }else{
             response = await new InvoiceService().getInvoiceDetails('day' , date);
         }
@@ -144,7 +150,7 @@ const DayView = props => {
                     </div>
                     :
 
-                    invoices.map((item) => <SingleDay key={item.id} invoice={item} prodName={name} setView={props.setView} returnProducts={props.returnProducts} />)  
+                    invoices.map((item) => <SingleDay key={item.id} invoice={item} prodName={name} setView={props.setView} returnProducts={props.returnProducts} />)
 
                 }
             </Box>
@@ -160,7 +166,7 @@ const DayView = props => {
                     style={{border: '1px solid #DAAB59', color: '#333333', padding: '5px 50px', textTransform: 'none', fontSize:'17px'}}
                     onClick={() => setView(1)}
                 >
-                    Back  
+                    Back
                 </Button>
             </Box>
 

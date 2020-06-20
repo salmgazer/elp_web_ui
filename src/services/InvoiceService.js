@@ -353,9 +353,20 @@ export default class InvoiceService {
         );
 
         const list = sales.reverse();
-
         return {invoice: list[0]}
+    }
 
+    async getCashCustomerHistory (){
+        const sales = await new ModelAction('Sales').findByColumnNotObserve(
+            {
+                name: 'customerId',
+                value: "0",
+                fxn: 'eq'
+            }
+        );
+
+        const list = sales.reverse();
+        return {invoice: list[0]}
     }
 
     static async getHistorybyCustomer (customerId){
@@ -366,7 +377,7 @@ export default class InvoiceService {
                 fxn: 'eq'
             }
         );
-        
+
         return sales;
     }
 

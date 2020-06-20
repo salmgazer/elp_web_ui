@@ -8,7 +8,7 @@ import SwipeableViews from "react-swipeable-views";
 import TabPanel from "../../../components/Tabs/TabPanel";
 import Box from "@material-ui/core/Box/Box";
 import Button from "@material-ui/core/Button/Button";
-import {withRouter} from "react-router";
+import {withRouter} from "react-router-dom";
 import ArrowBackIcon from '@material-ui/icons/ArrowBack';
 import BottomDrawer from "../../../components/Drawer/BottomDrawer/BottomDrawer";
 import ListItem from '@material-ui/core/ListItem';
@@ -23,14 +23,12 @@ import SortDate from './movement/SortDate';
 import SortProduct from './movement/SortProduct';
 
 class StockMovement extends Component {
-
-    state={
-        value: 0,
-        isShowDrawer: false,
-    }
-
-    props={
-        history: this.props
+    constructor(props){
+        super(props);
+        this.state = {
+            value: 0,
+            isShowDrawer: false,
+        };
     }
 
     handleChange = (event, newValue) => {
@@ -52,7 +50,6 @@ class StockMovement extends Component {
 
         return(
             <div>
-
                 <SectionNavbars
                     title="Stock movement"
                     leftIcon={
@@ -137,7 +134,6 @@ class StockMovement extends Component {
                         Print
                     </Button>
                 </Box>
-
             </div>
         )
     }

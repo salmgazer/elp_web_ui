@@ -12,10 +12,10 @@ import SingleCustomer from './singlePages/SingleCustomer';
 import DateModal from '../../../../components/Modal/option/DateModal';
 
 const MainPage = props => {
-
     const { history } = props;
     const [dateDialog, setDateDialog] = React.useState(false);
     const branchCustomers = props.branchCustomers;
+
     const [searchValue , setSearchValue] = useState({
         search: ''
     });
@@ -35,7 +35,7 @@ const MainPage = props => {
     };
 
     const addCustomerHandler = (id) => {
-        console.log(id);
+        //console.log(id);
         props.customerAdd(id, 0);
     };
 
@@ -100,15 +100,24 @@ const MainPage = props => {
                 </Grid>
                 :
                 <div style={{marginBottom: '60px'}}>
-                {branchCustomers.map((branchCustomer) =>
-                <Grid key={branchCustomer.customerId} item xs={12}>
-                    <div
-                        onClick={addCustomerHandler.bind(this, branchCustomer.customerId)}
-                    >
-                        <SingleCustomer customer={branchCustomer.customer.fetch()} />
-                    </div>
-                </Grid>
-                )}
+                    <Grid key={0} item xs={12}>
+                        <div
+                            onClick={addCustomerHandler.bind(this, 0)}
+                        >
+                            <SingleCustomer customer="Cash Customer" />
+                        </div>
+                    </Grid>
+                    {
+                        branchCustomers.map((branchCustomer) =>
+                            <Grid key={branchCustomer.customerId} item xs={12}>
+                                <div
+                                    onClick={addCustomerHandler.bind(this, branchCustomer.customerId)}
+                                >
+                                    <SingleCustomer customer={branchCustomer.customer.fetch()} />
+                                </div>
+                            </Grid>
+                        )
+                    }
                 </div>
             }
 
