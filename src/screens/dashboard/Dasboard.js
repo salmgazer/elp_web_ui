@@ -11,7 +11,7 @@ import Box from "@material-ui/core/Box/Box";
 import CssBaseline from "@material-ui/core/CssBaseline/CssBaseline";
 import {makeStyles} from "@material-ui/core";
 import MenuIcon from '@material-ui/icons/Menu';
-import HomeWorkIcon from '@material-ui/icons/HomeWork';
+import AppsIcon from '@material-ui/icons/Apps';
 
 import HomeIcon from '@material-ui/icons/Home';
 import Typography from "@material-ui/core/Typography/Typography";
@@ -218,7 +218,7 @@ const Dashboard = props => {
                     }
                     icons={
                         <div onClick={() => history.push(paths.firstView)}>
-                            <HomeWorkIcon
+                            <AppsIcon
                                 style={{fontSize: '2rem'}}
                             />
                         </div>

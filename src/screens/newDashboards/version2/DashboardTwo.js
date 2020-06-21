@@ -5,7 +5,7 @@ import paths from "../../../utilities/paths";
 import CssBaseline from "@material-ui/core/CssBaseline/CssBaseline";
 import MenuIcon from '@material-ui/icons/Menu';
 import Paper from '@material-ui/core/Paper';
-import HomeWorkIcon from '@material-ui/icons/HomeWork';
+import AppsIcon from '@material-ui/icons/Apps';
 
 import Typography from "@material-ui/core/Typography/Typography";
 import SectionNavbars from "../../../components/Sections/SectionNavbars";
@@ -69,7 +69,7 @@ const Dashboard = props => {
                     }
                     icons={
                         <div onClick={() => history.push(paths.firstView)}>
-                            <HomeWorkIcon
+                            <AppsIcon
                                 style={{fontSize: '2rem'}}
                             />
                         </div>
@@ -119,7 +119,7 @@ const Dashboard = props => {
                         marginBottom: '5px' ,
                     }}
                 >
-                    <CardGridComponent source={transfer} text='Collection' onClick={() => history.push(paths.collection_owner)}/>
+                    <CardGridComponent source={transfer} text='Collection' />
 
                     <CardGridComponent source={dashboardAlt} text='Dashboard' onClick={() => history.push(paths.dashboard)}/>
 
@@ -133,7 +133,7 @@ const Dashboard = props => {
                         marginBottom: '5px' ,
                     }}
                 >
-                    <CardGridComponent source={audit} text='Audit' onClick={() => history.push(paths.audit)}/>
+                    <CardGridComponent source={audit} text='Audit' />
 
                     <CardGridComponent source={management} text='Shop management' onClick={() => history.push(paths.admin)}/>
 

@@ -9,7 +9,6 @@ import Grid from "@material-ui/core/Grid/Grid";
 import paths from "../../../utilities/paths";
 import Box from "@material-ui/core/Box/Box";
 import CssBaseline from "@material-ui/core/CssBaseline/CssBaseline";
-import {makeStyles} from "@material-ui/core";
 import MenuIcon from '@material-ui/icons/Menu';
 
 import HomeIcon from '@material-ui/icons/Home';
@@ -21,22 +20,17 @@ import Drawer from "../../../components/Drawer/Drawer";
 import HistoryOutlinedIcon from '@material-ui/icons/HistoryOutlined';
 import ShoppingCartIcon from '@material-ui/icons/ShoppingCart';
 import AddShoppingCartIcon from '@material-ui/icons/AddShoppingCart';
-import HomeWorkIcon from '@material-ui/icons/HomeWork';
+import AppsIcon from '@material-ui/icons/Apps';
 
 import LocalInfo from '../../../services/LocalInfo';
-// import Manufacturer from "../../../models/manufacturers/Manufacturer";
 import Brand from "../../../models/brands/Brand";
 import BranchProduct from "../../../models/branchesProducts/BranchProduct";
-import Product from "../../../models/products/Product";
 import Customer from "../../../models/customers/Customer";
 import Sales from "../../../models/sales/Sales";
 import ModelAction from "../../../services/ModelAction";
 import Carts from "../../../models/carts/Carts";
-// import CartEntry from "../../../models/cartEntry/CartEntry";
 import BranchProductStock from "../../../models/branchesProductsStocks/BranchProductStock";
 import BranchProductStockHistory from "../../../models/branchesProductsStocksHistories/BranchProductStockHistory";
-//import {v4 as uuid} from 'uuid';
-//import BranchCustomer from "../../../models/branchesCustomer/BranchCustomer";
 import SaleInstallments from "../../../models/saleInstallments/SaleInstallment";
 import CompanyService from "../../../services/CompanyService";
 import BranchPurchases from "../../../models/branchPurchases/BranchPurchases";
@@ -45,51 +39,16 @@ import AuditEntries from "../../../models/auditEntry/AuditEntries";
 import Audits from "../../../models/audit/Audit";
 import confirmImg from "../../../assets/img/dashboard.png";
 
-const useStyles = makeStyles(theme => ({
-    root: {
-        width: '100%',
-    },
-    details: {
-        display: 'flex',
-        flexDirection: 'column',
-    },
-    content: {
-        flex: '1 0 auto',
-    },
-    button: {
-        marginRight: theme.spacing(1),
-    },
-    instructions: {
-        marginTop: theme.spacing(1),
-        marginBottom: theme.spacing(1),
-    },
-    shadow1: {
-        '-webkit-box-shadow': '3px 5px 5px 0px rgba(227,227,227,1)',
-        '-moz-box-shadow': '3px 5px 5px 0px rgba(227,227,227,1)',
-        'box-shadow': '3px 5px 5px 0px rgba(227,227,227,1)',
-    },
-    shadow2: {
-        'box-shadow': '0 0 1rem 2px #dcc7a4',
-    },
-    margin1: {
-        margin: '20px auto',
-    },
-    padding1: {
-        'padding-bottom': '20px',
-    },
-    boxRadius: {
-        'border-radius': '10px',
-    },
-
-    'input:focus': {
-        backgroundColor: '#daab59',
-    }
-}));
+import HistoryModal from '../../../components/Modal/option/HistoryModal';
 
 const Dashboard = props => {
-    const classes = useStyles();
     const [companySales , setCompanySales] = useState(false);
     const [isDrawerShow , setIsDrawerShow] = useState(false);
+    const [historyDialog, setHistoryDialog] = React.useState(false);
+
+    const openHistoryDialog = (event) => {
+        setHistoryDialog(true);
+    };
 
     useEffect(() => {
         // You need to restrict it at some point
@@ -109,46 +68,7 @@ const Dashboard = props => {
     const username = JSON.parse(localStorage.getItem('userDetails')).firstName;
     console.log(username);
 
-    const { audits, auditedEntries, history, testProducts, stockMovements, purchases, branchProducts, branchProductStock, branchProductStockHistory, brands, manufacturers, products, database, customers, branchCustomers , sales , saleEntries , saleInstallments , carts , cartEntries, testBranch ,cashFlow, cartEntriesQ } = props;
-
-    console.log('#####################################')
-    console.log(cashFlow);
-    console.log(audits);
-    console.log(auditedEntries);
-    console.log(stockMovements);
-    console.log(testProducts);
-    console.log(purchases);
-    console.log(companySales);
-    console.log(testBranch)
-    console.log(branchProducts)
-    console.log('#####################################')
-    console.log("********************************");
-    console.log(LocalInfo.companies);
-    console.log("**************************");
-    console.log("********************************");
-    console.log(products);
-    console.log(branchProductStock);
-    console.log(11111111111111111111);
-    console.log(branchProductStockHistory);
-    console.log(11111111111111111111);
-
-    console.log("**************************");
-    console.log(Product.columns);
-    console.log(branchProducts);
-    console.log(brands);
-    console.log(manufacturers);
-
-    console.log(customers);
-    console.log(branchCustomers);
-    console.log(sales);
-    console.log(saleEntries);
-    console.log(saleInstallments);
-    console.log("********************************");
-    console.log(carts);
-    console.log(cartEntries);
-    //console.log(cartEntriesQ);
-    console.log("********************************");
-
+    const {  history } = props;
 
     if (LocalInfo.storeId && LocalInfo.userId) {
         history.push(paths.home);
@@ -170,7 +90,7 @@ const Dashboard = props => {
                     }
                     icons={
                         <div onClick={() => history.push(paths.firstView)}>
-                            <HomeWorkIcon
+                            <AppsIcon
                                 style={{fontSize: '2rem'}}
                             />
                         </div>
@@ -371,7 +291,7 @@ const Dashboard = props => {
                                 component="p"
                                 variant="h6"
                                 style={{fontWeight: '700', fontSize: '0.9rem', color: '#daab59'}}
-                                //onClick={() => history.push(paths.admin)}
+                                onClick={openHistoryDialog.bind(this)}
                             >
                                 <Grid container style={{marginTop: '10px'}} >
                                     <Grid xs={6}>
@@ -398,7 +318,7 @@ const Dashboard = props => {
                                 component="p"
                                 variant="h6"
                                 style={{fontWeight: '700', fontSize: '0.9rem', color: '#daab59'}}
-                                onClick={() => history.push(paths.collection_owner)}
+                                //onClick={() => history.push(paths.collection_owner)}
                             >
                                 <Grid container style={{marginTop: '10px'}}>
                                     <Grid xs={6}>
@@ -478,21 +398,11 @@ const Dashboard = props => {
 
                 </BoxDefault>
 
-                {/* <Box
-                    bgcolor="background.paper"
-                    p={1}
-                    className={`shadow1`}
-                    style={{ height: '4.0rem', position: "fixed", bottom:"0", width:"100%" }}
-                >
-                    <Button
-                        variant="contained"
-                        style={{'width': '70%','backgroundColor': '#DAAB59' , color: '#403C3C', margin: '4px auto',padding: '5px 5px', fontSize: '17px', fontWeight: '700'}}
-                        className={`${classes.button} capitalization`}
-                        onClick={() => LocalInfo.branches.length > 1 ? history.push(paths.store_summary) : history.push(paths.sell)}
-                    >
-                        Start selling
-                    </Button>
-                </Box> */}
+                <HistoryModal
+                    openState={historyDialog}
+                    handleClose={() => setHistoryDialog(false)}
+                />
+
             </React.Fragment>
         </div>
     );

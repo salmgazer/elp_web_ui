@@ -30,7 +30,7 @@ import {withRouter} from 'react-router-dom';
 import ReportProblemOutlinedIcon from '@material-ui/icons/ReportProblemOutlined';
 import LibraryAddIcon from '@material-ui/icons/LibraryAdd';
 import BottomMenu from "../../sell/sell/sections/AltBottomMenu";
-import HomeWorkIcon from '@material-ui/icons/HomeWork';
+import AppsIcon from '@material-ui/icons/Apps';
 
 import Drawer from "../../../../../components/Drawer/Drawer";
 
@@ -75,7 +75,7 @@ const StockMainPage = props => {
                         title="Stock"
                         leftIcon={
                             <div onClick={() => history.push(paths.firstView)}>
-                                <HomeWorkIcon
+                                <AppsIcon
                                     style={{fontSize: '2rem'}}
                                 />
                             </div>

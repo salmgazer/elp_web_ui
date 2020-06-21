@@ -31,7 +31,7 @@ const useStyles = makeStyles({
     >
       <BottomNavigationAction label="Sell" icon={<AddShoppingCartIcon />} onClick={() => history.push(paths.newSell )}/>
       <BottomNavigationAction label="Add stock" icon={<ShoppingCartOutlinedIcon />} onClick={() => history.push(paths.newStock )}/>
-      <BottomNavigationAction label="Collection" icon={<AccountBalanceWalletIcon />} onClick={() => history.push(paths.collection_owner )}/>
+      <BottomNavigationAction label="Collection" icon={<AccountBalanceWalletIcon />} />
       <BottomNavigationAction label="Admin" icon={<SettingsIcon />} onClick={() => history.push(paths.admin )}/>
     </BottomNavigation>
   );

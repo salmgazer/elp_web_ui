@@ -66,7 +66,7 @@ const BottomMenu = props => {
                 style={{flex: 1}}
                 className={`text-center icon-color`}
                 // onClick={() => history.push(paths.purchase_history, {pageName: true, product: props.branchProduct.productId})}
-                onClick={() => history.push(paths.collection_owner )}
+                //onClick={() => history.push(paths.collection_owner )}
             >
                 <AccountBalanceWalletIcon
                     style={{fontSize: '25px'}}

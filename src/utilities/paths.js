@@ -52,6 +52,7 @@ export default {
     dashboardV1: "/dashboard-version1",
     dashboardV2: "/dashboard-version2",
     newSell: "/new-sell",
+    newCart: "/new-cart",
     newStock: "/new-stock",
     firstView: "/first-view",
     credit_sales: '/credit-sales',
