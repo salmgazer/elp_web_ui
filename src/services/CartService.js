@@ -2,7 +2,6 @@ import database from "../models/database";
 import ModelAction from "./ModelAction";
 import LocalInfo from "./LocalInfo";
 import { Q } from '@nozbe/watermelondb'
-import CartEntry from "../models/cartEntry/CartEntry";
 import BranchProductService from "./BranchProductService";
 import {v4 as uuid} from 'uuid';
 import Carts from "../models/carts/Carts";
@@ -259,7 +258,7 @@ export default class CartService {
     async getCartCustomer(){
         const currentCustomer = await database.adapter.getLocal("activeCustomer");
 
-        if(typeof currentCustomer === 'undefined' || currentCustomer === null || currentCustomer == 0){
+        if(typeof currentCustomer === 'undefined' || currentCustomer === null || currentCustomer === 0){
             return 'Cash Customer';
         }
         const customers = await new BranchService().getCustomers();
@@ -275,7 +274,7 @@ export default class CartService {
     static async getCartCustomerId(){
         const currentCustomer = await database.adapter.getLocal("activeCustomer");
 
-        if(typeof currentCustomer === 'undefined' || currentCustomer === null || currentCustomer == 0){
+        if(typeof currentCustomer === 'undefined' || currentCustomer === null || currentCustomer === 0){
             return 0;
         }
 

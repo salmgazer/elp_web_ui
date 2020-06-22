@@ -1,7 +1,6 @@
 import React, {useEffect, useState} from 'react';
 import KeyboardBackspaceIcon from '@material-ui/icons/KeyboardBackspace';
 import Typography from "@material-ui/core/Typography";
-import Button from "@material-ui/core/Button";
 import SellQuantityInput from "../../../Components/Input/SellQuantityInput";
 import Grid from "@material-ui/core/Grid";
 import InputBase from "@material-ui/core/InputBase";
@@ -76,7 +75,7 @@ const AddProductCart = props => {
         if (!product) {
             getProduct();
         }
-    }, []);
+    });
 
     const productHandler = new BranchProductService(branchProduct);
 

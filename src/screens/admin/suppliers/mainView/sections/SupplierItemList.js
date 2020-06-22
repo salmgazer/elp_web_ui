@@ -1,7 +1,6 @@
 import React, {useEffect} from 'react';
 import Grid from "@material-ui/core/Grid";
 import Avatar from "@material-ui/core/Avatar";
-import Woman from "../../../../../assets/img/woman.jpg";
 import paths from "../../../../../utilities/paths";
 import Typography from "@material-ui/core/Typography";
 import Paper from "@material-ui/core/Paper";
@@ -89,7 +88,7 @@ const SupplierItemList = (props) => {
         if(owedAmount === ''){
             getSuppliersOwed();
         }
-    }, []);
+    });
 
     const getSuppliersOwed = async () => {
         const response = await SupplierService.getSuppliedAmountOwed(supplier.orders() , supplier.payments());
@@ -101,9 +100,9 @@ const SupplierItemList = (props) => {
         setAddDialog(false);
     };
 
-    const openDialogHandler = () => {
-        setMainDialog(true);
-    };
+    // const openDialogHandler = () => {
+    //     setMainDialog(true);
+    // };
 
     const openSupplierDetails = (supplier) => {
         /*{/!*onClick={openDialogHandler}*!/}*/

@@ -350,6 +350,7 @@ export default class SaleService {
         );
 
         const day = new Date(date);
+        console.log(date);
 
         switch (duration) {
             case 'day':

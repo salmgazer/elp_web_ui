@@ -73,7 +73,7 @@ const AddBranch = props => {
     const { history } = props;
     const classes = useStyles();
     const [open, setOpen] = React.useState(false);
-    const [categories , setCategories] = useState([]);
+    const [categories ] = useState([]);
     const [value, setValue] = React.useState('wholesale');
     const formRef = React.createRef('form');
 

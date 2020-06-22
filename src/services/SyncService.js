@@ -1,7 +1,6 @@
 import {synchronize} from "@nozbe/watermelondb/sync";
 import LocalInfo from "./LocalInfo";
 import Api from "./Api";
-import {Q} from "@nozbe/watermelondb";
 import globalModels from '../models/globalModels';
 
 const apiUrl = 'https://core-api-dev.mystoreaid.net/v1/client';

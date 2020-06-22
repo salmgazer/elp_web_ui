@@ -51,7 +51,6 @@ const useStyles = makeStyles(theme => ({
 }));
 
 const AuditedProductsView = props => {
-    const quantity = props.pro_quantity;
     const [type, setType] = useState('all');
     const [isDrawerShow , setIsDrawerShow] = useState(false);
     const [successDialog, setSuccessDialog] = useState(false);

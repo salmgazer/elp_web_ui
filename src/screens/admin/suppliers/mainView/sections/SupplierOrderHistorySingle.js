@@ -9,7 +9,6 @@ import format from "date-fns/format";
 
 const SupplierOrderHistorySingle = (props) => {
     const { history } = props;
-    const [stock , setStock] = useState([]);
     const [stockSum , setStockSum] = useState('');
     const [owedAmount , setOwedAmount] = useState('');
     const order = props.order;
@@ -18,7 +17,7 @@ const SupplierOrderHistorySingle = (props) => {
         if(stockSum === ''){
             getStockDetails();
         }
-    }, []);
+    });
 
     const getStockDetails = async () => {
         //const response = await SupplierService.getSuppliedAmountOwed(branchSupplier.orders() , branchSupplier.payments());

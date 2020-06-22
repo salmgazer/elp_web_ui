@@ -79,7 +79,7 @@ const Drawer = props => {
             return;
         }
 
-        setState({ ['left']: open });
+        setState({ 'left': open });
     };
 
     const handleSyncClose = () => {

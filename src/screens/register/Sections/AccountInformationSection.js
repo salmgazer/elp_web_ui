@@ -93,8 +93,8 @@ const PasswordTextField = withStyles({
 export default function AccountInformationSection(props) {
     let history = useHistory();
     const PersonalInformationForm = useRef(null);
-    const [error , setError] = useState('none');
-    const [errorMsg , setErrorMsg] = useState('');
+    const [  setError] = useState('none');
+    const [ setErrorMsg] = useState('');
 
     const userFields = props.formData;
     const [showPassword, setShowPassword] = useState({

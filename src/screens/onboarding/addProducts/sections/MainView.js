@@ -58,10 +58,6 @@ const MainView = props => {
         props.finishAddProducts();
     };
 
-    const addedProductsViewHandler = event => {
-        props.setView(2);
-    };
-
     const openMenu = () => {
         const addedProducts = localStorage.getItem("branchProductsAdded") || "";
 

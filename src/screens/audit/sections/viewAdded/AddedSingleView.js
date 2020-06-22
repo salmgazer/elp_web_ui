@@ -3,7 +3,6 @@ import Card from "@material-ui/core/Card/Card";
 import Grid from "@material-ui/core/Grid/Grid";
 import DeleteIcon from '@material-ui/icons/Delete';
 import EditIcon from '@material-ui/icons/Edit';
-import CartService from "../../../../services/CartService";
 import ProductServiceHandler from "../../../../services/ProductServiceHandler";
 
 const AddedProductSingle = props => {
@@ -22,7 +21,7 @@ const AddedProductSingle = props => {
         if (!product) {
             getProduct();
         }
-    }, []);
+    });
 
     const getProduct = async () => {
         const newProduct = await props.product;

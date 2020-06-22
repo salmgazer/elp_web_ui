@@ -50,7 +50,7 @@ const QuantityInput = props => {
     };
 
     const decreaseQ = () => {
-        if(isNaN(quantity) || quantity.length <= 0 || quantity == 0)
+        if(isNaN(quantity) || quantity.length <= 0 || quantity === 0)
         {
             setQuantity(0);
             return;

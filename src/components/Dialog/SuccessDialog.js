@@ -5,7 +5,7 @@ import CheckCircleIcon from '@material-ui/icons/CheckCircle';
 import './successDialog.scss';
 
 export default function SuccessDialog(props) {
-    const [open, setOpen] = React.useState(props.states);
+    const [setOpen] = React.useState(props.states);
 
     // const handleClickOpen = () => {
     //     setOpen(true);

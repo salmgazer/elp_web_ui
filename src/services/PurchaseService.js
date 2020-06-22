@@ -47,6 +47,8 @@ export default class PurchaseService {
                 return purchases.filter(purchase => isSameMonth(fromUnixTime(purchase.stockDate), day));
             case 'year':
                 return purchases.filter(purchase => isSameYear(fromUnixTime(purchase.stockDate), day));
+            default :
+                return 'error';
         }
     }
 
@@ -69,6 +71,8 @@ export default class PurchaseService {
                 return purchases.filter(purchase => isSameMonth(fromUnixTime(purchase.stockDate), day));
             case 'year':
                 return purchases.filter(purchase => isSameYear(fromUnixTime(purchase.stockDate), day));
+            default :
+                return 'error';
         }
     }
 

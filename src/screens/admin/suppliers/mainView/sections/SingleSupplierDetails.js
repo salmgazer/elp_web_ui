@@ -1,11 +1,10 @@
-import React, {Fragment, useEffect, useState} from "react";
+import React, { useEffect, useState} from "react";
 import {Link, withRouter} from "react-router-dom";
 import Styles from '../../SupplierDetails.module.scss';
 import Grid from '@material-ui/core/Grid';
 import paths from "../../../../../utilities/paths";
 import CssBaseline from "@material-ui/core/CssBaseline/CssBaseline";
 import {makeStyles} from "@material-ui/core";
-import Paper from '@material-ui/core/Paper';
 import ButtonBase from '@material-ui/core/ButtonBase';
 import Woman from '../../../../../assets/img/woman.jpg';
 import Typography from "@material-ui/core/Typography";
@@ -13,7 +12,6 @@ import LocalInfo from '../../../../../services/LocalInfo';
 import Button from "@material-ui/core/Button/Button";
 import Box from "@material-ui/core/Box/Box";
 import ArrowBackIcon from "@material-ui/icons/ArrowBack";
-import CalendarIcon from "@material-ui/icons/CalendarTodayOutlined";
 import CallIcon from "@material-ui/icons/Call";
 import EditIcon from "@material-ui/icons/Edit";
 import ProductsIcon from "@material-ui/icons/Menu";
@@ -97,7 +95,7 @@ const SingleSupplierDetails = props => {
         if(supplier === ''){
             getSupplier();
         }
-    }, []);
+    });
 
     const getSupplier = async () => {
         const branchSupplier = ((props.branchSuppliers).filter((item) => item.id === (localStorage.getItem("supplierId"))))[0];

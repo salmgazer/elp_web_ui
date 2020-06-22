@@ -87,7 +87,7 @@ const WeekView = props => {
                         value={selectedWeek}
                         style={{width: '220px',  margin: '10px 0px', fontSize: '5px'}}
                         onChange={handleChange}
-                        color="#DAAB59"
+                        
                         SelectProps={{
                             native: true,
                         }}

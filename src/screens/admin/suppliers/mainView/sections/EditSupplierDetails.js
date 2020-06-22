@@ -210,7 +210,7 @@ const EditSupplierDetails = props => {
         if(supplier === ''){
             getSupplier();
         }
-    }, []);
+    });
 
     const getSupplier = async () => {
         const branchSupplier = ((props.branchSuppliers).filter((item) => item.id === (localStorage.getItem("supplierId"))))[0];
@@ -237,7 +237,7 @@ const EditSupplierDetails = props => {
         if(suppliersSearch.length === 0 ){
             getSuppliers();
         }
-    }, []);
+    });
 
     const getSuppliers = async () => {
         //console.log(await SupplierService.getSuppliers(entityTypes[0].entity))
@@ -249,10 +249,6 @@ const EditSupplierDetails = props => {
 
     const classes = useStyles();
     const [open, setOpen] = useState(false);
-
-    const handleClose = () => {
-        setOpen(false);
-    };
 
     const handleFormValidation = (result) => {
         props.isValid(result);
