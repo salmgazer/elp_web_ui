@@ -99,7 +99,12 @@ const SingleDayInvoice = props => {
                 <Grid item xs={4} style={{height: '60px', margin: '10px 0px 0px 0px' , float: 'right'}} onClick={openDialogHandler.bind(this)} >
                     <div style={{textAlign: 'right', display: 'table-cell', verticalAlign: 'middle'}}>
                         <div className="font-weight-bold mt-1" style={{ fontSize: '14px', float: 'right'}}>  {format(new Date(invoice.createdAt) , "h:mm a")}</div>
-                        <div className="font-weight-light mt-1" style={{ fontSize: '14px', color: 'green', float: 'right'}}> {payment}</div>
+                        {
+                            payment === 'Full payment' ?
+                                <div className="font-weight-light mt-1" style={{ fontSize: '14px', color: 'green', float: 'right'}}> {payment}</div>
+                            :
+                                <div className="font-weight-light mt-1" style={{ fontSize: '14px', color: 'red', float: 'right'}}> {payment}</div>
+                        }
                     </div>
                 </Grid>
 
