@@ -92,9 +92,9 @@ const PasswordTextField = withStyles({
 
 export default function AccountInformationSection(props) {
     let history = useHistory();
-    const PersonalInformationForm = useRef(null);
-    const [  setError] = useState('none');
-    const [ setErrorMsg] = useState('');
+    const AccountInformationForm = useRef(null);
+    const [ error, setError] = useState('none');
+    const [ errorMsg, setErrorMsg] = useState('');
 
     const userFields = props.formData;
     const [showPassword, setShowPassword] = useState({
@@ -255,6 +255,15 @@ export default function AccountInformationSection(props) {
         });
     });
 
+    useEffect(() => {
+        (
+            async function validateForm(){
+                //let newCategory = await new Api('business_categories').index();
+                props.isValid(await AccountInformationForm.current.isFormValid());
+            }
+        )();
+    }, []);
+
     const handleChange = (event) => {
         const { ...formData }  = formFields;
         formData[event.target.name] = event.target.value;
@@ -263,7 +272,7 @@ export default function AccountInformationSection(props) {
     };
 
     const handleFormValidation = async (result) => {
-        props.isValid(await PersonalInformationForm.current.isFormValid());
+        props.isValid(await AccountInformationForm.current.isFormValid());
     };
 
     const classes = useStyles();
@@ -275,7 +284,7 @@ export default function AccountInformationSection(props) {
     return (
         <Paper className={classes.paper}>
             <ValidatorForm
-                ref={PersonalInformationForm}
+                ref={AccountInformationForm}
                 onError={handleFormValidation}
                 className={classes.root}
                 instantValidate
@@ -325,7 +334,7 @@ export default function AccountInformationSection(props) {
                         errorMessages={['Password is a required field', 'The minimum length for password is 4']}
                         helperText=""
                         id="password"
-                        type={showPassword ? 'text' : 'password'}
+                        type={showPassword.showPassword ? 'text' : 'password'}
                         InputProps={{
                             endAdornment:
                                 <InputAdornment position="end">
@@ -352,7 +361,7 @@ export default function AccountInformationSection(props) {
                         name="passwordRepeat"
                         validatorListener={handleFormValidation}
                         id="passwordConfirm"
-                        type={showPassword ? 'text' : 'password'}
+                        type={showPassword.showPassword ? 'text' : 'password'}
                         value={formFields.passwordRepeat}
                         onChange={handleChange}
                         validators={['isPasswordMatch', 'required']}

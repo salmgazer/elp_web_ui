@@ -1,6 +1,5 @@
 import React, {useState} from 'react';
 import Grid from "@material-ui/core/Grid";
-import {makeStyles} from "@material-ui/core";
 import ProductCard from "../../../../components/Cards/ProductCard";
 import Typography from "@material-ui/core/Typography/Typography";
 import SearchInput from "../../../Components/Input/SearchInput";

@@ -30,6 +30,7 @@ const useStyles = makeStyles(theme => ({
 const CostInput = props => {
     const classes = useStyles();
     let value = props.initialValue;
+    const initialValue = parseFloat(props.initialValue) ? parseFloat(props.initialValue).toFixed(2) : '';
 
     const inputName = props.inputName;
     const [quantity , setQuantity] = useState(parseFloat(value) || '');
@@ -61,7 +62,7 @@ const CostInput = props => {
                         <InputBase
                             className={`${classes.input} search-box text-center`}
                             type="tel"
-                            value={value}
+                            value={quantity}
                             name={inputName}
                             onChange={(event) => setValueHandler(event)}
                         />

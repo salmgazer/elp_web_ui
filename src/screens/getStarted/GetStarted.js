@@ -1,9 +1,10 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import {makeStyles} from "@material-ui/core";
 import Container from '@material-ui/core/Container';
 import './GetStarted.scss';
 import ViewWelcome from "./sections/ViewWelcome";
 import ViewStore from "./sections/ViewStore";
+import { withRouter } from "react-router-dom";
 
 const useStyles = makeStyles(theme => ({
     root: {
@@ -12,11 +13,37 @@ const useStyles = makeStyles(theme => ({
 }));
 
 const GetStarted = props => {
-    const [isStore , setIsStore] = React.useState(false);
     const [activeStep , setActiveStep] = React.useState(0);
-
+    let currentPathname = null;
+    let currentSearch = null;
     //Temporary name for firstname for user..
     const username = localStorage.getItem('firstName');
+
+    /*
+    * Prevent user from going back
+    * */
+    useEffect(() => {
+        const { history } = props;
+
+        history.listen((newLocation, action) => {
+            if (action === "PUSH") {
+                if (
+                    newLocation.pathname !== currentPathname ||
+                    newLocation.search !== currentSearch
+                ) {
+                    currentPathname = newLocation.pathname;
+                    currentSearch = newLocation.search;
+
+                    history.push({
+                        pathname: newLocation.pathname,
+                        search: newLocation.search
+                    });
+                }
+            } else {
+                history.go(1);
+            }
+        });
+    }, []);
 
     //Steps to select category
     const getSteps = () => {
@@ -49,4 +76,4 @@ const GetStarted = props => {
     );
 };
 
-export default GetStarted;
+export default withRouter(GetStarted);
