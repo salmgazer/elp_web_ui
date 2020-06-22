@@ -23,6 +23,8 @@ import AuthService from '../../services/AuthService';
 import "./Register.scss";
 import SimpleSnackbar from "../../components/Snackbar/SimpleSnackbar";
 import PrimaryLoader from "../../components/Loader/Loader";
+import LocalInfo from "../../services/LocalInfo";
+import format from "date-fns/format";
 
 const useQontoStepIconStyles = makeStyles({
     root: {
@@ -240,6 +242,8 @@ const Register = props => {
             localStorage.setItem('userContact' , req.user.phone);
             localStorage.setItem('userOTP' , req.user.otp);
             localStorage.setItem('firstName' , req.user.firstName);
+            LocalInfo.setWorkingDate(format(new Date(), 'MM/dd/yyyy'));
+            localStorage.setItem('workingDate' , format(new Date(), 'MM/dd/yyyy'));
         }else{
             setLoading(false);
             await setErrorDialog(true);

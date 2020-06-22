@@ -127,8 +127,9 @@ class PrintRec extends React.Component {
                                 <td className={style.td}>Amount paid :</td>
                                 <td className={style.td}>{`GHC ${this.props.amtPaid}`}</td>
                             </tr>
+
                             {
-                                this.props.paymentType === 'credit' ? (
+                                parseFloat(this.props.totalAmt) > parseFloat(this.props.amtPaid) ? (
                                     <tr>
                                         <td className={style.td}>Outstanding :</td>
                                         <td className={style.td}>GHC {(parseFloat(this.props.totalAmt) - parseFloat(this.props.amtPaid)).toFixed(2)}</td>

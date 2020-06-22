@@ -118,7 +118,7 @@ export default function CustomerListDrawer(props) {
 
             <List style={{marginBottom: '55px', color: '#000000' , backgroundColor: '#ffffff'}}>
 
-                {
+                {/*{
                     searchValue.search === '' ?
                         <>
                             <ListItem key={0} onClick={changeCustomerHandler.bind(this, 0)}>
@@ -128,7 +128,7 @@ export default function CustomerListDrawer(props) {
                         </>
                         :
                         ''
-                }
+                }*/}
 
                 {
                     (props.customers).map((customer) => (

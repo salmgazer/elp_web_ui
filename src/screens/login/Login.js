@@ -24,6 +24,9 @@ import SyncService from "../../services/SyncService";
 import IconButton from "@material-ui/core/IconButton/IconButton";
 import Visibility from '@material-ui/icons/Visibility';
 import VisibilityOff from '@material-ui/icons/VisibilityOff';
+import database from "../../models/database";
+import CustomerService from "../../services/CustomerService";
+import SaleService from "../../services/SaleService";
 
 const useStyles = makeStyles(theme => ({
     root: {
@@ -114,10 +117,13 @@ const Login = props => {
             * push user details to watermelon...
             * */
             const userAccess = JSON.parse(LocalInfo.userAccess);
-            console.log(userAccess);
+
             const companyId = LocalInfo.companyId;
             const userId = userAccess.user.userId;
             await SyncService.sync(companyId, LocalInfo.branchId, userId, database);
+            const activeCustomer = await CustomerService.getCashCustomer();
+            await database.adapter.setLocal("activeCustomer" , activeCustomer[0].id);
+            await SaleService.makeSellLegit();
             console.log("DONE SYNCING");
 
             history.push(paths.firstView)

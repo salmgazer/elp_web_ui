@@ -19,6 +19,7 @@ export default class SaleReturnHistories extends Model {
     @field('productId') productId;
     @field('createdBy') createdBy;
     @field('quantity') quantity;
+    @field('returnDate') returnDate;
     @relation('sales', 'saleId') sale;
     @relation('branches_products', 'branchProductId') branchProduct;
     @readonly @date('created_at') createdAt;

@@ -16,14 +16,15 @@ import SaleService from "../../../services/SaleService";
 import {confirmAlert} from "react-confirm-alert";
 import ModelAction from "../../../services/ModelAction";
 import paths from "../../../utilities/paths";
+import CustomerService from "../../../services/CustomerService";
 
 class Sell extends Component {
     constructor(props){
         super(props);
         this.state = {
             isDrawerShow: false,
-            salesMade: 175,
-            profitMade: 50,
+            salesMade: 0,
+            profitMade: 0,
             activeStep: 0,
             spCount: 0,
             productList: [],
@@ -80,7 +81,7 @@ class Sell extends Component {
             case 0:
                 return <SellView addToCart={this.addProductToCartHandler.bind(this)} undoProductAdd={this.undoProductAddHandler.bind(this)} salesTodayDetails={this.state.salesTodayDetails} branchProducts={this.state.branchProducts} searchHandler={this.searchHandler.bind(this)} productAdd={this.showAddView.bind(this)} spCount={this.state.spCount} savedCartCount={this.state.savedCart.length} salesMade={this.state.salesMade} profitMade={this.state.profitMade} searchBarcode={this.searchBarcode.bind(this)} setView={this.setStepContentView.bind(this)} />;
             case 1:
-                return <AddProductCart undoProductAdd={this.undoProductAddHandler.bind(this)} currentCustomer={this.state.currentCustomer} setCustomerHandler={this.setSavedCartCustomerHandler.bind(this)} customers={this.state.customers} addToCart={this.addProductToCartHandler.bind(this)} setView={this.setStepContentView.bind(this)} product={this.state.currentProduct} spCount={this.state.spCount} salesMade={this.state.salesMade} profitMade={this.state.profitMade}/>;
+                return <AddProductCart undoProductAdd={this.undoProductAddHandler.bind(this)} currentCustomer={this.state.currentCustomer} searchCustomerHandler={this.searchCustomerHandler.bind(this)} setCustomerHandler={this.setSavedCartCustomerHandler.bind(this)} customers={this.state.customers} addToCart={this.addProductToCartHandler.bind(this)} setView={this.setStepContentView.bind(this)} product={this.state.currentProduct} spCount={this.state.spCount} salesMade={this.state.salesMade} profitMade={this.state.profitMade}/>;
             case 2:
                 return <SavedCart continueSavedCartHandler={this.continueSavedCartHandler.bind(this)} searchSavedCart={this.searchSavedCartHandler.bind(this)} setView={this.setStepContentView.bind(this)} carts={this.state.savedCart} />;
             default:
@@ -97,6 +98,18 @@ class Sell extends Component {
         });
     };
 
+    async searchCustomerHandler(value) {
+        try {
+            const results = await new CustomerService().searchBranchCustomer(value);
+
+            this.setState({
+                customers: results
+            })
+        }catch (e) {
+            console.log(e)
+        }
+    }
+
     /*
     *Add product to cart
     * */
@@ -105,7 +118,12 @@ class Sell extends Component {
     };
 
     setSavedCartCustomerHandler = async(customer) => {
-        await database.adapter.setLocal("activeCustomer" , customer);
+        await new CartService().setCustomer(customer);
+
+        this.setState({
+            customers: this.props.branchCustomers,
+            currentCustomer: customer
+        })
     };
 
     deleteProduct = async (pId) => {

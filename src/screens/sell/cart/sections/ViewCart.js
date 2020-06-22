@@ -17,6 +17,7 @@ import ArrowBackIcon from '@material-ui/icons/ArrowBack';
 import {confirmAlert} from "react-confirm-alert";
 import ModelAction from "../../../../services/ModelAction";
 import CustomerListDrawer from "../../../../components/Drawer/CustomerListDrawer/CustomerListDrawer";
+import CustomerService from "../../../../services/CustomerService";
 
 const useStyles = makeStyles(theme => ({
     root: {
@@ -72,7 +73,7 @@ const CartView = props => {
 
 
     const openDialogHandler = async() => {
-        if(props.currentCustomer === 0){
+        if(props.currentCustomer === (await CustomerService.getCashCustomer())[0].id){
             setIsSaveCart(true);
             setIsShowerCustomerDrawer(true);
         }else{
@@ -226,7 +227,7 @@ const CartView = props => {
                 className={classes.button}
                 onClick={getCustomerDialog.bind(this)}
             >
-                {props.currentCustomer === 0 ? <PersonAddIcon /> : ''}
+                {customerName === 'Cash Customer' ? <PersonAddIcon /> : ''}
                 {customerName}
             </Button>
 

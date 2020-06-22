@@ -16,6 +16,7 @@ import CustomerService from "../../../../services/CustomerService";
 import AddCustomerModal from "../../../../components/Modal/Customer/AddCustomerModal";
 import CartService from "../../../../services/CartService";
 import SwapHorizOutlinedIcon from '@material-ui/icons/SwapHorizOutlined';
+import CustomerListDrawer from "../../../../components/Drawer/CustomerListDrawer/CustomerListDrawer";
 
 const useStyles = makeStyles(theme => ({
     root: {
@@ -56,8 +57,10 @@ const AddProductCart = props => {
     const [totalPrice , setTotalPrice] = useState(0);
     const [sellingPrice , setSellingPrice] = useState(branchProduct.sellingPrice);
     const [costPrice , setCostPrice] = useState(0);
-    const [mainDialog, setMainDialog] = React.useState(false);
-    const [addDialog, setAddDialog] = React.useState(false);
+    const [isShowerCustomerDrawer , setIsShowerCustomerDrawer] = useState(false);
+    const [isSaveCart , setIsSaveCart] = useState(false);
+    const [success , setSuccess] = useState(false);
+    const [successMsg , setSuccessMsg] = useState('');
 
     const [formFields , setFormFields] = useState({
         quantity: 1,
@@ -202,14 +205,15 @@ const AddProductCart = props => {
     * @todo validation for all numeric fields
     * */
     const openDialogHandler = async() => {
-        if(props.currentCustomer === 0){
-            setMainDialog(true);
+        if(props.currentCustomer === (await CustomerService.getCashCustomer())[0].id){
+            setIsSaveCart(true);
+            setIsShowerCustomerDrawer(true);
         }else{
             const response = await new CartService().suspendCart();
 
             if (response) {
-                setErrorMsg('Cart saved');
-                setError(true);
+                setSuccessMsg('Cart saved');
+                setSuccess(true);
                 setTimeout(function(){
                     props.setView(0);
                     setError(false);
@@ -218,18 +222,13 @@ const AddProductCart = props => {
                 setErrorMsg('Cart was not saved. Please try again');
                 setError(true);
                 setTimeout(function(){
-                    props.setView(0);
                     setError(false);
                 }, 3000);
             }
         }
     };
 
-    const openAddDialog = (event) => {
-        setAddDialog(true);
-    };
-
-    const setCustomerHandler = async (customer) => {
+    /*const setCustomerHandler = async (customer) => {
         props.setCustomerHandler(customer);
         const response = await new CartService().suspendCart();
 
@@ -247,15 +246,20 @@ const AddProductCart = props => {
                 setError(false);
             }, 3000);
         }
+    };*/
+
+    const setCustomerHandler = (customer) => {
+        props.setCustomerHandler(customer);
+        setIsShowerCustomerDrawer(false);
+        if(isSaveCart){
+            openDialogHandler();
+        }
     };
 
-    const setAddCustomerHandler = async() => {
-        const lastCustomer = await new CustomerService().getLastCustomer();
-        props.setCustomerHandler(lastCustomer.id);
-        setAddDialog(false);
-        setMainDialog(false);
-        props.setView(1);
+    const setSearchValue = (value) => {
+        props.searchCustomerHandler(value);
     };
+
 
     return (
         <div>
@@ -270,24 +274,24 @@ const AddProductCart = props => {
             </SimpleSnackbar>
 
             <SimpleSnackbar
+                type="success"
+                openState={success}
+                message={successMsg}
+            />
+
+            <SimpleSnackbar
                 type="warning"
                 openState={error}
                 message={errorMsg}
             >
             </SimpleSnackbar>
 
-            <CustomersModal
-                customers={props.customers}
-                openState={mainDialog}
+            <CustomerListDrawer
+                handleClose={() => setIsShowerCustomerDrawer(false)}
                 setCustomer={setCustomerHandler.bind(this)}
-                handleClose={() => setMainDialog(false)}
-                openAddCustomerModal={openAddDialog.bind(this)}
-            />
-
-            <AddCustomerModal
-                openCustomerAddState={addDialog}
-                setCustomer={setAddCustomerHandler.bind(this)}
-                handleClose={() => setAddDialog(false)}
+                customers={props.customers}
+                isShow={isShowerCustomerDrawer}
+                searchCustomerHandler={setSearchValue.bind(this)}
             />
 
             <div className={`p-3 bg-white mx-0 shadow`}>

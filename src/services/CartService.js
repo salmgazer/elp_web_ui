@@ -13,13 +13,15 @@ export default class CartService {
     async cartId() {
         if(!await database.adapter.getLocal("cartId")){
             const dataCollection = database.collections.get(Carts.table);
+            const activeCustomer = (await CustomerService.getCashCustomer())[0];
+
             await database.action(async () => {
                 const newCart = await dataCollection.create(cart => {
                     cart.discount = 0;
                     cart.branchId = LocalInfo.branchId;
                     cart.cartDate =  getUnixTime(new Date(LocalInfo.workingDate));
                     cart.status = 'active';
-                    cart.customerId = "0";
+                    cart.customerId = activeCustomer.id;
                     cart.createdBy = LocalInfo.userId;
                     cart._raw.id = uuid()
                 });
@@ -298,10 +300,12 @@ export default class CartService {
     async suspendCart(){
         const customerId = await database.adapter.getLocal("activeCustomer");
         const cartId = await database.adapter.getLocal("cartId");
+        const activeCustomer = (await CustomerService.getCashCustomer())[0];
 
-        if(customerId === 0){
+        if(customerId === await CustomerService.getCashCustomer()){
             return false;
         }
+
         const dataCollection = await database.collections.get(Carts.table).find(cartId);
 
         try {

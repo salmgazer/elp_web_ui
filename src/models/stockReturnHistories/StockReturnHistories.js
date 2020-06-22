@@ -19,6 +19,7 @@ export default class StockReturnHistories extends Model {
     @field('productId') productId;
     @field('createdBy') createdBy;
     @field('quantity') quantity;
+    @field('returnDate') returnDate;
     @relation('branches_products_stocks', 'branchProductStockId') branchStock;
     @relation('branches_products', 'branchProductId') branchProduct;
     @readonly @date('created_at') createdAt;

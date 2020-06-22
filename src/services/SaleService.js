@@ -23,6 +23,7 @@ import lastDayOfYear from "date-fns/lastDayOfYear";
 import eachMonthOfInterval from "date-fns/eachMonthOfInterval";
 import * as Q from "@nozbe/watermelondb/QueryDescription";
 import SaleEntries from "../models/saleEntry/SaleEntries";
+import CustomerService from "./CustomerService";
 
 export default class SaleService {
     async makeSell(data , paymentType){
@@ -49,10 +50,13 @@ export default class SaleService {
 
             try {
                 await SaleService.importCartToSales(cartId , sale);
+
                 await SaleService.makePayment(sale , data);
                 await new ModelAction('Carts').destroy(cartId);
 
-                await database.adapter.removeLocal("activeCustomer");
+                const activeCustomer = (await CustomerService.getCashCustomer())[0];
+
+                await database.adapter.setLocal("activeCustomer" , activeCustomer.id);
                 await database.adapter.removeLocal("cartId");
                 localStorage.removeItem("cartId");
 
@@ -64,6 +68,24 @@ export default class SaleService {
         } catch (e) {
             return e;
         }
+    }
+
+    /*
+    * @todo clear after testing
+    * */
+    static async makeSellLegit(){
+        const sales = await new ModelAction('Sales').indexNotObserve();
+        const customerId = (await CustomerService.getCashCustomer())[0].id;
+
+        for (let i = 0; i < sales.length; i++){
+            if(sales[i].customerId == "0"){
+                await new ModelAction('Sales').update(sales[i].id , {
+                    customerId: customerId
+                })
+            }
+        }
+
+        console.log('done')
     }
 
     static getPaymentType(paymentType){
@@ -84,13 +106,14 @@ export default class SaleService {
     }
 
     static async makePayment(sales , data){
+        console.log(sales , data)
         localStorage.setItem('amountPaid' , data.amountPaid);
         const salePaymentColumns = {
             saleId: sales.id,
             customerId: sales.customerId,
             branchId: LocalInfo.branchId,
             createdBy: LocalInfo.userId,
-            type: data.type,
+            type: SaleService.getPaymentType(data.type),
             amount: data.changeDue >= 0 ? parseFloat(data.amountPaid - data.changeDue) : parseFloat(data.amountPaid),
         };
 
@@ -566,6 +589,7 @@ export default class SaleService {
             sale = await SaleService.yearSalesFormat(sale , date);
         }
 
+        console.log(sale)
         return {
             sales: sale.reverse(),
             costPrice: costPrice.toFixed(2),
