@@ -39,13 +39,23 @@ const useStyles = makeStyles(theme => ({
         // You need to restrict it at some point
         // This is just dummy code and should be replaced by actual
           if (!saleDetails) {
-              getSaleDetails(selectedMonth);
+              let activeHistoryIndex = localStorage.getItem("activeHistoryIndex") || '';
+              //console.log(activeHistoryIndex)
+
+              if(activeHistoryIndex){
+                setSelectedMonth(activeHistoryIndex);
+                getSaleDetails(activeHistoryIndex);
+                localStorage.removeItem("activeHistoryIndex")
+              }else{
+                getSaleDetails(selectedMonth);
+              }
           }
       });
 
     const getSaleDetails = async (date) => {
         console.log(date);
         let response = [];
+        //let activeHistoryIndex = '';
 
         if (pageName === true){
             const branchProduct = props.product[0];
@@ -59,7 +69,10 @@ const useStyles = makeStyles(theme => ({
 
         setSaleDetails(response);
         setSales(response.sales);
-        console.log(response)
+    };
+
+    const getChildrenDetails = (index) => {
+        props.getChildrenView(index , 2)
     };
 
     return(
@@ -123,10 +136,17 @@ const useStyles = makeStyles(theme => ({
                     :
                     pageName === false ?
 
-                    sales.map((sale , index) => <SingleMonthView  key={index} sale={sale} />)
+                    sales.map((sale , index) =>
+                        <div onClick={getChildrenDetails.bind(this, sale.index)}>
+                            <SingleMonthView  key={index} sale={sale} />
+                        </div>
+                    )
                     :
-                    sales.map((sale , index) => <ProductMonth  key={index} sale={sale} prodName={name} />)
-
+                    sales.map((sale , index) =>
+                        <div onClick={getChildrenDetails.bind(this, sale.index)}>
+                            <ProductMonth  key={index} sale={sale} prodName={name} />
+                        </div>
+                    )
                 }
             </Box>
             {/* <Box style={{marginTop: '5px' , paddingBottom: '60px'}} p={1} className={`mt-3 mb-5`}>

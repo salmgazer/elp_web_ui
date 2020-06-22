@@ -45,7 +45,6 @@ const useStyles = makeStyles(theme => ({
       });
 
     const getSaleDetails = async (date) => {
-        console.log(date);
         let response = [];
 
         if (pageName === true){
@@ -60,14 +59,14 @@ const useStyles = makeStyles(theme => ({
 
         setSaleDetails(response);
         setSales(response.sales);
-        console.log(response)
     };
 
+    const getChildrenDetails = (index) => {
+        props.getChildrenView(index , 3)
+    };
 
     return(
         <div className={classes.root}>
-
-
             <Grid container spacing={1}>
                 <Grid item xs={6} >
                     <Typography
@@ -125,9 +124,17 @@ const useStyles = makeStyles(theme => ({
                     :
                     pageName === false ?
 
-                    sales.map((sale , index) => <SingleYearView  key={index} sale={sale} />)
+                    sales.map((sale , index) =>
+                        <div onClick={getChildrenDetails.bind(this, sale.index)}>
+                            <SingleYearView  key={index} sale={sale} />
+                        </div>
+                    )
                     :
-                    sales.map((sale , index) => <ProductYear  key={index} sale={sale} prodName={name} />)
+                    sales.map((sale , index) =>
+                        <div onClick={getChildrenDetails.bind(this, sale.index)}>
+                            <ProductYear  key={index} sale={sale} prodName={name} />
+                        </div>
+                    )
 
                 }
             </Box>

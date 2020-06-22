@@ -18,6 +18,8 @@ import SimpleSnackbar from "../../../../components/Snackbar/SimpleSnackbar";
 import {confirmAlert} from "react-confirm-alert";
 import ModelAction from "../../../../services/ModelAction";
 import getUnixTime from "date-fns/getUnixTime";
+import startOfWeek from "date-fns/startOfWeek";
+import format from "date-fns/format";
 
 const useStyles = makeStyles(theme => ({
     root: {
@@ -47,7 +49,15 @@ const DayView = props => {
     // You need to restrict it at some point
     // This is just dummy code and should be replaced by actual
         if (!saleDetails) {
-            getSaleDetails(selectedDate);
+            let activeHistoryIndex = localStorage.getItem("activeHistoryIndex") || '';
+
+            if(activeHistoryIndex){
+                setSelectedDate(activeHistoryIndex)
+                getSaleDetails(activeHistoryIndex);
+                localStorage.removeItem("activeHistoryIndex")
+            }else{
+                getSaleDetails(selectedDate);
+            }
         }
     });
 

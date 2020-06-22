@@ -16,7 +16,6 @@ import Audits from "../../models/audit/Audit";
 import AuditHistory from './sections/AuditHistory';
 import AuditHistoryDetails from './sections/AuditHistoryDetails';
 import GetStartedAudit from "./getStarted/getStartedAudit";
-import CartService from "../../services/CartService";
 
 class Audit extends Component {
     constructor(props){

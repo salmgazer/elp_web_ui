@@ -11,6 +11,8 @@ import ProductWeek from './productViews/ProductWeek';
 import CardsSection from '../../../../components/Sections/CardsSection';
 import SystemDateHandler from "../../../../services/SystemDateHandler";
 import SaleService from "../../../../services/SaleService";
+import startOfWeek from 'date-fns/startOfWeek';
+import format from "date-fns/format";
 
 const useStyles = makeStyles(theme => ({
     root: {
@@ -41,7 +43,19 @@ const WeekView = props => {
       // You need to restrict it at some point
       // This is just dummy code and should be replaced by actual
         if (!saleDetails) {
-            getSaleDetails(selectedWeek);
+            let activeHistoryIndex = localStorage.getItem("activeHistoryIndex") || '';
+
+            if(activeHistoryIndex){
+                const newDate = startOfWeek(
+                    new Date(activeHistoryIndex) ,
+                    { weekStartsOn: 1 }
+                );
+                setSelectedWeek(format(newDate, 'MM/dd/yyyy'));
+                getSaleDetails(activeHistoryIndex);
+                localStorage.removeItem("activeHistoryIndex")
+            }else{
+                getSaleDetails(selectedWeek);
+            }
         }
     });
 
@@ -64,6 +78,9 @@ const WeekView = props => {
         console.log(response)
     };
 
+    const getChildrenDetails = (index) => {
+        props.getChildrenView(index , 0)
+    };
 
     return(
         <div className={classes.root}>
@@ -87,7 +104,7 @@ const WeekView = props => {
                         value={selectedWeek}
                         style={{width: '220px',  margin: '10px 0px', fontSize: '5px'}}
                         onChange={handleChange}
-                        
+
                         SelectProps={{
                             native: true,
                         }}
@@ -128,10 +145,17 @@ const WeekView = props => {
 
                     pageName === false ?
 
-                    sales.map((sale , index) => <SingleWeekView  key={index} sale={sale} />)
+                    sales.map((sale , index) =>
+                        <div onClick={getChildrenDetails.bind(this, sale.index)}>
+                            <SingleWeekView  key={index} sale={sale} />
+                        </div>
+                    )
                     :
-                    sales.map((sale , index) => <ProductWeek  key={index} sale={sale} prodName={name} />)
-
+                    sales.map((sale , index) =>
+                        <div onClick={getChildrenDetails.bind(this, sale.index)}>
+                            <ProductWeek  key={index} sale={sale} prodName={name} />
+                        </div>
+                    )
                 }
             </Box>
 

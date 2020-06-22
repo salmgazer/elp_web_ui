@@ -138,11 +138,11 @@ export default class PurchaseService {
         for (let i = 0; i < weeksInMonth.length; i++) {
             const startDate = format(startOfWeek(weeksInMonth[i] , { weekStartsOn: 1 }), 'MM/dd/yyyy');
             let lastDate = '';
-            if(weeksInMonth.length !== i + 1){
+            //if(weeksInMonth.length !== i + 1){
                 lastDate = format(endOfWeek(weeksInMonth[i] , { weekStartsOn: 1 }), 'MM/dd/yyyy');
-            }else{
+            /*}else{
                 lastDate = `${format(monthEnd, 'MM/dd/yyyy')}`;
-            }
+            }*/
             let week = getWeekOfMonth(weeksInMonth[i]);
 
             week = `Week ${week} : ${startDate} - ${lastDate}`;
@@ -158,11 +158,11 @@ export default class PurchaseService {
 
             const sameMonth = isSameMonth(new Date(startDate), new Date(lastDate));
 
-            if(sameMonth){
+            //if(sameMonth){
                 lastDate = format(endOfWeek(day , { weekStartsOn: 1 }), 'MM/dd/yyyy');
-            }else{
+            /*}else{
                 lastDate = `${format(monthEnd, 'MM/dd/yyyy')}`;
-            }
+            }*/
 
             let week = getWeekOfMonth(day);
 
