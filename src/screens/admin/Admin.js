@@ -15,6 +15,9 @@ import SectionNavbars from "../../components/Sections/SectionNavbars";
 import Drawer from "../../components/Drawer/Drawer";
 import MenuIcon from '@material-ui/icons/Menu';
 import LocalInfo from "../../services/LocalInfo";
+import Collapse from '@material-ui/core/Collapse';
+import ExpandLess from '@material-ui/icons/ExpandLess';
+import ExpandMore from '@material-ui/icons/ExpandMore';
 
 const useStyles = makeStyles(theme => ({
     root: {
@@ -60,6 +63,21 @@ const useStyles = makeStyles(theme => ({
 const Admin = props => {
     const classes = useStyles();
     const [isDrawerShow , setIsDrawerShow] = useState(false);
+    const [openShop, setOpenShop] = React.useState(false);
+    const [openStock, setOpenStock] = React.useState(false);
+    const [openEmp, setOpenEmp] = React.useState(false);
+
+    const handleClickShop = () => {
+        setOpenShop(!openShop);
+    };
+
+    const handleClickStock = () => {
+        setOpenStock(!openStock);
+    };
+
+    const handleClickEmp= () => {
+        setOpenEmp(!openEmp);
+    };
 
     const { history } = props;
 
@@ -135,210 +153,226 @@ const Admin = props => {
 
                             </Paper>
                             <Grid container spacing={2}>
-                                <Grid item xs={12} sm container style={{borderBottom: "1px solid #d8d2d2" , paddingBottom: "0px"}}>
-                                    <Grid item xs container direction="column" style={{textAlign: "left", marginLeft: "5%" , marginTop: "10px" , paddingBottom: "0px"}}>
+                                
+                                <Grid item xs={10} sm style={{borderBottom: "1px solid #d8d2d2" , paddingBottom: "0px"}} >
+                                    <Grid item xs  direction="column"  style={{textAlign: "left" , marginLeft: "5%" , marginTop: "15px" , paddingBottom: "0px"}}>
                                         <Typography style={{fontSize: "1rem" , fontWeight: "600"}}>
                                             Shop Information
-                                        </Typography>
+                                        </Typography>                                      
                                     </Grid>
-
                                 </Grid>
-                                <Grid container style={{paddingTop: "7px"}}>
-                                    <Grid item xs={2} sm>
+                                <Grid item xs={2} sm style={{borderBottom: "1px solid #d8d2d2" , paddingBottom: "0px"}}>
+                                    <div className={Styles.centered}>
+                                        {/* <ArrowForwardIosIcon  style={{fontSize: '0.9rem'}} onClick={() => history.push(paths.expense)}/> */}
+                                        {openShop ? <ExpandLess onClick={handleClickShop} style={{marginTop: '10px'}} /> : <ExpandMore onClick={handleClickShop} style={{marginTop: '10px'}} />}
+                                    </div>
+                                </Grid>
 
-                                    </Grid>
-                                    <Grid item xs={8} sm container style={{borderBottom: "1px solid #d8d2d2" }}>
-                                        <Grid item xs container direction="column" spacing={2} style={{textAlign: "left" , paddingLeft: "2px"}}>
-                                            <Grid item xs>
-                                                <Typography className="menu-item" style={{fontSize: "0.9rem" , fontWeight: "500"}}>
-                                                    Add shop
-                                                </Typography>
+                                <Collapse in={openShop} timeout="auto" unmountOnExit style={{width: '100%'}}>
+                                    <Grid container style={{paddingTop: "7px"}}>
+                                        <Grid item xs={2} sm />
+
+                                        <Grid item xs={8} sm container style={{borderBottom: "1px solid #d8d2d2" }}>
+                                            <Grid item xs container direction="column" spacing={2} style={{textAlign: "left" , paddingLeft: "2px"}}>
+                                                <Grid item xs>
+                                                    <Typography className="menu-item" style={{fontSize: "0.9rem" , fontWeight: "500"}}>
+                                                        Add shop
+                                                    </Typography>
+                                                </Grid>
                                             </Grid>
                                         </Grid>
-                                    </Grid>
-                                    <Grid item xs={2} sm style={{borderBottom: "1px solid #d8d2d2"}}>
-                                        <div className={Styles.centered}>
-                                             <ArrowForwardIosIcon  style={{fontSize: '0.9rem'}} onClick={() => history.push(paths.add_branch)}/>
-
-                                        </div>
-                                    </Grid>
-
-                                </Grid>
-
-                                <Grid container style={{paddingTop: "7px"}}>
-                                    <Grid item xs={2} sm>
+                                        <Grid item xs={2} sm style={{borderBottom: "1px solid #d8d2d2"}}>
+                                            <div className={Styles.centered}>
+                                                <ArrowForwardIosIcon  style={{fontSize: '0.9rem'}} onClick={() => history.push(paths.add_branch)}/>
+                                            </div>
+                                        </Grid>
 
                                     </Grid>
-                                    <Grid item xs={8} sm container style={{borderBottom: "1px solid #d8d2d2" }}>
-                                        <Grid item xs container direction="column" spacing={2} style={{textAlign: "left" , paddingLeft: "2px"}}>
-                                            <Grid item xs>
-                                                <Typography className="menu-item" style={{fontSize: "0.9rem" , fontWeight: "500"}}>
-                                                    Add warehouse
-                                                </Typography>
+
+                                    <Grid container style={{paddingTop: "7px"}}>
+                                        <Grid item xs={2} sm>
+
+                                        </Grid>
+                                        <Grid item xs={8} sm container style={{borderBottom: "1px solid #d8d2d2" }}>
+                                            <Grid item xs container direction="column" spacing={2} style={{textAlign: "left" , paddingLeft: "2px"}}>
+                                                <Grid item xs>
+                                                    <Typography className="menu-item" style={{fontSize: "0.9rem" , fontWeight: "500"}}>
+                                                        Add warehouse
+                                                    </Typography>
+                                                </Grid>
                                             </Grid>
                                         </Grid>
-                                    </Grid>
-                                    <Grid item xs={2} sm style={{borderBottom: "1px solid #d8d2d2"}}>
-                                        <div className={Styles.centered}>
-                                            <ArrowForwardIosIcon  style={{fontSize: '0.9rem'}} onClick={() => history.push(paths.add_warehouse)}/>
+                                        <Grid item xs={2} sm style={{borderBottom: "1px solid #d8d2d2"}}>
+                                            <div className={Styles.centered}>
+                                                <ArrowForwardIosIcon  style={{fontSize: '0.9rem'}} onClick={() => history.push(paths.add_warehouse)}/>
 
-                                        </div>
-                                    </Grid>
-
-                                </Grid>
-
-                                <Grid container style={{paddingTop: "7px"}}>
-                                    <Grid item xs={2} sm>
+                                            </div>
+                                        </Grid>
 
                                     </Grid>
-                                    <Grid item xs={8} sm container>
-                                        <Grid item xs container direction="column" spacing={2} style={{textAlign: "left" , paddingLeft: "2px"}}>
-                                            <Grid item xs>
-                                                <Typography className="menu-item" style={{fontSize: "0.9rem" , fontWeight: "500"}}>
-                                                   Change store information
-                                                </Typography>
+
+                                    <Grid container style={{paddingTop: "7px"}}>
+                                        <Grid item xs={2} sm>
+
+                                        </Grid>
+                                        <Grid item xs={8} sm container>
+                                            <Grid item xs container direction="column" spacing={2} style={{textAlign: "left" , paddingLeft: "2px"}}>
+                                                <Grid item xs>
+                                                    <Typography className="menu-item" style={{fontSize: "0.9rem" , fontWeight: "500"}}>
+                                                    Change store information
+                                                    </Typography>
+                                                </Grid>
                                             </Grid>
                                         </Grid>
+                                        <Grid item xs={2} sm>
+                                            <div className={Styles.centered}>
+                                                <ArrowForwardIosIcon  style={{fontSize: '0.9rem'}} onClick={() => history.push(paths.change_store_info)}/>
+
+                                            </div>
+                                        </Grid>
                                     </Grid>
-                                    <Grid item xs={2} sm>
-                                        <div className={Styles.centered}>
-                                            <ArrowForwardIosIcon  style={{fontSize: '0.9rem'}} onClick={() => history.push(paths.change_store_info)}/>
+                                </Collapse>     
 
-                                        </div>
-                                    </Grid>
-
-                                </Grid>
-
-
-                                <Grid item xs={12} sm container style={{borderBottom: "1px solid #d8d2d2" , borderTop: "1px solid #d8d2d2" , paddingBottom: "0px"}}>
+                                <Grid item xs={10} sm style={{borderBottom: "1px solid #d8d2d2" , borderTop: "1px solid #d8d2d2" , paddingBottom: "0px"}}>
                                     <Grid item xs container direction="column" style={{textAlign: "left", marginLeft: "5%" , marginTop: "6px" , paddingBottom: "0px"}}>
                                         <Typography style={{fontSize: "1rem" , fontWeight: "600"}}>
                                             Stock
                                         </Typography>
                                     </Grid>
-
                                 </Grid>
-                                <Grid container style={{paddingTop: "7px"}}>
-                                    <Grid item xs={2} sm>
+                                <Grid item xs={2} sm style={{borderBottom: "1px solid #d8d2d2" , borderTop: "1px solid #d8d2d2" , paddingBottom: "0px"}}>
+                                    <div className={Styles.centered}>
+                                        {/* <ArrowForwardIosIcon  style={{fontSize: '0.9rem'}} onClick={() => history.push(paths.expense)}/> */}
+                                        {openStock ? <ExpandLess onClick={handleClickStock}  /> : <ExpandMore onClick={handleClickStock}  />}
+                                    </div>
+                                </Grid>
 
-                                    </Grid>
-                                    <Grid item xs={8} sm container style={{borderBottom: "1px solid #d8d2d2" }}>
-                                        <Grid item xs container direction="column" spacing={2} style={{textAlign: "left" , paddingLeft: "2px"}}>
-                                            <Grid item xs>
-                                                <Typography className="menu-item" style={{fontSize: "0.9rem" , fontWeight: "500"}}>
-                                                    Change prices
-                                                </Typography>
+                                <Collapse in={openStock} timeout="auto" unmountOnExit style={{width: '100%'}}>
+                                    <Grid container style={{paddingTop: "7px"}}>
+                                        <Grid item xs={2} sm>
+
+                                        </Grid>
+                                        <Grid item xs={8} sm container style={{borderBottom: "1px solid #d8d2d2" }}>
+                                            <Grid item xs container direction="column" spacing={2} style={{textAlign: "left" , paddingLeft: "2px"}}>
+                                                <Grid item xs>
+                                                    <Typography className="menu-item" style={{fontSize: "0.9rem" , fontWeight: "500"}}>
+                                                        Change prices
+                                                    </Typography>
+                                                </Grid>
                                             </Grid>
                                         </Grid>
-                                    </Grid>
-                                    <Grid item xs={2} sm style={{borderBottom: "1px solid #d8d2d2"}}>
-                                        <div className={Styles.centered}>
-                                            <ArrowForwardIosIcon  style={{fontSize: '0.9rem'}} onClick={() => history.push(paths.change_price)}/>
+                                        <Grid item xs={2} sm style={{borderBottom: "1px solid #d8d2d2"}}>
+                                            <div className={Styles.centered}>
+                                                <ArrowForwardIosIcon  style={{fontSize: '0.9rem'}} onClick={() => history.push(paths.change_price)}/>
 
-                                        </div>
-                                    </Grid>
-
-                                </Grid>
-
-                                <Grid container style={{paddingTop: "7px"}}>
-                                    <Grid item xs={2} sm>
+                                            </div>
+                                        </Grid>
 
                                     </Grid>
-                                    <Grid item xs={8} sm container style={{borderBottom: "1px solid #d8d2d2" }}>
-                                        <Grid item xs container direction="column" spacing={2} style={{textAlign: "left" , paddingLeft: "2px"}}>
-                                            <Grid item xs>
-                                                <Typography className="menu-item" style={{fontSize: "0.9rem" , fontWeight: "500"}}>
-                                                    Request for new products
-                                                </Typography>
+
+                                    <Grid container style={{paddingTop: "7px"}}>
+                                        <Grid item xs={2} sm>
+
+                                        </Grid>
+                                        <Grid item xs={8} sm container style={{borderBottom: "1px solid #d8d2d2" }}>
+                                            <Grid item xs container direction="column" spacing={2} style={{textAlign: "left" , paddingLeft: "2px"}}>
+                                                <Grid item xs>
+                                                    <Typography className="menu-item" style={{fontSize: "0.9rem" , fontWeight: "500"}}>
+                                                        Request for new products
+                                                    </Typography>
+                                                </Grid>
                                             </Grid>
                                         </Grid>
-                                    </Grid>
-                                    <Grid item xs={2} sm style={{borderBottom: "1px solid #d8d2d2"}}>
-                                        <div className={Styles.centered}>
-                                            <ArrowForwardIosIcon  style={{fontSize: '0.9rem'}} onClick={() => history.push(paths.product_request)}/>
+                                        <Grid item xs={2} sm style={{borderBottom: "1px solid #d8d2d2"}}>
+                                            <div className={Styles.centered}>
+                                                <ArrowForwardIosIcon  style={{fontSize: '0.9rem'}} onClick={() => history.push(paths.product_request)}/>
 
-                                        </div>
-                                    </Grid>
-
-                                </Grid>
-
-                                <Grid container style={{paddingTop: "7px"}}>
-                                    <Grid item xs={2} sm>
+                                            </div>
+                                        </Grid>
 
                                     </Grid>
-                                    <Grid item xs={8} sm container>
-                                        <Grid item xs container direction="column" spacing={2} style={{textAlign: "left" , paddingLeft: "2px"}}>
-                                            <Grid item xs>
-                                                <Typography className="menu-item" style={{fontSize: "0.9rem" , fontWeight: "500"}}>
-                                                    Generate barcode
-                                                </Typography>
+
+                                    <Grid container style={{paddingTop: "7px"}}>
+                                        <Grid item xs={2} sm>
+
+                                        </Grid>
+                                        <Grid item xs={8} sm container>
+                                            <Grid item xs container direction="column" spacing={2} style={{textAlign: "left" , paddingLeft: "2px"}}>
+                                                <Grid item xs>
+                                                    <Typography className="menu-item" style={{fontSize: "0.9rem" , fontWeight: "500"}}>
+                                                        Generate barcode
+                                                    </Typography>
+                                                </Grid>
                                             </Grid>
                                         </Grid>
+                                        <Grid item xs={2} sm>
+                                            <div className={Styles.centered}>
+                                                <ArrowForwardIosIcon  style={{fontSize: '0.9rem'}}
+                                                // onClick={() => history.push(paths.generate_barcode)}
+                                                />
+                                            </div>
+                                        </Grid>
+
                                     </Grid>
-                                    <Grid item xs={2} sm>
-                                        <div className={Styles.centered}>
-                                            <ArrowForwardIosIcon  style={{fontSize: '0.9rem'}}
-                                            // onClick={() => history.push(paths.generate_barcode)}
-                                            />
-
-                                        </div>
-                                    </Grid>
-
-                                </Grid>
+                                </Collapse>
 
 
-                                <Grid item xs={12} sm container style={{borderBottom: "1px solid #d8d2d2" , borderTop: "1px solid #d8d2d2" , paddingBottom: "0px"}}>
+                                <Grid item xs={10} sm style={{borderBottom: "1px solid #d8d2d2" , borderTop: "1px solid #d8d2d2" , paddingBottom: "0px"}}>
                                     <Grid item xs container direction="column" style={{textAlign: "left", marginLeft: "5%" , marginTop: "6px" , paddingBottom: "0px"}}>
                                         <Typography style={{fontSize: "1rem" , fontWeight: "600"}}>
                                             Employees
                                         </Typography>
                                     </Grid>
-
+                                </Grid>
+                                <Grid item xs={2} sm style={{borderBottom: "1px solid #d8d2d2" , borderTop: "1px solid #d8d2d2" , paddingBottom: "0px"}}>
+                                    <div className={Styles.centered}>
+                                        {/* <ArrowForwardIosIcon  style={{fontSize: '0.9rem'}} onClick={() => history.push(paths.expense)}/> */}
+                                        {openEmp ? <ExpandLess onClick={handleClickEmp}  /> : <ExpandMore onClick={handleClickEmp}  />}
+                                    </div>
                                 </Grid>
 
-                                <Grid container style={{paddingTop: "7px"}}>
-                                    <Grid item xs={2} sm>
-
-                                    </Grid>
-                                    <Grid item xs={8} sm container style={{borderBottom: "1px solid #d8d2d2" }}>
-                                        <Grid item xs container direction="column" spacing={2} style={{textAlign: "left" , paddingLeft: "2px"}}>
-                                            <Grid item xs>
-                                                <Typography className="menu-item" style={{fontSize: "0.9rem" , fontWeight: "500"}}>
-                                                    Manage employees
-                                                </Typography>
+                                <Collapse in={openEmp} timeout="auto" unmountOnExit style={{width: '100%'}}>
+                                    <Grid container style={{paddingTop: "7px"}}>
+                                        <Grid item xs={2} sm />
+                                       
+                                        <Grid item xs={8} sm container style={{borderBottom: "1px solid #d8d2d2" }}>
+                                            <Grid item xs container direction="column" spacing={2} style={{textAlign: "left" , paddingLeft: "2px"}}>
+                                                <Grid item xs>
+                                                    <Typography className="menu-item" style={{fontSize: "0.9rem" , fontWeight: "500"}}>
+                                                        Manage employees
+                                                    </Typography>
+                                                </Grid>
                                             </Grid>
                                         </Grid>
-                                    </Grid>
-                                    <Grid item xs={2} sm style={{borderBottom: "1px solid #d8d2d2"}}>
-                                        <div className={Styles.centered}>
-                                            <ArrowForwardIosIcon  style={{fontSize: '0.9rem'}} onClick={() => history.push(paths.employees)}/>
-
-                                        </div>
-                                    </Grid>
-
-                                </Grid>
-                                <Grid container style={{paddingTop: "7px"}}>
-                                    <Grid item xs={2} sm>
+                                        <Grid item xs={2} sm style={{borderBottom: "1px solid #d8d2d2"}}>
+                                            <div className={Styles.centered}>
+                                                <ArrowForwardIosIcon  style={{fontSize: '0.9rem'}} onClick={() => history.push(paths.employees)}/>
+                                            </div>
+                                        </Grid>
 
                                     </Grid>
-                                    <Grid item xs={8} sm container>
-                                        <Grid item xs container direction="column" spacing={2} style={{textAlign: "left" , paddingLeft: "2px"}}>
-                                            <Grid item xs>
-                                                <Typography className="menu-item" style={{fontSize: "0.9rem" , fontWeight: "500"}}>
-                                                    Employees permission
-                                                </Typography>
+                                    <Grid container style={{paddingTop: "7px"}}>
+                                        <Grid item xs={2} sm>
+
+                                        </Grid>
+                                        <Grid item xs={8} sm container>
+                                            <Grid item xs container direction="column" spacing={2} style={{textAlign: "left" , paddingLeft: "2px"}}>
+                                                <Grid item xs>
+                                                    <Typography className="menu-item" style={{fontSize: "0.9rem" , fontWeight: "500"}}>
+                                                        Employees permission
+                                                    </Typography>
+                                                </Grid>
                                             </Grid>
                                         </Grid>
+                                        <Grid item xs={2} sm>
+                                            <div className={Styles.centered}>
+                                                <ArrowForwardIosIcon  style={{fontSize: '0.9rem'}} onClick={() => history.push(paths.employees)}/>
+
+                                            </div>
+                                        </Grid>
+
                                     </Grid>
-                                    <Grid item xs={2} sm>
-                                        <div className={Styles.centered}>
-                                            <ArrowForwardIosIcon  style={{fontSize: '0.9rem'}} onClick={() => history.push(paths.employees)}/>
-
-                                        </div>
-                                    </Grid>
-
-                                </Grid>
-
+                                </Collapse>
 
 
                                 <Grid container style={{borderTop: "1px solid #d8d2d2" ,paddingTop: "8px" ,paddingBottom: "3px"}}>

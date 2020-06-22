@@ -260,8 +260,8 @@ const StockMainPage = props => {
                         p={1}
                         style={{ height: '4.0rem', position: "fixed", bottom:"0", width:"100%" }}
                     >
-                        <SecondaryButton classes={`mr-2`} onClick={() => history.push(paths.suppliers)} >
-                            Suppliers
+                        <SecondaryButton classes={`mr-2`} onClick={() => history.push(paths.sell)} >
+                            Start selling
                         </SecondaryButton>
                         <SecondaryButton onClick={() => {
                             localStorage.setItem("redirectPath" , paths.stock);

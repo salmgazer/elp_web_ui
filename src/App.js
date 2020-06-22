@@ -70,6 +70,7 @@ import StockMovement from "./screens/stock/sections/StockMovement";
 import DashboardOne from './screens/newDashboards/version1/DashboardOne';
 import DashboardTwo from './screens/newDashboards/version2/DashboardTwo';
 import NewSell from './screens/newDashboards/version3/sell/sell/Sell';
+import NewCart from "./screens/newDashboards/version3/sell/cart/Cart";
 import NewStock from './screens/newDashboards/version3/stock/DirectiveViewStock';
 import FirstView from './screens/dashboard/FirstView';
 import CreditSales from './screens/creditSales/CreditSales';
@@ -534,6 +535,13 @@ class App extends React.Component {
                         setPageBackground();
                         this.setTitle(`Dashboard | ${appName}`);
                         return <NewSell />;
+                    }}
+                />
+                <Route
+                    path={paths.newCart}
+                    render={() => {
+                    this.setTitle(`Cart | ${appName}`);
+                    return <NewCart />;
                     }}
                 />
                 <Route

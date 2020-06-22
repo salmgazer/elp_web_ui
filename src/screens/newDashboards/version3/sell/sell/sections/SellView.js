@@ -8,9 +8,9 @@ import SwipeableViews from "react-swipeable-views";
 import Box from "@material-ui/core/Box/Box";
 import {withRouter} from 'react-router-dom';
 import paths from "../../../../../../utilities/paths";
-import SellSearchMode from "../../../../../sell/sell/sections/SearchMode/SellSearchMode";
+import SellSearchMode from "./SearchMode/SellSearchMode";
 import SectionNavbars from "../../../../../../components/Sections/SectionNavbars";
-import BarcodeMode from "../../../../../sell/sell/sections/BarcodeMode/BarcodeMode";
+import BarcodeMode from "./BarcodeMode/BarcodeMode";
 import MoreVertIcon from '@material-ui/icons/MoreVert';
 import BottomDrawer from "../../../../../../components/Drawer/BottomDrawer/BottomDrawer";
 import ListItem from "@material-ui/core/ListItem/ListItem";
@@ -28,7 +28,7 @@ import PeopleIcon from '@material-ui/icons/People';
 import SettingsIcon from '@material-ui/icons/Settings';
 import ShoppingCartIcon from '@material-ui/icons/ShoppingCart';
 import BottomMenu from "./AltBottomMenu";
-import HomeWorkIcon from '@material-ui/icons/HomeWork';
+import AppsIcon from '@material-ui/icons/Apps';
 
 const SellView = props => {
     const { history } = props;
@@ -66,7 +66,7 @@ const SellView = props => {
                     <div>
                        <ShoppingCartIcon
                             style={{fontSize: '2rem'}}
-                            onClick={() => history.push(paths.cart)}
+                            onClick={() => history.push(paths.newCart)}
                         />
 
                         <MoreVertIcon
@@ -77,7 +77,7 @@ const SellView = props => {
                 }
                 leftIcon={
                     <div onClick={() => history.push(paths.firstView)}>
-                        <HomeWorkIcon
+                        <AppsIcon
                             style={{fontSize: '2rem'}}
                         />
                     </div>
