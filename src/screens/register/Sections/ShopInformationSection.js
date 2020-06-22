@@ -129,7 +129,6 @@ const ValidationSelectField = withStyles({
     },
 })(Select);
 
-
 // Inspired by blueprintjs
 function StyledRadio(props) {
     const classes = useStyles();
@@ -146,9 +145,8 @@ function StyledRadio(props) {
     );
 }
 
-
 export default function ShopInformationSection(props) {
-    const PersonalInformationForm = useRef(null);
+    const ShopInformationForm = useRef(null);
     const userFields = props.formData;
     const classes = useStyles();
     const [categories , setCategories] = useState([]);
@@ -158,6 +156,15 @@ export default function ShopInformationSection(props) {
         businessCategoryId: userFields.businessCategoryId,
         storeType: userFields.storeType,
     });
+
+    useEffect(() => {
+        (
+            async function validateForm(){
+                //let newCategory = await new Api('business_categories').index();
+                props.isValid(await ShopInformationForm.current.isFormValid());
+            }
+        )();
+    }, []);
 
     useEffect(() => {
         (
@@ -182,8 +189,10 @@ export default function ShopInformationSection(props) {
         setFormFields(formData);
         props.collectData(event);
     };
+
     const handleFormValidation = async(result) => {
-        props.isValid(await PersonalInformationForm.current.isFormValid());
+        console.log(await ShopInformationForm.current.isFormValid())
+        props.isValid(await ShopInformationForm.current.isFormValid());
     };
 
     //handleFormValidation(true);
@@ -191,7 +200,7 @@ export default function ShopInformationSection(props) {
     return (
         <Paper className={classes.paper} style={{'marginBottom': '80px'}}>
             <ValidatorForm
-                ref={PersonalInformationForm}
+                ref={ShopInformationForm}
                 onError={handleFormValidation}
                 className={classes.root}
                 instantValidate

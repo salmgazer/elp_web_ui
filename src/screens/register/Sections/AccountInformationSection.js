@@ -92,7 +92,7 @@ const PasswordTextField = withStyles({
 
 export default function AccountInformationSection(props) {
     let history = useHistory();
-    const PersonalInformationForm = useRef(null);
+    const AccountInformationForm = useRef(null);
     const [  setError] = useState('none');
     const [ setErrorMsg] = useState('');
 
@@ -255,6 +255,15 @@ export default function AccountInformationSection(props) {
         });
     });
 
+    useEffect(() => {
+        (
+            async function validateForm(){
+                //let newCategory = await new Api('business_categories').index();
+                props.isValid(await AccountInformationForm.current.isFormValid());
+            }
+        )();
+    }, []);
+
     const handleChange = (event) => {
         const { ...formData }  = formFields;
         formData[event.target.name] = event.target.value;
@@ -263,7 +272,7 @@ export default function AccountInformationSection(props) {
     };
 
     const handleFormValidation = async (result) => {
-        props.isValid(await PersonalInformationForm.current.isFormValid());
+        props.isValid(await AccountInformationForm.current.isFormValid());
     };
 
     const classes = useStyles();
@@ -275,7 +284,7 @@ export default function AccountInformationSection(props) {
     return (
         <Paper className={classes.paper}>
             <ValidatorForm
-                ref={PersonalInformationForm}
+                ref={AccountInformationForm}
                 onError={handleFormValidation}
                 className={classes.root}
                 instantValidate
