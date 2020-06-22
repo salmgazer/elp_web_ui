@@ -34,7 +34,6 @@ const useStyles = makeStyles(theme => ({
 }));
 
 const CostInput = props => {
-    console.log(props.initialValue)
     let value = props.initialValue;
     const classes = useStyles();
     const inputName = props.inputName;

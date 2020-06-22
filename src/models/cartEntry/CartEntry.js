@@ -23,7 +23,7 @@ export default class CartEntry extends Model {
     @field('productId') productId;
     @field('sellingPrice') sellingPrice;
     @field('costPrice') costPrice;
-    @date('entryDate') entryDate;
+    @field('entryDate') entryDate;
     @field('discount') discount;
     @field('quantity') quantity;
     @readonly @date('created_at') createdAt;
