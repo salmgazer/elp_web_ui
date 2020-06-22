@@ -9,6 +9,7 @@ const stockMovementSchema = {
         { name: 'branchTo', type: 'string' },
         { name: 'createdBy', type: 'string' },
         { name: 'quantity', type: 'number' },
+        { name: 'entryDate', type: 'number' },
         { name: 'created_at', type: 'number' },
         { name: 'updated_at', type: 'number' },
     ]

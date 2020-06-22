@@ -49,6 +49,7 @@ export default class SaleService {
 
             try {
                 await SaleService.importCartToSales(cartId , sale);
+                console.log(sale,data)
                 await SaleService.makePayment(sale , data);
                 await new ModelAction('Carts').destroy(cartId);
 
@@ -84,13 +85,14 @@ export default class SaleService {
     }
 
     static async makePayment(sales , data){
+        console.log(sales , data)
         localStorage.setItem('amountPaid' , data.amountPaid);
         const salePaymentColumns = {
             saleId: sales.id,
             customerId: sales.customerId,
             branchId: LocalInfo.branchId,
             createdBy: LocalInfo.userId,
-            type: data.type,
+            type: SaleService.getPaymentType(data.type),
             amount: data.changeDue >= 0 ? parseFloat(data.amountPaid - data.changeDue) : parseFloat(data.amountPaid),
         };
 

@@ -17,6 +17,7 @@ export default class StockMovement extends Model {
     @field('productId') productId;
     @field('branchFrom') branchFrom;
     @field('branchTo') branchTo;
+    @field('entryDate') entryDate;
     @field('createdBy') createdBy;
     @relation('branches_products' , 'branchProductId') branchProduct;
     @relation('branches_products_stocks', 'branchProductStockId') branchProductStock;
