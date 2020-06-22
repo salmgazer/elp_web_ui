@@ -93,8 +93,8 @@ const PasswordTextField = withStyles({
 export default function AccountInformationSection(props) {
     let history = useHistory();
     const AccountInformationForm = useRef(null);
-    const [  setError] = useState('none');
-    const [ setErrorMsg] = useState('');
+    const [ error, setError] = useState('none');
+    const [ errorMsg, setErrorMsg] = useState('');
 
     const userFields = props.formData;
     const [showPassword, setShowPassword] = useState({
@@ -334,7 +334,7 @@ export default function AccountInformationSection(props) {
                         errorMessages={['Password is a required field', 'The minimum length for password is 4']}
                         helperText=""
                         id="password"
-                        type={showPassword ? 'text' : 'password'}
+                        type={showPassword.showPassword ? 'text' : 'password'}
                         InputProps={{
                             endAdornment:
                                 <InputAdornment position="end">
@@ -361,7 +361,7 @@ export default function AccountInformationSection(props) {
                         name="passwordRepeat"
                         validatorListener={handleFormValidation}
                         id="passwordConfirm"
-                        type={showPassword ? 'text' : 'password'}
+                        type={showPassword.showPassword ? 'text' : 'password'}
                         value={formFields.passwordRepeat}
                         onChange={handleChange}
                         validators={['isPasswordMatch', 'required']}

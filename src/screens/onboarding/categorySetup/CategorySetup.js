@@ -11,21 +11,43 @@ import Api from "../../../services/Api";
 import SimpleSnackbar from "../../../components/Snackbar/SimpleSnackbar";
 
 class CategorySetup extends Component{
-    /*
-    * @todo
-    * 1. Get categories and subcategories from watermelon.
-    * */
+    constructor(props) {
+        super(props);
+        this.state = {
+            activeStep: 0,
+            categories: [],
+            subcategories: [],
+            errorDialog: false,
+            errorMsg: '',
+            activeItem: 0,
+        };
 
-    state = {
-        activeStep: 0,
-        categories: [],
-        subcategories: [],
-        errorDialog: false,
-        errorMsg: '',
-        activeItem: 0,
-    };
+        this.currentPathname = null;
+        this.currentSearch = null;
+    }
 
     async componentDidMount() {
+        const { history } = this.props;
+
+        history.listen((newLocation, action) => {
+            if (action === "PUSH") {
+                if (
+                    newLocation.pathname !== this.currentPathname ||
+                    newLocation.search !== this.currentSearch
+                ) {
+                    this.currentPathname = newLocation.pathname;
+                    this.currentSearch = newLocation.search;
+
+                    history.push({
+                        pathname: newLocation.pathname,
+                        search: newLocation.search
+                    });
+                }
+            } else {
+                history.go(1);
+            }
+        });
+
         const branchId = localStorage.getItem('activeBranch');
         const accessToken = localStorage.getItem('accessToken');
         try {
