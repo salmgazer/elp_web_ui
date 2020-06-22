@@ -9,7 +9,6 @@ import * as Q from "@nozbe/watermelondb/QueryDescription";
 import BranchProductStock from "../models/branchesProductsStocks/BranchProductStock";
 import BranchProductStockHistory from "../models/branchesProductsStocksHistories/BranchProductStockHistory";
 import SaleService from "./SaleService";
-import BranchService from "./BranchService";
 import PurchaseService from "./PurchaseService";
 
 export default class CashflowService {

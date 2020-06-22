@@ -69,7 +69,7 @@ const AssignBarcode = props => {
         if (!product) {
             getProduct();
         }
-    }, []);
+    });
 
     const getProduct = async () => {
         const newProduct = await branchProduct.product.fetch();

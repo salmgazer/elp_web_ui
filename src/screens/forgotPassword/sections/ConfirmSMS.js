@@ -49,7 +49,7 @@ const ConfirmSMS = props => {
 
         let code = localStorage.getItem('userOTP');
 
-        if(code == otp){
+        if(code === otp){
             props.setView(2);
         }else{
             setErrorDialog(true);

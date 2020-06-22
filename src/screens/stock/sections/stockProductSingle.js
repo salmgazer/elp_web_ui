@@ -1,7 +1,6 @@
 import React, {useEffect, useState} from 'react';
 import SectionNavbars from "../../../components/Sections/SectionNavbars";
 import ArrowBackIcon from '@material-ui/icons/ArrowBack';
-import Button from "@material-ui/core/Button";
 import SimpleSnackbar from "../../../components/Snackbar/SimpleSnackbar";
 import Typography from "@material-ui/core/Typography";
 import ProductServiceHandler from "../../../services/ProductServiceHandler";
@@ -30,7 +29,7 @@ const StockProductSingle = props => {
         if (!product) {
             getProduct();
         }
-    }, []);
+    });
 
     const productHandler = new BranchProductService(branchProduct);
 
@@ -49,9 +48,7 @@ const StockProductSingle = props => {
     /*let lastStock = productHandler.getProductHistory();
     lastStock = lastStock[(lastStock.length - 1)];*/
 
-    const [loading , setLoading] = useState(false);
     const [successDialog, setSuccessDialog] = useState(false);
-    const [errorDialog, setErrorDialog] = useState(false);
 
     const backHandler = () => {
         props.setView(0);

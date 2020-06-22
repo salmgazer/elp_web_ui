@@ -2,7 +2,6 @@ import React, {useEffect, useState} from "react";
 import {withRouter } from "react-router-dom";
 import { withDatabase } from "@nozbe/watermelondb/DatabaseProvider";
 import withObservables from "@nozbe/with-observables";
-import { Q } from "@nozbe/watermelondb";
 import SectionNavbars from "../../components/Sections/SectionNavbars";
 import ArrowBackIcon from '@material-ui/icons/ArrowBack';
 import Grid from '@material-ui/core/Grid';

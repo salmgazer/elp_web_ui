@@ -2,7 +2,6 @@ import database from "../models/database";
 import ModelAction from "./ModelAction";
 import LocalInfo from "./LocalInfo";
 import { Q } from '@nozbe/watermelondb'
-import CartEntry from "../models/cartEntry/CartEntry";
 import BranchProductService from "./BranchProductService";
 import {v4 as uuid} from 'uuid';
 import Carts from "../models/carts/Carts";
@@ -14,8 +13,6 @@ export default class CartService {
     async cartId() {
         if(!await database.adapter.getLocal("cartId")){
             const dataCollection = database.collections.get(Carts.table);
-            const workingDate = await database.adapter.getLocal("workingDate");
-
             await database.action(async () => {
                 const newCart = await dataCollection.create(cart => {
                     cart.discount = 0;
@@ -259,7 +256,7 @@ export default class CartService {
     async getCartCustomer(){
         const currentCustomer = await database.adapter.getLocal("activeCustomer");
 
-        if(typeof currentCustomer === 'undefined' || currentCustomer === null || currentCustomer == 0){
+        if(typeof currentCustomer === 'undefined' || currentCustomer === null || currentCustomer === 0){
             return 'Cash Customer';
         }
         const customers = await new BranchService().getCustomers();
@@ -275,7 +272,7 @@ export default class CartService {
     static async getCartCustomerId(){
         const currentCustomer = await database.adapter.getLocal("activeCustomer");
 
-        if(typeof currentCustomer === 'undefined' || currentCustomer === null || currentCustomer == 0){
+        if(typeof currentCustomer === 'undefined' || currentCustomer === null || currentCustomer === 0){
             return 0;
         }
 
@@ -302,7 +299,7 @@ export default class CartService {
         const customerId = await database.adapter.getLocal("activeCustomer");
         const cartId = await database.adapter.getLocal("cartId");
 
-        if(customerId == 0){
+        if(customerId === 0){
             return false;
         }
         const dataCollection = await database.collections.get(Carts.table).find(cartId);

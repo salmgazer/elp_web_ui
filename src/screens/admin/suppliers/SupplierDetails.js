@@ -1,8 +1,6 @@
 import React from "react";
 import { withRouter } from "react-router-dom";
 import Component from "@reactions/component";
-import { useDatabase } from "@nozbe/watermelondb/hooks";
-import { Q } from "@nozbe/watermelondb";
 import Styles from './SupplierDetails.module.scss';
 import Grid from '@material-ui/core/Grid';
 import paths from "../../../utilities/paths";
@@ -95,7 +93,6 @@ const SupplierDetails = props => {
     console.log(username);
 
     const { history } = props;
-    const database = useDatabase();
 
     if (LocalInfo.storeId && LocalInfo.userId) {
         history.push(paths.home);

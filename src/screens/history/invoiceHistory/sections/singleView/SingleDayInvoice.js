@@ -179,7 +179,7 @@ const SingleDayInvoice = props => {
 
 
 
-                                <Link href="#/invoice-history" onClick={closeDialogHandler.bind(this)}  style={{textAlign: 'right', color: '#DAAB59'}} >
+                                <Link to="/invoice-history" onClick={closeDialogHandler.bind(this)}  style={{textAlign: 'right', color: '#DAAB59'}} >
                                     Close
                                 </Link>
                             </Typography>

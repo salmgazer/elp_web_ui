@@ -1,13 +1,9 @@
 import React, {Component} from 'react';
-import LocalInfo from "../../../../services/LocalInfo";
 import {withDatabase} from "@nozbe/watermelondb/DatabaseProvider";
 import withObservables from "@nozbe/with-observables";
 import { withRouter } from "react-router-dom";
-import {Q} from "@nozbe/watermelondb";
-import database from "../../../../models/database";
 import {confirmAlert} from "react-confirm-alert";
 import ModelAction from "../../../../services/ModelAction";
-import paths from "../../../../utilities/paths";
 import MainSuppliersView from "./sections/MainSuppliersView";
 import SupplierService from "../../../../services/SupplierService";
 import SingleSupplierDetails from "./sections/SingleSupplierDetails";

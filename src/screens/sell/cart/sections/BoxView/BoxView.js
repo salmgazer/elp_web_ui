@@ -62,7 +62,7 @@ const ViewSingleProduct = props => {
         if (!product) {
             getProduct();
         }
-    }, []);
+    });
 
     const getProduct = async () => {
         const newProduct = await props.item.product.fetch();
@@ -189,33 +189,3 @@ const ViewSingleProduct = props => {
 
 export default ViewSingleProduct;
 
-{/*<Grid item xs={3}>
-                <Card
-                    className="shadow1"
-                    style={{
-                        margin: '5px auto',
-                        backgroundImage: `url(${image})`,
-                        backgroundPosition: 'center',
-                        backgroundSize: 'cover',
-                        width: '60px',
-                        borderRadius: '50%',
-                        height: '60px',
-                        padding: '0px'
-                    }}
-                />
-            </Grid>
-            <Grid item xs={5} style={{display: 'table', height: '60px', margin: '8px 0px'}}>
-                <div style={{textAlign: 'left', display: 'table-cell', verticalAlign: 'middle'}}>
-                    <span className='text-dark font-weight-bold'>{name}</span>
-                    <div className="font-weight-light mt-1" style={{ fontSize: '14px'}}>{`GHC ${entryTotal}`}</div>
-                </div>
-            </Grid>
-            <Grid item xs={2} style={{height: '60px', margin: '25px 0px 0px 0px'}}>
-                <input type="number" defaultValue={quantity} onChange={changeQuantityHandler.bind(this , cartEntry)} min="1" style={{width: '50px'}} />
-            </Grid>
-            <Grid item xs={2} style={{height: '60px', margin: '20px 0px 0px 0px'}}>
-                <DeleteIcon
-                    onClick={deleteHistoryHandler.bind(this , cartEntry.id)}
-                    style={{fontSize: '30px', color: '#DAAB59', textAlign: 'right'}}
-                />
-            </Grid>*/}

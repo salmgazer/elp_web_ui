@@ -2,7 +2,6 @@ import React , {useState , useRef}  from "react";
 import { withRouter , Link } from "react-router-dom";
 import Component from "@reactions/component";
 import { useDatabase } from "@nozbe/watermelondb/hooks";
-import { Q } from "@nozbe/watermelondb";
 import LocalInfo from "../../services/LocalInfo";
 import AccountCircleIcon from '@material-ui/icons/AccountCircle';
 import LockIcon from '@material-ui/icons/Lock';

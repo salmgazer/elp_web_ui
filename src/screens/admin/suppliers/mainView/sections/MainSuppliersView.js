@@ -1,6 +1,5 @@
 import React, {useState , Fragment} from "react";
 import { withRouter } from "react-router-dom";
-import { useDatabase } from "@nozbe/watermelondb/hooks";
 import Grid from '@material-ui/core/Grid';
 import paths from "../../../../../utilities/paths";
 import CssBaseline from "@material-ui/core/CssBaseline/CssBaseline";
@@ -84,8 +83,6 @@ const useStyles = makeStyles(theme => ({
 
 const MainSuppliersView = props => {
     const classes = useStyles();
-    const [mainDialog, setMainDialog] = React.useState(false);
-    const [addDialog, setAddDialog] = React.useState(false);
     const [isShowDrawer , setIsShowDrawer] = useState(false);
     const [error , setError] = useState(false);
     const [errorMsg , setErrorMsg] = useState('');

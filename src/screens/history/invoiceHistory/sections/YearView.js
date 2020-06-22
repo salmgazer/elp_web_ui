@@ -84,7 +84,6 @@ const useStyles = makeStyles(theme => ({
                         value={selectedYear}
                         style={{width: '150px',  margin: '10px 0px', fontSize: '7px'}}
                         onChange={handleChange}
-                        color="#DAAB59"
                         SelectProps={{
                             native: true,
                         }}
