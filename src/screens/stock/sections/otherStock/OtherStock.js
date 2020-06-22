@@ -9,13 +9,10 @@ import MainPage from './sections/MainPage';
 import DayView from './sections/DayView';
 import WeekView from './sections/WeekView';
 import MonthView from './sections/MonthView';
-import YearView from './sections/YearView';
-import ReturnsProducts from './sections/ReturnsProducts';
-import ConfirmPage from './sections/ConfirmPage';
 import CustomerService from '../../../services/CustomerService';
 
 
-class SalesReturns extends Component{
+class OtherStock extends Component{
     constructor(props){
         super(props);
         this.state = {
@@ -49,12 +46,6 @@ class SalesReturns extends Component{
                 return <WeekView setView={this.setStepContentView.bind(this)} setStepContentView={this.setStepContentView.bind(this)} />;
             case 3:
                 return <MonthView setView={this.setStepContentView.bind(this)} setStepContentView={this.setStepContentView.bind(this)} />;
-            case 4:
-                return <YearView setView={this.setStepContentView.bind(this)} setStepContentView={this.setStepContentView.bind(this)}  />;
-            case 5:
-                return <ReturnsProducts setView={this.setStepContentView.bind(this)} customer={this.state.currentCustomer} products={this.state.saleEntries} />;
-            case 6:
-                return <ConfirmPage setView={this.setStepContentView.bind(this)} />;
             default:
                 return 'Complete';
         }
@@ -116,10 +107,10 @@ class SalesReturns extends Component{
     }
 }
 
-const EnhancedSalesReturns= withDatabase(
+const EnhancedOtherStock= withDatabase(
     withObservables(['branchCustomers'], ({ branchCustomers ,  database }) => ({
         branchCustomers: new BranchService(LocalInfo.branchId).getCustomers(),
-    }))(withRouter(SalesReturns))
+    }))(withRouter(OtherStock))
 );
 
-export default withRouter(EnhancedSalesReturns);
+export default withRouter(EnhancedOtherStock);

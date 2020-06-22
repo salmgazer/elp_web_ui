@@ -17,50 +17,67 @@ const SubCategorySingle = props => {
 
     return(
         <Grid item xs={4}>
-            <Card
-                className="shadow1"
-                style={{margin: '5px auto' ,backgroundImage: `url(${category.image ? `https://elparah.store/admin/upload/${category.image}` : 'https://elparah.store/admin/upload/no_image.png'})` , backgroundPosition: 'center top', backgroundSize: '100%', backgroundRepeat: 'no-repeat' , width: '100%' , height: '160px', padding: '0px', position: 'relative'}}
-            >
-                { category.owned ?
-                    <div
-                        onClick={(event) => removeSubCategoryHandler(category.id , event)}
-                    >
-                        <AddedIcon
-                            styles={{
-                                width: '30px',
-                                height: '30px',
-                                borderRadius: '50%',
-                                top: '-2px',
-                                float: 'right',
-                                position: 'absolute',
-                                right: '-2px',
-                                color: '#28a745',
-                            }}
-                        />
-                    </div>:
-                    <div
-                        onClick={(event) => addSubCategoryHandler(category.id , event)}
-                    >
-                        <AddIcon
-                            styles={{
-                                width: '30px',
-                                height: '30px',
-                                borderRadius: '50%',
-                                top: '-2px',
-                                float: 'right',
-                                position: 'absolute',
-                                right: '-2px',
-                                color: '#DAAB59',
-                            }}
-                        />
+
+            { category.owned ?
+                <Card
+                
+                    className="shadow1"
+                    style={{margin: '5px auto' ,backgroundImage: `url(${category.image ? `https://elparah.store/admin/upload/${category.image}` : 'https://elparah.store/admin/upload/no_image.png'})` , backgroundPosition: 'center top', backgroundSize: '100%', backgroundRepeat: 'no-repeat' , width: '100%' , height: '160px', padding: '0px', position: 'relative'}}
+                    onClick={(event) => removeSubCategoryHandler(category.id , event)}
+                >
+                
+                        <div
+                            
+                        >
+                            <AddedIcon
+                                styles={{
+                                    width: '30px',
+                                    height: '30px',
+                                    borderRadius: '50%',
+                                    top: '-2px',
+                                    float: 'right',
+                                    position: 'absolute',
+                                    right: '-2px',
+                                    color: '#28a745',
+                                }}
+                            />
+                        </div>
+                    
+                    
+                    <div style={{fontSize: '14px', width: '100%', minHeight: '40px', backgroundColor: '#3333338c', color: '#ffffff', position: 'relative', top: '70%', left:'0', right: '0', padding: '5px 0px'}}>
+                        {category.name}
                     </div>
-                }
-                <div style={{fontSize: '14px', width: '100%', minHeight: '40px', backgroundColor: '#3333338c', color: '#ffffff', position: 'relative', top: '70%', left:'0', right: '0', padding: '5px 0px'}}>
-                    {category.name}
-                </div>
-            </Card>
-
-
+                </Card>
+                :
+                <Card
+                    className="shadow1"
+                    style={{margin: '5px auto' ,backgroundImage: `url(${category.image ? `https://elparah.store/admin/upload/${category.image}` : 'https://elparah.store/admin/upload/no_image.png'})` , backgroundPosition: 'center top', backgroundSize: '100%', backgroundRepeat: 'no-repeat' , width: '100%' , height: '160px', padding: '0px', position: 'relative'}}
+                    onClick={(event) => addSubCategoryHandler(category.id , event)}
+                >
+                
+                <div
+                    
+                >
+                    <AddIcon
+                        styles={{
+                            width: '30px',
+                            height: '30px',
+                            borderRadius: '50%',
+                            top: '-2px',
+                            float: 'right',
+                            position: 'absolute',
+                            right: '-2px',
+                            color: '#DAAB59',
+                        }}
+                    />
+                </div>          
+                    
+                    <div style={{fontSize: '14px', width: '100%', minHeight: '40px', backgroundColor: '#3333338c', color: '#ffffff', position: 'relative', top: '70%', left:'0', right: '0', padding: '5px 0px'}}>
+                        {category.name}
+                    </div>
+                </Card>
+            }
+                
         </Grid>
     );
 };

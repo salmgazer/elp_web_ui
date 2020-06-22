@@ -14,6 +14,7 @@ import MenuIcon from '@material-ui/icons/Menu';
 import SectionNavbars from "../../../../components/Sections/SectionNavbars";
 import PrimaryLoader from "../../../../components/Loader/Loader";
 import Drawer from "../../../../components/Drawer/Drawer";
+import Grid from "@material-ui/core/Grid/Grid";
 
 const MainView = props => {
     const [value , setValue] = useState(0);
@@ -172,18 +173,22 @@ const MainView = props => {
                 p={1}
                 style={{ height: '2.5rem', position: "fixed", bottom:"0", width:"100%" }}
             >
-                <Button
-                    variant="contained"
-                    style={{'backgroundColor': '#DAAB59' , color: '#333333', padding: '7px 80px', fontSize: '14px'}}
+                <Grid container >
+                    <Grid item xs={12} >
+                        <Button
+                            variant="contained"
+                            style={{'backgroundColor': '#DAAB59' , color: '#333333', padding: '7px 80px', fontSize: '14px'}}
 
-                    className={`capitalization font-weight-bold text-dark`}
-                    onClick={openDialogHandler.bind(this)}
-                >
-                    Finish
-                    {/*<span className={`btnPCount`}>
-                        {props.spCount}
-                    </span>*/}
-                </Button>
+                            className={`capitalization font-weight-bold text-dark`}
+                            onClick={openDialogHandler.bind(this)}
+                        >
+                            Finish
+                            {/*<span className={`btnPCount`}>
+                                {props.spCount}
+                            </span>*/}
+                        </Button>
+                    </Grid>
+                </Grid>
             </Box>
         </div>
     )

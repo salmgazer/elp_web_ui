@@ -105,9 +105,11 @@ const ProductRequest = props => {
                 />
             </Grid>   
 
+            <div style={{ marginBottom: '80px'}}>
             <Link onClick={togglePersonsHandler} style={{textDecorationColor: '#333333'}}>
                 <span  style={{'marginTop': '30px', marginBottom: '20px', color: '#403C3C', fontSize: '17px', fontStyle: 'italic'}}>Add product's price</span> <br/>
-            </Link>       
+            </Link>  
+            </div>     
 
             {isDrawerShow === true
                 ?
@@ -164,20 +166,26 @@ const ProductRequest = props => {
                 p={1}
                 style={{ height: '3.0rem', position: "fixed", bottom:"1px", width:"100%" }}
             >
-                <Button
-                    variant="outlined"
-                    style={{border: '1px solid #DAAB59', color: '#DAAB59', padding: '5px 50px', marginRight: '10px', textTransform: 'Capitalize'}}
-                    onClick={() => history.push(paths.admin)}
-                >
-                    Back
-                </Button>
-                <Button
-                    variant="contained"
-                    style={{'backgroundColor': '#DAAB59' , color: '#333333', padding: '5px 50px', textTransform: 'Capitalize'}}
-                    //onClick={openAddDialog.bind(this)}
-                >
-                    Save
-                </Button>
+                <Grid container >
+                    <Grid item xs={6} >
+                        <Button
+                            variant="outlined"
+                            style={{border: '1px solid #DAAB59', color: '#DAAB59', padding: '5px 50px', marginRight: '10px', textTransform: 'Capitalize'}}
+                            onClick={() => history.push(paths.admin)}
+                        >
+                            Back
+                        </Button>
+                    </Grid>
+                    <Grid item xs={6} >
+                        <Button
+                            variant="contained"
+                            style={{'backgroundColor': '#DAAB59' , color: '#333333', padding: '5px 50px', textTransform: 'Capitalize'}}
+                            //onClick={openAddDialog.bind(this)}
+                        >
+                            Save
+                        </Button>
+                    </Grid>
+                </Grid>
             </Box>
 
         </div>

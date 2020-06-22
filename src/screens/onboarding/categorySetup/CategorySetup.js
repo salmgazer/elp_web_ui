@@ -9,6 +9,7 @@ import Step1 from "./sections/Step1";
 import Step2 from "./sections/Step2";
 import Api from "../../../services/Api";
 import SimpleSnackbar from "../../../components/Snackbar/SimpleSnackbar";
+import { Grid } from '@material-ui/core';
 
 class CategorySetup extends Component{
     /*
@@ -262,22 +263,28 @@ class CategorySetup extends Component{
                                 p={1}
                                 style={{ height: '2.5rem', position: "fixed", bottom:"0", width:"100%" }}
                             >
-                                <Button
-                                    variant="outlined"
-                                    style={{border: '1px solid #DAAB59', color: '#DAAB59', padding: '5px 50px', marginRight: '10px'}}
-                                    disabled={this.state.activeStep === 0}
-                                    onClick={this.handleBack}
-                                >
-                                    Back
-                                </Button>
-                                <Button
-                                    variant="contained"
-                                    style={{'backgroundColor': '#DAAB59' , color: '#333333', padding: '5px 50px'}}
-                                    onClick={this.handleNext}
-                                    disabled={!counter}
-                                >
-                                    Next
-                                </Button>
+                                <Grid container >
+                                    <Grid item xs={6} >
+                                        <Button
+                                            variant="outlined"
+                                            style={{border: '1px solid #DAAB59', color: '#DAAB59', padding: '5px 50px', marginRight: '10px'}}
+                                            disabled={this.state.activeStep === 0}
+                                            onClick={this.handleBack}
+                                        >
+                                            Back
+                                        </Button>
+                                    </Grid>
+                                    <Grid item xs={6} >
+                                        <Button
+                                            variant="contained"
+                                            style={{'backgroundColor': '#DAAB59' , color: '#333333', padding: '5px 50px'}}
+                                            onClick={this.handleNext}
+                                            disabled={!counter}
+                                        >
+                                            Next
+                                        </Button>
+                                    </Grid>
+                                </Grid>
                             </Box>
                         </div>
                     )}

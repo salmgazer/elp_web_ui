@@ -164,6 +164,7 @@ const ViewCash = props => {
                         label="Amount Paid"
                         variant="outlined"
                         size="small"
+                        type="tel"
                         onChange={(event) => setInputValue(event)}
                         name={`amountPaid`}
                         value={formFields['amountPaid']}

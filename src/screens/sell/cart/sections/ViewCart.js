@@ -284,21 +284,27 @@ const CartView = props => {
                 bgcolor="background.paper"
                 style={{ height: '2.5rem', position: "fixed", bottom:"10px", width:"100%" }}
             >
-                <Button
-                    variant="outlined"
-                    onClick={() => props.history.push(paths.sell)}
-                    style={{border: '1px solid #DAAB59', color: '#333333', padding: '5px 30px', marginRight: '10px', textTransform: 'none', fontSize:'17px'}}
-                >
-                    Add product
-                </Button>
-                <Button
-                    variant="contained"
-                    style={{'backgroundColor': '#DAAB59' , color: '#333333', padding: '5px 40px', textTransform: 'none', fontSize:'17px'}}
-                    onClick={openCheckoutHandler.bind(this)}
-                    disabled={!counter}
-                >
-                    Checkout
-                </Button>
+                <Grid container >
+                    <Grid item xs={6} >
+                        <Button
+                            variant="outlined"
+                            onClick={() => props.history.push(paths.sell)}
+                            style={{border: '1px solid #DAAB59', color: '#333333', padding: '5px 30px', marginRight: '10px', textTransform: 'none', fontSize:'17px'}}
+                        >
+                            Add product
+                        </Button>
+                    </Grid>
+                    <Grid item xs={6} >
+                        <Button
+                            variant="contained"
+                            style={{'backgroundColor': '#DAAB59' , color: '#333333', padding: '5px 40px', textTransform: 'none', fontSize:'17px'}}
+                            onClick={openCheckoutHandler.bind(this)}
+                            disabled={!counter}
+                        >
+                            Checkout
+                        </Button>
+                    </Grid>
+                </Grid>
             </Box>
 
         </div>

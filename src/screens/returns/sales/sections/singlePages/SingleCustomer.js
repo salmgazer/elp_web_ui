@@ -67,7 +67,7 @@ const SingleViewCustomer = props => {
                         <div style={{textAlign: 'left', display: 'table-cell', verticalAlign: 'middle'}}>
                             <span className='text-dark font-weight-bold' >{name}</span>
                             <div className="font-weight-light mt-1" style={{ fontSize: '13px', marginTop: '5px'}}>
-                                Last purchase:  {lastPurchase ? format(new Date(lastPurchase.salesDate) , "do MMMM, yyyy | h:mm a") : 'No purchase made'}
+                                Last purchase:  {lastPurchase ? format(new Date(lastPurchase.createdAt) , "do MMMM, yyyy | h:mm a") : 'No purchase made'}
                             </div>
                         </div>
                     </Grid>

@@ -363,21 +363,27 @@ const CheckoutView = props => {
                 p={1}
                 style={{ height: '2.5rem', position: "fixed", bottom:"0px", width:"100%" }}
             >
-                <Button
-                    variant="outlined"
-                    onClick={() => props.setView(0)}
-                    style={{border: '1px solid #DAAB59', color: '#333333', padding: '5px 40px', marginRight: '10px', textTransform: 'none', fontSize:'17px'}}
-                >
-                    Back
-                </Button>
-                <Button
-                    variant="contained"
-                    style={{'backgroundColor': '#DAAB59' , color: '#333333', padding: '5px 40px', textTransform: 'none', fontSize:'17px'}}
-                    onClick={completeSellHandler.bind(this)}
-                    disabled={!btnValue}
-                >
-                    Finish
-                </Button>
+                <Grid container >
+                    <Grid item xs={6} >
+                        <Button
+                            variant="outlined"
+                            onClick={() => props.setView(0)}
+                            style={{border: '1px solid #DAAB59', color: '#333333', padding: '5px 40px', marginRight: '10px', textTransform: 'none', fontSize:'17px'}}
+                        >
+                            Back
+                        </Button>
+                    </Grid>
+                    <Grid item xs={6} >
+                        <Button
+                            variant="contained"
+                            style={{'backgroundColor': '#DAAB59' , color: '#333333', padding: '5px 40px', textTransform: 'none', fontSize:'17px'}}
+                            onClick={completeSellHandler.bind(this)}
+                            disabled={!btnValue}
+                        >
+                            Finish
+                        </Button>
+                    </Grid>
+                </Grid>
             </Box>
 
         </div>

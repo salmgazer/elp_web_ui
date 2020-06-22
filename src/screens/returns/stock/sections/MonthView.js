@@ -32,7 +32,7 @@ const MonthView = props => {
             <SectionNavbars
                 title="Return Purchases"
                 leftIcon={
-                    <div onClick={() => setView(1)} >
+                    <div onClick={() => setView(0)} >
                         <ArrowBackIcon
                             style={{fontSize: '2rem'}}
                         />

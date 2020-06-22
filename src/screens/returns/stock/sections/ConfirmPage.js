@@ -11,6 +11,7 @@ import SingleConfirm from "./singlePages/SingleConfirm";
 import { withRouter } from "react-router-dom";
 import ModelAction from "../../../../services/ModelAction";
 import SimpleSnackbar from "../../../../components/Snackbar/SimpleSnackbar";
+import {confirmAlert} from "react-confirm-alert";
 
 const useStyles = makeStyles(theme => ({
     root: {
@@ -47,9 +48,9 @@ const CartView = props => {
     const [tAmt , setTAmt] = useState('');
     const storedProducts = JSON.parse(localStorage.getItem("data"));
 
-    const deleteProductHandler = (event) => {
-        props.deleteReturn(event);
-    };
+    // const deleteProductHandler = (event) => {
+    //     props.deleteReturn(event);
+    // };
 
     const setView = (step) => {
         props.setView(step);
@@ -92,14 +93,12 @@ const CartView = props => {
                 if (storedProducts[i].quantity === 0) {
     
                     await new ModelAction('BranchProductStock').softDelete(storedProducts[i].id);
-                    localStorage.removeItem('data');
-                    localStorage.removeItem('customerDetails');
                     setSuccessMsg('Item deleted successfully');
                     setSuccess(true);
                     setTimeout(function () {
                         setSuccessMsg('');
                         setSuccess(false);
-                        setView(0);
+                        props.setView(0);
                     }, 2000);
                         
                 }
@@ -107,13 +106,12 @@ const CartView = props => {
                 else {
                   
                     await new ModelAction('BranchProductStock').update(storedProducts[i].id, storedProducts[i]);
-                    localStorage.removeItem('data');
-                    localStorage.removeItem('customerDetails');
                     setSuccessMsg('Item returned successfully');
                     setSuccess(true);
                     setTimeout(function () {
                         setSuccessMsg('');
                         setSuccess(false);
+                        props.setView(0);
                     }, 2000);
           
                 }
@@ -132,6 +130,48 @@ const CartView = props => {
         }
 
     }
+
+    const deleteProductHandler = (event) => {
+        confirmAlert({
+            title: 'Confirm to delete',
+            message: 'Are you sure you want to delete this entry.',
+            buttons: [
+                {
+                    label: 'Yes',
+                    onClick: async () => {
+                        try {
+
+                            //await new ModelAction('SaleEntry').softDelete(event);
+
+                            setSuccessMsg('Entry deleted successfully');
+                            setSuccess(true);
+                            await getReturnItems();
+                            setTimeout(function(){
+                                setSuccessMsg('');
+                                setSuccess(false);
+                            }, 2000);
+
+                            return true;
+                        } catch (e) {
+                            setErrorMsg('OOPS. Something went wrong. Please try again');
+                            setError(true);
+                            setTimeout(function(){
+                                setErrorMsg('');
+                                setError(false);
+                            }, 2000);
+                            return false;
+                        }
+                    }
+                },
+                {
+                    label: 'No',
+                    onClick: () => {
+                        return false;
+                    }
+                }
+            ]
+        })
+    };
 
     return(
         <div className={classes.root}>

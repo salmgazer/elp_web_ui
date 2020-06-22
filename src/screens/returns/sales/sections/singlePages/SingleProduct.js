@@ -44,6 +44,7 @@ const SingleProduct = props => {
     const getProduct = async () => {
         const newProduct = await props.saleEntry.product.fetch();
         setProduct(newProduct);
+        localStorage.removeItem('data');
         setImage(new ProductServiceHandler(product).getProductImage());
         setTotalPrice(new SaleService().getSaleEntrySellingPrice(props.saleEntry));
         setName((newProduct.name).length > 20 ? (newProduct.name).slice(0 , 20) + '...' : newProduct.name);

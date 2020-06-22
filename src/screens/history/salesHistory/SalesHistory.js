@@ -21,6 +21,7 @@ import ArrowBackIcon from '@material-ui/icons/ArrowBack';
 
 import SortDate from './sections/SortDate';
 import SortProduct from './sections/SortProduct';
+import { Grid } from '@material-ui/core';
 
 class SalesHistory extends Component {
     constructor(props){
@@ -127,19 +128,25 @@ class SalesHistory extends Component {
                     p={1}
                     style={{ height: '2.5rem', position: "fixed", bottom:"0", width:"100%" }}
                 >
-                    <Button
-                        variant="outlined"
-                        style={{border: '1px solid #DAAB59', color: '#333333', padding: '5px 50px', marginRight: '10px', textTransform: 'none', fontSize:'17px'}}
-                        onClick={() => this.props.history.goBack()}
-                    >
-                        Back
-                    </Button>
-                    <Button
-                        variant="contained"
-                        style={{'backgroundColor': '#DAAB59' , color: '#333333', padding: '5px 50px', textTransform: 'none', fontSize:'17px'}}
-                    >
-                        Print
-                    </Button>
+                    <Grid container >
+                        <Grid item xs={6} >
+                            <Button
+                                variant="outlined"
+                                style={{border: '1px solid #DAAB59', color: '#333333', padding: '5px 50px', textTransform: 'none', fontSize:'17px'}}
+                                onClick={() => this.props.history.goBack()}
+                            >
+                                Back
+                            </Button>
+                        </Grid>
+                        <Grid item xs={6} >
+                            <Button
+                                variant="contained"
+                                style={{'backgroundColor': '#DAAB59' , color: '#333333', padding: '5px 50px', textTransform: 'none', fontSize:'17px'}}
+                            >
+                                Print
+                            </Button>
+                        </Grid>
+                    </Grid>
                 </Box>
 
             </div>

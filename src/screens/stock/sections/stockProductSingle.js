@@ -253,7 +253,11 @@ const StockProductSingle = props => {
                 p={1}
                 style={{ height: '3.0rem', position: "fixed", bottom:"0", width:"100%" }}
             >
-                <BottomMenu setSP={setSP.bind(this)} costPrice={costPrice} branchProduct={branchProduct} setView={props.setView}/>
+                <Grid container >
+                    <Grid item xs={12} >
+                        <BottomMenu setSP={setSP.bind(this)} costPrice={costPrice} branchProduct={branchProduct} setView={props.setView}/>
+                    </Grid>
+                </Grid>
             </Box>
 
         </div>

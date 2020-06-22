@@ -12,6 +12,7 @@ import { withRouter } from "react-router-dom";
 // import { faLessThan } from '@fortawesome/free-solid-svg-icons';
 import ModelAction from "../../../../services/ModelAction";
 import SimpleSnackbar from "../../../../components/Snackbar/SimpleSnackbar";
+import {confirmAlert} from "react-confirm-alert";
 
 const useStyles = makeStyles(theme => ({
     root: {
@@ -48,10 +49,6 @@ const CartView = props => {
     const [tAmt , setTAmt] = useState('');
     const storedProducts = JSON.parse(localStorage.getItem("data"));
     const storedCustomer = JSON.parse(localStorage.getItem("customerDetails"));
-
-    const deleteProductHandler = (event) => {
-        props.deleteReturn(event);
-    };
 
     const setView = (step) => {
         props.setView(step);
@@ -94,30 +91,28 @@ const CartView = props => {
                 if (storedProducts[i].quantity === 0) {
     
                     await new ModelAction('SaleEntry').softDelete(storedProducts[i].id);
-                    localStorage.removeItem('data');
-                    localStorage.removeItem('customerDetails');
+                    
                     setSuccessMsg('Item deleted successfully');
                     setSuccess(true);
                     setTimeout(function () {
                         setSuccessMsg('');
+                        props.setView(1);
                         setSuccess(false);
-                        setView(0);
                     }, 2000);
-                        
                 }
     
                 else {
                   
                     await new ModelAction('SaleEntry').update(storedProducts[i].id, storedProducts[i]);
-                    localStorage.removeItem('data');
-                    localStorage.removeItem('customerDetails');
+                  
                     setSuccessMsg('Item returned successfully');
                     setSuccess(true);
                     setTimeout(function () {
                         setSuccessMsg('');
+                        props.setView(0);
                         setSuccess(false);
                     }, 2000);
-          
+                    
                 }
     
             }
@@ -134,6 +129,48 @@ const CartView = props => {
         }
 
     }
+
+    const deleteProductHandler = (event) => {
+        confirmAlert({
+            title: 'Confirm to delete',
+            message: 'Are you sure you want to delete this entry.',
+            buttons: [
+                {
+                    label: 'Yes',
+                    onClick: async () => {
+                        try {
+
+                            //await new ModelAction('SaleEntry').softDelete(event);
+
+                            setSuccessMsg('Entry deleted successfully');
+                            setSuccess(true);
+                            await getInvoiceDetails();
+                            setTimeout(function(){
+                                setSuccessMsg('');
+                                setSuccess(false);
+                            }, 2000);
+
+                            return true;
+                        } catch (e) {
+                            setErrorMsg('OOPS. Something went wrong. Please try again');
+                            setError(true);
+                            setTimeout(function(){
+                                setErrorMsg('');
+                                setError(false);
+                            }, 2000);
+                            return false;
+                        }
+                    }
+                },
+                {
+                    label: 'No',
+                    onClick: () => {
+                        return false;
+                    }
+                }
+            ]
+        })
+    };
 
     return(
         <div className={classes.root}>
@@ -185,13 +222,13 @@ const CartView = props => {
             </Grid>
             
 
-            <Button
+            {/* <Button
                 variant="outlined"
                 style={{fontSize: '16px'}}
                 className={classes.button}
             >
                 {storedCustomer.name}
-            </Button>
+            </Button> */}
 
             <Box style={{marginTop: '5px' , paddingBottom: '60px'}} p={1} className={`mt-3 mb-5`}>
                 {storedProducts.length === 0

@@ -20,6 +20,7 @@ import ModelAction from "../../../../services/ModelAction";
 
 const DayView = props => {
 
+    const { history } = props;
     const [selectedDate, setSelectedDate] = React.useState(new Date());
     const [purchaseDetails , setPurchaseDetails] = useState(false);
     const [purchases , setPurchases] = useState([]);
@@ -85,7 +86,7 @@ const DayView = props => {
                 setTimeout(function () {
                     setSuccessMsg('');
                     setSuccess(false);
-                    setView(0);
+                    props.setView(0);
                 }, 2000);
 
                 return true;
@@ -95,7 +96,6 @@ const DayView = props => {
             setTimeout(function () {
                 setErrorMsg('');
                 setError(false);
-                props.setView(0);
             }, 2000);
             return false;
         }
@@ -108,7 +108,7 @@ const DayView = props => {
             <SectionNavbars
                 title="Return Purchases"
                 leftIcon={
-                    <div onClick={() => setView(1)} >
+                    <div onClick={() => history.goBack()} >
                         <ArrowBackIcon
                             style={{fontSize: '2rem'}}
                         />

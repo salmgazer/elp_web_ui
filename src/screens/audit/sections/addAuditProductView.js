@@ -15,6 +15,7 @@ import ProductServiceHandler from '../../../services/ProductServiceHandler';
 import BranchProductService from "../../../services/BranchProductService";
 import Drawer from "../../../components/Drawer/Drawer";
 import AuditService from "../../../services/AuditService";
+import Grid from "@material-ui/core/Grid/Grid";
 
 
 function Alert(props) {
@@ -265,21 +266,27 @@ const AddAuditProductView = props => {
                 p={1}
                 style={{ height: '2.5rem', position: "fixed", bottom:"0", width:"100%" }}
             >
-                <Button
-                    variant="outlined"
-                    style={{border: '1px solid #DAAB59', color: '#DAAB59', padding: '5px 50px', marginRight: '10px'}}
-                    onClick={backHandler.bind(this)}
-                >
-                    Cancel
-                </Button>
-                <Button
-                    variant="contained"
-                    style={{'backgroundColor': '#DAAB59' , color: '#333333', padding: '5px 50px'}}
-                    onClick={saveStock.bind(this)}
-                    disabled={loading}
-                >
-                    Save
-                </Button>
+                <Grid container >
+                    <Grid item xs={6} >
+                        <Button
+                            variant="outlined"
+                            style={{border: '1px solid #DAAB59', color: '#DAAB59', padding: '5px 50px', marginRight: '10px'}}
+                            onClick={backHandler.bind(this)}
+                        >
+                            Cancel
+                        </Button>
+                    </Grid>
+                    <Grid item xs={6} >
+                        <Button
+                            variant="contained"
+                            style={{'backgroundColor': '#DAAB59' , color: '#333333', padding: '5px 50px'}}
+                            onClick={saveStock.bind(this)}
+                            disabled={loading}
+                        >
+                            Save
+                        </Button>
+                    </Grid>
+                </Grid>
             </Box>
         </div>
     )

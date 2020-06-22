@@ -20,6 +20,7 @@ import ListItemText from "@material-ui/core/ListItemText/ListItemText";
 import HistoryOutlinedIcon from '@material-ui/icons/HistoryOutlined';
 import Divider from '@material-ui/core/Divider';
 import CloseOutlinedIcon from '@material-ui/icons/CloseOutlined';
+import { Grid } from '@material-ui/core';
 
 
 const MainAuditView = props => {
@@ -142,26 +143,30 @@ const MainAuditView = props => {
                 <div
                     onClick={() => props.setView(2)}
                 >
-                    <SecondaryButton
-                        classes={`capitalization font-weight-bold text-dark`}
-                    >
-                        View counted products
-                        <span style={{
-                            fontSize: '12px',
-                            color: '#000000',
-                            position: 'absolute',
-                            top: -10,
-                            right: '5%',
-                            backgroundColor: '#FFFFFF',
-                            width: '20px',
-                            height: '20px',
-                            borderRadius: '50%',
-                            fontWeight: '500'
-                        }}
-                        >
-                            {spCount}
-                        </span>
-                    </SecondaryButton>
+                    <Grid container >
+                        <Grid item xs={6} >
+                            <SecondaryButton
+                                classes={`capitalization font-weight-bold text-dark`}
+                            >
+                                View counted products
+                                <span style={{
+                                    fontSize: '12px',
+                                    color: '#000000',
+                                    position: 'absolute',
+                                    top: -10,
+                                    right: '5%',
+                                    backgroundColor: '#FFFFFF',
+                                    width: '20px',
+                                    height: '20px',
+                                    borderRadius: '50%',
+                                    fontWeight: '500'
+                                }}
+                                >
+                                    {spCount}
+                                </span>
+                            </SecondaryButton>
+                        </Grid>
+                    </Grid>
                 </div>
             </Box>
         </div>

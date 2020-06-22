@@ -202,7 +202,7 @@ const Dashboard = props => {
     }
 
     return (
-        <div style={{height: '100vh'}}>
+        <div >
             <React.Fragment>
                 <CssBaseline />
 
@@ -402,7 +402,7 @@ const Dashboard = props => {
                             display: 'flex',
                             width: '100%',
                             alignItems: 'center',
-                            marginBottom: '5px' ,
+                            marginBottom: '4.0rem' ,
                         }}
                     >
                         <CardDefault

@@ -56,6 +56,7 @@ const SingleProduct = props => {
         * */
         const newProduct = await purchase.product.fetch();
         setProduct(newProduct);
+        localStorage.removeItem('data');
         setImage(new ProductServiceHandler(product).getProductImage());
         setName((newProduct.name).length > 20 ? (newProduct.name).slice(0 , 20) + '...' : newProduct.name);
         const costP = await BranchStockService.getStockEntryCostPriceById(purchase.id);

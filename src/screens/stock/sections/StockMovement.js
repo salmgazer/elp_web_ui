@@ -18,6 +18,7 @@ import CloudUploadIcon from '@material-ui/icons/CloudUpload';
 import FileCopyIcon from '@material-ui/icons/FileCopy';
 import PrintIcon from '@material-ui/icons/Print';
 import ListItemText from '@material-ui/core/ListItemText';
+import Grid from "@material-ui/core/Grid/Grid";
 
 import SortDate from './movement/SortDate';
 import SortProduct from './movement/SortProduct';
@@ -127,12 +128,16 @@ class StockMovement extends Component {
                     p={1}
                     style={{ height: '2.5rem', position: "fixed", bottom:"0", width:"100%" }}
                 >
-                    <Button
-                        variant="contained"
-                        style={{'backgroundColor': '#DAAB59' , color: '#333333', padding: '5px 50px', textTransform: 'none', fontSize:'17px'}}
-                    >
-                        Print
-                    </Button>
+                    <Grid container >
+                        <Grid item xs={12} >
+                            <Button
+                                variant="contained"
+                                style={{'backgroundColor': '#DAAB59' , color: '#333333', padding: '5px 50px', textTransform: 'none', fontSize:'17px'}}
+                            >
+                                Print
+                            </Button>
+                        </Grid>
+                    </Grid>
                 </Box>
             </div>
         )
