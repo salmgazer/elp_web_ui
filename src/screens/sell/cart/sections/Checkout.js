@@ -21,6 +21,8 @@ import CartService from "../../../../services/CartService";
 import SimpleSnackbar from "../../../../components/Snackbar/SimpleSnackbar";
 import CustomerListDrawer from "../../../../components/Drawer/CustomerListDrawer/CustomerListDrawer";
 import SaleService from "../../../../services/SaleService";
+import CustomerService from "../../../../services/CustomerService";
+import {confirmAlert} from "react-confirm-alert";
 
 const useStyles = makeStyles(theme => ({
     root: {
@@ -50,6 +52,7 @@ const useStyles = makeStyles(theme => ({
   }));
 
 const CheckoutView = props => {
+    console.log(props.currentCustomer)
     const [cartData , setCartData] = React.useState(
         {
             amountPaid: '',
@@ -186,12 +189,13 @@ const CheckoutView = props => {
         setFormData(formFields);
     };
 
-    const otherPaymentFormFields = (formFields) => {
-        if(parseFloat(formFields.type) === 2 && (formFields.customer === 0)){
+    const otherPaymentFormFields = async(formFields) => {
+        const cashCustomerId = (await CustomerService.getCashCustomer())[0].id;
+        if(parseFloat(formFields.type) === 2 && (formFields.customer === cashCustomerId)){
             setBtnValue(false);
             alert(`Please set a customer for credit sales`)
-        }else if(parseFloat(formFields.type) !== 2 && (formFields.amountPaid === "" || parseFloat(formFields.amountPaid) < parseFloat(props.cartTotalAmount))){
-            setErrorMsg(`Amount paid must be greater than ${props.cartTotalAmount}`);
+        }else if(parseFloat(formFields.type) !== 2 && (formFields.amountPaid === "" || parseFloat(formFields.amountPaid) === 0)){
+            setErrorMsg(`Amount paid must be greater than 0`);
             setError(true);
             setTimeout(function(){
                 setError(false);
@@ -199,7 +203,10 @@ const CheckoutView = props => {
 
             //alert(`Amount paid must be greater than ${props.cartTotalAmount}`)
 
+            setBtnValue(true);
+        }else if(parseFloat(formFields.type) !== 2 && (parseFloat(formFields.amountPaid) < parseFloat(props.cartTotalAmount)) && (formFields.customer === cashCustomerId)) {
             setBtnValue(false);
+            alert(`Please set a customer for credit sales`)
         }else {
             setBtnValue(true);
         }
@@ -214,14 +221,56 @@ const CheckoutView = props => {
     const completeSellHandler = async() => {
         const {...oldFormFields} = cartData;
         oldFormFields['customer'] = props.currentCustomer;
-        if(oldFormFields['amountPaid'] === ''){
-            oldFormFields['amountPaid'] = 0;
-        }
-        try {
-            await new SaleService().makeSell(cartData , cartData.type);
-            props.setView(2);
-        }catch (e) {
 
+        if(oldFormFields['amountPaid'] === ''){
+            oldFormFields['amountPaid'] = 0.00;
+        }
+        if(oldFormFields['changeDue'] === ''){
+            oldFormFields['changeDue'] = 0.00;
+        }
+        console.log(oldFormFields.type , oldFormFields.customer)
+
+        const cashCustomerId = (await CustomerService.getCashCustomer())[0].id;
+        if(oldFormFields.type === 0 && parseFloat(oldFormFields.amountPaid) < parseFloat(props.cartTotalAmount)){
+            alert(`Amount paid must be greater than ${props.cartTotalAmount}`)
+        }else if(parseFloat(oldFormFields.type) === 2 && (oldFormFields.customer === cashCustomerId)){
+            alert(`Please set a customer for credit sales`)
+        }else if(parseFloat(oldFormFields.type) !== 2 && parseFloat(oldFormFields.type) !== 0 && (oldFormFields.amountPaid === "" || parseFloat(oldFormFields.amountPaid) === 0)){
+            alert(`Amount paid must be greater than 0`);
+        }else if(parseFloat(oldFormFields.type) !== 2 && parseFloat(oldFormFields.type) !== 0 && (parseFloat(oldFormFields.amountPaid) < parseFloat(props.cartTotalAmount)) && (oldFormFields.customer === cashCustomerId)) {
+            alert(`Please set a customer for credit sales`)
+        }else if (parseFloat(oldFormFields.amountPaid) < parseFloat(props.cartTotalAmount) && oldFormFields.type !== 0){
+            confirmAlert({
+                title: 'Confirm to sell',
+                message: 'Are you sure, you want to sell on credit?',
+                buttons: [
+                    {
+                        label: 'Yes',
+                        onClick: async () => {
+                            try {
+                                await new SaleService().makeSell(cartData , cartData.type);
+                                props.setView(2);
+                            } catch (e) {
+                                console.log('Something went wrong')
+                                return false;
+                            }
+                        }
+                    },
+                    {
+                        label: 'No',
+                        onClick: () => {
+                            alert(`Please make sure amount paid is ${props.cartTotalAmount} or above`)
+                        }
+                    }
+                ]
+            });
+        } else {
+            try {
+                await new SaleService().makeSell(cartData , cartData.type);
+                props.setView(2);
+            }catch (e) {
+                console.log('Something went wrong.')
+            }
         }
     };
 
@@ -330,28 +379,6 @@ const CheckoutView = props => {
                     Finish
                 </Button>
             </Box>
-
-            {/*<Box
-                className="shadow1"
-                bgcolor="background.paper"
-                p={1}
-                style={{ height: '2.5rem', position: "fixed", bottom:"0", width:"100%" }}
-            >
-                <Button
-                    variant="contained"
-                    className='text-dark font-weight-bold'
-                    style={{
-                        backgroundColor: '#DAAB59',
-                        color: '#333333',
-                        padding: '5px 60px',
-                        textTransform: 'none',
-                        fontSize: '20px',
-                    }}
-                    onClick={completeSellHandler.bind(this)}
-                >
-                    Finish
-                </Button>
-            </Box>*/}
 
         </div>
     )

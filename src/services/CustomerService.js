@@ -9,6 +9,14 @@ export default class CustomerService {
         return new ModelAction('Customer').index();
     }
 
+    static async getCashCustomer() {
+        return new ModelAction('Customer').findByColumnNotObserve({
+            name: 'phone',
+            value: '1000000000',
+            fxn: 'eq'
+        });
+    }
+
     async addCustomer(customerData){
 
         try {
