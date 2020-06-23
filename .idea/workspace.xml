@@ -3,7 +3,12 @@
   <component name="ChangeListManager">
     <list default="true" id="f0e589bc-4276-4788-a686-0858c0f1eaa6" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/DateToggle/DateToggle.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/DateToggle/DateToggle.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/screens/history/salesHistory/sections/MonthView.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/screens/history/salesHistory/sections/MonthView.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/screens/history/salesHistory/sections/WeekView.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/screens/history/salesHistory/sections/WeekView.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/screens/history/salesHistory/sections/YearView.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/screens/history/salesHistory/sections/YearView.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/services/SaleService.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/services/SaleService.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/services/SystemDateHandler.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/services/SystemDateHandler.js" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -140,7 +145,7 @@
       <usages-collector id="statistics.file.extensions.edit">
         <counts>
           <entry key="cell" value="140" />
-          <entry key="js" value="35619" />
+          <entry key="js" value="36106" />
           <entry key="json" value="374" />
           <entry key="scss" value="47" />
         </counts>
@@ -148,7 +153,7 @@
       <usages-collector id="statistics.file.types.edit">
         <counts>
           <entry key="JSON" value="374" />
-          <entry key="JavaScript" value="35619" />
+          <entry key="JavaScript" value="36106" />
           <entry key="SCSS" value="47" />
           <entry key="Scratch" value="140" />
         </counts>
@@ -195,8 +200,8 @@
           <file pinned="false" current-in-tab="false">
             <entry file="file://$PROJECT_DIR$/src/screens/history/salesHistory/sections/WeekView.js">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="2430">
-                  <caret line="149" column="37" selection-start-line="149" selection-start-column="37" selection-end-line="149" selection-end-column="37" />
+                <state relative-caret-position="374">
+                  <caret line="154" column="39" selection-start-line="154" selection-start-column="39" selection-end-line="154" selection-end-column="39" />
                   <folding>
                     <element signature="e#0#49#0" expanded="true" />
                   </folding>
@@ -204,7 +209,7 @@
               </provider>
             </entry>
           </file>
-          <file pinned="false" current-in-tab="true">
+          <file pinned="false" current-in-tab="false">
             <entry file="file://$PROJECT_DIR$/src/screens/history/salesHistory/sections/productViews/SingleWeekView.js">
               <provider selected="true" editor-type-id="text-editor">
                 <state relative-caret-position="504">
@@ -216,8 +221,8 @@
           <file pinned="false" current-in-tab="false">
             <entry file="file://$PROJECT_DIR$/src/components/DateToggle/DateToggle.js">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="774">
-                  <caret line="46" column="13" selection-start-line="46" selection-start-column="13" selection-end-line="46" selection-end-column="13" />
+                <state relative-caret-position="323">
+                  <caret line="17" column="36" lean-forward="true" selection-start-line="17" selection-start-column="36" selection-end-line="17" selection-end-column="36" />
                   <folding>
                     <element signature="e#0#37#0" expanded="true" />
                   </folding>
@@ -228,17 +233,17 @@
           <file pinned="false" current-in-tab="false">
             <entry file="file://$PROJECT_DIR$/src/screens/history/salesHistory/sections/DayView.js">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="4608">
+                <state relative-caret-position="342">
                   <caret line="277" column="35" selection-start-line="277" selection-start-column="35" selection-end-line="277" selection-end-column="35" />
                 </state>
               </provider>
             </entry>
           </file>
-          <file pinned="false" current-in-tab="false">
+          <file pinned="false" current-in-tab="true">
             <entry file="file://$PROJECT_DIR$/src/services/SystemDateHandler.js">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="324">
-                  <caret line="27" column="53" selection-start-line="27" selection-start-column="27" selection-end-line="27" selection-end-column="53" />
+                <state relative-caret-position="532">
+                  <caret line="38" selection-start-line="38" selection-end-line="38" />
                   <folding>
                     <element signature="e#0#49#0" expanded="true" />
                   </folding>
@@ -249,8 +254,8 @@
           <file pinned="false" current-in-tab="false">
             <entry file="file://$PROJECT_DIR$/src/screens/history/salesHistory/sections/YearView.js">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="162">
-                  <caret line="21" selection-start-line="21" selection-end-line="21" />
+                <state relative-caret-position="474">
+                  <caret line="133" column="39" selection-start-line="133" selection-start-column="39" selection-end-line="133" selection-end-column="39" />
                 </state>
               </provider>
             </entry>
@@ -271,8 +276,8 @@
           <file pinned="false" current-in-tab="false">
             <entry file="file://$PROJECT_DIR$/src/screens/history/salesHistory/sections/MonthView.js">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="252">
-                  <caret line="26" column="21" selection-start-line="26" selection-start-column="21" selection-end-line="26" selection-end-column="21" />
+                <state relative-caret-position="105">
+                  <caret line="139" column="39" selection-start-line="139" selection-start-column="39" selection-end-line="139" selection-end-column="39" />
                 </state>
               </provider>
             </entry>
@@ -334,8 +339,12 @@
           <file pinned="false" current-in-tab="true">
             <entry file="file://$PROJECT_DIR$/src/services/SaleService.js">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="19">
-                  <caret line="420" column="25" lean-forward="true" selection-start-line="420" selection-start-column="25" selection-end-line="420" selection-end-column="25" />
+                <state relative-caret-position="506">
+                  <caret line="468" selection-start-line="468" selection-end-line="468" />
+                  <folding>
+                    <element signature="e#0#40#0" expanded="true" />
+                    <element signature="e#16486#17678#0" />
+                  </folding>
                 </state>
               </provider>
             </entry>
@@ -353,7 +362,6 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>fullList</find>
       <find>setSuccess</find>
       <find>customer</find>
       <find>anchor</find>
@@ -383,6 +391,7 @@
       <find>histo</find>
       <find>go</find>
       <find>auditedEntries</find>
+      <find>weekFormatSales</find>
     </findStrings>
   </component>
   <component name="Git.Settings">
@@ -391,8 +400,6 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/src/screens/returns/sales/SalesReturns.js" />
-        <option value="$PROJECT_DIR$/src/screens/stock/sections/StockMovement.js" />
         <option value="$PROJECT_DIR$/src/services/ModelAction.js" />
         <option value="$PROJECT_DIR$/src/services/StockMovementService.js" />
         <option value="$PROJECT_DIR$/src/index.js" />
@@ -439,8 +446,10 @@
         <option value="$PROJECT_DIR$/src/screens/audit/sections/searchMode/AuditSearchMode.js" />
         <option value="$PROJECT_DIR$/src/screens/history/salesHistory/sections/DayView.js" />
         <option value="$PROJECT_DIR$/src/screens/history/salesHistory/sections/MonthView.js" />
-        <option value="$PROJECT_DIR$/src/screens/history/salesHistory/sections/WeekView.js" />
         <option value="$PROJECT_DIR$/src/screens/history/salesHistory/sections/YearView.js" />
+        <option value="$PROJECT_DIR$/src/screens/history/salesHistory/sections/WeekView.js" />
+        <option value="$PROJECT_DIR$/src/components/DateToggle/DateToggle.js" />
+        <option value="$PROJECT_DIR$/src/services/SystemDateHandler.js" />
         <option value="$PROJECT_DIR$/src/services/SaleService.js" />
       </list>
     </option>
@@ -472,6 +481,7 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
+      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
@@ -659,7 +669,6 @@
           <select />
         </subPane>
       </pane>
-      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -714,18 +723,18 @@
       <workItem from="1592489699443" duration="22724000" />
       <workItem from="1592677069864" duration="1275000" />
       <workItem from="1592760588310" duration="42791000" />
-      <workItem from="1592905052146" duration="610000" />
+      <workItem from="1592905052146" duration="8810000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="473461000" />
+    <option name="totallyTimeSpent" value="481661000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="1913" y="-7" width="1550" height="878" extended-state="6" />
     <editor active="true" />
     <layout>
-      <window_info content_ui="combo" id="Project" order="0" weight="0.18866397" />
+      <window_info content_ui="combo" id="Project" order="0" weight="0.1885906" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="npm" order="2" side_tool="true" />
       <window_info id="DB Browser" order="3" />
@@ -1048,50 +1057,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/screens/history/salesHistory/sections/WeekView.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="2430">
-          <caret line="149" column="37" selection-start-line="149" selection-start-column="37" selection-end-line="149" selection-end-column="37" />
-          <folding>
-            <element signature="e#0#49#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/components/DateToggle/DateToggle.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="774">
-          <caret line="46" column="13" selection-start-line="46" selection-start-column="13" selection-end-line="46" selection-end-column="13" />
-          <folding>
-            <element signature="e#0#37#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/screens/history/salesHistory/sections/DayView.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="4608">
-          <caret line="277" column="35" selection-start-line="277" selection-start-column="35" selection-end-line="277" selection-end-column="35" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/services/SystemDateHandler.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="324">
-          <caret line="27" column="53" selection-start-line="27" selection-start-column="27" selection-end-line="27" selection-end-column="53" />
-          <folding>
-            <element signature="e#0#49#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/screens/history/salesHistory/sections/YearView.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="162">
-          <caret line="21" selection-start-line="21" selection-end-line="21" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/screens/history/salesHistory/sections/productViews/SingleYearView.js">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="36">
@@ -1103,13 +1068,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="504">
           <caret line="39" selection-start-line="39" selection-end-line="39" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/screens/history/salesHistory/sections/MonthView.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="252">
-          <caret line="26" column="21" selection-start-line="26" selection-start-column="21" selection-end-line="26" selection-end-column="21" />
         </state>
       </provider>
     </entry>
@@ -1157,10 +1115,65 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/src/screens/history/salesHistory/sections/MonthView.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="105">
+          <caret line="139" column="39" selection-start-line="139" selection-start-column="39" selection-end-line="139" selection-end-column="39" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/screens/history/salesHistory/sections/YearView.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="474">
+          <caret line="133" column="39" selection-start-line="133" selection-start-column="39" selection-end-line="133" selection-end-column="39" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/screens/history/salesHistory/sections/DayView.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="342">
+          <caret line="277" column="35" selection-start-line="277" selection-start-column="35" selection-end-line="277" selection-end-column="35" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/screens/history/salesHistory/sections/WeekView.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="374">
+          <caret line="154" column="39" selection-start-line="154" selection-start-column="39" selection-end-line="154" selection-end-column="39" />
+          <folding>
+            <element signature="e#0#49#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/components/DateToggle/DateToggle.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="323">
+          <caret line="17" column="36" lean-forward="true" selection-start-line="17" selection-start-column="36" selection-end-line="17" selection-end-column="36" />
+          <folding>
+            <element signature="e#0#37#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/services/SystemDateHandler.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="532">
+          <caret line="38" selection-start-line="38" selection-end-line="38" />
+          <folding>
+            <element signature="e#0#49#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/src/services/SaleService.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="19">
-          <caret line="420" column="25" lean-forward="true" selection-start-line="420" selection-start-column="25" selection-end-line="420" selection-end-column="25" />
+        <state relative-caret-position="506">
+          <caret line="468" selection-start-line="468" selection-end-line="468" />
+          <folding>
+            <element signature="e#0#40#0" expanded="true" />
+            <element signature="e#16486#17678#0" />
+          </folding>
         </state>
       </provider>
     </entry>

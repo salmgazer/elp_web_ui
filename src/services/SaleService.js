@@ -17,13 +17,13 @@ import format from "date-fns/format";
 import startOfWeek from "date-fns/startOfWeek";
 import endOfWeek from "date-fns/endOfWeek";
 import getWeekOfMonth from "date-fns/getWeekOfMonth";
-import isWithinInterval from "date-fns/isWithinInterval";
 import startOfYear from "date-fns/startOfYear";
 import lastDayOfYear from "date-fns/lastDayOfYear";
 import eachMonthOfInterval from "date-fns/eachMonthOfInterval";
 import * as Q from "@nozbe/watermelondb/QueryDescription";
 import SaleEntries from "../models/saleEntry/SaleEntries";
 import CustomerService from "./CustomerService";
+import eachDayOfInterval from 'date-fns/eachDayOfInterval';
 
 export default class SaleService {
     async makeSell(data , paymentType){
@@ -350,13 +350,14 @@ export default class SaleService {
         );
 
         const day = new Date(date);
-        console.log(date);
 
         switch (duration) {
             case 'day':
                 return sales.filter(sale => isSameDay(new Date(fromUnixTime(sale.entryDate)), day));
             case 'week':
-                return sales.filter(sale => isSameWeek(new Date(fromUnixTime(sale.entryDate)), day));
+                return sales.filter(sale => isSameWeek(new Date(fromUnixTime(sale.entryDate)), day , {
+                    weekStartsOn: 1
+                }));
             case 'month':
                 return sales.filter(sale => isSameMonth(new Date(fromUnixTime(sale.entryDate)), day));
             case 'year':
@@ -379,7 +380,9 @@ export default class SaleService {
             case 'day':
                 return sales.filter(sale => isSameDay(fromUnixTime(sale.entryDate), day));
             case 'week':
-                return sales.filter(sale => isSameWeek(fromUnixTime(sale.entryDate), day));
+                return sales.filter(sale => isSameWeek(fromUnixTime(sale.entryDate), day , {
+                    weekStartsOn: 1
+                }));
             case 'month':
                 return sales.filter(sale => isSameMonth(fromUnixTime(sale.entryDate), day));
             case 'year':
@@ -423,21 +426,47 @@ export default class SaleService {
         }
     }
 
-    static async weekSalesFormat(sales){
+    static async weekSalesFormat(sales , date){
+        let weekDaySales = [];
+        const newDate = new Date(date);
         let weekFormatSales = [];
-        const newSales = sales.reduce((r, a) => {
+
+        const weekStart = startOfWeek(newDate , { weekStartsOn: 1 });
+        const weekEnd = endOfWeek(newDate , { weekStartsOn: 1 });
+
+        const daysInWeek = eachDayOfInterval({
+            start: weekStart,
+            end: weekEnd
+        });
+
+        for (let i = 0; i < daysInWeek.length; i++) {
+            const day = format(daysInWeek[i] , 'dd MMMM yyyy');
+
+            weekFormatSales[day] = [];
+        }
+
+        for (let index = 0; index < sales.length; index++){
+
+            let day = format(fromUnixTime(sales[index].entryDate) , 'dd MMMM yyyy');
+
+            weekFormatSales[day] = [...weekFormatSales[day] || [], sales[index]];
+        }
+
+        /*const newSales = sales.reduce((r, a) => {
             const day = format(fromUnixTime(a.entryDate) , 'dd MMMM yyyy');
             r[day] = [...r[day] || [], a];
             return r;
-        }, []);
+        }, []);*/
 
-        for (const [key, value] of Object.entries(newSales)) {
+        for (const [key, value] of Object.entries(weekFormatSales)) {
             const index = format(new Date(key) , 'MM/dd/yyyy');
-            console.log(index)
-            weekFormatSales.push({...await SaleService.getSaleFormatAsync(value) , day: key, index: index})
+
+            if(value.length > 0) {
+                weekDaySales.push({...await SaleService.getSaleFormatAsync(value), day: key, index: index})
+            }
         }
 
-        return weekFormatSales;
+        return weekDaySales;
     }
 
     static async monthSalesFormat (sales , date){
@@ -458,12 +487,8 @@ export default class SaleService {
         * */
         for (let i = 0; i < weeksInMonth.length; i++) {
             const startDate = format(startOfWeek(weeksInMonth[i] , { weekStartsOn: 1 }), 'MM/dd/yyyy');
-            let lastDate = '';
-            //if(weeksInMonth.length !== i + 1){
-                lastDate = format(endOfWeek(weeksInMonth[i] , { weekStartsOn: 1 }), 'MM/dd/yyyy');
-            //}else{
-            //    lastDate = `${format(monthEnd, 'MM/dd/yyyy')}`;
-            //}
+            const lastDate = format(endOfWeek(weeksInMonth[i] , { weekStartsOn: 1 }), 'MM/dd/yyyy');
+
             let week = getWeekOfMonth(weeksInMonth[i]);
 
             week = `Week ${week} : ${startDate} - ${lastDate}`;
@@ -472,15 +497,26 @@ export default class SaleService {
         }
 
         for (let index = 0; index < sales.length; index++){
-            const day = new Date(fromUnixTime(sales[index].entryDate));
+            const day = fromUnixTime(sales[index].entryDate);
 
             const startDate = format(startOfWeek(day , { weekStartsOn: 1 }), 'MM/dd/yyyy');
-            let lastDate = format(endOfWeek(day , { weekStartsOn: 1 }), 'MM/dd/yyyy');
+            const lastDate = format(endOfWeek(day , { weekStartsOn: 1 }), 'MM/dd/yyyy');
 
+            let week = getWeekOfMonth(day , { weekStartsOn: 1 });
+            week = `Week ${week} : ${startDate} - ${lastDate}`;
+            monthWeekSales[week] = [...monthWeekSales[week] || [], sales[index]];
+        }
+
+        /*for (let index = 0; index < sales.length; index++){
+            const day = fromUnixTime(sales[index].entryDate);
+
+            const startDate = format(startOfWeek(day , { weekStartsOn: 1 }), 'MM/dd/yyyy');
+            const lastDate = format(endOfWeek(day , { weekStartsOn: 1 }), 'MM/dd/yyyy');
+            //console.log(`${startDate} - ${lastDate}`)
             //const sameMonth = isSameMonth(new Date(startDate), new Date(lastDate));
 
             //if(sameMonth){
-                lastDate = format(endOfWeek(day , { weekStartsOn: 1 }), 'MM/dd/yyyy');
+                //lastDate = format(endOfWeek(day , { weekStartsOn: 1 }), 'MM/dd/yyyy');
             //}else{
             //    lastDate = `${format(monthEnd, 'MM/dd/yyyy')}`;
             //}
@@ -488,16 +524,19 @@ export default class SaleService {
             let week = getWeekOfMonth(day);
 
             week = `Week ${week} : ${startDate} - ${lastDate}`;
+            monthWeekSales[week] = [...monthWeekSales[week] || [], sales[index]];
 
-            const isValid = isWithinInterval((day), {
+            //console.log(week)
+
+            /!*const isValid = isWithinInterval((day), {
                 start: new Date(startDate),
                 end: new Date(lastDate)
-            });
+            });*!/
 
-            if(isValid) {
+            /!*if(isValid) {
                 monthWeekSales[week] = [...monthWeekSales[week] || [], sales[index]];
-            }
-        }
+            }*!/
+        }*/
 
         for (const [key, value] of Object.entries(monthWeekSales)) {
             const index = key.slice(9,19)
@@ -591,7 +630,7 @@ export default class SaleService {
         }
 
         if (duration === 'week') {
-            sale = await SaleService.weekSalesFormat(sale);
+            sale = await SaleService.weekSalesFormat(sale , date);
         } else if (duration === 'month') {
             sale = await SaleService.monthSalesFormat(sale , date);
         } else if (duration === 'year') {
@@ -638,7 +677,7 @@ export default class SaleService {
         }
 
         if (duration === 'week') {
-            sale = await SaleService.weekSalesFormat(sale);
+            sale = await SaleService.weekSalesFormat(sale , date);
         } else if (duration === 'month') {
             sale = await SaleService.monthSalesFormat(sale , date);
         } else if (duration === 'year') {

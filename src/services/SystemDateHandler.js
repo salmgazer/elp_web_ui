@@ -8,6 +8,8 @@ import format from "date-fns/format";
 import LocalInfo from "./LocalInfo";
 import getUnixTime from 'date-fns/getUnixTime';
 import lastDayOfYear from 'date-fns/lastDayOfYear';
+import startOfWeek from "date-fns/startOfWeek";
+import endOfWeek from "date-fns/endOfWeek";
 
 export default class SystemDateHandler {
     constructor(){
@@ -20,20 +22,24 @@ export default class SystemDateHandler {
         const weeks = eachWeekOfInterval({
             start: startDate,
             end: endDate
-        }).reverse();
+        }, { weekStartsOn: 1 }).reverse();
 
         return weeks.map((week , index) => {
-            if(weeks.length !== index + 1){
+            const weekStart = startOfWeek(week , { weekStartsOn: 1 });
+            const weekEnd = endOfWeek(week , { weekStartsOn: 1 });
+
+            return {
+                value: format(week, 'MM/dd/yyyy'),
+                label: `Week ${index + 1}: ${format(weekStart , 'eee, do MMMM, yyyy')} - ${format(weekEnd , 'eee, do MMMM, yyyy')}`
+            }
+            /*if(weeks.length !== index + 1){
                 return {
                     value: format(week, 'MM/dd/yyyy'),
                     label: `Week ${index + 1}: ${format(week , 'eee, do MMMM, yyyy')} - ${format(weeks[index + 1] , 'eee, do MMMM, yyyy')}`
                 }
             }else{
-                return {
-                    value: format(week, 'MM/dd/yyyy'),
-                    label: `Week ${index + 1}: ${format(week , 'eee, do MMMM, yyyy')} - ${format(new Date() , 'eee, do MMMM, yyyy')}`
-                }
-            }
+
+            }*/
         });
     }
 

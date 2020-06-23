@@ -125,13 +125,13 @@ const useStyles = makeStyles(theme => ({
                     pageName === false ?
 
                     sales.map((sale , index) =>
-                        <div onClick={getChildrenDetails.bind(this, sale.index)}>
+                        <div key={index} onClick={getChildrenDetails.bind(this, sale.index)}>
                             <SingleYearView  key={index} sale={sale} />
                         </div>
                     )
                     :
                     sales.map((sale , index) =>
-                        <div onClick={getChildrenDetails.bind(this, sale.index)}>
+                        <div key={index} onClick={getChildrenDetails.bind(this, sale.index)}>
                             <ProductYear  key={index} sale={sale} prodName={name} />
                         </div>
                     )
