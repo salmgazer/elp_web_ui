@@ -59,7 +59,7 @@ const StockSummaryPage = props => {
                         >
                             Items in store
                         </div>
-                        <div className="font-weight-bold mt-1">{props.storeDetails.itemsInStore} items</div>
+                        <div className="font-weight-bold mt-1">{props.storeDetails.itemsInStore} quantities</div>
                     </Grid>
                 </Grid>
 

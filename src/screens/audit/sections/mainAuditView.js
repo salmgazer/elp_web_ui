@@ -144,7 +144,7 @@ const MainAuditView = props => {
                     onClick={() => props.setView(2)}
                 >
                     <Grid container >
-                        <Grid item xs={6} >
+                        <Grid item xs={12} >
                             <SecondaryButton
                                 classes={`capitalization font-weight-bold text-dark`}
                             >

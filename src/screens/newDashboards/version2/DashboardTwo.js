@@ -1,19 +1,39 @@
 import React, {useEffect , useState} from "react";
+import { withRouter } from "react-router-dom";
+import { withDatabase } from "@nozbe/watermelondb/DatabaseProvider";
+import withObservables from "@nozbe/with-observables";
+import { Q } from "@nozbe/watermelondb";
 
 import Grid from "@material-ui/core/Grid/Grid";
 import paths from "../../../utilities/paths";
 import CssBaseline from "@material-ui/core/CssBaseline/CssBaseline";
 import MenuIcon from '@material-ui/icons/Menu';
 import Paper from '@material-ui/core/Paper';
-import AppsIcon from '@material-ui/icons/Apps';
 
 import Typography from "@material-ui/core/Typography/Typography";
 import SectionNavbars from "../../../components/Sections/SectionNavbars";
 import Drawer from "../../../components/Drawer/Drawer";
+import HistoryModal from '../../../components/Modal/option/HistoryModal';
 
 import LocalInfo from '../../../services/LocalInfo';
 import CompanyService from "../../../services/CompanyService";
 import CardGridComponent from './section/CardGridComponent';
+import Brand from "../../../models/brands/Brand";
+import BranchProduct from "../../../models/branchesProducts/BranchProduct";
+import Product from "../../../models/products/Product";
+import Customer from "../../../models/customers/Customer";
+import Sales from "../../../models/sales/Sales";
+import ModelAction from "../../../services/ModelAction";
+import Carts from "../../../models/carts/Carts";
+import BranchProductStock from "../../../models/branchesProductsStocks/BranchProductStock";
+import BranchProductStockHistory from "../../../models/branchesProductsStocksHistories/BranchProductStockHistory";
+import SaleInstallments from "../../../models/saleInstallments/SaleInstallment";
+import BranchPurchases from "../../../models/branchPurchases/BranchPurchases";
+import StockMovement from "../../../models/stockMovements/StockMovement";
+import AuditEntries from "../../../models/auditEntry/AuditEntries";
+import Audits from "../../../models/audit/Audit";
+import StockReturnHistories from "../../../models/stockReturnHistories/StockReturnHistories";
+import SaleReturnHistories from "../../../models/saleReturnHistories/SaleReturnHistories";
 
 import sell from '../../../assets/img/sell.png';
 import stock from '../../../assets/img/stock.png';
@@ -21,12 +41,16 @@ import transfer from '../../../assets/img/transfer.png';
 import dashboardAlt from '../../../assets/img/dashboardAlt.png';
 import audit from '../../../assets/img/audit1.png';
 import management from '../../../assets/img/management.png';
-import { withRouter } from "react-router-dom";
 
 
 const Dashboard = props => {
     const [companySales , setCompanySales] = useState(false);
     const [isDrawerShow , setIsDrawerShow] = useState(false);
+    const [historyDialog, setHistoryDialog] = React.useState(false);
+
+    const openHistoryDialog = (event) => {
+        setHistoryDialog(true);
+    };
 
     useEffect(() => {
         // You need to restrict it at some point
@@ -46,12 +70,47 @@ const Dashboard = props => {
     const username = JSON.parse(localStorage.getItem('userDetails')).firstName;
     console.log(username);
 
-    const { history } = props;
+    const { saleReturnHistories, stockReturnHistories, audits, auditedEntries, history, testProducts, stockMovements, purchases, branchProducts, branchProductStock, branchProductStockHistory, brands, manufacturers, products, customers, branchCustomers , sales , saleEntries , saleInstallments , carts , cartEntries, testBranch } = props;
 
 
-    // if (LocalInfo.storeId && LocalInfo.userId) {
-    //     history.push(paths.home);
-    // }
+    console.log('#####################################')
+    console.log(stockReturnHistories);
+    console.log(saleReturnHistories);
+    console.log(audits);
+    console.log(auditedEntries);
+    console.log(stockMovements);
+    console.log(testProducts);
+    console.log(purchases);
+    console.log(companySales);
+    console.log(testBranch)
+    console.log(branchProducts)
+    console.log('#####################################')
+    console.log("********************************");
+    console.log(LocalInfo.companies);
+    console.log("**************************");
+    console.log("********************************");
+    console.log(products);
+    console.log(branchProductStock);
+    console.log(11111111111111111111);
+    console.log(branchProductStockHistory);
+    console.log(11111111111111111111);
+
+    console.log("**************************");
+    console.log(Product.columns);
+    console.log(branchProducts);
+    console.log(brands);
+    console.log(manufacturers);
+
+    console.log(customers);
+    console.log(branchCustomers);
+    console.log(sales);
+    console.log(saleEntries);
+    console.log(saleInstallments);
+    console.log("********************************");
+    console.log(carts);
+    console.log(cartEntries);
+    //console.log(cartEntriesQ);
+    console.log("********************************");
 
     return (
         <div style={{height: '100vh'}}>
@@ -63,13 +122,6 @@ const Dashboard = props => {
                     leftIcon={
                         <div onClick={() => setIsDrawerShow(true)}>
                             <MenuIcon
-                                style={{fontSize: '2rem'}}
-                            />
-                        </div>
-                    }
-                    icons={
-                        <div onClick={() => history.push(paths.firstView)}>
-                            <AppsIcon
                                 style={{fontSize: '2rem'}}
                             />
                         </div>
@@ -121,7 +173,7 @@ const Dashboard = props => {
                 >
                     <CardGridComponent source={transfer} text='Collection' />
 
-                    <CardGridComponent source={dashboardAlt} text='Dashboard' onClick={() => history.push(paths.dashboard)}/>
+                    <CardGridComponent source={dashboardAlt} text='View history' onClick={openHistoryDialog.bind(this)} />
 
                 </div>
 
@@ -135,11 +187,14 @@ const Dashboard = props => {
                 >
                     <CardGridComponent source={audit} text='Audit' />
 
-                    <CardGridComponent source={management} text='Shop management' onClick={() => history.push(paths.admin)}/>
+                    <CardGridComponent source={management} text='Admin' onClick={() => history.push(paths.admin)}/>
 
                 </div>
                 
-
+                <HistoryModal
+                    openState={historyDialog}
+                    handleClose={() => setHistoryDialog(false)}
+                />
                 
             </React.Fragment>
         </div>
@@ -147,5 +202,39 @@ const Dashboard = props => {
 };
 
 
-export default withRouter(Dashboard);
+const EnhancedDashboard = withDatabase(
+    withObservables([], ({ database }) => ({
+      audits: database.collections.get(Audits.table).query().observe(),
+      stockReturnHistories: database.collections.get(StockReturnHistories.table).query().observe(),
+      saleReturnHistories: database.collections.get(SaleReturnHistories.table).query().observe(),
+      auditedEntries: database.collections.get(AuditEntries.table).query().observe(),
+      branchProducts: database.collections.get(BranchProduct.table).query(Q.where('branchId', localStorage.getItem('activeBranch'))).observe(),
+      stockMovements: database.collections.get(StockMovement.table).query().fetch(),
+      testProducts: database.collections.get(BranchProduct.table).query().observe(),
+      branchProductStock: database.collections.get(BranchProductStock.table).query().observe(),
+      branchProductStockHistory: database.collections.get(BranchProductStockHistory.table).query().observe(),
+      brands: database.collections.get(Brand.table).query().observe(),
+      manufacturers: new ModelAction('Manufacturer').index(),
+      products: new ModelAction('Product').index(),
+      customers: database.collections.get(Customer.table).query().observe(),
+      sales: database.collections.get(Sales.table).query().observe(),
+      saleEntries: new ModelAction('SaleEntry').index(),
+      carts: database.collections.get(Carts.table).query().observe(),
+      purchases: database.collections.get(BranchPurchases.table).query().observe(),
+      cartEntries: new ModelAction('CartEntry').index(),
+      saleInstallments: database.collections.get(SaleInstallments.table).query().observe(),
+      testBranch: new ModelAction('BranchProduct').findByColumn({
+          name: 'branchId',
+          value: LocalInfo.branchId,
+          fxn: 'eq'
+      }),
+      /*
+    cashFlow: new ModelAction('Cashflow').indexNotObserve(),
+      branchCustomers: database.collections.get(BranchCustomer.table).query().observe(),
+      */
+  
+    }))(withRouter(Dashboard))
+  );
+  
+  export default EnhancedDashboard;
 

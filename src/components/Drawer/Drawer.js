@@ -150,7 +150,7 @@ const Drawer = props => {
             onKeyDown={toggleDrawer(side, false)}
         >
             <span className="drawerDefault"
-                onClick={() => history.push(paths.firstView)}
+                onClick={() => history.push(paths.dashboard)}
                 style={{display: 'flex', position: 'relative', background: '#ffffff', lineHeight: '27px', color: '#403C3C'}}
             >
                 <div className="ham-top-div">
@@ -210,7 +210,7 @@ const Drawer = props => {
                     <ListItemText primary="Stock" />
                 </ListItem>
 
-                <ListItem button key={5} onClick={() => history.push(paths.firstView)}>
+                <ListItem button key={5} onClick={() => history.push(paths.dashboard)}>
                     <ListItemIcon><DashboardIcon style={{color: '#403C3C'}} /></ListItemIcon>
                     <ListItemText primary="Dashboard" />
                 </ListItem>

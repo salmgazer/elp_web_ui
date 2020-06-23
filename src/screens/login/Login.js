@@ -126,7 +126,7 @@ const Login = props => {
             await SaleService.makeSellLegit();
             console.log("DONE SYNCING");
 
-            history.push(paths.firstView)
+            history.push(paths.dashboard)
         } else {
             document.getElementById("loginForm").reset();
             setLoading(false);

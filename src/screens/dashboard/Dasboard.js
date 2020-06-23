@@ -33,8 +33,6 @@ import Carts from "../../models/carts/Carts";
 import CartEntry from "../../models/cartEntry/CartEntry";
 import BranchProductStock from "../../models/branchesProductsStocks/BranchProductStock";
 import BranchProductStockHistory from "../../models/branchesProductsStocksHistories/BranchProductStockHistory";
-//import {v4 as uuid} from 'uuid';
-//import BranchCustomer from "../../models/branchesCustomer/BranchCustomer";
 import SaleInstallments from "../../models/saleInstallments/SaleInstallment";
 import CompanyService from "../../services/CompanyService";
 import BranchPurchases from "../../models/branchPurchases/BranchPurchases";

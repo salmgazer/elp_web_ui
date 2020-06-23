@@ -7,7 +7,7 @@ import Login from "./screens/login/Login";
 import Home from "./screens/home/Home";
 import Register from "./screens/register/Register";
 import VerifySMS from "./screens/verifySMS/Verify_sms";
-import Dashboard from "./screens/dashboard/Dasboard";
+import Dashboard from './screens/newDashboards/version2/DashboardTwo';
 
 import {
   HashRouter as Router,
@@ -67,12 +67,12 @@ import Delivery from "./screens/delivery/Delivery";
 import history from "./utilities/history";
 import StockMovement from "./screens/stock/sections/StockMovement";
 
-import DashboardOne from './screens/newDashboards/version1/DashboardOne';
-import DashboardTwo from './screens/newDashboards/version2/DashboardTwo';
-import NewSell from './screens/newDashboards/version3/sell/sell/Sell';
-import NewCart from "./screens/newDashboards/version3/sell/cart/Cart";
-import NewStock from './screens/newDashboards/version3/stock/DirectiveViewStock';
-import FirstView from './screens/dashboard/FirstView';
+// import DashboardOne from './screens/newDashboards/version1/DashboardOne';
+// import DashboardTwo from './screens/newDashboards/version2/DashboardTwo';
+// import NewSell from './screens/newDashboards/version3/sell/sell/Sell';
+// import NewCart from "./screens/newDashboards/version3/sell/cart/Cart";
+// import NewStock from './screens/newDashboards/version3/stock/DirectiveViewStock';
+// import FirstView from './screens/dashboard/FirstView';
 import CreditSales from './screens/creditSales/CreditSales';
 
 function NoMatch() {
@@ -513,7 +513,7 @@ class App extends React.Component {
                         return <StockMovement />;
                     }}
                 />
-                <Route
+                {/* <Route
                     path={paths.dashboardV1}
                     render={() => {
                         setPageBackground();
@@ -559,7 +559,7 @@ class App extends React.Component {
                         this.setTitle(`Dashboard | ${appName}`);
                         return <FirstView />;
                     }}
-                />
+                /> */}
                 <Route
                     path={paths.credit_sales}
                     render={() => {
