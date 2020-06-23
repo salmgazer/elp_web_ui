@@ -307,6 +307,29 @@ export default class SaleService {
     }
 
     /*
+    * Get today sales total amount
+    * @return number - promise
+    * */
+    async getDaySalesDetails(date) {
+        let sale = (await SaleService.getSalesHistory('day' , date));
+
+        let total = 0;
+        let profit = 0;
+
+        for (let step = 0; step < sale.length; step++) {
+            profit += parseFloat(await SaleService.getSaleEntryProfitById(sale[step].saleId));
+        }
+
+        for (let step = 0; step < sale.length; step++) {
+            total += parseFloat(await SaleService.getSaleEntrySellingPriceById(sale[step].saleId));
+        }
+
+        return {
+            total,profit
+        }
+    }
+
+    /*
     * Get sale payment status
     * */
 

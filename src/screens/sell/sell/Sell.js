@@ -9,7 +9,6 @@ import withObservables from "@nozbe/with-observables";
 import { withRouter } from "react-router-dom";
 import CartService from "../../../services/CartService";
 import {Q} from "@nozbe/watermelondb";
-import database from "../../../models/database";
 import BranchCustomer from "../../../models/branchesCustomer/BranchCustomer";
 import Carts from "../../../models/carts/Carts";
 import SaleService from "../../../services/SaleService";
@@ -41,7 +40,7 @@ class Sell extends Component {
     async componentDidMount() {
         const {branchProducts , cartQuantity , branchCustomers , savedCarts} = this.props;
 
-        const salesTodayDetails = await new SaleService().getTodaySalesDetails();
+        const salesTodayDetails = await new SaleService().getDaySalesDetails(LocalInfo.workingDate);
 
         await this.setState({
             branchProducts: branchProducts,
@@ -57,7 +56,7 @@ class Sell extends Component {
     async componentDidUpdate(prevProps) {
         const {cartQuantity , branchCustomers , savedCarts } = this.props;
 
-        const salesTodayDetails = await new SaleService().getTodaySalesDetails();
+        const salesTodayDetails = await new SaleService().getDaySalesDetails(LocalInfo.workingDate);
 
         if(this.state.savedCart.length !== savedCarts.length || this.state.currentCustomer !== await CartService.getCartCustomerId() || cartQuantity !== prevProps.cartQuantity || branchCustomers.length !== prevProps.branchCustomers.length || this.state.cartTotalProduct !== await CartService.getCartProductQuantity()){
             this.setState({
@@ -71,6 +70,14 @@ class Sell extends Component {
         }
     }
 
+    async getDateSaleDetails() {
+        const salesTodayDetails = await new SaleService().getDaySalesDetails(LocalInfo.workingDate);
+
+        this.setState({
+            salesTodayDetails: salesTodayDetails,
+        });
+    }
+
     //Steps to select category
     getSteps = () => {
         return ['Main View' , 'Product Details View'];
@@ -79,7 +86,7 @@ class Sell extends Component {
     getStepContent = step => {
         switch (step) {
             case 0:
-                return <SellView addToCart={this.addProductToCartHandler.bind(this)} undoProductAdd={this.undoProductAddHandler.bind(this)} salesTodayDetails={this.state.salesTodayDetails} branchProducts={this.state.branchProducts} searchHandler={this.searchHandler.bind(this)} productAdd={this.showAddView.bind(this)} spCount={this.state.spCount} savedCartCount={this.state.savedCart.length} salesMade={this.state.salesMade} profitMade={this.state.profitMade} searchBarcode={this.searchBarcode.bind(this)} setView={this.setStepContentView.bind(this)} />;
+                return <SellView getDateSaleDetails={this.getDateSaleDetails.bind(this)} addToCart={this.addProductToCartHandler.bind(this)} undoProductAdd={this.undoProductAddHandler.bind(this)} salesTodayDetails={this.state.salesTodayDetails} branchProducts={this.state.branchProducts} searchHandler={this.searchHandler.bind(this)} productAdd={this.showAddView.bind(this)} spCount={this.state.spCount} savedCartCount={this.state.savedCart.length} salesMade={this.state.salesMade} profitMade={this.state.profitMade} searchBarcode={this.searchBarcode.bind(this)} setView={this.setStepContentView.bind(this)} />;
             case 1:
                 return <AddProductCart undoProductAdd={this.undoProductAddHandler.bind(this)} currentCustomer={this.state.currentCustomer} searchCustomerHandler={this.searchCustomerHandler.bind(this)} setCustomerHandler={this.setSavedCartCustomerHandler.bind(this)} customers={this.state.customers} addToCart={this.addProductToCartHandler.bind(this)} setView={this.setStepContentView.bind(this)} product={this.state.currentProduct} spCount={this.state.spCount} salesMade={this.state.salesMade} profitMade={this.state.profitMade}/>;
             case 2:

@@ -22,6 +22,10 @@ const SystemDate = props => {
         await database.adapter.setLocal("workingDate" , format(new Date(date), 'MM/dd/yyyy'));
 
         setSelectedDate(new Date(date));
+
+        if(props.returnValue){
+            props.getValue(new Date(date))
+        }
     };
 
     return (

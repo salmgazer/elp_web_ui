@@ -58,6 +58,10 @@ const SellView = props => {
         setValue(index);
     };
 
+    const getDateValue = (date) => {
+        props.getDateSaleDetails(date);
+    };
+
     return (
         <div
         >
@@ -154,7 +158,7 @@ const SellView = props => {
             <div
                 className={`mb-7 mx-0 mt-6`}
             >
-                <SystemDate/>
+                <SystemDate returnValue={true} getValue={getDateValue}/>
 
                 <div
                     style={{
