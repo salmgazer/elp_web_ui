@@ -502,7 +502,9 @@ export default class SaleService {
         for (const [key, value] of Object.entries(monthWeekSales)) {
             const index = key.slice(9,19)
 
-            weekFormatSales.push({...await SaleService.getSaleFormatAsync(value) , week: key , index: index})
+            if(value.length > 0) {
+                weekFormatSales.push({...await SaleService.getSaleFormatAsync(value), week: key, index: index})
+            }
         }
 
         return weekFormatSales;
@@ -550,7 +552,10 @@ export default class SaleService {
 
         for (const [key, value] of Object.entries(yearMonthSales)) {
             const index = format(new Date(key) , 'MM/dd/yyyy');
-            yearFormatSales.push({...await SaleService.getSaleFormatAsync(value) , month: key , index: index})
+
+            if(value.length > 0){
+                yearFormatSales.push({...await SaleService.getSaleFormatAsync(value) , month: key , index: index})
+            }
         }
 
         return yearFormatSales;
