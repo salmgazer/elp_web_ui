@@ -123,7 +123,7 @@ const Login = props => {
             await SyncService.sync(companyId, LocalInfo.branchId, userId, database);
             const activeCustomer = await CustomerService.getCashCustomer();
             await database.adapter.setLocal("activeCustomer" , activeCustomer[0].id);
-            await SaleService.makeSellLegit();
+            //await SaleService.makeSellLegit();
             console.log("DONE SYNCING");
 
             history.push(paths.dashboard)
