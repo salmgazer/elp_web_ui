@@ -3,7 +3,7 @@ import Api from './Api';
 import format from "date-fns/format";
 import GenerateOTP from './GenerateString';
 import paths from "../utilities/paths";
-
+import getTime from 'date-fns/getTime';
 const jwt = require('jsonwebtoken');
 
 export default class AuthService {
@@ -131,6 +131,7 @@ export default class AuthService {
                 localStorage.setItem('userDetails' , JSON.stringify(response.data.user));
                 localStorage.setItem('companyId' , JSON.stringify(response.data.companies[0].id));
                 localStorage.setItem('userData' , JSON.stringify(response.data));
+                localStorage.setItem('lastSyncedAt' , getTime(new Date()));
 
                 user = response.data.user;
                 console.log(user);
