@@ -1,7 +1,7 @@
 import React, {useEffect, useState} from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import AddShoppingCartIcon from '@material-ui/icons/AddShoppingCart';
-import SectionNavbars from "../../../../components/Sections/SectionNavbars";
+import SectionNavbars from "../../../../../../components/Sections/SectionNavbars";
 import Paper from '@material-ui/core/Paper';
 import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
@@ -10,14 +10,14 @@ import PersonAddIcon from '@material-ui/icons/PersonAdd';
 import Box from "@material-ui/core/Box/Box";
 import AddedProductSingle from "./BoxView/BoxView";
 import { withRouter } from "react-router-dom";
-import paths from "../../../../utilities/paths";
-import CartService from "../../../../services/CartService";
-import SimpleSnackbar from "../../../../components/Snackbar/SimpleSnackbar";
+import paths from "../../../../../../utilities/paths";
+import CartService from "../../../../../../services/CartService";
+import SimpleSnackbar from "../../../../../../components/Snackbar/SimpleSnackbar";
 import ArrowBackIcon from '@material-ui/icons/ArrowBack';
 import {confirmAlert} from "react-confirm-alert";
-import ModelAction from "../../../../services/ModelAction";
-import CustomerListDrawer from "../../../../components/Drawer/CustomerListDrawer/CustomerListDrawer";
-import CustomerService from "../../../../services/CustomerService";
+import ModelAction from "../../../../../../services/ModelAction";
+import CustomerListDrawer from "../../../../../../components/Drawer/CustomerListDrawer/CustomerListDrawer";
+import CustomerService from "../../../../../../services/CustomerService";
 
 const useStyles = makeStyles(theme => ({
     root: {
@@ -161,12 +161,6 @@ const CartView = props => {
         <div className={classes.root}>
             <SectionNavbars
                 title="Cart"
-                icons={
-                    <AddShoppingCartIcon
-                        style={{fontSize: '2rem'}}
-                        onClick={openDialogHandler.bind(this)}
-                    />
-                }
                 leftIcon={
                     <div onClick={() => props.history.push(paths.sell)}>
                         <ArrowBackIcon
@@ -256,28 +250,6 @@ const CartView = props => {
                 }
             </Box>
 
-            {/*<Box
-                className="shadow1"
-                bgcolor="background.paper"
-                p={1}
-                style={{ height: '2.5rem', position: "fixed", bottom:"0", width:"100%", display: 'flex', alignContent: 'center' }}
-            >
-                <div
-                    onClick={() => props.history.push(paths.sell)}
-                >
-                    <PrimaryButton>
-                        Add product
-                    </PrimaryButton>
-                </div>
-
-                <div
-                    onClick={openCheckoutHandler.bind(this)}
-                >
-                    <SecondaryButton>
-                        Checkout
-                    </SecondaryButton>
-                </div>
-            </Box>*/}
 
             <Box
                 className="shadow1"
@@ -297,11 +269,11 @@ const CartView = props => {
                     <Grid item xs={6} >
                         <Button
                             variant="contained"
-                            style={{'backgroundColor': '#DAAB59' , color: '#333333', padding: '5px 40px', textTransform: 'none', fontSize:'17px'}}
+                            style={{'backgroundColor': '#DAAB59' , color: '#333333', padding: '5px 55px', textTransform: 'none', fontSize:'17px'}}
                             onClick={openCheckoutHandler.bind(this)}
                             disabled={!counter}
                         >
-                            Checkout
+                            Next
                         </Button>
                     </Grid>
                 </Grid>

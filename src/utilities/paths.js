@@ -56,4 +56,6 @@ export default {
     newStock: "/new-stock",
     firstView: "/first-view",
     credit_sales: '/credit-sales',
+    other_stock: '/other-stock',
+    other_cart: '/other-cart',
 };

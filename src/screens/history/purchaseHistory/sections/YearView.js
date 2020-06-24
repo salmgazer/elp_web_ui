@@ -15,6 +15,7 @@ import PurchaseService from "../../../../services/PurchaseService";
 const useStyles = makeStyles(theme => ({
     root: {
     flexGrow: 1,
+    marginBottom: '4rem'
     }
 }));
 

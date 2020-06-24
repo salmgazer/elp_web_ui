@@ -140,7 +140,12 @@ const CartView = props => {
                     onClick: async () => {
                         try {
 
-                            //await new ModelAction('SaleEntry').softDelete(event);
+                            for (let i=0; i<storedProducts.length; i++) {
+                                if (storedProducts[i].id === event) {
+                                    storedProducts.splice(storedProducts.indexOf(i), 1);
+                                    localStorage.setItem("data", JSON.stringify(storedProducts));  
+                                }
+                            }
 
                             setSuccessMsg('Entry deleted successfully');
                             setSuccess(true);

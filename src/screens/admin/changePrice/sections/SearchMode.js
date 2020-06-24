@@ -70,7 +70,7 @@ const SearchMode = props => {
                             onClick={addProductHandler.bind(this, branchProduct.productId)}
                         >
                             <ProductCardHorizontal product={branchProduct.product.fetch()}>
-                                {new BranchProductService(branchProduct).getSellingPrice() ? `GHC ${new BranchProductService(branchProduct).getSellingPrice()}` : `No selling price`}
+                                {new BranchProductService(branchProduct).getSellingPrice() ? `Selling price: GHC ${new BranchProductService(branchProduct).getSellingPrice()}` : `No selling price`}
                             </ProductCardHorizontal>
 
                         </div>

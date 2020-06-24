@@ -1,13 +1,6 @@
 import React, {useEffect, useState} from 'react';
 import { makeStyles } from '@material-ui/core/styles';
-import SectionNavbars from "../../../../components/Sections/SectionNavbars";
-import Tabs from "@material-ui/core/Tabs/Tabs";
-import Tab from "@material-ui/core/Tab/Tab";
-import SwipeableViews from "react-swipeable-views";
-import LocalAtmIcon from '@material-ui/icons/LocalAtm';
-import PhoneAndroidIcon from '@material-ui/icons/PhoneAndroid';
-import TabPanel from "../../../../components/Tabs/TabPanel";
-import AppBar from '@material-ui/core/AppBar';
+import SectionNavbars from "../../../../../../components/Sections/SectionNavbars";
 import Box from "@material-ui/core/Box/Box";
 import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
@@ -16,12 +9,11 @@ import ArrowBackIcon from '@material-ui/icons/ArrowBack';
 import { withRouter } from "react-router-dom";
 
 import ViewCash from './ViewCash';
-import ViewMobileMoney  from './ViewMobileMoney';
-import CartService from "../../../../services/CartService";
-import SimpleSnackbar from "../../../../components/Snackbar/SimpleSnackbar";
-import CustomerListDrawer from "../../../../components/Drawer/CustomerListDrawer/CustomerListDrawer";
-import SaleService from "../../../../services/SaleService";
-import CustomerService from "../../../../services/CustomerService";
+import CartService from "../../../../../../services/CartService";
+import SimpleSnackbar from "../../../../../../components/Snackbar/SimpleSnackbar";
+import CustomerListDrawer from "../../../../../../components/Drawer/CustomerListDrawer/CustomerListDrawer";
+import SaleService from "../../../../../../services/SaleService";
+import CustomerService from "../../../../../../services/CustomerService";
 import {confirmAlert} from "react-confirm-alert";
 
 const useStyles = makeStyles(theme => ({
@@ -93,13 +85,6 @@ const CheckoutView = props => {
     const getCustomerName = async () => {
         setCustomerName(await new CartService().getCartCustomer(props.currentCustomer));
     };
-
-    function a11yProps(index) {
-        return {
-            id: `full-width-tab-${index}`,
-            'aria-controls': `full-width-tabpanel-${index}`,
-        };
-    }
 
     const getCustomerDialog = async() => {
         setIsShowerCustomerDrawer(true);
@@ -219,6 +204,7 @@ const CheckoutView = props => {
     };
 
     const completeSellHandler = async() => {
+
         const {...oldFormFields} = cartData;
         oldFormFields['customer'] = props.currentCustomer;
 
@@ -301,53 +287,30 @@ const CheckoutView = props => {
             <Box style={{marginTop: '5px' , paddingBottom: '60px'}} >
                 <Grid container spacing={1} className={`shadow1 mb-1 borderRadius10`} style={{display: 'table', height: '90px', margin: '0px 0px 8px 5px', width: '98%'}} >
                     <Typography component="p" style={{ margin: '20px 0px 0px 0px', fontSize: '18px' }} >
-                            Amount due
-                        </Typography>
-                            <Typography className='text-dark font-weight-bold' style={{ fontSize: '25px' }} >
-                                {`GHC ${props.cartTotalAmount}`}
-                        </Typography>
+                            Cost of items
+                    </Typography>
+                    <Typography className='text-dark font-weight-bold' style={{ fontSize: '25px' }} >
+                            {`GHC ${props.cartTotalAmount}`}
+                    </Typography>
                 </Grid>
             </Box>
 
-            <AppBar position="static" color="default">
-                <Tabs
-                    value={value}
-                    onChange={handleChange.bind(this)}
-                    indicatorColor="primary"
-                    textColor="primary"
-                    variant="fullWidth"
-                    aria-label="full width tabs example"
-                >
-                    <Tab className={classes.tabs} label="Cash" icon={<LocalAtmIcon style={{color: '#DAAB59'}} />} {...a11yProps(0)} />
-                    <Tab className={classes.tabs} label="Other payment" icon={<PhoneAndroidIcon style={{color: '#DAAB59'}} />} {...a11yProps(1)} />
-                </Tabs>
-            </AppBar>
+            <ViewCash
+                currentCustomer={customerName}
+                openAddCustomerModal={getCustomerDialog.bind(this)}
+                cartAmount={props.cartTotalAmount}
+                customerId={props.currentCustomer}
+                getFormFields={paymentDetails.bind(this)}
+            />
 
-            <SwipeableViews
-                index={value}
-                onChangeIndex={handleChangeIndex.bind(this)}
-                style={{ marginBottom: '60px'}}
-            >
-                <TabPanel value={value} index={0} >
-                    <ViewCash
-                        currentCustomer={customerName}
-                        openAddCustomerModal={getCustomerDialog.bind(this)}
-                        cartAmount={props.cartTotalAmount}
-                        customerId={props.currentCustomer}
-                        getFormFields={paymentDetails.bind(this)}
-                    />
-                </TabPanel>
-                <TabPanel value={value} index={1}  >
-                    <ViewMobileMoney
+            {/* <ViewMobileMoney
                         currentCustomer={customerName}
                         initialValue={parseFloat(formData.type) ? parseFloat(formData.type) : 2}
                         openAddCustomerModal={getCustomerDialog.bind(this)}
                         cartAmount={props.cartTotalAmount}
                         customerId={props.currentCustomer}
                         getFormFields={otherPaymentFormFields.bind(this)}
-                    />
-                </TabPanel>
-            </SwipeableViews>
+                    /> */}
 
             <CustomerListDrawer
                 handleClose={() => setIsShowerCustomerDrawer(false)}
@@ -364,21 +327,13 @@ const CheckoutView = props => {
                 style={{ height: '2.5rem', position: "fixed", bottom:"0px", width:"100%" }}
             >
                 <Grid container >
-                    <Grid item xs={6} >
-                        <Button
-                            variant="outlined"
-                            onClick={() => props.setView(0)}
-                            style={{border: '1px solid #DAAB59', color: '#333333', padding: '5px 40px', marginRight: '10px', textTransform: 'none', fontSize:'17px'}}
-                        >
-                            Back
-                        </Button>
-                    </Grid>
-                    <Grid item xs={6} >
+                    
+                    <Grid item xs={12} >
                         <Button
                             variant="contained"
-                            style={{'backgroundColor': '#DAAB59' , color: '#333333', padding: '5px 40px', textTransform: 'none', fontSize:'17px'}}
-                            onClick={completeSellHandler.bind(this)}
-                            disabled={!btnValue}
+                            style={{'backgroundColor': '#DAAB59' , color: '#333333', padding: '5px 60px', textTransform: 'none', fontSize:'17px'}}
+                           // onClick={completeSellHandler.bind(this)}
+                            //disabled={!btnValue}
                         >
                             Finish
                         </Button>

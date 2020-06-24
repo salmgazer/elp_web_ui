@@ -1,5 +1,5 @@
 import React, {useEffect , useState} from 'react';
-import SaleService from "../../../../../services/SaleService";
+import SaleService from "../../../../../../../services/SaleService";
 
 const SingleDayProduct = props => {
     const saleEntry = props.saleEntry;

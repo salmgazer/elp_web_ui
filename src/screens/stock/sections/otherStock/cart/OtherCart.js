@@ -4,14 +4,14 @@ import CartView from "./sections/ViewCart";
 import {confirmAlert} from "react-confirm-alert";
 import Checkout from "./sections/Checkout";
 import CompleteCart from "./sections/CompleteCart";
-import CartService from "../../../services/CartService";
+import CartService from "../../../../../services/CartService";
 import {withDatabase} from "@nozbe/watermelondb/DatabaseProvider";
 import withObservables from "@nozbe/with-observables";
 import { Q } from '@nozbe/watermelondb'
-import ModelAction from "../../../services/ModelAction";
-import BranchCustomer from "../../../models/branchesCustomer/BranchCustomer";
-import LocalInfo from "../../../services/LocalInfo";
-import CustomerService from "../../../services/CustomerService";
+import ModelAction from "../../../../../services/ModelAction";
+import BranchCustomer from "../../../../../models/branchesCustomer/BranchCustomer";
+import LocalInfo from "../../../../../services/LocalInfo";
+import CustomerService from "../../../../../services/CustomerService";
 
 class Cart extends Component{
     constructor(props){

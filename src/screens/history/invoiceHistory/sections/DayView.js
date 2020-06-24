@@ -20,6 +20,7 @@ import SearchInput from "../../../Components/Input/SearchInput";
 const useStyles = makeStyles(theme => ({
     root: {
       flexGrow: 1,
+      marginBottom: '4rem'
     },
     search: {
         width: '100%',

@@ -12,11 +12,17 @@ import Grid from "@material-ui/core/Grid/Grid";
 import BranchProductService from "../../../services/BranchProductService";
 import BranchStockService from "../../../services/BranchStockService";
 import BarcodeImage from "../../../assets/img/barcode.png";
+import {Link} from "react-router-dom";
+import DeleteProductModal from '../../../components/Modal/option/DeleteProductModal';
+import SelectDeleteModal from '../../../components/Modal/option/SelectDeleteModal';
+import { withRouter } from "react-router-dom";
 
 
 const StockProductSingle = props => {
     let branchProduct = props.product[0];
     const [product , setProduct] = useState('');
+    const [deleteDialog, setDeleteDialog] = React.useState(false);
+    const [selectBranch, setSelectBranch] = React.useState(false);
     const [lastHistory , setLastHistory] = useState('');
     const [name , setName] = useState('');
     const [image , setImage] = useState('');
@@ -24,6 +30,14 @@ const StockProductSingle = props => {
     const [companyStocks , setCompanyStocks] = useState([]);
     const [costPrice , setCostPrice] = useState(0);
     const [sellingPrice , setSellingPrice] = useState(branchProduct.sellingPrice);
+
+    const openDeleteDialog = (event) => {
+        setDeleteDialog(true);
+    };
+
+    const openSelectBranch = (event) => {
+        setSelectBranch(true);
+    };
 
     useEffect(() => {
         if (!product) {
@@ -245,6 +259,22 @@ const StockProductSingle = props => {
                     </div>
                 : ''
                 }
+
+
+                <Link onClick={openDeleteDialog.bind(this)}  style={{textAlign: 'center', color: '#DAAB59'}} >
+                    Remove product from store
+                </Link>
+
+                <DeleteProductModal
+                    openState={deleteDialog}
+                    handleClose={() => setDeleteDialog(false)}
+                    onClick= {openSelectBranch.bind(this)}
+                />
+
+                <SelectDeleteModal
+                    openState={selectBranch}
+                    handleClose={() => setSelectBranch(false)}
+                />
             </div>
 
             <Box

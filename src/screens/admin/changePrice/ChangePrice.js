@@ -234,7 +234,7 @@ class ChangePrice extends Component{
         return(
             <div className={`addProducts`}>
                 <SectionNavbars 
-                    title="Change prices" 
+                    title="Change selling price" 
                     leftIcon={
                         <div onClick={() => this.props.history.goBack()}>
                             <ArrowBackIcon
