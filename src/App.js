@@ -74,6 +74,8 @@ import StockMovement from "./screens/stock/sections/StockMovement";
 // import NewStock from './screens/newDashboards/version3/stock/DirectiveViewStock';
 // import FirstView from './screens/dashboard/FirstView';
 import CreditSales from './screens/creditSales/CreditSales';
+import OtherStock from './screens/stock/sections/otherStock/stock/OtherStock';
+import OtherCart from './screens/stock/sections/otherStock/cart/OtherCart';
 
 function NoMatch() {
   let location = useLocation();
@@ -566,6 +568,22 @@ class App extends React.Component {
                         setPageBackground();
                         this.setTitle(`Credit Sales | ${appName}`);
                         return <CreditSales />;
+                    }}
+                />
+                <Route
+                    path={paths.other_stock}
+                    render={() => {
+                        setPageBackground();
+                        this.setTitle(`Other Stock | ${appName}`);
+                        return <OtherStock />;
+                    }}
+                />
+                <Route
+                    path={paths.other_cart}
+                    render={() => {
+                        setPageBackground();
+                        this.setTitle(`Other Cart | ${appName}`);
+                        return <OtherCart />;
                     }}
                 />
               <Route path="*">

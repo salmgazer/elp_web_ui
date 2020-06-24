@@ -1,6 +1,6 @@
 import React , { useState, useEffect } from 'react';
-import BranchProductService from "../../../../services/BranchProductService";
-import WarningIcon from "../../../../components/ClickableIcons/WarningIcon";
+import BranchProductService from "../../../../../../services/BranchProductService";
+import WarningIcon from "../../../../../../components/ClickableIcons/WarningIcon";
 //import AddIcon from "../../../../components/ClickableIcons/AddIcon";
 
 const SingleProductMainCard = (props) => {
@@ -14,7 +14,7 @@ const SingleProductMainCard = (props) => {
         if (!itemFetched) {
             getProduct();
         }
-    }, []);
+    });
 
     const productHandler = new BranchProductService(branchProduct);
     const getProduct = async () => {
@@ -53,20 +53,5 @@ const SingleProductMainCard = (props) => {
     )
 };
 
-{/*<div
-    onClick={addProductOneHandler}
->
-    <AddIcon
-        styles={{
-            width: '30px',
-            height: '30px',
-            borderRadius: '50%',
-            top: '-2px',
-            float: 'right',
-            position: 'absolute',
-            right: '-2px',
-            color: '#DAAB59',
-        }}
-    />
-</div>*/}
+
 export default SingleProductMainCard;

@@ -22,6 +22,7 @@ import {confirmAlert} from "react-confirm-alert";
 const useStyles = makeStyles(theme => ({
     root: {
       flexGrow: 1,
+      marginBottom: '4rem'
     }
   }));
 

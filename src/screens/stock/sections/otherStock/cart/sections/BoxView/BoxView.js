@@ -2,14 +2,14 @@ import React, {useEffect, useState} from 'react';
 import Card from "@material-ui/core/Card/Card";
 import Grid from "@material-ui/core/Grid/Grid";
 import DeleteIcon from '@material-ui/icons/Delete';
-import ProductServiceHandler from "../../../../../services/ProductServiceHandler";
-import CartService from "../../../../../services/CartService";
+import ProductServiceHandler from "../../../../../../../services/ProductServiceHandler";
+import CartService from "../../../../../../../services/CartService";
 import Divider from '@material-ui/core/Divider';
-import QuantitySmallInput from "../../../../../components/Input/QuantitySmallInput";
+import QuantitySmallInput from "../../../../../../../components/Input/QuantitySmallInput";
 import InputBase from "@material-ui/core/InputBase/InputBase";
 import {makeStyles} from "@material-ui/core";
-import SimpleSnackbar from "../../../../../components/Snackbar/SimpleSnackbar";
-import BranchProductService from "../../../../../services/BranchProductService";
+import SimpleSnackbar from "../../../../../../../components/Snackbar/SimpleSnackbar";
+import BranchProductService from "../../../../../../../services/BranchProductService";
 import Typography from "@material-ui/core/Typography/Typography";
 
 const useStyles = makeStyles(theme => ({

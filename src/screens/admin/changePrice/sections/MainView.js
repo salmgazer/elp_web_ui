@@ -30,8 +30,7 @@ const MainView = props => {
     };
 
     return(
-        <div>
-            <p style={{marginTop: '70px', fontSize: '16px', fontWeight: '400', color: '#616161'}}>12th July 2020</p>
+        <div style={{marginTop: '70px'}}>
 
             <AppBar position="static" color="default">
                 <Tabs
@@ -64,11 +63,11 @@ const MainView = props => {
             >
                 <Button
                     variant="contained"
-                    style={{'backgroundColor': '#DAAB59' , color: '#333333', padding: '5px 20px', fontSize: '14px'}}
-                    onClick={() => history.goBack()}
+                    style={{'backgroundColor': '#DAAB59' , color: '#333333', padding: '5px 20px', fontSize: '17px'}}
+                    //onClick={() => history.goBack()}
                     className={`capitalization font-weight-bold text-dark`}
                 >
-                    Cancel
+                    Save changes
                 </Button>
             </Box>
         </div>

@@ -17,7 +17,7 @@ import format from "date-fns/format";
 const useStyles = makeStyles(theme => ({
     root: {
     flexGrow: 1,
-
+    marginBottom: '4rem'
     }
 }));
 

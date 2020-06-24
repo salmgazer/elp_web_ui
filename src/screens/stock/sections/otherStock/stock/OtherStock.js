@@ -1,24 +1,23 @@
 import React, {Component} from 'react';
 import SellView from "./sections/SellView";
 import AddProductCart from "./sections/AddProductCart";
-import LocalInfo from "../../../services/LocalInfo";
-import SavedCart from "../cart/sections/savedCart/savedCart";
-import BranchService from "../../../services/BranchService";
+import LocalInfo from "../../../../../services/LocalInfo";
+//import SavedCart from "../cart/sections/savedCart/savedCart";
+import BranchService from "../../../../../services/BranchService";
 import {withDatabase} from "@nozbe/watermelondb/DatabaseProvider";
 import withObservables from "@nozbe/with-observables";
 import { withRouter } from "react-router-dom";
-import CartService from "../../../services/CartService";
+import CartService from "../../../../../services/CartService";
 import {Q} from "@nozbe/watermelondb";
-import database from "../../../models/database";
-import BranchCustomer from "../../../models/branchesCustomer/BranchCustomer";
-import Carts from "../../../models/carts/Carts";
-import SaleService from "../../../services/SaleService";
+import BranchCustomer from "../../../../../models/branchesCustomer/BranchCustomer";
+import Carts from "../../../../../models/carts/Carts";
+import SaleService from "../../../../../services/SaleService";
 import {confirmAlert} from "react-confirm-alert";
-import ModelAction from "../../../services/ModelAction";
-import paths from "../../../utilities/paths";
-import CustomerService from "../../../services/CustomerService";
+import ModelAction from "../../../../../services/ModelAction";
+import paths from "../../../../../utilities/paths";
+import CustomerService from "../../../../../services/CustomerService";
 
-class Sell extends Component {
+class OtherStock extends Component {
     constructor(props){
         super(props);
         this.state = {
@@ -82,8 +81,6 @@ class Sell extends Component {
                 return <SellView addToCart={this.addProductToCartHandler.bind(this)} undoProductAdd={this.undoProductAddHandler.bind(this)} salesTodayDetails={this.state.salesTodayDetails} branchProducts={this.state.branchProducts} searchHandler={this.searchHandler.bind(this)} productAdd={this.showAddView.bind(this)} spCount={this.state.spCount} savedCartCount={this.state.savedCart.length} salesMade={this.state.salesMade} profitMade={this.state.profitMade} searchBarcode={this.searchBarcode.bind(this)} setView={this.setStepContentView.bind(this)} />;
             case 1:
                 return <AddProductCart undoProductAdd={this.undoProductAddHandler.bind(this)} currentCustomer={this.state.currentCustomer} searchCustomerHandler={this.searchCustomerHandler.bind(this)} setCustomerHandler={this.setSavedCartCustomerHandler.bind(this)} customers={this.state.customers} addToCart={this.addProductToCartHandler.bind(this)} setView={this.setStepContentView.bind(this)} product={this.state.currentProduct} spCount={this.state.spCount} salesMade={this.state.salesMade} profitMade={this.state.profitMade}/>;
-            case 2:
-                return <SavedCart continueSavedCartHandler={this.continueSavedCartHandler.bind(this)} searchSavedCart={this.searchSavedCartHandler.bind(this)} setView={this.setStepContentView.bind(this)} carts={this.state.savedCart} />;
             default:
                 return 'Complete';
         }
@@ -261,7 +258,7 @@ class Sell extends Component {
     }
 }
 
-const EnhancedSell = withDatabase(
+const EnhancedOtherStock = withDatabase(
     withObservables(['branchProducts' , 'branchCustomers' , 'savedCarts'], ({ branchProducts , database , branchCustomers , savedCarts }) => ({
         branchProducts: new BranchService(LocalInfo.branchId).getProducts(),
         cartQuantity: database.collections.get('cart_entries').query(Q.where('cartId' , localStorage.getItem('cartId'))).observeCount(),
@@ -272,7 +269,7 @@ const EnhancedSell = withDatabase(
         ).observe(),
         //cartQ: database.collections.get(CartEntry.table).query(Q.where('id', new CartService().cartId())).observe(),
         //cartQ: database.collections.get(CartEntry.table).find(new CartService().cartId()),
-    }))(withRouter(Sell))
+    }))(withRouter(OtherStock))
 );
 
-export default EnhancedSell;
+export default EnhancedOtherStock;
