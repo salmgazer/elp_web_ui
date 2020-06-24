@@ -24,7 +24,7 @@ const ProductCard = (props) => {
         setQuantityProduct(await props.storeCounted);
         setProductAuditDetials(await props.appCounted);
         setImage(new ProductServiceHandler(product).getProductImage());
-        setName((newProduct.name).length > 18 ? (newProduct.name).slice(0 , 20) + '...' : newProduct.name);
+        setName((newProduct.name).length > 25 ? (newProduct.name).slice(0 , 27) + '...' : newProduct.name);
     };
 
     return(

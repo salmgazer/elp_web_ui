@@ -75,6 +75,13 @@ const SellView = props => {
                         />
                     </div>
                 }
+                /*secondIcon={
+                    <div onClick={() => setIsShowDrawer(!isShowDrawer)}>
+                        <MoreVertIcon
+                            style={{fontSize: '2rem'}}
+                        />
+                    </div>
+                }*/
                 leftIcon={
                     <div onClick={() => setIsDrawerShow(true)}>
                         <MenuIcon
@@ -280,17 +287,17 @@ const SellView = props => {
                     >
                         View cart
                         <ShoppingCartOutlinedIcon
-                            style={{paddingLeft: '10px' , fontSize: '16px'}}
+                            style={{paddingLeft: '10px' , fontSize: '20px'}}
                         />
                         <span style={{
-                            fontSize: '12px',
+                            fontSize: '15px',
                             color: '#000000',
                             position: 'absolute',
                             top: -10,
                             right: '5%',
                             backgroundColor: '#FFFFFF',
-                            width: '20px',
-                            height: '20px',
+                            width: '25px',
+                            height: '25px',
                             borderRadius: '50%',
                             fontWeight: '500'
                         }}

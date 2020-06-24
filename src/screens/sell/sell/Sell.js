@@ -38,6 +38,16 @@ class Sell extends Component {
     }
 
     async componentDidMount() {
+        /*const auditResponse = await new ModelAction('Audits').indexNotObserve();
+        const auditEntriesResponse = await new ModelAction('AuditEntries').indexNotObserve();
+
+        for (let i = 0; i < auditResponse.length; i++){
+            await new ModelAction('Audits').destroy(auditResponse[i].id);
+        }
+
+        for (let i = 0; i < auditEntriesResponse.length; i++){
+            await new ModelAction('AuditEntries').destroy(auditEntriesResponse[i].id);
+        }*/
         const {branchProducts , cartQuantity , branchCustomers , savedCarts} = this.props;
 
         const salesTodayDetails = await new SaleService().getDaySalesDetails(LocalInfo.workingDate);

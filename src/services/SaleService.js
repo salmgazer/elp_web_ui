@@ -100,6 +100,8 @@ export default class SaleService {
                 return 'cheque';
             case 4:
                 return 'card';
+            case 5:
+                return 'audit';
             default:
                 return 'cash';
         }

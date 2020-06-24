@@ -38,6 +38,9 @@ export default function SectionNavbars(props) {
                     </Typography>
                     <div className={`rightMenuIcons`}>
                         <IconButton color="inherit">
+                            {props.secondIcon}
+                        </IconButton>
+                        <IconButton color="inherit">
                             {props.icons}
                         </IconButton>
                     </div>
