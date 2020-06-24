@@ -92,8 +92,7 @@ console.log(response)
     /*
     * Search for a branch product
     * */
-    async searchBranchAuditedProduct(searchValue) {
-        const auditId = await this.auditId();
+    async searchBranchAuditedProduct(searchValue, auditId = this.auditId()) {
 
         const products = await new ModelAction('Product').findByColumnNotObserve({
             name: 'name',
@@ -104,7 +103,7 @@ console.log(response)
         return database.collections.get(AuditEntries.table).query(
             Q.where('productId', Q.oneOf(products.map(p => p.id))),
             Q.where('branchId', LocalInfo.branchId),
-            Q.where('auditId' , auditId)
+            Q.where('auditId' , await auditId)
         ).fetch();
     }
 

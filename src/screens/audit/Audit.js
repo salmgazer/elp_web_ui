@@ -79,7 +79,7 @@ class Audit extends Component {
             case 3:
                 return <AuditHistory audits={this.state.auditHistory} setView={this.setStepContentView.bind(this)} auditEntries={this.state.auditEntries} auditProducts={this.showAuditHistoryProductsView.bind(this)} deleteProductHandler={this.deleteAuditProduct.bind(this)} />
             case 4:
-                return <AuditHistoryDetails setView={this.setStepContentView.bind(this)} changeAuditedProductsType={this.changeAuditedHistoryProductsType.bind(this)} currentAudit={this.state.currentAuditHistory} auditEntries={this.state.auditHistoryEntries} deleteProductHandler={this.deleteAuditProduct.bind(this)} searchAuditedHandler={this.searchAuditedHandler.bind(this)} />
+                return <AuditHistoryDetails setView={this.setStepContentView.bind(this)} changeAuditedProductsType={this.changeAuditedHistoryProductsType.bind(this)} currentAudit={this.state.currentAuditHistory} auditEntries={this.state.auditHistoryEntries} deleteProductHandler={this.deleteAuditProduct.bind(this)} searchAuditedHandler={this.searchAuditedHistoryHandler.bind(this)} />
             case 5:
                 return <GetStartedAudit setView={this.setStepContentView.bind(this)} />
             default:
@@ -166,6 +166,22 @@ class Audit extends Component {
 
             this.setState({
                 auditEntries: products,
+            });
+        }catch (e) {
+            return false
+        }
+    };
+
+    /*
+    * Search products handler...
+    * */
+    searchAuditedHistoryHandler = async (searchValue , auditId) => {
+
+        try {
+            const products = await new AuditService().searchBranchAuditedProduct(searchValue , auditId);
+
+            this.setState({
+                auditHistoryEntries: products,
             });
         }catch (e) {
             return false

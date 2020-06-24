@@ -82,7 +82,7 @@ const AuditHistory = props => {
 
         setSearchValue(oldFormFields);
 
-        props.searchAuditedHandler(value);
+        props.searchAuditedHandler(value , audit.id);
     };
 
     /*const balanceAll = async (event) => {
