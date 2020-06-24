@@ -30,6 +30,7 @@ import Typography from "@material-ui/core/Typography/Typography";
 import AccountBalanceWalletIcon from '@material-ui/icons/AccountBalanceWallet';
 import PeopleIcon from '@material-ui/icons/People';
 import SettingsIcon from '@material-ui/icons/Settings';
+import PrimaryButton from "../../../../components/Buttons/PrimaryButton";
 
 const SellView = props => {
     const { history } = props;
@@ -56,6 +57,10 @@ const SellView = props => {
 
     const handleChangeIndex = index => {
         setValue(index);
+    };
+
+    const getDateValue = (date) => {
+        props.getDateSaleDetails(date);
     };
 
     return (
@@ -154,7 +159,7 @@ const SellView = props => {
             <div
                 className={`mb-7 mx-0 mt-6`}
             >
-                <SystemDate/>
+                <SystemDate returnValue={true} getValue={getDateValue}/>
 
                 <div
                     style={{
@@ -255,9 +260,19 @@ const SellView = props => {
             <Box
                 className={`shadow1 bg-white`}
                 p={1}
-                style={{ height: '2.5rem', position: "fixed", bottom:"0", width:"100%" }}
+                style={{ height: '2.5rem', position: "fixed", padding: '5px 5%', bottom:"0", width:"96%" , display: 'flex' , alignItems: 'center', justifyContent: 'space-around'}}
             >
+                <div style={{flex: 1}}
+                     onClick={() => history.push(paths.stock)}
+                >
+                    <PrimaryButton
+                        classes={`capitalization font-weight-bold`}
+                    >
+                        Add stock
+                    </PrimaryButton>
+                </div>
                 <div
+                    style={{flex: 1}}
                     onClick={() => history.push(paths.cart)}
                 >
                     <SecondaryButton

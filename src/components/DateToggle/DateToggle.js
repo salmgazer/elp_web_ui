@@ -36,11 +36,8 @@ const DateToggle = props => {
     const [activeButton , setActiveButton] = useState(0);
 
     const buttonOnClick = button => {
-        //console.log(button);
-        console.log(button);
         setActiveButton(button);
         props.setView(button);
-        console.log(activeButton);
     };
 
     return (

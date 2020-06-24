@@ -9,6 +9,8 @@ import database from "../models/database";
 import * as Q from "@nozbe/watermelondb/QueryDescription";
 import SaleService from "./SaleService";
 import fromUnixTime from 'date-fns/fromUnixTime';
+import isSameDay from "date-fns/isSameDay";
+import getUnixTime from 'date-fns/getUnixTime';
 
 export default class BranchService {
     constructor (branchId = LocalInfo.branchId) {
@@ -54,7 +56,7 @@ export default class BranchService {
     * @return object
     * @todo barcode search...
     * */
-    async searchBarcodeProduct(barcode){
+    /*async searchBarcodeProduct(barcode){
         const products = await new ModelAction('Product').findByColumnNotObserve({
             name: 'barCode',
             value: barcode,
@@ -63,7 +65,7 @@ export default class BranchService {
 
         return  database.collections.get('branches_products').query(Q.where('productId',
             Q.oneOf(products.map(p => p.id))), Q.where('branchId', LocalInfo.branchId)).fetch();
-    }
+    }*/
 
     /*
     * Filter item

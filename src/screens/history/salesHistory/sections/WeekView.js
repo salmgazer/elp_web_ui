@@ -146,13 +146,13 @@ const WeekView = props => {
                     pageName === false ?
 
                     sales.map((sale , index) =>
-                        <div onClick={getChildrenDetails.bind(this, sale.index)}>
+                        <div key={index} onClick={getChildrenDetails.bind(this, sale.index)}>
                             <SingleWeekView  key={index} sale={sale} />
                         </div>
                     )
                     :
                     sales.map((sale , index) =>
-                        <div onClick={getChildrenDetails.bind(this, sale.index)}>
+                        <div key={index} onClick={getChildrenDetails.bind(this, sale.index)}>
                             <ProductWeek  key={index} sale={sale} prodName={name} />
                         </div>
                     )

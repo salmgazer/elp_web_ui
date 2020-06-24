@@ -48,7 +48,13 @@ const MainView = props => {
     };
 
     const openDialogHandler = (event) => {
-        setMainDialog(true);
+        const returnPage = localStorage.getItem('redirectPath') || '';
+
+        if(returnPage){
+            props.finishAddProducts();
+        }else{
+            setMainDialog(true);
+        }
     };
 
     const closeDialogHandler = (event) => {
