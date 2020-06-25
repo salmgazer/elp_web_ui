@@ -128,7 +128,7 @@ const CartView = props => {
 
     const openCheckoutHandler = () => {
         if(LocalInfo.checkoutSales){
-            setOpenPaymentState(true);
+            completeSellHandler()
         }else{
             props.setView(1);
         }
@@ -187,17 +187,48 @@ const CartView = props => {
     };
 
     const completeSellHandler = async() => {
-        const {...oldFormFields} = formFields;
-        oldFormFields['customer'] = props.currentCustomer;
+        confirmAlert({
+            title: 'Confirm to sell',
+            message: 'Click yes to sell',
+            buttons: [
+                {
+                    label: 'Yes',
+                    onClick: async () => {
+                        try {
+                            await new SaleService().makeSell({
+                                amountPaid: parseFloat(props.cartTotalAmount),
+                                changeDue: 0,
+                                customer: props.currentCustomer,
+                                type: 0
+                            } , 0);
 
-        if(oldFormFields['amountPaid'] === ''){
-            oldFormFields['amountPaid'] = 0;
-        }
-        if(oldFormFields['changeDue'] === ''){
-            oldFormFields['changeDue'] = 0;
-        }
+                            setSuccessMsg('Sale completed');
+                            setSuccess(true);
+                            setTimeout(function(){
+                                props.history.push(paths.sell);
+                                setError(false);
+                            }, 2000);
+                        }catch (e) {
+                            setErrorMsg('Sale was not saved. Please try again');
+                            setError(true);
+                            setTimeout(function(){
+                                props.setView(0);
+                                setError(false);
+                            }, 3000);
+                            console.log('Something went wrong.')
+                        }
+                    }
+                },
+                {
+                    label: 'No',
+                    onClick: () => {
 
-        if(oldFormFields.type === 0 && parseFloat(oldFormFields.amountPaid) < parseFloat(props.cartTotalAmount)){
+                    }
+                }
+            ]
+        });
+
+        /*if(oldFormFields.type === 0 && parseFloat(oldFormFields.amountPaid) < parseFloat(props.cartTotalAmount)){
             //alert(`Amount paid must be greater than ${props.cartTotalAmount}`)
             setOpenPaymentState(false);
             confirmAlert({
@@ -226,46 +257,14 @@ const CartView = props => {
                     }
                 ]
             });
-        }/*else if(parseFloat(oldFormFields.type) === 2 && (oldFormFields.customer === cashCustomerId)){
-            alert(`Please set a customer for credit sales`)
-        }else if(parseFloat(oldFormFields.type) !== 2 && parseFloat(oldFormFields.type) !== 0 && (oldFormFields.amountPaid === "" || parseFloat(oldFormFields.amountPaid) === 0)){
-            alert(`Amount paid must be greater than 0`);
-        }else if(parseFloat(oldFormFields.type) !== 2 && parseFloat(oldFormFields.type) !== 0 && (parseFloat(oldFormFields.amountPaid) < parseFloat(props.cartTotalAmount)) && (oldFormFields.customer === cashCustomerId)) {
-            alert(`Please set a customer for credit sales`)
-        }
-        else if (parseFloat(oldFormFields.amountPaid) < parseFloat(props.cartTotalAmount) && oldFormFields.type !== 0){
-            confirmAlert({
-                title: 'Confirm to sell',
-                message: 'Are you sure, you want to sell on credit?',
-                buttons: [
-                    {
-                        label: 'Yes',
-                        onClick: async () => {
-                            try {
-                                await new SaleService().makeSell(formFields , formFields.type);
-                                props.setView(2);
-                            } catch (e) {
-                                console.log('Something went wrong')
-                                return false;
-                            }
-                        }
-                    },
-                    {
-                        label: 'No',
-                        onClick: () => {
-                            alert(`Please make sure amount paid is ${props.cartTotalAmount} or above`)
-                        }
-                    }
-                ]
-            });*/
-        else {
+        } else {
             try {
                 await new SaleService().makeSell(formFields , formFields.type);
                 props.history.push(paths.sell);
             }catch (e) {
                 console.log('Something went wrong.')
             }
-        }
+        }*/
     };
 
     return(
