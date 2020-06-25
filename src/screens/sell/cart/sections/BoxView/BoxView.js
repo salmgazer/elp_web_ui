@@ -72,7 +72,8 @@ const ViewSingleProduct = props => {
         setBranchQuantity(await productHandler.getProductQuantity());
 
         setImage(new ProductServiceHandler(product).getProductImage());
-        setName((newProduct.name).length > 20 ? (newProduct.name).slice(0 , 20) + '...' : newProduct.name);
+        //setName((newProduct.name).length > 20 ? (newProduct.name).slice(0 , 20) + '...' : newProduct.name);
+        setName(newProduct.name);
     };
 
     const deleteHistoryHandler = (pId , event) => {
@@ -154,7 +155,7 @@ const ViewSingleProduct = props => {
                             error={entryTotal / quantity < cartEntry.costPrice}
                             value={entryTotal || ''}
                             onChange={(event) => setTotalPriceHandler(event)}
-                            style={{fontSize: '12px' , textAlign: `center !important`}}
+                            style={{fontSize: '16px' , textAlign: `center !important`}}
                         />
 
                         <Typography
