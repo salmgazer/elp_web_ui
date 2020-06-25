@@ -38,6 +38,7 @@ class Sell extends Component {
     }
 
     async componentDidMount() {
+        await new CartService().cartId();
         /*const auditResponse = await new ModelAction('Audits').indexNotObserve();
         const auditEntriesResponse = await new ModelAction('AuditEntries').indexNotObserve();
 

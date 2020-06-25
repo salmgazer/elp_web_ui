@@ -214,9 +214,10 @@ const BarcodeMode = props => {
                 <Typography
                     component="h5"
                     variant="h5"
+                    className={`mt-2`}
                     style={{fontWeight: '500', fontSize: '18px', lineHeight: '1.5', marginTop: '40px', marginBottom: '20px'}}
                 >
-                    Scan the barcode of the product to assign it
+                    Scan the barcode of the product
                 </Typography>
 
                 <FormControl variant="outlined">
@@ -227,7 +228,7 @@ const BarcodeMode = props => {
                         type="number"
                         value={barcodeNumber}
                         onChange={event => setBarcodeNumber(event.target.value)}
-                        style={{width: '280px'}}
+                        style={{width: '90%' , maxWidth: '320px'}}
                         startAdornment={<InputAdornment position="start"><GraphicEqIcon /> </InputAdornment>}
                     />
                 </FormControl>
