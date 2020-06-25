@@ -3,11 +3,12 @@ import { makeStyles } from '@material-ui/core/styles';
 import Grid from "@material-ui/core/Grid/Grid";
 import Paper from '@material-ui/core/Paper';
 import Typography from '@material-ui/core/Typography';
+import format from "date-fns/format";
+import fromUnixTime from "date-fns/fromUnixTime";
 
 const useStyles = makeStyles(theme => ({
     root: {
       flexGrow: 1,
-
     },
     title: {
         fontSize: 9,
@@ -18,13 +19,12 @@ const useStyles = makeStyles(theme => ({
     },
     paper: {
       padding: theme.spacing(1),
-      textAlign: 'center', 
+      textAlign: 'center',
     }
   }));
 
 const SingleDayView = props => {
-
-    const product = props.item;
+    const entry = props.item;
     const classes = useStyles();
 
     return(
@@ -32,34 +32,33 @@ const SingleDayView = props => {
             <Grid container spacing={1} className={`shadow1 mb-3 borderRadius10`}>
                 <Grid item xs={9} style={{display: 'table', height: '30px', margin: '5px 0px'}}>
                     <div style={{textAlign: 'left', display: 'table-cell', verticalAlign: 'middle'}}>
-                        <span className='text-dark font-weight-bold' >{product.name}</span>
-                        <div className="font-weight-light mt-1" style={{ fontSize: '14px', color: '#8D6725'}}>Done on {product.date}, @ {product.time}</div>
+                        <span className='text-dark font-weight-bold' >{entry.name}</span>
+                        <div className="font-weight-light mt-1" style={{ fontSize: '14px', color: '#8D6725'}}>Done on {format(fromUnixTime(entry.entryDate) , "do LLL, yyyy")}, @ {format(fromUnixTime(entry.entryDate) , "h:mm a")}</div>
                     </div>
                 </Grid>
 
                 <Grid item xs={3} style={{height: '30px', marginTop: '5px'}} >
-                    <span className='text-dark font-weight-bold' >{product.time}</span>
+                    <span className='text-dark font-weight-bold' >{format(fromUnixTime(entry.entryDate) , "h:mm a")}</span>
                 </Grid>
 
-                 
                 <Grid item xs={3.5}>
                     <Paper className={classes.paper}>
                         <Typography className={classes.title} component="p" >
                             Opening balance
                         </Typography>
                         <Typography className={classes.text} >
-                            3.5
+                            {entry.openingBalance}
                         </Typography>
                     </Paper>
                 </Grid>
-                
+
                 <Grid item xs={2.5}>
                     <Paper className={classes.paper}>
                         <Typography className={classes.title} component="p" >
                             Purchased
                         </Typography>
                         <Typography className={classes.text} >
-                            0
+                            {entry.purchased}
                         </Typography>
                     </Paper>
                 </Grid>
@@ -70,7 +69,7 @@ const SingleDayView = props => {
                             Sold
                         </Typography>
                         <Typography className={classes.text} >
-                            55
+                            {entry.sold}
                         </Typography>
                     </Paper>
                 </Grid>
@@ -81,18 +80,12 @@ const SingleDayView = props => {
                             Closing balance
                         </Typography>
                         <Typography className={classes.text} >
-                            66.5
+                            {entry.openingBalance + entry.purchased - entry.sold}
                         </Typography>
                     </Paper>
                 </Grid>
-
-             
- 
-                </Grid>
-           
-
+            </Grid>
         </div>
-
     );
 };
 

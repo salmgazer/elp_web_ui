@@ -442,7 +442,7 @@ const CartView = props => {
                             onClick={() => props.history.push(paths.sell)}
                             style={{border: '1px solid #DAAB59', color: '#333333', padding: '5px 30px', marginRight: '10px', textTransform: 'none', fontSize:'17px'}}
                         >
-                            Add product
+                            Sell
                         </Button>
                     </Grid>
                     <Grid item xs={6} >

@@ -6,118 +6,125 @@ import WeekView from './sections/WeekView';
 import MonthView from './sections/MonthView';
 import YearView from './sections/YearView';
 import DateToggle from "../../../../components/DateToggle/DateToggle";
+import StockMovementService from "../../../../services/StockMovementService";
 
 class SortDate extends Component{
+    constructor(props){
+        super(props);
+        this.state = {
+            isDrawerShow: false,
+            activeStep: 0,
+            pageName: false,
+            productList: [
+                {
+                    "pro_id": "1",
+                    "name": "Bella Vinas Red Wine",
+                    "date": "6th Mar, 2020",
+                    "time": "5:00 pm"
+                },
+                {
+                    "pro_id": "2",
+                    "name": "Nido Milk Sachet",
+                    "date": "7th Mar, 2020",
+                    "time": "1:00 pm"
+                },
+                {
+                    "pro_id": "3",
+                    "name": "Milo Sachet 50g",
+                    "date": "8th Mar, 2020",
+                    "time": "2:00 pm"
+                },
+                {
+                    "pro_id": "4",
+                    "name": "Ideal Milk 50g",
+                    "date": "9th Mar, 2020",
+                    "time": "3:00 pm"
+                },
+                {
+                    "pro_id": "5",
+                    "name": "Beta Malt 500ml PB",
+                    "date": "10th Mar, 2020",
+                    "time": "4:00 pm"
+                }
+            ],
+            weekList: [
+                {
+                    'day_id': '1',
+                    'day': 'Monday, 9th Mar, 2020',
+                    "date": "8th Mar, 2020",
+                    "time": "9:00 am"
+                },
+                {
+                    'day_id': '2',
+                    'day': 'Tuesday, 10th Mar, 2020',
+                    "date": "8th Mar, 2020",
+                    "time": "9:00 am"
+                },
+                {
+                    'day_id': '3',
+                    'day': 'Wednesday, 11th Mar, 2020',
+                    "date": "8th Mar, 2020",
+                    "time": "9:00 am"
+                },
+                {
+                    'day_id': '4',
+                    'day': 'Thursday, 12th Mar, 2020',
+                    "date": "8th Mar, 2020",
+                    "time": "9:00 am"
+                },
 
-    state={
-        isDrawerShow: false,
-        activeStep: 0,
-        pageName: false,
-        productList: [
-            {
-                "pro_id": "1",
-                "name": "Bella Vinas Red Wine",
-                "date": "6th Mar, 2020",
-                "time": "5:00 pm"
-            },
-            {
-                "pro_id": "2",
-                "name": "Nido Milk Sachet",
-                "date": "7th Mar, 2020",
-                "time": "1:00 pm"
-            },
-            {
-                "pro_id": "3",
-                "name": "Milo Sachet 50g",
-                "date": "8th Mar, 2020",
-                "time": "2:00 pm"
-            },
-            {
-                "pro_id": "4",
-                "name": "Ideal Milk 50g",
-                "date": "9th Mar, 2020",
-                "time": "3:00 pm"
-            },
-            {
-                "pro_id": "5",
-                "name": "Beta Malt 500ml PB",
-                "date": "10th Mar, 2020",
-                "time": "4:00 pm"
-            }
-        ],
-        weekList: [ 
-            {
-                'day_id': '1',
-                'day': 'Monday, 9th Mar, 2020',
-                "date": "8th Mar, 2020",
-                "time": "9:00 am"
-            },
-            {
-                'day_id': '2',
-                'day': 'Tuesday, 10th Mar, 2020',
-                "date": "8th Mar, 2020",
-                "time": "9:00 am"
-            },
-            {
-                'day_id': '3',
-                'day': 'Wednesday, 11th Mar, 2020',
-                "date": "8th Mar, 2020",
-                "time": "9:00 am"
-            },
-            {
-                'day_id': '4',
-                'day': 'Thursday, 12th Mar, 2020',
-                "date": "8th Mar, 2020",
-                "time": "9:00 am"
-            },
-            
-        ],
-        monthList: [ 
-            {
-                'week_id': '1',
-                'week': 'Week 5: 17/02/2020 - 21/02/2020',
-                "date": "8th Mar, 2020",
-                "time": "9:00 am"
-            },
-            {
-                'week_id': '2',
-                'week': 'Week 6: 24/02/2020 - 28/02/2020',
-                "date": "18th Mar, 2020",
-                "time": "10:00 pm"
-            },
-            {
-                'week_id': '3',
-                'week': 'Week 7: 01/03/2020 - 05/03/2020',
-                "date": "28th Mar, 2020",
-                "time": "11:00 am"
-            },
-            {
-                'week_id': '4',
-                'week': 'Week 8: 08/03/2020 - 12/03/2020',
-                "date": "15th Mar, 2020",
-                "time": "2:00 pm"
-            },
-        ],
-        yearList: [ 
-            {
-                'month_id': '1',
-                'month': 'January 2020',
-                "date": "15th Mar, 2020",
-                "time": "2:00 pm"
-            },
-            {
-                'month_id': '2',
-                'month': 'February 2020',
-                "date": "15th Mar, 2020",
-                "time": "2:00 pm"
-            },
-            {
-                'month_id': '3',
-                'month': 'March 2020',
-                "date": "15th Mar, 2020",
-                "time": "2:00 pm"
-            }
-        ]
+            ],
+            monthList: [
+                {
+                    'week_id': '1',
+                    'week': 'Week 5: 17/02/2020 - 21/02/2020',
+                    "date": "8th Mar, 2020",
+                    "time": "9:00 am"
+                },
+                {
+                    'week_id': '2',
+                    'week': 'Week 6: 24/02/2020 - 28/02/2020',
+                    "date": "18th Mar, 2020",
+                    "time": "10:00 pm"
+                },
+                {
+                    'week_id': '3',
+                    'week': 'Week 7: 01/03/2020 - 05/03/2020',
+                    "date": "28th Mar, 2020",
+                    "time": "11:00 am"
+                },
+                {
+                    'week_id': '4',
+                    'week': 'Week 8: 08/03/2020 - 12/03/2020',
+                    "date": "15th Mar, 2020",
+                    "time": "2:00 pm"
+                },
+            ],
+            yearList: [
+                {
+                    'month_id': '1',
+                    'month': 'January 2020',
+                    "date": "15th Mar, 2020",
+                    "time": "2:00 pm"
+                },
+                {
+                    'month_id': '2',
+                    'month': 'February 2020',
+                    "date": "15th Mar, 2020",
+                    "time": "2:00 pm"
+                },
+                {
+                    'month_id': '3',
+                    'month': 'March 2020',
+                    "date": "15th Mar, 2020",
+                    "time": "2:00 pm"
+                }
+            ]
+        };
+    }
+
+    async componentDidMount() {
+        await StockMovementService.getStockMovementListByDate('day' , '06/24/2020')
     }
 
     getStepContent = step => {

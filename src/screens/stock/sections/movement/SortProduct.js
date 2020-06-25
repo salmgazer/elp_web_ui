@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {withRouter} from "react-router";
+import {withRouter} from "react-router-dom";
 import {withDatabase} from "@nozbe/watermelondb/DatabaseProvider";
 import withObservables from "@nozbe/with-observables";
 import BranchService from "../../../../services/BranchService";
@@ -14,13 +14,15 @@ import SProductView from './sections/SProductView';
 
 
 class SortProduct extends Component{
-
-    state={
-        isDrawerShow: false,
-        activeStep: 1,
-        branchProducts: [],
-        currentProduct: {},
-        pageName: true
+    constructor(props){
+        super(props);
+        this.state = {
+            isDrawerShow: false,
+            activeStep: 1,
+            branchProducts: [],
+            currentProduct: {},
+            pageName: true
+        }
     }
 
     /*

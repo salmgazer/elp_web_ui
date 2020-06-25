@@ -9,7 +9,6 @@ import ProductCard from "../../../../../components/Cards/ProductCard";
 import Typography from "@material-ui/core/Typography/Typography";
 import SearchInput from "../../../../Components/Input/SearchInput";
 import BranchProductService from "../../../../../services/BranchProductService";
-import Button from "@material-ui/core/Button/Button";
 import SimpleSnackbar from "../../../../../components/Snackbar/SimpleSnackbar";
 import SingleProductMainCard from "../singleProductMainCard";
 
@@ -106,8 +105,8 @@ const SellSearchMode = props => {
         }
     };
 
-    const removeProductHandler = (id) => {
-        console.log(id);
+    const removeProductHandler = (name) => {
+        alert(`${name} is out of stock. Please add stock`);
     };
 
     const setInputValue = (name, value) => {
@@ -205,22 +204,24 @@ const SellSearchMode = props => {
                         branchProducts.map((branchProduct) =>
                             <Grid key={branchProduct.productId} item xs={4}
                                   style={{padding: '4px 8px', position: 'relative'}} className={`mx-0 px-1`}>
-                                <SingleProductMainCard branchProduct={branchProduct} posFunc={addProductOneHandler}
-                                                       negFunc={removeProductHandler}/>
+                                <SingleProductMainCard
+                                    branchProduct={branchProduct}
+                                    posFunc={addProductOneHandler}
+                                    negFunc={removeProductHandler}
+                                />
 
-                                <div
+                                {/*<div
                                     onClick={
                                         new BranchProductService(branchProduct).isProductSellable() === false ?
                                             removeProductHandler.bind(this, branchProduct.productId)
                                             :
                                             addProductHandler.bind(this, branchProduct.productId)
-
                                     }
-                                >
-                                    <ProductCard product={branchProduct.product.fetch()}>
-                                        {new BranchProductService(branchProduct).getSellingPrice() ? `GHC ${new BranchProductService(branchProduct).getSellingPrice()}` : `No cost price`}
-                                    </ProductCard>
-                                </div>
+                                >*/}
+                                <ProductCard notTruncate={true} branchProduct={branchProduct} removeProductHandler={removeProductHandler.bind(this)} addProductHandler={addProductHandler.bind(this)} isSell={true} product={branchProduct.product.fetch()}>
+                                    {/*{new BranchProductService(branchProduct).getSellingPrice() ? `GHC ${new BranchProductService(branchProduct).getSellingPrice()}` : `No cost price`}*/}
+                                </ProductCard>
+                                {/*</div>*/}
                             </Grid>
                         )
                     }
