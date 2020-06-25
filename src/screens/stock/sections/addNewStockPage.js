@@ -169,7 +169,7 @@ const AddNewStockPage = props => {
     const [formFields , setFormFields] = useState({
         quantity: 1,
         sellingPrice: branchProduct.sellingPrice,
-        costPrice: "",
+        costPrice: costPrice ? parseFloat(costPrice).toFixed(2) : "",
         paymentSource: 'sales',
         type: 'stock',
         productId: branchProduct.productId,
@@ -304,7 +304,10 @@ const AddNewStockPage = props => {
         setImage(new ProductServiceHandler(product).getProductImage());
         setName(newProduct.name);
         setSellingPrice(await productHandler.getSellingPrice());
-        setCostPrice(await productHandler.getCostPrice());
+        const cp = await productHandler.getCostPrice();
+        setCostPrice(cp);
+        setInputValue('costPrice' , cp)
+        //setTotalPrice((parseFloat(cp * formFields.quantity)).toFixed(2))
         console.log(formFields)
     };
 

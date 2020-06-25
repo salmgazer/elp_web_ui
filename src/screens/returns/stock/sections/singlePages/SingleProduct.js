@@ -68,14 +68,26 @@ const SingleProduct = props => {
 
     const setInputValue = (name, value) => {
         const {...oldFormFields} = formFields;
-        setCostPrice(((purchase.quantity - value) * purchase.costPrice));
-        setQuantity(purchase.quantity - value);
-        oldFormFields['quantity'] = (value);
-        oldFormFields['costPrice'] = (( value) * purchase.costPrice);
+        const qty = purchase.quantity - value;
+        if (qty < 0){
+        setCostPrice(0);
+        setQuantity(0);
+        oldFormFields['quantity'] = (purchase.quantity);
+        oldFormFields['costPrice'] = ((purchase.quantity) * purchase.costPrice);
         oldFormFields['image'] = image;
         oldFormFields['name'] = productName;
         oldFormFields['initialQuantity'] = purchase.quantity;
         setFormFields(oldFormFields);
+        }else {
+            setCostPrice(((purchase.quantity - value) * purchase.costPrice));
+            setQuantity(purchase.quantity - value);
+            oldFormFields['quantity'] = (value);
+            oldFormFields['costPrice'] = (( value) * purchase.costPrice);
+            oldFormFields['image'] = image;
+            oldFormFields['name'] = productName;
+            oldFormFields['initialQuantity'] = purchase.quantity;
+            setFormFields(oldFormFields);
+        }
     };
 
     const updateStockEntry = () => {

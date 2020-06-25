@@ -34,6 +34,9 @@ import PrimaryButton from "../../../../components/Buttons/PrimaryButton";
 import MainDialog from "../../../../components/Dialog/MainDialog";
 import Grid from "@material-ui/core/Grid/Grid";
 import Switch from '@material-ui/core/Switch';
+import AppsIcon from '@material-ui/icons/Apps';
+import EditIcon from '@material-ui/icons/Edit';
+
 import LocalInfo from "../../../../services/LocalInfo";
 import {makeStyles} from "@material-ui/core";
 
@@ -105,13 +108,13 @@ const SellView = props => {
                         />
                     </div>
                 }
-                /*secondIcon={
-                    <div onClick={() => setIsShowDrawer(!isShowDrawer)}>
-                        <MoreVertIcon
+                rightIcon={
+                    <div onClick={() => history.push(paths.dashboard)}>
+                        <AppsIcon
                             style={{fontSize: '2rem'}}
                         />
                     </div>
-                }*/
+                }
                 leftIcon={
                     <div onClick={() => setIsDrawerShow(true)}>
                         <MenuIcon
@@ -180,6 +183,14 @@ const SellView = props => {
                     >
                         <ListItemIcon><SettingsIcon/></ListItemIcon>
                         <ListItemText primary="Settings" />
+                    </ListItem>
+                    <ListItem
+                        button
+                        key={6}
+                        onClick={() => history.push(paths.change_price)}
+                    >
+                        <ListItemIcon><EditIcon/></ListItemIcon>
+                        <ListItemText primary="Change price" />
                     </ListItem>
                     <Divider/>
                     <ListItem

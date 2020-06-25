@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {makeStyles} from '@material-ui/core/styles';
 import { green } from '@material-ui/core/colors';
 import Paper from '@material-ui/core/Paper';
@@ -67,14 +67,34 @@ function StyledRadio(props) {
 
 const ViewCash = props => {
     const [value, setValue] = React.useState(props.initialValue);
+    const [check , setCheck] = useState(false);
 
     const [formFields , setFormFields] = useState({
         customer: props.customerId,
         type: value,
-        amountPaid: '',
+        amountPaid: 0,
         changeDue: 0,
         /*amountGiven: '',*/
     });
+
+    useEffect(() => {
+        // You need to restrict it at some point
+        // This is just dummy code and should be replaced by actual
+        if (!check) {
+            getAmtPaid();
+        }
+    });
+
+    const getAmtPaid = async () => {
+        setCheck(true);
+        const {...oldFormFields} = formFields;
+        const changeDue = (parseFloat(oldFormFields['amountPaid']) - parseFloat(props.cartAmount)).toFixed(2);
+        if(changeDue > 0){
+            oldFormFields['changeDue'] = changeDue;
+        }
+        setFormFields(oldFormFields);
+        props.getFormFields(oldFormFields);
+    }
 
     const handleRadioChange = (event) => {
         console.log(event.target.value)
@@ -165,6 +185,7 @@ const ViewCash = props => {
                         variant="outlined"
                         size="small"
                         type="tel"
+                        defaultValue='0'
                         onChange={(event) => setInputValue(event)}
                         name={`amountPaid`}
                         value={formFields['amountPaid']}

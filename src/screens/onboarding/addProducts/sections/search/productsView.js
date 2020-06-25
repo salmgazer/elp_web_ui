@@ -56,7 +56,7 @@ const ProductsView = (props) => {
                             </div>
                         }
                         <div onClick={addProductHandler.bind(this, item.id)}>
-                            <ProductCard product={item}/>
+                            <ProductCard product={item} notTruncate={true}/>
                         </div>
                     </Grid>
                 )

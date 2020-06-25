@@ -60,13 +60,13 @@ class SalesHistory extends Component {
                             />
                         </div>
                     }
-                    icons={
-                        <div onClick={() => this.setState({isShowDrawer: true})}>
-                            <MoreVertIcon
-                                style={{fontSize: '2rem'}}
-                            />
-                        </div>
-                    }
+                    // icons={
+                    //     <div onClick={() => this.setState({isShowDrawer: true})}>
+                    //         <MoreVertIcon
+                    //             style={{fontSize: '2rem'}}
+                    //         />
+                    //     </div>
+                    // }
                 />
 
                 <div

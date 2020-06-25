@@ -33,6 +33,7 @@ class Cart extends Component{
         const {cartEntries , branchCustomers} = this.props;
 
         this.state.cartId = await new CartService().cartId();
+        console.log(branchCustomers);
 
         await this.setState({
             productList: cartEntries,
@@ -64,7 +65,7 @@ class Cart extends Component{
             case 1:
                 return <Checkout searchCustomerHandler={this.searchCustomerHandler.bind(this)} setCustomerHandler={this.setCustomerHandler.bind(this)} currentCustomer={this.state.currentCustomer} customers={this.state.customers} cartTotalAmount={this.state.cartTotalAmount} setView={this.setStepContentView.bind(this)} />;
             case 2:
-                return <CompleteCart setView={this.setStepContentView.bind(this)} products={this.state.productList} currentCustomer={this.state.currentCustomer} cartTotalProducts={this.state.cartTotalProduct} />;
+                return <CompleteCart setView={this.setStepContentView.bind(this)} products={this.state.productList} cartTotalProducts={this.state.cartTotalProduct} customers={this.state.customers} />;
             default:
                 return 'Complete';
         }

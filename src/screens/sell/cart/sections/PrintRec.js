@@ -52,13 +52,13 @@ class PrintRec extends React.Component {
                         </Paper>
                     </Grid>
                 </Grid>
-                <Grid container spacing={1}>
+                {/* <Grid container spacing={1}>
                     <Grid item xs={12}>
                         <Typography style={{textAlign: 'center', fontSize: '13px'}}>
                             {LocalInfo.branch.location}
                         </Typography>
                     </Grid>
-                </Grid>
+                </Grid> */}
                 <Grid container spacing={1}>
                     <Grid item xs={12}>
                         <Typography style={{textAlign: 'center', fontSize: '13px'}}>

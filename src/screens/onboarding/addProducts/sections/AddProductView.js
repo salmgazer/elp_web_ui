@@ -184,7 +184,7 @@ const AddProductView = props => {
 
             <div
                 className={`row shadow1 pb-3`}
-                style={{'borderTopLeftRadius': '15px', 'borderTopRightRadius': '15px', marginBottom: '60px'}}
+                style={{'borderTopLeftRadius': '15px', 'borderTopRightRadius': '15px', marginBottom: '70px'}}
             >
                 <Typography
                     component="h5"

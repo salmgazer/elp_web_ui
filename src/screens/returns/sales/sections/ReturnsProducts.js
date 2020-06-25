@@ -43,7 +43,7 @@ const ReturnsProducts = props => {
             for (let i=0; i<allProducts.length; i++) {
                 await new ModelAction('SaleReturnHistories').post(allProducts[i]);
 
-                await new ModelAction('SaleEntry').softDelete(allProducts[i].id);
+                await new ModelAction('Sales').softDelete(allProducts[i].saleId);
             }
                 setSuccessMsg('Items deleted successfully');
                 setSuccess(true);

@@ -22,9 +22,31 @@ import QuantityInput from "../../../../Components/Input/QuantityInput";
 import IconButton from '@material-ui/core/IconButton';
 import {faCalculator} from "@fortawesome/free-solid-svg-icons";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
+import SwapHorizOutlinedIcon from '@material-ui/icons/SwapHorizOutlined';
+import UnitCost from '../../../../Components/Input/UnitCost';
 
 
 const useStyles = makeStyles(theme => ({
+    root: {
+        width: '90%',
+        display: 'flex',
+        padding: '2px 5px',
+        alignItems: 'center',
+        borderRadius: '5px',
+        height: '35px',
+        border: '1px solid #ced4da',
+        fontSize: '0.9rem',
+        lineHeight: '1.5',
+        transition: 'border-color .15s ease-in-out,box-shadow .15s ease-in-out',
+    },
+    input: {
+        marginLeft: theme.spacing(1),
+        flex: 1,
+        textAlign: 'center',
+    },
+    iconButton: {
+        padding: 10,
+    },
     tabs: {
         textTransform: 'none',
         fontWeight: 'bold',
@@ -42,6 +64,7 @@ const SingleDayProduct = props => {
     const [image , setImage] = useState('');
     const [totalPrice , setTotalPrice] = useState('');
     const [quantity , setQuantity] = useState(false);
+    const [unitPrice , setUnitPrice] = useState("");
     const [formFields , setFormFields] = useState({
         quantity: 1,
     });
@@ -93,19 +116,54 @@ const SingleDayProduct = props => {
           setValue(index);
       };
     
-      const setInputValue = (name , value) => {
+    //   const setInputValue = (name , value) => {
+    //     const {...oldFormFields} = formFields;
+    //     setTotalPrice((value * saleEntry.sellingPrice));
+    //     setQuantity(value);
+    //     oldFormFields['quantity'] = value;
+    //     setFormFields(oldFormFields);
+    // };
+
+    // const setPriceValue = (event) => {
+    //     const {...oldFormFields} = priceFields;
+    //     setTotalPrice(event.target.value);
+    //     oldFormFields['sellingPrice'] = event.target.value / quantity;
+    //     setPriceFields(oldFormFields);
+    // };
+
+    const setInputValue = (name , value) => {
         const {...oldFormFields} = formFields;
-        setTotalPrice((value * saleEntry.sellingPrice));
-        setQuantity(value);
-        oldFormFields['quantity'] = value;
-        setFormFields(oldFormFields);
+        const {...oldPriceFields} = priceFields;
+
+        if(name === 'sellingPrice'){
+            setTotalPrice((value * quantity).toFixed(2));
+            oldPriceFields[name] = value;
+            setPriceFields(oldPriceFields);
+        }else if(name === 'quantity'){
+            setTotalPrice((value * saleEntry.sellingPrice).toFixed(2));
+            setQuantity(value);
+            oldFormFields[name] = value;
+            setFormFields(oldFormFields);
+        }
+
     };
 
-    const setPriceValue = (event) => {
+    const setTotalPriceHandler = event => {
+        if(event.target.value === "" && typeof event.target.value !== 'number'){
+            setTotalPrice("");
+            return true;
+        }
+        setTotalPrice((event.target.value));
+        setInputValue(event.target.name , event.target.value);
+        const cp = (parseFloat(event.target.value) / quantity);
+
         const {...oldFormFields} = priceFields;
-        setTotalPrice(event.target.value);
-        oldFormFields['sellingPrice'] = event.target.value / quantity;
+
+        oldFormFields['sellingPrice'] = cp.toFixed(2);
+
         setPriceFields(oldFormFields);
+        setUnitPrice(cp.toFixed(2));
+
     };
 
     const setDate = (value) => {
@@ -287,10 +345,7 @@ const SingleDayProduct = props => {
 
                         <TabPanel value={value} index={2}  >
 
-                            {/* <UnitCost style={{margin: '50px'}} id="price_input" label={`Selling price`} inputName="costPrice" initialValue={totalPrice} getValue={setPriceValue.bind(this)} >
-                                <FontAwesomeIcon  icon={faCalculator} fixedWidth />
-                            </UnitCost> */}
-                            <label className={`text-dark py-2 text-center`} style={{fontSize: '18px', fontWeight: '600'}}> New selling price </label>
+                            {/* <label className={`text-dark py-2 text-center`} style={{fontSize: '18px', fontWeight: '600'}}> New selling price </label>
 
                             <Paper className={classes.root} id="selling_price" >
                                 <InputBase
@@ -311,7 +366,45 @@ const SingleDayProduct = props => {
                                         </InputAdornment>
                                     }
                                 />
-                            </Paper>
+                            </Paper> */}
+
+<Grid container spacing={1} className={`my-2`}>
+                                <Grid
+                                    item xs={5}
+                                >
+                                    <label className={`text-dark py-2 text-center`} style={{fontSize: '18px', fontWeight: '600'}}> Total price</label>
+
+                                    <Paper className={classes.root} id="left_input" >
+                                        <InputBase
+                                            className={`${classes.input} search-box text-center`}
+                                            type="tel"
+                                            classes={{
+                                                input: classes.center
+                                            }}
+                                            defaultValue=''
+                                            value={totalPrice}
+                                            name="totalPrice"
+                                            onChange={(event) => setTotalPriceHandler(event)}
+                                        />
+
+                                    </Paper>
+                                </Grid>
+                                <Grid
+                                    item xs={2}
+                                >
+                                    <SwapHorizOutlinedIcon
+                                        className={`mt-4`}
+                                        style={{fontSize: '25px'}}
+                                    />
+                                </Grid>
+                                <Grid
+                                    item xs={5}
+                                >
+                                    <UnitCost product={product} id="right_input" label={`Unit price`} inputName="sellingPrice" initialValue={totalPrice/quantity} getValue={setInputValue.bind(this)} >
+                                        <FontAwesomeIcon icon={faCalculator} fixedWidth />
+                                    </UnitCost>
+                                </Grid>
+                            </Grid>
 
                             <Grid container spacing={1} style={{marginTop: '50px'}}>
                                 <Grid item xs={6}>

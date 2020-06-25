@@ -7,12 +7,14 @@ import Paper from '@material-ui/core/Paper';
 import Box from "@material-ui/core/Box/Box";
 import Button from "@material-ui/core/Button/Button";
 import { withRouter } from "react-router-dom";
+import AppsIcon from '@material-ui/icons/Apps';
 
 import SectionNavbars from "../../../components/Sections/SectionNavbars";
 import Drawer from "../../../components/Drawer/Drawer";
 import SingleRecentView from './SingleRecentView';
 import SinglePendingView from './SinglePendingView';
 import AddCircleRoundedIcon from '@material-ui/icons/AddCircleRounded';
+import paths from "../../../utilities/paths";
 
 const useStyles = makeStyles(theme => ({
     root: {
@@ -51,7 +53,7 @@ const useStyles = makeStyles(theme => ({
 }));
 
 const OwnerMainPage = props => {
-
+    const { history } = props;
     const classes = useStyles();
     const collection = props.collection;
     const pendingCollection = props.pendingCollection;
@@ -67,6 +69,13 @@ const OwnerMainPage = props => {
                 leftIcon={
                     <div onClick={() => setIsDrawerShow(true)}>
                         <MenuIcon
+                            style={{fontSize: '2rem'}}
+                        />
+                    </div>
+                }
+                rightIcon={
+                    <div onClick={() => history.push(paths.dashboard)}>
+                        <AppsIcon
                             style={{fontSize: '2rem'}}
                         />
                     </div>

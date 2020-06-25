@@ -53,6 +53,17 @@ const SingleProduct = props => {
 
     const setInputValue = (name, value) => {
         const {...oldFormFields} = formFields;
+        const qty = saleEntry.quantity - value;
+        if (qty < 0){
+            setQuantity(0);
+            setTotalPrice(0);
+            oldFormFields['quantity'] = (saleEntry.quantity);
+            oldFormFields['sellingPrice'] = ((saleEntry.quantity) * saleEntry.sellingPrice);
+            oldFormFields['image'] = image;
+            oldFormFields['name'] = productName;
+            oldFormFields['initialQuantity'] = saleEntry.quantity;
+            setFormFields(oldFormFields);
+        } else{
         setTotalPrice(((saleEntry.quantity - value) * saleEntry.sellingPrice));
         setQuantity(saleEntry.quantity - value);
         oldFormFields['quantity'] = ( value);
@@ -61,6 +72,7 @@ const SingleProduct = props => {
         oldFormFields['name'] = productName;
         oldFormFields['initialQuantity'] = saleEntry.quantity;
         setFormFields(oldFormFields);
+        }
     };
 
 
