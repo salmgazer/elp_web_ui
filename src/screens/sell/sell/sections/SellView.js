@@ -32,6 +32,7 @@ import PeopleIcon from '@material-ui/icons/People';
 import SettingsIcon from '@material-ui/icons/Settings';
 import PrimaryButton from "../../../../components/Buttons/PrimaryButton";
 import AppsIcon from '@material-ui/icons/Apps';
+import EditIcon from '@material-ui/icons/Edit';
 
 const SellView = props => {
     const { history } = props;
@@ -151,6 +152,14 @@ const SellView = props => {
                     >
                         <ListItemIcon><SettingsIcon/></ListItemIcon>
                         <ListItemText primary="Settings" />
+                    </ListItem>
+                    <ListItem
+                        button
+                        key={6}
+                        onClick={() => history.push(paths.change_price)}
+                    >
+                        <ListItemIcon><EditIcon/></ListItemIcon>
+                        <ListItemText primary="Change price" />
                     </ListItem>
                     <Divider/>
                     <ListItem

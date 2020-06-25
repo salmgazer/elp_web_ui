@@ -24,8 +24,30 @@ import fromUnixTime from 'date-fns/fromUnixTime';
 import format from "date-fns/format";
 import BranchStockService from '../../../../../services/BranchStockService';
 import ProductServiceHandler from "../../../../../services/ProductServiceHandler";
+import SwapHorizOutlinedIcon from '@material-ui/icons/SwapHorizOutlined';
+import UnitCost from '../../../../Components/Input/UnitCost';
 
 const useStyles = makeStyles(theme => ({
+    root: {
+        width: '90%',
+        display: 'flex',
+        padding: '2px 5px',
+        alignItems: 'center',
+        borderRadius: '5px',
+        height: '35px',
+        border: '1px solid #ced4da',
+        fontSize: '0.9rem',
+        lineHeight: '1.5',
+        transition: 'border-color .15s ease-in-out,box-shadow .15s ease-in-out',
+    },
+    input: {
+        marginLeft: theme.spacing(1),
+        flex: 1,
+        textAlign: 'center',
+    },
+    iconButton: {
+        padding: 10,
+    },
     tabs: {
         textTransform: 'none',
         fontWeight: 'bold',
@@ -44,6 +66,7 @@ const SingleDayView = props => {
     const [image , setImage] = useState(false);
     const [product, setProduct] = useState(false);
     const [selectedDate , setSelectedDate] = useState('')
+    const [unitCost , setUnitCost] = useState("");
     const [formFields , setFormFields] = useState({
         quantity: 1,
     });
@@ -97,19 +120,54 @@ const SingleDayView = props => {
 
     };
 
+    // const setInputValue = (name , value) => {
+    //     const {...oldFormFields} = formFields;
+    //     setQuantity(value);
+    //     setCostPrice(value * purchase.costPrice);
+    //     oldFormFields['quantity'] = value;
+    //     setFormFields(oldFormFields);
+    // };
+
+    // const setPriceValue = (event) => {
+    //     const {...oldFormFields} = priceFields;
+    //     setCostPrice(event.target.value);
+    //     oldFormFields['costPrice'] = event.target.value / quantity;
+    //     setPriceFields(oldFormFields);
+    // };
+
     const setInputValue = (name , value) => {
         const {...oldFormFields} = formFields;
-        setQuantity(value);
-        setCostPrice(value * purchase.costPrice);
-        oldFormFields['quantity'] = value;
-        setFormFields(oldFormFields);
+        const {...oldPriceFields} = priceFields;
+
+        if(name === 'costPrice'){
+            setCostPrice((value * quantity).toFixed(2));
+            oldPriceFields[name] = value;
+            setPriceFields(oldPriceFields);
+        }else if(name === 'quantity'){
+            setCostPrice((value *  purchase.costPrice).toFixed(2));
+            setQuantity(value);
+            oldFormFields[name] = value;
+            setFormFields(oldFormFields);
+        }
+
     };
 
-    const setPriceValue = (event) => {
+    const setTotalPriceHandler = event => {
+        if(event.target.value === "" && typeof event.target.value !== 'number'){
+            setCostPrice("");
+            return true;
+        }
+        setCostPrice((event.target.value));
+        setInputValue(event.target.name , event.target.value);
+        const cp = (parseFloat(event.target.value) / quantity);
+
         const {...oldFormFields} = priceFields;
-        setCostPrice(event.target.value);
-        oldFormFields['costPrice'] = event.target.value / quantity;
+
+        oldFormFields['costPrice'] = cp.toFixed(2);
+
         setPriceFields(oldFormFields);
+        setUnitCost(cp.toFixed(2));
+
     };
 
     const deleteHistoryHandler = (pId , event) => {
@@ -299,9 +357,7 @@ const SingleDayView = props => {
 
                         <TabPanel value={value} index={2}  >
 
-                            <label className={`text-dark py-2 text-center`} style={{fontSize: '18px', fontWeight: '600', marginTop: '100px'}}> New cost price </label>
-
-                            {/* <QuantityInput style={{width: '100%', margin: '50px', paddingBottom: '30px'}} label={`Quantity`} inputName="quantity" getValue={setPriceValue.bind(this)} startValue={costPrice}/> */}
+                            {/* <label className={`text-dark py-2 text-center`} style={{fontSize: '18px', fontWeight: '600', marginTop: '100px'}}> New cost price </label>
 
                             <Paper className={classes.root} id="selling_price" >
                                 <InputBase
@@ -322,7 +378,45 @@ const SingleDayView = props => {
                                         </InputAdornment>
                                     }
                                 />
-                            </Paper>
+                            </Paper> */}
+                            
+                            <Grid container spacing={1} className={`my-2`}>
+                                <Grid
+                                    item xs={5}
+                                >
+                                    <label className={`text-dark py-2 text-center`} style={{fontSize: '18px', fontWeight: '600'}}> Total cost</label>
+
+                                    <Paper className={classes.root} id="left_input" >
+                                        <InputBase
+                                            className={`${classes.input} search-box text-center`}
+                                            type="tel"
+                                            classes={{
+                                                input: classes.center
+                                            }}
+                                            defaultValue=''
+                                            value={costPrice}
+                                            name="totalCost"
+                                            onChange={(event) => setTotalPriceHandler(event)}
+                                        />
+
+                                    </Paper>
+                                </Grid>
+                                <Grid
+                                    item xs={2}
+                                >
+                                    <SwapHorizOutlinedIcon
+                                        className={`mt-4`}
+                                        style={{fontSize: '25px'}}
+                                    />
+                                </Grid>
+                                <Grid
+                                    item xs={5}
+                                >
+                                    <UnitCost product={product} id="right_input" label={`Unit cost`} inputName="costPrice" initialValue={costPrice/quantity} getValue={setInputValue.bind(this)} >
+                                        <FontAwesomeIcon icon={faCalculator} fixedWidth />
+                                    </UnitCost>
+                                </Grid>
+                            </Grid>
 
                             <Grid container spacing={1} style={{marginTop: '50px'}}>
                                 <Grid item xs={6}>
