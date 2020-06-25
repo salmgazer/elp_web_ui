@@ -180,32 +180,34 @@ export default class CartService {
     async addProductToCart(data) {
         const cartId = await this.cartId();
 
-        const dataCollection = database.collections.get('cart_entries');
+        if(!LocalInfo.aggregateSales){
+            const dataCollection = database.collections.get('cart_entries');
 
-        let product = await dataCollection.query(
-            Q.where('cartId' , cartId),
-            Q.where('productId' , data.productId)
-        ).fetch();
+            let product = await dataCollection.query(
+                Q.where('cartId' , cartId),
+                Q.where('productId' , data.productId)
+            ).fetch();
 
-        if(product.length > 0){
-            product = product[0];
+            if(product.length > 0){
+                product = product[0];
 
-            try {
-                new ModelAction('CartEntry').update(product.id , {
-                    cartId: product.cartId,
-                    branchId: LocalInfo.branchId,
-                    productId: product.productId,
-                    branchProductId: product.branchProductId,
-                    sellingPrice: data.sellingPrice,
-                    entryDate: getUnixTime(new Date(LocalInfo.workingDate)),
-                    costPrice: data.costPrice,
-                    discount: parseFloat(data.discount),
-                    quantity: data.quantity + product.quantity,
-                });
+                try {
+                    new ModelAction('CartEntry').update(product.id , {
+                        cartId: product.cartId,
+                        branchId: LocalInfo.branchId,
+                        productId: product.productId,
+                        branchProductId: product.branchProductId,
+                        sellingPrice: data.sellingPrice,
+                        entryDate: getUnixTime(new Date(LocalInfo.workingDate)),
+                        costPrice: data.costPrice,
+                        discount: parseFloat(data.discount),
+                        quantity: data.quantity + product.quantity,
+                    });
 
-                return true;
-            } catch (e) {
-                return false;
+                    return true;
+                } catch (e) {
+                    return false;
+                }
             }
         }
 

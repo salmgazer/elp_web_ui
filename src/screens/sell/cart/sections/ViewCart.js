@@ -18,6 +18,13 @@ import {confirmAlert} from "react-confirm-alert";
 import ModelAction from "../../../../services/ModelAction";
 import CustomerListDrawer from "../../../../components/Drawer/CustomerListDrawer/CustomerListDrawer";
 import CustomerService from "../../../../services/CustomerService";
+import LocalInfo from "../../../../services/LocalInfo";
+import MainDialog from "../../../../components/Dialog/MainDialog";
+import SecondaryButton from "../../../../components/Buttons/SecondaryButton";
+import TextField from "@material-ui/core/TextField/TextField";
+import PrimaryButton from "../../../../components/Buttons/PrimaryButton";
+import SaleService from "../../../../services/SaleService";
+import PrimaryTextField from "../../../../components/Input/TextField";
 
 const useStyles = makeStyles(theme => ({
     root: {
@@ -50,9 +57,27 @@ const CartView = props => {
     const [errorMsg , setErrorMsg] = useState('');
     const counter = props.cartTotalProducts;
     const [success , setSuccess] = useState(false);
+    const [openPaymentState , setOpenPaymentState] = useState(false);
     const [successMsg , setSuccessMsg] = useState('');
     const [isShowerCustomerDrawer , setIsShowerCustomerDrawer] = useState(false);
     const [isSaveCart , setIsSaveCart] = useState(false);
+    const [formFields , setFormFields] = useState({
+        amountPaid: '',
+        changeDue: '',
+        customer: props.currentCustomer,
+        type: 0
+    });
+
+    const setInputValue = (name , value) => {
+        const {...oldFormFields} = formFields;
+
+        const changeDue = (parseFloat(value) - parseFloat(props.cartAmount)).toFixed(2);
+        oldFormFields[name] = value;
+        oldFormFields['changeDue'] = changeDue;
+
+        setFormFields(oldFormFields);
+    };
+
     //console.log(props.currentCustomer)
     //console.log(customerName)
 
@@ -101,8 +126,12 @@ const CartView = props => {
         setIsShowerCustomerDrawer(true);
     };
 
-    const openCheckoutHandler = (event) => {
-        props.setView(1);
+    const openCheckoutHandler = () => {
+        if(LocalInfo.checkoutSales){
+            setOpenPaymentState(true);
+        }else{
+            props.setView(1);
+        }
     };
 
     const setCustomerHandler = (customer) => {
@@ -155,6 +184,88 @@ const CartView = props => {
 
     const setSearchValue = (value) => {
         props.searchCustomerHandler(value);
+    };
+
+    const completeSellHandler = async() => {
+        const {...oldFormFields} = formFields;
+        oldFormFields['customer'] = props.currentCustomer;
+
+        if(oldFormFields['amountPaid'] === ''){
+            oldFormFields['amountPaid'] = 0;
+        }
+        if(oldFormFields['changeDue'] === ''){
+            oldFormFields['changeDue'] = 0;
+        }
+
+        if(oldFormFields.type === 0 && parseFloat(oldFormFields.amountPaid) < parseFloat(props.cartTotalAmount)){
+            //alert(`Amount paid must be greater than ${props.cartTotalAmount}`)
+            setOpenPaymentState(false);
+            confirmAlert({
+                title: 'Confirm to sell',
+                message: 'Are you sure, you want to pay less than the cart amount?',
+                buttons: [
+                    {
+                        label: 'Yes',
+                        onClick: async () => {
+                            try {
+                                await new SaleService().makeSell(formFields , formFields.type);
+                                props.history.push(paths.sell);
+                            } catch (e) {
+                                console.log('Something went wrong')
+                                return false;
+                            }
+                        }
+                    },
+                    {
+                        label: 'No',
+                        onClick: () => {
+                            setOpenPaymentState(true);
+
+                            alert(`Please make sure amount paid is ${props.cartTotalAmount} or above`)
+                        }
+                    }
+                ]
+            });
+        }/*else if(parseFloat(oldFormFields.type) === 2 && (oldFormFields.customer === cashCustomerId)){
+            alert(`Please set a customer for credit sales`)
+        }else if(parseFloat(oldFormFields.type) !== 2 && parseFloat(oldFormFields.type) !== 0 && (oldFormFields.amountPaid === "" || parseFloat(oldFormFields.amountPaid) === 0)){
+            alert(`Amount paid must be greater than 0`);
+        }else if(parseFloat(oldFormFields.type) !== 2 && parseFloat(oldFormFields.type) !== 0 && (parseFloat(oldFormFields.amountPaid) < parseFloat(props.cartTotalAmount)) && (oldFormFields.customer === cashCustomerId)) {
+            alert(`Please set a customer for credit sales`)
+        }
+        else if (parseFloat(oldFormFields.amountPaid) < parseFloat(props.cartTotalAmount) && oldFormFields.type !== 0){
+            confirmAlert({
+                title: 'Confirm to sell',
+                message: 'Are you sure, you want to sell on credit?',
+                buttons: [
+                    {
+                        label: 'Yes',
+                        onClick: async () => {
+                            try {
+                                await new SaleService().makeSell(formFields , formFields.type);
+                                props.setView(2);
+                            } catch (e) {
+                                console.log('Something went wrong')
+                                return false;
+                            }
+                        }
+                    },
+                    {
+                        label: 'No',
+                        onClick: () => {
+                            alert(`Please make sure amount paid is ${props.cartTotalAmount} or above`)
+                        }
+                    }
+                ]
+            });*/
+        else {
+            try {
+                await new SaleService().makeSell(formFields , formFields.type);
+                props.history.push(paths.sell);
+            }catch (e) {
+                console.log('Something went wrong.')
+            }
+        }
     };
 
     return(
@@ -220,6 +331,47 @@ const CartView = props => {
                 </Grid>
             </Grid>
 
+            <MainDialog
+                title={`Payment`}
+                handleDialogClose={() => setOpenPaymentState(false)}
+                states={openPaymentState}
+            >
+                <Grid container spacing={1} className={`mb-3`}>
+                    <Grid item xs={12} className={`px-3`} style={{ margin: '10px 0px 0px 0px'}} >
+                        <PrimaryTextField
+                            name="amountPaid"
+                            label="Total Cash"
+                            type="tel"
+                            value={formFields.amountPaid}
+                            getValue={setInputValue.bind(this)}
+                        />
+                    </Grid>
+                </Grid>
+
+                <div style={{display: 'flex' , alignItems: 'center' , justifyContent: 'center'}}>
+                    <div
+                        className={`pr-3`}
+                        onClick={() => setOpenPaymentState(false)}
+                    >
+                        <PrimaryButton
+                            classes={`capitalization px-4`}
+                        >
+                            Back
+                        </PrimaryButton>
+                    </div>
+                    <div
+                        onClick={completeSellHandler.bind(this)}
+                    >
+                        <SecondaryButton
+                            classes={`capitalization px-4 font-weight-bold text-dark`}
+                        >
+                            Pay
+                        </SecondaryButton>
+                    </div>
+                </div>
+
+
+            </MainDialog>
 
             <Button
                 variant="outlined"
@@ -301,7 +453,7 @@ const CartView = props => {
                             onClick={openCheckoutHandler.bind(this)}
                             disabled={!counter}
                         >
-                            Checkout
+                            {LocalInfo.checkoutSales ? 'Save' : 'Checkout'}
                         </Button>
                     </Grid>
                 </Grid>
