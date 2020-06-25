@@ -5,7 +5,7 @@ const SecondaryButton = props => {
     return (
         <Button
             variant="contained"
-            style={{'backgroundColor': '#DAAB59' , color: '#333333', padding: '5px 23%' , fontSize: '15px'}}
+            style={{'backgroundColor': '#DAAB59' , color: '#333333', padding: '5px 15%' , fontSize: '15px'}}
             className={`${props.classes} capitalize`}
             onClick={props.onClick}
         >

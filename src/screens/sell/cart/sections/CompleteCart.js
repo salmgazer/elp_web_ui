@@ -13,9 +13,8 @@ import database from "../../../../models/database";
 import paths from "../../../../utilities/paths";
 import ReactToPrint from "react-to-print";
 import LocalInfo from '../../../../services/LocalInfo';
-import CartService from "../../../../services/CartService";
 import PrintRec from './PrintRec';
-import fromUnixTime from 'date-fns/fromUnixTime';
+import CustomerService from "../../../../services/CustomerService";
 import format from "date-fns/format";
 
 const useStyles = makeStyles(theme => ({
@@ -55,6 +54,7 @@ const useStyles = makeStyles(theme => ({
 const CheckoutView = props => {
     const componentRef = useRef();
     const { history } = props;
+    const customers = props.customers;
     const [salesId , setSalesId] = useState(0);
     const [salesTotal , setSalesTotal] = useState(0);
     const [amountPaid , setAmountPaid] = useState(0);
@@ -81,10 +81,10 @@ const CheckoutView = props => {
         const lastsale = await SaleService.getLastSale();
         const need = await new SaleService().getSaleProductsById(sale);
         console.log(need);
+        console.log(lastsale);
 
-        const recDate = format(fromUnixTime(lastsale.salesDate) , "eeee, MMMM do, yyyy");
+        const recDate = format(new Date(lastsale.createdAt) , 'dd/MM/yyyy | h:mm a');
         const rec = lastsale.receiptNumber;
-        setCustomerName(await new CartService().getCartCustomer(props.currentCustomer));
         setSeller(LocalInfo.username);
         setReceipt(rec.slice(0,8));
         setQuantity(qty);
@@ -95,6 +95,23 @@ const CheckoutView = props => {
         setSalesTotal((parseFloat(total)).toFixed(2));
 
         setProducts(need);
+
+
+        for (let i=0; i<customers.length; i++) {
+            console.log('@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@')
+            console.log(lastsale.customerId)
+            console.log(customers[i].firstName)
+            if (customers[i].customerId === lastsale.customerId) {
+                console.log('*************************************************************')
+                setCustomerName(await new CustomerService().getCustomerName(customers[i]))
+                console.log('^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^')
+                console.log(new CustomerService().getCustomerName(customers[i]))
+                console.log('!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!')
+                console.log(customers[i])
+            }
+        }
+
+
     };
 
     const classes = useStyles();

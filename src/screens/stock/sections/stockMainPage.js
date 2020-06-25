@@ -30,6 +30,7 @@ import {withRouter} from 'react-router-dom';
 import ReportProblemOutlinedIcon from '@material-ui/icons/ReportProblemOutlined';
 import LibraryAddIcon from '@material-ui/icons/LibraryAdd';
 import Grid from '@material-ui/core/Grid';
+import AppsIcon from '@material-ui/icons/Apps';
 
 import Drawer from "../../../components/Drawer/Drawer";
 
@@ -75,6 +76,13 @@ const StockMainPage = props => {
                         leftIcon={
                             <div onClick={() => setIsDrawerShow(true)}>
                                 <MenuIcon
+                                    style={{fontSize: '2rem'}}
+                                />
+                            </div>
+                        }
+                        rightIcon={
+                            <div onClick={() => history.push(paths.dashboard)}>
+                                <AppsIcon
                                     style={{fontSize: '2rem'}}
                                 />
                             </div>

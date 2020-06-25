@@ -9,10 +9,12 @@ import {withRouter} from "react-router-dom";
 import MenuIcon from '@material-ui/icons/Menu';
 import SectionNavbars from "../../../components/Sections/SectionNavbars";
 import Drawer from "../../../components/Drawer/Drawer";
-
+import AppsIcon from '@material-ui/icons/Apps';
+import paths from "../../../utilities/paths";
 
 const GetStartedAudit = props => {
 
+    const { history } = props;
     const [isDrawerShow , setIsDrawerShow] = useState(false);
 
     return(
@@ -22,6 +24,13 @@ const GetStartedAudit = props => {
                 leftIcon={
                     <div onClick={() => setIsDrawerShow(true)}>
                         <MenuIcon
+                            style={{fontSize: '2rem'}}
+                        />
+                    </div>
+                }
+                rightIcon={
+                    <div onClick={() => history.push(paths.dashboard)}>
+                        <AppsIcon
                             style={{fontSize: '2rem'}}
                         />
                     </div>

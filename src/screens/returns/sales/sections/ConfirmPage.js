@@ -90,7 +90,7 @@ const CartView = props => {
     
                 if (storedProducts[i].quantity === 0) {
     
-                    await new ModelAction('SaleEntry').softDelete(storedProducts[i].id);
+                    await new ModelAction('Sales').softDelete(storedProducts[i].saleId);
                     
                     setSuccessMsg('Item deleted successfully');
                     setSuccess(true);

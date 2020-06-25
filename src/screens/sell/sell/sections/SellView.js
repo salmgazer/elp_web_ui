@@ -31,6 +31,7 @@ import AccountBalanceWalletIcon from '@material-ui/icons/AccountBalanceWallet';
 import PeopleIcon from '@material-ui/icons/People';
 import SettingsIcon from '@material-ui/icons/Settings';
 import PrimaryButton from "../../../../components/Buttons/PrimaryButton";
+import AppsIcon from '@material-ui/icons/Apps';
 
 const SellView = props => {
     const { history } = props;
@@ -71,6 +72,13 @@ const SellView = props => {
                 icons={
                     <div onClick={() => setIsShowDrawer(!isShowDrawer)}>
                         <MoreVertIcon
+                            style={{fontSize: '2rem'}}
+                        />
+                    </div>
+                }
+                rightIcon={
+                    <div onClick={() => history.push(paths.dashboard)}>
+                        <AppsIcon
                             style={{fontSize: '2rem'}}
                         />
                     </div>

@@ -25,13 +25,13 @@ const SingleDayProduct = props => {
     };
 
     return(
-        <div  >              
-            <tbody style={{border: 'solid'}}>
+        <div style={{alignItems: 'right', textAlign: 'right'}}>              
+            <tbody style={{border: 'solid', textAlign: 'right'}}>
                 <tr>
-                <td style={{border: 'solid'}}>{name}</td>
-                <td style={{border: 'solid'}}>{quantity}</td>
-                <td style={{border: 'solid'}}>{totalPrice}</td>
-                <td style={{border: 'solid'}}>{quantity * totalPrice}</td>
+                <td style={{border: 'solid', textAlign: 'right'}}>{name}</td>
+                <td style={{border: 'solid', textAlign: 'right'}}>{quantity}</td>
+                <td style={{border: 'solid', textAlign: 'right'}}>{totalPrice}</td>
+                <td style={{border: 'solid', textAlign: 'right'}}>{quantity * totalPrice}</td>
                 </tr>
             </tbody>
         </div>

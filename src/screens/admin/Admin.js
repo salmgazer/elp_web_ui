@@ -18,6 +18,7 @@ import LocalInfo from "../../services/LocalInfo";
 import Collapse from '@material-ui/core/Collapse';
 import ExpandLess from '@material-ui/icons/ExpandLess';
 import ExpandMore from '@material-ui/icons/ExpandMore';
+import AppsIcon from '@material-ui/icons/Apps';
 
 const useStyles = makeStyles(theme => ({
     root: {
@@ -61,6 +62,7 @@ const useStyles = makeStyles(theme => ({
 }));
 
 const Admin = props => {
+    const { history } = props;
     const classes = useStyles();
     const [isDrawerShow , setIsDrawerShow] = useState(false);
     const [openShop, setOpenShop] = React.useState(false);
@@ -79,8 +81,6 @@ const Admin = props => {
         setOpenEmp(!openEmp);
     };
 
-    const { history } = props;
-
     return (
         <div style={{height: '100vh'}}>
             <Component
@@ -98,6 +98,13 @@ const Admin = props => {
                             leftIcon={
                                 <div onClick={() => setIsDrawerShow(true)}>
                                     <MenuIcon
+                                        style={{fontSize: '2rem'}}
+                                    />
+                                </div>
+                            }
+                            rightIcon={
+                                <div onClick={() => history.push(paths.dashboard)}>
+                                    <AppsIcon
                                         style={{fontSize: '2rem'}}
                                     />
                                 </div>
