@@ -50,7 +50,11 @@ const useStyles = makeStyles({
     },
     backgroundColor: {
         backgroundColor: `#009688 !important`
-    }
+    },
+    tabPrimaryColor: {
+        backgroundColor: `#daab59 !important`,
+        color: `#daab59 !important`,
+    },
 });
 
 const SellView = props => {
@@ -284,6 +288,9 @@ const SellView = props => {
                         textColor="primary"
                         variant="fullWidth"
                         aria-label="full width tabs example"
+                        classes= {{
+                            indicator: classes.tabPrimaryColor
+                        }}
                     >
                         <Tab label="Search mode" {...a11yProps(0)} />
                         <Tab label="Barcode mode" {...a11yProps(1)} />

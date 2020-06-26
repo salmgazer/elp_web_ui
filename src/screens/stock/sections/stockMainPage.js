@@ -33,6 +33,14 @@ import Grid from '@material-ui/core/Grid';
 import AppsIcon from '@material-ui/icons/Apps';
 
 import Drawer from "../../../components/Drawer/Drawer";
+import {makeStyles} from "@material-ui/core";
+
+const useStyles = makeStyles(theme => ({
+    tabPrimaryColor: {
+        backgroundColor: `#daab59 !important`,
+        color: `#daab59 !important`,
+    },
+}));
 
 const StockMainPage = props => {
     const { history } = props;
@@ -61,6 +69,7 @@ const StockMainPage = props => {
         props.setView(view);
     };
 
+    const styles = useStyles();
 
     return (
         <div className={`stock`}>
@@ -245,6 +254,9 @@ const StockMainPage = props => {
                             textColor="primary"
                             variant="fullWidth"
                             aria-label="full width tabs example"
+                            classes= {{
+                                indicator: styles.tabPrimaryColor
+                            }}
                         >
                             <Tab label="Search mode" {...a11yProps(0)} />
                             <Tab label="Barcode mode" {...a11yProps(1)} />

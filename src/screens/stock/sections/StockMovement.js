@@ -1,4 +1,5 @@
 import React, {Component} from 'react';
+import {makeStyles} from "@material-ui/core";
 import SectionNavbars from "../../../components/Sections/SectionNavbars";
 import MoreVertIcon from '@material-ui/icons/MoreVert';
 import AppBar from '@material-ui/core/AppBar';
@@ -23,6 +24,13 @@ import Grid from "@material-ui/core/Grid/Grid";
 import SortDate from './movement/SortDate';
 import SortProduct from './movement/SortProduct';
 
+const useStyles = makeStyles({
+    tabPrimaryColor: {
+        backgroundColor: `#daab59 !important`,
+        color: `#daab59 !important`,
+    },
+});
+
 class StockMovement extends Component {
     constructor(props){
         super(props);
@@ -41,6 +49,7 @@ class StockMovement extends Component {
     };
 
     render() {
+        const classes = useStyles();
 
         const a11yProps = (index) => {
             return {
@@ -102,6 +111,9 @@ class StockMovement extends Component {
                         textColor="primary"
                         variant="fullWidth"
                         aria-label="full width tabs example"
+                        classes= {{
+                            indicator: classes.tabPrimaryColor
+                        }}
                     >
                         <Tab style={{textTransform: 'none'}} label="Sort by date"  {...a11yProps(0)} />
                         <Tab style={{textTransform: 'none'}} label="Sort by product"   {...a11yProps(1)} />

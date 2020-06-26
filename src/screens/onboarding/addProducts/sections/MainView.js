@@ -15,6 +15,14 @@ import SectionNavbars from "../../../../components/Sections/SectionNavbars";
 import PrimaryLoader from "../../../../components/Loader/Loader";
 import Drawer from "../../../../components/Drawer/Drawer";
 import Grid from "@material-ui/core/Grid/Grid";
+import {makeStyles} from "@material-ui/core";
+
+const useStyles = makeStyles(theme => ({
+    tabPrimaryColor: {
+        backgroundColor: `#daab59 !important`,
+        color: `#daab59 !important`,
+    },
+}));
 
 const MainView = props => {
     const [value , setValue] = useState(0);
@@ -75,6 +83,8 @@ const MainView = props => {
         }
     }
 
+    const styles = useStyles();
+
     return(
         <div>
             <SectionNavbars
@@ -105,6 +115,9 @@ const MainView = props => {
                     textColor="primary"
                     variant="fullWidth"
                     aria-label="full width tabs example"
+                    classes= {{
+                        indicator: styles.tabPrimaryColor
+                    }}
                 >
                     <Tab label="Search mode" {...a11yProps(0)} />
                     <Tab label="Barcode mode" {...a11yProps(1)} />

@@ -17,6 +17,14 @@ export default class CustomerService {
         });
     }
 
+    static async getCashByField(fieldName , value) {
+        return new ModelAction('Customer').findByColumnNotObserve({
+            name: fieldName,
+            value: value,
+            fxn: 'eq'
+        });
+    }
+
     async addCustomer(customerData){
 
         try {
