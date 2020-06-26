@@ -37,7 +37,7 @@ export default function SectionNavbars(props) {
                         {props.title}
                     </Typography>
                     <div className={`rightMenuIcons`}>
-                        <IconButton color="inherit">
+                        <IconButton>
                             {props.rightIcon}
                         </IconButton>
                     </div>

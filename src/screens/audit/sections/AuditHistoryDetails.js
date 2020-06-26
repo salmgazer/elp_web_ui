@@ -49,9 +49,9 @@ const useStyles = makeStyles(theme => ({
 }));
 
 const AuditHistory = props => {
-
+    const audit = props.currentAudit;
     const classes = useStyles();
-    const currentAudit = props.currentAudit;
+    const entries = props.auditEntries;
     const [type, setType] = useState('all');
     const [successDialog, setSuccessDialog] = useState(false);
     const [loading , setLoading] = useState(false);
@@ -63,7 +63,7 @@ const AuditHistory = props => {
 
     const handleTypeChange = event => {
         setType(event.target.value);
-        props.changeAuditedProductsType(event.target.value)
+        props.changeAuditedProductsType(event.target.value , audit.id)
     };
 
 
@@ -82,10 +82,10 @@ const AuditHistory = props => {
 
         setSearchValue(oldFormFields);
 
-        props.searchAuditedHandler(value);
+        props.searchAuditedHandler(value , audit.id);
     };
 
-    const balanceAll = async (event) => {
+    /*const balanceAll = async (event) => {
         setLoading(true);
 
         await confirmAlert({
@@ -122,7 +122,7 @@ const AuditHistory = props => {
             ]
         })
     };
-
+*/
     return(
         <div>
 
@@ -151,14 +151,14 @@ const AuditHistory = props => {
             </SimpleSnackbar>
 
             <div className="row p-0 pt-0 mx-0 mt-6 text-center shadow1">
-            
+
                 <Typography
                     component="p"
                     variant="h6"
                     style={{fontSize: '18px' , margin: '0px 0px', paddingTop: '5px' , paddingBottom: '5px'}}
                     className={`text-center mx-auto w-100 text-dark font-weight-bold`}
                 >
-                    {`Items added : (${currentAudit.length})` }
+                    {`Items added : (${entries.length})` }
                 </Typography>
 
                 <Grid container spacing={1}>
@@ -189,11 +189,11 @@ const AuditHistory = props => {
             <div style={{width: '95%', padding: '0px 2%' , paddingTop: '5px', paddingBottom: '60px'}}>
 
                 <Box style={{marginTop: '2px' , paddingBottom: '60px'}} p={1} className={`mt-3 mb-5`}>
-                    {currentAudit.map((item) => <SingleProductView deleteAuditProductEntry={props.deleteProductHandler} editAuditProductEntry={props.productAdd} editStoreProduct={editProductHandler.bind(this)} key={item.id} product={item.product.fetch()} item={item}/>)}
+                    {entries.map((item) => <SingleProductView deleteAuditProductEntry={props.deleteProductHandler} editAuditProductEntry={props.productAdd} editStoreProduct={editProductHandler.bind(this)} key={item.id} product={item.product.fetch()} item={item}/>)}
                 </Box>
             </div>
 
-            <Box
+            {/*<Box
                 className="shadow1"
                 bgcolor="background.paper"
                 p={1}
@@ -206,7 +206,7 @@ const AuditHistory = props => {
                             style={{border: '1px solid #DAAB59', color: '#333333', padding: '5px 50px', marginRight: '10px', textTransform: 'none', fontSize:'17px'}}
                             onClick={backHandler.bind(this)}
                         >
-                            Back  
+                            Back
                         </Button>
                     </Grid>
                     <Grid item xs={6} >
@@ -220,7 +220,7 @@ const AuditHistory = props => {
                         </Button>
                     </Grid>
                 </Grid>
-            </Box>
+            </Box>*/}
 
         </div>
 

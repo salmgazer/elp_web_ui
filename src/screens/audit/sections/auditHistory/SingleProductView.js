@@ -50,13 +50,13 @@ const AddedProductSingle = props => {
             <Grid item xs={5} style={{display: 'table', height: '60px', margin: '8px 0px'}}>
                 <div style={{textAlign: 'left', fontWeight: '600', display: 'table-cell', verticalAlign: 'middle'}}>
                     {name}
-                    <div className="font-weight-light mt-1" style={{fontSize: '12px'}}>App: {storeQuantity} | Count: {quantityCounted} | Diff: {quantityCounted - storeQuantity}</div>
+                    <div className="font-weight-light mt-1" style={{fontSize: '12px' , color: 'green'}}>App: {storeQuantity} | Count: {quantityCounted} | Diff: {quantityCounted - storeQuantity}</div>
                 </div>
             </Grid>
             <Grid item xs={5} style={{height: '60px', margin: '13px 0px'}}>
                 <div style={{textAlign: 'right' , width:'100%'}}>
-                    <div className={`deleteIcon2 shadow1 text-center`} style={{display: 'inline-block' , marginRight:'5px'}}>
-                        <EditIcon 
+                    {/*<div className={`deleteIcon2 shadow1 text-center`} style={{display: 'inline-block' , marginRight:'5px'}}>
+                        <EditIcon
                         // onClick={editProductHandler.bind(this , auditEntry.productId)}
                                     style={{fontSize: '20px', color: '#DAAB59', marginTop: '5px'}}
                         /><br/>
@@ -68,7 +68,7 @@ const AddedProductSingle = props => {
                             style={{fontSize: '20px', color: '#DAAB59', marginTop: '5px'}}
                         /><br/>
                         Delete
-                    </div>
+                    </div>*/}
                 </div>
             </Grid>
 

@@ -48,11 +48,11 @@ const AuditHistory = props => {
     });
 
     const getAuditDetails = async (date) => {
-        const response = await new AuditService().getAuditDetails(date);
-        setAuditList(response.audits);
+        const response = await AuditService.getAuditHistory(date);
+        setAuditList(response);
         setPurchaseDetails(true);
         console.log(response)
-        console.log(response.audits)
+        console.log(response)
     };
 
     const setView = (view) => {
@@ -73,7 +73,7 @@ const AuditHistory = props => {
                     label: 'Yes',
                     onClick: async () => {
                         try {
-                            await new ModelAction('AuditEntries').destroy(pId);
+                            await new ModelAction('Audits').softDelete(pId);
 
                             setSuccessMsg('Audit entry deleted successfully');
                             setSuccess(true);
@@ -92,7 +92,7 @@ const AuditHistory = props => {
                                 setError(false);
                             }, 2000);
                             return false;
-                        }  
+                        }
                     }
                 },
                 {
@@ -154,7 +154,7 @@ const AuditHistory = props => {
 
             </Grid>
 
-            <Box style={{ paddingBottom: '60px'}} p={1} className={`mt-3 mb-5`}>
+            <Box style={{ paddingBottom: '60px'}} p={1} className={`mt-3 mb-5 mx-2`}>
                 {/* {props.auditDates.map((item) => <SingleAuditView  key={item.date_id} dateAudited={item}  setView={props.setView}/>)} */}
 
                 {auditList.length === 0
@@ -178,8 +178,7 @@ const AuditHistory = props => {
                     </div>
                     :
 
-                    auditList.map((audit) => <SingleAuditView  key={audit.id} dateAudited={audit} setView={props.setView} auditProducts={auditProducts.bind(this, audit.id)} deleteAuditEntry={deleteAuditProduct.bind(this)} />)
-
+                    auditList.map((audit) => <SingleAuditView  key={audit.id} audit={audit} setView={props.setView} auditProducts={auditProducts.bind(this, audit.id)} deleteAuditEntry={deleteAuditProduct.bind(this)} />)
                 }
 
             </Box>

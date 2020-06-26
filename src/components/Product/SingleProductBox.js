@@ -26,8 +26,8 @@ const SingleProductBox = props => {
     return (
         <Grid item xs={4} style={{padding: '4px 8px' , position: 'relative'}} className={`mx-0 px-1`}>
             <div onClick={props.addProductHandler}>
-                <ProductCard product={branchProduct.product.fetch()}>
-                    GHC {costPrice} | {quantity} left
+                <ProductCard notTruncate={true} product={branchProduct.product.fetch()}>
+                    {/*GHC {costPrice} | {quantity} left*/}
                 </ProductCard>
             </div>
         </Grid>

@@ -21,6 +21,7 @@ class CategorySetup extends Component{
             errorDialog: false,
             errorMsg: '',
             activeItem: 0,
+            loading: true
         };
 
         this.currentPathname = null;
@@ -195,6 +196,9 @@ class CategorySetup extends Component{
     };
 
     handleFinish = async() => {
+        this.setState({
+            loading: true,
+        })
         const { history } = this.props;
         const branchCategories = (this.state.subcategories).filter(item => item.owned === true);
 
@@ -227,6 +231,9 @@ class CategorySetup extends Component{
             });
             console.log(error)
         }
+        this.setState({
+            loading: true,
+        })
     };
 
     render(){
@@ -269,7 +276,7 @@ class CategorySetup extends Component{
                                     variant="contained"
                                     style={{'backgroundColor': '#DAAB59' , color: '#333333', padding: '5px 50px'}}
                                     onClick={this.handleFinish}
-                                    disabled={!counter}
+                                    disabled={!counter && this.state.loading}
                                 >
                                     Finish
                                 </Button>

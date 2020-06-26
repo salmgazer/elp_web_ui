@@ -78,7 +78,7 @@ const MainView = props => {
     return(
         <div>
             <SectionNavbars
-                title={`Stock`}
+                title={`Add Product`}
                 leftIcon={
                     <div onClick={openMenu}>
                         <MenuIcon

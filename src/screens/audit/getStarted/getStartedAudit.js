@@ -13,7 +13,6 @@ import AppsIcon from '@material-ui/icons/Apps';
 import paths from "../../../utilities/paths";
 
 const GetStartedAudit = props => {
-
     const { history } = props;
     const [isDrawerShow , setIsDrawerShow] = useState(false);
 

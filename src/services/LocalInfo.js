@@ -16,6 +16,8 @@ export default class LocalInfo {
       workingDate: "workingDate",
       branch: "branch",
       userFullName: "userFullName",
+      checkoutSales: "checkoutSalesSettings",
+      aggregateSales: "aggregateSalesSettings"
     };
   }
 
@@ -41,6 +43,14 @@ export default class LocalInfo {
     //return localStorage.getItem(this.keys.userId);
   }
 
+  static get checkoutSales() {
+      return localStorage.getItem('branchSettings') ? JSON.parse(localStorage.getItem('branchSettings')).checkoutSales || false: false;
+  }
+
+  static get aggregateSales() {
+      return localStorage.getItem('branchSettings') ? JSON.parse(localStorage.getItem('branchSettings')).aggregateSales || false : false;
+  }
+
   static get companyId() {
     return localStorage.getItem(this.keys.companyId);
   }
@@ -60,6 +70,15 @@ export default class LocalInfo {
 
   static set lastSyncedAt(datetime) {
     localStorage.setItem(this.keys.lastSyncedAt, datetime);
+  }
+
+  static branchSettings(event) {
+    console.log(event.target.name , event.target.value)
+      let settings = localStorage.getItem('branchSettings') ? JSON.parse(localStorage.getItem('branchSettings')) || {}: {};
+
+      settings = ({...settings, [event.target.name]: event.target.checked });
+
+      localStorage.setItem("branchSettings", JSON.stringify(settings));
   }
 
   static get lastSyncedAt() {

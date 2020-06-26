@@ -80,7 +80,8 @@ const AuditedProductsView = props => {
                 {
                     label: 'Yes',
                     onClick: async () => {
-                        if(await props.balanceAllHandler()){
+                        const response = await props.balanceAllHandler();
+                        if(response){
                             setSuccessDialog(true);
 
                             setTimeout(function(){

@@ -99,6 +99,7 @@ const Dashboard = props => {
 
     const getCompanyDetails = async () => {
         const response = await new CompanyService().getSalesDetails('today');
+
         setCompanySales(response);
     };
     /*

@@ -44,7 +44,7 @@ const DayView = props => {
     const handleDateChange = date => {
         setSelectedDate(date);
         getSaleDetails(date);
-      };
+    };
 
     useEffect(() => {
     // You need to restrict it at some point

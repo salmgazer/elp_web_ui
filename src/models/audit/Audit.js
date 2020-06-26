@@ -16,6 +16,9 @@ export default class Audits extends Model {
     @field('branchId') branchId;
     @field('createdBy') createdBy;
     @children('auditEntries') audit_entries;
+    @field('status') status;
+    @field('isActive') isActive;
+    @field('auditDate') auditDate;
 
     @readonly @date('created_at') createdAt;
     @readonly @date('updated_at') updatedAt;

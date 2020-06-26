@@ -11,9 +11,7 @@ import ProductServiceHandler from "../../../../services/ProductServiceHandler";
 import {withRouter} from 'react-router-dom';
 import AddShoppingCartOutlinedIcon from '@material-ui/icons/AddShoppingCartOutlined';
 import BranchProductService from "../../../../services/BranchProductService";
-import CustomersModal from "../../../../components/Modal/Customer/CustomersModal";
 import CustomerService from "../../../../services/CustomerService";
-import AddCustomerModal from "../../../../components/Modal/Customer/AddCustomerModal";
 import CartService from "../../../../services/CartService";
 import SwapHorizOutlinedIcon from '@material-ui/icons/SwapHorizOutlined';
 import CustomerListDrawer from "../../../../components/Drawer/CustomerListDrawer/CustomerListDrawer";
@@ -61,6 +59,7 @@ const AddProductCart = props => {
     const [isSaveCart , setIsSaveCart] = useState(false);
     const [success , setSuccess] = useState(false);
     const [successMsg , setSuccessMsg] = useState('');
+    const [isSellable , setIsSellable] = useState(true);
 
     const [formFields , setFormFields] = useState({
         quantity: 1,
@@ -82,6 +81,7 @@ const AddProductCart = props => {
     const getProduct = async () => {
         const newProduct = await branchProduct.product.fetch();
         setProduct(newProduct);
+        setIsSellable(await productHandler.isProductSellable());
         setQuantityProduct(await productHandler.getProductQuantity());
         setImage(new ProductServiceHandler(product).getProductImage());
         setName(newProduct.name);
@@ -103,6 +103,10 @@ const AddProductCart = props => {
         oldFormFields[name] = value;
 
         setFormFields(oldFormFields);
+    };
+
+    const removeProduct = () => {
+        alert(`${name} is out of stock. Please add stock`);
     };
 
     const addProduct = async() => {
@@ -410,13 +414,13 @@ const AddProductCart = props => {
                 </div>
 
                 <div
-                    className={`text-center text-dark w-75 mx-0 font-weight-bold mx-auto`}
-                    style={{backgroundColor: '#DAAB59' , height: '40px' , marginTop: '-50px' , borderBottomLeftRadius: '30px', borderBottomRightRadius: '30px', paddingTop: '10px' }}
+                    className={`text-center ${isSellable ? `text-dark` : `text-white`} w-75 mx-0 font-weight-bold mx-auto`}
+                    style={{backgroundColor: isSellable ? '#DAAB59' : 'rgb(84, 83, 81)' , height: '40px' , marginTop: '-50px' , borderBottomLeftRadius: '30px', borderBottomRightRadius: '30px', paddingTop: '10px' }}
                 >
                         <span
                             className={`w-100 text-center mx-auto`}
                             style={{fontSize: '20px'}}
-                            onClick={addProduct}
+                            onClick={isSellable ? addProduct : removeProduct}
                         >
                             Add to cart
                         </span>

@@ -27,29 +27,38 @@ class Audit extends Component {
             branchProducts: [],
             currentProduct: 0,
             currentAudit: 0,
+            currentAuditHistory: 0,
             auditEntries: [],
+            auditHistoryEntries: [],
+            activeAuditId: 0,
+            auditHistory: [],
         }
     }
 
     async componentDidMount() {
-        const { history, database , branchProducts , auditedEntries , auditEntriesQuantity} = this.props;
+        const { audits, branchProducts , auditedEntries} = this.props;
+        const activeAuditId = await new AuditService().auditId();
 
-        console.log(auditedEntries)
+        console.log(audits , auditedEntries)
         await this.setState({
             branchProducts: branchProducts,
             spCount: auditedEntries.length,
             auditEntries: auditedEntries,
+            activeAuditId: activeAuditId,
+            auditHistory: audits,
         });
     }
 
     async componentDidUpdate(prevProps) {
-        const { history, database , branchProducts , auditedEntries , auditEntriesQuantity} = this.props;
-        console.log(auditedEntries)
+        const { audits, branchProducts , auditedEntries} = this.props;
+        console.log(audits , auditedEntries)
 
-        if(auditEntriesQuantity !== prevProps.auditEntriesQuantity || auditedEntries.length !== prevProps.auditedEntries.length){
+        if(auditedEntries.length !== prevProps.auditedEntries.length){
             this.setState({
+                branchProducts: branchProducts,
                 spCount: auditedEntries.length,
                 auditEntries: auditedEntries,
+                auditHistory: audits,
             });
         }
     }
@@ -68,9 +77,9 @@ class Audit extends Component {
             case 2:
                 return <AuditedProductsView changeAuditedProductsType={this.changeAuditedProductsType.bind(this)} searchAuditedHandler={this.searchAuditedHandler.bind(this)} balanceAllHandler={this.balanceAllHandler.bind(this)} productAdd={this.showAddView.bind(this)} deleteProductHandler={this.deleteProduct.bind(this)} auditEntries={this.state.auditEntries} setView={this.setStepContentView.bind(this)} />;
             case 3:
-                return <AuditHistory setView={this.setStepContentView.bind(this)} auditEntries={this.state.auditEntries} auditProducts={this.showAuditProductsView.bind(this)} deleteProductHandler={this.deleteAuditProduct.bind(this)} />
+                return <AuditHistory audits={this.state.auditHistory} setView={this.setStepContentView.bind(this)} auditEntries={this.state.auditEntries} auditProducts={this.showAuditHistoryProductsView.bind(this)} deleteProductHandler={this.deleteAuditProduct.bind(this)} />
             case 4:
-                return <AuditHistoryDetails setView={this.setStepContentView.bind(this)} changeAuditedProductsType={this.changeSingleProductsType.bind(this)} currentAudit={this.state.currentAudit} deleteProductHandler={this.deleteAuditProduct.bind(this)} searchAuditedHandler={this.searchAuditedHandler.bind(this)} />
+                return <AuditHistoryDetails setView={this.setStepContentView.bind(this)} changeAuditedProductsType={this.changeAuditedHistoryProductsType.bind(this)} currentAudit={this.state.currentAuditHistory} auditEntries={this.state.auditHistoryEntries} deleteProductHandler={this.deleteAuditProduct.bind(this)} searchAuditedHandler={this.searchAuditedHistoryHandler.bind(this)} />
             case 5:
                 return <GetStartedAudit setView={this.setStepContentView.bind(this)} />
             default:
@@ -94,6 +103,22 @@ class Audit extends Component {
 
             this.setState({
                 auditEntries: products,
+            });
+        }catch (e) {
+            return false
+        }
+    };
+
+    /*
+    * Set changeAuditedProductsType
+    * */
+    changeAuditedHistoryProductsType = async (value , auditId) => {
+        console.log(value)
+        try {
+            const products = await new AuditService().changeAuditedProductsType(value , auditId);
+
+            this.setState({
+                auditHistoryEntries: products,
             });
         }catch (e) {
             return false
@@ -147,6 +172,22 @@ class Audit extends Component {
         }
     };
 
+    /*
+    * Search products handler...
+    * */
+    searchAuditedHistoryHandler = async (searchValue , auditId) => {
+
+        try {
+            const products = await new AuditService().searchBranchAuditedProduct(searchValue , auditId);
+
+            this.setState({
+                auditHistoryEntries: products,
+            });
+        }catch (e) {
+            return false
+        }
+    };
+
     //Search product barcode
     searchBarcode = async (barcode) => {
         const products = await new BranchService().searchBarcodeProduct(barcode);
@@ -183,6 +224,27 @@ class Audit extends Component {
 
         this.setState({
             currentAudit: itemIndex,
+            activeStep: step
+        });
+    };
+
+    /*
+    * View a products stock
+    * */
+    showAuditHistoryProductsView = async (auditId, step) => {
+        const old_list = this.state.auditHistory;
+
+        //Find index of specific object using findIndex method.
+        const itemIndex = old_list.filter((item => item.id === auditId));
+        const entries = await new ModelAction('AuditEntries').findByColumnNotObserve({
+            name: 'auditId',
+            value: auditId,
+            fxn: 'eq'
+        });
+
+        this.setState({
+            currentAuditHistory: itemIndex[0],
+            auditHistoryEntries: entries,
             activeStep: step
         });
     };
@@ -236,6 +298,7 @@ class Audit extends Component {
         if(await new AuditService().balanceAllProducts()){
             this.setState({
                 spCount: 0,
+                auditEntries: [],
             });
             return true;
         }
@@ -259,11 +322,20 @@ class Audit extends Component {
 }
 
 const EnhancedAudit = withDatabase(
-    withObservables(['branchProducts' , 'auditedEntries'], ({ database , branchProducts, auditedEntries }) => ({
+    withObservables(['branchProducts' , 'auditedEntries' , 'activeAudit'], ({ database , branchProducts, auditedEntries , activeAudit}) => ({
         branchProducts: new BranchService(LocalInfo.branchId).getProducts(),
-        audits: database.collections.get(Audits.table).query().observe(),
-        auditedEntries: database.collections.get(AuditEntries.table).query(Q.where('auditId' , localStorage.getItem('auditId'))).observe(),
-        auditEntriesQuantity: AuditService.auditEntryQuantity(),
+        audits: database.collections.get(Audits.table).query(
+            Q.where('branchId' , LocalInfo.branchId),
+            Q.where('isActive' , false)
+        ).observe(),
+        auditedEntries: database.collections.get(AuditEntries.table).query(
+            Q.where('auditId' , localStorage.getItem('auditId')),
+            Q.where('branchId' , LocalInfo.branchId)
+        ).observe(),
+        activeAudit: database.collections.get(Audits.table).query(
+            Q.where('isActive' , true),
+            Q.where('branchId' , LocalInfo.branchId),
+        ).observe(),
     }))(withRouter(Audit))
 );
 

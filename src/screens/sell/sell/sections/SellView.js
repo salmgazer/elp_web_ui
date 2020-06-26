@@ -31,11 +31,36 @@ import AccountBalanceWalletIcon from '@material-ui/icons/AccountBalanceWallet';
 import PeopleIcon from '@material-ui/icons/People';
 import SettingsIcon from '@material-ui/icons/Settings';
 import PrimaryButton from "../../../../components/Buttons/PrimaryButton";
+import MainDialog from "../../../../components/Dialog/MainDialog";
+import Grid from "@material-ui/core/Grid/Grid";
+import Switch from '@material-ui/core/Switch';
 import AppsIcon from '@material-ui/icons/Apps';
 import EditIcon from '@material-ui/icons/Edit';
 
+import LocalInfo from "../../../../services/LocalInfo";
+import {makeStyles} from "@material-ui/core";
+
+const useStyles = makeStyles({
+    switchRoot: {
+        float: `right !important`,
+        color: `#009688 !important`
+    },
+    switchColor: {
+        color: `#009688 !important`
+    },
+    backgroundColor: {
+        backgroundColor: `#009688 !important`
+    }
+});
+
 const SellView = props => {
+    const classes = useStyles();
+
     const { history } = props;
+    const [settingsState, setSettingsState] = useState({
+        aggregateSales: LocalInfo.aggregateSales,
+        checkoutSales: LocalInfo.checkoutSales,
+    });
 
     const branchProducts = props.branchProducts;
     const salesMade = (parseFloat(props.salesTodayDetails.total)).toFixed(2);
@@ -44,7 +69,7 @@ const SellView = props => {
     const [value , setValue] = useState(0);
     const [isShowDrawer , setIsShowDrawer] = useState(false);
     const [isDrawerShow , setIsDrawerShow] = useState(false);
-
+    const [openSettingsState , setOpenSettingsState] = useState(false);
     const a11yProps = (index) => {
         return {
             id: `full-width-tab-${index}`,
@@ -63,6 +88,12 @@ const SellView = props => {
 
     const getDateValue = (date) => {
         props.getDateSaleDetails(date);
+    };
+
+    const handleSettingsChange = (event) => {
+        event.persist();
+        setSettingsState({ ...settingsState, [event.target.name]: event.target.checked });
+        LocalInfo.branchSettings(event);
     };
 
     return (
@@ -148,7 +179,7 @@ const SellView = props => {
                     <ListItem
                         button
                         key={6}
-                        //onClick={() => history.push(paths.sales_returns)}
+                        onClick={() => setOpenSettingsState(true)}
                     >
                         <ListItemIcon><SettingsIcon/></ListItemIcon>
                         <ListItemText primary="Settings" />
@@ -274,6 +305,102 @@ const SellView = props => {
 
             </div>
 
+            <MainDialog
+                title={`Settings`}
+                handleDialogClose={() => setOpenSettingsState(false)}
+                states={openSettingsState}
+            >
+                <Grid container spacing={1} className={`mb-3`}>
+                    <Grid item xs={12} className={`bordered px-2`} style={{ margin: '10px 0px 0px 0px'}} >
+                        <Grid container>
+                            <Grid item xs={6}>
+                                <Typography
+                                    component="h6"
+                                    variant="h6"
+                                    className={`py-2 text-left`}
+                                    style={{fontSize: '18px' , margin: '0px 0px' , fontWeight: '600'}}
+                                >
+                                    Checkout
+                                </Typography>
+                            </Grid>
+                            <Grid item xs={6}>
+                                <Switch
+                                    classes={{
+                                        root: classes.switchRoot,
+                                        colorPrimary: classes.switchColor,
+                                        colorSecondary: classes.switchColor,
+                                        checked: classes.switchColor,
+                                        track: classes.backgroundColor,
+                                    }}
+                                    size={`medium`}
+                                    checked={settingsState.checkoutSales}
+                                    onChange={handleSettingsChange}
+                                    name="checkoutSales"
+                                    inputProps={{ 'aria-label': 'primary checkbox' }}
+                                />
+                            </Grid>
+                        </Grid>
+
+                        <Typography
+                            component="p"
+                            variant="h6"
+                            className={`py-2 text-left`}
+                            style={{fontSize: '16px' , margin: '0px 0px'}}
+                        >
+                            Switch on to use the checkout feature or if you record sales individually.
+                        </Typography>
+                    </Grid>
+                    <Grid item xs={12} className={`bordered px-2`} style={{ margin: '10px 0px 0px 0px'}} >
+                        <Grid container>
+                            <Grid item xs={6}>
+                                <Typography
+                                    component="h6"
+                                    variant="h6"
+                                    className={`py-2 text-left`}
+                                    style={{fontSize: '18px' , margin: '0px 0px' , fontWeight: '600'}}
+                                >
+                                    Aggregate
+                                </Typography>
+                            </Grid>
+                            <Grid item xs={6} style={{float: 'right'}}>
+                                <Switch
+                                    classes={{
+                                        root: classes.switchRoot,
+                                        colorPrimary: classes.switchColor,
+                                        colorSecondary: classes.switchColor,
+                                        checked: classes.switchColor,
+                                        track: classes.backgroundColor,
+                                    }}
+                                    size={`medium`}
+                                    checked={settingsState.aggregateSales}
+                                    onChange={handleSettingsChange}
+                                    name="aggregateSales"
+                                    inputProps={{ 'aria-label': 'primary checkbox' }}
+                                />
+                            </Grid>
+                        </Grid>
+
+                        <Typography
+                            component="p"
+                            variant="h6"
+                            className={`py-2 text-left`}
+                            style={{fontSize: '16px' , margin: '0px 0px'}}
+                        >
+                            Switch on to record different instances of a product separately in cart.
+                        </Typography>
+                    </Grid>
+                </Grid>
+
+                <div onClick={() => setOpenSettingsState(false)}>
+                    <SecondaryButton
+                        classes={`capitalization font-weight-bold text-dark`}
+                    >
+                        Finish
+                    </SecondaryButton>
+                </div>
+
+            </MainDialog>
+
             <Box
                 className={`shadow1 bg-white`}
                 p={1}
@@ -297,17 +424,17 @@ const SellView = props => {
                     >
                         View cart
                         <ShoppingCartOutlinedIcon
-                            style={{paddingLeft: '10px' , fontSize: '16px'}}
+                            style={{paddingLeft: '10px' , fontSize: '20px'}}
                         />
                         <span style={{
-                            fontSize: '12px',
+                            fontSize: '15px',
                             color: '#000000',
                             position: 'absolute',
                             top: -10,
                             right: '5%',
                             backgroundColor: '#FFFFFF',
-                            width: '20px',
-                            height: '20px',
+                            width: '25px',
+                            height: '25px',
                             borderRadius: '50%',
                             fontWeight: '500'
                         }}

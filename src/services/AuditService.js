@@ -8,6 +8,10 @@ import isSameDay from "date-fns/isSameDay";
 import SaleService from "./SaleService";
 import { Q } from '@nozbe/watermelondb';
 import getUnixTime from "date-fns/getUnixTime";
+import CustomerService from "./CustomerService";
+import Audits from "../models/audit/Audit";
+import startOfDay from 'date-fns/startOfDay';
+import endOfDay from 'date-fns/endOfDay';
 
 export default class AuditService {
     constructor(){
@@ -15,11 +19,16 @@ export default class AuditService {
     }
 
     async auditId() {
-        if(!await database.adapter.getLocal("auditId")){
+        const aId = localStorage.getItem("auditId") || "";
+        if(!aId){
+
             try{
                 const response = await new ModelAction('Audits').post({
                     branchId: LocalInfo.branchId,
                     createdBy: LocalInfo.userId,
+                    status: 'unbalanced',
+                    isActive: true,
+                    auditDate: getUnixTime(new Date(LocalInfo.workingDate)),
                 });
 console.log(response)
                 await database.adapter.setLocal("auditId" , response.id);
@@ -41,6 +50,8 @@ console.log(response)
 
         const auditId = await database.adapter.getLocal("auditId");
         localStorage.setItem('auditId' , auditId);
+        console.log(auditId)
+        console.log('PUAL')
 
         return auditId;
     }
@@ -57,12 +68,11 @@ console.log(response)
         return await quantity.length;
     }
 
-    async changeAuditedProductsType(value) {
+    async changeAuditedProductsType(value , auditId = this.auditId()) {
         const collection = await database.collections.get(AuditEntries.table);
-        const auditId = await this.auditId();
 
         const entries = await collection.query(
-            Q.where('auditId' , auditId)
+            Q.where('auditId' , await auditId)
         ).fetch();
 
         switch (value) {
@@ -82,8 +92,7 @@ console.log(response)
     /*
     * Search for a branch product
     * */
-    async searchBranchAuditedProduct(searchValue) {
-        const auditId = await this.auditId();
+    async searchBranchAuditedProduct(searchValue, auditId = this.auditId()) {
 
         const products = await new ModelAction('Product').findByColumnNotObserve({
             name: 'name',
@@ -94,7 +103,7 @@ console.log(response)
         return database.collections.get(AuditEntries.table).query(
             Q.where('productId', Q.oneOf(products.map(p => p.id))),
             Q.where('branchId', LocalInfo.branchId),
-            Q.where('auditId' , auditId)
+            Q.where('auditId' , await auditId)
         ).fetch();
     }
 
@@ -120,7 +129,8 @@ console.log(response)
                     sellingPrice: data.sellingPrice,
                     costPrice: parseFloat(data.costPrice),
                     storeQuantity: parseFloat(data.storeQuantity),
-                    quantityCounted: data.quantityCounted + product.quantityCounted,
+                    quantityCounted: data.quantityCounted,
+                    //quantityCounted: data.quantityCounted + product.quantityCounted,
                 });
 
                 return true;
@@ -165,12 +175,16 @@ console.log(response)
     }
 
     async balanceAllProducts(auditId = this.auditId()) {
+        const aId = await auditId;
+
         try {
             const auditEntries = await new ModelAction('AuditEntries').findByColumnNotObserve({
                 name: 'auditId',
-                value: await auditId,
+                value: aId,
                 fxn: 'eq'
             });
+            console.log('Here 1')
+            let saleCount = 0;
 
             /*
             * @todo change audit date current working date
@@ -179,7 +193,7 @@ console.log(response)
             const salesColumn = {
                 type: 'audit',
                 paymentType: 'audit',
-                customerId: 0,
+                customerId: (await CustomerService.getCashCustomer())[0].id,
                 discount: 0,
                 branchId: LocalInfo.branchId,
                 salesDate: getUnixTime(new Date()),
@@ -188,17 +202,22 @@ console.log(response)
             };
 
             await new ModelAction('Sales').post(salesColumn);
-            const sale = await SaleService.getLastSale();
+            console.log('Here 1.1')
 
-            auditEntries.map((entry) => {
+            const sale = await SaleService.getLastSale();
+            console.log('Here 2')
+
+            for (let i = 0; i < auditEntries.length; i++){
+                const entry = auditEntries[i];
+                console.log('Here 3')
+
                 if (entry.quantityCounted > entry.storeQuantity) {
                     console.log("Stock")
+                    console.log('Here 4')
 
                     const formFields = {
                         quantity: entry.quantityCounted - entry.storeQuantity,
-                        sellingPrice: entry.sellingPrice,
                         costPrice: entry.costPrice,
-                        paymentSource: 'audit',
                         type: 'audit',
                         productId: entry.productId,
                         branchProductId: entry.branchProductId,
@@ -206,10 +225,13 @@ console.log(response)
                         stockDate: getUnixTime(new Date()),
                     };
 
-                    new BranchStockService().addStock(formFields);
+                    await new BranchStockService().addStock(formFields);
 
                 } else if (entry.storeQuantity > entry.quantityCounted) {
                     console.log("Sale")
+                    saleCount++;
+                    console.log('Here 5')
+
                     const entryColumns = {
                         productId: entry.productId,
                         customerId: 0,
@@ -223,18 +245,39 @@ console.log(response)
                         branchProductId: entry.branchProductId,
                     };
 
-                    new ModelAction('SaleEntry').post(entryColumns);
+                    await new ModelAction('SaleEntry').post(entryColumns);
                 }
-            });
+            }
+
+            console.log('Here 5')
 
             const data = {
+                type: 5,
                 changeDue: 0,
                 amountPaid: await SaleService.getSaleEntryAmountById(sale.id)
             };
 
-            SaleService.makePayment(sale, data);
+            if(saleCount > 0){
+                console.log('Here 6')
+
+                await SaleService.makePayment(sale, data);
+            }else{
+                console.log('Here 7')
+
+                await new ModelAction('Sales').softDelete(sale.id);
+            }
+            console.log('Here 8')
+
+            await new ModelAction('Audits').update(aId , {
+                status: 'balanced',
+                isActive: false
+            });
+
             localStorage.removeItem("auditId");
             await database.adapter.removeLocal("auditId");
+            console.log('DONE')
+
+            await this.auditId();
             return true;
         }catch (e) {
             return false;
@@ -243,19 +286,29 @@ console.log(response)
     }
 
     static async getAuditHistory(date){
-        const auditEntries = await new ModelAction('AuditEntries').findByColumnNotObserve({
+        /*const auditEntries = await new ModelAction('AuditEntries').findByColumnNotObserve({
             name: 'branchId',
             value: LocalInfo.branchId,
             fxn: 'eq'
         });
+*/
 
         const day = new Date(date);
 
         console.log(day)
-        console.log(auditEntries)
 
-        return auditEntries.filter(audit => isSameDay(new Date(audit.createdAt) , day));
+        const start = getUnixTime(startOfDay(day));
+        const end = getUnixTime(endOfDay(day));
 
+        return await database.collections.get(Audits.table).query(
+            Q.where('isActive' , false),
+            Q.where('branchId' , LocalInfo.branchId),
+            Q.where('auditDate' , Q.between(start , end)),
+        ).fetch();
+
+        //console.log(auditEntries)
+
+        //return audits.filter(audit => isSameDay(new Date(audit.createdAt) , day));
     }
 
     async getAuditDetails(date) {
