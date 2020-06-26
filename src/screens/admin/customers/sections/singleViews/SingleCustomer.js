@@ -74,7 +74,7 @@ const SingleViewCustomer = props => {
                         </div>
                     </Grid>
 
-                    {invoiceDetails.credit < 0
+                    {invoiceDetails.credit > 0
                         ?
                         <Grid item xs={4} style={{ margin: '15px 0px 0px 0px'}} >   
                             <Button

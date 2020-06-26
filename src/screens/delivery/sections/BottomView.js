@@ -29,6 +29,7 @@ const BottomMenu = props => {
                 style={{
                     flex: 1,
                 }}
+                onClick={() => history.push(paths.dashboard)}
             >
                 <HomeIcon
                     style={{fontSize: '25px'}}
@@ -47,7 +48,6 @@ const BottomMenu = props => {
            
             <div
                 style={{flex: 1}}
-                onClick={setView.bind(this, 6)}
                 className={`text-center icon-color`}
             >
                 <AccountCircleIcon
@@ -57,7 +57,6 @@ const BottomMenu = props => {
                     component="h6"
                     variant="h6"
                     style={{fontSize: '12px'}}
-                    onClick={() => setView(6)}
                 >
                     Account
                 </Typography>
@@ -66,7 +65,7 @@ const BottomMenu = props => {
             <div
                 style={{flex: 1}}
                 className={`text-center icon-color`}
-                onClick={() => history.push(paths.purchase_history)}
+                onClick={() => history.push(paths.sales_history)}
             >
                 <AccessTimeIcon
                     style={{fontSize: '25px'}}
