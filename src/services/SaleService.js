@@ -34,7 +34,7 @@ export default class SaleService {
             const cart = await cartCollection.find(cartId);
 
             const salesColumn = {
-                type: 'sales',
+                type: data.salesType || 'sales',
                 paymentType: SaleService.getPaymentType(paymentType),
                 customerId: cart.customerId,
                 discount: cart.discount,
