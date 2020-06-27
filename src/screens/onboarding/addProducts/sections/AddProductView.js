@@ -95,17 +95,21 @@ const AddProductView = props => {
 
     const setInputValue = (name , value) => {
         const {...oldFormFields} = formFields;
-
+        console.log(name , value)
         if(name === 'costPrice'){
             console.log('This came in')
         }
         oldFormFields[name] = value;
         setFormFields(oldFormFields);
+        console.log(oldFormFields);
     };
 
     const getCalculatorValue = (value) => {
         const {...oldFormFields} = formFields;
 
+        console.log(value)
+        //console.log(oldFormFields);
+        //setInputValue('costPrice' , value);
         oldFormFields['costPrice'] = parseFloat(value);
 
         setFormFields(oldFormFields);

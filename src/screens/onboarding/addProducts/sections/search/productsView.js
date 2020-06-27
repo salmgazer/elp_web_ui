@@ -16,8 +16,8 @@ const ProductsView = (props) => {
     return (
         <>
             {
-                props.products.map((item) =>
-                    <Grid key={item.id} item xs={4} style={{padding: '4px 8px', position: 'relative'}}
+                props.products.map((item , index) =>
+                    <Grid key={index} item xs={4} style={{padding: '4px 8px', position: 'relative'}}
                           className={`mx-0 px-1`}>
                         {item.owned ?
                             <div
@@ -55,7 +55,7 @@ const ProductsView = (props) => {
                                 />
                             </div>
                         }
-                        <div onClick={addProductHandler.bind(this, item.id)}>
+                        <div key={index} onClick={addProductHandler.bind(this, item.id)}>
                             <ProductCard product={item} notTruncate={true}/>
                         </div>
                     </Grid>
