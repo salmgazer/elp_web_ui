@@ -368,7 +368,7 @@ const CheckoutView = props => {
                         <Button
                             variant="outlined"
                             onClick={() => props.setView(0)}
-                            style={{border: '1px solid #DAAB59', color: '#333333', padding: '5px 40px', marginRight: '10px', textTransform: 'none', fontSize:'17px'}}
+                            style={{border: '1px solid #DAAB59', color: '#333333', padding: '5px 40px', textTransform: 'none', fontSize:'17px', float: 'right', marginRight: '5px'}}
                         >
                             Back
                         </Button>
@@ -376,7 +376,7 @@ const CheckoutView = props => {
                     <Grid item xs={6} >
                         <Button
                             variant="contained"
-                            style={{'backgroundColor': '#DAAB59' , color: '#333333', padding: '5px 40px', textTransform: 'none', fontSize:'17px'}}
+                            style={{'backgroundColor': '#DAAB59' , color: '#333333', padding: '5px 40px', textTransform: 'none', fontSize:'17px', float: 'left', marginLeft: '5px'}}
                             onClick={completeSellHandler.bind(this)}
                             disabled={!btnValue}
                         >

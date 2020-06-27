@@ -21,11 +21,19 @@ import HistoryOutlinedIcon from '@material-ui/icons/HistoryOutlined';
 import Divider from '@material-ui/core/Divider';
 import CloseOutlinedIcon from '@material-ui/icons/CloseOutlined';
 import { Grid } from '@material-ui/core';
+import {makeStyles} from "@material-ui/core";
+
+const useStyles = makeStyles(theme => ({
+    tabPrimaryColor: {
+        backgroundColor: `#daab59 !important`,
+        color: `#daab59 !important`,
+    },
+}));
 
 
 const MainAuditView = props => {
     const { history } = props;
-
+    const styles = useStyles();
     const branchProducts = props.branchProducts;
     const spCount = props.spCount;
     const [value , setValue] = useState(0);
@@ -115,6 +123,9 @@ const MainAuditView = props => {
                         textColor="primary"
                         variant="fullWidth"
                         aria-label="full width tabs example"
+                        classes= {{
+                            indicator: styles.tabPrimaryColor
+                        }}
                     >
                         <Tab label="Search mode" {...a11yProps(0)} />
                         <Tab label="Barcode mode" {...a11yProps(1)} />

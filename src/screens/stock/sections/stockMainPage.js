@@ -31,6 +31,7 @@ import ReportProblemOutlinedIcon from '@material-ui/icons/ReportProblemOutlined'
 import LibraryAddIcon from '@material-ui/icons/LibraryAdd';
 import Grid from '@material-ui/core/Grid';
 import AppsIcon from '@material-ui/icons/Apps';
+import Button from "@material-ui/core/Button/Button";
 
 import Drawer from "../../../components/Drawer/Drawer";
 import {makeStyles} from "@material-ui/core";
@@ -283,17 +284,25 @@ const StockMainPage = props => {
                     >
                         <Grid container >
                             <Grid item xs={6} >
-                                <SecondaryButton classes={`mr-2`} onClick={() => history.push(paths.sell)} >
+                                <Button
+                                    variant="outlined"
+                                    style={{border: '1px solid #DAAB59', color: '#333333', padding: '5px 20px', textTransform: 'none', fontSize:'17px', float: 'right', marginRight: '5px'}}
+                                    onClick={() => history.push(paths.sell)}
+                                >
                                     Start selling
-                                </SecondaryButton>
+                                </Button>
                             </Grid>
                             <Grid item xs={6} >
-                                <SecondaryButton onClick={() => {
-                                    localStorage.setItem("redirectPath" , paths.stock);
-                                    history.push(paths.add_products);
-                                }}>
+                                <Button
+                                    variant="contained"
+                                    style={{'backgroundColor': '#DAAB59' , color: '#333333', padding: '5px 20px', textTransform: 'none', fontSize:'17px', float: 'left', marginLeft: '5px'}}
+                                    onClick={() => {
+                                        localStorage.setItem("redirectPath" , paths.stock);
+                                        history.push(paths.add_products);
+                                    }}
+                                >
                                     Add products
-                                </SecondaryButton>
+                                </Button>
                             </Grid>
                         </Grid>
                     </Box>

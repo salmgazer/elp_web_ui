@@ -59,6 +59,10 @@ const YearView = props => {
         setPurchases(response.purchases);
     };
 
+    const getChildrenDetails = (index) => {
+        props.getChildrenView(index , 3)
+    };
+
 
     return(
         <div className={classes.root}>
@@ -122,9 +126,17 @@ const YearView = props => {
                     :
                     pageName === false ?
 
-                    purchases.map((purchase , index) => <SingleYearView  key={index} purchase={purchase} />)
+                    purchases.map((purchase , index) => 
+                    <div key={index} onClick={getChildrenDetails.bind(this, purchase.index)}>
+                        <SingleYearView  key={index} purchase={purchase} />
+                    </div>
+                    )
                     :
-                    purchases.map((purchase) => <ProductYear  key={purchase.id} purchase={purchase} purchaseEntry={purchase} prodName={name} />)
+                    purchases.map((purchase, index) =>
+                    <div key={index} onClick={getChildrenDetails.bind(this, purchase.index)}>
+                        <ProductYear  key={purchase.id} purchase={purchase} purchaseEntry={purchase} prodName={name} />
+                    </div>
+                    )
                 }
             </Box>
 

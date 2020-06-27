@@ -42,6 +42,7 @@ const WeekView = props => {
     // This is just dummy code and should be replaced by actual
         if (!purchaseDetails) {
             getPurchaseDetails(selectedWeek);
+            localStorage.removeItem("activeHistoryIndex")
         }
     });
 
@@ -58,6 +59,10 @@ const WeekView = props => {
         }
         setPurchaseDetails(response);
         setPurchases(response.purchases);
+    };
+
+    const getChildrenDetails = (index) => {
+        props.getChildrenView(index , 0)
     };
 
 
@@ -123,9 +128,17 @@ const WeekView = props => {
                     :
                     pageName === false ?
 
-                    purchases.map((purchase , index) => <SingleWeekView key={index} purchase={purchase} />)
+                    purchases.map((purchase , index) => 
+                    <div key={index} onClick={getChildrenDetails.bind(this, purchase.index)}>
+                        <SingleWeekView  key={index} purchase={purchase} />
+                    </div>
+                    )
                     :
-                    purchases.map((purchase , index) => <ProductWeek key={index} purchase={purchase} purchaseEntry={purchase} prodName={name} />)
+                    purchases.map((purchase, index) =>
+                    <div key={index} onClick={getChildrenDetails.bind(this, purchase.index)}>
+                        <ProductWeek  key={purchase.id} purchase={purchase} purchaseEntry={purchase} prodName={name} />
+                    </div>
+                    )
                 }
             </Box>
 

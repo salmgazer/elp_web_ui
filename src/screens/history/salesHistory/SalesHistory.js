@@ -1,5 +1,6 @@
-import React, {Component} from 'react';
+import React, {useState} from 'react';
 import SectionNavbars from "../../../components/Sections/SectionNavbars";
+// import MoreVertIcon from '@material-ui/icons/MoreVert';
 import AppBar from '@material-ui/core/AppBar';
 import Tabs from "@material-ui/core/Tabs/Tabs";
 import Tab from "@material-ui/core/Tab/Tab";
@@ -21,136 +22,150 @@ import ArrowBackIcon from '@material-ui/icons/ArrowBack';
 import SortDate from './sections/SortDate';
 import SortProduct from './sections/SortProduct';
 import { Grid } from '@material-ui/core';
+import {makeStyles} from "@material-ui/core";
 
-class SalesHistory extends Component {
-    constructor(props){
-        super(props);
-        this.state = {
-            value: 0,
-            isShowDrawer: false,
-        }
-    }
+const useStyles = makeStyles(theme => ({
+    tabPrimaryColor: {
+        backgroundColor: `#daab59 !important`,
+        color: `#daab59 !important`,
+    },
+}));
 
-    handleChange = (event, newValue) => {
-        this.setState({value: newValue});
-      };
+const SalesHistory = props => { 
 
-    handleChangeIndex = index => {
-        this.setState({value: index});
+    const [value , setValue] = useState(0);
+    const [isShowDrawer , setIsShowDrawer] = useState(false);
+    const styles = useStyles();
+    const { history } = props;
+    // constructor(props){
+    //     super(props);
+    //     this.state = {
+    //         value: 0,
+    //         isShowDrawer: false,
+    //     }
+    // }
+
+    const a11yProps = (index) => {
+        return {
+            id: `full-width-tab-${index}`,
+            'aria-controls': `full-width-tabpanel-${index}`,
+        };
     };
 
-    render() {
+    const handleChange = (event, newValue) => {
+        setValue(newValue);
+    };
 
-        const a11yProps = (index) => {
-            return {
-                id: `full-width-tab-${index}`,
-                'aria-controls': `full-width-tabpanel-${index}`,
-            };
-        };
+    const handleChangeIndex = index => {
+        setValue(index);
+    };
 
-        return(
-            <div>
-                <SectionNavbars
-                    title="Sales history"
-                    leftIcon={
-                        <div onClick={() => this.props.history.goBack()}>
-                            <ArrowBackIcon
-                                style={{fontSize: '2rem'}}
-                            />
-                        </div>
-                    }
-                    // icons={
-                    //     <div onClick={() => this.setState({isShowDrawer: true})}>
-                    //         <MoreVertIcon
-                    //             style={{fontSize: '2rem'}}
-                    //         />
-                    //     </div>
-                    // }
-                />
+    return(
+        <div>
+            <SectionNavbars
+                title="Sales history"
+                leftIcon={
+                    <div onClick={() => history.goBack()} >
+                        <ArrowBackIcon
+                            style={{fontSize: '2rem'}}
+                        />
+                    </div>
+                }
+                // icons={
+                //     <div onClick={() => setIsShowDrawer(true)}>
+                //         <MoreVertIcon
+                //             style={{fontSize: '2rem'}}
+                //         />
+                //     </div>
+                // }
+            />
 
-                <div
-                    onClick={() => this.setState({isShowDrawer: false})}
-                    onKeyDown={() => this.setState({isShowDrawer: false})}
-                >
-                    <BottomDrawer isShow={this.state.isShowDrawer}>
-                        <ListItem button key={11}>
-                            <ListItemIcon><ShareIcon style={{color: '#707070'}} /></ListItemIcon>
-                            <ListItemText primary="Share" />
-                        </ListItem>
-                        <ListItem button key={12}>
-                            <ListItemIcon><CloudUploadIcon style={{color: '#707070'}} /></ListItemIcon>
-                            <ListItemText primary="Upload" />
-                        </ListItem>
-                        <ListItem button key={13}>
-                            <ListItemIcon><FileCopyIcon style={{color: '#707070'}} /></ListItemIcon>
-                            <ListItemText primary="Copy" />
-                        </ListItem>
-                        <ListItem button key={14}>
-                            <ListItemIcon><PrintIcon style={{color: '#707070'}} /></ListItemIcon>
-                            <ListItemText primary="Print this page" />
-                        </ListItem>
-                    </BottomDrawer>
-                </div>
-
-                <AppBar position="static" color="default">
-                    <Tabs
-                        value={this.state.value}
-                        onChange={this.handleChange}
-                        indicatorColor="primary"
-                        style={{marginTop: '60px'}}
-                        textColor="primary"
-                        variant="fullWidth"
-                        aria-label="full width tabs example"
-                    >
-                        <Tab style={{textTransform: 'none'}} label="Sort by date"  {...a11yProps(0)} />
-                        <Tab style={{textTransform: 'none'}} label="Sort by product"   {...a11yProps(1)} />
-                    </Tabs>
-                </AppBar>
-
-                <SwipeableViews
-                    index={this.state.value}
-                    onChangeIndex={this.handleChangeIndex}
-                >
-                    <TabPanel value={this.state.value} index={0} >
-                        <SortDate />
-                    </TabPanel>
-
-                    <TabPanel value={this.state.value} index={1} >
-                        <SortProduct />
-                    </TabPanel>
-
-                </SwipeableViews>
-
-                <Box
-                    className="shadow1"
-                    bgcolor="background.paper"
-                    p={1}
-                    style={{ height: '2.5rem', position: "fixed", bottom:"0", width:"100%" }}
-                >
-                    <Grid container >
-                        <Grid item xs={6} >
-                            <Button
-                                variant="outlined"
-                                style={{border: '1px solid #DAAB59', color: '#333333', padding: '5px 50px', textTransform: 'none', fontSize:'17px'}}
-                                onClick={() => this.props.history.goBack()}
-                            >
-                                Back
-                            </Button>
-                        </Grid>
-                        <Grid item xs={6} >
-                            <Button
-                                variant="contained"
-                                style={{'backgroundColor': '#DAAB59' , color: '#333333', padding: '5px 50px', textTransform: 'none', fontSize:'17px'}}
-                            >
-                                Print
-                            </Button>
-                        </Grid>
-                    </Grid>
-                </Box>
-
+            <div
+                onClick={() => setIsShowDrawer(false)}
+                onKeyDown={() => setIsShowDrawer(false)}
+            >
+                <BottomDrawer isShow={isShowDrawer}>
+                    <ListItem button key={11}>
+                        <ListItemIcon><ShareIcon style={{color: '#707070'}} /></ListItemIcon>
+                        <ListItemText primary="Share" />
+                    </ListItem>
+                    <ListItem button key={12}>
+                        <ListItemIcon><CloudUploadIcon style={{color: '#707070'}} /></ListItemIcon>
+                        <ListItemText primary="Upload" />
+                    </ListItem>
+                    <ListItem button key={13}>
+                        <ListItemIcon><FileCopyIcon style={{color: '#707070'}} /></ListItemIcon>
+                        <ListItemText primary="Copy" />
+                    </ListItem>
+                    <ListItem button key={14}>
+                        <ListItemIcon><PrintIcon style={{color: '#707070'}} /></ListItemIcon>
+                        <ListItemText primary="Print this page" />
+                    </ListItem>
+                </BottomDrawer>
             </div>
-        )
-    }
+
+            <AppBar position="static" color="default">
+                <Tabs
+                    value={value}
+                    onChange={handleChange}
+                    indicatorColor="primary"
+                    style={{marginTop: '60px'}}
+                    textColor="primary"
+                    variant="fullWidth"
+                    aria-label="full width tabs example"
+                    classes= {{
+                        indicator: styles.tabPrimaryColor
+                    }}
+                >
+                    <Tab style={{textTransform: 'none'}} label="Sort by date"  {...a11yProps(0)} />
+                    <Tab style={{textTransform: 'none'}} label="Sort by product"   {...a11yProps(1)} />
+                </Tabs>
+            </AppBar>
+
+            <SwipeableViews
+                index={value}
+                onChangeIndex={handleChangeIndex}
+            >
+                <TabPanel value={value} index={0} >
+                    <SortDate />
+                </TabPanel>
+
+                <TabPanel value={value} index={1} >
+                    <SortProduct />
+                </TabPanel>
+
+            </SwipeableViews>
+
+            <Box
+                className="shadow1"
+                bgcolor="background.paper"
+                p={1}
+                style={{ height: '2.5rem', position: "fixed", bottom:"0", width:"100%" }}
+            >
+                <Grid container >
+                    <Grid item xs={6} >
+                        <Button
+                            variant="outlined"
+                            style={{border: '1px solid #DAAB59', color: '#333333', padding: '5px 50px', textTransform: 'none', fontSize:'17px', float: 'right', marginRight: '5px'}}
+                            onClick={() => history.goBack()}
+                        >
+                            Back
+                        </Button>
+                    </Grid>
+                    <Grid item xs={6} >
+                        <Button
+                            variant="contained"
+                            style={{'backgroundColor': '#DAAB59' , color: '#333333', padding: '5px 50px', textTransform: 'none', fontSize:'17px', float: 'left', marginLeft: '5px'}}
+                        >
+                            Print
+                        </Button>
+                    </Grid>
+                </Grid>
+            </Box>
+
+        </div>
+    )
+    
 
 }
 

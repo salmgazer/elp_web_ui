@@ -110,16 +110,21 @@ const StockProductSingle = props => {
             </div>
             <div>
                 <Grid container spacing={1} >
+                    <Grid item xs={8}></Grid>
+                    <Grid item xs={4}>
+                        <img onClick={barcodeHandler.bind(this)} style={{textAlign: 'right', marginRight: '5px', marginTop: '10px', position: 'absolute'}} src={BarcodeImage} alt={'assign barcode'}/>
+                    </Grid>
                     <Grid item xs={12}>
-                        <img onClick={barcodeHandler.bind(this)} style={{float: 'right', marginRight: '5px', marginTop: '10px'}} src={BarcodeImage} alt={'assign barcode'}/>
                         <img className={`img-fluid imageProduct mx-auto d-block pt-2`} src={image} alt={name}/>
                     </Grid>
+                    
+                    
                 </Grid>
             </div>
 
             <div
                 className={`row shadow1 pb-3 pt-1`}
-                style={{'borderTopLeftRadius': '15px', paddingTop: '5px', 'borderTopRightRadius': '15px', marginBottom: '60px', bottom: 0, right: 0, left: 0, minHeight: '250px'}}
+                style={{'borderTopLeftRadius': '15px', paddingTop: '5px', 'borderTopRightRadius': '15px', marginBottom: '4rem', bottom: 0, right: 0, left: 0, minHeight: '200px'}}
             >
                 {props.companyBranches > 1 ?
                     <Typography

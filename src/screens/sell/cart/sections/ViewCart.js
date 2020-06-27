@@ -440,7 +440,7 @@ const CartView = props => {
                         <Button
                             variant="outlined"
                             onClick={() => props.history.push(paths.sell)}
-                            style={{border: '1px solid #DAAB59', color: '#333333', padding: '5px 30px', marginRight: '10px', textTransform: 'none', fontSize:'17px'}}
+                            style={{border: '1px solid #DAAB59', color: '#333333', padding: '5px 50px', textTransform: 'none', fontSize:'17px', float: 'right', marginRight: '5px'}}
                         >
                             Sell
                         </Button>
@@ -448,7 +448,7 @@ const CartView = props => {
                     <Grid item xs={6} >
                         <Button
                             variant="contained"
-                            style={{'backgroundColor': '#DAAB59' , color: '#333333', padding: '5px 40px', textTransform: 'none', fontSize:'17px'}}
+                            style={{'backgroundColor': '#DAAB59' , color: '#333333', padding: '5px 30px', textTransform: 'none', fontSize:'17px', float: 'left', marginLeft: '5px'}}
                             onClick={openCheckoutHandler.bind(this)}
                             disabled={!counter}
                         >

@@ -4,7 +4,8 @@ import Avatar from "@material-ui/core/Avatar/Avatar";
 import {makeStyles} from "@material-ui/core";
 import Button from "@material-ui/core/Button/Button";
 import SaleService from "../../../services/SaleService";
-import CustomerService from "../../../services/CustomerService";
+import format from "date-fns/format";
+import fromUnixTime from "date-fns/fromUnixTime";
 
 const useStyles = makeStyles(theme => ({
     primaryColor: {
@@ -37,7 +38,11 @@ const CustomerCard = (props) => {
         setCustomerName(saleCustomer.firstName + ' ' + saleCustomer.otherNames);
         const response = await new SaleService().getAllCreditSales(sale.id);
         setInvoiceDetails(response);
-        // console.log(response);
+        console.log(sale);
+    };
+
+    const viewPaymentDetails = (id) => {
+        props.viewPaymentDetails(id, 1);
     };
 
     return (
@@ -67,14 +72,17 @@ const CustomerCard = (props) => {
                         <span className='text-dark font-weight-bold' style={{ fontSize: '16px'}}>{customerName ? `${customerName}` : 'Cash Customer'}</span>
                         <div className="font-weight-light mt-1" style={{ fontSize: '13px'}}>GHC {invoiceDetails.credit} </div>
                         {/* <div className="font-weight-light mt-1" style={{ fontSize: '13px'}}>Due: 6/12/2020</div> */}
+                        <div className="font-weight-light mt-1" style={{ fontSize: '13px'}}>
+                            Sale date:  { format(new Date(sale.createdAt) , "do MMMM, yyyy | h:mm a") } 
+                        </div>
                     </div>
-                    {console.log(sale)}
                 </Grid>
 
                 <Grid item xs={3} style={{ margin: '20px 0px 0px 0px'}}>  
                     <Button
                         variant="contained"
                         style={{'backgroundColor': '#DAAB59' , color: '#333333', padding: '5px 10px', textTransform: 'none', fontSize:'13px'}}
+                        onClick={viewPaymentDetails.bind(this, sale.id)}
                     >
                         Pay  
                     </Button>

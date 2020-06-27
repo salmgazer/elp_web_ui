@@ -39,6 +39,7 @@ const MonthView = props => {
     // This is just dummy code and should be replaced by actual
         if (!purchaseDetails) {
             getPurchaseDetails(selectedMonth);
+            localStorage.removeItem("activeHistoryIndex")
         }
     });
 
@@ -55,6 +56,10 @@ const MonthView = props => {
         }
         setPurchaseDetails(response);
         setPurchases(response.purchases);
+    };
+
+    const getChildrenDetails = (index) => {
+        props.getChildrenView(index , 2)
     };
 
 
@@ -119,9 +124,17 @@ const MonthView = props => {
                     :
                     pageName === false ?
 
-                    purchases.map((purchase , index) => <SingleMonthView  key={index} purchase={purchase} />)
+                    purchases.map((purchase , index) => 
+                    <div key={index} onClick={getChildrenDetails.bind(this, purchase.index)}>
+                        <SingleMonthView  key={index} purchase={purchase} />
+                    </div>
+                    )
                     :
-                    purchases.map((purchase , index) => <ProductMonth  key={index} purchase={purchase} purchaseEntry={purchase} prodName={name} />)
+                    purchases.map((purchase, index) =>
+                    <div key={index} onClick={getChildrenDetails.bind(this, purchase.index)}>
+                        <ProductMonth  key={purchase.id} purchase={purchase} purchaseEntry={purchase} prodName={name} />
+                    </div>
+                    )
                 }
             </Box>
 

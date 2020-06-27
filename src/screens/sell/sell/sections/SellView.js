@@ -36,6 +36,7 @@ import Grid from "@material-ui/core/Grid/Grid";
 import Switch from '@material-ui/core/Switch';
 import AppsIcon from '@material-ui/icons/Apps';
 import EditIcon from '@material-ui/icons/Edit';
+import Button from "@material-ui/core/Button/Button";
 
 import LocalInfo from "../../../../services/LocalInfo";
 import {makeStyles} from "@material-ui/core";
@@ -416,18 +417,20 @@ const SellView = props => {
                 <div style={{flex: 1}}
                      onClick={() => history.push(paths.stock)}
                 >
-                    <PrimaryButton
-                        classes={`capitalization font-weight-bold`}
+                    <Button
+                        variant="outlined"
+                        style={{border: '1px solid #DAAB59', color: '#333333', padding: '5px 30px', textTransform: 'none', fontSize:'17px', float: 'right', marginRight: '5px'}}
                     >
                         Add stock
-                    </PrimaryButton>
+                    </Button>
                 </div>
                 <div
                     style={{flex: 1}}
                     onClick={() => history.push(paths.cart)}
                 >
-                    <SecondaryButton
-                        classes={`capitalization font-weight-bold text-dark`}
+                    <Button
+                        variant="contained"
+                        style={{'backgroundColor': '#DAAB59' , color: '#333333', padding: '5px 20px', textTransform: 'none', fontSize:'17px', float: 'left', marginLeft: '5px'}}
                     >
                         View cart
                         <ShoppingCartOutlinedIcon
@@ -448,7 +451,7 @@ const SellView = props => {
                         >
                             {spCount}
                         </span>
-                    </SecondaryButton>
+                    </Button>
                 </div>
             </Box>
         </div>

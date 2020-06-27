@@ -11,34 +11,38 @@ import CustomerService from '../../services/CustomerService';
 import { Q } from '@nozbe/watermelondb'
 import LocalInfo from "../../services/LocalInfo";
 import BranchCustomer from "../../models/branchesCustomer/BranchCustomer";
+import Sales from "../../models/sales/Sales";
 
 class CreditSales extends Component{
     state={
         activeStep: 0,
         pageName: false,
         branchCustomers: [],
-        currentCustomer: {}
+        currentSale: {},
+        allSales: [],
     }
 
     /*
     * Fetch all products when component is mounted
     * */
     async componentDidMount() {
-        const { branchCustomers, currentCustomer } = this.props;
+        const { branchCustomers, currentSale, sales } = this.props;
 
         await this.setState({
             branchCustomers: branchCustomers,
-            currentCustomer: currentCustomer
+            currentSale: currentSale,
+            allSales: sales,
         });
     }
 
     async componentDidUpdate(prevProps) {
-        const {branchCustomers, currentCustomer} = this.props;
+        const {branchCustomers, currentSale, sales} = this.props;
 
         if(branchCustomers.length !== prevProps.branchCustomers.length){
             await this.setState({
             branchCustomers: branchCustomers,
-            currentCustomer: currentCustomer
+            currentSale: currentSale,
+            allSales: sales,
         });
         }
     }
@@ -46,9 +50,9 @@ class CreditSales extends Component{
     getStepContent = step => {
         switch (step) {
             case 0:
-                return <MainPage setView={this.setStepContentView.bind(this)} searchCustomer={this.searchCustomerHandler.bind(this)} branchCustomers={this.state.branchCustomers} customerAdd={this.showAddView.bind(this)} />;
+                return <MainPage setView={this.setStepContentView.bind(this)} searchCustomer={this.searchCustomerHandler.bind(this)} sales={this.state.allSales} customerAdd={this.showAddView.bind(this)} />;
             case 1:
-                return <Payment setView={this.setStepContentView.bind(this)} customer={this.state.currentCustomer} />;
+                return <Payment setView={this.setStepContentView.bind(this)} sale={this.state.currentSale} />;
             default:
                 return 'Complete';
         }
@@ -71,15 +75,15 @@ class CreditSales extends Component{
         }
     };
 
-    showAddView = async (customerId , step) => {
-        const old_list = this.state.branchCustomers;
+    showAddView = async (id , step) => {
+        const old_list = this.state.allSales;
 
         //Find index of specific object using findIndex method.
-        const itemIndex = old_list.filter((item => item.customerId === customerId));
+        const itemIndex = old_list.filter((item => item.id === id));
 
         console.log(itemIndex)
         this.setState({
-            currentCustomer: itemIndex,
+            currentSale: itemIndex,
             activeStep: step
         });
     };
@@ -120,6 +124,7 @@ class CreditSales extends Component{
 const EnhancedCreditSales = withDatabase(
     withObservables(['branchCustomers'], ({ branchCustomers ,  database }) => ({
         branchCustomers: database.collections.get(BranchCustomer.table).query(Q.where('branchId' , LocalInfo.branchId)).observe(),
+        sales: database.collections.get(Sales.table).query().observe(),
     }))(withRouter(CreditSales))
 );
 

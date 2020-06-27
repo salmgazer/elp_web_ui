@@ -22,6 +22,7 @@ import SaleService from "../../../services/SaleService";
 const MainPage = props => {
 
     const branchCustomers = props.branchCustomers;
+    const allSales = props.sales;
     const [isShowDrawer , setIsShowDrawer] = useState(false);
     const [companySales , setCompanySales] = useState(false);
     const [sales, setSales] = useState([]);
@@ -41,7 +42,6 @@ const MainPage = props => {
 
     const getCompanyDetails = async () => {
         const response = await new CompanyService().getSalesDetails('year');
-        const allSales = await new SaleService().getAllSales();
         setCompanySales(response);
         setSales(allSales);
         console.log(allSales);
@@ -55,10 +55,6 @@ const MainPage = props => {
         setSearchValue(oldFormFields);
 
         props.searchCustomer(value);
-    };
-
-    const viewPaymentDetails = (id) => {
-        props.customerAdd(id, 1);
     };
 
     return (
@@ -158,7 +154,7 @@ const MainPage = props => {
                     //         )
                     //     }
                     // </div>
-                    sales.map((sale) => <SingleCustomer key={sale.id} sale={sale} /> )
+                    sales.map((sale) => <SingleCustomer key={sale.id} sale={sale} viewPaymentDetails={props.customerAdd}/> )
                     // sales.map((sale) => <SingleDayView  key={sale.id} sale={sale} /> )
 
                 }

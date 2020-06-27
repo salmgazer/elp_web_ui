@@ -48,7 +48,15 @@ const DayView = props => {
     // You need to restrict it at some point
     // This is just dummy code and should be replaced by actual
         if (!purchaseDetails) {
-            getPurchaseDetails(selectedDate);
+            let activeHistoryIndex = localStorage.getItem("activeHistoryIndex") || '';
+
+            if(activeHistoryIndex){
+                setSelectedDate(activeHistoryIndex)
+                getPurchaseDetails(activeHistoryIndex);
+                localStorage.removeItem("activeHistoryIndex")
+            }else{
+                getPurchaseDetails(selectedDate);
+            }
         }
     });
 

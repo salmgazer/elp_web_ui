@@ -170,7 +170,7 @@ const ProductRequest = props => {
                     <Grid item xs={6} >
                         <Button
                             variant="outlined"
-                            style={{border: '1px solid #DAAB59', color: '#DAAB59', padding: '5px 50px', marginRight: '10px', textTransform: 'Capitalize'}}
+                            style={{border: '1px solid #DAAB59', color: '#DAAB59', padding: '5px 50px', textTransform: 'none', fontSize:'17px', float: 'right', marginRight: '5px'}}
                             onClick={() => history.push(paths.admin)}
                         >
                             Back
@@ -179,7 +179,7 @@ const ProductRequest = props => {
                     <Grid item xs={6} >
                         <Button
                             variant="contained"
-                            style={{'backgroundColor': '#DAAB59' , color: '#333333', padding: '5px 50px', textTransform: 'Capitalize'}}
+                            style={{'backgroundColor': '#DAAB59' , color: '#333333', padding: '5px 50px', textTransform: 'none', fontSize:'17px', float: 'left', marginLeft: '5px'}}
                             //onClick={openAddDialog.bind(this)}
                         >
                             Save
