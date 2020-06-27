@@ -46,7 +46,6 @@ const DayView = props => {
     });
 
     const getMovementDetails = async (date) => {
-        console.log(date);
         let response = [];
 
         if (pageName === true){
@@ -54,7 +53,7 @@ const DayView = props => {
             const newProduct = await branchProduct.product.fetch();
             setName(newProduct.name);
 
-            //response = await new SaleService().getProductSalesDetails('day', date , branchProduct.id);
+            response = await StockMovementService.getStockMovementListByProduct('day', date, branchProduct.productId);
         }else{
             response = await StockMovementService.getStockMovementListByDate('day', date);
         }

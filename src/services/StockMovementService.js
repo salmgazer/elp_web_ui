@@ -27,12 +27,20 @@ import lastDayOfYear from "date-fns/lastDayOfYear";
 import eachMonthOfInterval from "date-fns/eachMonthOfInterval";
 
 export default class StockMovementService {
-    static async getEntryFormatAsync(entry , startKey , endKey) {
+    static async getEntryFormatAsync(entry , startKey , endKey , productId) {
         let totalSold = 0;
         let totalPurchased = 0;
+        let openingBalance = 0;
+        let closingBalance = 0;
 
-        let openingBalance = await this.getBranchOpeningQuantity(new Date(startKey));
-        let closingBalance = await this.getBranchClosingQuantity(new Date(endKey));
+        if(productId === null) {
+            openingBalance = await this.getBranchOpeningQuantity(new Date(startKey));
+            closingBalance = await this.getBranchClosingQuantity(new Date(endKey));
+        }else{
+            openingBalance = await this.getBranchProductOpeningQuantity(new Date(startKey) , productId);
+            closingBalance = await this.getBranchProductClosingQuantity(new Date(endKey) , productId);
+        }
+
         let difference = closingBalance - openingBalance;
 
         for (let step = 0; step < entry.length; step++) {
@@ -61,7 +69,7 @@ export default class StockMovementService {
         //console.log(totalSold , totalPurchased , openingBalance , closingBalance , difference)
     }
 
-    static async weekSalesFormat(sales , date) {
+    static async weekSalesFormat(sales , date , productId = null) {
         let weekDaySales = [];
         const newDate = new Date(date);
         let weekFormatSales = [];
@@ -91,14 +99,14 @@ export default class StockMovementService {
             const index = format(new Date(key) , 'MM/dd/yyyy');
 
             if(value.length > 0) {
-                weekDaySales.push({...await this.getEntryFormatAsync(value , startOfDay(new Date(key)) , endOfDay(new Date(key))), day: key, index: index})
+                weekDaySales.push({...await this.getEntryFormatAsync(value , startOfDay(new Date(key)) , endOfDay(new Date(key)) , productId), day: key, index: index})
             }
         }
 
         return weekDaySales;
     }
 
-    static async monthSalesFormat (sales , date){
+    static async monthSalesFormat (sales , date , productId = null){
         const newDate = new Date(date);
         let weekFormatSales = [];
         let monthWeekSales = [];
@@ -140,14 +148,14 @@ export default class StockMovementService {
             const index = key.slice(9,19);
 
             if(value.length > 0) {
-                weekFormatSales.push({...await this.getEntryFormatAsync(value , startOfWeek(new Date(index) , { weekStartsOn: 1 }) , endOfWeek(new Date(index) , { weekStartsOn: 1 })), week: key, index: index})
+                weekFormatSales.push({...await this.getEntryFormatAsync(value , startOfWeek(new Date(index) , { weekStartsOn: 1 }) , endOfWeek(new Date(index) , { weekStartsOn: 1 }) , productId), week: key, index: index})
             }
         }
 
         return weekFormatSales;
     }
 
-    static async yearSalesFormat (sales , date){
+    static async yearSalesFormat (sales , date , productId = null){
         console.log(date)
         const newDate = new Date(date);
         let yearFormatSales = [];
@@ -191,7 +199,7 @@ export default class StockMovementService {
             const index = format(new Date(key) , 'MM/dd/yyyy');
 
             if(value.length > 0) {
-                yearFormatSales.push({...await this.getEntryFormatAsync(value , startOfMonth(new Date(index), { weekStartsOn: 1 }) , lastDayOfMonth(new Date(index) , { weekStartsOn: 1 })), month: key, index: index})
+                yearFormatSales.push({...await this.getEntryFormatAsync(value , startOfMonth(new Date(index), { weekStartsOn: 1 }) , lastDayOfMonth(new Date(index) , { weekStartsOn: 1 }) , productId), month: key, index: index})
             }
         }
 
@@ -277,7 +285,7 @@ export default class StockMovementService {
             movement = movement.sort(function (a , b) {
                 return a.entryDate - b.entryDate
             });
-            movement = await this.monthSalesFormat(movement , date);
+            movement = await this.yearSalesFormat(movement , date);
 
             openingBalance = await this.getBranchOpeningQuantity(startOfYear(new Date(date)));
             closingBalance = await this.getBranchClosingQuantity(endOfYear(new Date(date)));
@@ -292,8 +300,100 @@ export default class StockMovementService {
         }
     }
 
-    static async formatSales(duration , date){
-        const sales = await SaleService.getSalesHistory(duration , date);
+    static async getStockMovementListByProduct(duration , date , productId){
+        console.log(productId)
+        let movement = [];
+        let openingBalance = 0;
+        let closingBalance = 0;
+        let sales = [];
+        let stocks = [];
+
+        if (duration === 'day') {
+            //Get sales of date
+            sales = await StockMovementService.formatSales(duration , date , productId);
+
+            //Get stocks of date
+            stocks = await StockMovementService.formatStock(duration , date , productId);
+
+            movement = sales[0].concat(stocks[0]);
+
+            movement = movement.sort(function (a , b) {
+                return a.entryDate - b.entryDate
+            });
+
+            openingBalance = await this.getBranchProductOpeningQuantity(startOfDay(new Date(date)) , productId);
+            closingBalance = await this.getBranchProductClosingQuantity(endOfDay(new Date(date)) , productId);
+        } else if(duration === 'week') {
+            console.log('here')
+            //Get sales of date
+            sales = await StockMovementService.formatSales(duration , date , productId);
+
+            //Get stocks of date
+            stocks = await StockMovementService.formatStock(duration , date , productId);
+
+            movement = sales[0].concat(stocks[0]);
+
+            movement = movement.sort(function (a , b) {
+                return a.entryDate - b.entryDate
+            });
+            movement = await this.weekSalesFormat(movement , date , productId);
+
+            openingBalance = await this.getBranchProductOpeningQuantity(startOfWeek(new Date(date)) , productId);
+            closingBalance = await this.getBranchProductClosingQuantity(endOfWeek(new Date(date)) , productId);
+        } else if (duration === 'month') {
+            //Get sales of date
+            sales = await StockMovementService.formatSales(duration , date , productId);
+
+            //Get stocks of date
+            stocks = await StockMovementService.formatStock(duration , date , productId);
+
+            movement = sales[0].concat(stocks[0]);
+
+            movement = movement.sort(function (a , b) {
+                return a.entryDate - b.entryDate
+            });
+
+            movement = await this.monthSalesFormat(movement , date , productId);
+
+            openingBalance = await this.getBranchProductOpeningQuantity(startOfMonth(new Date(date)) , productId);
+            closingBalance = await this.getBranchProductClosingQuantity(endOfMonth(new Date(date)) , productId);
+        } else if (duration === 'year') {
+            //Get sales of date
+            sales = await StockMovementService.formatSales(duration , date , productId);
+
+            //Get stocks of date
+            stocks = await StockMovementService.formatStock(duration , date , productId);
+
+            movement = sales[0].concat(stocks[0]);
+
+            movement = movement.sort(function (a , b) {
+                return a.entryDate - b.entryDate
+            });
+            movement = await this.yearSalesFormat(movement , date , productId);
+
+            openingBalance = await this.getBranchProductOpeningQuantity(startOfYear(new Date(date)) , productId);
+            closingBalance = await this.getBranchProductClosingQuantity(endOfYear(new Date(date)) , productId);
+        }
+
+        return {
+            entries: movement.reverse(),
+            openingBalance: openingBalance,
+            closingBalance: closingBalance,
+            totalSold: sales[1],
+            totalPurchased: stocks[1]
+        }
+    }
+
+    static async formatSales(duration , date, productId = null){
+        let sales = [];
+        if(productId === null){
+            sales = await SaleService.getSalesHistory(duration , date);
+            console.log('hand')
+
+        }else{
+            sales = await SaleService.getProductSalesHistory(duration, date, productId);
+            console.log('leg')
+        }
 
         const movementData = [];
         let saleQuantity = 0;
@@ -317,10 +417,19 @@ export default class StockMovementService {
         return [movementData , saleQuantity];
     }
 
-    static async formatStock(duration , date){
+    static async formatStock(duration , date, productId = null){
         const movementData = [];
         let stockQuantity = 0;
-        const stock = await PurchaseService.getPurchaseHistory(duration , date);
+        let stock = [];
+
+        if(productId === null){
+            stock = await PurchaseService.getPurchaseHistory(duration , date);
+            console.log('kneel')
+
+        }else{
+            stock = await PurchaseService.getProductPurchaseHistory(duration , date, productId)
+            console.log('knee')
+        }
 
         for(let i = 0; i < stock.length; i++){
             const product = await stock[i].product.fetch();
@@ -393,6 +502,76 @@ export default class StockMovementService {
         const cartEntries = await database.collections.get(CartEntry.table).query(
             Q.where('entryDate' , Q.lte(date)),
             Q.where('branchId' , LocalInfo.branchId),
+        ).fetch();
+
+        const stockQuantity = (stock).reduce((a, b) => a + (b['quantity'] || 0), 0);
+        const salesQuantity = (saleEntries).reduce((a, b) => a + (b['quantity'] || 0), 0);
+        const cartQuantity = (cartEntries).reduce((a, b) => a + (b['quantity'] || 0), 0);
+        const stockMovementQuantity = (stockMovement).reduce((a, b) => a + (b['quantity'] || 0), 0);
+
+        return (stockQuantity - (salesQuantity + cartQuantity + stockMovementQuantity));
+    }
+
+    static async getBranchProductClosingQuantity(day , productId) {
+        const date = getUnixTime(day);
+
+        const stock = await database.collections.get(BranchProductStock.table).query(
+            Q.where('stockDate' , Q.lte(date)),
+            Q.where('branchId' , LocalInfo.branchId),
+            Q.where('productId' , productId),
+        ).fetch();
+
+        const saleEntries = await database.collections.get(SaleEntries.table).query(
+            Q.where('entryDate' , Q.lte(date)),
+            Q.where('branchId' , LocalInfo.branchId),
+            Q.where('productId' , productId),
+        ).fetch();
+
+        const stockMovement = await database.collections.get(StockMovement.table).query(
+            Q.where('entryDate' , Q.lte(date)),
+            Q.where('branchId' , LocalInfo.branchId),
+            Q.where('productId' , productId),
+        ).fetch();
+
+        const cartEntries = await database.collections.get(CartEntry.table).query(
+            Q.where('entryDate' , Q.lte(date)),
+            Q.where('branchId' , LocalInfo.branchId),
+            Q.where('productId' , productId),
+        ).fetch();
+
+        const stockQuantity = (stock).reduce((a, b) => a + (b['quantity'] || 0), 0);
+        const salesQuantity = (saleEntries).reduce((a, b) => a + (b['quantity'] || 0), 0);
+        const cartQuantity = (cartEntries).reduce((a, b) => a + (b['quantity'] || 0), 0);
+        const stockMovementQuantity = (stockMovement).reduce((a, b) => a + (b['quantity'] || 0), 0);
+
+        return (stockQuantity - (salesQuantity + cartQuantity + stockMovementQuantity));
+    }
+
+    static async getBranchProductOpeningQuantity(day , productId) {
+        const date = getUnixTime(day);
+
+        const stock = await database.collections.get(BranchProductStock.table).query(
+            Q.where('stockDate' , Q.lt(date)),
+            Q.where('branchId' , LocalInfo.branchId),
+            Q.where('productId' , productId),
+        ).fetch();
+
+        const saleEntries = await database.collections.get(SaleEntries.table).query(
+            Q.where('entryDate' , Q.lt(date)),
+            Q.where('branchId' , LocalInfo.branchId),
+            Q.where('productId' , productId),
+        ).fetch();
+
+        const stockMovement = await database.collections.get(StockMovement.table).query(
+            Q.where('entryDate' , Q.lt(date)),
+            Q.where('branchId' , LocalInfo.branchId),
+            Q.where('productId' , productId),
+        ).fetch();
+
+        const cartEntries = await database.collections.get(CartEntry.table).query(
+            Q.where('entryDate' , Q.lt(date)),
+            Q.where('branchId' , LocalInfo.branchId),
+            Q.where('productId' , productId),
         ).fetch();
 
         const stockQuantity = (stock).reduce((a, b) => a + (b['quantity'] || 0), 0);

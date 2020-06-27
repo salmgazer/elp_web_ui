@@ -53,7 +53,7 @@ const WeekView = props => {
           const newProduct = await branchProduct.product.fetch();
           setName(newProduct.name);
 
-          //response = await new SaleService().getProductSalesDetails('day', date , branchProduct.id);
+          response = await StockMovementService.getStockMovementListByProduct('week', date, branchProduct.productId);
       }else{
           response = await StockMovementService.getStockMovementListByDate('week', date);
       }
@@ -76,6 +76,10 @@ const WeekView = props => {
     const handleChange = event => {
         setSelectedWeek(event.target.value);
         getMovementDetails(event.target.value)
+    };
+
+    const getChildrenDetails = (index) => {
+        props.getChildrenView(index , 0)
     };
 
     return(
@@ -116,7 +120,11 @@ const WeekView = props => {
             <StockMovementSection openingBalance={getDetails.openingBalance} purchase={getDetails.totalPurchased} sales={getDetails.totalSold} closingBalance={getDetails.closingBalance} difference={balance} />
 
             <Box style={{marginTop: '5px' , paddingBottom: '60px'}} p={1} className={`mt-3 mb-5`}>
-                {entries.map((item , index) => <SingleWeekView key={index} weekItems={item}/>)}
+                {entries.map((item , index) =>
+                    <div key={index} onClick={getChildrenDetails.bind(this, item.index)}>
+                        <SingleWeekView key={index} weekItems={item}/>
+                    </div>
+                )}
             </Box>
         </div>
     )

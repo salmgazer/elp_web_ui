@@ -54,7 +54,7 @@ const useStyles = makeStyles(theme => ({
           const newProduct = await branchProduct.product.fetch();
           setName(newProduct.name);
 
-          //response = await new SaleService().getProductSalesDetails('day', date , branchProduct.id);
+          response = await StockMovementService.getStockMovementListByProduct('month', date, branchProduct.productId);
       }else{
           response = await StockMovementService.getStockMovementListByDate('month', date);
       }
@@ -77,6 +77,10 @@ const useStyles = makeStyles(theme => ({
     const handleChange = event => {
         setSelectedMonth(event.target.value);
         getMovementDetails(event.target.value)
+    };
+
+    const getChildrenDetails = (index) => {
+      props.getChildrenView(index , 2)
     };
 
     return(
@@ -117,7 +121,11 @@ const useStyles = makeStyles(theme => ({
             <StockMovementSection openingBalance={getDetails.openingBalance} purchase={getDetails.totalPurchased} sales={getDetails.totalSold} closingBalance={getDetails.closingBalance} difference={balance} />
 
             <Box style={{marginTop: '5px' , paddingBottom: '60px'}} p={1} className={`mt-3 mb-5`}>
-                {entries.map((item , index) => <SingleMonthView  key={index} monthItems={item}/>)}
+                {entries.map((item , index) =>
+                    <div key={index} onClick={getChildrenDetails.bind(this, item.index)}>
+                        <SingleMonthView  key={index} monthItems={item}/>
+                    </div>
+                )}
             </Box>
 
 

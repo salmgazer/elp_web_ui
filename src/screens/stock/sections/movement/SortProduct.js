@@ -43,11 +43,11 @@ class SortProduct extends Component{
             case 0:
                 return <DayView setView={this.setStepContentView.bind(this)} product={this.state.currentProduct} pageName={this.state.pageName} />;
             case 2:
-                return <WeekView setView={this.setStepContentView.bind(this)} product={this.state.currentProduct} pageName={this.state.pageName} />;
+                return <WeekView getChildrenView={this.getChildrenViewDetails.bind(this)} setView={this.setStepContentView.bind(this)} product={this.state.currentProduct} pageName={this.state.pageName} />;
             case 3:
-                return <MonthView setView={this.setStepContentView.bind(this)}product={this.state.currentProduct} pageName={this.state.pageName} />;
+                return <MonthView getChildrenView={this.getChildrenViewDetails.bind(this)} setView={this.setStepContentView.bind(this)} product={this.state.currentProduct} pageName={this.state.pageName} />;
             case 4:
-                return <YearView setView={this.setStepContentView.bind(this)} product={this.state.currentProduct} pageName={this.state.pageName} />;
+                return <YearView getChildrenView={this.getChildrenViewDetails.bind(this)} setView={this.setStepContentView.bind(this)} product={this.state.currentProduct} pageName={this.state.pageName} />;
             default:
                 return 'Complete';
         }
@@ -57,6 +57,28 @@ class SortProduct extends Component{
         this.setState({
             activeStep: step
         });
+    };
+
+    getChildrenViewDetails = async (index , view) => {
+        localStorage.setItem("activeHistoryIndex" , index);
+
+        switch(view){
+            case 0:
+                this.setState({
+                    activeStep: view
+                });
+                return true;
+            case 2:
+                this.setState({
+                    activeStep: view
+                });
+                return true;
+            case 3:
+                this.setState({
+                    activeStep: view
+                });
+                return true;
+        }
     };
 
     async searchProductHandler(searchValue){

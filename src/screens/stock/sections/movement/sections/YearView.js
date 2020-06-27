@@ -53,7 +53,7 @@ const YearView = props => {
           const newProduct = await branchProduct.product.fetch();
           setName(newProduct.name);
 
-          //response = await new SaleService().getProductSalesDetails('day', date , branchProduct.id);
+          response = await StockMovementService.getStockMovementListByProduct('year', date, branchProduct.productId);
       }else{
           response = await StockMovementService.getStockMovementListByDate('year', date);
       }
@@ -76,6 +76,10 @@ const YearView = props => {
     const handleChange = event => {
         setSelectedYear(event.target.value);
         getMovementDetails(event.target.value)
+    };
+
+    const getChildrenDetails = (index) => {
+        props.getChildrenView(index , 3)
     };
 
     return(
@@ -113,10 +117,14 @@ const YearView = props => {
 
             </Grid>
 
-            <StockMovementSection openingBalance='4' purchase='0' sales='50' closingBalance='30' difference='20' />
+            <StockMovementSection openingBalance={getDetails.openingBalance} purchase={getDetails.totalPurchased} sales={getDetails.totalSold} closingBalance={getDetails.closingBalance} difference={balance} />
 
             <Box style={{marginTop: '5px' , paddingBottom: '60px'}} p={1} className={`mt-3 mb-5`}>
-                {entries.map((item , index) => <SingleYearView key={index} yearItems={item}/>)}
+                {entries.map((item , index) =>
+                    <div key={index} onClick={getChildrenDetails.bind(this, item.index)}>
+                        <SingleYearView key={index} yearItems={item}/>
+                    </div>
+                )}
             </Box>
         </div>
     )
