@@ -40,9 +40,9 @@ export default class CartService {
 
     static async cartQuantity() {
         const cartId = await new CartService().cartId();
-        let quantity = new ModelAction('CartEntry').findById(cartId);
+        let quantity = await new ModelAction('CartEntry').findById(cartId);
 
-        return await quantity;
+        return quantity;
     }
 
     async getCartProducts(){
