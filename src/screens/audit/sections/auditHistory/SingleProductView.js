@@ -1,8 +1,6 @@
 import React, {useEffect, useState} from 'react';
 import Card from "@material-ui/core/Card/Card";
 import Grid from "@material-ui/core/Grid/Grid";
-import DeleteIcon from '@material-ui/icons/Delete';
-import EditIcon from '@material-ui/icons/Edit';
 import ProductServiceHandler from "../../../../services/ProductServiceHandler";
 
 const AddedProductSingle = props => {
@@ -27,7 +25,8 @@ const AddedProductSingle = props => {
         const newProduct = await props.product;
         setProduct(newProduct);
         setImage(new ProductServiceHandler(product).getProductImage());
-        setName((newProduct.name).length > 20 ? (newProduct.name).slice(0 , 20) + '...' : newProduct.name);
+        setName(newProduct.name)
+        //setName((newProduct.name).length > 20 ? (newProduct.name).slice(0 , 20) + '...' : newProduct.name);
     };
 
     const deleteHistoryHandler = (pId) => {
@@ -40,22 +39,22 @@ const AddedProductSingle = props => {
     // };
 
     return(
-        <Grid container spacing={1} className={`shadow1 mb-3 borderRadius10`}>
-            <Grid item xs={2}>
+        <Grid container spacing={1} className={`bordered mb-3`} style={{borderRadius: '3px'}}>
+            <Grid item xs={3}>
                 <Card
                     className="shadow1"
                     style={{margin: '5px auto' ,backgroundImage: `url(${image})` , backgroundPosition: 'center', backgroundSize: 'cover' , width: '50px' ,borderRadius: '50%', height: '50px', padding: '0px'}}
                 />
             </Grid>
-            <Grid item xs={5} style={{display: 'table', height: '60px', margin: '8px 0px'}}>
+            <Grid item xs={9} style={{display: 'table', height: '60px', margin: '8px 0px'}}>
                 <div style={{textAlign: 'left', fontWeight: '600', display: 'table-cell', verticalAlign: 'middle'}}>
                     {name}
                     <div className="font-weight-light mt-1" style={{fontSize: '12px' , color: 'green'}}>App: {storeQuantity} | Count: {quantityCounted} | Diff: {quantityCounted - storeQuantity}</div>
                 </div>
             </Grid>
-            <Grid item xs={5} style={{height: '60px', margin: '13px 0px'}}>
+            {/*<Grid item xs={5} style={{height: '60px', margin: '13px 0px'}}>
                 <div style={{textAlign: 'right' , width:'100%'}}>
-                    {/*<div className={`deleteIcon2 shadow1 text-center`} style={{display: 'inline-block' , marginRight:'5px'}}>
+                    <div className={`deleteIcon2 shadow1 text-center`} style={{display: 'inline-block' , marginRight:'5px'}}>
                         <EditIcon
                         // onClick={editProductHandler.bind(this , auditEntry.productId)}
                                     style={{fontSize: '20px', color: '#DAAB59', marginTop: '5px'}}
@@ -68,9 +67,9 @@ const AddedProductSingle = props => {
                             style={{fontSize: '20px', color: '#DAAB59', marginTop: '5px'}}
                         /><br/>
                         Delete
-                    </div>*/}
+                    </div>
                 </div>
-            </Grid>
+            </Grid>*/}
 
         </Grid>
     );

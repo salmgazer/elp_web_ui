@@ -320,4 +320,11 @@ console.log(response)
             audits: audit
         }
     }
+
+    static async getProductAuditHistory(productId) {
+        return database.collections.get(AuditEntries.table).query(
+            Q.where('branchId' , LocalInfo.branchId),
+            Q.where('branchProductId' , productId)
+        ).fetch();
+    }
 }

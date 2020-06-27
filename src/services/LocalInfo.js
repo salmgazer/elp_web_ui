@@ -17,12 +17,17 @@ export default class LocalInfo {
       branch: "branch",
       userFullName: "userFullName",
       checkoutSales: "checkoutSalesSettings",
-      aggregateSales: "aggregateSalesSettings"
+      aggregateSales: "aggregateSalesSettings",
+      isAuthenticated: "isAuthenticated",
     };
   }
 
   static get userAccess() {
-    return localStorage.getItem(this.keys.userAccess);
+    return localStorage.getItem(this.keys.userAccess) || null;
+  }
+
+  static get isAuthenticated() {
+      return !!this.userAccess;
   }
 
   static get branch() {
