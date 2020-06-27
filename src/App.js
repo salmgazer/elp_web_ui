@@ -13,7 +13,7 @@ import {
   HashRouter as Router,
   Switch,
   Route,
-  useLocation
+  Redirect,
 } from "react-router-dom";
 
 import paths from "./utilities/paths";
@@ -76,267 +76,195 @@ import StockMovement from "./screens/stock/sections/StockMovement";
 import CreditSales from './screens/creditSales/CreditSales';
 import OtherStock from './screens/stock/sections/otherStock/stock/OtherStock';
 import OtherCart from './screens/stock/sections/otherStock/cart/OtherCart';
+import LocalInfo from "./services/LocalInfo";
 
 function NoMatch() {
-  let location = useLocation();
-
   return (
-    <div
-      status="404"
-      title="404"
-      subTitle={`Sorry, the page ${location.pathname} does not exist.`}
-      extra={
-        <button type="primary" onClick={() => (window.location.href = "/")}>
-          Back Home
+    <div>
+        <button type="primary" onClick={() => (window.location.href = paths.dashboard)}>
+            Back Home
         </button>
-      }
-    />
+    </div>
   );
 }
 
-function setPageBackground(backgroundColor = "#fff") {
-  document.body.style.backgroundColor = backgroundColor;
-}
-
 class App extends React.Component {
-  setTitle(title) {
-    document.title = title;
-  }
-
   render() {
-      const appName = "El-Parah Retail App";
-
     return (
       <DatabaseProvider database={database}>
         <div className="App">
           <Router history={history}>
             <Switch>
-              <Route
-                exact
+              <PublicRoute
+                exact={true}
                 path={paths.login}
-                render={() => {
-                  this.setTitle(`Login | ${appName}`);
-                  return <Login />;
-                }}
+                component={Login}
+                title={`Login`}
               />
-              <Route
-                exact
+              <AuthenticatedRoute
+                exact={true}
                 path={paths.cart}
-                render={() => {
-                  this.setTitle(`Cart | ${appName}`);
-                  return <Cart />;
-                }}
+                component={Cart}
+                title={`Cart`}
               />
-              <Route
-                exact
+              <AuthenticatedRoute
+                exact={true}
                 path={paths.sales_history}
-                render={() => {
-                  this.setTitle(`Sales History | ${appName}`);
-                  return <SalesHistory />;
-                }}
+                component={SalesHistory}
+                title={`Sales History`}
               />
-              <Route
-                exact
+              <AuthenticatedRoute
+                exact={true}
                 path={paths.purchase_history}
-                render={() => {
-                  this.setTitle(`Purchase History | ${appName}`);
-                  return <PurchaseHistory />;
-                }}
+                component={PurchaseHistory}
+                title={`Purchase History`}
               />
-              <Route
-                exact
+              <AuthenticatedRoute
+                exact={true}
                 path={paths.order_history}
-                render={() => {
-                  this.setTitle(`Order History | ${appName}`);
-                  return <OrderHistory />;
-                }}
+                component={OrderHistory}
+                title={`Order History`}
               />
-              <Route
-                exact
+              <AuthenticatedRoute
+                exact={true}
                 path={paths.invoice_history}
-                render={() => {
-                  this.setTitle(`Invoice History | ${appName}`);
-                  return <InvoiceHistory />;
-                }}
+                component={InvoiceHistory}
+                title={`Invoice History`}
               />
-              <Route
-                exact
+              <AuthenticatedRoute
+                exact={true}
+                component={Accounting}
+                title={`Accounting`}
                 path={paths.accounting}
-                render={() => {
-                  this.setTitle(`Accounting | ${appName}`);
-                  return <Accounting />;
-                }}
               />
-              <Route
+              <PublicRoute
+                exact={true}
+                component={Register}
+                title={`Registration`}
                 path={paths.register}
-                render={() => {
-                  this.setTitle(`Registration | ${appName}`);
-                  setPageBackground();
-                  return <Register />;
-                }}
               />
-                <Route
-                path={paths.reset_password}
-                render={() => {
-                  this.setTitle(`Reset Password | ${appName}`);
-                  setPageBackground();
-                  return <ResetPassword />;
-                }}
-              />
-                <Route
+                <PublicRoute
+                    exact={true}
+                    component={ResetPassword}
+                    title={`Reset Password`}
+                    path={paths.reset_password}
+                />
+                <PublicRoute
+                    exact={true}
+                    component={ForgottenPassword}
+                    title={`Forgot Password`}
                     path={paths.forgot_password}
-                    render={() => {
-                        this.setTitle(`Forgot Password | ${appName}`);
-                        setPageBackground();
-                        return <ForgottenPassword />;
-                    }}
                 />
-              <Route
+              <PublicRoute
+                exact={true}
+                component={Home}
+                title={`Home`}
                 path={paths.home}
-                render={() => {
-                  setPageBackground();
-                  this.setTitle(`Home | ${appName}`);
-                  return <Home />;
-                }}
               />
-                <Route
+                <PublicRoute
+                    exact={true}
+                    component={VerifySMS}
+                    title={`Verify contact`}
                     path={paths.verify_sms}
-                    render={() => {
-                        setPageBackground();
-                        this.setTitle(`Verify contact | ${appName}`);
-                        return <VerifySMS />;
-                    }}
                 />
-                <Route
+                <AuthenticatedRoute
+                    exact={true}
+                    component={Dashboard}
+                    title={`Dashboard`}
                     path={paths.dashboard}
-                    render={() => {
-                        setPageBackground();
-                        this.setTitle(`Dashboard | ${appName}`);
-                        return <Dashboard />;
-                    }}
                 />
-                <Route
+                <AuthenticatedRoute
+                    exact={true}
+                    component={GetStarted}
+                    title={`Getting Started`}
                     path={paths.get_started}
-                    render={() => {
-                        setPageBackground();
-                        this.setTitle(`Getting Started | ${appName}`);
-                        return <GetStarted/>;
-                    }}
                 />
-                <Route
+                <AuthenticatedRoute
+                    exact={true}
+                    component={Audit}
+                    title={`Audit`}
                     path={paths.audit}
-                    render={() => {
-                        setPageBackground();
-                        this.setTitle(`Audit | ${appName}`);
-                        return <Audit/>;
-                    }}
                 />
-                <Route
+                <AuthenticatedRoute
+                    exact={true}
+                    component={GetStartedAudit}
+                    title={`Getting Started Audit`}
                     path={paths.get_startedAudit}
-                    render={() => {
-                        setPageBackground();
-                        this.setTitle(`Getting Started Audit | ${appName}`);
-                        return <GetStartedAudit/>;
-                    }}
                 />
-                <Route
+                <AuthenticatedRoute
+                    exact={true}
+                    component={CategorySetup}
+                    title={`Add shop categories`}
                     path={paths.category_setup}
-                    render={() => {
-                        setPageBackground();
-                        this.setTitle(`Add shop categories | ${appName}`);
-                        return <CategorySetup/>;
-                    }}
                 />
-                <Route
+                <AuthenticatedRoute
+                    exact={true}
+                    component={AddProducts}
+                    title={`Add products`}
                     path={paths.add_products}
-                    render={() => {
-                        setPageBackground();
-                        this.setTitle(`Add products | ${appName}`);
-                        return <AddProducts/>;
-                    }}
                 />
 
-                <Route
+                <AuthenticatedRoute
+                    exact={true}
+                    component={StoreSummary}
+                    title={`Store summary`}
                     path={paths.store_summary}
-                    render={() => {
-                        setPageBackground();
-                        this.setTitle(`Store summary | ${appName}`);
-                        return <StoreSummary/>;
-                    }}
                 />
 
-                <Route
+                <AuthenticatedRoute
+                    exact={true}
+                    component={Sell}
+                    title={`Sell`}
                     path={paths.sell}
-                    render={() => {
-                        setPageBackground();
-                        this.setTitle(`Sell | ${appName}`);
-                        return <Sell/>;
-                    }}
                 />
 
-                <Route
+                <AuthenticatedRoute
+                    exact={true}
+                    component={MainViewStock}
+                    title={`Stock`}
                     path={paths.stock}
-                    render={() => {
-                        setPageBackground();
-                        this.setTitle(`Stock | ${appName}`);
-                        return <MainViewStock/>;
-                    }}
                 />
-                <Route
+                <AuthenticatedRoute
+                    exact={true}
+                    component={Admin}
+                    title={`Admin`}
                     path={paths.admin}
-                    render={() => {
-                        setPageBackground();
-                        this.setTitle(`Admin | ${appName}`);
-                        return <Admin />;
-                    }}
                 />
-                <Route
+                <AuthenticatedRoute
+                    exact={true}
+                    component={AddWarehouse}
+                    title={`Add Warehouse`}
                     path={paths.add_warehouse}
-                    render={() => {
-                        setPageBackground();
-                        this.setTitle(`Add Warehouse | ${appName}`);
-                        return <AddWarehouse />;
-                    }}
                 />
-                <Route
+                <AuthenticatedRoute
+                    exact={true}
+                    component={ChangeStoreInformation}
+                    title={`Store Information`}
                     path={paths.change_store_info}
-                    render={() => {
-                        setPageBackground();
-                        this.setTitle(`Store Information | ${appName}`);
-                        return <ChangeStoreInformation />;
-                    }}
                 />
-                <Route
+                <AuthenticatedRoute
+                    exact={true}
+                    component={AccountInformation}
+                    title={`Account Information`}
                     path={paths.account_info}
-                    render={() => {
-                        setPageBackground();
-                        this.setTitle(`Account Information | ${appName}`);
-                        return <AccountInformation />;
-                    }}
                 />
-                <Route
+                <AuthenticatedRoute
+                    exact={true}
+                    component={VerifyPhone}
+                    title={`Verify Phone`}
                     path={paths.verify_phone}
-                    render={() => {
-                        setPageBackground();
-                        this.setTitle(`Verify Phone | ${appName}`);
-                        return <VerifyPhone />;
-                    }}
                 />
-                <Route
+                <AuthenticatedRoute
+                    exact={true}
+                    component={ChangePrice}
+                    title={`Change Price`}
                     path={paths.change_price}
-                    render={() => {
-                        setPageBackground();
-                        this.setTitle(`Change Price | ${appName}`);
-                        return <ChangePrice />;
-                    }}
                 />
-                <Route
+                <AuthenticatedRoute
+                    exact={true}
+                    component={AdminCustomers}
+                    title={`Customers`}
                     path={paths.admin_customers}
-                    render={() => {
-                        setPageBackground();
-                        this.setTitle(`Customers | ${appName}`);
-                        return <AdminCustomers/>;
-                    }}
                 />
                 {/* <Route
                     path={paths.expense}
@@ -355,165 +283,125 @@ class App extends React.Component {
                     }}
                 /> */}
 
-                <Route
+                <AuthenticatedRoute
+                    exact={true}
+                    component={Suppliers}
+                    title={`Suppliers`}
                     path={paths.suppliers}
-                    render={() => {
-                        setPageBackground();
-                        this.setTitle(`Suppliers | ${appName}`);
-                        return <Suppliers/>;
-                    }}
                 />
-                <Route
+                <AuthenticatedRoute
+                    exact={true}
+                    component={ViewSuppliersNew}
+                    title={`Suppliers`}
                     path={paths.view_suppliers}
-                    render={() => {
-                        setPageBackground();
-                        this.setTitle(`Suppliers | ${appName}`);
-                        return <ViewSuppliersNew />
-                    }}
                 />
-                <Route
+                <AuthenticatedRoute
+                    exact={true}
+                    component={SupplierDetails}
+                    title={`Suppliers`}
                     path={paths.supplier_detail}
-                    render={() => {
-                        setPageBackground();
-                        this.setTitle(`Supplier | ${appName}`);
-                        return <SupplierDetails/>;
-                    }}
                 />
-                <Route
+                <AuthenticatedRoute
+                    exact={true}
+                    component={PaySupplier}
+                    title={`Suppliers`}
                     path={paths.pay_supplier}
-                    render={() => {
-                        setPageBackground();
-                        this.setTitle(`Supplier | ${appName}`);
-                        return <PaySupplier/>;
-                    }}
                 />
-                <Route
+                <AuthenticatedRoute
+                    exact={true}
+                    component={SupplierStock}
+                    title={`Suppliers`}
                     path={paths.add_supplier_stock}
-                    render={() => {
-                        setPageBackground();
-                        this.setTitle(`Supplier | ${appName}`);
-                        return <SupplierStock/>;
-                    }}
                 />
-                <Route
+                <AuthenticatedRoute
+                    exact={true}
+                    component={SupplierOrderStock}
+                    title={`Order Supplier`}
                     path={paths.order_supplier_stock}
-                    render={() => {
-                        setPageBackground();
-                        this.setTitle(`Order Supplier | ${appName}`);
-                        return <SupplierOrderStock/>;
-                    }}
                 />
-                <Route
+                <AuthenticatedRoute
+                    exact={true}
+                    component={AddSupplier}
+                    title={`Supplier`}
                     path={paths.add_supplier}
-                    render={() => {
-                        setPageBackground();
-                        this.setTitle(`Supplier | ${appName}`);
-                        return <AddSupplier/>;
-                    }}
                 />
-                <Route
+                <AuthenticatedRoute
+                    exact={true}
+                    component={Employees}
+                    title={`Employees`}
                     path={paths.employees}
-                    render={() => {
-                        setPageBackground();
-                        this.setTitle(`Employees | ${appName}`);
-                        return <Employees/>;
-                    }}
                 />
-                <Route
+                <AuthenticatedRoute
+                    exact={true}
+                    component={AccountingNoAttendants}
+                    title={`Accounting No Attendants`}
                     path={paths.accounting_no_attendant}
-                    render={() => {
-                        setPageBackground();
-                        this.setTitle(`Accounting No Attendants | ${appName}`);
-                        return <AccountingNoAttendants/>;
-                    }}
                 />
-                <Route
+                <AuthenticatedRoute
+                    exact={true}
+                    component={CollectionOwner}
+                    title={`Collection Owner`}
                     path={paths.collection_owner}
-                    render={() => {
-                        setPageBackground();
-                        this.setTitle(`Collection Owner | ${appName}`);
-                        return <CollectionOwner/>;
-                    }}
                 />
-                <Route
+                <AuthenticatedRoute
+                    exact={true}
+                    component={CollectionAttendant}
+                    title={`Collection Attendant`}
                     path={paths.collection_attendant}
-                    render={() => {
-                        setPageBackground();
-                        this.setTitle(`Collection Attendant | ${appName}`);
-                        return <CollectionAttendant/>;
-                    }}
                 />
-                <Route
+                <AuthenticatedRoute
+                    exact={true}
+                    component={CollectionNoAttendant}
+                    title={`Collection No Attendant`}
                     path={paths.collection_no_attendant}
-                    render={() => {
-                        setPageBackground();
-                        this.setTitle(`Collection No Attendant | ${appName}`);
-                        return <CollectionNoAttendant/>;
-                    }}
                 />
-                <Route
+                <AuthenticatedRoute
+                    exact={true}
+                    component={Reconciliation}
+                    title={`Reconciliation`}
                     path={paths.reconciliation}
-                    render={() => {
-                        setPageBackground();
-                        this.setTitle(`Reconciliation | ${appName}`);
-                        return <Reconciliation />;
-                    }}
                 />
-                <Route
+                <AuthenticatedRoute
+                    exact={true}
+                    component={AddBranch}
+                    title={`Add Branch`}
                     path={paths.add_branch}
-                    render={() => {
-                        setPageBackground();
-                        this.setTitle(`Add Branch | ${appName}`);
-                        return <AddBranch />;
-                    }}
                 />
-                <Route
+                <AuthenticatedRoute
+                    exact={true}
+                    component={ProductRequest}
+                    title={`Product Request`}
                     path={paths.product_request}
-                    render={() => {
-                        setPageBackground();
-                        this.setTitle(`Product Request | ${appName}`);
-                        return <ProductRequest />;
-                    }}
                 />
-                <Route
+                <AuthenticatedRoute
+                    exact={true}
+                    component={SalesReturns}
+                    title={`Sales Returns`}
                     path={paths.sales_returns}
-                    render={() => {
-                        setPageBackground();
-                        this.setTitle(`Sales Returns | ${appName}`);
-                        return <SalesReturns />;
-                    }}
                 />
-                <Route
+                <AuthenticatedRoute
+                    exact={true}
+                    component={StockReturns}
+                    title={`Return Purchases`}
                     path={paths.stock_returns}
-                    render={() => {
-                        setPageBackground();
-                        this.setTitle(`Return Purchases | ${appName}`);
-                        return <StockReturns />;
-                    }}
                 />
-                <Route
+                <AuthenticatedRoute
+                    exact={true}
+                    component={CustomerCare}
+                    title={`Customer Care`}
                     path={paths.customer_care}
-                    render={() => {
-                        setPageBackground();
-                        this.setTitle(`Customer Care | ${appName}`);
-                        return <CustomerCare />;
-                    }}
                 />
-                <Route
+                <AuthenticatedRoute
+                    exact={true}
+                    component={Delivery}
+                    title={`Delivery`}
                     path={paths.delivery}
-                    render={() => {
-                        setPageBackground();
-                        this.setTitle(`Delivery | ${appName}`);
-                        return <Delivery />;
-                    }}
                 />
-                <Route
+                <AuthenticatedRoute
+                    exact={true}
+                    component={StockMovement}
+                    title={`Stock Movement`}
                     path={paths.stock_movement}
-                    render={() => {
-                        setPageBackground();
-                        this.setTitle(`Stock Movement | ${appName}`);
-                        return <StockMovement />;
-                    }}
                 />
                 {/* <Route
                     path={paths.dashboardV1}
@@ -562,29 +450,23 @@ class App extends React.Component {
                         return <FirstView />;
                     }}
                 /> */}
-                <Route
+                <AuthenticatedRoute
+                    exact={true}
+                    component={CreditSales}
+                    title={`Credit Sales`}
                     path={paths.credit_sales}
-                    render={() => {
-                        setPageBackground();
-                        this.setTitle(`Credit Sales | ${appName}`);
-                        return <CreditSales />;
-                    }}
                 />
-                <Route
+                <AuthenticatedRoute
+                    exact={true}
+                    component={OtherStock}
+                    title={`Other Stock`}
                     path={paths.other_stock}
-                    render={() => {
-                        setPageBackground();
-                        this.setTitle(`Other Stock | ${appName}`);
-                        return <OtherStock />;
-                    }}
                 />
-                <Route
+                <AuthenticatedRoute
+                    exact={true}
+                    component={OtherCart}
+                    title={`Other Cart`}
                     path={paths.other_cart}
-                    render={() => {
-                        setPageBackground();
-                        this.setTitle(`Other Cart | ${appName}`);
-                        return <OtherCart />;
-                    }}
                 />
               <Route path="*">
                 <NoMatch />
@@ -595,6 +477,60 @@ class App extends React.Component {
       </DatabaseProvider>
     );
   }
+}
+
+export class AuthenticatedRoute extends React.Component {
+    constructor(props){
+        super(props);
+    }
+
+    setTitle(title) {
+        document.title = title;
+    }
+
+    render() {
+        const appName = "El-Parah Retail App";
+
+        this.setTitle(`${this.props.title} | ${appName}`);
+
+        const Component = this.props.component;
+
+        const isAuthenticated = LocalInfo.isAuthenticated;
+
+        return isAuthenticated ? (
+            <Component/>
+        ) : (
+            <Redirect to={{ pathname: paths.login}} />
+        );
+    }
+}
+
+export class PublicRoute extends React.Component {
+    constructor(props){
+        super(props);
+    }
+
+    setTitle(title) {
+        document.title = title;
+    }
+
+    render() {
+        const appName = "El-Parah Retail App";
+
+        this.setTitle(`${this.props.title} | ${appName}`);
+
+        const { from } = this.props.location.state || { from: { pathname: paths.dashboard }};
+
+        const Component = this.props.component;
+
+        const isAuthenticated = LocalInfo.isAuthenticated;
+
+        return isAuthenticated ? (
+            <Redirect to={from} />
+        ) : (
+            <Component/>
+        );
+    }
 }
 
 export default App;

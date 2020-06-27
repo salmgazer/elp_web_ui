@@ -78,8 +78,6 @@ const useStyles = makeStyles(theme => ({
 
     return(
         <div className={classes.root}>
-
-
             <Grid container spacing={1}>
                 <Grid item xs={6} >
                     <Typography

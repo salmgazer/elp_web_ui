@@ -37,7 +37,7 @@ const ProductCard = (props) => {
         if(props.notTruncate){
             setName(newProduct.name);
         }else{
-            setName((newProduct.name).length > 25 ? (newProduct.name).slice(0 , 27) + '...' : newProduct.name);
+            setName((newProduct.name).length > 20 ? (newProduct.name).slice(0 , 26) + '...' : newProduct.name);
         }
     };
 

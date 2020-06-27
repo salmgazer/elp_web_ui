@@ -41,7 +41,7 @@ const SingleDayView = props => {
                     <span className='text-dark font-weight-bold' >{format(fromUnixTime(entry.entryDate) , "h:mm a")}</span>
                 </Grid>
 
-                <Grid item xs={3.5}>
+                <Grid item xs={3}>
                     <Paper className={classes.paper}>
                         <Typography className={classes.title} component="p" >
                             Opening balance
@@ -52,7 +52,7 @@ const SingleDayView = props => {
                     </Paper>
                 </Grid>
 
-                <Grid item xs={2.5}>
+                <Grid item xs={3}>
                     <Paper className={classes.paper}>
                         <Typography className={classes.title} component="p" >
                             Purchased
@@ -63,7 +63,7 @@ const SingleDayView = props => {
                     </Paper>
                 </Grid>
 
-                <Grid item xs={2}>
+                <Grid item xs={3}>
                     <Paper className={classes.paper}>
                         <Typography className={classes.title} component="p" >
                             Sold
@@ -74,7 +74,7 @@ const SingleDayView = props => {
                     </Paper>
                 </Grid>
 
-                <Grid item xs={3.5}>
+                <Grid item xs={3}>
                     <Paper className={classes.paper}>
                         <Typography className={classes.title} component="p" >
                             Closing balance

@@ -2,7 +2,6 @@ import React, {useEffect, useState} from 'react';
 import Typography from "@material-ui/core/Typography/Typography";
 import Button from "@material-ui/core/Button/Button";
 import Box from "@material-ui/core/Box/Box";
-//import ProductHistory from "./history/ProductHistory";
 import QuantityInput from "../../Components/Input/QuantityInput";
 import { confirmAlert } from 'react-confirm-alert';
 import 'react-confirm-alert/src/react-confirm-alert.css';
@@ -16,6 +15,7 @@ import BranchProductService from "../../../services/BranchProductService";
 import Drawer from "../../../components/Drawer/Drawer";
 import AuditService from "../../../services/AuditService";
 import Grid from "@material-ui/core/Grid/Grid";
+import AddedProductSingle from "./auditHistory/SingleProductView";
 
 
 function Alert(props) {
@@ -38,6 +38,7 @@ const AddAuditProductView = props => {
     const [errorMsg , setErrorMsg] = useState('');
     const [successDialog, setSuccessDialog] = useState(false);
     const [errorDialog, setErrorDialog] = useState(false);
+    const [productHistory , setProductHistory] = useState([]);
     const [formFields , setFormFields] = useState({
         quantity: 1,
         sellingPrice: branchProduct.sellingPrice,
@@ -65,6 +66,7 @@ const AddAuditProductView = props => {
         setName(newProduct.name);
         setSellingPrice(await productHandler.getSellingPrice());
         setCostPrice(await productHandler.getCostPrice());
+        setProductHistory(await AuditService.getProductAuditHistory(branchProduct.id));
         setProductAuditDetials(await new AuditService().getAuditProductDetails(newProduct.id));
         setInputValue('costPrice' , await productHandler.getCostPrice());
         setInputValue('storeQuantity' , await productHandler.getProductQuantity());
@@ -235,25 +237,24 @@ const AddAuditProductView = props => {
                         component="h5"
                         variant="h5"
                         style={{fontWeight: '500', fontSize: '18px' , margin: '0px 0px', padding: '0px 14px'}}
-                        className={`text-center mx-auto text-dark`}
+                        className={`text-center mx-auto text-dark mb-2`}
                     >
                         History
                     </Typography>
 
                     <div id="historyRow" className="w-100 mx-auto text-center">
 
-                        {/*{(productHistory.length !== 0 ? (
+                        {(productHistory.length !== 0 ? (
                             <div>
                                 {(productHistory).map((item) =>
-                                    <div>me</div>
-                                    //<ProductHistory deleteHistory={props.deleteHistory} key={item.id} item={item}/>
+                                    <AddedProductSingle product={item.product.fetch()} actions={false} key={item.id} item={item}/>
                                 )}
                             </div>
                         ):(
                             <div>
                                 <span className="text-dark font-weight-bold font-italic text-center mx-auto">No previous history</span>
                             </div>
-                        ))}*/}
+                        ))}
                     </div>
                 </div>
 

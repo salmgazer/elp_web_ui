@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {withRouter} from "react-router";
+import {withRouter} from "react-router-dom";
 
 import DayView from './sections/DayView';
 import WeekView from './sections/WeekView';
@@ -132,11 +132,11 @@ class SortDate extends Component{
             case 0:
                 return <DayView setView={this.setStepContentView.bind(this)} products={this.state.productList} pageName={this.state.pageName} />;
             case 2:
-                return <WeekView setView={this.setStepContentView.bind(this)} weekItem={this.state.weekList} pageName={this.state.pageName} />;
+                return <WeekView getChildrenView={this.getChildrenViewDetails.bind(this)} setView={this.setStepContentView.bind(this)} weekItem={this.state.weekList} pageName={this.state.pageName} />;
             case 3:
-                return <MonthView setView={this.setStepContentView.bind(this)} monthItem={this.state.monthList} pageName={this.state.pageName} />;
+                return <MonthView getChildrenView={this.getChildrenViewDetails.bind(this)} setView={this.setStepContentView.bind(this)} monthItem={this.state.monthList} pageName={this.state.pageName} />;
             case 4:
-                return <YearView setView={this.setStepContentView.bind(this)} yearItem={this.state.yearList} pageName={this.state.pageName} />;
+                return <YearView getChildrenView={this.getChildrenViewDetails.bind(this)} setView={this.setStepContentView.bind(this)} yearItem={this.state.yearList} pageName={this.state.pageName} />;
             default:
                 return 'Complete';
         }
@@ -148,6 +148,27 @@ class SortDate extends Component{
         });
     };
 
+    getChildrenViewDetails = async (index , view) => {
+        localStorage.setItem("activeHistoryIndex" , index);
+
+        switch(view){
+            case 0:
+                this.setState({
+                    activeStep: view
+                });
+                return true;
+            case 2:
+                this.setState({
+                    activeStep: view
+                });
+                return true;
+            case 3:
+                this.setState({
+                    activeStep: view
+                });
+                return true;
+        }
+    };
 
     render(){
         return(

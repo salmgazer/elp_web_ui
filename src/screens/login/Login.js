@@ -27,6 +27,7 @@ import VisibilityOff from '@material-ui/icons/VisibilityOff';
 import database from "../../models/database";
 import CustomerService from "../../services/CustomerService";
 import SaleService from "../../services/SaleService";
+import CartService from "../../services/CartService";
 
 const useStyles = makeStyles(theme => ({
     root: {
@@ -123,6 +124,7 @@ const Login = props => {
             await SyncService.sync(companyId, LocalInfo.branchId, userId, database);
             const activeCustomer = await CustomerService.getCashCustomer();
             await database.adapter.setLocal("activeCustomer" , activeCustomer[0].id);
+            await new CartService().cartId();
             //await SaleService.makeSellLegit();
             console.log("DONE SYNCING");
 

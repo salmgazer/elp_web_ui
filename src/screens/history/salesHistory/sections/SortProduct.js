@@ -14,13 +14,15 @@ import SProductView from './SProductView';
 
 
 class SortProduct extends Component{
-
-    state={
-        isDrawerShow: false,
-        activeStep: 1,
-        branchProducts: [],
-        currentProduct: {},
-        pageName: true
+    constructor(props){
+        super(props);
+        this.state = {
+            isDrawerShow: false,
+            activeStep: 1,
+            branchProducts: [],
+            currentProduct: {},
+            pageName: true
+        }
     }
 
     /*

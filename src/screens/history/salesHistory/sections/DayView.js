@@ -18,8 +18,6 @@ import SimpleSnackbar from "../../../../components/Snackbar/SimpleSnackbar";
 import {confirmAlert} from "react-confirm-alert";
 import ModelAction from "../../../../services/ModelAction";
 import getUnixTime from "date-fns/getUnixTime";
-import startOfWeek from "date-fns/startOfWeek";
-import format from "date-fns/format";
 
 const useStyles = makeStyles(theme => ({
     root: {
