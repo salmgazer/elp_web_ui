@@ -24,9 +24,7 @@ import SyncService from "../../services/SyncService";
 import IconButton from "@material-ui/core/IconButton/IconButton";
 import Visibility from '@material-ui/icons/Visibility';
 import VisibilityOff from '@material-ui/icons/VisibilityOff';
-import database from "../../models/database";
 import CustomerService from "../../services/CustomerService";
-import SaleService from "../../services/SaleService";
 import CartService from "../../services/CartService";
 
 const useStyles = makeStyles(theme => ({

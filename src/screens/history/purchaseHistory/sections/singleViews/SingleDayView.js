@@ -13,8 +13,6 @@ import Dates from '../../../../../components/Date/Date';
 import Button from "@material-ui/core/Button/Button";
 import DeleteIcon from '@material-ui/icons/Delete';
 import QuantityInput from "../../../../Components/Input/QuantityInput";
-import InputAdornment from '@material-ui/core/InputAdornment';
-import IconButton from '@material-ui/core/IconButton';
 import {faCalculator} from "@fortawesome/free-solid-svg-icons";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import Paper from "@material-ui/core/Paper/Paper";
@@ -112,7 +110,7 @@ const SingleDayView = props => {
         const newProduct = await props.purchaseEntry.product.fetch();
         setProduct(newProduct);
         setImage(new ProductServiceHandler(product).getProductImage());
-        setName((newProduct.name).length > 20 ? (newProduct.name).slice(0 , 20) + '...' : newProduct.name);
+        setName(newProduct.name);
         const costP = await BranchStockService.getStockEntryCostPriceById(purchase.id);
         const quant = await BranchStockService.getStockProductQuantity(purchase.id);
         setCostPrice(costP);
@@ -379,7 +377,7 @@ const SingleDayView = props => {
                                     }
                                 />
                             </Paper> */}
-                            
+
                             <Grid container spacing={1} className={`my-2`}>
                                 <Grid
                                     item xs={5}

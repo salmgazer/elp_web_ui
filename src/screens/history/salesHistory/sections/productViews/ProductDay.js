@@ -93,7 +93,7 @@ const SingleDayView = props => {
         setProduct(newProduct);
         setImage(new ProductServiceHandler(product).getProductImage());
 
-        setName((newProduct.name).length > 20 ? (newProduct.name).slice(0 , 20) + '...' : newProduct.name);
+        setName(newProduct.name);
 
         setTotalPrice(sale.sellingPrice * sale.quantity);
         setQuantity(sale.quantity);
@@ -114,21 +114,6 @@ const SingleDayView = props => {
     const handleChangeIndex = index => {
         setValue(index);
     };
-
-    // const setInputValue = (name , value) => {
-    //     const {...oldFormFields} = formFields;
-    //     setTotalPrice((value * sale.sellingPrice));
-    //     setQuantity(value);
-    //     oldFormFields['quantity'] = value;
-    //     setFormFields(oldFormFields);
-    // };
-
-    // const setPriceValue = (event) => {
-    //     const {...oldFormFields} = priceFields;
-    //     setTotalPrice(event.target.value);
-    //     oldFormFields['sellingPrice'] = event.target.value / quantity;
-    //     setPriceFields(oldFormFields);
-    // };
 
     const setInputValue = (name , value) => {
         const {...oldFormFields} = formFields;

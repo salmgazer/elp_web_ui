@@ -82,7 +82,7 @@ class PrintRec extends React.Component {
                             </tr>
                             <tr>
                                 <td className={style.td}> Seller :</td>
-                                <td className={style.td}>{this.props.seller}</td>
+                                <td className={style.td}>{(this.props.seller).toUpperCase()}</td>
                             </tr>
                             <tr>
                                 <td className={style.td}> Customer :</td>

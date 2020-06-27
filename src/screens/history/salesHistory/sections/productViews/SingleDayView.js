@@ -93,7 +93,7 @@ const SingleDayView = props => {
         setProduct(newProduct);
         setImage(new ProductServiceHandler(product).getProductImage());
 
-        setName((newProduct.name).length > 20 ? (newProduct.name).slice(0 , 20) + '...' : newProduct.name);
+        setName(newProduct.name);
 
         setTotalPrice(sale.sellingPrice * sale.quantity);
         setQuantity(sale.quantity);
@@ -264,7 +264,6 @@ const SingleDayView = props => {
                                 style={{fontSize: '30px', color: '#DAAB59', textAlign: 'right'}}
                             />
                         </Grid>
-
                     </Grid>
 
                     <AppBar position="static" color="default">
@@ -345,30 +344,6 @@ const SingleDayView = props => {
                         </TabPanel>
 
                         <TabPanel value={value} index={2}  >
-
-                            {/* <label className={`text-dark py-2 text-center`} style={{fontSize: '18px', fontWeight: '600'}}> New selling price </label>
-
-                            <Paper className={classes.root} id="selling_price" >
-                                <InputBase
-                                    className={`${classes.input} search-box text-center`}
-                                    type="tel"
-
-                                    value={totalPrice}
-                                    name='sellingPrice'
-                                    onChange={(event) => setPriceValue(event)}
-                                    endAdornment={
-                                        <InputAdornment position="end">
-                                            <IconButton
-                                                aria-label="toggle password visibility"
-                                                edge="end"
-                                            >
-                                                <FontAwesomeIcon  icon={faCalculator} fixedWidth />
-                                            </IconButton>
-                                        </InputAdornment>
-                                    }
-                                />
-                            </Paper> */}
-
                             <Grid container spacing={1} className={`my-2`}>
                                 <Grid
                                     item xs={5}
@@ -428,18 +403,11 @@ const SingleDayView = props => {
                                     </Button>
                                 </Grid>
                             </Grid>
-
                         </TabPanel>
-
                     </SwipeableViews>
-
-
-
                 </div>
             </MainDialog>
-
         </div>
-
     );
 };
 

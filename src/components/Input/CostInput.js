@@ -3,6 +3,7 @@ import Grid from "@material-ui/core/Grid/Grid";
 import Paper from "@material-ui/core/Paper/Paper";
 import InputBase from "@material-ui/core/InputBase/InputBase";
 import {makeStyles} from "@material-ui/core";
+import CostCalculator from "../Calculator/CostCalculator";
 
 const useStyles = makeStyles(theme => ({
     root: {
@@ -34,6 +35,7 @@ const CostInput = props => {
 console.log(initialValue)
     const inputName = props.inputName;
     const [quantity , setQuantity] = useState(initialValue);
+    const [calculatorDialog, setCalculatorDialog] = useState(false);
 
     const setValueHandler = (event) => {
         event.persist();
@@ -47,8 +49,23 @@ console.log(initialValue)
         props.getValue(inputName , event.target.value);
     };
 
+    const getCalculatorValue = (value) => {
+        setQuantity(value)
+        props.getValue('costPrice' , parseFloat(value));
+    };
+
+    const getCalculatorModalState = (value) => {
+        setCalculatorDialog(value);
+    };
+
+    const openCalculator = (event) => {
+        setCalculatorDialog(true);
+    };
+
     return(
         <div>
+            <CostCalculator product={props.product} calculatedPrice={getCalculatorValue.bind(this)} closeModal={getCalculatorModalState.bind(this)} calculatorDialog={calculatorDialog}/>
+
             <label className={`text-dark py-2 text-center`} style={{fontSize: '18px', fontWeight: '600'}}> {props.label}</label>
 
             <Grid container spacing={1} className={`mb-2`}>
@@ -72,7 +89,7 @@ console.log(initialValue)
                     item xs={3}
                     className={`text-left`}
                 >
-                    <div style={{padding: '15% 0'}}>
+                    <div onClick={openCalculator.bind(this)} style={{padding: '15% 0'}}>
                         {props.children}
                     </div>
                 </Grid>

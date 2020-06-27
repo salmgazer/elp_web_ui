@@ -48,7 +48,11 @@ const useStyles = makeStyles(theme => ({
         marginRight: '10px',
         marginTop: '10px',
         textTransform: 'none',
-    }
+    },
+    tabPrimaryColor: {
+        backgroundColor: `#daab59 !important`,
+        color: `#daab59 !important`,
+    },
   }));
 
 const CheckoutView = props => {
@@ -191,8 +195,9 @@ const CheckoutView = props => {
 
     const otherPaymentFormFields = async(formFields) => {
         const cashCustomerId = (await CustomerService.getCashCustomer())[0].id;
+
         if(parseFloat(formFields.type) === 2 && (formFields.customer === cashCustomerId)){
-            setBtnValue(false);
+            //setBtnValue(false);
             alert(`Please set a customer for credit sales`)
         }else if(parseFloat(formFields.type) !== 2 && (formFields.amountPaid === "" || parseFloat(formFields.amountPaid) === 0)){
             setErrorMsg(`Amount paid must be greater than 0`);
@@ -204,7 +209,7 @@ const CheckoutView = props => {
             //alert(`Amount paid must be greater than ${props.cartTotalAmount}`)
 
             setBtnValue(true);
-        }else if(parseFloat(formFields.type) !== 2 && (parseFloat(formFields.amountPaid) < parseFloat(props.cartTotalAmount)) && (formFields.customer === cashCustomerId)) {
+        }else if(parseFloat(formFields.type) !== 2 && (parseFloat(formFields.amountPaid) < parseFloat(props.cartTotalAmount)) && (props.currentCustomer === cashCustomerId)) {
             setBtnValue(false);
             alert(`Please set a customer for credit sales`)
         }else {
@@ -222,13 +227,12 @@ const CheckoutView = props => {
         const {...oldFormFields} = cartData;
         oldFormFields['customer'] = props.currentCustomer;
 
-        if(oldFormFields['amountPaid'] === ''){
+        if(oldFormFields['amountPaid'] === '' || typeof oldFormFields['amountPaid'] === 'undefined' || !oldFormFields['amountPaid']){
             oldFormFields['amountPaid'] = 0.00;
         }
-        if(oldFormFields['changeDue'] === ''){
+        if(oldFormFields['changeDue'] === '' || typeof oldFormFields['changeDue'] === 'undefined' || !oldFormFields['changeDue']){
             oldFormFields['changeDue'] = 0.00;
         }
-        console.log(oldFormFields.type , oldFormFields.customer)
 
         const cashCustomerId = (await CustomerService.getCashCustomer())[0].id;
         if(oldFormFields.type === 0 && parseFloat(oldFormFields.amountPaid) < parseFloat(props.cartTotalAmount)){
@@ -248,7 +252,7 @@ const CheckoutView = props => {
                         label: 'Yes',
                         onClick: async () => {
                             try {
-                                await new SaleService().makeSell(cartData , cartData.type);
+                                await new SaleService().makeSell(oldFormFields , cartData.type);
                                 props.setView(2);
                             } catch (e) {
                                 console.log('Something went wrong')
@@ -266,7 +270,7 @@ const CheckoutView = props => {
             });
         } else {
             try {
-                await new SaleService().makeSell(cartData , cartData.type);
+                await new SaleService().makeSell(oldFormFields , cartData.type);
                 props.setView(2);
             }catch (e) {
                 console.log('Something went wrong.')
@@ -317,6 +321,9 @@ const CheckoutView = props => {
                     textColor="primary"
                     variant="fullWidth"
                     aria-label="full width tabs example"
+                    classes= {{
+                        indicator: classes.tabPrimaryColor
+                    }}
                 >
                     <Tab className={classes.tabs} label="Cash" icon={<LocalAtmIcon style={{color: '#DAAB59'}} />} {...a11yProps(0)} />
                     <Tab className={classes.tabs} label="Other payment" icon={<PhoneAndroidIcon style={{color: '#DAAB59'}} />} {...a11yProps(1)} />

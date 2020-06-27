@@ -69,7 +69,7 @@ const SingleDayView = props => {
     const handleChange = (event, newValue) => {
         setValue(newValue);
       };
-  
+
     const handleChangeIndex = index => {
         setValue(index);
     };
@@ -89,7 +89,7 @@ const SingleDayView = props => {
         const newProduct = await props.purchaseEntry.product.fetch();
         setProduct(newProduct);
         setImage(new ProductServiceHandler(product).getProductImage());
-        setName((newProduct.name).length > 20 ? (newProduct.name).slice(0 , 20) + '...' : newProduct.name);
+        setName(newProduct.name);
         const costP = await BranchStockService.getStockEntryCostPriceById(purchase.id);
         const quant = await BranchStockService.getStockProductQuantity(purchase.id);
         setCostPrice(costP);
@@ -144,13 +144,13 @@ const SingleDayView = props => {
                     <Card
                         className="shadow1"
                         style={{
-                            margin: '5px auto', 
-                            backgroundImage: `url(${image})`, 
-                            backgroundPosition: 'center', 
-                            backgroundSize: 'cover', 
-                            width: '60px', 
-                            borderRadius: '50%', 
-                            height: '60px', 
+                            margin: '5px auto',
+                            backgroundImage: `url(${image})`,
+                            backgroundPosition: 'center',
+                            backgroundSize: 'cover',
+                            width: '60px',
+                            borderRadius: '50%',
+                            height: '60px',
                             padding: '0px'
                         }}
                     />
@@ -163,12 +163,12 @@ const SingleDayView = props => {
                     </div>
                 </Grid>
 
-                <Grid item xs={3} style={{height: '60px', margin: '10px 0px 0px 0px'}}>  
-                    <span className='text-dark font-weight-bold' >{format(new Date(purchase.createdAt) , "h:mm a")}</span>                     
+                <Grid item xs={3} style={{height: '60px', margin: '10px 0px 0px 0px'}}>
+                    <span className='text-dark font-weight-bold' >{format(new Date(purchase.createdAt) , "h:mm a")}</span>
                     <EditIcon
                         onClick={openDialogHandler.bind(this)}
                         style={{fontSize: '30px', color: '#DAAB59', textAlign: 'right'}}
-                    /> 
+                    />
                 </Grid>
             </Grid>
 
@@ -179,13 +179,13 @@ const SingleDayView = props => {
                             <Card
                                 className="shadow1"
                                 style={{
-                                    margin: '5px auto', 
-                                    backgroundImage: `url(${image})`, 
-                                    backgroundPosition: 'center', 
-                                    backgroundSize: 'cover', 
-                                    width: '60px', 
-                                    borderRadius: '50%', 
-                                    height: '60px', 
+                                    margin: '5px auto',
+                                    backgroundImage: `url(${image})`,
+                                    backgroundPosition: 'center',
+                                    backgroundSize: 'cover',
+                                    width: '60px',
+                                    borderRadius: '50%',
+                                    height: '60px',
                                     padding: '0px'
                                 }}
                             />
@@ -205,7 +205,7 @@ const SingleDayView = props => {
                         </Grid>
 
                     </Grid>
-                    
+
                     <AppBar position="static" color="white">
                         <Tabs
                             value={value}
@@ -251,8 +251,8 @@ const SingleDayView = props => {
                                         Save changes
                                     </Button>
                                 </Grid>
-                            </Grid> 
-                            
+                            </Grid>
+
                         </TabPanel>
 
                         <TabPanel value={value} index={1}  >
@@ -279,12 +279,12 @@ const SingleDayView = props => {
                                         Save changes
                                     </Button>
                                 </Grid>
-                            </Grid> 
+                            </Grid>
 
                         </TabPanel>
 
                         <TabPanel value={value} index={2}  >
-                            
+
                             <label className={`text-dark py-2 text-center`} style={{fontSize: '18px', fontWeight: '600', marginTop: '100px'}}> New cost price </label>
 
                             {/* <QuantityInput style={{width: '100%', margin: '50px', paddingBottom: '30px'}} label={`Quantity`} inputName="quantity" getValue={setPriceValue.bind(this)} startValue={costPrice}/> */}
@@ -330,12 +330,12 @@ const SingleDayView = props => {
                                         Save changes
                                     </Button>
                                 </Grid>
-                            </Grid> 
-                        
+                            </Grid>
+
                         </TabPanel>
 
-                    </SwipeableViews>  
-                    
+                    </SwipeableViews>
+
                 </div>
             </MainDialog>
 

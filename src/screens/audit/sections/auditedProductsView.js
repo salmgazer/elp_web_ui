@@ -239,7 +239,7 @@ const AuditedProductsView = props => {
                     <Grid item xs={6} >
                         <Button
                             variant="contained"
-                            style={{'backgroundColor': '#DAAB59' , color: '#333333', padding: '5px 50px'}}
+                            style={{'backgroundColor': '#DAAB59' , color: '#333333', padding: '5px 30px'}}
                             onClick={balanceAll.bind(this)}
                             disabled={loading}
                         >
