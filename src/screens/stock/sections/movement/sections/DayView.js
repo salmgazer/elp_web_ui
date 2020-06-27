@@ -11,7 +11,6 @@ import Box from "@material-ui/core/Box/Box";
 import { withRouter } from "react-router-dom";
 
 import SingleDayView from './singleView/SingleDayView';
-import SaleService from "../../../../../services/SaleService";
 import StockMovementService from "../../../../../services/StockMovementService";
 
 const useStyles = makeStyles(theme => ({
@@ -28,6 +27,7 @@ const DayView = props => {
     const [getDetails , setGetDetails] = useState(false);
     const [name , setName] = useState('');
     const [entries , setEntries] = useState([]);
+    const [balance , setBalance] = useState(0);
 
     useEffect(() => {
         // You need to restrict it at some point
@@ -57,6 +57,16 @@ const DayView = props => {
             //response = await new SaleService().getProductSalesDetails('day', date , branchProduct.id);
         }else{
             response = await StockMovementService.getStockMovementListByDate('day', date);
+        }
+
+        const newBalance = response.closingBalance - response.openingBalance;
+
+        if(newBalance > 0){
+            setBalance(`+${newBalance}`)
+        }else if(newBalance < 0){
+            setBalance(`${newBalance}`)
+        }else{
+            setBalance(newBalance)
         }
 
         setGetDetails(response);
@@ -103,7 +113,7 @@ const DayView = props => {
                 </Grid>
             </Grid>
 
-            <StockMovementSection openingBalance='4' purchase='0' sales='50' closingBalance='30' difference='20' />
+            <StockMovementSection openingBalance={getDetails.openingBalance} purchase={getDetails.totalPurchased} sales={getDetails.totalSold} closingBalance={getDetails.closingBalance} difference={balance} />
 
             <Box style={{marginTop: '5px' , paddingBottom: '60px'}} p={1} className={`mt-3 mb-5`}>
                 {entries.map((item , index) => <SingleDayView key={index} item={item}/>)}

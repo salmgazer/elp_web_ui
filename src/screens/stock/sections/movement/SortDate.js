@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {withRouter} from "react-router";
+import {withRouter} from "react-router-dom";
 
 import DayView from './sections/DayView';
 import WeekView from './sections/WeekView';

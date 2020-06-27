@@ -14,7 +14,6 @@ import {
   Switch,
   Route,
   Redirect,
-  useLocation
 } from "react-router-dom";
 
 import paths from "./utilities/paths";

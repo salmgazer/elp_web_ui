@@ -102,6 +102,14 @@ export default class SaleService {
                 return 'card';
             case 5:
                 return 'audit';
+            case 6:
+                return 'gift';
+            case 7:
+                return 'family';
+            case 8:
+                return 'damaged';
+            case 8:
+                return 'expired';
             default:
                 return 'cash';
         }
