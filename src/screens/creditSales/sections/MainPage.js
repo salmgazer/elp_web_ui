@@ -17,14 +17,17 @@ import FileCopyIcon from '@material-ui/icons/FileCopy';
 import PrintIcon from '@material-ui/icons/Print';
 import ListItemText from '@material-ui/core/ListItemText';
 import CompanyService from "../../../services/CompanyService";
+import SaleService from "../../../services/SaleService";
 
 const MainPage = props => {
 
     const branchCustomers = props.branchCustomers;
+    const allSales = props.sales;
     const [isShowDrawer , setIsShowDrawer] = useState(false);
     const [companySales , setCompanySales] = useState(false);
+    const [sales, setSales] = useState([]);
     const { history } = props;
-    console.log(branchCustomers);
+    // console.log(branchCustomers);
     const [searchValue , setSearchValue] = useState({
         search: ''
     });
@@ -40,6 +43,8 @@ const MainPage = props => {
     const getCompanyDetails = async () => {
         const response = await new CompanyService().getSalesDetails('year');
         setCompanySales(response);
+        setSales(allSales);
+        console.log(allSales);
     };
 
     const setInputValue = (name , value) => {
@@ -50,10 +55,6 @@ const MainPage = props => {
         setSearchValue(oldFormFields);
 
         props.searchCustomer(value);
-    };
-
-    const viewPaymentDetails = (id) => {
-        props.customerAdd(id, 1);
     };
 
     return (
@@ -120,7 +121,7 @@ const MainPage = props => {
             </Paper>
 
             <Box style={{marginTop: '5px' , paddingBottom: '60px'}} p={1} className={`mt-3 mb-5`}>
-                {branchCustomers.length === 0
+                {sales.length === 0
                     ?
                     <div className={`rounded mx-1 my-2 p-2 bordered`}>
                         <Grid container spacing={1} className={`py-1`}>
@@ -140,19 +141,22 @@ const MainPage = props => {
                         </Grid>
                     </div>
                     :
-                    <div style={{marginBottom: '4rem'}}>
-                        {    branchCustomers.map((branchCustomer) =>
-                            <Grid key={branchCustomer.customerId} item xs={12} >
-                            <div
-                                onClick={viewPaymentDetails.bind(this, branchCustomer.customerId)}
-                            >
-                                <SingleCustomer key={branchCustomer.customerId} customer={branchCustomer.customer.fetch()} />
+                    // <div style={{marginBottom: '4rem'}}>
+                    //     {    branchCustomers.map((branchCustomer) =>
+                    //         <Grid key={branchCustomer.customerId} item xs={12} >
+                    //         <div
+                    //             onClick={viewPaymentDetails.bind(this, branchCustomer.customerId)}
+                    //         >
+                    //             <SingleCustomer key={branchCustomer.customerId} customer={branchCustomer.customer.fetch()} />
                                      
-                            </div>
-                            </Grid>
-                            )
-                        }
-                    </div>
+                    //         </div>
+                    //         </Grid>
+                    //         )
+                    //     }
+                    // </div>
+                    sales.map((sale) => <SingleCustomer key={sale.id} sale={sale} viewPaymentDetails={props.customerAdd}/> )
+                    // sales.map((sale) => <SingleDayView  key={sale.id} sale={sale} /> )
+
                 }
             </Box>
 

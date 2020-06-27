@@ -15,7 +15,15 @@ import SectionNavbars from "../../../../components/Sections/SectionNavbars";
 import PrimaryLoader from "../../../../components/Loader/Loader";
 import Drawer from "../../../../components/Drawer/Drawer";
 import Grid from "@material-ui/core/Grid/Grid";
+import MoreVertIcon from '@material-ui/icons/MoreVert';
 import {makeStyles} from "@material-ui/core";
+import BottomDrawer from "../../../../components/Drawer/BottomDrawer/BottomDrawer";
+import ListItem from '@material-ui/core/ListItem';
+import ListItemIcon from '@material-ui/core/ListItemIcon';
+import AddCircleOutlineIcon from '@material-ui/icons/AddCircleOutline';
+import ListItemText from '@material-ui/core/ListItemText';
+import paths from "../../../../utilities/paths";
+import {withRouter} from 'react-router-dom';
 
 const useStyles = makeStyles(theme => ({
     tabPrimaryColor: {
@@ -25,8 +33,10 @@ const useStyles = makeStyles(theme => ({
 }));
 
 const MainView = props => {
+    const { history } = props;
     const [value , setValue] = useState(0);
     const [mainDialog, setMainDialog] = useState(false);
+    const [isShowDrawer , setIsShowDrawer] = useState(false);
     const [isDrawerShow , setIsDrawerShow] = useState(false);
 
     const a11yProps = (index) => {
@@ -96,6 +106,13 @@ const MainView = props => {
                         />
                     </div>
                 }
+                icons={
+                    <div onClick={() => setIsShowDrawer(!isShowDrawer)}>
+                        <MoreVertIcon
+                            style={{fontSize: '2rem'}}
+                        />
+                    </div>
+                }
             />
 
             <div
@@ -103,6 +120,22 @@ const MainView = props => {
                 onKeyDown={() => setIsDrawerShow(false)}
             >
                 <Drawer isShow={isDrawerShow} />
+            </div>
+
+            <div
+                onClick={() => setIsShowDrawer(false)}
+                onKeyDown={() => setIsShowDrawer(false)}
+            >
+                <BottomDrawer isShow={isShowDrawer}>
+                    <ListItem 
+                        button 
+                        key={1} 
+                        onClick={() => history.push(paths.category_setup)}
+                    >
+                        <ListItemIcon><AddCircleOutlineIcon style={{color: '#707070'}} /></ListItemIcon>
+                        <ListItemText primary="Add category" />
+                    </ListItem>
+                </BottomDrawer>
             </div>
 
             <p style={{marginTop: '70px', fontSize: '16px', fontWeight: '400', color: '#616161'}}>Select all the products you have in your shop</p>
@@ -213,4 +246,4 @@ const MainView = props => {
     )
 };
 
-export default MainView;
+export default withRouter(MainView);

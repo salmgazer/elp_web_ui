@@ -48,25 +48,34 @@ const DayView = props => {
     const [selectedDate, setSelectedDate] = useState(new Date());
     const pageName = props.pageName;
     const [name , setName] = useState('');
-
-    const handleDateChange = date => {
-        setSelectedDate(date);
-        getInvoiceDetails(date);
-    };
-
     const [invoiceDetails , setInvoiceDetails] = useState(false);
     const [invoices , setInvoices] = useState([]);
     const [searchValue , setSearchValue] = useState({
         search: ''
     });
 
+    const handleDateChange = date => {
+        setSelectedDate(date);
+        getInvoiceDetails(date);
+    };
+
+
+
     useEffect(() => {
-      // You need to restrict it at some point
-      // This is just dummy code and should be replaced by actual
-        if (!invoiceDetails) {
-            getInvoiceDetails(selectedDate);
-        }
-    });
+        // You need to restrict it at some point
+        // This is just dummy code and should be replaced by actual
+            if (!invoiceDetails) {
+                let activeHistoryIndex = localStorage.getItem("activeHistoryIndex") || '';
+
+                if(activeHistoryIndex){
+                    setSelectedDate(activeHistoryIndex)
+                    getInvoiceDetails(activeHistoryIndex);
+                    localStorage.removeItem("activeHistoryIndex")
+                }else{
+                    getInvoiceDetails(selectedDate);
+                }
+            }
+        });
 
     const getInvoiceDetails = async (date) => {
         console.log(date);

@@ -296,6 +296,7 @@ const MainPage = props => {
                                 borderRadius: '5px',
                                 border: '0.5px solid #e5e5e5'
                             }}
+                            onClick={() => history.push(paths.sell)}
                         >
                             <LocalShippingOutlinedIcon style={{fontSize: '3rem'}} />
 

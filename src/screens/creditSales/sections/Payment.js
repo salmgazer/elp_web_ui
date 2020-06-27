@@ -8,8 +8,9 @@ import Typography from '@material-ui/core/Typography';
 import TextField from '@material-ui/core/TextField';
 import Paper from '@material-ui/core/Paper';
 import Button from "@material-ui/core/Button/Button";
-import InvoiceService from "../../../services/InvoiceService";
+import SaleService from "../../../services/SaleService";
 import { withRouter } from "react-router-dom";
+import SimpleSnackbar from "../../../components/Snackbar/SimpleSnackbar";
 
 const useStyles = makeStyles(theme => ({
     root: {
@@ -22,8 +23,16 @@ const useStyles = makeStyles(theme => ({
 const Payment = props => {
 
     const classes = useStyles();
-    const customer = props.customer[0];
+    const sale = props.sale[0];
     const [invoiceDetails , setInvoiceDetails] = useState(false);
+    const [error , setError] = useState(false);
+    const [errorMsg , setErrorMsg] = useState('');
+    const [success , setSuccess] = useState(false);
+    const [successMsg , setSuccessMsg] = useState('');
+    const [formFields , setFormFields] = useState({
+        amountPaid: '',
+        changeDue: '',
+    });
 
     useEffect(() => {
         // You need to restrict it at some point
@@ -34,7 +43,7 @@ const Payment = props => {
     });
 
     const getCustomer = async () => {
-        const response = await new InvoiceService().getDetailsbyCustomer(customer.customerId);
+        const response = await new SaleService().getAllCreditSales(sale.id);
         setInvoiceDetails(response);
         console.log(response);
     };
@@ -42,6 +51,51 @@ const Payment = props => {
     const backHandler = (event) => {
         props.setView(0);
     };
+
+    const setInputValue = (event) => {
+        event.persist();
+
+        const name = event.target.name;
+        const value = event.target.value;
+        const {...oldFormFields} = formFields;
+
+        const changeDue = (parseFloat(value) - parseFloat(invoiceDetails.credit)).toFixed(2);
+        oldFormFields[name] = value;
+        oldFormFields['changeDue'] = changeDue;
+
+        setFormFields(oldFormFields);
+    };
+
+    const completePayment = async() => {
+        const {...oldFormFields} = formFields;
+
+        if(oldFormFields['amountPaid'] === ''){
+            oldFormFields['amountPaid'] = 0.00;
+        }
+        if(oldFormFields['changeDue'] === ''){
+            oldFormFields['changeDue'] = 0.00;
+        }
+
+        setFormFields(oldFormFields);
+
+        try {
+            await SaleService.makePayment(sale , formFields);
+            setSuccessMsg('Payment successful');
+            setSuccess(true);
+            setTimeout(function () {
+                setSuccessMsg('');
+                props.setView(0);
+                setSuccess(false);
+            }, 2000);
+        }catch (e) {
+            setErrorMsg('OOPS. Something went wrong. Please try again');
+            setError(true);
+            setTimeout(function () {
+                setErrorMsg('');
+                setError(false);
+            }, 2000);
+        }
+    }
 
     return(
         <div className={classes.root} >
@@ -56,6 +110,19 @@ const Payment = props => {
                     </div>
                 }
             />
+
+            <SimpleSnackbar
+                type="success"
+                openState={success}
+                message={successMsg}
+            />
+
+            <SimpleSnackbar
+                type="warning"
+                openState={error}
+                message={errorMsg}
+            />
+
             {/* <ArrowBackIcon  style={{position: 'relative', float: 'left', fontSize: '2rem', marginLeft: '10px'}}
                 onClick={backHandler.bind(this)}
 
@@ -80,6 +147,8 @@ const Payment = props => {
                 variant="outlined"
                 size="small"
                 type="tel"
+                onChange={(event) => setInputValue(event)}
+                value={formFields['amountPaid']}
                 name={`amountPaid`}
                 style={{margin: '25px'}}
             />
@@ -93,7 +162,8 @@ const Payment = props => {
                     textTransform: 'none', 
                     fontSize: '20px', 
                     marginTop: '10px'
-                }}       
+                }} 
+                onClick={completePayment.bind(this)}      
             >
                     Finish
             </Button>

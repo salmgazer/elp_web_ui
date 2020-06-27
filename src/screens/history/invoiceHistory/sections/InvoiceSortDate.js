@@ -24,11 +24,11 @@ class InvoiceSortDate extends Component {
             case 0:
                 return <DayView setView={this.setStepContentView.bind(this)} pageName={this.state.pageName} deleteProduct={this.deleteProduct.bind(this)} updateSaleEntry={this.updateSaleEntry.bind(this)} />;
             case 2:
-                return <WeekView setView={this.setStepContentView.bind(this)} pageName={this.state.pageName} />;
+                return <WeekView getChildrenView={this.getChildrenViewDetails.bind(this)} setView={this.setStepContentView.bind(this)} pageName={this.state.pageName} />;
             case 3:
-                return <MonthView setView={this.setStepContentView.bind(this)} pageName={this.state.pageName} />;
+                return <MonthView getChildrenView={this.getChildrenViewDetails.bind(this)} setView={this.setStepContentView.bind(this)} pageName={this.state.pageName} />;
             case 4:
-                return <YearView setView={this.setStepContentView.bind(this)} pageName={this.state.pageName} />;
+                return <YearView getChildrenView={this.getChildrenViewDetails.bind(this)} setView={this.setStepContentView.bind(this)} pageName={this.state.pageName} />;
             case 5:
                 return <Payment setView={this.setStepContentView.bind(this)}  />;
             default:
@@ -48,6 +48,30 @@ class InvoiceSortDate extends Component {
         this.setState({
             activeStep: step
         });
+    };
+
+    getChildrenViewDetails = async (index , view) => {
+        localStorage.setItem("activeHistoryIndex" , index);
+
+        switch(view){
+            case 0:
+                this.setState({
+                    activeStep: view
+                });
+                return true;
+            case 2:
+                this.setState({
+                    activeStep: view
+                });
+                return true;
+            case 3:
+                this.setState({
+                    activeStep: view
+                });
+                return true;
+            default:
+                return false;
+        }
     };
 
     deleteProduct = async (pId) => {

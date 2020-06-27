@@ -3,7 +3,9 @@ import Grid from '@material-ui/core/Grid';
 import Avatar from "@material-ui/core/Avatar/Avatar";
 import {makeStyles} from "@material-ui/core";
 import Button from "@material-ui/core/Button/Button";
-import InvoiceService from "../../../services/InvoiceService";
+import SaleService from "../../../services/SaleService";
+import format from "date-fns/format";
+import fromUnixTime from "date-fns/fromUnixTime";
 
 const useStyles = makeStyles(theme => ({
     primaryColor: {
@@ -16,35 +18,41 @@ const useStyles = makeStyles(theme => ({
 
 const CustomerCard = (props) => {
     const classes = useStyles();
-    const [customer , setCustomer] = useState('');
-    const [name , setName] = useState('');
+    const [sale , setSale] = useState('');
+    const [customerName , setCustomerName] = useState('');
     const [invoiceDetails , setInvoiceDetails] = useState(false);
 
     useEffect(() => {
         // You need to restrict it at some point
         // This is just dummy code and should be replaced by actual
-        if (!customer) {
+        if (!sale) {
             getCustomer();
         }
     });
 
     const getCustomer = async () => {
-        const newCustomer = await props.customer;
-        setCustomer(newCustomer);
-        setName(newCustomer.firstName + ' ' + newCustomer.otherNames);
-        const response = await new InvoiceService().getDetailsbyCustomer(newCustomer.id);
+        const sale = await props.sale;
+        setSale(sale);
+        const saleCustomer = await sale.customer.fetch();
+        console.log(saleCustomer);
+        setCustomerName(saleCustomer.firstName + ' ' + saleCustomer.otherNames);
+        const response = await new SaleService().getAllCreditSales(sale.id);
         setInvoiceDetails(response);
-        console.log(response);
+        console.log(sale);
+    };
+
+    const viewPaymentDetails = (id) => {
+        props.viewPaymentDetails(id, 1);
     };
 
     return (
-        invoiceDetails.credit < 0 
+        invoiceDetails.credit > 0 
             ?
             <Grid container spacing={1} className={`shadow1 mb-3 borderRadius10`}>
 
                 <Grid item xs={3} sm>
                     <Avatar
-                        alt={name ? `${name}` : 'Cash Customer'}
+                        alt={customerName ? `${customerName}` : 'Cash Customer'}
                         //src={Woman}
                         className={classes.primaryColor}
                         style={{
@@ -55,15 +63,18 @@ const CustomerCard = (props) => {
                             textAlign: 'center'
                         }}
                     >
-                        {name ? (name).charAt(0).toUpperCase() : 'C'}
+                        {customerName ? (customerName).charAt(0).toUpperCase() : 'C'}
                     </Avatar>
                 </Grid>
 
                 <Grid item xs={6} style={{display: 'table', height: '60px', margin: '8px 0px'}} >
                     <div style={{textAlign: 'left', display: 'table-cell', verticalAlign: 'middle'}}>
-                        <span className='text-dark font-weight-bold' style={{ fontSize: '16px'}}>{name ? `${name}` : 'Cash Customer'}</span>
+                        <span className='text-dark font-weight-bold' style={{ fontSize: '16px'}}>{customerName ? `${customerName}` : 'Cash Customer'}</span>
                         <div className="font-weight-light mt-1" style={{ fontSize: '13px'}}>GHC {invoiceDetails.credit} </div>
                         {/* <div className="font-weight-light mt-1" style={{ fontSize: '13px'}}>Due: 6/12/2020</div> */}
+                        <div className="font-weight-light mt-1" style={{ fontSize: '13px'}}>
+                            Sale date:  { format(new Date(sale.createdAt) , "do MMMM, yyyy | h:mm a") } 
+                        </div>
                     </div>
                 </Grid>
 
@@ -71,6 +82,7 @@ const CustomerCard = (props) => {
                     <Button
                         variant="contained"
                         style={{'backgroundColor': '#DAAB59' , color: '#333333', padding: '5px 10px', textTransform: 'none', fontSize:'13px'}}
+                        onClick={viewPaymentDetails.bind(this, sale.id)}
                     >
                         Pay  
                     </Button>

@@ -62,6 +62,10 @@ const MonthView = props => {
         setInvoices(response.invoices);
     };
 
+    const getChildrenDetails = (index) => {
+        props.getChildrenView(index , 2)
+    };
+
     return(
         <div className={classes.root}>
 
@@ -130,9 +134,17 @@ const MonthView = props => {
                     :
                     pageName === false ?
 
-                    invoices.map((invoice , index) => <SingleMonthView  key={index} invoice={invoice} />)
+                    invoices.map((invoice , index) => 
+                    <div key={index} onClick={getChildrenDetails.bind(this, invoice.index)}>
+                        <SingleMonthView  key={index} invoice={invoice} />
+                    </div>    
+                    )
                     :
-                    invoices.map((invoice , index) => <CustomerMonth customer={customer} key={index} invoice={invoice} prodName={name} />)
+                    invoices.map((invoice , index) => 
+                    <div key={index} onClick={getChildrenDetails.bind(this, invoice.index)}>
+                        <CustomerMonth customer={customer} key={index} invoice={invoice} prodName={name} />
+                    </div>    
+                    )
 
                 }
 

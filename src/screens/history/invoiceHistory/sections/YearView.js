@@ -63,6 +63,10 @@ const useStyles = makeStyles(theme => ({
         setInvoices(response.invoices);
     };
 
+    const getChildrenDetails = (index) => {
+        props.getChildrenView(index , 3)
+    };
+
     return(
         <div className={classes.root}>
 
@@ -132,9 +136,17 @@ const useStyles = makeStyles(theme => ({
 
                     pageName === false ?
 
-                    invoices.map((invoice , index) => <SingleYearView  key={index} invoice={invoice} />)
+                    invoices.map((invoice , index) => 
+                    <div key={index} onClick={getChildrenDetails.bind(this, invoice.index)}>
+                        <SingleYearView  key={index} invoice={invoice} />
+                    </div>
+                    )
                     :
-                    invoices.map((invoice , index) => <CustomerYear customer={customer} key={index} invoice={invoice} prodName={name} />)
+                    invoices.map((invoice , index) => 
+                    <div key={index} onClick={getChildrenDetails.bind(this, invoice.index)}>
+                        <CustomerYear customer={customer} key={index} invoice={invoice} prodName={name} />
+                    </div>    
+                    )
 
                 }
 

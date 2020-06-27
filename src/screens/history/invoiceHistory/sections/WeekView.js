@@ -64,6 +64,10 @@ const useStyles = makeStyles(theme => ({
         setInvoices(response.invoices);
     };
 
+    const getChildrenDetails = (index) => {
+        props.getChildrenView(index , 0)
+    };
+
     return(
         <div className={classes.root}>
 
@@ -130,9 +134,17 @@ const useStyles = makeStyles(theme => ({
                 :
                 pageName === false ?
 
-                invoices.map((invoice , index) => <SingleWeekView  key={index} invoice={invoice} />)
+                invoices.map((invoice , index) => 
+                <div key={index} onClick={getChildrenDetails.bind(this, invoice.index)}>
+                    <SingleWeekView  key={index} invoice={invoice} />
+                </div>
+                )
                 :
-                invoices.map((invoice , index) => <CustomerWeek customer={customer} key={index} invoice={invoice} prodName={name} />)
+                invoices.map((invoice , index) => 
+                <div key={index} onClick={getChildrenDetails.bind(this, invoice.index)}>
+                    <CustomerWeek customer={customer} key={index} invoice={invoice} prodName={name} />
+                </div>    
+                )
 
             }
 
