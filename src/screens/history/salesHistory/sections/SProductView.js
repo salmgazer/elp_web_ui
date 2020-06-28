@@ -46,7 +46,7 @@ const ProductView = props => {
                     />
                 </Grid>
             </Grid>
-                
+
             <Grid
                 container
                 spacing={1}
@@ -72,15 +72,13 @@ const ProductView = props => {
                     </Grid>
                     :
                     branchProducts.map((branchProduct) =>
-                    <Grid key={branchProduct.productId} item xs={4} style={{padding: '4px 8px' , position: 'relative'}} className={`mx-0 px-1`}>
-                    <div
-                        onClick={addProductHandler.bind(this, branchProduct.productId)}
-                    >
-                        <ProductCard product={branchProduct.product.fetch()}>
-                            
-                        </ProductCard>
-                    </div>
-                    </Grid>
+                        <Grid key={branchProduct.productId} item xs={4} style={{padding: '4px 8px' , position: 'relative'}} className={`mx-0 px-1`}>
+                            <div
+                                onClick={addProductHandler.bind(this, branchProduct.productId)}
+                            >
+                                <ProductCard notTruncate={true} product={branchProduct.product.fetch()}/>
+                            </div>
+                        </Grid>
                     )
                 }
 
@@ -89,16 +87,16 @@ const ProductView = props => {
                 <Button
                     variant="outlined"
                     style={{
-                        border: '1px solid #DAAB59', 
-                        color: '#DAAB59', 
-                        padding: '5px 30px', 
-                        textTransform: 'none', 
+                        border: '1px solid #DAAB59',
+                        color: '#DAAB59',
+                        padding: '5px 30px',
+                        textTransform: 'none',
                         fontSize:'17px',
-                        marginTop: '100px', 
+                        marginTop: '100px',
                         textAlign: 'center'
                     }}
                 >
-                    Scan Barcode   
+                    Scan Barcode
                 </Button>
 
         </div>
