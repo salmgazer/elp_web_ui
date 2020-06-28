@@ -83,7 +83,7 @@ const AddProductCart = props => {
         setProduct(newProduct);
         setIsSellable(await productHandler.isProductSellable());
         setQuantityProduct(await productHandler.getProductQuantity());
-        setImage(new ProductServiceHandler(product).getProductImage());
+        setImage(new ProductServiceHandler(newProduct).getProductImage());
         setName(newProduct.name);
         setSellingPrice(await productHandler.getSellingPrice());
         setCostPrice(await productHandler.getCostPrice());

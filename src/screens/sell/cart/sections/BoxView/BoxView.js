@@ -71,7 +71,7 @@ const ViewSingleProduct = props => {
         const productHandler = new BranchProductService(bProduct);
         setBranchQuantity(await productHandler.getProductQuantity());
 
-        setImage(new ProductServiceHandler(product).getProductImage());
+        setImage(new ProductServiceHandler(newProduct).getProductImage());
         //setName((newProduct.name).length > 20 ? (newProduct.name).slice(0 , 20) + '...' : newProduct.name);
         setName(newProduct.name);
     };

@@ -574,25 +574,25 @@ export default class StockMovementService {
 
     static async getProductQuantity(productId , day){
         const stock = await database.collections.get(BranchProductStock.table).query(
-            Q.where('stockDate' , Q.lte(day)),
+            Q.where('stockDate' , Q.lt(day)),
             Q.where('productId' , productId),
             Q.where('branchId' , LocalInfo.branchId),
         ).fetch();
 
         const saleEntries = await database.collections.get(SaleEntries.table).query(
-            Q.where('entryDate' , Q.lte(day)),
+            Q.where('entryDate' , Q.lt(day)),
             Q.where('productId' , productId),
             Q.where('branchId' , LocalInfo.branchId),
         ).fetch();
 
         const stockMovement = await database.collections.get(StockMovement.table).query(
-            Q.where('entryDate' , Q.lte(day)),
+            Q.where('entryDate' , Q.lt(day)),
             Q.where('productId' , productId),
             Q.where('branchId' , LocalInfo.branchId),
         ).fetch();
 
         const cartEntries = await database.collections.get(CartEntry.table).query(
-            Q.where('entryDate' , Q.lte(day)),
+            Q.where('entryDate' , Q.lt(day)),
             Q.where('productId' , productId),
             Q.where('branchId' , LocalInfo.branchId),
         ).fetch();

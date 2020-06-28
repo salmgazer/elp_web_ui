@@ -24,7 +24,7 @@ const useStyles = makeStyles(theme => ({
       flexGrow: 1,
       marginBottom: '4rem'
     }
-  }));
+}));
 
 const DayView = props => {
     const classes = useStyles();

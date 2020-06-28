@@ -32,7 +32,7 @@ const ProductCard = (props) => {
         setProduct(newProduct);
         setQuantityProduct(await props.storeCounted);
         setProductAuditDetials(await props.appCounted);
-        setImage(new ProductServiceHandler(product).getProductImage());
+        setImage(new ProductServiceHandler(newProduct).getProductImage());
 
         if(props.notTruncate){
             setName(newProduct.name);
