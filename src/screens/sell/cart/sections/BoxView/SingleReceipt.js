@@ -20,15 +20,15 @@ const SingleDayProduct = props => {
         const newProduct = await props.saleEntry.product.fetch();
         setProduct(newProduct);
         setTotalPrice(new SaleService().getSaleEntrySellingPrice(props.saleEntry));
-        setName((newProduct.name).length > 20 ? (newProduct.name).slice(0 , 20) + '...' : newProduct.name);
+        setName(newProduct.name);
         setQuantity(saleEntry.quantity);
     };
 
     return(
-        <div style={{alignItems: 'right', textAlign: 'right'}}>              
+        <div style={{alignItems: 'right', textAlign: 'right'}}>
             <tbody style={{border: 'solid', textAlign: 'right'}}>
                 <tr>
-                <td style={{border: 'solid', textAlign: 'right'}}>{name}</td>
+                <td style={{border: 'solid', textAlign: 'left'}}>{name}</td>
                 <td style={{border: 'solid', textAlign: 'right'}}>{quantity}</td>
                 <td style={{border: 'solid', textAlign: 'right'}}>{totalPrice}</td>
                 <td style={{border: 'solid', textAlign: 'right'}}>{quantity * totalPrice}</td>

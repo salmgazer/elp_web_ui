@@ -30,7 +30,6 @@ import Typography from "@material-ui/core/Typography/Typography";
 import AccountBalanceWalletIcon from '@material-ui/icons/AccountBalanceWallet';
 import PeopleIcon from '@material-ui/icons/People';
 import SettingsIcon from '@material-ui/icons/Settings';
-import PrimaryButton from "../../../../components/Buttons/PrimaryButton";
 import MainDialog from "../../../../components/Dialog/MainDialog";
 import Grid from "@material-ui/core/Grid/Grid";
 import Switch from '@material-ui/core/Switch';

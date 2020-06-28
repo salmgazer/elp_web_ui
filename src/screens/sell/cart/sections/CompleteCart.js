@@ -98,16 +98,8 @@ const CheckoutView = props => {
 
 
         for (let i=0; i<customers.length; i++) {
-            console.log('@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@')
-            console.log(lastsale.customerId)
-            console.log(customers[i].firstName)
             if (customers[i].customerId === lastsale.customerId) {
-                console.log('*************************************************************')
                 setCustomerName(await new CustomerService().getCustomerName(customers[i]))
-                console.log('^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^')
-                console.log(new CustomerService().getCustomerName(customers[i]))
-                console.log('!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!')
-                console.log(customers[i])
             }
         }
 

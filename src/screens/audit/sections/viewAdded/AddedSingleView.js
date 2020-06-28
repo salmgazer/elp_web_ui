@@ -27,7 +27,7 @@ const AddedProductSingle = props => {
         const newProduct = await props.product;
         setProduct(newProduct);
         setImage(new ProductServiceHandler(product).getProductImage());
-        setName((newProduct.name).length > 20 ? (newProduct.name).slice(0 , 20) + '...' : newProduct.name);
+        setName(newProduct.name);
     };
 
     const deleteHistoryHandler = (pId) => {

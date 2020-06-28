@@ -29,7 +29,6 @@ const AddProductView = props => {
     const [loading , setLoading] = useState(false);
     const [successDialog, setSuccessDialog] = useState(false);
     const [errorDialog, setErrorDialog] = useState(false);
-    const [calculatorDialog, setCalculatorDialog] = useState(false);
     const product = props.product[0];
 
     const [formFields , setFormFields] = useState({
@@ -95,19 +94,11 @@ const AddProductView = props => {
 
     const setInputValue = (name , value) => {
         const {...oldFormFields} = formFields;
-
+        console.log(name , value)
         if(name === 'costPrice'){
             console.log('This came in')
         }
         oldFormFields[name] = value;
-        setFormFields(oldFormFields);
-    };
-
-    const getCalculatorValue = (value) => {
-        const {...oldFormFields} = formFields;
-
-        oldFormFields['costPrice'] = parseFloat(value);
-
         setFormFields(oldFormFields);
         console.log(oldFormFields);
     };
@@ -118,14 +109,6 @@ const AddProductView = props => {
         }
 
         setErrorDialog(false);
-    };
-
-    const openCalculator = (event) => {
-        setCalculatorDialog(true);
-    };
-
-    const getCalculatorModalState = (value) => {
-        setCalculatorDialog(value);
     };
 
     /*const undoProductAdd = () => {
@@ -180,8 +163,6 @@ const AddProductView = props => {
                 </Alert>
             </Snackbar>
 
-            <CostCalculator product={product} calculatedPrice={getCalculatorValue.bind(this)} closeModal={getCalculatorModalState.bind(this)} calculatorDialog={calculatorDialog}/>
-
             <div
                 className={`row shadow1 pb-3`}
                 style={{'borderTopLeftRadius': '15px', 'borderTopRightRadius': '15px', marginBottom: '70px'}}
@@ -198,8 +179,8 @@ const AddProductView = props => {
                 <div className={`rounded bordered mb-3 mx-3 px-3 py-3`}>
                     <QuantityInput startValue={0} label={`Quantity counted`} inputName="quantity" getValue={setInputValue.bind(this)}/>
 
-                    <CostInput label={`Cost price`} inputName="costPrice" initialValue={formFields.costPrice} getValue={setInputValue.bind(this)} >
-                        <FontAwesomeIcon onClick={openCalculator.bind(this)} icon={faCalculator} fixedWidth />
+                    <CostInput product={product} label={`Cost price`} inputName="costPrice" initialValue={formFields.costPrice} getValue={setInputValue.bind(this)} >
+                        <FontAwesomeIcon icon={faCalculator} fixedWidth />
                     </CostInput>
 
                     <PriceInput label={`Selling price`} inputName="sellingPrice" initialValue={formFields.sellingPrice} getValue={setInputValue.bind(this)}/>

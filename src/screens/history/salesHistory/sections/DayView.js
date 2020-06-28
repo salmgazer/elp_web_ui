@@ -274,9 +274,9 @@ const DayView = props => {
 
                     pageName === false ?
 
-                    sales.map((sale) => <SingleDayView  key={sale.id} sale={sale} saleEntry={sale} deleteStoreProduct={deleteProductHandler.bind(this)} updateSaleEntry={updateSaleEntry.bind(this)} updatePriceEntry={updateSaleEntry.bind(this)} updateDateEntry={updateEntryDate.bind(this)} />)
+                    sales.map((sale) => <SingleDayView key={sale.id} sale={sale} saleEntry={sale} deleteStoreProduct={deleteProductHandler.bind(this)} updateSaleEntry={updateSaleEntry.bind(this)} updatePriceEntry={updateSaleEntry.bind(this)} updateDateEntry={updateEntryDate.bind(this)} />)
                     :
-                    sales.map((sale) => <ProductDay  key={sale.id} sale={sale} saleEntry={sale} prodName={name} deleteStoreProduct={deleteProductHandler.bind(this)} updateSaleEntry={updateSaleEntry.bind(this)} updatePriceEntry={updateSaleEntry.bind(this)} updateDateEntry={updateEntryDate.bind(this)} />)
+                    sales.map((sale) => <ProductDay key={sale.id} sale={sale} saleEntry={sale} prodName={name} deleteStoreProduct={deleteProductHandler.bind(this)} updateSaleEntry={updateSaleEntry.bind(this)} updatePriceEntry={updateSaleEntry.bind(this)} updateDateEntry={updateEntryDate.bind(this)} />)
 
                 }
             </Box>

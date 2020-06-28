@@ -94,7 +94,7 @@ const ViewCash = props => {
         }
         setFormFields(oldFormFields);
         props.getFormFields(oldFormFields);
-    }
+    };
 
     const handleRadioChange = (event) => {
         console.log(event.target.value)

@@ -108,7 +108,7 @@ export default class SaleService {
                 return 'family';
             case 8:
                 return 'damaged';
-            case 8:
+            case 9:
                 return 'expired';
             default:
                 return 'cash';
@@ -738,8 +738,8 @@ export default class SaleService {
             }
         );
 
-        return sales;        
-        
+        return sales;
+
     }
 
     static async getHistorybyCustomer (id){
@@ -752,7 +752,7 @@ export default class SaleService {
         );
 
         return sales;
-        
+
     }
 
     async getAllCreditSales (id) {
