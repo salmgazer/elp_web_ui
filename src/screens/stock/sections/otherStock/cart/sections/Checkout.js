@@ -16,7 +16,6 @@ import FormControl from '@material-ui/core/FormControl';
 import { green } from '@material-ui/core/colors';
 import clsx from 'clsx';
 
-import ViewCash from './ViewCash';
 import CartService from "../../../../../../services/CartService";
 import SimpleSnackbar from "../../../../../../components/Snackbar/SimpleSnackbar";
 import CustomerListDrawer from "../../../../../../components/Drawer/CustomerListDrawer/CustomerListDrawer";
@@ -108,6 +107,8 @@ const CheckoutView = props => {
     const classes = useStyles();
     const [error , setError] = useState(false);
     const [errorMsg , setErrorMsg] = useState('');
+    const [success , setSuccess] = useState(false);
+    const [successMsg , setSuccessMsg] = useState('');
     const [customerName, setCustomerName] = React.useState('');
     const [customerId , setCustomerId] = React.useState('');
     const [isShowerCustomerDrawer , setIsShowerCustomerDrawer] = useState(false);
@@ -178,14 +179,25 @@ const CheckoutView = props => {
 
         const cashCustomerId = (await CustomerService.getCashCustomer())[0].id;
         if(oldFormFields.type === 0 && (oldFormFields.customer === cashCustomerId)){
-            alert(`Please set a customer for credit sales`)
+            alert(`Please set a customer for this transaction`)
         }else {
             try {
                 await new SaleService().makeSell(cartData , cartData.type);
-                props.setView(2);
+                setSuccessMsg('Recorded successfully');
+                setSuccess(true);
+                setTimeout(function () {
+                    setSuccessMsg('');
+                    setSuccess(false);
+                    props.setView(0);
+                }, 2000);
             }catch (e) {
-                console.log('Something went wrong.')
-            }
+                setErrorMsg('OOPS. Something went wrong. Please try again');
+                setError(true);
+                setTimeout(function () {
+                    setErrorMsg('');
+                    setError(false);
+                }, 2000);
+                }
         }
     };
 
@@ -207,11 +219,16 @@ const CheckoutView = props => {
             />
 
             <SimpleSnackbar
+                type="success"
+                openState={success}
+                message={successMsg}
+            />
+
+            <SimpleSnackbar
                 type="warning"
                 openState={error}
                 message={errorMsg}
-            >
-            </SimpleSnackbar>
+            />
 
             <Box style={{marginTop: '5px' , paddingBottom: '60px'}} >
                 <Grid container spacing={1} className={`shadow1 mb-1 borderRadius10`} style={{display: 'table', height: '90px', margin: '0px 0px 8px 5px', width: '98%'}} >
