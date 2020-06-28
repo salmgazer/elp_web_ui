@@ -528,7 +528,7 @@ export default class StockMovementService {
             Q.where('branchId' , LocalInfo.branchId),
             Q.where('productId' , productId),
         ).fetch();
-        console.log(stock , saleEntries, stockMovement , cartEntries)
+
         const stockQuantity = (stock).reduce((a, b) => a + (b['quantity'] || 0), 0);
         const salesQuantity = (saleEntries).reduce((a, b) => a + (b['quantity'] || 0), 0);
         const cartQuantity = (cartEntries).reduce((a, b) => a + (b['quantity'] || 0), 0);

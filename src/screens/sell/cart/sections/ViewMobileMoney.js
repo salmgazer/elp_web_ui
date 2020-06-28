@@ -97,19 +97,16 @@ const ViewCash = props => {
     };
 
     const handleRadioChange = (event) => {
-        console.log(event.target.value)
         setValue(parseFloat(event.target.value));
         const {...oldFormFields} = formFields;
         oldFormFields['type'] = event.target.value;
         setFormFields(oldFormFields)
-        console.log(oldFormFields)
 
         props.getFormFields(oldFormFields);
     };
 
     const setInputValue = (event) => {
         event.persist();
-        console.log(formFields)
 
         const name = event.target.name;
         const value = event.target.value;
@@ -128,7 +125,6 @@ const ViewCash = props => {
         }
 
         setFormFields(oldFormFields);
-        console.log(oldFormFields)
 
         props.getFormFields(oldFormFields);
     };

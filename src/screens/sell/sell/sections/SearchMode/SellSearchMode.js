@@ -106,7 +106,7 @@ const SellSearchMode = props => {
     };
 
     const removeProductHandler = (name) => {
-        alert(`${name} is out of stock. Please add stock`);
+        alert(`${name} is out of stock or has no cost price. Please add stock`);
     };
 
     const setInputValue = (name, value) => {
