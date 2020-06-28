@@ -114,12 +114,10 @@ const SearchMode = props => {
 
 
     const addProductHandler = (id) => {
-        console.log(id);
         props.productAdd(id);
     };
 
     const removeProductHandler = (id) => {
-        console.log(id);
         props.removeProduct(id);
     };
 
@@ -129,7 +127,6 @@ const SearchMode = props => {
 
     const OptionChangeHandler = (event) => {
         props.optionFilter(event.target.value);
-        console.log(event.target.value);
     };
 
     const setInputValue = (name , value) => {

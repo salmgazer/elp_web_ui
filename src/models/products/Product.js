@@ -21,6 +21,7 @@ export default class Product extends Model {
   @field('barCode') barCode;
   @field('manufacturerId') manufacturerId;
   @field('brandId') brandId;
+  @field('image') image;
   @field('productCategoryId') productCategoryId;
   @relation('brands', 'brandId') brand;
   @relation('product_categories', 'productCategoryId') productCategory;

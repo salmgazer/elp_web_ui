@@ -47,12 +47,10 @@ const MainView = props => {
     };
 
     const addProduct = (pId , event) => {
-        console.log(`${pId} from mainview`);
         props.productAdd(pId , 1);
     };
 
     const removeProduct = (pId , event) => {
-        console.log(`${pId} from removeView`);
         props.removeProduct(pId);
     };
 
@@ -91,7 +89,7 @@ const MainView = props => {
         }else{
             setIsDrawerShow(true)
         }
-    }
+    };
 
     const styles = useStyles();
 
@@ -127,9 +125,9 @@ const MainView = props => {
                 onKeyDown={() => setIsShowDrawer(false)}
             >
                 <BottomDrawer isShow={isShowDrawer}>
-                    <ListItem 
-                        button 
-                        key={1} 
+                    <ListItem
+                        button
+                        key={1}
                         onClick={() => history.push(paths.category_setup)}
                     >
                         <ListItemIcon><AddCircleOutlineIcon style={{color: '#707070'}} /></ListItemIcon>

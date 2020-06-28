@@ -5,6 +5,10 @@ import AddIcon from "../../../../../components/ClickableIcons/AddIcon";
 import ProductCard from "../../../../../components/Cards/ProductCard";
 
 const ProductsView = (props) => {
+    console.log('&&&&&&&&&&&&&&&&&&&')
+    console.log(props.products)
+    console.log('&&&&&&&&&&&&&&&&&&&')
+
     const addProductHandler = (id) => {
         props.addProductHandler(id);
     };
@@ -56,13 +60,13 @@ const ProductsView = (props) => {
                             </div>
                         }
                         <div key={index} onClick={addProductHandler.bind(this, item.id)}>
-                            <ProductCard product={item} notTruncate={true}/>
+                            <ProductCard isAddProduct={true} product={item} notTruncate={true}/>
                         </div>
                     </Grid>
                 )
             }
         </>
     )
-}
+};
 
 export default ProductsView;

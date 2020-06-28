@@ -28,12 +28,14 @@ const ProductCard = (props) => {
         if(props.isSell){
             setIsSellable(await new BranchProductService(branchProduct).isProductSellable());
         }
+
         const newProduct = await props.product;
+        console.log(newProduct)
         setProduct(newProduct);
         setQuantityProduct(await props.storeCounted);
         setProductAuditDetials(await props.appCounted);
         setImage(new ProductServiceHandler(newProduct).getProductImage());
-
+console.log(new ProductServiceHandler(newProduct).getProductImage())
         if(props.notTruncate){
             setName(newProduct.name);
         }else{

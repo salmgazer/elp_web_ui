@@ -85,8 +85,6 @@ export default class SaleService {
                 })
             }
         }
-
-        console.log('done')
     }
 
     static getPaymentType(paymentType){
@@ -117,7 +115,6 @@ export default class SaleService {
     }
 
     static async makePayment(sales , data){
-        console.log(sales , data)
         localStorage.setItem('amountPaid' , data.amountPaid);
         const salePaymentColumns = {
             saleId: sales.id,

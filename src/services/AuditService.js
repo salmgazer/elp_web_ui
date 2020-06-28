@@ -4,7 +4,6 @@ import {v4 as uuid} from "uuid";
 import ModelAction from "./ModelAction";
 import AuditEntries from "../models/auditEntry/AuditEntries";
 import BranchStockService from "./BranchStockService";
-import isSameDay from "date-fns/isSameDay";
 import SaleService from "./SaleService";
 import { Q } from '@nozbe/watermelondb';
 import getUnixTime from "date-fns/getUnixTime";

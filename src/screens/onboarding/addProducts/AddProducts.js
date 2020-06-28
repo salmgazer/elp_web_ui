@@ -48,8 +48,6 @@ class AddProducts extends Component{
             this.setState({
                 'productList' : products.data.products,
             });
-
-            console.log(products);
         }catch (error) {
             console.log(error)
         }
@@ -91,7 +89,6 @@ class AddProducts extends Component{
     * Search products handler...
     * */
     searchHandler = (search) => {
-        console.log(search);
         /*
         * @todo
         * Work on fetching data from source
@@ -124,7 +121,6 @@ class AddProducts extends Component{
         const branchDeletedHistory = localStorage.getItem('branchDeletedHistory') || [];
 
         if (Array.isArray(branchProductsAdded) && branchProductsAdded.length) {
-            console.log(branchProductsAdded);
             const addedProducts = await new Api('others').create(
                 branchProductsAdded,
                 {'Authorization': `Bearer ${accessToken}`},
@@ -133,14 +129,12 @@ class AddProducts extends Component{
             );
 
             localStorage.removeItem('branchProductsAdded');
-            console.log(addedProducts);
         }
         /*
         * @todo why did you use the single operator...
         * */
         if (typeof branchProductsRemoved != "undefined" && branchProductsRemoved != null && branchProductsRemoved.length != null
             && branchProductsRemoved.length > 0) {
-            console.log(branchProductsRemoved);
             let removedProducts = await new Api('others').destroy(
                 {'Authorization': `Bearer ${accessToken}`},
                 {},
@@ -148,12 +142,10 @@ class AddProducts extends Component{
             );
 
             localStorage.removeItem('branchProductsRemoved');
-            console.log(removedProducts)
         }
 
         if (typeof branchDeletedHistory != "undefined" && branchDeletedHistory != null && branchDeletedHistory.length != null
             && branchDeletedHistory.length > 0) {
-            console.log(branchDeletedHistory);
             let removedProducts = await new Api('others').destroy(
                 {'Authorization': `Bearer ${accessToken}`},
                 {},
@@ -184,7 +176,6 @@ class AddProducts extends Component{
     deleteHistory = (historyId) => {
         //console.log(historyId);
         const productId = this.state.currentProduct[0].id;
-        console.log(productId);
         let branchDeletedHistory = JSON.parse(localStorage.getItem('branchDeletedHistory')) || [];
         let branchProductsAdded = JSON.parse(localStorage.getItem('branchProductsAdded')) || [];
         let currentProductList = JSON.parse(localStorage.getItem('storeProductsLookup'));
@@ -281,7 +272,6 @@ class AddProducts extends Component{
 
                         old_list[productIndex] = item;
 
-                        console.log(item);
                         localStorage.setItem('branchProductsRemoved' , JSON.stringify(branchProductsRemoved));
 
                         localStorage.setItem('storeProductsLookup' , JSON.stringify(old_list));
@@ -322,7 +312,6 @@ class AddProducts extends Component{
         //Find index of specific object using findIndex method.
         const itemIndex = old_list.filter((product => product.barCode === barcode));
 
-        console.log(itemIndex);
         await this.setState({
             currentProduct: itemIndex
         });
@@ -356,16 +345,17 @@ class AddProducts extends Component{
         switch (value) {
             case 'all':
                 storeProducts = JSON.parse(localStorage.getItem('storeProductsLookup'));
-                break;
+                console.log(storeProducts)
 
+                break;
             case 'stocked':
-                storeProducts = JSON.parse(localStorage.getItem('storeProductsLookup')).filter((product) => product.stock.length !== 0);
-                console.log(storeProducts);
-
+                storeProducts = JSON.parse(localStorage.getItem('storeProductsLookup')).filter((product) => (product.stock !== null && product.owned === true));
+                console.log(storeProducts)
                 break;
-
             case 'incomplete':
-                storeProducts = JSON.parse(localStorage.getItem('storeProductsLookup')).filter((product) => (product.owned === true && (!product.sellingPrice || (product.stock[(product.stock.length - 1).costPrice]) === null)));
+                storeProducts = JSON.parse(localStorage.getItem('storeProductsLookup')).filter((product) => (product.owned === true && (product.sellingPrice === 0 || !product.sellingPrice || (product.stock[(product.stock.length - 1).costPrice]) === null)));
+                console.log(storeProducts)
+
                 break;
             default:
                 alert('Value does not exist');
