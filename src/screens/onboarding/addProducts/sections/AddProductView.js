@@ -136,7 +136,7 @@ const AddProductView = props => {
 
     return(
         <div style={{paddingTop: '60px'}}>
-            <SectionNavbars title="Stock"
+            <SectionNavbars title="Add product"
                 leftIcon= {
                     <ArrowBackIcon
                         onClick={backHandler.bind(this)}
@@ -219,7 +219,7 @@ const AddProductView = props => {
 
                         {(productHistory.length !== 0 ? (
                             <div>
-                                {(productHistory).map((item) =>
+                                {(productHistory).reverse().map((item) =>
                                     <ProductHistory deleteHistory={props.deleteHistory} key={item.id} item={item}/>
                                 )}
                             </div>

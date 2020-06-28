@@ -10,11 +10,15 @@ import CssBaseline from "@material-ui/core/CssBaseline/CssBaseline";
 import MenuIcon from '@material-ui/icons/Menu';
 import Paper from '@material-ui/core/Paper';
 import AppsIcon from '@material-ui/icons/Apps';
+import ExitToAppIcon from '@material-ui/icons/ExitToApp';
 
 import Typography from "@material-ui/core/Typography/Typography";
 import SectionNavbars from "../../../components/Sections/SectionNavbars";
 import Drawer from "../../../components/Drawer/Drawer";
 import HistoryModal from '../../../components/Modal/option/HistoryModal';
+import SyncService from "../../../services/SyncService";
+import AuthService from "../../../services/AuthService";
+import { useDatabase } from "@nozbe/watermelondb/hooks";
 
 import LocalInfo from '../../../services/LocalInfo';
 import CompanyService from "../../../services/CompanyService";
@@ -48,6 +52,7 @@ const Dashboard = props => {
     const [companySales , setCompanySales] = useState(false);
     const [isDrawerShow , setIsDrawerShow] = useState(false);
     const [historyDialog, setHistoryDialog] = React.useState(false);
+    const database = useDatabase();
 
     const openHistoryDialog = (event) => {
         setHistoryDialog(true);
@@ -60,6 +65,16 @@ const Dashboard = props => {
             getCompanyDetails();
         }
     });
+
+    const logout = async() => {
+        try {
+            await SyncService.sync(LocalInfo.companyId, LocalInfo.branchId, LocalInfo.userId, database);
+            await new AuthService().logout();
+
+        }catch (e) {
+            console.log(e)
+        }
+    };
 
     const getCompanyDetails = async () => {
         const response = await new CompanyService().getSalesDetails('today');
@@ -127,9 +142,9 @@ const Dashboard = props => {
                             />
                         </div>
                     }
-                    rightIcon={
-                        <div onClick={() => history.push(paths.dashboard)}>
-                            <AppsIcon
+                    icons={
+                        <div onClick={logout}>
+                            <ExitToAppIcon
                                 style={{fontSize: '2rem'}}
                             />
                         </div>

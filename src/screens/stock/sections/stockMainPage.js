@@ -150,7 +150,7 @@ const StockMainPage = props => {
                                 <ListItemIcon><ReportProblemOutlinedIcon style={{color: '#707070'}} /></ListItemIcon>
                                 <ListItemText primary="View low stock" />
                             </ListItem>
-                            <ListItem button key={10}>
+                            <ListItem button key={10} onClick={() => history.push(paths.other_stock)} >
                                 <ListItemIcon><RedeemIcon style={{color: '#707070'}} /></ListItemIcon>
                                 <ListItemText primary="Others" />
                             </ListItem>

@@ -77,13 +77,16 @@ import CreditSales from './screens/creditSales/CreditSales';
 import OtherStock from './screens/stock/sections/otherStock/stock/OtherStock';
 import OtherCart from './screens/stock/sections/otherStock/cart/OtherCart';
 import LocalInfo from "./services/LocalInfo";
+import ErrorPage from './screens/newDashboards/version2/section/ErrorPage';
+import UnderConstruction from './screens/newDashboards/version2/section/UnderConstruction';
 
 function NoMatch() {
   return (
     <div>
-        <button type="primary" onClick={() => (window.location.href = paths.dashboard)}>
+        {/* <button type="primary" onClick={() => (window.location.href = paths.dashboard)}>
             Back Home
-        </button>
+        </button> */}
+        <ErrorPage />
     </div>
   );
 }
@@ -467,6 +470,12 @@ class App extends React.Component {
                     component={OtherCart}
                     title={`Other Cart`}
                     path={paths.other_cart}
+                />
+                <AuthenticatedRoute
+                    exact={true}
+                    component={UnderConstruction}
+                    title={`Under Construction`}
+                    path={paths.under_construction}
                 />
               <Route path="*">
                 <NoMatch />

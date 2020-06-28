@@ -58,4 +58,6 @@ export default {
     credit_sales: '/credit-sales',
     other_stock: '/other-stock',
     other_cart: '/other-cart',
+    error_page: '/error-page',
+    under_construction: '/under-construction',
 };

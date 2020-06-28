@@ -66,11 +66,11 @@ const SingleProduct = props => {
         } else{
         setTotalPrice(((saleEntry.quantity - value) * saleEntry.sellingPrice));
         setQuantity(saleEntry.quantity - value);
-        oldFormFields['quantity'] = ( value);
-        oldFormFields['sellingPrice'] = (( value) * saleEntry.sellingPrice);
+        oldFormFields['quantity'] = parseFloat(value);
+        oldFormFields['sellingPrice'] = parseFloat(( value) * saleEntry.sellingPrice);
         oldFormFields['image'] = image;
         oldFormFields['name'] = productName;
-        oldFormFields['initialQuantity'] = saleEntry.quantity;
+        oldFormFields['initialQuantity'] = parseFloat(saleEntry.quantity);
         setFormFields(oldFormFields);
         }
     };
