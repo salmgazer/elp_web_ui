@@ -541,37 +541,6 @@ export default class SaleService {
             monthWeekSales[week] = [...monthWeekSales[week] || [], sales[index]];
         }
 
-        /*for (let index = 0; index < sales.length; index++){
-            const day = fromUnixTime(sales[index].entryDate);
-
-            const startDate = format(startOfWeek(day , { weekStartsOn: 1 }), 'MM/dd/yyyy');
-            const lastDate = format(endOfWeek(day , { weekStartsOn: 1 }), 'MM/dd/yyyy');
-            //console.log(`${startDate} - ${lastDate}`)
-            //const sameMonth = isSameMonth(new Date(startDate), new Date(lastDate));
-
-            //if(sameMonth){
-                //lastDate = format(endOfWeek(day , { weekStartsOn: 1 }), 'MM/dd/yyyy');
-            //}else{
-            //    lastDate = `${format(monthEnd, 'MM/dd/yyyy')}`;
-            //}
-
-            let week = getWeekOfMonth(day);
-
-            week = `Week ${week} : ${startDate} - ${lastDate}`;
-            monthWeekSales[week] = [...monthWeekSales[week] || [], sales[index]];
-
-            //console.log(week)
-
-            /!*const isValid = isWithinInterval((day), {
-                start: new Date(startDate),
-                end: new Date(lastDate)
-            });*!/
-
-            /!*if(isValid) {
-                monthWeekSales[week] = [...monthWeekSales[week] || [], sales[index]];
-            }*!/
-        }*/
-
         for (const [key, value] of Object.entries(monthWeekSales)) {
             const index = key.slice(9,19)
 
@@ -584,7 +553,6 @@ export default class SaleService {
     }
 
     static async yearSalesFormat (sales , date){
-        console.log(date)
         const newDate = new Date(date);
         let yearFormatSales = [];
         let yearMonthSales = [];

@@ -20,6 +20,7 @@ import eachMonthOfInterval from 'date-fns/eachMonthOfInterval';
 import database from "../models/database";
 import BranchProductStock from "../models/branchesProductsStocks/BranchProductStock";
 import * as Q from "@nozbe/watermelondb/QueryDescription";
+import eachDayOfInterval from "date-fns/eachDayOfInterval";
 
 export default class PurchaseService {
     constructor(){
@@ -99,20 +100,41 @@ export default class PurchaseService {
         }
     }
 
-    static async weekSalesFormat(purchases){
-        console.log(purchases)
-        let weekFormatSales = [];
-        const newPurchases = purchases.reduce((r, a) => {
-            const day = new Date(fromUnixTime(a.stockDate));
-            r[day] = [...r[day] || [], a];
-            return r;
-        }, []);
+    static async weekSalesFormat(purchases , date){
+        let weekDayPurchases = [];
+        const newDate = new Date(date);
+        let weekFormatPurchases = [];
 
-        for (const [key, value] of Object.entries(newPurchases)) {
-            weekFormatSales.push({...await PurchaseService.getSaleFormatAsync(value) , day: key})
+        const weekStart = startOfWeek(newDate , { weekStartsOn: 1 });
+        const weekEnd = endOfWeek(newDate , { weekStartsOn: 1 });
+
+        const daysInWeek = eachDayOfInterval({
+            start: weekStart,
+            end: weekEnd
+        });
+
+        for (let i = 0; i < daysInWeek.length; i++) {
+            const day = format(daysInWeek[i] , 'dd MMMM yyyy');
+
+            weekFormatPurchases[day] = [];
         }
 
-        return weekFormatSales;
+        for (let index = 0; index < purchases.length; index++){
+
+            let day = format(fromUnixTime(purchases[index].stockDate) , 'dd MMMM yyyy');
+
+            weekFormatPurchases[day] = [...weekFormatPurchases[day] || [], purchases[index]];
+        }
+
+        for (const [key, value] of Object.entries(weekFormatPurchases)) {
+            const index = format(new Date(key) , 'MM/dd/yyyy');
+
+            if(value.length > 0) {
+                weekDayPurchases.push({...await PurchaseService.getSaleFormatAsync(value), day: key, index: index})
+            }
+        }
+
+        return weekDayPurchases;
     }
 
     static async monthSalesFormat (purchases , date){
@@ -133,12 +155,8 @@ export default class PurchaseService {
         * */
         for (let i = 0; i < weeksInMonth.length; i++) {
             const startDate = format(startOfWeek(weeksInMonth[i] , { weekStartsOn: 1 }), 'MM/dd/yyyy');
-            let lastDate = '';
-            //if(weeksInMonth.length !== i + 1){
-                lastDate = format(endOfWeek(weeksInMonth[i] , { weekStartsOn: 1 }), 'MM/dd/yyyy');
-            /*}else{
-                lastDate = `${format(monthEnd, 'MM/dd/yyyy')}`;
-            }*/
+            let lastDate = format(endOfWeek(weeksInMonth[i] , { weekStartsOn: 1 }), 'MM/dd/yyyy');
+
             let week = getWeekOfMonth(weeksInMonth[i]);
 
             week = `Week ${week} : ${startDate} - ${lastDate}`;
@@ -147,48 +165,23 @@ export default class PurchaseService {
         }
 
         for (let index = 0; index < purchases.length; index++){
-            const day = new Date(fromUnixTime(purchases[index].stockDate));
-
-            const startDate = format(startOfWeek(day , { weekStartsOn: 1 }), 'MM/dd/yyyy');
-            let lastDate = format(endOfWeek(day , { weekStartsOn: 1 }), 'MM/dd/yyyy');
-
-            const sameMonth = isSameMonth(new Date(startDate), new Date(lastDate));
-
-            //if(sameMonth){
-                lastDate = format(endOfWeek(day , { weekStartsOn: 1 }), 'MM/dd/yyyy');
-            /*}else{
-                lastDate = `${format(monthEnd, 'MM/dd/yyyy')}`;
-            }*/
-
-            let week = getWeekOfMonth(day);
-
-            week = `Week ${week} : ${startDate} - ${lastDate}`;
-
-            const isValid = isWithinInterval((day), {
-                start: new Date(startDate),
-                end: new Date(lastDate)
-            });
-
-            if(isValid) {
-                monthWeekPurchases[week] = [...monthWeekPurchases[week] || [], purchases[index]];
-            }
-        }
-
-        /*const newPurchases = purchases.reduce((r, a) => {
-            const day = new Date(fromUnixTime(a.stockDate));
+            const day = fromUnixTime(purchases[index].stockDate);
 
             const startDate = format(startOfWeek(day , { weekStartsOn: 1 }), 'MM/dd/yyyy');
             const lastDate = format(endOfWeek(day , { weekStartsOn: 1 }), 'MM/dd/yyyy');
 
-            let week = getWeekOfMonth(day);
-            week = `Week ${week} : ${startDate} - ${lastDate}`;
-            r[week] = [...r[week] || [], a];
-            return r;
-        }, []);
+            let week = getWeekOfMonth(day, { weekStartsOn: 1 });
 
-        console.log(newPurchases)*/
+            week = `Week ${week} : ${startDate} - ${lastDate}`;
+            monthWeekPurchases[week] = [...monthWeekPurchases[week] || [], purchases[index]];
+        }
+
         for (const [key, value] of Object.entries(monthWeekPurchases)) {
-            weekFormatSales.push({...await PurchaseService.getSaleFormatAsync(value) , week: key})
+            const index = key.slice(9,19)
+
+            if(value.length > 0){
+                weekFormatSales.push({...await PurchaseService.getSaleFormatAsync(value) , week: key, index: index})
+            }
         }
 
         return weekFormatSales;
@@ -217,7 +210,7 @@ export default class PurchaseService {
 
 
         for (let i = 0; i < monthsInYear.length; i++) {
-            const month = format(monthsInYear[i] , 'MMMM');
+            const month = format(monthsInYear[i] , 'MMMM yyyy');
 
             yearMonthPurchases[month] = [];
         }
@@ -225,7 +218,7 @@ export default class PurchaseService {
         for (let index = 0; index < purchases.length; index++){
             const day = new Date(fromUnixTime(purchases[index].stockDate));
 
-            let month = format(day , 'MMMM');
+            let month = format(day , 'MMMM yyyy');
             const isValid = isSameYear(day , newDate);
 
             if(isValid) {
@@ -235,7 +228,11 @@ export default class PurchaseService {
 
 
         for (const [key, value] of Object.entries(yearMonthPurchases)) {
-            yearFormatSales.push({...await PurchaseService.getSaleFormatAsync(value) , month: key})
+            const index = format(new Date(key) , 'MM/dd/yyyy');
+
+            if(value.length > 0){
+                yearFormatSales.push({...await PurchaseService.getSaleFormatAsync(value) , month: key , index: index})
+            }
         }
 
         return yearFormatSales;
@@ -272,7 +269,7 @@ export default class PurchaseService {
         profit = parseFloat(sellingPrice - costPrice).toFixed(2);
 
         if (duration === 'week') {
-            purchase = await PurchaseService.weekSalesFormat(purchase);
+            purchase = await PurchaseService.weekSalesFormat(purchase , date);
         } else if (duration === 'month') {
             purchase = await PurchaseService.monthSalesFormat(purchase , date);
         } else if (duration === 'year') {
