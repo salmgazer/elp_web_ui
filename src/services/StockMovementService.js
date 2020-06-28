@@ -252,8 +252,8 @@ export default class StockMovementService {
             });
             movement = await this.weekSalesFormat(movement , date);
 
-            openingBalance = await this.getBranchOpeningQuantity(startOfWeek(new Date(date)));
-            closingBalance = await this.getBranchClosingQuantity(endOfWeek(new Date(date)));
+            openingBalance = await this.getBranchOpeningQuantity(startOfWeek(new Date(date), { weekStartsOn: 1 }));
+            closingBalance = await this.getBranchClosingQuantity(endOfWeek(new Date(date), { weekStartsOn: 1 }));
         } else if (duration === 'month') {
             //Get sales of date
             sales = await StockMovementService.formatSales(duration , date);
@@ -334,8 +334,8 @@ export default class StockMovementService {
             });
             movement = await this.weekSalesFormat(movement , date , productId);
 
-            openingBalance = await this.getBranchProductOpeningQuantity(startOfWeek(new Date(date)) , productId);
-            closingBalance = await this.getBranchProductClosingQuantity(endOfWeek(new Date(date)) , productId);
+            openingBalance = await this.getBranchProductOpeningQuantity(startOfWeek(new Date(date), { weekStartsOn: 1 }) , productId);
+            closingBalance = await this.getBranchProductClosingQuantity(endOfWeek(new Date(date), { weekStartsOn: 1 }) , productId);
         } else if (duration === 'month') {
             //Get sales of date
             sales = await StockMovementService.formatSales(duration , date , productId);
@@ -528,7 +528,7 @@ export default class StockMovementService {
             Q.where('branchId' , LocalInfo.branchId),
             Q.where('productId' , productId),
         ).fetch();
-
+        console.log(stock , saleEntries, stockMovement , cartEntries)
         const stockQuantity = (stock).reduce((a, b) => a + (b['quantity'] || 0), 0);
         const salesQuantity = (saleEntries).reduce((a, b) => a + (b['quantity'] || 0), 0);
         const cartQuantity = (cartEntries).reduce((a, b) => a + (b['quantity'] || 0), 0);
