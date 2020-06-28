@@ -60,6 +60,7 @@ export default class SaleService {
                 await database.adapter.removeLocal("cartId");
                 localStorage.removeItem("cartId");
 
+                //await new CartService().cartId();
             }catch (e) {
                 return false
             }

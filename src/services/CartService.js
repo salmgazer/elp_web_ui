@@ -14,7 +14,7 @@ export default class CartService {
         if(!await database.adapter.getLocal("cartId")){
             const dataCollection = database.collections.get(Carts.table);
             const activeCustomer = (await CustomerService.getCashCustomer())[0];
-
+console.log(activeCustomer)
             await database.action(async () => {
                 const newCart = await dataCollection.create(cart => {
                     cart.discount = 0;
@@ -29,6 +29,7 @@ export default class CartService {
                 * @todo why 2 carts are created
                 * */
                 await database.adapter.setLocal("cartId" , await newCart.id);
+                await database.adapter.setLocal("activeCustomer" , activeCustomer.id);
             });
         }
 
@@ -337,6 +338,8 @@ export default class CartService {
             await database.adapter.removeLocal("activeCustomer");
             await database.adapter.removeLocal("cartId");
             localStorage.removeItem("cartId");
+
+            await this.cartId();
             return true;
         }catch (e) {
             return false;

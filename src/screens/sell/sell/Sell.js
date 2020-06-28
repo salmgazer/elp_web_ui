@@ -16,6 +16,7 @@ import {confirmAlert} from "react-confirm-alert";
 import ModelAction from "../../../services/ModelAction";
 import paths from "../../../utilities/paths";
 import CustomerService from "../../../services/CustomerService";
+import database from "../../../models/database";
 
 class Sell extends Component {
     constructor(props){
@@ -52,7 +53,16 @@ class Sell extends Component {
         const {branchProducts , cartQuantity , branchCustomers , savedCarts} = this.props;
 
         const salesTodayDetails = await new SaleService().getDaySalesDetails(LocalInfo.workingDate);
-
+        /*for (let i = 0; i < savedCarts.length; i++){
+            await new ModelAction('Carts').destroy(savedCarts[i].id);
+            await new ModelAction('CartEntry').softDeleteByColumn({
+                name: 'cartId',
+                value: savedCarts[i].id,
+                fxn: 'eq'
+            });
+        }
+        console.log(await database.adapter.getLocal("activeCustomer"))
+        */
         await this.setState({
             branchProducts: branchProducts,
             spCount: cartQuantity,
@@ -69,7 +79,7 @@ class Sell extends Component {
 
         const salesTodayDetails = await new SaleService().getDaySalesDetails(LocalInfo.workingDate);
 
-        if(this.state.savedCart.length !== savedCarts.length || this.state.currentCustomer !== await CartService.getCartCustomerId() || cartQuantity !== prevProps.cartQuantity || branchCustomers.length !== prevProps.branchCustomers.length || this.state.cartTotalProduct !== await CartService.getCartProductQuantity()){
+        if(this.state.currentCustomer !== await CartService.getCartCustomerId() || cartQuantity !== prevProps.cartQuantity || branchCustomers.length !== prevProps.branchCustomers.length || this.state.cartTotalProduct !== await CartService.getCartProductQuantity()){
             this.setState({
                 spCount: cartQuantity,
                 customers: branchCustomers,
@@ -200,12 +210,15 @@ class Sell extends Component {
         try {
             const searchResults = await new CartService().searchCartBranchCustomer(searchValue);
 
+            console.log('%%%%%%%%%%%%%%')
+            console.log(searchResults)
+            console.log('%%%%%%%%%%%%')
             this.setState({
                 savedCart: searchResults
             });
         }catch (e) {
             return false
-        }     
+        }
     };
 
     /*

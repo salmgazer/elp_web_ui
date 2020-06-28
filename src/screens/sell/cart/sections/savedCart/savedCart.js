@@ -29,7 +29,7 @@ const SavedCart = props => {
     };
 
     const carts = props.carts;
-
+console.log(carts)
     return (
         <div className={`mt-6`}>
             <SectionNavbars
@@ -59,6 +59,7 @@ const SavedCart = props => {
             <Container
                 maxWidth="sm"
                 style={{width: '100%'}}
+                className={`mb-7`}
             >
                 {carts.map((cart) => <SingleSavedCart key={cart.id} cartDetails={cart} cartCustomer={cart.customer.fetch()} continueSavedCartHandler={props.continueSavedCartHandler}/>)}
             </Container>
