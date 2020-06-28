@@ -72,7 +72,7 @@ const AddAuditProductView = props => {
         setInputValue('storeQuantity' , await productHandler.getProductQuantity());
     };
 
-    const saveStock = (event) => {
+    const saveStock = async (event) => {
         setLoading(true);
         if((formFields.quantityCounted === "" || parseFloat(formFields.quantityCounted === 0))){
             setErrorMsg('Selling price can not be less than cost price');
@@ -84,7 +84,11 @@ const AddAuditProductView = props => {
             return false;
         }
 
-        props.addToAudit(formFields);
+        const {...newFormField} = formFields;
+        newFormField['costPrice'] = parseFloat(costPrice);
+        newFormField['sellingPrice'] = parseFloat(sellingPrice);
+
+        props.addToAudit(newFormField);
 
         setSuccessDialog(true);
 

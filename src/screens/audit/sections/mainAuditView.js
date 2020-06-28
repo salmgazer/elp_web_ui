@@ -22,6 +22,8 @@ import Divider from '@material-ui/core/Divider';
 import CloseOutlinedIcon from '@material-ui/icons/CloseOutlined';
 import { Grid } from '@material-ui/core';
 import {makeStyles} from "@material-ui/core";
+import paths from "../../../utilities/paths";
+import AppsIcon from '@material-ui/icons/Apps';
 
 const useStyles = makeStyles(theme => ({
     tabPrimaryColor: {
@@ -67,6 +69,13 @@ const MainAuditView = props => {
                 leftIcon={
                     <div onClick={() => setIsDrawerShow(true)}>
                         <MenuIcon
+                            style={{fontSize: '2rem'}}
+                        />
+                    </div>
+                }
+                rightIcon={
+                    <div onClick={() => history.push(paths.dashboard)}>
+                        <AppsIcon
                             style={{fontSize: '2rem'}}
                         />
                     </div>

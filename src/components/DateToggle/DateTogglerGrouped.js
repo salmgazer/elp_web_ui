@@ -63,7 +63,6 @@ export default function DateTogglerGrouped(props) {
     const classes = useStyles();
 
     return (
-
         <Paper elevation={0} className={classes.paper}>
             <StyledToggleButtonGroup
                 size="small"

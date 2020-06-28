@@ -38,12 +38,12 @@ class Audit extends Component {
     async componentDidMount() {
         const { audits, branchProducts , auditedEntries} = this.props;
         const activeAuditId = await new AuditService().auditId();
+        const auditEntries = await AuditService.auditEntryQuantity();
 
-        console.log(audits , auditedEntries)
         await this.setState({
             branchProducts: branchProducts,
             spCount: auditedEntries.length,
-            auditEntries: auditedEntries,
+            auditEntries: auditEntries,
             activeAuditId: activeAuditId,
             auditHistory: audits,
         });
@@ -51,13 +51,13 @@ class Audit extends Component {
 
     async componentDidUpdate(prevProps) {
         const { audits, branchProducts , auditedEntries} = this.props;
-        console.log(audits , auditedEntries)
+        const auditEntries = await AuditService.auditEntryQuantity();
 
-        if(auditedEntries.length !== prevProps.auditedEntries.length){
+        if(this.props.activeAudit.length !== prevProps.activeAudit.length || auditedEntries.length !== prevProps.auditedEntries.length || audits.length !== prevProps.audits.length){
             this.setState({
                 branchProducts: branchProducts,
-                spCount: auditedEntries.length,
-                auditEntries: auditedEntries,
+                spCount: auditEntries.length,
+                auditEntries: auditEntries,
                 auditHistory: audits,
             });
         }
@@ -97,7 +97,6 @@ class Audit extends Component {
     * Set changeAuditedProductsType
     * */
     changeAuditedProductsType = async (value) => {
-        console.log(value)
         try {
             const products = await new AuditService().changeAuditedProductsType(value);
 
@@ -113,7 +112,6 @@ class Audit extends Component {
     * Set changeAuditedProductsType
     * */
     changeAuditedHistoryProductsType = async (value , auditId) => {
-        console.log(value)
         try {
             const products = await new AuditService().changeAuditedProductsType(value , auditId);
 
@@ -129,7 +127,6 @@ class Audit extends Component {
     * Set changeAuditedProductsType
     * */
     changeSingleProductsType = async (value) => {
-        console.log(value)
         try {
             const products = await new AuditService().changeAuditedProductsType(value);
 
@@ -322,7 +319,7 @@ class Audit extends Component {
 }
 
 const EnhancedAudit = withDatabase(
-    withObservables(['branchProducts' , 'auditedEntries' , 'activeAudit'], ({ database , branchProducts, auditedEntries , activeAudit}) => ({
+    withObservables(['branchProducts' , 'audits' , 'auditedEntries' , 'activeAudit'], ({ database , branchProducts, auditedEntries , activeAudit , audits}) => ({
         branchProducts: new BranchService(LocalInfo.branchId).getProducts(),
         audits: database.collections.get(Audits.table).query(
             Q.where('branchId' , LocalInfo.branchId),

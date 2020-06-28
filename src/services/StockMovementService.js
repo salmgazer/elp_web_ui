@@ -156,7 +156,6 @@ export default class StockMovementService {
     }
 
     static async yearSalesFormat (sales , date , productId = null){
-        console.log(date)
         const newDate = new Date(date);
         let yearFormatSales = [];
         let yearMonthSales = [];
@@ -240,7 +239,6 @@ export default class StockMovementService {
             openingBalance = await this.getBranchOpeningQuantity(startOfDay(new Date(date)));
             closingBalance = await this.getBranchClosingQuantity(endOfDay(new Date(date)));
         } else if(duration === 'week') {
-            console.log('here')
             //Get sales of date
             sales = await StockMovementService.formatSales(duration , date);
 
@@ -301,7 +299,6 @@ export default class StockMovementService {
     }
 
     static async getStockMovementListByProduct(duration , date , productId){
-        console.log(productId)
         let movement = [];
         let openingBalance = 0;
         let closingBalance = 0;
@@ -324,7 +321,6 @@ export default class StockMovementService {
             openingBalance = await this.getBranchProductOpeningQuantity(startOfDay(new Date(date)) , productId);
             closingBalance = await this.getBranchProductClosingQuantity(endOfDay(new Date(date)) , productId);
         } else if(duration === 'week') {
-            console.log('here')
             //Get sales of date
             sales = await StockMovementService.formatSales(duration , date , productId);
 
@@ -388,11 +384,8 @@ export default class StockMovementService {
         let sales = [];
         if(productId === null){
             sales = await SaleService.getSalesHistory(duration , date);
-            console.log('hand')
-
         }else{
             sales = await SaleService.getProductSalesHistory(duration, date, productId);
-            console.log('leg')
         }
 
         const movementData = [];
@@ -424,11 +417,8 @@ export default class StockMovementService {
 
         if(productId === null){
             stock = await PurchaseService.getPurchaseHistory(duration , date);
-            console.log('kneel')
-
         }else{
             stock = await PurchaseService.getProductPurchaseHistory(duration , date, productId)
-            console.log('knee')
         }
 
         for(let i = 0; i < stock.length; i++){
@@ -454,22 +444,22 @@ export default class StockMovementService {
         const date = getUnixTime(day);
 
         const stock = await database.collections.get(BranchProductStock.table).query(
-            Q.where('stockDate' , Q.lt(date)),
+            Q.where('stockDate' , Q.lte(date)),
             Q.where('branchId' , LocalInfo.branchId),
         ).fetch();
 
         const saleEntries = await database.collections.get(SaleEntries.table).query(
-            Q.where('entryDate' , Q.lt(date)),
+            Q.where('entryDate' , Q.lte(date)),
             Q.where('branchId' , LocalInfo.branchId),
         ).fetch();
 
         const stockMovement = await database.collections.get(StockMovement.table).query(
-            Q.where('entryDate' , Q.lt(date)),
+            Q.where('entryDate' , Q.lte(date)),
             Q.where('branchId' , LocalInfo.branchId),
         ).fetch();
 
         const cartEntries = await database.collections.get(CartEntry.table).query(
-            Q.where('entryDate' , Q.lt(date)),
+            Q.where('entryDate' , Q.lte(date)),
             Q.where('branchId' , LocalInfo.branchId),
         ).fetch();
 
@@ -584,25 +574,25 @@ export default class StockMovementService {
 
     static async getProductQuantity(productId , day){
         const stock = await database.collections.get(BranchProductStock.table).query(
-            Q.where('stockDate' , Q.lt(day)),
+            Q.where('stockDate' , Q.lte(day)),
             Q.where('productId' , productId),
             Q.where('branchId' , LocalInfo.branchId),
         ).fetch();
 
         const saleEntries = await database.collections.get(SaleEntries.table).query(
-            Q.where('entryDate' , Q.lt(day)),
+            Q.where('entryDate' , Q.lte(day)),
             Q.where('productId' , productId),
             Q.where('branchId' , LocalInfo.branchId),
         ).fetch();
 
         const stockMovement = await database.collections.get(StockMovement.table).query(
-            Q.where('entryDate' , Q.lt(day)),
+            Q.where('entryDate' , Q.lte(day)),
             Q.where('productId' , productId),
             Q.where('branchId' , LocalInfo.branchId),
         ).fetch();
 
         const cartEntries = await database.collections.get(CartEntry.table).query(
-            Q.where('entryDate' , Q.lt(day)),
+            Q.where('entryDate' , Q.lte(day)),
             Q.where('productId' , productId),
             Q.where('branchId' , LocalInfo.branchId),
         ).fetch();

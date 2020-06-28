@@ -183,7 +183,7 @@ const AuditHistory = props => {
 
             </Box>
 
-            <Box
+            {/*<Box
                 className="shadow1"
                 bgcolor="background.paper"
                 p={1}
@@ -208,7 +208,7 @@ const AuditHistory = props => {
                         </Button>
                     </Grid>
                 </Grid>
-            </Box>
+            </Box>*/}
 
         </div>
 

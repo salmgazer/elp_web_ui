@@ -154,9 +154,6 @@ const Drawer = props => {
                 style={{display: 'flex', position: 'relative', background: '#ffffff', lineHeight: '27px', color: '#403C3C'}}
             >
                 <div className="ham-top-div">
-                    {/* <div className="ham-top-div-inner">
-                        <StoreIcon style={{fontSize: '70px', color: '#000000'}}/>
-                    </div> */}
                     <div>
                         <Avatar
                             alt={LocalInfo.company.name}
@@ -184,7 +181,6 @@ const Drawer = props => {
             </span>
 
             <List className="drawerDefault" style={{background:'#FFFFFF', color: '#403C3C'}}>
-
                 <ListItem button key={1}  >
                     <ListItemIcon><CloudDoneIcon style={{color: '#403C3C'}} /></ListItemIcon>
                     <ListItemText primary={`Last sync: ${lastSync} ago`} />
@@ -253,7 +249,7 @@ const Drawer = props => {
 
                 <ListItem button key={8} onClick={() => history.push(paths.reconciliation)}>
                     <ListItemIcon><AccountBalanceWalletIcon style={{color: '#403C3C'}} /></ListItemIcon>
-                    <ListItemText primary="Reconcilation" />
+                    <ListItemText primary="Reconciliation" />
                 </ListItem>
 
                 <ListItem button key={11}>
