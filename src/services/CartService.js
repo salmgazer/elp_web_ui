@@ -81,6 +81,22 @@ export default class CartService {
     }
 
     /*
+    * Search for a branch customer in a cart table
+    * */
+   async searchCartBranchCustomer(searchValue) {
+    const customers = await database.collections.get('customers').query(
+        Q.or(
+            Q.where('firstName', Q.like(`%${Q.sanitizeLikeString(searchValue)}%`)),
+            Q.where('otherNames', Q.like(`%${Q.sanitizeLikeString(searchValue)}%`)),
+            Q.where('phone', Q.like(`%${Q.sanitizeLikeString(searchValue)}%`))
+        )
+    ).fetch();
+
+    return  database.collections.get(Carts.table).query(Q.where('customerId',
+    Q.oneOf(customers.map(c => c.id))),Q.where('status' , 'suspend'), Q.where('branchId', LocalInfo.branchId)).fetch();
+}
+
+    /*
     *
     * Get cart individual items total
     * */

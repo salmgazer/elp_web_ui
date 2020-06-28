@@ -196,20 +196,16 @@ class Sell extends Component {
     /*
     * Search products handler...
     * */
-    searchSavedCartHandler = (search) => {
-        /*
-        * @todo
-        * Work on fetching data from source
-        * */
-        let savedCart = JSON.parse(localStorage.getItem('savedCart')) || [];
+    searchSavedCartHandler = async (searchValue) => {
+        try {
+            const searchResults = await new CartService().searchCartBranchCustomer(searchValue);
 
-        const searchResults = savedCart.filter(function(cart) {
-            return ((cart.customerName).toLowerCase().indexOf(search.toLowerCase()) !== -1 || cart.cartTotal === search)
-        });
-
-        this.setState({
-            savedCart: searchResults
-        });
+            this.setState({
+                savedCart: searchResults
+            });
+        }catch (e) {
+            return false
+        }     
     };
 
     /*

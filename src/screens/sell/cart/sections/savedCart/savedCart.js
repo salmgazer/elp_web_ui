@@ -32,13 +32,16 @@ const SavedCart = props => {
 
     return (
         <div className={`mt-6`}>
-            <SectionNavbars title="Sales" >
-                <div onClick={() => backHandler()}>
-                    <ArrowBackIcon
-                        style={{fontSize: '2.5rem'}}
-                    />
-                </div>
-            </SectionNavbars>
+            <SectionNavbars
+                title="Sales"
+                leftIcon={
+                    <div onClick={() => backHandler()}>
+                        <ArrowBackIcon
+                            style={{fontSize: '2rem'}}
+                        />
+                    </div>
+                }
+            />
 
             <Box className={`mt-5 shadow1 pb-2`} p={1}>
                 <p  style={{fontSize: '18px', fontWeight: '600', color: '#333333'}} className={`my-2`}>Saved carts</p>
