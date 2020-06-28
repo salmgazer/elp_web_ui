@@ -127,7 +127,7 @@ const CartView = props => {
     };
 
     const openCheckoutHandler = () => {
-        if(LocalInfo.checkoutSales){
+        if(!LocalInfo.checkoutSales){
             completeSellHandler()
         }else{
             props.setView(1);
@@ -452,7 +452,7 @@ const CartView = props => {
                             onClick={openCheckoutHandler.bind(this)}
                             disabled={!counter}
                         >
-                            {LocalInfo.checkoutSales ? 'Save' : 'Checkout'}
+                            {!LocalInfo.checkoutSales ? 'Save' : 'Checkout'}
                         </Button>
                     </Grid>
                 </Grid>

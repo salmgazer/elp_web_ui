@@ -1,3 +1,6 @@
+import isSameDay from "date-fns/isSameDay";
+import format from "date-fns/format";
+
 export default class LocalInfo {
   static get keys() {
     return {
@@ -40,7 +43,14 @@ export default class LocalInfo {
   }
 
   static get workingDate() {
-    return localStorage.getItem(this.keys.workingDate);
+    const newDate = localStorage.getItem(this.keys.workingDate) || new Date();
+
+    if(isSameDay(new Date(newDate) , new Date())){
+      return new Date();
+    }else{
+      const testDate = localStorage.getItem(this.keys.workingDate);
+      return `${new Date(`${format(new Date(testDate), 'eee MMM dd yyyy')} ${format(new Date() , 'hh:mm:ss xxxx')}`)}`;
+    }
   }
 
   static get userId() {

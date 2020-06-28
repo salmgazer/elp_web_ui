@@ -190,7 +190,7 @@ const SellView = props => {
                     </ListItem>
                     <ListItem
                         button
-                        key={6}
+                        key={7}
                         onClick={() => history.push(paths.change_price)}
                     >
                         <ListItemIcon><EditIcon/></ListItemIcon>
@@ -199,7 +199,7 @@ const SellView = props => {
                     <Divider/>
                     <ListItem
                         button
-                        key={7}
+                        key={8}
                         onClick={() => setIsShowDrawer(false)}
                     >
                         <ListItemIcon><CloseOutlinedIcon/></ListItemIcon>
