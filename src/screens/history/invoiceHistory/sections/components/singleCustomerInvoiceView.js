@@ -42,7 +42,7 @@ const SingleCustomerInvoiceView = (props) => {
     };
 
     return (
-        <Grid container className={`bordered pt-2 pb-2`}>
+        <Grid container className={`bordered pt-2 pb-2 px-2`}>
             <Grid item xs={3} sm>
                 <Avatar
                     alt={customer ? `${customer.firstName} ${customer.otherNames}` : 'Cash Customer'}
@@ -70,7 +70,7 @@ const SingleCustomerInvoiceView = (props) => {
                 <div style={{textAlign: 'left', display: 'table-cell', verticalAlign: 'middle'}}>
                     {
                         payment === 'Full payment' ?
-                            <div className="font-weight-light mt-1" style={{ fontSize: '14px', color: 'green', float: 'right'}}> {payment}</div>
+                            <div className="font-weight-light mt-1" style={{ fontSize: '12px', color: 'green', float: 'right'}}> {payment}</div>
                         :
                             <div className="font-weight-light mt-1" style={{ fontSize: '12px', color: 'red' , float: 'right'}}> {payment} </div>
                     }

@@ -16,7 +16,6 @@ import InvoiceService from "../../../../services/InvoiceService";
 import CardsSection from '../../../../components/Sections/CardsSection';
 import SearchInput from "../../../Components/Input/SearchInput";
 
-
 const useStyles = makeStyles(theme => ({
     root: {
       flexGrow: 1,
@@ -41,7 +40,7 @@ const useStyles = makeStyles(theme => ({
     iconButton: {
         padding: 10,
     }
-  }));
+}));
 
 const DayView = props => {
     const classes = useStyles();
@@ -59,8 +58,6 @@ const DayView = props => {
         getInvoiceDetails(date);
     };
 
-
-
     useEffect(() => {
         // You need to restrict it at some point
         // This is just dummy code and should be replaced by actual
@@ -68,17 +65,16 @@ const DayView = props => {
                 let activeHistoryIndex = localStorage.getItem("activeHistoryIndex") || '';
 
                 if(activeHistoryIndex){
-                    setSelectedDate(activeHistoryIndex)
+                    setSelectedDate(activeHistoryIndex);
                     getInvoiceDetails(activeHistoryIndex);
                     localStorage.removeItem("activeHistoryIndex")
                 }else{
                     getInvoiceDetails(selectedDate);
                 }
             }
-        });
+    });
 
     const getInvoiceDetails = async (date) => {
-        console.log(date);
         let response = [];
 
         if (pageName === true){
@@ -88,13 +84,11 @@ const DayView = props => {
             response = await new InvoiceService().getInvoiceDetailsbyCustomer('day' , date , newCustomer.id);
 
             setName(newCustomer.firstName);
-            console.log(response , branchCustomer.id)
         }else{
             response = await new InvoiceService().getInvoiceDetails('day' , date);
         }
         setInvoiceDetails(response);
         setInvoices(response.invoices);
-        console.log(response)
     };
 
     const deleteProductHandler = (event) => {
@@ -111,12 +105,11 @@ const DayView = props => {
 
         invoice = await new InvoiceService().searchInvoice(value);
         setInvoices(invoice);
-        
+
     };
 
     return(
         <div className={classes.root}>
-
             <Grid container spacing={1}>
                 <Grid item xs={6} style={{padding: '2px 1px', marginTop: '12px'}}>
                     <SearchInput
@@ -175,12 +168,10 @@ const DayView = props => {
                     invoices.map((invoice) => <SingleDayInvoice  key={invoice.id} invoice={invoice} deleteProduct={deleteProductHandler.bind(this)} updateSaleEntry={props.updateSaleEntry} />)
                     :
                     invoices.map((invoice) => <CustomerDay  key={invoice.id} invoice={invoice} prodName={name} deleteProduct={deleteProductHandler.bind(this)} updateSaleEntry={props.updateSaleEntry} />)
-
                 }
             </Box>
         </div>
     )
-
-  }
+  };
 
   export default withRouter(DayView);

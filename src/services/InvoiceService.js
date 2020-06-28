@@ -19,6 +19,7 @@ import isWithinInterval from "date-fns/isWithinInterval";
 import startOfYear from "date-fns/startOfYear";
 import lastDayOfYear from "date-fns/lastDayOfYear";
 import eachMonthOfInterval from "date-fns/eachMonthOfInterval";
+import eachDayOfInterval from "date-fns/eachDayOfInterval";
 
 export default class InvoiceService {
     constructor(){
@@ -52,23 +53,47 @@ export default class InvoiceService {
         Q.oneOf(invoice.map(i => i.id))), Q.where('branchId', LocalInfo.branchId)).fetch();
     }
 
-    static async weekSalesFormat(invoices){
-        console.log(invoices)
+    static async weekSalesFormat(invoices , date){
+        let weekDaySales = [];
+        const newDate = new Date(date);
         let weekFormatInvoices = [];
-        const newInvoices = invoices.reduce((r, a) => {
+
+        const weekStart = startOfWeek(newDate , { weekStartsOn: 1 });
+        const weekEnd = endOfWeek(newDate , { weekStartsOn: 1 });
+
+        const daysInWeek = eachDayOfInterval({
+            start: weekStart,
+            end: weekEnd
+        });
+
+        for (let i = 0; i < daysInWeek.length; i++) {
+            const day = format(daysInWeek[i] , 'dd MMMM yyyy');
+
+            weekFormatInvoices[day] = [];
+        }
+
+        for (let index = 0; index < invoices.length; index++){
+
+            let day = format(fromUnixTime(invoices[index].salesDate) , 'dd MMMM yyyy');
+
+            weekFormatInvoices[day] = [...weekFormatInvoices[day] || [], invoices[index]];
+        }
+
+        /*const newInvoices = invoices.reduce((r, a) => {
             const day = new Date(fromUnixTime(a.salesDate));
             r[day] = [...r[day] || [], a];
             return r;
-        }, []);
+        }, []);*/
 
-        console.log(newInvoices)
+        for (const [key, value] of Object.entries(weekFormatInvoices)) {
+            const index = format(new Date(key) , 'MM/dd/yyyy');
 
-        for (const [key, value] of Object.entries(newInvoices)) {
-            weekFormatInvoices.push({...await InvoiceService.getSaleFormatAsync(value) , day: key})
+            if (value.length > 0) {
+                weekDaySales.push({...await InvoiceService.getSaleFormatAsync(value), day: key , index: index})
+            }
         }
 
-        console.log(weekFormatInvoices)
-        return weekFormatInvoices;
+        return weekDaySales;
     }
 
     static async monthSalesFormat (invoices , date){
@@ -89,12 +114,8 @@ export default class InvoiceService {
         * */
         for (let i = 0; i < weeksInMonth.length; i++) {
             const startDate = format(startOfWeek(weeksInMonth[i] , { weekStartsOn: 1 }), 'MM/dd/yyyy');
-            let lastDate = '';
-            //if(weeksInMonth.length !== i + 1){
-                lastDate = format(endOfWeek(weeksInMonth[i] , { weekStartsOn: 1 }), 'MM/dd/yyyy');
-            /*}else{
-                lastDate = `${format(monthEnd, 'MM/dd/yyyy')}`;
-            }*/
+            let lastDate = format(endOfWeek(weeksInMonth[i] , { weekStartsOn: 1 }), 'MM/dd/yyyy');
+
             let week = getWeekOfMonth(weeksInMonth[i]);
 
             week = `Week ${week} : ${startDate} - ${lastDate}`;
@@ -106,52 +127,25 @@ export default class InvoiceService {
             const day = new Date(fromUnixTime(invoices[index].salesDate));
 
             const startDate = format(startOfWeek(day , { weekStartsOn: 1 }), 'MM/dd/yyyy');
-            let lastDate = format(endOfWeek(day , { weekStartsOn: 1 }), 'MM/dd/yyyy');
-
-            //const sameMonth = isSameMonth(new Date(startDate), new Date(lastDate));
-
-            //if(sameMonth){
-                lastDate = format(endOfWeek(day , { weekStartsOn: 1 }), 'MM/dd/yyyy');
-            /*}else{
-                lastDate = `${format(monthEnd, 'MM/dd/yyyy')}`;
-            }*/
-
-            let week = getWeekOfMonth(day);
-
-            week = `Week ${week} : ${startDate} - ${lastDate}`;
-
-            const isValid = isWithinInterval((day), {
-                start: new Date(startDate),
-                end: new Date(lastDate)
-            });
-
-            if(isValid) {
-                monthWeekInvoices[week] = [...monthWeekInvoices[week] || [], invoices[index]];
-            }
-        }
-
-        /*const newPurchases = purchases.reduce((r, a) => {
-            const day = new Date(fromUnixTime(a.stockDate));
-
-            const startDate = format(startOfWeek(day , { weekStartsOn: 1 }), 'MM/dd/yyyy');
             const lastDate = format(endOfWeek(day , { weekStartsOn: 1 }), 'MM/dd/yyyy');
 
             let week = getWeekOfMonth(day);
             week = `Week ${week} : ${startDate} - ${lastDate}`;
-            r[week] = [...r[week] || [], a];
-            return r;
-        }, []);
+            monthWeekInvoices[week] = [...monthWeekInvoices[week] || [], invoices[index]];
+        }
 
-        console.log(newPurchases)*/
         for (const [key, value] of Object.entries(monthWeekInvoices)) {
-            weekFormatSales.push({...await InvoiceService.getSaleFormatAsync(value) , week: key})
+            const index = key.slice(9,19);
+
+            if(value.length > 0) {
+                weekFormatSales.push({...await InvoiceService.getSaleFormatAsync(value), week: key, index: index})
+            }
         }
 
         return weekFormatSales;
     }
 
     static async yearSalesFormat (purchases , date){
-        console.log(date)
         const newDate = new Date(date);
         let yearFormatSales = [];
         let yearMonthPurchases = [];
@@ -166,7 +160,7 @@ export default class InvoiceService {
         }else{
             yearEnd = lastDayOfYear(newDate);
         }
-        console.log(yearStart , yearEnd)
+
         const monthsInYear = eachMonthOfInterval({
             start: yearStart,
             end: yearEnd
@@ -190,9 +184,12 @@ export default class InvoiceService {
             }
         }
 
-
         for (const [key, value] of Object.entries(yearMonthPurchases)) {
-            yearFormatSales.push({...await InvoiceService.getSaleFormatAsync(value) , month: key})
+            const index = format(new Date(key) , 'MM/dd/yyyy');
+
+            if(value.length > 0) {
+                yearFormatSales.push({...await InvoiceService.getSaleFormatAsync(value), month: key , index: index})
+            }
         }
 
         return yearFormatSales;
@@ -224,9 +221,7 @@ export default class InvoiceService {
     }
 
     async getInvoiceDetails(duration , date) {
-        console.log(date)
         let invoice = (await InvoiceService.getInvoiceHistory(duration , date));
-        console.log(invoice);
         let costPrice = 0;
         let profit = 0;
         let credit = 0;
@@ -254,7 +249,7 @@ export default class InvoiceService {
         }
 
         if (duration === 'week') {
-            invoice = await InvoiceService.weekSalesFormat(invoice);
+            invoice = await InvoiceService.weekSalesFormat(invoice , date);
         } else if (duration === 'month') {
             invoice = await InvoiceService.monthSalesFormat(invoice , date);
         } else if (duration === 'year') {
@@ -326,7 +321,7 @@ export default class InvoiceService {
         }
 
         if (duration === 'week') {
-            invoice = await InvoiceService.weekSalesFormat(invoice);
+            invoice = await InvoiceService.weekSalesFormat(invoice , date);
         } else if (duration === 'month') {
             invoice = await InvoiceService.monthSalesFormat(invoice , date);
         } else if (duration === 'year') {

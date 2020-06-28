@@ -42,11 +42,11 @@ class SortCustomer extends Component{
             case 0:
                 return <DayView setView={this.setStepContentView.bind(this)} customer={this.state.currentCustomer} pageName={this.state.pageName}  />;
             case 2:
-                return <WeekView setView={this.setStepContentView.bind(this)} customer={this.state.currentCustomer} pageName={this.state.pageName}  />;
+                return <WeekView getChildrenView={this.getChildrenViewDetails.bind(this)} setView={this.setStepContentView.bind(this)} customer={this.state.currentCustomer} pageName={this.state.pageName}  />;
             case 3:
-                return <MonthView setView={this.setStepContentView.bind(this)} customer={this.state.currentCustomer} pageName={this.state.pageName}  />;
+                return <MonthView getChildrenView={this.getChildrenViewDetails.bind(this)} setView={this.setStepContentView.bind(this)} customer={this.state.currentCustomer} pageName={this.state.pageName}  />;
             case 4:
-                return <YearView setView={this.setStepContentView.bind(this)} customer={this.state.currentCustomer} pageName={this.state.pageName}  />;
+                return <YearView getChildrenView={this.getChildrenViewDetails.bind(this)} setView={this.setStepContentView.bind(this)} customer={this.state.currentCustomer} pageName={this.state.pageName}  />;
             case 5:
                 return <Payment setView={this.setStepContentView.bind(this)}  />;
             default:
@@ -77,13 +77,35 @@ class SortCustomer extends Component{
         //Find index of specific object using findIndex method.
         const itemIndex = old_list.filter((item => item.customerId === customerId));
 
-        console.log(itemIndex)
         this.setState({
             currentCustomer: itemIndex,
             activeStep: step
         });
     };
 
+    getChildrenViewDetails = async (index , view) => {
+        localStorage.setItem("activeHistoryIndex" , index);
+
+        switch(view){
+            case 0:
+                this.setState({
+                    activeStep: view
+                });
+                return true;
+            case 2:
+                this.setState({
+                    activeStep: view
+                });
+                return true;
+            case 3:
+                this.setState({
+                    activeStep: view
+                });
+                return true;
+            default:
+                return false;
+        }
+    };
 
     render(){
         return(

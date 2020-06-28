@@ -36,14 +36,6 @@ class InvoiceSortDate extends Component {
         }
     };
 
-    async componentDidUpdate(prevProps) {
-        const {...props} = this.props;
-
-        if(prevProps.activeStep !== props.activeStep){
-            console.log('me')
-        }
-    }
-
     setStepContentView = step => {
         this.setState({
             activeStep: step
@@ -118,7 +110,7 @@ class InvoiceSortDate extends Component {
 
             try {
                 const status = new ModelAction('SaleEntry').update(pId, formFields);
-                console.log(status)
+
                 if(status){
                     return true;
                 }

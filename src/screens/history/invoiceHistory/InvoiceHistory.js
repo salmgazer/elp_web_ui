@@ -31,7 +31,7 @@ const useStyles = makeStyles(theme => ({
     },
 }));
 
-const InvoiceHistory = props => { 
+const InvoiceHistory = props => {
     const [value , setValue] = useState(0);
     const [isShowDrawer , setIsShowDrawer] = useState(false);
     const styles = useStyles();
@@ -52,8 +52,6 @@ const InvoiceHistory = props => {
         setValue(index);
     };
 
-
-
     return(
         <div>
             <SectionNavbars
@@ -65,13 +63,6 @@ const InvoiceHistory = props => {
                         />
                     </div>
                 }
-                // icons={
-                //     <div onClick={() => this.setState({isShowDrawer: true})}>
-                //         <MoreVertIcon
-                //             style={{fontSize: '2rem'}}
-                //         />
-                //     </div>
-                // }
             />
 
             <div
@@ -159,7 +150,7 @@ const InvoiceHistory = props => {
 
         </div>
     )
-    
+
 
 }
 

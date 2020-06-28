@@ -70,16 +70,15 @@ const SingleDayInvoice = props => {
 
     return(
         <div>
-            <Grid container spacing={1} className={`shadow1 mb-3 borderRadius10`}>
-
+            <Grid container spacing={1} className={`bordered-sm mb-3`} style={{borderRadius: '4px'}}>
                 <Grid item xs={3} sm>
                     <Avatar
                         alt={customer ? `${customer.firstName} ${customer.otherNames}` : 'Cash Customer'}
                         //src={Woman}
                         className={classes.primaryColor}
                         style={{
-                            width: "45px",
-                            height: "45px",
+                            width: "60px",
+                            height: "60px",
                             borderRadius: "50%",
                             margin: '10px auto',
                             textAlign: 'center'

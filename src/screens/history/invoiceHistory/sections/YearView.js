@@ -19,10 +19,9 @@ const useStyles = makeStyles(theme => ({
     }
   }));
 
-  const values = new SystemDateHandler().getStoreYears()
+const values = new SystemDateHandler().getStoreYears();
 
-  const YearView = props => {
-
+const YearView = props => {
     const classes = useStyles();
     const [selectedYear, setSelectedYear] = React.useState(values[0].value);
     const pageName = props.pageName;
@@ -57,7 +56,7 @@ const useStyles = makeStyles(theme => ({
             setName(newCustomer.firstName);
             setCustomer(newCustomer);
         }else{
-            response = await new InvoiceService().getInvoiceDetails('month' , date);
+            response = await new InvoiceService().getInvoiceDetails('year' , date);
         }
         setInvoiceDetails(response);
         setInvoices(response.invoices);
@@ -69,8 +68,6 @@ const useStyles = makeStyles(theme => ({
 
     return(
         <div className={classes.root}>
-
-            {/* <HistoryDrawer pageName="Purchased items" user='2020' values={values} /> */}
             <Grid container spacing={1}>
                 <Grid item xs={6} >
                     <Typography
@@ -93,7 +90,7 @@ const useStyles = makeStyles(theme => ({
                             native: true,
                         }}
                         variant="outlined"
-                        >
+                    >
                         {values.map(option => (
                             <option key={option.value} value={option.value}>
                             {option.label}
@@ -136,22 +133,20 @@ const useStyles = makeStyles(theme => ({
 
                     pageName === false ?
 
-                    invoices.map((invoice , index) => 
-                    <div key={index} onClick={getChildrenDetails.bind(this, invoice.index)}>
-                        <SingleYearView  key={index} invoice={invoice} />
-                    </div>
-                    )
+                        invoices.map((invoice , index) =>
+                            <div key={index} onClick={getChildrenDetails.bind(this, invoice.index)}>
+                                <SingleYearView  key={index} invoice={invoice} />
+                            </div>
+                        )
                     :
-                    invoices.map((invoice , index) => 
-                    <div key={index} onClick={getChildrenDetails.bind(this, invoice.index)}>
-                        <CustomerYear customer={customer} key={index} invoice={invoice} prodName={name} />
-                    </div>    
-                    )
-
+                        invoices.map((invoice , index) =>
+                            <div key={index} onClick={getChildrenDetails.bind(this, invoice.index)}>
+                                <CustomerYear customer={customer} key={index} invoice={invoice} prodName={name} />
+                            </div>
+                        )
                 }
-
         </div>
     )
-  }
+};
 
   export default withRouter(YearView);

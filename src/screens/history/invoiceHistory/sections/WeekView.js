@@ -133,19 +133,17 @@ const useStyles = makeStyles(theme => ({
                 </BoxDefault>
                 :
                 pageName === false ?
-
-                invoices.map((invoice , index) => 
-                <div key={index} onClick={getChildrenDetails.bind(this, invoice.index)}>
-                    <SingleWeekView  key={index} invoice={invoice} />
-                </div>
-                )
+                    invoices.map((invoice , index) =>
+                        <div key={index} onClick={getChildrenDetails.bind(this, invoice.index)}>
+                            <SingleWeekView  key={index} invoice={invoice} />
+                        </div>
+                    )
                 :
-                invoices.map((invoice , index) => 
-                <div key={index} onClick={getChildrenDetails.bind(this, invoice.index)}>
-                    <CustomerWeek customer={customer} key={index} invoice={invoice} prodName={name} />
-                </div>    
-                )
-
+                    invoices.map((invoice , index) =>
+                        <div key={index} onClick={getChildrenDetails.bind(this, invoice.index)}>
+                            <CustomerWeek customer={customer} key={index} invoice={invoice} prodName={name} />
+                        </div>
+                    )
             }
 
         </div>

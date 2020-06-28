@@ -486,12 +486,6 @@ export default class SaleService {
             weekFormatSales[day] = [...weekFormatSales[day] || [], sales[index]];
         }
 
-        /*const newSales = sales.reduce((r, a) => {
-            const day = format(fromUnixTime(a.entryDate) , 'dd MMMM yyyy');
-            r[day] = [...r[day] || [], a];
-            return r;
-        }, []);*/
-
         for (const [key, value] of Object.entries(weekFormatSales)) {
             const index = format(new Date(key) , 'MM/dd/yyyy');
 
