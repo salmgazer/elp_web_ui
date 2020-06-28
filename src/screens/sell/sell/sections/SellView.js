@@ -38,16 +38,26 @@ import EditIcon from '@material-ui/icons/Edit';
 import Button from "@material-ui/core/Button/Button";
 
 import LocalInfo from "../../../../services/LocalInfo";
-import {makeStyles} from "@material-ui/core";
+import {makeStyles , withStyles} from "@material-ui/core";
+
+const PrimarySwitch = withStyles({
+    switchBase: {
+        color: `#009688 !important`,
+        '&$checked': {
+            color: `#009688 !important`,
+        },
+        '&$checked + $track': {
+            backgroundColor: `#009688 !important`,
+        },
+    },
+    root: {
+        float: `right !important`,
+    },
+    checked: {},
+    track: {},
+})(Switch);
 
 const useStyles = makeStyles({
-    switchRoot: {
-        float: `right !important`,
-        color: `#009688 !important`
-    },
-    switchColor: {
-        color: `#009688 !important`
-    },
     backgroundColor: {
         backgroundColor: `#009688 !important`
     },
@@ -331,19 +341,11 @@ const SellView = props => {
                                 </Typography>
                             </Grid>
                             <Grid item xs={6}>
-                                <Switch
-                                    classes={{
-                                        root: classes.switchRoot,
-                                        colorPrimary: classes.switchColor,
-                                        colorSecondary: classes.switchColor,
-                                        checked: classes.switchColor,
-                                        track: classes.backgroundColor,
-                                    }}
+                                <PrimarySwitch
                                     size={`medium`}
                                     checked={settingsState.checkoutSales}
                                     onChange={handleSettingsChange}
                                     name="checkoutSales"
-                                    inputProps={{ 'aria-label': 'primary checkbox' }}
                                 />
                             </Grid>
                         </Grid>
@@ -370,19 +372,11 @@ const SellView = props => {
                                 </Typography>
                             </Grid>
                             <Grid item xs={6} style={{float: 'right'}}>
-                                <Switch
-                                    classes={{
-                                        root: classes.switchRoot,
-                                        colorPrimary: classes.switchColor,
-                                        colorSecondary: classes.switchColor,
-                                        checked: classes.switchColor,
-                                        track: classes.backgroundColor,
-                                    }}
+                                <PrimarySwitch
                                     size={`medium`}
                                     checked={settingsState.aggregateSales}
                                     onChange={handleSettingsChange}
                                     name="aggregateSales"
-                                    inputProps={{ 'aria-label': 'primary checkbox' }}
                                 />
                             </Grid>
                         </Grid>
