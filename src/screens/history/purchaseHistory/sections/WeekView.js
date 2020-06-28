@@ -11,6 +11,8 @@ import ProductWeek from './singleViews/ProductWeek';
 import CardsSection from '../../../../components/Sections/CardsSection';
 import DateServiceHandler from "../../../../services/SystemDateHandler";
 import PurchaseService from "../../../../services/PurchaseService";
+import startOfWeek from "date-fns/startOfWeek";
+import format from "date-fns/format";
 
 const useStyles = makeStyles(theme => ({
     root: {
@@ -19,30 +21,38 @@ const useStyles = makeStyles(theme => ({
     }
 }));
 
-const values = new DateServiceHandler().getStoreWeeks()
+const values = new DateServiceHandler().getStoreWeeks();
 
 const WeekView = props => {
-    console.log(new DateServiceHandler().getStoreWeeks());
-
     const classes = useStyles();
     const [selectedWeek, setSelectedWeek] = React.useState(values[0].value);
+    const [purchaseDetails , setPurchaseDetails] = useState(false);
+    const [purchases , setPurchases] = useState([]);
+    const pageName = props.pageName;
+    const [name , setName] = useState('');
 
     const handleChange = event => {
         setSelectedWeek(event.target.value);
         getPurchaseDetails(event.target.value);
     };
 
-    const [purchaseDetails , setPurchaseDetails] = useState(false);
-    const [purchases , setPurchases] = useState([]);
-    const pageName = props.pageName;
-    const [name , setName] = useState('');
-
     useEffect(() => {
     // You need to restrict it at some point
     // This is just dummy code and should be replaced by actual
         if (!purchaseDetails) {
-            getPurchaseDetails(selectedWeek);
-            localStorage.removeItem("activeHistoryIndex")
+            let activeHistoryIndex = localStorage.getItem("activeHistoryIndex") || '';
+
+            if(activeHistoryIndex){
+                const newDate = startOfWeek(
+                    new Date(activeHistoryIndex) ,
+                    { weekStartsOn: 1 }
+                );
+                setSelectedWeek(format(newDate, 'MM/dd/yyyy'));
+                getPurchaseDetails(activeHistoryIndex);
+                localStorage.removeItem("activeHistoryIndex")
+            }else{
+                getPurchaseDetails(selectedWeek);
+            }
         }
     });
 
@@ -64,7 +74,6 @@ const WeekView = props => {
     const getChildrenDetails = (index) => {
         props.getChildrenView(index , 0)
     };
-
 
     return(
         <div className={classes.root}>
@@ -130,13 +139,13 @@ const WeekView = props => {
 
                     purchases.map((purchase , index) =>
                         <div key={index} onClick={getChildrenDetails.bind(this, purchase.index)}>
-                            <SingleWeekView  key={index} purchase={purchase} />
+                            <SingleWeekView key={index} purchase={purchase} />
                         </div>
                     )
                     :
                     purchases.map((purchase, index) =>
                         <div key={index} onClick={getChildrenDetails.bind(this, purchase.index)}>
-                            <ProductWeek  key={purchase.id} purchase={purchase} purchaseEntry={purchase} prodName={name} />
+                            <ProductWeek key={index} purchase={purchase} purchaseEntry={purchase} prodName={name} />
                         </div>
                     )
                 }
@@ -145,11 +154,8 @@ const WeekView = props => {
             {/* <Box style={{marginTop: '5px' , paddingBottom: '60px'}} p={1} className={`mt-3 mb-5`}>
                 {props.weekItem.map((item) => <SingleWeekView  key={item.day_id} weekItems={item}/>)}
             </Box> */}
-
-
         </div>
     )
-
-}
+};
 
 export default withRouter(WeekView);

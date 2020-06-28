@@ -27,7 +27,6 @@ const useStyles = makeStyles(theme => ({
   }));
 
 const DayView = props => {
-
     const classes = useStyles();
     const [selectedDate, setSelectedDate] = React.useState(new Date());
     const [purchaseDetails , setPurchaseDetails] = useState(false);
@@ -51,8 +50,7 @@ const DayView = props => {
             let activeHistoryIndex = localStorage.getItem("activeHistoryIndex") || '';
 
             if(activeHistoryIndex){
-                console.log(activeHistoryIndex)
-                setSelectedDate(activeHistoryIndex)
+                setSelectedDate(activeHistoryIndex);
                 getPurchaseDetails(activeHistoryIndex);
                 localStorage.removeItem("activeHistoryIndex")
             }else{
@@ -70,7 +68,6 @@ const DayView = props => {
         }
         setPurchaseDetails(response);
         setPurchases(response.purchases);
-        console.log(response)
     };
 
     const deleteProductHandler = (stockId) => {
@@ -281,6 +278,6 @@ const DayView = props => {
             </Box> */}
         </div>
     )
-}
+};
 
 export default withRouter(DayView);

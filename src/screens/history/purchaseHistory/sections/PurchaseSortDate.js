@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {withRouter} from "react-router";
+import {withRouter} from "react-router-dom";
 import {confirmAlert} from "react-confirm-alert";
 import ModelAction from "../../../../services/ModelAction";
 
@@ -46,7 +46,6 @@ class SortDate extends Component{
 
     getChildrenViewDetails = async (index , view) => {
         localStorage.setItem("activeHistoryIndex" , index);
-        console.log(index);
 
         switch(view){
             case 0:
@@ -69,13 +68,13 @@ class SortDate extends Component{
         }
     };
 
-    async componentDidUpdate(prevProps) {
+    /*async componentDidUpdate(prevProps) {
         const {...props} = this.props;
 
         if(prevProps.activeStep !== props.activeStep){
             console.log('me')
         }
-    }
+    }*/
 
     deleteProduct = async (pId) => {
         confirmAlert({
@@ -99,15 +98,12 @@ class SortDate extends Component{
     };
 
     async updateStockEntry(pId, formFields){
-        console.log(formFields)
-        console.log(pId)
         if (formFields.costPrice) {
             const data = {
                 costPrice: parseFloat(formFields.costPrice)
             };
             try {
                 const status = new ModelAction('BranchProductStock').update(pId, data);
-                console.log(status)
                 if(status){
                     return true;
                 }
@@ -121,7 +117,6 @@ class SortDate extends Component{
 
             try {
                 const status = new ModelAction('BranchProductStock').update(pId, formFields);
-                console.log(status)
                 if(status){
                     return true;
                 }

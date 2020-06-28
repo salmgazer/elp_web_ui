@@ -14,16 +14,14 @@ import PurchaseService from "../../../../services/PurchaseService";
 
 const useStyles = makeStyles(theme => ({
     root: {
-    flexGrow: 1,
-    marginBottom: '4rem'
+        flexGrow: 1,
+        marginBottom: '4rem'
     }
 }));
 
-const values = new DateServiceHandler().getStoreYears()
+const values = new DateServiceHandler().getStoreYears();
 
 const YearView = props => {
-    console.log(new DateServiceHandler().getStoreYears());
-
     const classes = useStyles();
     const [selectedYear, setSelectedYear] = React.useState(values[0].value);
     const [purchaseDetails , setPurchaseDetails] = useState(false);
@@ -126,28 +124,25 @@ const YearView = props => {
                     :
                     pageName === false ?
 
-                    purchases.map((purchase , index) => 
-                    <div key={index} onClick={getChildrenDetails.bind(this, purchase.index)}>
-                        <SingleYearView  key={index} purchase={purchase} />
-                    </div>
-                    )
-                    :
-                    purchases.map((purchase, index) =>
-                    <div key={index} onClick={getChildrenDetails.bind(this, purchase.index)}>
-                        <ProductYear  key={purchase.id} purchase={purchase} purchaseEntry={purchase} prodName={name} />
-                    </div>
-                    )
+                        purchases.map((purchase , index) =>
+                            <div key={index} onClick={getChildrenDetails.bind(this, purchase.index)}>
+                                <SingleYearView  key={index} purchase={purchase} />
+                            </div>
+                        )
+                        :
+                        purchases.map((purchase, index) =>
+                            <div key={index} onClick={getChildrenDetails.bind(this, purchase.index)}>
+                                <ProductYear  key={purchase.id} purchase={purchase} purchaseEntry={purchase} prodName={name} />
+                            </div>
+                        )
                 }
             </Box>
 
             {/* <Box style={{marginTop: '5px' , paddingBottom: '60px'}} p={1} className={`mt-3 mb-5`}>
                 {props.weekItem.map((item) => <SingleYearView  key={item.day_id} weekItems={item}/>)}
             </Box> */}
-
-
         </div>
     )
-
-}
+};
 
 export default withRouter(YearView);

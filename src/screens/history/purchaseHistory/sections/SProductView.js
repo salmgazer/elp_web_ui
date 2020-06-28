@@ -45,7 +45,7 @@ const ProductView = props => {
                     />
                 </Grid>
             </Grid>
-                
+
             <Grid
                 container
                 spacing={1}
@@ -75,9 +75,7 @@ const ProductView = props => {
                         <div
                             onClick={addProductHandler.bind(this, branchProduct.productId)}
                         >
-                            <ProductCard product={branchProduct.product.fetch()}>
-                                
-                            </ProductCard>
+                            <ProductCard notTruncate={true} product={branchProduct.product.fetch()}/>
                         </div>
                     </Grid>
                     )
@@ -88,16 +86,16 @@ const ProductView = props => {
                 <Button
                     variant="outlined"
                     style={{
-                        border: '1px solid #DAAB59', 
-                        color: '#DAAB59', 
-                        padding: '5px 30px', 
-                        textTransform: 'none', 
+                        border: '1px solid #DAAB59',
+                        color: '#DAAB59',
+                        padding: '5px 30px',
+                        textTransform: 'none',
                         fontSize:'17px',
-                        marginTop: '100px', 
+                        marginTop: '100px',
                         textAlign: 'center'
                     }}
                 >
-                    Scan Barcode   
+                    Scan Barcode
                 </Button>
 
         </div>

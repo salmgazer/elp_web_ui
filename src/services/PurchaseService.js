@@ -177,13 +177,13 @@ export default class PurchaseService {
         }
 
         for (const [key, value] of Object.entries(monthWeekPurchases)) {
-            const index = key.slice(9,19)
+            const index = key.slice(9,19);
 
             if(value.length > 0){
                 weekFormatSales.push({...await PurchaseService.getSaleFormatAsync(value) , week: key, index: index})
             }
         }
-
+        console.log(weekFormatSales)
         return weekFormatSales;
     }
 
@@ -319,7 +319,7 @@ export default class PurchaseService {
         profit = parseFloat(sellingPrice - costPrice);
 
         if (duration === 'week') {
-            purchase = await PurchaseService.weekSalesFormat(purchase);
+            purchase = await PurchaseService.weekSalesFormat(purchase , date);
         } else if (duration === 'month') {
             purchase = await PurchaseService.monthSalesFormat(purchase , date);
         } else if (duration === 'year') {

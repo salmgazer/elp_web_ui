@@ -19,7 +19,7 @@ const useStyles = makeStyles(theme => ({
     }
 }));
 
-const values = new DateServiceHandler().getStoreMonths()
+const values = new DateServiceHandler().getStoreMonths();
 
 const MonthView = props => {
     const classes = useStyles();
@@ -38,8 +38,17 @@ const MonthView = props => {
     // You need to restrict it at some point
     // This is just dummy code and should be replaced by actual
         if (!purchaseDetails) {
-            getPurchaseDetails(selectedMonth);
-            localStorage.removeItem("activeHistoryIndex")
+            let activeHistoryIndex = localStorage.getItem("activeHistoryIndex") || '';
+
+            if(activeHistoryIndex){
+                setSelectedMonth(activeHistoryIndex);
+                getPurchaseDetails(activeHistoryIndex);
+                localStorage.removeItem("activeHistoryIndex")
+            }else{
+                getPurchaseDetails(selectedMonth);
+            }
+
+            setPurchaseDetails(true)
         }
     });
 
@@ -54,7 +63,6 @@ const MonthView = props => {
         }else {
             response = await new PurchaseService().getPurchaseDetails('month', date);
         }
-        setPurchaseDetails(response);
         setPurchases(response.purchases);
     };
 
@@ -124,7 +132,7 @@ const MonthView = props => {
                     :
                     pageName === false ?
 
-                    purchases.map((purchase , index) => 
+                    purchases.map((purchase , index) =>
                     <div key={index} onClick={getChildrenDetails.bind(this, purchase.index)}>
                         <SingleMonthView  key={index} purchase={purchase} />
                     </div>

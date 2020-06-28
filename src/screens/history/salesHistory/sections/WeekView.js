@@ -24,8 +24,6 @@ const useStyles = makeStyles(theme => ({
 const values = new SystemDateHandler().getStoreWeeks();
 
 const WeekView = props => {
-    console.log(new SystemDateHandler().getStoreWeeks());
-
     const classes = useStyles();
     const [selectedWeek, setSelectedWeek] = React.useState(values[0].value);
     const pageName = props.pageName;
@@ -60,7 +58,6 @@ const WeekView = props => {
     });
 
     const getSaleDetails = async (date) => {
-        console.log(date);
         let response = [];
 
         if (pageName === true){
@@ -75,7 +72,6 @@ const WeekView = props => {
 
         setSaleDetails(response);
         setSales(response.sales);
-        console.log(response)
     };
 
     const getChildrenDetails = (index) => {
@@ -84,8 +80,6 @@ const WeekView = props => {
 
     return(
         <div className={classes.root}>
-
-
             <Grid container spacing={1}>
                 <Grid item xs={4} >
                     <Typography
@@ -147,13 +141,13 @@ const WeekView = props => {
 
                     sales.map((sale , index) =>
                         <div key={index} onClick={getChildrenDetails.bind(this, sale.index)}>
-                            <SingleWeekView  key={index} sale={sale} />
+                            <SingleWeekView key={index} sale={sale} />
                         </div>
                     )
                     :
                     sales.map((sale , index) =>
                         <div key={index} onClick={getChildrenDetails.bind(this, sale.index)}>
-                            <ProductWeek  key={index} sale={sale} prodName={name} />
+                            <ProductWeek key={index} sale={sale} prodName={name} />
                         </div>
                     )
                 }
@@ -162,11 +156,8 @@ const WeekView = props => {
             {/* <Box style={{marginTop: '5px' , paddingBottom: '60px'}} p={1} className={`mt-3 mb-5`}>
                 {props.weekItem.map((item) => <SingleWeekView  key={item.day_id} weekItems={item}/>)}
             </Box> */}
-
-
         </div>
     )
-
-}
+};
 
 export default withRouter(WeekView);
