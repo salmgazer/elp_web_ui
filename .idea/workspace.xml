@@ -2,9 +2,14 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="f0e589bc-4276-4788-a686-0858c0f1eaa6" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/src/screens/sell/cart/sections/ViewMobileMoney.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/screens/sell/cart/sections/ViewMobileMoney.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/screens/sell/sell/sections/SearchMode/SellSearchMode.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/screens/sell/sell/sections/SearchMode/SellSearchMode.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/services/StockMovementService.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/services/StockMovementService.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/screens/history/purchaseHistory/sections/DayView.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/screens/history/purchaseHistory/sections/DayView.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/screens/history/purchaseHistory/sections/PurchaseSortDate.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/screens/history/purchaseHistory/sections/PurchaseSortDate.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/screens/history/purchaseHistory/sections/WeekView.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/screens/history/purchaseHistory/sections/WeekView.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/screens/history/salesHistory/sections/DayView.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/screens/history/salesHistory/sections/DayView.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/screens/history/salesHistory/sections/SortDate.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/screens/history/salesHistory/sections/SortDate.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/services/PurchaseService.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/services/PurchaseService.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/services/SaleService.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/services/SaleService.js" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -94,7 +99,7 @@
           <entry key="branches" value="4" />
           <entry key="companies" value="7" />
           <entry key="customers" value="1" />
-          <entry key="js" value="1256" />
+          <entry key="js" value="1268" />
           <entry key="json" value="18" />
           <entry key="scss" value="10" />
           <entry key="sql" value="1" />
@@ -108,7 +113,7 @@
         <counts>
           <entry key="Database Element" value="30" />
           <entry key="JSON" value="18" />
-          <entry key="JavaScript" value="1256" />
+          <entry key="JavaScript" value="1268" />
           <entry key="SCSS" value="10" />
           <entry key="Scratch" value="1" />
           <entry key="TypeScript" value="3" />
@@ -124,7 +129,7 @@
       <usages-collector id="statistics.file.extensions.edit">
         <counts>
           <entry key="cell" value="164" />
-          <entry key="js" value="49879" />
+          <entry key="js" value="49963" />
           <entry key="json" value="390" />
           <entry key="scss" value="47" />
         </counts>
@@ -132,7 +137,7 @@
       <usages-collector id="statistics.file.types.edit">
         <counts>
           <entry key="JSON" value="390" />
-          <entry key="JavaScript" value="49879" />
+          <entry key="JavaScript" value="49963" />
           <entry key="SCSS" value="47" />
           <entry key="Scratch" value="164" />
         </counts>
@@ -160,94 +165,52 @@
             </entry>
           </file>
           <file pinned="false" current-in-tab="false">
-            <entry file="file://$PROJECT_DIR$/src/screens/sell/cart/sections/ViewMobileMoney.js">
+            <entry file="file://$PROJECT_DIR$/src/screens/history/purchaseHistory/PurchaseHistory.js">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="398">
-                  <caret line="67" column="27" lean-forward="true" selection-start-line="67" selection-start-column="27" selection-end-line="67" selection-end-column="27" />
-                </state>
-              </provider>
-            </entry>
-          </file>
-          <file pinned="false" current-in-tab="false">
-            <entry file="file://$PROJECT_DIR$/src/screens/stock/sections/movement/sections/YearView.js">
-              <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="19">
-                  <caret line="110" column="20" lean-forward="true" selection-start-line="110" selection-start-column="20" selection-end-line="110" selection-end-column="20" />
-                </state>
-              </provider>
-            </entry>
-          </file>
-          <file pinned="false" current-in-tab="false">
-            <entry file="file://$PROJECT_DIR$/src/screens/stock/sections/movement/sections/MonthView.js">
-              <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="133">
-                  <caret line="127" column="17" lean-forward="true" selection-start-line="127" selection-start-column="17" selection-end-line="127" selection-end-column="17" />
-                </state>
-              </provider>
-            </entry>
-          </file>
-          <file pinned="false" current-in-tab="false">
-            <entry file="file://$PROJECT_DIR$/src/screens/stock/sections/movement/sections/WeekView.js">
-              <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="19">
-                  <caret line="117" lean-forward="true" selection-start-line="117" selection-end-line="117" />
-                </state>
-              </provider>
-            </entry>
-          </file>
-          <file pinned="false" current-in-tab="false">
-            <entry file="file://$PROJECT_DIR$/src/screens/stock/sections/movement/SortProduct.js">
-              <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="223">
-                  <caret line="81" column="6" selection-start-line="81" selection-start-column="6" selection-end-line="81" selection-end-column="6" />
+                <state relative-caret-position="247">
+                  <caret line="124" column="32" selection-start-line="124" selection-start-column="32" selection-end-line="124" selection-end-column="32" />
                   <folding>
-                    <element signature="e#0#39#0" expanded="true" />
+                    <element signature="e#0#38#0" expanded="true" />
                   </folding>
                 </state>
               </provider>
             </entry>
           </file>
           <file pinned="false" current-in-tab="false">
-            <entry file="file://$PROJECT_DIR$/src/services/SaleService.js">
+            <entry file="file://$PROJECT_DIR$/src/screens/history/purchaseHistory/sections/PurchaseSortDate.js">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="230">
-                  <caret line="410" column="35" lean-forward="true" selection-start-line="410" selection-start-column="35" selection-end-line="410" selection-end-column="35" />
-                  <folding>
-                    <element signature="e#0#40#0" expanded="true" />
-                  </folding>
+                <state relative-caret-position="708">
+                  <caret line="77" column="5" lean-forward="true" selection-start-line="77" selection-start-column="5" selection-end-line="77" selection-end-column="5" />
                 </state>
               </provider>
             </entry>
           </file>
           <file pinned="false" current-in-tab="false">
-            <entry file="file://$PROJECT_DIR$/src/screens/stock/sections/movement/sections/SProductView.js">
+            <entry file="file://$PROJECT_DIR$/src/screens/history/purchaseHistory/sections/DayView.js">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="561">
-                  <caret line="78" column="62" selection-start-line="78" selection-start-column="62" selection-end-line="78" selection-end-column="62" />
-                  <folding>
-                    <element signature="e#0#49#0" expanded="true" />
-                  </folding>
+                <state relative-caret-position="235">
+                  <caret line="64" column="55" lean-forward="true" selection-start-line="64" selection-start-column="55" selection-end-line="64" selection-end-column="55" />
                 </state>
               </provider>
             </entry>
           </file>
           <file pinned="false" current-in-tab="true">
-            <entry file="file://$PROJECT_DIR$/src/components/Cards/ProductCard.js">
+            <entry file="file://$PROJECT_DIR$/src/services/PurchaseService.js">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="261">
-                  <caret line="49" column="6" lean-forward="true" selection-start-line="49" selection-start-column="6" selection-end-line="49" selection-end-column="6" />
+                <state relative-caret-position="112">
+                  <caret line="102" column="23" selection-start-line="102" selection-start-column="23" selection-end-line="102" selection-end-column="23" />
+                  <folding>
+                    <element signature="e#0#36#0" expanded="true" />
+                  </folding>
                 </state>
               </provider>
             </entry>
           </file>
           <file pinned="false" current-in-tab="false">
-            <entry file="file://$PROJECT_DIR$/src/screens/sell/cart/sections/Checkout.js">
+            <entry file="file://$PROJECT_DIR$/src/screens/history/purchaseHistory/sections/WeekView.js">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="644">
-                  <caret line="347" column="29" selection-start-line="347" selection-start-column="29" selection-end-line="347" selection-end-column="29" />
-                  <folding>
-                    <element signature="e#0#49#0" expanded="true" />
-                  </folding>
+                <state relative-caret-position="-988">
+                  <caret line="66" lean-forward="true" selection-start-line="66" selection-end-line="66" />
                 </state>
               </provider>
             </entry>
@@ -256,29 +219,11 @@
       </split-first>
       <split-second>
         <leaf>
-          <file pinned="false" current-in-tab="false">
-            <entry file="file://$PROJECT_DIR$/src/screens/history/salesHistory/SalesHistory.js">
+          <file pinned="false" current-in-tab="true">
+            <entry file="file://$PROJECT_DIR$/src/services/SaleService.js">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="465">
-                  <caret line="122" column="25" lean-forward="true" selection-start-line="122" selection-start-column="25" selection-end-line="122" selection-end-column="25" />
-                </state>
-              </provider>
-            </entry>
-          </file>
-          <file pinned="false" current-in-tab="false">
-            <entry file="file://$PROJECT_DIR$/src/screens/history/salesHistory/sections/SortDate.js">
-              <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="266">
-                  <caret line="23" column="27" selection-start-line="23" selection-start-column="27" selection-end-line="23" selection-end-column="27" />
-                </state>
-              </provider>
-            </entry>
-          </file>
-          <file pinned="false" current-in-tab="false">
-            <entry file="file://$PROJECT_DIR$/src/services/StockMovementService.js">
-              <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="169">
-                  <caret line="531" column="41" lean-forward="true" selection-start-line="531" selection-start-column="41" selection-end-line="531" selection-end-column="41" />
+                <state relative-caret-position="19">
+                  <caret line="460" column="5" lean-forward="true" selection-start-line="460" selection-start-column="5" selection-end-line="460" selection-end-column="5" />
                   <folding>
                     <element signature="e#0#40#0" expanded="true" />
                   </folding>
@@ -286,53 +231,20 @@
               </provider>
             </entry>
           </file>
-          <file pinned="false" current-in-tab="true">
-            <entry file="file://$PROJECT_DIR$/src/screens/sell/sell/sections/SearchMode/SellSearchMode.js">
+          <file pinned="false" current-in-tab="false">
+            <entry file="file://$PROJECT_DIR$/src/screens/history/salesHistory/SalesHistory.js">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="276">
-                  <caret line="220" column="38" selection-start-line="220" selection-start-column="38" selection-end-line="220" selection-end-column="38" />
+                <state relative-caret-position="465">
+                  <caret line="122" column="24" selection-start-line="122" selection-start-column="24" selection-end-line="122" selection-end-column="24" />
                 </state>
               </provider>
             </entry>
           </file>
           <file pinned="false" current-in-tab="false">
-            <entry file="file://$PROJECT_DIR$/src/services/CartService.js">
+            <entry file="file://$PROJECT_DIR$/src/screens/history/salesHistory/sections/SortDate.js">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="110">
-                  <caret line="333" column="30" lean-forward="true" selection-start-line="333" selection-start-column="30" selection-end-line="333" selection-end-column="30" />
-                  <folding>
-                    <element signature="e#0#42#0" expanded="true" />
-                  </folding>
-                </state>
-              </provider>
-            </entry>
-          </file>
-          <file pinned="false" current-in-tab="false">
-            <entry file="file://$PROJECT_DIR$/src/screens/onboarding/addProducts/sections/AddProductView.js">
-              <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="223">
-                  <caret line="44" column="10" selection-start-line="44" selection-start-column="10" selection-end-line="44" selection-end-column="10" />
-                </state>
-              </provider>
-            </entry>
-          </file>
-          <file pinned="false" current-in-tab="false">
-            <entry file="file://$PROJECT_DIR$/src/services/ProductServiceHandler.js">
-              <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="-817">
-                  <caret line="2" column="21" selection-start-line="2" selection-start-column="21" selection-end-line="2" selection-end-column="21" />
-                </state>
-              </provider>
-            </entry>
-          </file>
-          <file pinned="false" current-in-tab="false">
-            <entry file="file://$PROJECT_DIR$/src/screens/onboarding/addProducts/AddProducts.js">
-              <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="6517">
-                  <caret line="388" lean-forward="true" selection-start-line="388" selection-end-line="388" />
-                  <folding>
-                    <element signature="e#0#39#0" expanded="true" />
-                  </folding>
+                <state relative-caret-position="342">
+                  <caret line="27" column="36" selection-start-line="27" selection-start-column="36" selection-end-line="27" selection-end-column="36" />
                 </state>
               </provider>
             </entry>
@@ -340,8 +252,20 @@
           <file pinned="false" current-in-tab="false">
             <entry file="file://$PROJECT_DIR$/src/screens/history/salesHistory/sections/DayView.js">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="447">
-                  <caret line="271" column="26" lean-forward="true" selection-start-line="255" selection-start-column="20" selection-end-line="271" selection-end-column="26" />
+                <state relative-caret-position="532">
+                  <caret line="73" column="51" lean-forward="true" selection-start-line="73" selection-start-column="51" selection-end-line="73" selection-end-column="51" />
+                  <folding>
+                    <element signature="e#0#49#0" expanded="true" />
+                  </folding>
+                </state>
+              </provider>
+            </entry>
+          </file>
+          <file pinned="false" current-in-tab="false">
+            <entry file="file://$PROJECT_DIR$/src/screens/history/salesHistory/sections/WeekView.js">
+              <provider selected="true" editor-type-id="text-editor">
+                <state relative-caret-position="-917">
+                  <caret line="80" column="10" selection-start-line="80" selection-start-column="10" selection-end-line="80" selection-end-column="10" />
                   <folding>
                     <element signature="e#0#49#0" expanded="true" />
                   </folding>
@@ -400,11 +324,6 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/src/screens/stock/sections/movement/sections/singleView/SingleYearView.js" />
-        <option value="$PROJECT_DIR$/src/screens/history/salesHistory/sections/MonthView.js" />
-        <option value="$PROJECT_DIR$/src/screens/history/salesHistory/sections/SortProduct.js" />
-        <option value="$PROJECT_DIR$/src/screens/stock/sections/movement/SortProduct.js" />
-        <option value="$PROJECT_DIR$/src/screens/onboarding/addProducts/sections/search/productsView.js" />
         <option value="$PROJECT_DIR$/src/screens/login/Login.js" />
         <option value="$PROJECT_DIR$/src/components/Calculator/CostCalculator.js" />
         <option value="$PROJECT_DIR$/src/screens/onboarding/addProducts/sections/AddProductView.js" />
@@ -423,7 +342,6 @@
         <option value="$PROJECT_DIR$/src/screens/sell/cart/sections/ViewCart.js" />
         <option value="$PROJECT_DIR$/src/components/Date/SystemDate.js" />
         <option value="$PROJECT_DIR$/src/services/LocalInfo.js" />
-        <option value="$PROJECT_DIR$/src/services/SaleService.js" />
         <option value="$PROJECT_DIR$/src/services/CartService.js" />
         <option value="$PROJECT_DIR$/src/screens/sell/cart/sections/savedCart/savedCart.js" />
         <option value="$PROJECT_DIR$/src/screens/sell/sell/sections/SellView.js" />
@@ -441,7 +359,6 @@
         <option value="$PROJECT_DIR$/src/screens/sell/cart/sections/BoxView/BoxView.js" />
         <option value="$PROJECT_DIR$/src/components/Cards/ProductCard.js" />
         <option value="$PROJECT_DIR$/src/screens/stock/sections/addNewStockPage.js" />
-        <option value="$PROJECT_DIR$/src/screens/history/salesHistory/sections/DayView.js" />
         <option value="$PROJECT_DIR$/src/screens/stock/sections/movement/SortDate.js" />
         <option value="$PROJECT_DIR$/src/screens/stock/sections/movement/sections/DayView.js" />
         <option value="$PROJECT_DIR$/src/screens/stock/sections/movement/sections/WeekView.js" />
@@ -451,6 +368,13 @@
         <option value="$PROJECT_DIR$/src/services/StockMovementService.js" />
         <option value="$PROJECT_DIR$/src/screens/sell/cart/sections/ViewMobileMoney.js" />
         <option value="$PROJECT_DIR$/src/screens/sell/sell/sections/SearchMode/SellSearchMode.js" />
+        <option value="$PROJECT_DIR$/src/screens/history/purchaseHistory/sections/WeekView.js" />
+        <option value="$PROJECT_DIR$/src/screens/history/salesHistory/sections/SortDate.js" />
+        <option value="$PROJECT_DIR$/src/screens/history/purchaseHistory/sections/PurchaseSortDate.js" />
+        <option value="$PROJECT_DIR$/src/screens/history/purchaseHistory/sections/DayView.js" />
+        <option value="$PROJECT_DIR$/src/screens/history/salesHistory/sections/DayView.js" />
+        <option value="$PROJECT_DIR$/src/services/SaleService.js" />
+        <option value="$PROJECT_DIR$/src/services/PurchaseService.js" />
       </list>
     </option>
   </component>
@@ -506,6 +430,14 @@
               <item name="src" type="462c0819:PsiDirectoryNode" />
               <item name="screens" type="462c0819:PsiDirectoryNode" />
               <item name="history" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="web-ui" type="b2602c69:ProjectViewProjectNode" />
+              <item name="web-ui" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="screens" type="462c0819:PsiDirectoryNode" />
+              <item name="history" type="462c0819:PsiDirectoryNode" />
+              <item name="purchaseHistory" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="web-ui" type="b2602c69:ProjectViewProjectNode" />
@@ -667,12 +599,12 @@
       <workItem from="1592905052146" duration="89051000" />
       <workItem from="1593167969865" duration="9006000" />
       <workItem from="1593197043182" duration="1190000" />
-      <workItem from="1593248999050" duration="75322000" />
+      <workItem from="1593248999050" duration="76843000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="647420000" />
+    <option name="totallyTimeSpent" value="648941000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="1913" y="-7" width="1550" height="878" extended-state="6" />
@@ -717,60 +649,6 @@
     <option name="myLimit" value="2678400000" />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/src/screens/history/orderHistory/sections/views/singleView/DaySupplier.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="304">
-          <caret line="91" column="32" selection-start-line="91" selection-start-column="32" selection-end-line="91" selection-end-column="32" />
-          <folding>
-            <element signature="e#0#50#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/screens/history/orderHistory/sections/views/singleView/SingleDaySupplier.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-570">
-          <folding>
-            <element signature="e#0#50#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/screens/history/invoiceHistory/sections/singleView/CustomerDay.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-855">
-          <folding>
-            <element signature="e#0#50#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/screens/history/invoiceHistory/sections/singleView/SingleDayInvoice.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-855">
-          <folding>
-            <element signature="e#0#50#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/screens/sell/cart/sections/BoxView/SingleReceipt.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="189">
-          <caret line="19" column="32" lean-forward="true" selection-start-line="19" selection-start-column="32" selection-end-line="19" selection-end-column="32" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/services/CustomerService.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="324">
-          <caret line="95" column="12" lean-forward="true" selection-start-line="95" selection-start-column="12" selection-end-line="95" selection-end-column="12" />
-          <folding>
-            <element signature="e#0#40#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/components/Date/SystemDate.js">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="36">
@@ -1024,96 +902,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/screens/history/salesHistory/SalesHistory.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="465">
-          <caret line="122" column="25" lean-forward="true" selection-start-line="122" selection-start-column="25" selection-end-line="122" selection-end-column="25" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/screens/history/salesHistory/sections/SortDate.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="266">
-          <caret line="23" column="27" selection-start-line="23" selection-start-column="27" selection-end-line="23" selection-end-column="27" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/screens/history/salesHistory/sections/DayView.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="447">
-          <caret line="271" column="26" lean-forward="true" selection-start-line="255" selection-start-column="20" selection-end-line="271" selection-end-column="26" />
-          <folding>
-            <element signature="e#0#49#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/screens/stock/sections/movement/sections/DayView.js">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="190">
           <caret line="119" column="20" selection-start-line="119" selection-start-column="20" selection-end-line="145" selection-end-column="21" />
-          <folding>
-            <element signature="e#0#49#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/screens/stock/sections/movement/sections/WeekView.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="19">
-          <caret line="117" lean-forward="true" selection-start-line="117" selection-end-line="117" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/screens/stock/sections/movement/SortProduct.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="223">
-          <caret line="81" column="6" selection-start-line="81" selection-start-column="6" selection-end-line="81" selection-end-column="6" />
-          <folding>
-            <element signature="e#0#39#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/screens/stock/sections/movement/sections/MonthView.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="133">
-          <caret line="127" column="17" lean-forward="true" selection-start-line="127" selection-start-column="17" selection-end-line="127" selection-end-column="17" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/screens/stock/sections/movement/SortDate.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="492">
-          <caret line="28" column="28" selection-start-line="28" selection-start-column="28" selection-end-line="28" selection-end-column="28" />
-          <folding>
-            <element signature="e#0#39#0" expanded="true" />
-            <element signature="e#5370#5884#0" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/screens/stock/sections/movement/sections/YearView.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="19">
-          <caret line="110" column="20" lean-forward="true" selection-start-line="110" selection-start-column="20" selection-end-line="110" selection-end-column="20" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/services/SaleService.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="230">
-          <caret line="410" column="35" lean-forward="true" selection-start-line="410" selection-start-column="35" selection-end-line="410" selection-end-column="35" />
-          <folding>
-            <element signature="e#0#40#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/screens/stock/sections/movement/sections/SProductView.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="561">
-          <caret line="78" column="62" selection-start-line="78" selection-start-column="62" selection-end-line="78" selection-end-column="62" />
           <folding>
             <element signature="e#0#49#0" expanded="true" />
           </folding>
@@ -1140,10 +932,51 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/screens/sell/sell/sections/SearchMode/SellSearchMode.js">
+    <entry file="file://$PROJECT_DIR$/src/components/Cards/ProductCard.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="276">
-          <caret line="220" column="38" selection-start-line="220" selection-start-column="38" selection-end-line="220" selection-end-column="38" />
+        <state relative-caret-position="271">
+          <caret line="60" column="21" lean-forward="true" selection-start-line="60" selection-start-column="21" selection-end-line="60" selection-end-column="21" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/screens/stock/sections/movement/sections/SProductView.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="639">
+          <caret line="78" column="62" selection-start-line="78" selection-start-column="62" selection-end-line="78" selection-end-column="62" />
+          <folding>
+            <element signature="e#0#49#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/screens/stock/sections/movement/SortProduct.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="223">
+          <caret line="81" column="6" selection-start-line="81" selection-start-column="6" selection-end-line="81" selection-end-column="6" />
+          <folding>
+            <element signature="e#0#39#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/screens/stock/sections/movement/sections/WeekView.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="19">
+          <caret line="117" lean-forward="true" selection-start-line="117" selection-end-line="117" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/screens/stock/sections/movement/sections/MonthView.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="133">
+          <caret line="127" column="17" lean-forward="true" selection-start-line="127" selection-start-column="17" selection-end-line="127" selection-end-column="17" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/screens/stock/sections/movement/sections/YearView.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="19">
+          <caret line="110" column="20" lean-forward="true" selection-start-line="110" selection-start-column="20" selection-end-line="110" selection-end-column="20" />
         </state>
       </provider>
     </entry>
@@ -1154,10 +987,106 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/components/Cards/ProductCard.js">
+    <entry file="file://$PROJECT_DIR$/src/screens/stock/sections/movement/SortDate.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="261">
-          <caret line="49" column="6" lean-forward="true" selection-start-line="49" selection-start-column="6" selection-end-line="49" selection-end-column="6" />
+        <state relative-caret-position="492">
+          <caret line="28" column="28" selection-start-line="28" selection-start-column="28" selection-end-line="28" selection-end-column="28" />
+          <folding>
+            <element signature="e#0#39#0" expanded="true" />
+            <element signature="e#5370#5884#0" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/screens/sell/sell/sections/SearchMode/SellSearchMode.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="276">
+          <caret line="220" column="38" selection-start-line="220" selection-start-column="38" selection-end-line="220" selection-end-column="38" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/screens/history/salesHistory/SalesHistory.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="465">
+          <caret line="122" column="24" selection-start-line="122" selection-start-column="24" selection-end-line="122" selection-end-column="24" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/screens/history/purchaseHistory/PurchaseHistory.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="247">
+          <caret line="124" column="32" selection-start-line="124" selection-start-column="32" selection-end-line="124" selection-end-column="32" />
+          <folding>
+            <element signature="e#0#38#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/screens/history/salesHistory/sections/SortDate.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="342">
+          <caret line="27" column="36" selection-start-line="27" selection-start-column="36" selection-end-line="27" selection-end-column="36" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/screens/history/purchaseHistory/sections/PurchaseSortDate.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="708">
+          <caret line="77" column="5" lean-forward="true" selection-start-line="77" selection-start-column="5" selection-end-line="77" selection-end-column="5" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/screens/history/purchaseHistory/sections/DayView.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="235">
+          <caret line="64" column="55" lean-forward="true" selection-start-line="64" selection-start-column="55" selection-end-line="64" selection-end-column="55" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/screens/history/salesHistory/sections/DayView.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="532">
+          <caret line="73" column="51" lean-forward="true" selection-start-line="73" selection-start-column="51" selection-end-line="73" selection-end-column="51" />
+          <folding>
+            <element signature="e#0#49#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/screens/history/purchaseHistory/sections/WeekView.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-988">
+          <caret line="66" lean-forward="true" selection-start-line="66" selection-end-line="66" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/screens/history/salesHistory/sections/WeekView.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-917">
+          <caret line="80" column="10" selection-start-line="80" selection-start-column="10" selection-end-line="80" selection-end-column="10" />
+          <folding>
+            <element signature="e#0#49#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/services/SaleService.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="19">
+          <caret line="460" column="5" lean-forward="true" selection-start-line="460" selection-start-column="5" selection-end-line="460" selection-end-column="5" />
+          <folding>
+            <element signature="e#0#40#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/services/PurchaseService.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="112">
+          <caret line="102" column="23" selection-start-line="102" selection-start-column="23" selection-end-line="102" selection-end-column="23" />
+          <folding>
+            <element signature="e#0#36#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>

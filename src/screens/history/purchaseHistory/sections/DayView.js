@@ -51,6 +51,7 @@ const DayView = props => {
             let activeHistoryIndex = localStorage.getItem("activeHistoryIndex") || '';
 
             if(activeHistoryIndex){
+                console.log(activeHistoryIndex)
                 setSelectedDate(activeHistoryIndex)
                 getPurchaseDetails(activeHistoryIndex);
                 localStorage.removeItem("activeHistoryIndex")

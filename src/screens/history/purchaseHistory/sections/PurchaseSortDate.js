@@ -10,15 +10,18 @@ import YearView from './YearView';
 import DateToggle from "../../../../components/DateToggle/DateToggle";
 
 class SortDate extends Component{
-    state={
-        activeStep: 0,
-        currentProduct: {},
-        pageName: false,
-        error: false,
-        errorMsg: '',
-        success: false,
-        successMsg: '',
-    }
+    constructor(props){
+        super(props);
+        this.state = {
+            activeStep: 0,
+            currentProduct: {},
+            pageName: false,
+            error: false,
+            errorMsg: '',
+            success: false,
+            successMsg: '',
+        }
+    };
 
     getStepContent = step => {
         switch (step) {
@@ -43,6 +46,7 @@ class SortDate extends Component{
 
     getChildrenViewDetails = async (index , view) => {
         localStorage.setItem("activeHistoryIndex" , index);
+        console.log(index);
 
         switch(view){
             case 0:

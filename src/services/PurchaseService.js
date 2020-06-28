@@ -34,10 +34,8 @@ export default class PurchaseService {
                 fxn: 'eq'
             }
         );
-        console.log(purchases)
         const day = new Date(date);
 
-        console.log(day)
         switch (duration) {
             case 'day':
                 return purchases.filter(purchase => isSameDay(fromUnixTime(purchase.stockDate) , day));
@@ -110,12 +108,10 @@ export default class PurchaseService {
             return r;
         }, []);
 
-        console.log(newPurchases)
         for (const [key, value] of Object.entries(newPurchases)) {
             weekFormatSales.push({...await PurchaseService.getSaleFormatAsync(value) , day: key})
         }
 
-        console.log(weekFormatSales)
         return weekFormatSales;
     }
 
@@ -199,7 +195,6 @@ export default class PurchaseService {
     }
 
     static async yearSalesFormat (purchases , date){
-        console.log(date)
         const newDate = new Date(date);
         let yearFormatSales = [];
         let yearMonthPurchases = [];
@@ -214,7 +209,7 @@ export default class PurchaseService {
         }else{
             yearEnd = lastDayOfYear(newDate);
         }
-        console.log(yearStart , yearEnd)
+
         const monthsInYear = eachMonthOfInterval({
             start: yearStart,
             end: yearEnd
@@ -272,7 +267,6 @@ export default class PurchaseService {
 
                 sellingPrice = parseFloat(sell);
             }
-
         }
 
         profit = parseFloat(sellingPrice - costPrice).toFixed(2);
@@ -296,8 +290,6 @@ export default class PurchaseService {
 
     async getProductPurchaseDetails(duration , date , productId) {
         let purchase = (await PurchaseService.getProductPurchaseHistory(duration , date , productId));
-        console.log(duration,date,productId)
-        console.log(purchase);
         let costPrice = 0;
         let quantity = 0;
         let profit = 0;

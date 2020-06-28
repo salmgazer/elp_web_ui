@@ -49,7 +49,7 @@ class SortDate extends Component{
 
     getChildrenViewDetails = async (index , view) => {
         localStorage.setItem("activeHistoryIndex" , index);
-
+        console.log(index)
         switch(view){
             case 0:
                 this.setState({

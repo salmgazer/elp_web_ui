@@ -718,8 +718,6 @@ export default class SaleService {
             sale = await SaleService.yearSalesFormat(sale , date);
         }
 
-        console.log(sale)
-
         return {
             sales: sale.reverse(),
             costPrice: costPrice.toFixed(2),
