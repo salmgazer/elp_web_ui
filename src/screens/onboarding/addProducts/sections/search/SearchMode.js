@@ -112,7 +112,6 @@ const SearchMode = props => {
 
     const optionGroupClasses = optionGroupStyles();
 
-
     const addProductHandler = (id) => {
         props.productAdd(id);
     };
@@ -125,8 +124,8 @@ const SearchMode = props => {
         props.setView(5);
     };
 
-    const OptionChangeHandler = (event) => {
-        props.optionFilter(event.target.value);
+    const OptionChangeHandler = async (event) => {
+        await props.optionFilter(event.target.value);
     };
 
     const setInputValue = (name , value) => {
@@ -141,7 +140,6 @@ const SearchMode = props => {
 
     return(
         <div className="shadow1 boxMain" style={{minHeight: '400px' , width: '96%', padding: '0px 2% 20px' , marginBottom: '60px'}}>
-
             <Grid item xs={12} className={optionGroupClasses.margin}>
                 <FormControl className={`${optionGroupClasses.margin} optionAdd`} component="fieldset" style={{fontSize: '0.9rem'}}>
                     <RadioGroup

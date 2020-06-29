@@ -5,7 +5,6 @@ import ProductServiceHandler from "../../services/ProductServiceHandler";
 import BranchProductService from "../../services/BranchProductService";
 
 const ProductCard = (props) => {
-    console.log(props.product)
     let branchProduct = '';
     if(props.isSell){
         branchProduct = props.branchProduct;
@@ -20,9 +19,9 @@ const ProductCard = (props) => {
     useEffect(() => {
         // You need to restrict it at some point
         // This is just dummy code and should be replaced by actual
-        if (!product) {
+        //if (!product) {
             getProduct();
-        }
+        //}
     });
 
     const getProduct = async () => {
@@ -31,6 +30,7 @@ const ProductCard = (props) => {
         }
 
         const newProduct = await props.product;
+
         setProduct(newProduct);
         setQuantityProduct(await props.storeCounted);
         setProductAuditDetials(await props.appCounted);

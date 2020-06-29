@@ -345,16 +345,14 @@ class AddProducts extends Component{
         switch (value) {
             case 'all':
                 storeProducts = JSON.parse(localStorage.getItem('storeProductsLookup'));
-                console.log(storeProducts)
 
                 break;
             case 'stocked':
                 storeProducts = JSON.parse(localStorage.getItem('storeProductsLookup')).filter((product) => (product.stock !== null && product.owned === true));
-                console.log(storeProducts)
+
                 break;
             case 'incomplete':
-                storeProducts = JSON.parse(localStorage.getItem('storeProductsLookup')).filter((product) => (product.owned === true && (product.sellingPrice === 0 || !product.sellingPrice || (product.stock[(product.stock.length - 1).costPrice]) === null)));
-                console.log(storeProducts)
+                storeProducts = JSON.parse(localStorage.getItem('storeProductsLookup')).filter((product) => (product.owned === true && (product.sellingprice === 0 || (product.stock[(product.stock.length - 1).costPrice]) === null)));
 
                 break;
             default:
