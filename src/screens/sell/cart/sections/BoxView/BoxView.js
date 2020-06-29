@@ -11,6 +11,7 @@ import {makeStyles} from "@material-ui/core";
 import SimpleSnackbar from "../../../../../components/Snackbar/SimpleSnackbar";
 import BranchProductService from "../../../../../services/BranchProductService";
 import Typography from "@material-ui/core/Typography/Typography";
+import Avatar from "@material-ui/core/Avatar/Avatar";
 
 const useStyles = makeStyles(theme => ({
     root: {
@@ -121,7 +122,19 @@ const ViewSingleProduct = props => {
             <Grid item xs={12}>
                 <Grid container >
                     <Grid item xs={3}>
-                        <Card
+                        <Avatar
+                            alt={image}
+                            src={image}
+                            //className={classes.primaryColor}
+                            style={{
+                                width: "60px",
+                                height: "60px",
+                                borderRadius: "50%",
+                                margin: '10px auto',
+                                textAlign: 'center',
+                            }}
+                        />
+                        {/*<Card
                             className="shadow1"
                             style={{
                                 margin: '5px auto',
@@ -133,7 +146,7 @@ const ViewSingleProduct = props => {
                                 height: '60px',
                                 padding: '0px'
                             }}
-                        />
+                        />*/}
                     </Grid>
 
                     <Grid item xs={6} style={{display: 'table', height: '60px', margin: '4px 0px'}}>

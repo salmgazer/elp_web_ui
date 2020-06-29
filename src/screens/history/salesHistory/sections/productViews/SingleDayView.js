@@ -23,6 +23,7 @@ import ProductServiceHandler from "../../../../../services/ProductServiceHandler
 import format from "date-fns/format";
 import fromUnixTime from "date-fns/fromUnixTime";
 import UnitCost from '../../../../Components/Input/UnitCost';
+import Avatar from "@material-ui/core/Avatar/Avatar";
 
 
 const useStyles = makeStyles(theme => ({
@@ -200,7 +201,7 @@ const SingleDayView = props => {
         <div>
             <Grid container spacing={1} className={`bordered-sm mb-3`} style={{borderRadius: '4px'}}>
                 <Grid item xs={3}>
-                    <Card
+                    {/*<Card
                         className="shadow1"
                         style={{
                             margin: '15px auto',
@@ -211,6 +212,18 @@ const SingleDayView = props => {
                             borderRadius: '50%',
                             height: '60px',
                             padding: '0px'
+                        }}
+                    />*/}
+                    <Avatar
+                        alt={image}
+                        src={image}
+                        //className={classes.primaryColor}
+                        style={{
+                            width: "60px",
+                            height: "60px",
+                            borderRadius: "50%",
+                            margin: '10px auto',
+                            textAlign: 'center',
                         }}
                     />
                 </Grid>

@@ -21,7 +21,6 @@ import CustomerService from "../../../../services/CustomerService";
 import LocalInfo from "../../../../services/LocalInfo";
 import MainDialog from "../../../../components/Dialog/MainDialog";
 import SecondaryButton from "../../../../components/Buttons/SecondaryButton";
-import TextField from "@material-ui/core/TextField/TextField";
 import PrimaryButton from "../../../../components/Buttons/PrimaryButton";
 import SaleService from "../../../../services/SaleService";
 import PrimaryTextField from "../../../../components/Input/TextField";
