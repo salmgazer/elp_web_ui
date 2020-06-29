@@ -51,8 +51,6 @@ const DayView = props => {
             let activeHistoryIndex = localStorage.getItem("activeHistoryIndex") || '';
 
             if(activeHistoryIndex){
-                console.log(activeHistoryIndex)
-
                 setSelectedDate(activeHistoryIndex)
                 getSaleDetails(activeHistoryIndex);
                 localStorage.removeItem("activeHistoryIndex")
@@ -63,7 +61,6 @@ const DayView = props => {
     });
 
     const getSaleDetails = async (date) => {
-        console.log(date);
         let response = [];
 
         if (pageName === true){
@@ -78,7 +75,6 @@ const DayView = props => {
 
         setSaleDetails(response);
         setSales(response.sales);
-        console.log(response)
     };
 
     const deleteProductHandler = (event) => {

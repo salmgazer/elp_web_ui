@@ -5,6 +5,7 @@ import ProductServiceHandler from "../../services/ProductServiceHandler";
 import BranchProductService from "../../services/BranchProductService";
 
 const ProductCard = (props) => {
+    console.log(props.product)
     let branchProduct = '';
     if(props.isSell){
         branchProduct = props.branchProduct;
@@ -30,12 +31,10 @@ const ProductCard = (props) => {
         }
 
         const newProduct = await props.product;
-        console.log(newProduct)
         setProduct(newProduct);
         setQuantityProduct(await props.storeCounted);
         setProductAuditDetials(await props.appCounted);
         setImage(new ProductServiceHandler(newProduct).getProductImage());
-console.log(new ProductServiceHandler(newProduct).getProductImage())
         if(props.notTruncate){
             setName(newProduct.name);
         }else{

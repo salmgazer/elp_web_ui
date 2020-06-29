@@ -65,7 +65,7 @@ const SingleDayView = props => {
     const [quantity , setQuantity] = useState(false);
     const [totalPrice , setTotalPrice] = useState(false);
     const [selectedDate , setSelectedDate] = useState('');
-    const [unitPrice , setUnitPrice] = useState("");
+    //const [unitPrice , setUnitPrice] = useState("");
     const [formFields , setFormFields] = useState({
         quantity: 1,
     });
@@ -162,8 +162,7 @@ const SingleDayView = props => {
         oldFormFields['sellingPrice'] = cp.toFixed(2);
 
         setPriceFields(oldFormFields);
-        setUnitPrice(cp.toFixed(2));
-
+        //setUnitPrice(cp.toFixed(2));
     };
 
     const setDate = (value) => {
