@@ -5,10 +5,6 @@ import AddIcon from "../../../../../components/ClickableIcons/AddIcon";
 import ProductCard from "../../../../../components/Cards/ProductCard";
 
 const ProductsView = (props) => {
-    console.log('&&&&&&&&&&&&&&&&&&&')
-    console.log(props.products)
-    console.log('&&&&&&&&&&&&&&&&&&&')
-
     const addProductHandler = (id) => {
         props.addProductHandler(id);
     };
