@@ -42,6 +42,7 @@ const HistoryModal = props => {
                     <Button
                         variant="outlined"
                         style={{border: '1px solid #DAAB59', color: '#DAAB59', padding: '10px, 0px', textTransform: 'none', fontSize:'17px', marginBottom: '20px', width: '240px'}}
+                        onClick={() => history.push(paths.stock_movement)}
                     >
                         Stock movement
                     </Button>

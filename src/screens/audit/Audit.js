@@ -323,7 +323,7 @@ const EnhancedAudit = withDatabase(
         branchProducts: new BranchService(LocalInfo.branchId).getProducts(),
         audits: database.collections.get(Audits.table).query(
             Q.where('branchId' , LocalInfo.branchId),
-            Q.where('isActive' , false)
+            Q.where('isActive' , true)
         ).observe(),
         auditedEntries: database.collections.get(AuditEntries.table).query(
             Q.where('auditId' , localStorage.getItem('auditId')),
