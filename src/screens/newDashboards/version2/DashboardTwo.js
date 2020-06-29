@@ -9,7 +9,6 @@ import paths from "../../../utilities/paths";
 import CssBaseline from "@material-ui/core/CssBaseline/CssBaseline";
 import MenuIcon from '@material-ui/icons/Menu';
 import Paper from '@material-ui/core/Paper';
-import AppsIcon from '@material-ui/icons/Apps';
 import ExitToAppIcon from '@material-ui/icons/ExitToApp';
 
 import Typography from "@material-ui/core/Typography/Typography";
@@ -176,9 +175,9 @@ const Dashboard = props => {
                         marginBottom: '5px' ,
                     }}
                 >
-                    <CardGridComponent 
-                        source={sell} 
-                        text='Sell' 
+                    <CardGridComponent
+                        source={sell}
+                        text='Sell'
                         onClick={() => history.push(paths.sell)}
                     />
 
@@ -208,17 +207,17 @@ const Dashboard = props => {
                         marginBottom: '5px' ,
                     }}
                 >
-                    <CardGridComponent source={audit} text='Audit' />
+                    <CardGridComponent onClick={() => history.push(paths.audit)} source={audit} text='Audit' />
 
                     <CardGridComponent source={management} text='Admin' onClick={() => history.push(paths.admin)}/>
 
                 </div>
-                
+
                 <HistoryModal
                     openState={historyDialog}
                     handleClose={() => setHistoryDialog(false)}
                 />
-                
+
             </React.Fragment>
         </div>
     );
@@ -255,9 +254,9 @@ const EnhancedDashboard = withDatabase(
     cashFlow: new ModelAction('Cashflow').indexNotObserve(),
       branchCustomers: database.collections.get(BranchCustomer.table).query().observe(),
       */
-  
+
     }))(withRouter(Dashboard))
   );
-  
+
   export default EnhancedDashboard;
 

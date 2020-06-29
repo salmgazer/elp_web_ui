@@ -6,7 +6,7 @@ import { withRouter } from "react-router-dom";
 import paths from "../../../utilities/paths";
 
 const HistoryModal = props => {
-    
+
     const { history } = props;
     const openState = props.openState;
 
@@ -42,7 +42,6 @@ const HistoryModal = props => {
                     <Button
                         variant="outlined"
                         style={{border: '1px solid #DAAB59', color: '#DAAB59', padding: '10px, 0px', textTransform: 'none', fontSize:'17px', marginBottom: '20px', width: '240px'}}
-                        disabled
                     >
                         Stock movement
                     </Button>
