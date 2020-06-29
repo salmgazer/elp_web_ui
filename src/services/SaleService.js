@@ -27,6 +27,7 @@ import eachDayOfInterval from 'date-fns/eachDayOfInterval';
 
 export default class SaleService {
     async makeSell(data , paymentType){
+        console.log(paymentType)
         const cartId = await new CartService().cartId();
 
         try {
@@ -88,6 +89,7 @@ export default class SaleService {
     }
 
     static getPaymentType(paymentType){
+        console.log(paymentType)
         switch (paymentType) {
             case 0:
                 return 'cash';

@@ -2,7 +2,6 @@ import React from 'react';
 import SectionNavbars from "../../../../components/Sections/SectionNavbars";
 import ArrowBackIcon from '@material-ui/icons/ArrowBack';
 import Typography from "@material-ui/core/Typography/Typography";
-import Container from "@material-ui/core/Container/Container";
 import Box from "@material-ui/core/Box/Box";
 import SecondaryButton from "../../../../components/Buttons/SecondaryButton";
 import LowStockProductSingle from "./lowStockProductSingle";
@@ -33,16 +32,15 @@ const ItemsLowStock = (props) => {
                     style={{fontSize: '18px' , margin: '0px 0px', padding: '8px'}}
                     className={`text-center mx-auto text-dark font-weight-bold`}
                 >
-                    Low stock
+                    Items with stock less than 10
                 </Typography>
             </div>
 
-            <Container
-                //maxWidth="sm"
-                style={{width: '100%'}}
-            >
+            <Box style={{marginTop: '5px' , margin: '2px 5px', paddingBottom: '60px'}} p={1} className={`mt-3 mb-5`}>
+
                 {products.map((product) => <LowStockProductSingle addNewProductStockView={props.addNewProductStockView} key={product.id} product={product}/>)}
-            </Container>
+            
+            </Box>
 
             <Box
                 className="shadow1"

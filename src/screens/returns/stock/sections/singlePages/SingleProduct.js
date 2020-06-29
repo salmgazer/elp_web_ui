@@ -6,6 +6,7 @@ import Button from "@material-ui/core/Button/Button";
 import MainDialog from '../../../../../components/Dialog/MainDialog';
 import QuantityInput from "../../../../Components/Input/QuantityInput";
 import LocalInfo from "../../../../../services/LocalInfo";
+import Avatar from "@material-ui/core/Avatar/Avatar";
 
 import format from "date-fns/format";
 import BranchStockService from '../../../../../services/BranchStockService';
@@ -107,17 +108,15 @@ const SingleProduct = props => {
         <div>
             <Grid container spacing={1} className={`shadow1 mb-3 borderRadius10`}>
                 <Grid item xs={3}>
-                    <Card
-                        className="shadow1"
+                    <Avatar
+                        alt={image}
+                        src={image}
                         style={{
-                            margin: '5px auto', 
-                            backgroundImage: `url(${image})`, 
-                            backgroundPosition: 'center', 
-                            backgroundSize: 'cover', 
-                            width: '60px', 
-                            borderRadius: '50%', 
-                            height: '60px', 
-                            padding: '0px'
+                            width: "60px",
+                            height: "60px",
+                            borderRadius: "50%",
+                            margin: '10px auto',
+                            textAlign: 'center',
                         }}
                     />
                 </Grid>
@@ -147,17 +146,15 @@ const SingleProduct = props => {
                 <div className="row pt-0 mx-auto text-center w-100" >
                     <Grid container spacing={1} className={`shadow1 mb-3 borderRadius10`}>
                         <Grid item xs={3}>
-                            <Card
-                                className="shadow1"
+                            <Avatar
+                                alt={image}
+                                src={image}
                                 style={{
-                                    margin: '5px auto',
-                                    backgroundImage: `url(${image})`,
-                                    backgroundPosition: 'center',
-                                    backgroundSize: 'cover',
-                                    width: '60px',
-                                    borderRadius: '50%',
-                                    height: '60px',
-                                    padding: '0px'
+                                    width: "60px",
+                                    height: "60px",
+                                    borderRadius: "50%",
+                                    margin: '10px auto',
+                                    textAlign: 'center',
                                 }}
                             />
                         </Grid>

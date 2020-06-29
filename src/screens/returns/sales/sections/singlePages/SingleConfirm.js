@@ -1,5 +1,5 @@
 import React from 'react';
-import Card from "@material-ui/core/Card/Card";
+import Avatar from "@material-ui/core/Avatar/Avatar";
 import Grid from "@material-ui/core/Grid/Grid";
 import DeleteIcon from '@material-ui/icons/Delete';
 
@@ -15,17 +15,15 @@ const ViewSingleProduct = props => {
     return(
         <Grid container spacing={1} className={`shadow1 mb-3 borderRadius10`}>
             <Grid item xs={3}>
-                <Card
-                    className="shadow1"
+                <Avatar
+                    alt={image}
+                    src={image}
                     style={{
-                        margin: '5px auto', 
-                        backgroundImage: `url(${image})`, 
-                        backgroundPosition: 'center', 
-                        backgroundSize: 'cover', 
-                        width: '60px', 
-                        borderRadius: '50%', 
-                        height: '60px', 
-                        padding: '0px'
+                        width: "60px",
+                        height: "60px",
+                        borderRadius: "50%",
+                        margin: '10px auto',
+                        textAlign: 'center',
                     }}
                 />
             </Grid>

@@ -7,10 +7,8 @@ import Paper from '@material-ui/core/Paper';
 import SearchInput from "../../Components/Input/SearchInput";
 import MenuItem from '@material-ui/core/MenuItem';
 import Select from '@material-ui/core/Select';
-import Button from "@material-ui/core/Button/Button";
 import Typography from "@material-ui/core/Typography/Typography";
 import SimpleSnackbar from "../../../components/Snackbar/SimpleSnackbar";
-import {confirmAlert} from "react-confirm-alert";
 import ArrowBackIcon from '@material-ui/icons/ArrowBack';
 
 import SingleProductView from './auditHistory/SingleProductView';
@@ -54,7 +52,6 @@ const AuditHistory = props => {
     const entries = props.auditEntries;
     const [type, setType] = useState('all');
     const [successDialog, setSuccessDialog] = useState(false);
-    const [loading , setLoading] = useState(false);
     const [errorMsg , setErrorMsg] = useState('');
     const [error , setError] = useState(false);
     const [searchValue , setSearchValue] = useState({

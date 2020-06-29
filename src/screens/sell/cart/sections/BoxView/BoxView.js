@@ -1,5 +1,4 @@
 import React, {useEffect, useState} from 'react';
-import Card from "@material-ui/core/Card/Card";
 import Grid from "@material-ui/core/Grid/Grid";
 import DeleteIcon from '@material-ui/icons/Delete';
 import ProductServiceHandler from "../../../../../services/ProductServiceHandler";

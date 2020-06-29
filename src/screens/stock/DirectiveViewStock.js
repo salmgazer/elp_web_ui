@@ -8,6 +8,7 @@ import StockSummaryPage from "./sections/itemsLeft/stockSummaryPage";
 import ItemsOutOfStock from "./sections/outOfStock/itemsOutOfStock";
 import ItemsLowStock from "./sections/lowStock/itemsLowStock";
 import AddNewStockPage from "./sections/addNewStockPage";
+import AllStock from './sections/allStock/AllStock';
 import MoveStock from "./sections/moveStock/moveStock";
 import {withDatabase} from "@nozbe/watermelondb/DatabaseProvider";
 import withObservables from "@nozbe/with-observables";
@@ -101,6 +102,8 @@ class DirectiveViewStock extends Component{
                 return <MoveStock product={this.state.currentProduct} setView={this.setStepContentView.bind(this)} moveStock={this.moveStock.bind(this)} />;
             case 7:
                 return <AssignBarcode setView={this.setStepContentView.bind(this)} product={this.state.currentProduct} addProductBarcode={this.addProductBarcode.bind(this)} />
+            case 8:
+                return <AllStock setView={this.setStepContentView.bind(this)} searchProduct={this.searchProductHandler.bind(this)} branchProducts={this.state.branchProducts}/>
             default:
                 return 'Complete';
         }

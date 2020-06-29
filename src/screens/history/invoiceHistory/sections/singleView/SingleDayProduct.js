@@ -11,7 +11,6 @@ import Tab from "@material-ui/core/Tab/Tab";
 import SwipeableViews from "react-swipeable-views";
 import TabPanel from '../../../../../components/Tabs/TabPanel';
 import Dates from '../../../../../components/Date/Date';
-import InputAdornment from '@material-ui/core/InputAdornment';
 import Button from "@material-ui/core/Button/Button";
 import ProductServiceHandler from "../../../../../services/ProductServiceHandler";
 import SaleService from "../../../../../services/SaleService";
@@ -19,7 +18,7 @@ import format from "date-fns/format";
 import Paper from "@material-ui/core/Paper/Paper";
 import InputBase from "@material-ui/core/InputBase/InputBase";
 import QuantityInput from "../../../../Components/Input/QuantityInput";
-import IconButton from '@material-ui/core/IconButton';
+import Avatar from "@material-ui/core/Avatar/Avatar";
 import {faCalculator} from "@fortawesome/free-solid-svg-icons";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import SwapHorizOutlinedIcon from '@material-ui/icons/SwapHorizOutlined';
@@ -201,17 +200,15 @@ const SingleDayProduct = props => {
                            
             <Grid container spacing={1} className={`bordered rounded mb-3 pt-1 pb-1`}>
                 <Grid item xs={3}>
-                    <Card
-                        className="shadow1"
+                    <Avatar
+                        alt={image}
+                        src={image}
                         style={{
-                            margin: '5px auto', 
-                            backgroundImage: `url(${image})`, 
-                            backgroundPosition: 'center', 
-                            backgroundSize: 'cover', 
-                            width: '60px', 
-                            borderRadius: '50%', 
-                            height: '60px', 
-                            padding: '0px'
+                            width: "60px",
+                            height: "60px",
+                            borderRadius: "50%",
+                            margin: '10px auto',
+                            textAlign: 'center',
                         }}
                     />
                 </Grid>
@@ -236,17 +233,15 @@ const SingleDayProduct = props => {
                 <div className="row pt-0 mx-auto text-center w-100" >
                     <Grid container spacing={1} className={`shadow1 mb-3 borderRadius10`}>
                         <Grid item xs={3}>
-                            <Card
-                                className="shadow1"
+                            <Avatar
+                                alt={image}
+                                src={image}
                                 style={{
-                                    margin: '5px auto', 
-                                    backgroundImage: `url(${image})`, 
-                                    backgroundPosition: 'center', 
-                                    backgroundSize: 'cover', 
-                                    width: '60px', 
-                                    borderRadius: '50%', 
-                                    height: '60px', 
-                                    padding: '0px'
+                                    width: "60px",
+                                    height: "60px",
+                                    borderRadius: "50%",
+                                    margin: '10px auto',
+                                    textAlign: 'center',
                                 }}
                             />
                         </Grid>

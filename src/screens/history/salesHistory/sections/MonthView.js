@@ -11,6 +11,9 @@ import ProductMonth from './productViews/ProductMonth';
 import CardsSection from '../../../../components/Sections/CardsSection';
 import SystemDateHandler from "../../../../services/SystemDateHandler";
 import SaleService from "../../../../services/SaleService";
+import Empty from '../../../../assets/img/empty.png';
+import Button from "@material-ui/core/Button/Button";
+import paths from "../../../../utilities/paths";
 
 const useStyles = makeStyles(theme => ({
     root: {
@@ -23,6 +26,7 @@ const useStyles = makeStyles(theme => ({
 
 const MonthView = props => {
     const classes = useStyles();
+    const { history } = props;
     const [selectedMonth, setSelectedMonth] = React.useState(values[(new Date().getMonth())].value);
     const [saleDetails , setSaleDetails] = useState(false);
     const [sales , setSales] = useState([]);
@@ -113,22 +117,45 @@ const MonthView = props => {
             <Box style={{marginTop: '5px' , paddingBottom: '60px'}} p={1} className={`mt-3 mb-5`}>
                 {sales.length === 0
                     ?
-                    <div className={`rounded mx-1 my-2 p-2 bordered`}>
-                        <Grid container spacing={1} className={`py-1`}>
-                            <Grid
-                                item xs={12}
-                                className={`text-left pl-2`}
-                            >
-                                <Typography
-                                    component="h6"
-                                    variant="h6"
-                                    style={{fontSize: '16px'}}
-                                    className={`text-center text-dark`}
-                                >
-                                    No sales made
-                                </Typography>
-                            </Grid>
-                        </Grid>
+                    // <div className={`rounded mx-1 my-2 p-2 bordered`}>
+                    //     <Grid container spacing={1} className={`py-1`}>
+                    //         <Grid
+                    //             item xs={12}
+                    //             className={`text-left pl-2`}
+                    //         >
+                    //             <Typography
+                    //                 component="h6"
+                    //                 variant="h6"
+                    //                 style={{fontSize: '16px'}}
+                    //                 className={`text-center text-dark`}
+                    //             >
+                    //                 No sales made
+                    //             </Typography>
+                    //         </Grid>
+                    //     </Grid>
+                    // </div>
+                    <div>
+                        <Box component="div" m={2} style={{marginTop: '-1rem'}} >
+                            <img className="img100" src={Empty} alt={'payment'}/>
+                        </Box>
+
+                        
+                        <Typography className='text-dark font-weight-bold' style={{ fontSize: '17px', padding: '0px 0px 10px 0px' }} >
+                            Seems you have not sold any product
+                        </Typography>
+                        
+
+                        <Typography className='font-weight-light mt-1' style={{ fontSize: '15px', marginBottom: '20px' }} >
+                                Click sell to be able to view sales history
+                        </Typography>
+
+                        <Button
+                            variant="contained"
+                            style={{'backgroundColor': '#DAAB59' , color: '#333333', padding: '5px 40px', textTransform: 'none', fontSize:'17px'}}
+                            onClick={() => history.push(paths.sell)}
+                        >
+                            Record sales
+                        </Button>
                     </div>
                     :
                     pageName === false ?

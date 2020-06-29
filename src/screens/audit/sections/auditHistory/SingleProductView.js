@@ -2,6 +2,7 @@ import React, {useEffect, useState} from 'react';
 import Card from "@material-ui/core/Card/Card";
 import Grid from "@material-ui/core/Grid/Grid";
 import ProductServiceHandler from "../../../../services/ProductServiceHandler";
+import Avatar from "@material-ui/core/Avatar/Avatar";
 
 const AddedProductSingle = props => {
     const auditEntry = props.item;
@@ -41,9 +42,17 @@ const AddedProductSingle = props => {
     return(
         <Grid container spacing={1} className={`bordered mb-3`} style={{borderRadius: '3px'}}>
             <Grid item xs={3}>
-                <Card
-                    className="shadow1"
-                    style={{margin: '5px auto' ,backgroundImage: `url(${image})` , backgroundPosition: 'center', backgroundSize: 'cover' , width: '50px' ,borderRadius: '50%', height: '50px', padding: '0px'}}
+                <Avatar
+                    alt={image}
+                    src={image}
+                    //className={classes.primaryColor}
+                    style={{
+                        width: "60px",
+                        height: "60px",
+                        borderRadius: "50%",
+                        margin: '10px auto',
+                        textAlign: 'center',
+                    }}
                 />
             </Grid>
             <Grid item xs={9} style={{display: 'table', height: '60px', margin: '8px 0px'}}>

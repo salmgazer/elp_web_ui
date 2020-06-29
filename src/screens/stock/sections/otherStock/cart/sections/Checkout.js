@@ -15,6 +15,7 @@ import FormControlLabel from '@material-ui/core/FormControlLabel';
 import FormControl from '@material-ui/core/FormControl';
 import { green } from '@material-ui/core/colors';
 import clsx from 'clsx';
+import paths from "../../../../../../utilities/paths";
 
 import CartService from "../../../../../../services/CartService";
 import SimpleSnackbar from "../../../../../../components/Snackbar/SimpleSnackbar";
@@ -94,14 +95,16 @@ function StyledRadio(props) {
 }
 
 const CheckoutView = props => {
+    const { history } = props;
     const [value, setValue] = React.useState('gift');
+    const [paymentValue, setPaymentValue] = React.useState(6);
     const [cartData , setCartData] = React.useState(
         {
             amountPaid: props.cartTotalAmount,
             changeDue: 0,
             customer: props.currentCustomer,
             salesType: value,
-            type: 0
+            type: paymentValue
         }
     );
     const classes = useStyles();
@@ -135,9 +138,11 @@ const CheckoutView = props => {
 
     const handleRadioChange = (event) => {
         console.log(event.target.value)
-        setValue(parseFloat(event.target.value));
+        setValue(event.target.name);
+        setPaymentValue(parseFloat(event.target.value));
         const {...oldFormFields} = cartData;
-        oldFormFields['salesType'] = event.target.value;
+        oldFormFields['salesType'] = event.target.name;
+        oldFormFields['type'] = event.target.value;
         setCartData(oldFormFields)
         console.log(oldFormFields)
 
@@ -166,6 +171,7 @@ const CheckoutView = props => {
 
     const completeSellHandler = async() => {
 
+        console.log(cartData)
         const {...oldFormFields} = cartData;
         oldFormFields['customer'] = props.currentCustomer;
 
@@ -178,17 +184,18 @@ const CheckoutView = props => {
         console.log(oldFormFields.type , oldFormFields.customer)
 
         const cashCustomerId = (await CustomerService.getCashCustomer())[0].id;
-        if(oldFormFields.type === 0 && (oldFormFields.customer === cashCustomerId)){
+        if( oldFormFields.customer === cashCustomerId){
             alert(`Please set a customer for this transaction`)
         }else {
             try {
-                await new SaleService().makeSell(cartData , cartData.type);
+                console.log(cartData.type)
+                await new SaleService().makeSell(cartData , parseFloat(cartData.type));
                 setSuccessMsg('Recorded successfully');
                 setSuccess(true);
                 setTimeout(function () {
                     setSuccessMsg('');
                     setSuccess(false);
-                    props.setView(0);
+                    history.push(paths.other_stock)
                 }, 2000);
             }catch (e) {
                 setErrorMsg('OOPS. Something went wrong. Please try again');
@@ -261,19 +268,19 @@ const CheckoutView = props => {
                     
                         
                             <Grid item xs={12} >
-                                <FormControlLabel value={'gift'} control={<StyledRadio />} label="Gift" style={{display: 'block', marginBottom: '10px', marginLeft: '20px'}}/>
+                                <FormControlLabel value={6} name={'gift'} control={<StyledRadio />} label="Gift" style={{display: 'block', marginBottom: '10px', marginLeft: '20px'}}/>
                             </Grid>
                                 
                             <Grid item xs={12} >
-                                <FormControlLabel value={'family'} control={<StyledRadio />} label="Family" style={{display: 'block', marginBottom: '10px', marginLeft: '20px'}}/>
+                                <FormControlLabel value={7} name={'family'} control={<StyledRadio />} label="Family" style={{display: 'block', marginBottom: '10px', marginLeft: '20px'}}/>
                             </Grid>
 
                             <Grid item xs={12} >
-                                <FormControlLabel value={'damaged'} control={<StyledRadio />} label="Damaged" style={{display: 'block', marginBottom: '10px', marginLeft: '20px'}}/>
+                                <FormControlLabel value={8} name={'damaged'} control={<StyledRadio />} label="Damaged" style={{display: 'block', marginBottom: '10px', marginLeft: '20px'}}/>
                             </Grid>
 
                             <Grid item xs={12} >
-                                <FormControlLabel value={'expired'} control={<StyledRadio />} label="Expired" style={{display: 'block', marginBottom: '10px', marginLeft: '20px'}}/>
+                                <FormControlLabel value={9} name={'expired'} control={<StyledRadio />} label="Expired" style={{display: 'block', marginBottom: '10px', marginLeft: '20px'}}/>
                             </Grid>
                     
                     </RadioGroup>

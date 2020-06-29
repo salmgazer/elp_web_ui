@@ -79,6 +79,7 @@ import OtherCart from './screens/stock/sections/otherStock/cart/OtherCart';
 import LocalInfo from "./services/LocalInfo";
 import ErrorPage from './screens/newDashboards/version2/section/ErrorPage';
 import UnderConstruction from './screens/newDashboards/version2/section/UnderConstruction';
+import DashboardMultipleBranches from './screens/newDashboards/version2/DashboardMultipleBranches';
 
 function NoMatch() {
   return (
@@ -109,6 +110,12 @@ class App extends React.Component {
                 path={paths.cart}
                 component={Cart}
                 title={`Cart`}
+              />
+              <AuthenticatedRoute
+                exact={true}
+                path={paths.dashboard_multiple}
+                component={DashboardMultipleBranches}
+                title={`Dashboard`}
               />
               <AuthenticatedRoute
                 exact={true}

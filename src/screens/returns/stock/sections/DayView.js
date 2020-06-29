@@ -117,7 +117,7 @@ const DayView = props => {
                 icons={                  
                     <Button
                         variant="contained"
-                        style={{'backgroundColor': 'white' , color: '#DAAB59', padding: '5px 20px', textTransform: 'none', fontSize:'17px'}}
+                        style={{'backgroundColor': 'white' , color: '#DAAB59', padding: '5px 15px', textTransform: 'none', fontSize:'15px'}}
                         onClick={returnAll.bind(this, purchases)} 
                     >
                         Return all

@@ -9,6 +9,7 @@ import ProductServiceHandler from "../../../../../services/ProductServiceHandler
 import SaleService from "../../../../../services/SaleService";
 import format from "date-fns/format";
 import LocalInfo from "../../../../../services/LocalInfo";
+import Avatar from "@material-ui/core/Avatar/Avatar";
 
 const SingleProduct = props => {
 
@@ -100,17 +101,15 @@ const SingleProduct = props => {
         <div>
             <Grid container spacing={1} className={`shadow1 mb-3 borderRadius10`}>
                 <Grid item xs={3}>
-                    <Card
-                        className="shadow1"
+                    <Avatar
+                        alt={image}
+                        src={image}
                         style={{
-                            margin: '5px auto', 
-                            backgroundImage: `url(${image})`, 
-                            backgroundPosition: 'center', 
-                            backgroundSize: 'cover', 
-                            width: '60px', 
-                            borderRadius: '50%', 
-                            height: '60px', 
-                            padding: '0px'
+                            width: "60px",
+                            height: "60px",
+                            borderRadius: "50%",
+                            margin: '10px auto',
+                            textAlign: 'center',
                         }}
                     />
                 </Grid>

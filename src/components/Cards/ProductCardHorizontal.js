@@ -1,11 +1,9 @@
 import React , { useState, useEffect } from 'react';
-import Paper from "@material-ui/core/Paper/Paper";
 import Grid from "@material-ui/core/Grid/Grid";
 import Typography from "@material-ui/core/Typography/Typography";
-import ButtonBase from "@material-ui/core/ButtonBase/ButtonBase";
 import ProductServiceHandler from "../../services/ProductServiceHandler";
 import Divider from '@material-ui/core/Divider';
-import Card from "@material-ui/core/Card/Card";
+import Avatar from "@material-ui/core/Avatar/Avatar";
 import InputBase from "@material-ui/core/InputBase/InputBase";
 import {makeStyles} from "@material-ui/core";
 
@@ -94,17 +92,16 @@ const ProductCardHorizontal = props => {
             <Grid item xs={12}>
                 <Grid container >
                     <Grid item xs={3}>
-                        <Card
-                            className="shadow1"
+                        <Avatar
+                            alt={image}
+                            src={image}
+                            //className={classes.primaryColor}
                             style={{
-                                margin: '5px auto',
-                                backgroundImage: `url(${image})`,
-                                backgroundPosition: 'center',
-                                backgroundSize: 'cover',
-                                width: '60px',
-                                borderRadius: '50%',
-                                height: '60px',
-                                padding: '0px'
+                                width: "60px",
+                                height: "60px",
+                                borderRadius: "50%",
+                                margin: '10px auto',
+                                textAlign: 'center',
                             }}
                         />
                     </Grid>

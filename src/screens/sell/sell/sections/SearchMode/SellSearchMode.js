@@ -11,6 +11,10 @@ import SearchInput from "../../../../Components/Input/SearchInput";
 import BranchProductService from "../../../../../services/BranchProductService";
 import SimpleSnackbar from "../../../../../components/Snackbar/SimpleSnackbar";
 import SingleProductMainCard from "../singleProductMainCard";
+import Empty from '../../../../../assets/img/employee.png';
+import Button from "@material-ui/core/Button/Button";
+import paths from "../../../../../utilities/paths";
+import Box from "@material-ui/core/Box/Box";
 
 const useStyles = makeStyles(theme => ({
     root: {
@@ -49,6 +53,7 @@ const SellSearchMode = props => {
     const [searchValue, setSearchValue] = useState({
         search: ''
     });
+    const { history } = props;
     const [error, setError] = useState(false);
     const [errorMsg, setErrorMsg] = useState('');
     const [productAdded, setProductAdded] = useState(false);
@@ -185,21 +190,44 @@ const SellSearchMode = props => {
                 <Grid container spacing={1} className='mt-3'>
                     {branchProducts.length === 0
                         ?
-                        <Grid
-                            item xs={12}
-                            className={`text-left pl-2`}
-                        >
-                            <div className={`rounded mx-1 my-2 p-2 bordered`}>
-                                <Typography
-                                    component="h6"
-                                    variant="h6"
-                                    style={{fontSize: '16px'}}
-                                    className={`text-center text-dark w-100`}
-                                >
-                                    No product found
-                                </Typography>
-                            </div>
-                        </Grid>
+                        // <Grid
+                        //     item xs={12}
+                        //     className={`text-left pl-2`}
+                        // >
+                        //     <div className={`rounded mx-1 my-2 p-2 bordered`}>
+                        //         <Typography
+                        //             component="h6"
+                        //             variant="h6"
+                        //             style={{fontSize: '16px'}}
+                        //             className={`text-center text-dark w-100`}
+                        //         >
+                        //             No product found
+                        //         </Typography>
+                        //     </div>
+                        // </Grid>
+                        <div>
+                            <Box component="div" m={2} style={{marginTop: '-1rem'}} >
+                                <img className="img100" src={Empty} alt={'payment'}/>
+                            </Box>
+
+                            
+                            <Typography className='text-dark font-weight-bold' style={{ fontSize: '17px', padding: '0px 10px 10px 10px' }} >
+                                Seems you don't have any stock
+                            </Typography>
+                            
+
+                            <Typography className='font-weight-light mt-1' style={{ fontSize: '15px', marginBottom: '20px' }} >
+                                    Click Add Stock to add products you sell to your store
+                            </Typography>
+
+                            <Button
+                                variant="contained"
+                                style={{'backgroundColor': '#DAAB59' , color: '#333333', padding: '5px 40px', textTransform: 'none', fontSize:'17px'}}
+                                onClick={() => history.push(paths.add_products)}
+                            >
+                                Add stock
+                            </Button>
+                        </div>
                         :
                         branchProducts.map((branchProduct) =>
                             <Grid key={branchProduct.productId} item xs={4}

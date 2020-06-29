@@ -5,6 +5,7 @@ import PrimaryButton from "../../../../components/Buttons/PrimaryButton";
 import ProductServiceHandler from "../../../../services/ProductServiceHandler";
 import BranchProductService from "../../../../services/BranchProductService";
 import BranchStockService from "../../../../services/BranchStockService";
+import Button from "@material-ui/core/Button/Button";
 
 const LowStockProductSingle = props => {
     const branchProduct = props.product;
@@ -46,7 +47,7 @@ const LowStockProductSingle = props => {
                     style={{margin: '5px auto' ,backgroundImage: `url(${image})` , backgroundPosition: 'center', backgroundSize: 'cover' , width: '40px' ,borderRadius: '50%', height: '40px', padding: '4px'}}
                 />
             </Grid>
-            <Grid item xs={5}
+            <Grid item xs={7}
                   className={`pt-0`}
                   style={{fontSize: '16px', textAlign: 'left', height: '60px', margin: '8px 0px'}}
             >
@@ -54,19 +55,25 @@ const LowStockProductSingle = props => {
                 >
                     {name}
                 </div>
-                <div className="font-weight-light mt-1" style={{color: '#53BF77', fontSize: '14px'}}>{`Items remaining : ${productQuantity}`}</div>
+                <div className="font-weight-light mt-1" style={{color: '#53BF77', fontSize: '14px'}}>{`Quantity remaining : ${productQuantity}`}</div>
             </Grid>
 
-            <Grid item xs={5}
+            <Grid item xs={3}
                   className={`pt-2`}
-                  style={{fontSize: '20px', textAlign: 'left', height: '60px', margin: '8px 0px'}}
+                  style={{ margin: '8px 0px'}}
             >
                 <div onClick={addProductHandler.bind(this , branchProduct.id)}>
-                    <PrimaryButton
+                    {/* <PrimaryButton
                         classes={`px-2 my-1`}
                     >
-                        Add quantity
-                    </PrimaryButton>
+                        Add stock
+                    </PrimaryButton> */}
+                    <Button
+                        variant="outlined"
+                        style={{border: '1px solid #DAAB59', color: '#DAAB59', padding: '5px 9px', textTransform: 'none', fontSize:'12px'}}
+                    >
+                        Add stock
+                    </Button>
                 </div>
 
 

@@ -60,4 +60,5 @@ export default {
     other_cart: '/other-cart',
     error_page: '/error-page',
     under_construction: '/under-construction',
+    dashboard_multiple: '/dashboard-multiple',
 };

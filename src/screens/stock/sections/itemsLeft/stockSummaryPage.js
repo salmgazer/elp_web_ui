@@ -44,7 +44,7 @@ const StockSummaryPage = props => {
                 style={{width: '100%'}}
             >
                 <Grid container spacing={1} className={`shadow1 mb-3 borderRadius10`}>
-                    <Grid item xs={4}>
+                    <Grid item xs={4} onClick={()=> props.setView(8)}>
                         <Card
                             className="shadow1 bordered"
                             style={{margin: '5px auto' ,backgroundImage: `url(${ItemsImage})` , backgroundPosition: 'center', backgroundSize: 'cover' , width: '70px' ,borderRadius: '50%', height: '70px', padding: '4px'}}
@@ -53,6 +53,7 @@ const StockSummaryPage = props => {
                     <Grid item xs={8}
                           className={`pt-2`}
                           style={{fontSize: '20px', textAlign: 'left', height: '60px', margin: '8px 0px'}}
+                          onClick={()=> props.setView(8)}
                     >
                         <div
                             className={`italize`}

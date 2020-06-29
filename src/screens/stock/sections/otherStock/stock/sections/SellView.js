@@ -15,10 +15,18 @@ import ShoppingCartOutlinedIcon from '@material-ui/icons/ShoppingCartOutlined';
 import SecondaryButton from "../../../../../../components/Buttons/SecondaryButton";
 import ArrowBackIcon from '@material-ui/icons/ArrowBack';
 import AccessTimeIcon from '@material-ui/icons/AccessTime';
+import {makeStyles} from "@material-ui/core";
+
+const useStyles = makeStyles(theme => ({
+    tabPrimaryColor: {
+        backgroundColor: `#daab59 !important`,
+        color: `#daab59 !important`,
+    },
+}));
 
 const SellView = props => {
     const { history } = props;
-
+    const styles = useStyles();
     const branchProducts = props.branchProducts;
     const spCount = props.spCount;
     const [value , setValue] = useState(0);
@@ -74,6 +82,9 @@ const SellView = props => {
                         textColor="primary"
                         variant="fullWidth"
                         aria-label="full width tabs example"
+                        classes= {{
+                            indicator: styles.tabPrimaryColor
+                        }}
                     >
                         <Tab label="Search mode" {...a11yProps(0)} />
                         <Tab label="Barcode mode" {...a11yProps(1)} />
