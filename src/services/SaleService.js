@@ -603,26 +603,39 @@ export default class SaleService {
         let credit = 0;
         let sellingPrice = 0;
         let quantity = 0;
-
+console.log(sale.length , 'saleLength')
         for (let step = 0; step < sale.length; step++) {
             costPrice += parseFloat(await SaleService.getSaleEntryCostPriceById(sale[step].saleId));
+            console.log(costPrice, 'costPrice')
+            console.log(step, 'step')
+
         }
 
         for (let step = 0; step < sale.length; step++) {
             profit += parseFloat(await SaleService.getSaleEntryProfitById(sale[step].saleId));
+            console.log(profit, 'profit')
+
         }
 
         for (let step = 0; step < sale.length; step++) {
             credit += parseFloat(await SaleService.getSaleEntryCreditById(sale[step].saleId));
+            console.log(credit, 'credit')
+
         }
 
         for (let step = 0; step < sale.length; step++) {
             sellingPrice += parseFloat(await SaleService.getSaleEntrySellingPriceById(sale[step].saleId));
+            console.log(sellingPrice, 'sellingPrice')
+
         }
 
         for (let step = 0; step < sale.length; step++) {
             quantity += parseFloat(await SaleService.getSaleProductQuantity(sale[step].saleId));
+            console.log(quantity, 'quantity')
+
         }
+
+        console.log(costPrice , profit,credit,sellingPrice,quantity)
 
         if (duration === 'week') {
             sale = await SaleService.weekSalesFormat(sale , date);
@@ -632,6 +645,8 @@ export default class SaleService {
             sale = await SaleService.yearSalesFormat(sale , date);
         }
 
+        console.log(sale)
+        console.log(costPrice , profit,credit,sellingPrice,quantity)
         return {
             sales: sale.reverse(),
             costPrice: costPrice.toFixed(2),

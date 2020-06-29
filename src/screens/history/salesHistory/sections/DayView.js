@@ -202,7 +202,7 @@ const DayView = props => {
             }, 2000);
             return false;
         }
-    }
+    };
 
     return(
         <div className={classes.root}>
@@ -277,11 +277,11 @@ const DayView = props => {
                             <img className="img100" src={Empty} alt={'payment'}/>
                         </Box>
 
-                        
+
                         <Typography className='text-dark font-weight-bold' style={{ fontSize: '17px', padding: '0px 0px 10px 0px' }} >
                             Seems you have not sold any product
                         </Typography>
-                        
+
 
                         <Typography className='font-weight-light mt-1' style={{ fontSize: '15px', marginBottom: '20px' }} >
                                 Click sell to be able to view sales history
