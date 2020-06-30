@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import ModelAction from "../../../../services/ModelAction";
 import {confirmAlert} from "react-confirm-alert";
-import {withRouter} from "react-router";
+import {withRouter} from "react-router-dom";
 
 import DayView from './views/DayView';
 import WeekView from './views/WeekView';
@@ -32,7 +32,7 @@ class OrderSortDate extends Component{
                 return <Payment setView={this.setStepContentView.bind(this)}  />;
             case 1:
                 return <DaySupplierView setView={this.setStepContentView.bind(this)} supplierDetails={this.state.suppliers} />;
-    
+
             default:
                 return 'Complete';
         }
@@ -93,7 +93,7 @@ class OrderSortDate extends Component{
             }
         }
         else {
-        
+
             try {
                 const status = new ModelAction('BranchProductStock').update(pId, formFields);
                 console.log(status)

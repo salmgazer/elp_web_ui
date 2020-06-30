@@ -88,8 +88,6 @@ class InvoiceSortDate extends Component {
    };
 
     async updateSaleEntry(pId, formFields){
-        console.log(formFields)
-        console.log(pId)
         if (formFields.sellingPrice) {
             const data = {
                 sellingPrice: parseFloat(formFields.sellingPrice)

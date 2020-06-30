@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import SectionNavbars from "../../../components/Sections/SectionNavbars";
 import { makeStyles } from '@material-ui/core/styles';
-import {withRouter} from "react-router";
+import {withRouter} from "react-router-dom";
 import './sections/ChangePrice.scss';
 import MainView from "./sections/MainView";
 import AddProductView from "./sections/AddProductView";
@@ -233,8 +233,8 @@ class ChangePrice extends Component{
     render(){
         return(
             <div className={`addProducts`}>
-                <SectionNavbars 
-                    title="Change selling price" 
+                <SectionNavbars
+                    title="Change selling price"
                     leftIcon={
                         <div onClick={() => this.props.history.goBack()}>
                             <ArrowBackIcon

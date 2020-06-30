@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {withRouter} from "react-router";
+import {withRouter} from "react-router-dom";
 
 import DayView from './sections/DayView';
 import WeekView from './sections/WeekView';
@@ -45,7 +45,7 @@ class SortDate extends Component{
                 "time": "4:00 pm"
             }
         ],
-        weekList: [ 
+        weekList: [
             {
                 'day_id': '1',
                 'day': 'Monday, 9th Mar, 2020',
@@ -70,9 +70,9 @@ class SortDate extends Component{
                 "date": "8th Mar, 2020",
                 "time": "9:00 am"
             },
-            
+
         ],
-        monthList: [ 
+        monthList: [
             {
                 'week_id': '1',
                 'week': 'Week 5: 17/02/2020 - 21/02/2020',
@@ -98,7 +98,7 @@ class SortDate extends Component{
                 "time": "2:00 pm"
             },
         ],
-        yearList: [ 
+        yearList: [
             {
                 'month_id': '1',
                 'month': 'January 2020',

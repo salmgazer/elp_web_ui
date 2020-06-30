@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import {withRouter} from "react-router";
+import {withRouter} from "react-router-dom";
 import Grid from '@material-ui/core/Grid';
 import Paper from '@material-ui/core/Paper';
 import Avatar from "@material-ui/core/Avatar";
@@ -131,23 +131,23 @@ const EmployeeDetails = props => {
                         title="Items sold"
                         amount={employee.items}
                     />
-                    
+
                     <CardGridComponent
                         title="Sales made"
                         amount={employee.sales}
                     />
-                    
+
                     <CardGridComponent
                         title="Previous collection"
                         amount={employee.prev}
                         styles={{marginBottom: '50px'}}
                     />
-                    
+
                     <CardGridComponent
                         title="Purchases bought"
                         amount={employee.purchases}
                     />
-            
+
                 </Grid>
 
             </BoxDefault>
@@ -159,7 +159,7 @@ const EmployeeDetails = props => {
                             Permission: Admin
                         </Typography>
                     </Grid>
-                    
+
                     <Grid item xs={2} style={{ paddingTop: "20px", fontSize: '12px' }}  >
                         <EditIcon style={{fontSize: '30px', color: '#DAAB59'}} onClick={() => setView(7)} />
                             <br/>
@@ -177,7 +177,7 @@ const EmployeeDetails = props => {
             >
                 <BottomMenu setView={props.setView}/>
             </Box>
-        
+
 
         </div>
     )

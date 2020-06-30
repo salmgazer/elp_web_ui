@@ -5,7 +5,7 @@ import shopImg from "../../../assets/img/store.png";
 import BoxDefault from "../../../components/Box/BoxDefault";
 import Button from "@material-ui/core/Button/Button";
 import paths from "../../../utilities/paths";
-import {withRouter} from "react-router";
+import {withRouter} from "react-router-dom";
 
 
 const ViewStore = props => {

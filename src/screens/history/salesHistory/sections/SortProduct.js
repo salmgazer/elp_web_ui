@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {withRouter} from "react-router";
+import {withRouter} from "react-router-dom";
 import {withDatabase} from "@nozbe/watermelondb/DatabaseProvider";
 import withObservables from "@nozbe/with-observables";
 import BranchService from "../../../../services/BranchService";
@@ -11,6 +11,7 @@ import WeekView from './WeekView';
 import MonthView from './MonthView';
 import YearView from './YearView';
 import SProductView from './SProductView';
+import SecondaryButton from "../../../../components/Buttons/SecondaryButton";
 
 
 class SortProduct extends Component{
@@ -76,7 +77,6 @@ class SortProduct extends Component{
         //Find index of specific object using findIndex method.
         const itemIndex = old_list.filter((item => item.productId === productId));
 
-        console.log(itemIndex)
         this.setState({
             currentProduct: itemIndex,
             activeStep: step
@@ -111,9 +111,16 @@ class SortProduct extends Component{
     render(){
         return(
             <div>
-                <DateToggle
-                    setView={this.setStepContentView.bind(this)}
-                />
+                {
+                    this.state.activeStep !== 1 ?
+                        <DateToggle
+                            setView={this.setStepContentView.bind(this)}
+                        />
+                    :
+                        ''
+
+                }
+
                 {this.getStepContent(this.state.activeStep)}
 
             </div>

@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import {withRouter} from "react-router";
+import {withRouter} from "react-router-dom";
 import Grid from '@material-ui/core/Grid';
 import Paper from '@material-ui/core/Paper';
 import Box from "@material-ui/core/Box/Box";
@@ -84,7 +84,7 @@ const EmployeesList = props => {
                 <Button
                     variant="contained"
                     style={{'backgroundColor': '#DAAB59' , color: '#333333', padding: '10px 50px', textTransform: 'none', fontSize: '15px'}}
-                    onClick={() => setView(3)} 
+                    onClick={() => setView(3)}
                 >
                     <AddCircleOutlineIcon />  Add new employee
                 </Button>

@@ -150,8 +150,6 @@ const InvoiceHistory = props => {
 
         </div>
     )
-
-
-}
+};
 
 export default withRouter(InvoiceHistory);

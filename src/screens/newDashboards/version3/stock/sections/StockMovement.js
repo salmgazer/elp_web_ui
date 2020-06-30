@@ -8,7 +8,7 @@ import SwipeableViews from "react-swipeable-views";
 import TabPanel from "../../../../../components/Tabs/TabPanel";
 import Box from "@material-ui/core/Box/Box";
 import Button from "@material-ui/core/Button/Button";
-import {withRouter} from "react-router";
+import {withRouter} from "react-router-dom";
 import ArrowBackIcon from '@material-ui/icons/ArrowBack';
 import BottomDrawer from "../../../../../components/Drawer/BottomDrawer/BottomDrawer";
 import ListItem from '@material-ui/core/ListItem';

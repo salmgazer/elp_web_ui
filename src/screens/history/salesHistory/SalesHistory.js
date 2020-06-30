@@ -104,6 +104,7 @@ const SalesHistory = props => {
                     style={{marginTop: '60px'}}
                     textColor="primary"
                     variant="fullWidth"
+                    selectionFollowsFocus={true}
                     aria-label="full width tabs example"
                     classes= {{
                         indicator: styles.tabPrimaryColor
@@ -123,7 +124,7 @@ const SalesHistory = props => {
                 </TabPanel>
 
                 <TabPanel value={value} index={1} >
-                    <SortProduct />
+                    <SortProduct start={value} />
                 </TabPanel>
 
             </SwipeableViews>
@@ -157,8 +158,6 @@ const SalesHistory = props => {
 
         </div>
     )
-
-
-}
+};
 
 export default withRouter(SalesHistory);

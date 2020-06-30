@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {withRouter} from "react-router";
+import {withRouter} from "react-router-dom";
 import {withDatabase} from "@nozbe/watermelondb/DatabaseProvider";
 import withObservables from "@nozbe/with-observables";
 import BranchService from "../../../../services/BranchService";
@@ -15,14 +15,16 @@ import SortCustomerView from './SortCustomerView';
 import CustomerService from '../../../../services/CustomerService';
 
 class SortCustomer extends Component{
-
-    state={
-        isDrawerShow: false,
-        activeStep: 1,
-        branchCustomers: [],
-        currentCustomer: {},
-        pageName: true
-    }
+    constructor(props){
+        super(props);
+        this.state = {
+            isDrawerShow: false,
+            activeStep: 1,
+            branchCustomers: [],
+            currentCustomer: {},
+            pageName: true
+        };
+    };
 
     /*
     * Fetch all products when component is mounted

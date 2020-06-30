@@ -3,7 +3,7 @@ import Grid from '@material-ui/core/Grid';
 import Paper from '@material-ui/core/Paper';
 import Typography from '@material-ui/core/Typography';
 import Switch from '../../../../components/Switch/Switch';
-import {withRouter} from "react-router";
+import {withRouter} from "react-router-dom";
 import ArrowBackIcon from '@material-ui/icons/ArrowBack';
 
 

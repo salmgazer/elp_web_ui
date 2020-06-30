@@ -1,9 +1,9 @@
 import React, {Component} from 'react';
-import {withRouter} from "react-router";
+import {withRouter} from "react-router-dom";
 
 import MainPage from './sections/MainPage';
 
-class CustomerCare extends Component {  
+class CustomerCare extends Component {
 
     state={
         activeStep: 0,

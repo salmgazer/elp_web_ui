@@ -1,10 +1,10 @@
 import React, {Component} from 'react';
-import {withRouter} from "react-router";
+import {withRouter} from "react-router-dom";
 
 import MainPage from './attendant/MainPage';
 import CollectionHistory from './attendant/CollectionHistory';
 
-class Attendant extends Component {  
+class Attendant extends Component {
 
     state={
         activeStep: 0,

@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {withRouter} from "react-router";
+import {withRouter} from "react-router-dom";
 
 import AddEmployee from './sections/AddEmployee';
 import EditEmployee from './sections/EditEmployee';
@@ -30,7 +30,7 @@ class Employees extends Component{
                 'position': 'supervisor'
             }
         ],
-        currentEmployee: 
+        currentEmployee:
             {
                 'name': 'Kwame Befo',
                 'position': 'attendant',
@@ -73,7 +73,7 @@ class Employees extends Component{
                 'name': 'Support'
             },
         ]
-        
+
     }
 
     getStepContent = step => {

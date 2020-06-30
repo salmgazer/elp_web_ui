@@ -3,7 +3,7 @@ import Grid from '@material-ui/core/Grid';
 import Paper from '@material-ui/core/Paper';
 import Typography from '@material-ui/core/Typography';
 import Box from "@material-ui/core/Box/Box";
-import {withRouter} from "react-router";
+import {withRouter} from "react-router-dom";
 import ArrowBackIcon from '@material-ui/icons/ArrowBack';
 
 import SectionNavbars from "../../../../components/Sections/SectionNavbars";
@@ -41,7 +41,7 @@ const EmployeePermission = props => {
             <Box style={{paddingBottom: '60px'}} p={1} className={`mt-3 mb-5`}>
 
                 {props.employeePermission.map((item) => <SinglePermission  key={item.id} permission={item}/>)}
-  
+
             </Box>
         </div>
     )

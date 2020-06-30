@@ -1,11 +1,11 @@
 import React, {Component} from 'react';
 import MainView from './sections/MainView';
-import {withRouter} from "react-router";
+import {withRouter} from "react-router-dom";
 import {confirmAlert} from "react-confirm-alert";
 
 
 
-class Accounting extends Component {  
+class Accounting extends Component {
 
     constructor (props) {
         super(props);
@@ -59,7 +59,7 @@ class Accounting extends Component {
                     amount:'',
                     key:'',
                     date: ''
-                }, 
+                },
             })
         }
     }
@@ -157,12 +157,12 @@ class Accounting extends Component {
         return(
             <div>
 
-                <MainView 
+                <MainView
                     listOfCashInItems={this.state.inputItems}
-                    amountValCashIn={this.state.currentInputItem.amount} 
-                    changesCashIn={this.handleInput.bind(this)} 
-                    addCashIn={this.addInput.bind(this)} 
-                    handleEditIn={this.handleAnotherInput.bind(this)} 
+                    amountValCashIn={this.state.currentInputItem.amount}
+                    changesCashIn={this.handleInput.bind(this)}
+                    addCashIn={this.addInput.bind(this)}
+                    handleEditIn={this.handleAnotherInput.bind(this)}
                     deleteCashIn={this.deleteInput.bind(this)}
 
                     amountValCashOut={this.state.currentOutputItem.amount}

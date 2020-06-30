@@ -10,7 +10,6 @@ import SearchInput from "../../../Components/Input/SearchInput";
 const ProductView = props => {
 
     const addProductHandler = (id) => {
-        console.log(id);
         props.productAdd(id, 0);
     };
 

@@ -56,7 +56,6 @@ const MonthView = props => {
       });
 
     const getSaleDetails = async (date) => {
-        console.log(date);
         let response = [];
         //let activeHistoryIndex = '';
 

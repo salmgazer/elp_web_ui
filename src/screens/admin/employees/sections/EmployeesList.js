@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import {withRouter} from "react-router";
+import {withRouter} from "react-router-dom";
 import Grid from '@material-ui/core/Grid';
 import Paper from '@material-ui/core/Paper';
 import Box from "@material-ui/core/Box/Box";
@@ -57,7 +57,7 @@ const EmployeesList = props => {
                     </div>
                 }
             />
-          
+
             <Paper style={{marginTop: '60px'}}>
                 <Grid container spacing={2} style={{marginTop: '10px'}} className={`pt-2`}>
                     <Grid item xs={11} style={{padding: '10px 8px 15px 8px'}} className={`mx-auto mt-7`}>
@@ -72,7 +72,7 @@ const EmployeesList = props => {
                     </Grid>
                 </Grid>
             </Paper>
-               
+
             {branchEmployees.length === 0
                 ?
                 <div>
@@ -89,7 +89,7 @@ const EmployeesList = props => {
                     </Typography>
                 </div>
                 :
-            
+
                 branchEmployees.map((item) => <SingleEmployeeList  key={item.id} employee={item} setView={props.setView}/>)
             }
 
@@ -106,7 +106,7 @@ const EmployeesList = props => {
                         <Grid item xs={6} style={{padding: "0px 10px"}}>
                             <Button
                                 variant="outlined"
-                                onClick={() => setView(3)} 
+                                onClick={() => setView(3)}
                                 style={{
                                     width: '100%',
                                     'backgroundColor': '#ffff',
@@ -126,7 +126,7 @@ const EmployeesList = props => {
                         <Grid item xs={6} style={{padding: "0px 10px"}}>
                             <Button
                                 variant="contained"
-                                onClick={() => setView(2)} 
+                                onClick={() => setView(2)}
                                 style={{
                                     width: '100%',
                                     'backgroundColor': '#DAAB59',

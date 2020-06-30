@@ -1,6 +1,6 @@
 import React, {useState} from 'react';
 import {makeStyles} from "@material-ui/core";
-import {withRouter} from "react-router";
+import {withRouter} from "react-router-dom";
 import Grid from '@material-ui/core/Grid';
 import Paper from '@material-ui/core/Paper';
 import Box from "@material-ui/core/Box/Box";
@@ -137,7 +137,7 @@ const AddEmployee = props => {
                     </Grid>
                 </Grid>
             </Paper>
-           
+
             <Paper variant="outlined" className={classes.paper}>
                 <Grid container spacing={2}  className={`pt-2 mx-auto mt-7`}>
                     <Grid item xs={12}>

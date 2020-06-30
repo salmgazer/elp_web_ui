@@ -1,10 +1,10 @@
 import React, {Component} from 'react';
-import {withRouter} from "react-router";
+import {withRouter} from "react-router-dom";
 
 import MainPage from './sections/MainPage';
 import CollectionHistory from './sections/CollectionHistory';
 
-class Accounting extends Component {  
+class Accounting extends Component {
 
     state={
         activeStep: 0,
