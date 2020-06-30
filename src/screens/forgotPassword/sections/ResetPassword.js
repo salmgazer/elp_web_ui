@@ -21,7 +21,6 @@ import Snackbar from '@material-ui/core/Snackbar';
 import MuiAlert from '@material-ui/lab/Alert';
 import SimpleSnackbar from "../../../components/Snackbar/SimpleSnackbar";
 
-
 const useStyles = makeStyles(theme => ({
     root: {
         width: '100%',
@@ -172,7 +171,6 @@ const ResetPassword = props => {
                         onSubmit={() => submit()}
                         onError={errors => console.log(errors)}
                     >
-
                         <div className={`${classes.margin} mt-3`} style={{'paddingBottom': '10px'}}>
                             <Grid item xs={12} className={`mb-3`}>
                                 <ValidationTextField
@@ -200,7 +198,6 @@ const ResetPassword = props => {
                                                     {showPassword ? <Visibility /> : <VisibilityOff />}
                                                 </IconButton>
                                             </InputAdornment>
-
                                     }}
                                 />
                             </Grid>

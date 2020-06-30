@@ -12,11 +12,9 @@ import Grid from "@material-ui/core/Grid/Grid";
 import BranchProductService from "../../../services/BranchProductService";
 import BranchStockService from "../../../services/BranchStockService";
 import BarcodeImage from "../../../assets/img/barcode.png";
-import {Link} from "react-router-dom";
 import DeleteProductModal from '../../../components/Modal/option/DeleteProductModal';
 import SelectDeleteModal from '../../../components/Modal/option/SelectDeleteModal';
 import { withRouter } from "react-router-dom";
-
 
 const StockProductSingle = props => {
     let branchProduct = props.product[0];
@@ -70,11 +68,11 @@ const StockProductSingle = props => {
 
     const barcodeHandler = () => {
         props.setView(7);
-    }
+    };
 
     const setSP = (sp) => {
         setSellingPrice(parseFloat(sp));
-    }
+    };
 
     return (
         <div className={`mt-6`}>
@@ -266,9 +264,9 @@ const StockProductSingle = props => {
                 }
 
 
-                <Link onClick={openDeleteDialog.bind(this)}  style={{textAlign: 'center', color: '#DAAB59'}} >
+                <span onClick={openDeleteDialog.bind(this)} style={{textAlign: 'center', color: '#DAAB59'}} >
                     Remove product from store
-                </Link>
+                </span>
 
                 <DeleteProductModal
                     openState={deleteDialog}
@@ -299,4 +297,4 @@ const StockProductSingle = props => {
     );
 };
 
-export default StockProductSingle;
+export default withRouter(StockProductSingle);

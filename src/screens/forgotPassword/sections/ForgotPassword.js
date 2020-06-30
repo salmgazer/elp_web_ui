@@ -21,7 +21,6 @@ import SimpleSnackbar from "../../../components/Snackbar/SimpleSnackbar";
 import Snackbar from "@material-ui/core/Snackbar/Snackbar";
 import MuiAlert from '@material-ui/lab/Alert';
 
-
 function Alert(props) {
     return <MuiAlert elevation={6} variant="filled" {...props} />;
 }
@@ -97,7 +96,6 @@ const ForgotPassword = props => {
             setSuccessMsg('Your verification code has been sent.');
             setSuccessDialog(true);
 
-            console.log(response);
             localStorage.setItem('userOTP' , response.data.otp);
             localStorage.setItem('randomId' , response.data.userId);
             setTimeout(function(){
@@ -133,7 +131,6 @@ const ForgotPassword = props => {
 
         return false;
     };
-
 
     return (
         <div className={classes.root} style={{ backgroundColor: '#ffffff', height: '100vh' }}>
@@ -186,7 +183,6 @@ const ForgotPassword = props => {
                                 onSubmit={() => submit(state)}
                                 onError={errors => console.log(errors)}
                             >
-
                                 <div className={`${classes.margin} mt-3`} style={{'paddingBottom': '10px'}}>
                                     <Grid item xs={12}>
                                         <ValidationTextField
@@ -236,9 +232,12 @@ const ForgotPassword = props => {
                             <Link to={paths.login}>
                                 <div
                                     className={`text-dark mt-3`}
-                                    style={{'marginTop': '20px', fontSize: '22px'}}>Back to login screen</div> <br/>
+                                    style={{'marginTop': '20px', fontSize: '20px' , textDecorationColor: '#333333'}}
+                                >
+                                    Back to login screen
+                                </div>
+                                <br/>
                             </Link>
-
                         </Container>
                     </React.Fragment>
                 )}
