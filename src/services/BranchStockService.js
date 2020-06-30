@@ -267,7 +267,7 @@ export default class BranchStockService{
 
     async getCompanyItemsLeft(){
         const branches = (LocalInfo.branches).map(branch => branch.branchId);
-        console.log(branches)
+        console.log(branches);
 
         const companyStock = await new ModelAction('BranchProductStock').findByColumnNotObserve({
             name: 'branchId',
