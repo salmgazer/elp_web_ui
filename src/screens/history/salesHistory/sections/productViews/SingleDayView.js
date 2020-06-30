@@ -24,7 +24,6 @@ import fromUnixTime from "date-fns/fromUnixTime";
 import UnitCost from '../../../../Components/Input/UnitCost';
 import Avatar from "@material-ui/core/Avatar/Avatar";
 
-
 const useStyles = makeStyles(theme => ({
     root: {
         width: '90%',
@@ -59,8 +58,8 @@ const SingleDayView = props => {
     const [mainDialog, setMainDialog] = React.useState(false);
     const [value, setValue] = React.useState(0);
     const [product, setProduct] = useState(false);
-    const [name , setName] = useState(false);
-    const [image , setImage] = useState(false);
+    const [name , setName] = useState('');
+    const [image , setImage] = useState('');
     const [quantity , setQuantity] = useState(false);
     const [totalPrice , setTotalPrice] = useState(false);
     const [selectedDate , setSelectedDate] = useState('');

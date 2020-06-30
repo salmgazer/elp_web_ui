@@ -200,9 +200,6 @@ class Sell extends Component {
         try {
             const searchResults = await new CartService().searchCartBranchCustomer(searchValue);
 
-            console.log('%%%%%%%%%%%%%%')
-            console.log(searchResults)
-            console.log('%%%%%%%%%%%%')
             this.setState({
                 savedCart: searchResults
             });

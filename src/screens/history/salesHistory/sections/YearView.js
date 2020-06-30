@@ -15,17 +15,16 @@ import Empty from '../../../../assets/img/empty.png';
 import Button from "@material-ui/core/Button/Button";
 import paths from "../../../../utilities/paths";
 
-const useStyles = makeStyles(theme => ({
+const useStyles = makeStyles(({
     root: {
       flexGrow: 1,
       marginBottom: '4rem'
     }
-  }));
+}));
 
-  const values = new SystemDateHandler().getStoreYears()
+const values = new SystemDateHandler().getStoreYears()
 
-  const YearView = props => {
-    console.log(new SystemDateHandler().getStoreYears());
+const YearView = props => {
     const { history } = props;
     const classes = useStyles();
     const [selectedYear, setSelectedYear] = React.useState(values[0].value);
@@ -129,11 +128,11 @@ const useStyles = makeStyles(theme => ({
                             <img className="img100" src={Empty} alt={'payment'}/>
                         </Box>
 
-                        
+
                         <Typography className='text-dark font-weight-bold' style={{ fontSize: '17px', padding: '0px 0px 10px 0px' }} >
                             Seems you have not sold any product
                         </Typography>
-                        
+
 
                         <Typography className='font-weight-light mt-1' style={{ fontSize: '15px', marginBottom: '20px' }} >
                                 Click sell to be able to view sales history

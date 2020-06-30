@@ -5,7 +5,6 @@ import EventIcon from '@material-ui/icons/Event';
 
 const SingleMonthView = props => {
     const sale = props.sale;
-    console.log(sale)
 
     return(
         <Grid container spacing={1} className={`shadow1 mb-3 borderRadius10`}>

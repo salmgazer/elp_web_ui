@@ -60,8 +60,8 @@ const SingleDayView = props => {
     const [mainDialog, setMainDialog] = React.useState(false);
     const [value, setValue] = React.useState(0);
     const [product, setProduct] = useState(false);
-    const [name , setName] = useState(false);
-    const [image , setImage] = useState(false);
+    const [name , setName] = useState('');
+    const [image , setImage] = useState('');
     const [quantity , setQuantity] = useState(false);
     const [totalPrice , setTotalPrice] = useState(false);
     const [selectedDate , setSelectedDate] = useState('');
@@ -165,7 +165,6 @@ const SingleDayView = props => {
     };
 
     const updatePriceEntry = () => {
-        console.log(priceFields)
         props.updatePriceEntry(sale.id, priceFields);
         setMainDialog(false);
     };

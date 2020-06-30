@@ -24,15 +24,14 @@ import SortProduct from './sections/SortProduct';
 import { Grid } from '@material-ui/core';
 import {makeStyles} from "@material-ui/core";
 
-const useStyles = makeStyles(theme => ({
+const useStyles = makeStyles(({
     tabPrimaryColor: {
         backgroundColor: `#daab59 !important`,
         color: `#daab59 !important`,
     },
 }));
 
-const SalesHistory = props => { 
-
+const SalesHistory = props => {
     const [value , setValue] = useState(0);
     const [isShowDrawer , setIsShowDrawer] = useState(false);
     const styles = useStyles();
@@ -158,7 +157,7 @@ const SalesHistory = props => {
 
         </div>
     )
-    
+
 
 }
 

@@ -7,7 +7,6 @@ import format from "date-fns/format";
 
 const SingleWeekView = props => {
     const sale = props.sale;
-    console.log(sale)
 
     return(
         <Grid container spacing={1} className={`shadow1 mb-3 borderRadius10`}>
