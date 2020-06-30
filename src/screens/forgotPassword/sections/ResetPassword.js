@@ -120,6 +120,7 @@ const ResetPassword = props => {
             }, 2000);
 
             history.push(paths.login);
+            console.log(response)
         } catch (error) {
             document.getElementById("loginForm").reset();
             setErrorMsg('Could not send code. Please enter again!');

@@ -21,7 +21,7 @@ const useStyles = makeStyles((theme) => ({
 
 const SelectDeleteModal = props => {
     
-    const { history } = props;
+    //const { history } = props;
     const classes = useStyles();
     const [state, setState] = React.useState({
         lapaz: true,

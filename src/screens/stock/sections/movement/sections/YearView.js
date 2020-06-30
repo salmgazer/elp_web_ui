@@ -46,7 +46,7 @@ const YearView = props => {
     });
 
     const getMovementDetails = async (date) => {
-      console.log(date);
+      console.log(date, name);
       let response = [];
 
       if (pageName === true){

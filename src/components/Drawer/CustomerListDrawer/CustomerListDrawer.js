@@ -1,4 +1,4 @@
-import React , {useEffect , useState} from 'react';
+import React , { useState} from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import Drawer from '@material-ui/core/Drawer';
 import List from '@material-ui/core/List';
@@ -14,7 +14,7 @@ import SecondaryButton from "../../Buttons/SecondaryButton";
 import AddCustomerModal from "../../Modal/Customer/AddCustomerModal";
 import CustomerService from "../../../services/CustomerService";
 import SimpleSnackbar from "../../Snackbar/SimpleSnackbar";
-import ListItemText from "@material-ui/core/ListItemText/ListItemText";
+// import ListItemText from "@material-ui/core/ListItemText/ListItemText";
 
 const useStyles = makeStyles({
     list: {

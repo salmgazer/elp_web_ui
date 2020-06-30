@@ -18,7 +18,7 @@ import ProductsIcon from "@material-ui/icons/Menu";
 import DeleteIcon from "@material-ui/icons/Delete";
 import SectionNavbars from "../../../../../components/Sections/SectionNavbars";
 import MoreVertIcon from '@material-ui/icons/MoreVert';
-import SimpleSnackbar from "../../../../../components/Snackbar/SimpleSnackbar";
+// import SimpleSnackbar from "../../../../../components/Snackbar/SimpleSnackbar";
 import Avatar from "@material-ui/core/Avatar/Avatar";
 import SupplierOrderHistorySingle from "./SupplierOrderHistorySingle";
 import SupplierService from "../../../../../services/SupplierService";
@@ -83,10 +83,10 @@ const useStyles = makeStyles(theme => ({
 const SingleSupplierDetails = props => {
     const classes = useStyles();
     const [isShowDrawer , setIsShowDrawer] = useState(false);
-    const [error , setError] = useState(false);
-    const [errorMsg , setErrorMsg] = useState('');
-    const [success , setSuccess] = useState(false);
-    const [successMsg , setSuccessMsg] = useState('');
+    // const [error , setError] = useState(false);
+    // const [errorMsg , setErrorMsg] = useState('');
+    // const [success , setSuccess] = useState(false);
+    // const [successMsg , setSuccessMsg] = useState('');
     const [owedAmount , setOwedAmount] = useState('');
     const [supplier , setSupplier] = useState('');
     const [orders , setOrders] = useState([]);
@@ -140,7 +140,7 @@ const SingleSupplierDetails = props => {
                     }
                 />
 
-                <SimpleSnackbar
+                {/* <SimpleSnackbar
                     type="success"
                     openState={success}
                     message={successMsg}
@@ -150,7 +150,7 @@ const SingleSupplierDetails = props => {
                     type="warning"
                     openState={error}
                     message={errorMsg}
-                />
+                /> */}
 
                 <Grid
                     container

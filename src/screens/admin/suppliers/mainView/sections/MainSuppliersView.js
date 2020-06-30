@@ -12,7 +12,7 @@ import Box from "@material-ui/core/Box/Box";
 import ArrowBackIcon from "@material-ui/icons/ArrowBack";
 import SectionNavbars from "../../../../../components/Sections/SectionNavbars";
 import MoreVertIcon from '@material-ui/icons/MoreVert';
-import SimpleSnackbar from "../../../../../components/Snackbar/SimpleSnackbar";
+// import SimpleSnackbar from "../../../../../components/Snackbar/SimpleSnackbar";
 import SearchInput from "../../../../Components/Input/SearchInput";
 import SupplierItemList from "./SupplierItemList";
 import Typography from "@material-ui/core/Typography/Typography";
@@ -84,10 +84,10 @@ const useStyles = makeStyles(theme => ({
 const MainSuppliersView = props => {
     const classes = useStyles();
     const [isShowDrawer , setIsShowDrawer] = useState(false);
-    const [error , setError] = useState(false);
-    const [errorMsg , setErrorMsg] = useState('');
-    const [success , setSuccess] = useState(false);
-    const [successMsg , setSuccessMsg] = useState('');
+    // const [error , setError] = useState(false);
+    // const [errorMsg , setErrorMsg] = useState('');
+    // const [success , setSuccess] = useState(false);
+    // const [successMsg , setSuccessMsg] = useState('');
     const [searchValue , setSearchValue] = useState({
         search: ''
     });
@@ -159,7 +159,7 @@ const MainSuppliersView = props => {
                     </Paper>
                 </div>
 
-                <SimpleSnackbar
+                {/* <SimpleSnackbar
                     type="success"
                     openState={success}
                     message={successMsg}
@@ -169,7 +169,7 @@ const MainSuppliersView = props => {
                     type="warning"
                     openState={error}
                     message={errorMsg}
-                />
+                /> */}
 
                 <Grid
                     container

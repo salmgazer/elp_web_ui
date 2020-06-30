@@ -30,7 +30,7 @@ const useStyles = makeStyles(theme => ({
 
 const CostInput = props => {
     const classes = useStyles();
-    let value = props.initialValue;
+    //let value = props.initialValue;
     const initialValue = parseFloat(props.initialValue) ? parseFloat(props.initialValue).toFixed(2) : '';
 console.log(initialValue)
     const inputName = props.inputName;

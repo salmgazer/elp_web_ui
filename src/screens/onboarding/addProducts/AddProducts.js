@@ -129,6 +129,7 @@ class AddProducts extends Component{
             );
 
             localStorage.removeItem('branchProductsAdded');
+            console.log(addedProducts)
         }
         /*
         * @todo why did you use the single operator...
@@ -142,6 +143,7 @@ class AddProducts extends Component{
             );
 
             localStorage.removeItem('branchProductsRemoved');
+            console.log(removedProducts)
         }
 
         if (typeof branchDeletedHistory != "undefined" && branchDeletedHistory != null && branchDeletedHistory.length != null
@@ -153,9 +155,10 @@ class AddProducts extends Component{
             );
 
             localStorage.removeItem('branchDeletedHistory');
+            console.log(removedProducts)
         }
         await SyncService.sync(LocalInfo.companyId, LocalInfo.branchId, LocalInfo.userId, database);
-
+ 
         const returnPage = localStorage.getItem('redirectPath') || '';
         localStorage.removeItem('redirectPath');
 

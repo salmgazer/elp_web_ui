@@ -67,6 +67,7 @@ const Drawer = props => {
     };
 
     const [syncOpen, setSyncOpen] = React.useState(false);
+    console.log(state, syncOpen)
 
     const database = useDatabase();
 
@@ -219,15 +220,15 @@ const Drawer = props => {
                 </ListItem>
                 <Collapse in={open} timeout="auto" unmountOnExit>
                     <List component="div" disablePadding>
-                        <ListItem button className={classes.nested}>
+                        <ListItem button className={classes.nested} onClick={() => history.push(paths.under_construction)}>
                             <ListItemIcon> <StoreIcon style={{color: '#403C3C'}} /> </ListItemIcon>
                             <ListItemText primary="Shop information" />
                         </ListItem>
-                        <ListItem button className={classes.nested}>
+                        <ListItem button className={classes.nested} onClick={() => history.push(paths.stock)}>
                             <ListItemIcon> <FormatListBulletedIcon style={{color: '#403C3C'}} /> </ListItemIcon>
                             <ListItemText primary="Stock" />
                         </ListItem>
-                        <ListItem button className={classes.nested} onClick={() => history.push(paths.employees)}>
+                        <ListItem button className={classes.nested} onClick={() => history.push(paths.under_construction)}>
                             <ListItemIcon> <PersonIcon style={{color: '#403C3C'}} /> </ListItemIcon>
                             <ListItemText primary="Employees" />
                         </ListItem>
@@ -235,7 +236,7 @@ const Drawer = props => {
                             <ListItemIcon> <PersonIcon style={{color: '#403C3C'}} /> </ListItemIcon>
                             <ListItemText primary="Customers" />
                         </ListItem>
-                        <ListItem button className={classes.nested} onClick={() => history.push(paths.suppliers)}>
+                        <ListItem button className={classes.nested} onClick={() => history.push(paths.under_construction)}>
                             <ListItemIcon> <PersonIcon style={{color: '#403C3C'}} /> </ListItemIcon>
                             <ListItemText primary="Suppliers" />
                         </ListItem>
@@ -247,7 +248,7 @@ const Drawer = props => {
                     <ListItemText primary="Audit" />
                 </ListItem>
 
-                <ListItem button key={8} onClick={() => history.push(paths.reconciliation)}>
+                <ListItem button key={8} onClick={() => history.push(paths.under_construction)}>
                     <ListItemIcon><AccountBalanceWalletIcon style={{color: '#403C3C'}} /></ListItemIcon>
                     <ListItemText primary="Reconciliation" />
                 </ListItem>

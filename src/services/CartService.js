@@ -319,7 +319,7 @@ console.log(activeCustomer)
     async suspendCart(){
         const customerId = await database.adapter.getLocal("activeCustomer");
         const cartId = await database.adapter.getLocal("cartId");
-        const activeCustomer = (await CustomerService.getCashCustomer())[0];
+        //const activeCustomer = (await CustomerService.getCashCustomer())[0];
 
         if(customerId === await CustomerService.getCashCustomer()){
             return false;

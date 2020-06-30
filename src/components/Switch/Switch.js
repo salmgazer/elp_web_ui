@@ -12,6 +12,7 @@ const SwitchLabels= (props) => {
   const handleChange = event => {
     setState({ ...state, [event.target.name]: event.target.checked });
   };
+  console.log(handleChange)
 
   return (
     <FormGroup row>

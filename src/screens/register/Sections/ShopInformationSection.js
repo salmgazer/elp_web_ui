@@ -164,7 +164,7 @@ export default function ShopInformationSection(props) {
                 props.isValid(await ShopInformationForm.current.isFormValid());
             }
         )();
-    }, []);
+    });
 
     useEffect(() => {
         (

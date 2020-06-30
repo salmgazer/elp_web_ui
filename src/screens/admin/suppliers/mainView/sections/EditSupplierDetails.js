@@ -9,7 +9,7 @@ import ArrowBackIcon from '@material-ui/icons/ArrowBack';
 import Typography from "@material-ui/core/Typography/Typography";
 import Box from "@material-ui/core/Box/Box";
 import Button from "@material-ui/core/Button/Button";
-import {TextValidator, ValidatorForm} from "react-material-ui-form-validator";
+import { ValidatorForm} from "react-material-ui-form-validator";
 import TextField from '@material-ui/core/TextField';
 
 import Select from "@material-ui/core/Select";
@@ -126,27 +126,27 @@ const useStyles = makeStyles(theme => ({
     }
 }));
 
-const ValidationTextField = withStyles({
-    root: {
-        '& input:valid + fieldset': {
-            borderColor: 'green',
-            borderWidth: 2,
-        },
-        '& input:invalid:not:focus + fieldset': {
-            borderColor: 'red',
-            borderWidth: 2,
-        },
-        '& input:invalid:focus + fieldset': {
-            borderColor: '#DAAB59',
-            borderWidth: 2,
-        },
-        '& input:valid:focus + fieldset': {
-            borderLeftWidth: 6,
-            borderColor: '#DAAB59',
-            padding: '4px !important', // override inline-style
-        },
-    },
-})(TextValidator);
+// const ValidationTextField = withStyles({
+//     root: {
+//         '& input:valid + fieldset': {
+//             borderColor: 'green',
+//             borderWidth: 2,
+//         },
+//         '& input:invalid:not:focus + fieldset': {
+//             borderColor: 'red',
+//             borderWidth: 2,
+//         },
+//         '& input:invalid:focus + fieldset': {
+//             borderColor: '#DAAB59',
+//             borderWidth: 2,
+//         },
+//         '& input:valid:focus + fieldset': {
+//             borderLeftWidth: 6,
+//             borderColor: '#DAAB59',
+//             padding: '4px !important', // override inline-style
+//         },
+//     },
+// })(TextValidator);
 
 const ValidationSelectField = withStyles({
     root: {
@@ -248,7 +248,7 @@ const EditSupplierDetails = props => {
 
 
     const classes = useStyles();
-    const [open, setOpen] = useState(false);
+    //const [open, setOpen] = useState(false);
 
     const handleFormValidation = (result) => {
         props.isValid(result);

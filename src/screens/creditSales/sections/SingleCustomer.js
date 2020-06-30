@@ -5,7 +5,6 @@ import {makeStyles} from "@material-ui/core";
 import Button from "@material-ui/core/Button/Button";
 import SaleService from "../../../services/SaleService";
 import format from "date-fns/format";
-import fromUnixTime from "date-fns/fromUnixTime";
 
 const useStyles = makeStyles(theme => ({
     primaryColor: {

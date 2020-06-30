@@ -28,6 +28,7 @@ export default class BranchStockService{
         try{
             const response = await new ModelAction('BranchProductStock').post(stockColumns);
 
+            console.log(response)
             if(await BranchStockService.addStockHistory()){
                 await BranchStockService.addPurchase(formFields);
                 await BranchStockService.updateProduct(formFields);
@@ -46,6 +47,7 @@ export default class BranchStockService{
             const response = await new ModelAction('BranchProduct').update(formFields.branchProductId , {
                 sellingPrice: parseFloat(formFields.sellingPrice)
             });
+            console.log(response)
 
             return true;
         } catch (e) {
@@ -131,6 +133,7 @@ export default class BranchStockService{
             try{
                 const response = await new ModelAction('StockMovement').post(stockMovementColumns);
 
+                console.log(response)
                 return true;
             } catch (e) {
                 return false;
@@ -237,6 +240,7 @@ export default class BranchStockService{
                 Q.where('productId' , productId),
                 Q.where('branchId' , branch.id)
             ).fetch();
+            console.log(branchProduct)
 
             return {
                 name: branch.name,
@@ -257,11 +261,13 @@ export default class BranchStockService{
             Q.where('productId' , productId),
             Q.where('branchId' , branchId)
         ).fetch();
+        console.log(stock)
 
     }
 
     async getCompanyItemsLeft(){
         const branches = (LocalInfo.branches).map(branch => branch.branchId);
+        console.log(branches)
 
         const companyStock = await new ModelAction('BranchProductStock').findByColumnNotObserve({
             name: 'branchId',

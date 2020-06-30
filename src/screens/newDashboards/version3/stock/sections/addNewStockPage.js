@@ -165,6 +165,7 @@ const AddNewStockPage = props => {
 
     const [swapItem, setSwapItem] = useState(true);
     const [btnState , setBtnState] = useState(false);
+    console.log(sellingPrice, unitPrice, errorMsg, btnState)
 
     const [formFields , setFormFields] = useState({
         quantity: 1,
@@ -293,7 +294,7 @@ const AddNewStockPage = props => {
         if (!product) {
             getProduct();
         }
-    }, []);
+    });
 
     const productHandler = new BranchProductService(branchProduct);
 

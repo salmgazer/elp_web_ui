@@ -3,7 +3,7 @@ import Grid from "@material-ui/core/Grid/Grid";
 import Card from "@material-ui/core/Card/Card";
 import PrimaryButton from "../../../../../../components/Buttons/PrimaryButton";
 import ProductServiceHandler from "../../../../../../services/ProductServiceHandler";
-import BranchProductService from "../../../../../../services/BranchProductService";
+//import BranchProductService from "../../../../../../services/BranchProductService";
 import BranchStockService from "../../../../../../services/BranchStockService";
 
 const OutOfStockProductSingle = props => {
@@ -14,14 +14,15 @@ const OutOfStockProductSingle = props => {
     const [image , setImage] = useState('');
     const [productQuantity , setProductQuantity] = useState(0);
     const [companyStocks , setCompanyStocks] = useState([]);
+    console.log(lastHistory, companyStocks)
 
     useEffect(() => {
         if (!product) {
             getProduct();
         }
-    }, []);
+    });
 
-    const productHandler = new BranchProductService(branchProduct);
+    //const productHandler = new BranchProductService(branchProduct);
 
     const getProduct = async () => {
         const newProduct = await branchProduct.product.fetch();

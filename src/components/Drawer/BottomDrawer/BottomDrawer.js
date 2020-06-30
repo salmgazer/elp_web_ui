@@ -19,6 +19,7 @@ export default function BottomDrawer(props) {
     const [state, setState] = useState({
         bottom: props.isShow,
     });
+    console.log(state)
 
     useEffect(() => {
         toggleDrawer('bottom' , props.isShow);
@@ -30,7 +31,7 @@ export default function BottomDrawer(props) {
             return;
         }
 
-        setState({['bottom']: open });
+        setState({'bottom': open });
     };
 
     const list = (anchor) => (

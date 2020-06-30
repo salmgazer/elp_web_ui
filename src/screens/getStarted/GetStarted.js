@@ -46,9 +46,9 @@ const GetStarted = props => {
     }, []);
 
     //Steps to select category
-    const getSteps = () => {
-        return ['Welcome View' , 'Add Product View'];
-    };
+    // const getSteps = () => {
+    //     return ['Welcome View' , 'Add Product View'];
+    // };
 
     const changeStep = () => {
         setActiveStep(1);

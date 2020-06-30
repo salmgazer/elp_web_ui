@@ -11,7 +11,7 @@ import SimpleSnackbar from "../../../../components/Snackbar/SimpleSnackbar";
 import SectionNavbars from "../../../../components/Sections/SectionNavbars";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faCalculator} from "@fortawesome/free-solid-svg-icons";
-import CostCalculator from "../../../../components/Calculator/CostCalculator";
+//import CostCalculator from "../../../../components/Calculator/CostCalculator";
 import ProductServiceHandler from '../../../../services/ProductServiceHandler';
 import LocalInfo from "../../../../services/LocalInfo";
 import ArrowBackIcon from '@material-ui/icons/ArrowBack';

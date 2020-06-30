@@ -114,6 +114,7 @@ console.log(columns)
                     if(columns.hasOwnProperty(column)){
                         item[column] = columns[column]
                     }
+                    return true;
                 })
             });
         });
@@ -143,6 +144,7 @@ console.log(columns)
             this.database.action(async () => {
                 await item.destroyPermanently() // syncable
             })
+            return true;
         })
     }
 

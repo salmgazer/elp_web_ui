@@ -193,7 +193,7 @@ const Dashboard = props => {
                         marginBottom: '5px' ,
                     }}
                 >
-                    <CardGridComponent source={transfer} text='Collection' />
+                    <CardGridComponent source={transfer} text='Collection' onClick={() => history.push(paths.under_construction)} />
 
                     <CardGridComponent source={dashboardAlt} text='View history' onClick={openHistoryDialog.bind(this)} />
 

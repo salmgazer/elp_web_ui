@@ -3,13 +3,11 @@ import MainDialog from '../../Dialog/ProductDialog';
 import Button from "@material-ui/core/Button/Button";
 import Typography from '@material-ui/core/Typography';
 import { withRouter } from "react-router-dom";
-import paths from "../../../utilities/paths";
-import Box from "@material-ui/core/Box/Box";
 import Grid from "@material-ui/core/Grid/Grid";
 
 const DeleteProductModal = props => {
     
-    const { history } = props;
+   // const { history } = props;
     const openState = props.openState;
 
     return(
