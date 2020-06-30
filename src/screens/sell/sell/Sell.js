@@ -257,13 +257,7 @@ class Sell extends Component {
 
     //Search product barcode
     searchBarcode = async (barcode) => {
-        const products = await new BranchService().searchBarcodeProduct(barcode);
-
-        await this.setState({
-            currentProduct: products[0],
-        });
-
-        return products[0];
+        return await new BranchService().searchBarcodeProduct(barcode);
     };
 
     render(){

@@ -71,7 +71,7 @@ class Audit extends Component {
     getStepContent = step => {
         switch (step) {
             case 0:
-                return <MainAuditView productAdd={this.showAddView.bind(this)} searchHandler={this.searchHandler.bind(this)} spCount={this.state.spCount} setView={this.setStepContentView.bind(this)} branchProducts={this.state.branchProducts}/>;
+                return <MainAuditView searchBarcode={this.searchBarcode.bind(this)} productAdd={this.showAddView.bind(this)} searchHandler={this.searchHandler.bind(this)} spCount={this.state.spCount} setView={this.setStepContentView.bind(this)} branchProducts={this.state.branchProducts}/>;
             case 1:
                 return <AddAuditProductView addToAudit={this.addProductToCartHandler.bind(this)} product={this.state.currentProduct} setView={this.setStepContentView.bind(this)} branchProducts={this.state.branchProducts}/>;
             case 2:
@@ -187,13 +187,7 @@ class Audit extends Component {
 
     //Search product barcode
     searchBarcode = async (barcode) => {
-        const products = await new BranchService().searchBarcodeProduct(barcode);
-
-        await this.setState({
-            currentProduct: products[0],
-        });
-
-        return products[0];
+        return await new BranchService().searchBarcodeProduct(barcode);
     };
 
     /*Add product to cart*/

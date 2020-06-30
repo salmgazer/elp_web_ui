@@ -26,7 +26,6 @@ const StockSearchMode = props => {
     };
 
     const addProductHandler = (id) => {
-        console.log(id);
         props.addProductStockView(id);
     };
 
@@ -69,11 +68,11 @@ const StockSearchMode = props => {
                             <img className="img100" src={Empty} alt={'payment'}/>
                         </Box>
 
-                        
+
                         <Typography className='text-dark font-weight-bold' style={{ fontSize: '17px', padding: '0px 10px 10px 10px' }} >
                             Seems you don't have any stock
                         </Typography>
-                        
+
 
                         <Typography className='font-weight-light mt-1' style={{ fontSize: '15px', marginBottom: '20px' }} >
                                 Click Add Stock to add products you sell to your store

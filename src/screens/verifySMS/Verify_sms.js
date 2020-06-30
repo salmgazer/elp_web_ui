@@ -105,7 +105,7 @@ const VerifySMS = props => {
             "otp" : otp.toString(),
         };
 
-        if(code === otp){
+        if(code === parseFloat(otp)){
             try {
                 let user = await new Api('others').update(
                     params,

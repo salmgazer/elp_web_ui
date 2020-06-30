@@ -47,8 +47,10 @@ export default class BranchService {
             fxn: 'like'
         });
 
-        return  database.collections.get('branches_products').query(Q.where('productId',
-          Q.oneOf(products.map(p => p.id))), Q.where('branchId', LocalInfo.branchId)).fetch();
+        return database.collections.get('branches_products').query(
+            Q.where('productId', Q.oneOf(products.map(p => p.id))),
+            Q.where('branchId', LocalInfo.branchId)
+        ).fetch();
     }
 
     /*
@@ -56,23 +58,25 @@ export default class BranchService {
     * @return object
     * @todo barcode search...
     * */
-    /*async searchBarcodeProduct(barcode){
+    async searchBarcodeProduct(barcode){
         const products = await new ModelAction('Product').findByColumnNotObserve({
             name: 'barCode',
             value: barcode,
             fxn: 'eq'
         });
 
-        return  database.collections.get('branches_products').query(Q.where('productId',
-            Q.oneOf(products.map(p => p.id))), Q.where('branchId', LocalInfo.branchId)).fetch();
-    }*/
+        return database.collections.get('branches_products').query(
+            Q.where('productId', Q.oneOf(products.map(p => p.id))),
+            Q.where('branchId', LocalInfo.branchId)
+        ).fetch();
+    }
 
     /*
     * Filter item
     * */
     static async filterProduct(column , value , item){
         const product = await new BranchProductService(item).product();
-        console.log(product)
+
         return product[column] === value;
     }
 

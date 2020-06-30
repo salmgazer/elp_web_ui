@@ -199,13 +199,9 @@ const AssignBarcode = props => {
                 >
                     Finish
                 </Button>
-
             </Box>
-
-
-
         </div>
     )
-}
+};
 
 export default AssignBarcode;

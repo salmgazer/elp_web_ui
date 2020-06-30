@@ -150,7 +150,7 @@ const MainAuditView = props => {
                         <AuditSearchMode branchProducts={branchProducts} setView={props.setView} searchHandler={props.searchHandler} productAdd={props.productAdd} products={props.products}/>
                     </TabPanel>
                     <TabPanel value={value} index={1} >
-                        <AuditBarcodeMode product={props.product} setView={props.setView} searchBarcode={props.searchBarcode}/>
+                        <AuditBarcodeMode setView={props.setView} searchBarcode={props.searchBarcode} productAdd={props.productAdd}/>
                     </TabPanel>
                 </SwipeableViews>
             </div>

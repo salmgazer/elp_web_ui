@@ -158,7 +158,7 @@ class AddProducts extends Component{
             console.log(removedProducts)
         }
         await SyncService.sync(LocalInfo.companyId, LocalInfo.branchId, LocalInfo.userId, database);
- 
+
         const returnPage = localStorage.getItem('redirectPath') || '';
         localStorage.removeItem('redirectPath');
 
@@ -315,10 +315,6 @@ class AddProducts extends Component{
         //Find index of specific object using findIndex method.
         const itemIndex = old_list.filter((product => product.barCode === barcode));
 
-        await this.setState({
-            currentProduct: itemIndex
-        });
-
         return itemIndex;
     };
 
@@ -342,7 +338,6 @@ class AddProducts extends Component{
     * */
 
     optionProductHandler = async (value) => {
-        console.log(value);
         let storeProducts = [];
 
         switch (value) {
@@ -434,7 +429,6 @@ class AddProducts extends Component{
             quantity: formFields.quantity === null ? null : parseFloat(formFields.quantity),
             tempId: tempId,
         };
-        console.log(formFields)
 
         branchProductsAdded.push(formFields);
         item.stock = item.stock || [];

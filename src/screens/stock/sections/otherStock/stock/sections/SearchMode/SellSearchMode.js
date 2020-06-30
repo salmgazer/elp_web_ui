@@ -141,7 +141,7 @@ const SellSearchMode = props => {
 
                                     }
                                 >
-                                    <ProductCard product={branchProduct.product.fetch()}>
+                                    <ProductCard notTruncate={true} product={branchProduct.product.fetch()}>
                                         {/* {new BranchProductService(branchProduct).getSellingPrice() ? `GHC ${new BranchProductService(branchProduct).getSellingPrice()}` : `No cost price`} */}
                                     </ProductCard>
                                 </div>

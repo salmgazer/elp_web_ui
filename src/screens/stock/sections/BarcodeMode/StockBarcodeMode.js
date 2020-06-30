@@ -8,18 +8,17 @@ import FormControl from '@material-ui/core/FormControl';
 import InputAdornment from '@material-ui/core/InputAdornment';
 import Button from "@material-ui/core/Button/Button";
 import Box from "@material-ui/core/Box/Box";
-import SimpleSnackbar from "../../../../components/Snackbar/SimpleSnackbar";
 import MainDialog from "../../../../components/Dialog/MainDialog";
 import GraphicEqIcon from '@material-ui/icons/GraphicEq';
+import ProductServiceHandler from "../../../../services/ProductServiceHandler";
+import SingleProductBox from "../../../../components/Product/SingleProductBox";
 
 const StockBarcodeMode = props => {
     const [barcodeNumber , setBarcodeNumber] = useState();
-    const [productName , setProductName] = useState('');
-    const [productImage , setProductImage] = useState('');
+    const [barcodeProducts , setBarcodeProducts] = useState([]);
+    const [bProduct , setBProduct] = useState(false);
+    const [barcodeProduct , setBarcodeProduct] = useState(false);
     const [showProduct , setShowProduct] = useState(false);
-    const [errorDialog, setErrorDialog] = useState(false);
-    const [errorMessage, setErrorMessage] = useState('');
-    console.log(setProductName, setProductImage)
 
     const codeReader = new BrowserBarcodeReader();
     const beepSound = new Audio('data:audio/wav;base64,UklGRl9vT19XQVZFZm10IBAAAAABAAEAQB8AAEAfAAABAAgAZGF0YU'+Array(1e3).join(123));
@@ -66,76 +65,123 @@ const StockBarcodeMode = props => {
 
     const barcodeSearchHandler = async() => {
         if(barcodeNumber === '' || typeof barcodeNumber === 'undefined'){
-            await setErrorMessage('Barcode empty. Please try again.');
-            await setErrorDialog(true);
+            alert('Barcode empty. Please try again.');
+            return false;
         }
+        const products = await props.searchBarcode(barcodeNumber);
 
-        const product = await props.searchBarcode(barcodeNumber);
-
-        if(product.length === 1){
-            props.addProductStockView(product.productId);
-        }else if(product.length === 0) {
-            await setErrorMessage('Product with this barcode does not exist');
-            await setErrorDialog(true);
+        if(products.length === 1){
+            console.log('^^^^^^^^^^^^^^^^^^^^')
+            console.log(await products[0].product.fetch())
+            console.log(products[0])
+            setBarcodeProducts([]);
+            setBProduct(products[0].id);
+            setBarcodeProduct(await products[0].product.fetch());
+            setShowProduct(true);
+        }else if(products.length === 0) {
+            setBarcodeProducts([]);
+            setBProduct('');
+            setBarcodeProduct(false);
+            alert('Product with this barcode does not exist');
+        }else if(products.length > 1){
+            setBProduct('');
+            setShowProduct(true);
+            setBarcodeProduct(false);
+            setBarcodeProducts(products);
         }
     };
 
+    const addProductHandler = (id) => {
+        props.addProductStockView(id);
+    };
+
     return (
-        <div className={`bCode mx-1`} style={{position: 'relative', minHeight: '65vh'}}>
-            <SimpleSnackbar
-                type="success"
-                openState={errorDialog}
-                message={errorMessage}
-            />
-            <MainDialog states={showProduct}>
+        <div>
+            <MainDialog
+                states={showProduct}
+                handleDialogClose={() => setShowProduct(false)}
+            >
                 <Typography
                     component="h6"
                     variant="h6"
                     className={`text-center my-1`}
-                    style={{fontWeight: '500', fontSize: '16px' , margin: '5px auto', paddingTop: '10px'}}
+                    style={{fontWeight: '500', fontSize: '20px' , margin: '5px auto', paddingTop: '10px'}}
                 >
-                    Selected product :
+                    { barcodeProduct ? `Selected product :` : `Selected products :`}
                 </Typography>
 
-                <div className={`w-100 m-2`}>
-                    <img className={`img-fluid mx-auto w-50 h-75`} src={productImage} alt={`${productName}`}/>
-                </div>
+                {
+                    barcodeProduct ?
+                        <>
+                            <div className={`w-100 m-2`}>
+                                <img className={`img-fluid mx-auto w-50 h-75`} src={new ProductServiceHandler(barcodeProduct).getProductImage()} alt={`${barcodeProduct.name}`}/>
+                            </div>
 
-                <Typography
-                    component="p"
-                    variant="h6"
-                    className={`text-center my-2 font-weight-bold`}
-                    style={{fontWeight: '500', fontSize: '16px' , margin: '5px auto', paddingTop: '10px'}}
-                >
-                    {productName}
-                </Typography>
+                            <Typography
+                                component="p"
+                                variant="h6"
+                                className={`text-center my-2 font-weight-bold`}
+                                style={{fontWeight: '500', fontSize: '16px' , margin: '5px auto', paddingTop: '10px'}}
+                            >
+                                {barcodeProduct.name}
+                            </Typography>
 
-                <Box
-                    className={`bg-white my-3`}
-                    p={1}
-                    style={{ height: '2.5rem', width:"100%" }}
-                >
-                    <Button
-                        variant="outlined"
-                        style={{border: '1px solid #DAAB59', color: '#DAAB59', marginRight: '10px'}}
-                        onClick = {() => setShowProduct(false)}
-                    >
-                        Cancel
-                    </Button>
-                    <Button
-                        variant="contained"
-                        style={{'backgroundColor': '#DAAB59' , color: '#333333'}}
-                        onClick = {() => props.setView(1)}
-                    >
-                        Add
-                    </Button>
-                </Box>
+                            <Box
+                                className={`bg-white my-3`}
+                                p={1}
+                            >
+                                <Button
+                                    variant="outlined"
+                                    style={{border: '1px solid #DAAB59', color: '#DAAB59', marginRight: '10px'}}
+                                    onClick = {() => setShowProduct(false)}
+                                >
+                                    Cancel
+                                </Button>
+                                <Button
+                                    variant="contained"
+                                    style={{'backgroundColor': '#DAAB59', padding: '5px 30px', color: '#333333'}}
+                                    onClick={addProductHandler.bind(this , bProduct)}
+                                >
+                                    Add
+                                </Button>
+                            </Box>
+                        </>
+                        :''
+                }
+
+                { barcodeProducts.length > 1 ? (
+                        <Grid container spacing={1} className='mt-1'>
+                            {barcodeProducts.map(item =>
+                                <SingleProductBox product={item} key={item.id} addProductHandler={addProductHandler.bind(this, item.id)}/>
+                            )}
+                        </Grid>
+                    )
+                    :
+                    ''
+                }
             </MainDialog>
-            <div id="barOverlay" className="text-center text-white"
-                 style={{ backgroundRepeat: 'no-repeat' , backgroundPosition: 'top', backgroundSize: '80% 250px', position: 'absolute', height: '65vh',zIndex: '1000',width: '100%',backgroundColor: '#919191',opacity: '0.4', outlineOffset: '0px', outline: '15px solid rgb(145, 145, 145)'}}>
+
+            <div
+                id="barOverlay"
+                className="text-center text-white"
+                style={{
+                    backgroundSize: '80% 250px',
+                    position: 'absolute',
+                    height: '40vh',
+                    zIndex: '1000',
+                    width: '95%',
+                    backgroundColor: '#919191',
+                    opacity: '0.4',
+                    outlineOffset: '0px',
+                    outline: '15px solid rgb(145, 145, 145)',
+                    marginTop: '18px'
+                }}
+            >
                 <p className="text-center w-100 font-weight-bold"
-                   style={{marginTop: '30%',fontSize: '20px',color: 'black'}}>Click to scan
-                    barcode of product</p>
+                   style={{marginTop: '30%',fontSize: '20px',color: 'black'}}
+                >
+                    Click to scan barcode of product
+                </p>
             </div>
 
             <Grid container spacing={1} className={`p-3 mb-0 mx-1`}>
@@ -155,67 +201,18 @@ const StockBarcodeMode = props => {
                     </div>
                 </Grid>
             </Grid>
-            {/* <div
-                className={`newBox`}
-                style={{position:'relative', zIndex: 1030, right: 0, left: '-3.5%', bottom: '4.0rem', width: '100%'}}
-            >
-                
-                <Box
-                    className={`shadow1 bg-white`}
-                    p={1}
-                    style={{ position: "fixed", bottom:"4rem", width:"100%", height: '100px' }}
-                >
-                    <div className={`w-75 mx-auto`}>
-                        <Typography
-                            component="p"
-                            variant="h6"
-                            className={`text-center my-1 font-weight-bold`}
-                            style={{fontWeight: '400', fontSize: '16px' , margin: '1px auto', paddingTop: '0px'}}
-                        >
-                            Add stock
-                        </Typography>
-                        <Grid container spacing={1} className={`mb-2`}>
-                            <Grid
-                                item xs={10}
-                                className={`text-right`}
-                            >
-                                <Paper className={`${styles.root} text-center`} >
-                                    <InputBase
-                                        className={`${styles.input} search-box`}
-                                        placeholder="Enter barcode key"
-                                        value={barcodeNumber}
-                                        inputProps={{ 'aria-label': 'Enter barcode key' }}
-                                        onChange={(event) => setBarcodeNumber(event.target.value)}
-                                    />
-                                </Paper>
-                            </Grid>
-
-                            <Grid
-                                item xs={2}
-                                className={`text-left`}
-                                style={{color: '#D34343'}}
-                            >
-                                <div style={{backgroundColor: '#DAAB59', color: '#333333', borderRadius: '50%', width: '35px', height: '35px'}}>
-                                    <SearchIcon style={{fontSize: '2.2rem'}} className={`p-2`} onClick={barcodeSearchHandler}/>
-                                </div>
-                            </Grid>
-                        </Grid>
-                    </div>
-                </Box>
-            </div> */}
 
             <Box
-                className={`newBox shadow1 bg-white pb-3 pt-1`}
+                className={`newBox shadow1 bg-white pb-1 pt-1`}
                 p={1}
-                style={{position:'relative', zIndex: 1030,  right: 0, left: 0, bottom: '1.0rem', width: '100%', minHeight: '260px', marginBottom: '4rem'}}
+                style={{position:'relative', zIndex: 1030,  right: 0, left: 0, bottom: '1.0rem', width: '90%', minHeight: '180px', margin: '5px auto'}}
             >
-
                 <Typography
                     component="h5"
                     variant="h5"
-                    style={{fontWeight: '500', fontSize: '18px', lineHeight: '1.5', marginTop: '20px', marginBottom: '20px'}}
+                    style={{fontWeight: '500', fontSize: '16px', lineHeight: '1.5', marginTop: '40px', marginBottom: '20px'}}
                 >
-                    Scan the barcode of the product to assign it
+                    Scan the barcode of the product to sell
                 </Typography>
 
                 <FormControl variant="outlined">
@@ -230,18 +227,7 @@ const StockBarcodeMode = props => {
                         startAdornment={<InputAdornment position="start"><GraphicEqIcon /> </InputAdornment>}
                     />
                 </FormControl>
-
-                <Button
-                    variant="contained"
-                    style={{'backgroundColor': '#DAAB59' , color: '#333333', padding: '5px 70px', textTransform: 'none', marginTop: '30px', fontSize: '17px'}}
-                    onClick={barcodeSearchHandler.bind(this)}
-                >
-                    Finish
-                </Button>
-
             </Box>
-
-
         </div>
     );
 };

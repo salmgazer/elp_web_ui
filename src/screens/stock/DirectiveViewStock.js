@@ -140,6 +140,7 @@ class DirectiveViewStock extends Component{
     * View a products stock
     * */
     showProductStockView = (productId) => {
+        console.log(productId)
         const old_list = this.state.branchProducts;
 
         const newStep = this.state.companyBranches.length > 1 ? 1 : 5;
@@ -167,7 +168,7 @@ class DirectiveViewStock extends Component{
         }catch (e) {
             return false;
         }
-   }
+   };
 
 
 
@@ -221,9 +222,7 @@ class DirectiveViewStock extends Component{
 
     searchBarcodeHandler = async (barcode) => {
         try{
-            const products = await new BranchService().searchBarcodeProduct(barcode);
-
-            return products;
+            return await new BranchService().searchBarcodeProduct(barcode);
         }catch (e) {
             return false;
         }

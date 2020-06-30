@@ -215,11 +215,11 @@ const MainView = props => {
                     <SearchMode setView={props.setView} searchValue={props.searchValue} searchHandler={props.searchHandler} optionFilter={props.optionFilter} products={props.products} productAdd={addProduct.bind(this)} removeProduct={removeProduct.bind(this)}/>
                 </TabPanel>
                 <TabPanel value={value} index={1}>
-                    <BarcodeMode product={props.product} setView={props.setView} searchBarcode={props.searchBarcode} />
+                    <BarcodeMode product={props.product} setView={props.setView} searchBarcode={props.searchBarcode} productAdd={addProduct.bind(this)} removeProduct={removeProduct.bind(this)} />
                 </TabPanel>
             </SwipeableViews>
             <Box
-                className={`shadow1 bg-white`}
+                className={`shadow1 bg-white mt-5`}
                 p={1}
                 style={{ height: '2.5rem', position: "fixed", bottom:"0", width:"100%" }}
             >

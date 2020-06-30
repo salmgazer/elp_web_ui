@@ -66,7 +66,6 @@ const StockMainPage = props => {
     };
 
     const setView = (view) => {
-        console.log('in');
         props.setView(view);
     };
 
@@ -157,155 +156,161 @@ const StockMainPage = props => {
                         </BottomDrawer>
                     </div>
 
-                    <Container
-                        className={`mt-7`}
-                    >
-                        <SystemDate/>
-                    </Container>
-
                     <div
-                        style={{
-                            display: 'flex',
-                            width: '95%',
-                            alignItems: 'center',
-                            marginBottom: '5px' ,
-                            margin: 'auto'
-                        }}
+                        className={`mb-7 mx-0 mt-6`}
                     >
-                        <div
-                            onClick={setView.bind(this , 2)}
-                            style={{width: '100%', marginRight: '2%', marginTop: '0px'}}
-                        >
-                            <CardDefault
-                                styles={{width: '100%' , borderRadius: '10px'}}
-                            >
-                                <Typography
-                                    component="h6"
-                                    variant="h6"
-                                    style={{fontWeight: '500', fontSize: '12px' , lineHeight: '1.3'}}
-                                    className={`mx-2`}
-                                >
-                                    Items Left
-                                </Typography>
-                                <Typography
-                                    component="h5"
-                                    variant="h5"
-                                    style={{fontWeight: '700', fontSize: '14px' , lineHeight: '1.2'}}
-                                >
-                                    {props.branchProducts.length - props.outOfStockItems.length} items
-                                </Typography>
-                            </CardDefault>
-                        </div>
+                        {
+                            value !== 1 ?
+                                <>
+                                    <SystemDate/>
+                                    <div
+                                        style={{
+                                            display: 'flex',
+                                            width: '95%',
+                                            alignItems: 'center',
+                                            marginBottom: '5px',
+                                            margin: 'auto'
+                                        }}
+                                    >
+                                        <div
+                                            onClick={setView.bind(this, 2)}
+                                            style={{width: '100%', marginRight: '2%', marginTop: '0px'}}
+                                        >
+                                            <CardDefault
+                                                styles={{width: '100%', borderRadius: '10px'}}
+                                            >
+                                                <Typography
+                                                    component="h6"
+                                                    variant="h6"
+                                                    style={{fontWeight: '500', fontSize: '12px', lineHeight: '1.3'}}
+                                                    className={`mx-2`}
+                                                >
+                                                    Items Left
+                                                </Typography>
+                                                <Typography
+                                                    component="h5"
+                                                    variant="h5"
+                                                    style={{fontWeight: '700', fontSize: '14px', lineHeight: '1.2'}}
+                                                >
+                                                    {props.branchProducts.length - props.outOfStockItems.length} items
+                                                </Typography>
+                                            </CardDefault>
+                                        </div>
 
-                        <div
-                            onClick={setView.bind(this , 4)}
-                            style={{width: '100%', marginRight: '2%', marginTop: '0px'}}
-                        >
-                            <CardDefault
-                                styles={{width: '100%', borderRadius: '10px'}}
+                                        <div
+                                            onClick={setView.bind(this, 4)}
+                                            style={{width: '100%', marginRight: '2%', marginTop: '0px'}}
+                                        >
+                                            <CardDefault
+                                                styles={{width: '100%', borderRadius: '10px'}}
+                                            >
+                                                <Typography
+                                                    component="h6"
+                                                    variant="h6"
+                                                    style={{fontWeight: '500', fontSize: '12px', lineHeight: '1.3'}}
+                                                    className={`mx-2`}
+                                                >
+                                                    Low stock
+                                                </Typography>
+                                                <Typography
+                                                    component="h5"
+                                                    variant="h5"
+                                                    style={{fontWeight: '700', fontSize: '14px', lineHeight: '1.2'}}
+                                                >
+                                                    {props.lowestStockItems.length} items
+                                                </Typography>
+                                            </CardDefault>
+                                        </div>
+                                        <div
+                                            onClick={setView.bind(this, 3)}
+                                            style={{width: '100%', marginTop: '0px'}}
+                                        >
+                                            <CardDefault
+                                                styles={{width: '100%', borderRadius: '10px'}}
+                                            >
+                                                <Typography
+                                                    component="h6"
+                                                    variant="h6"
+                                                    style={{fontWeight: '500', fontSize: '12px', lineHeight: '1.3'}}
+                                                    className={`mx-2`}
+                                                >
+                                                    Out of stock
+                                                </Typography>
+                                                <Typography
+                                                    component="h5"
+                                                    variant="h5"
+                                                    style={{fontWeight: '700', fontSize: '14px', lineHeight: '1.2'}}
+                                                >
+                                                    {props.outOfStockItems.length} items
+                                                </Typography>
+                                            </CardDefault>
+                                        </div>
+                                    </div>
+                                </>
+                                :
+                                ''
+                        }
+
+                        <AppBar position="static" color="default" className={`mt-2`}>
+                            <Tabs
+                                value={value}
+                                onChange={handleChange}
+                                indicatorColor="primary"
+                                textColor="primary"
+                                variant="fullWidth"
+                                aria-label="full width tabs example"
+                                classes= {{
+                                    indicator: styles.tabPrimaryColor
+                                }}
                             >
-                                <Typography
-                                    component="h6"
-                                    variant="h6"
-                                    style={{fontWeight: '500', fontSize: '12px' , lineHeight: '1.3'}}
-                                    className={`mx-2`}
-                                >
-                                    Low stock
-                                </Typography>
-                                <Typography
-                                    component="h5"
-                                    variant="h5"
-                                    style={{fontWeight: '700', fontSize: '14px' , lineHeight: '1.2'}}
-                                >
-                                    {props.lowestStockItems.length} items
-                                </Typography>
-                            </CardDefault>
-                        </div>
-                        <div
-                            onClick={setView.bind(this , 3)}
-                            style={{width: '100%', marginTop: '0px'}}
+                                <Tab label="Search mode" {...a11yProps(0)} />
+                                <Tab label="Barcode mode" {...a11yProps(1)} />
+                            </Tabs>
+                        </AppBar>
+
+                        <SwipeableViews
+                            index={value}
+                            onChangeIndex={handleChangeIndex}
                         >
-                            <CardDefault
-                                styles={{width: '100%', borderRadius: '10px'}}
-                            >
-                                <Typography
-                                    component="h6"
-                                    variant="h6"
-                                    style={{fontWeight: '500', fontSize: '12px' , lineHeight: '1.3'}}
-                                    className={`mx-2`}
-                                >
-                                    Out of stock
-                                </Typography>
-                                <Typography
-                                    component="h5"
-                                    variant="h5"
-                                    style={{fontWeight: '700', fontSize: '14px' , lineHeight: '1.2'}}
-                                >
-                                    {props.outOfStockItems.length} items
-                                </Typography>
-                            </CardDefault>
-                        </div>
+                            <TabPanel value={value} index={0}>
+                                <StockSearchMode searchProduct={props.searchProduct} branchProducts={branchProducts} addProductStockView={props.addProductStockView} stock={props.stock}/>
+                            </TabPanel>
+                            <TabPanel value={value} index={1}>
+                                <StockBarcodeMode setView={props.setView} searchBarcode={props.searchBarcode} addProductStockView={props.addProductStockView}/>
+                            </TabPanel>
+                        </SwipeableViews>
+
+                        <Box
+                            className="shadow1"
+                            bgcolor="background.paper"
+                            p={1}
+                            style={{ height: '4.0rem', position: "fixed", bottom:"0", width:"100%" }}
+                        >
+                            <Grid container >
+                                <Grid item xs={6} >
+                                    <Button
+                                        variant="outlined"
+                                        style={{border: '1px solid #DAAB59', color: '#333333', padding: '5px 20px', textTransform: 'none', fontSize:'17px', float: 'right', marginRight: '5px'}}
+                                        onClick={() => history.push(paths.sell)}
+                                    >
+                                        Start selling
+                                    </Button>
+                                </Grid>
+                                <Grid item xs={6} >
+                                    <Button
+                                        variant="contained"
+                                        style={{'backgroundColor': '#DAAB59' , color: '#333333', padding: '5px 20px', textTransform: 'none', fontSize:'17px', float: 'left', marginLeft: '5px'}}
+                                        onClick={() => {
+                                            localStorage.setItem("redirectPath" , paths.stock);
+                                            history.push(paths.add_products);
+                                        }}
+                                    >
+                                        Add products
+                                    </Button>
+                                </Grid>
+                            </Grid>
+                        </Box>
                     </div>
-
-                    <AppBar position="static" color="default" className={`mt-2`}>
-                        <Tabs
-                            value={value}
-                            onChange={handleChange}
-                            indicatorColor="primary"
-                            textColor="primary"
-                            variant="fullWidth"
-                            aria-label="full width tabs example"
-                            classes= {{
-                                indicator: styles.tabPrimaryColor
-                            }}
-                        >
-                            <Tab label="Search mode" {...a11yProps(0)} />
-                            <Tab label="Barcode mode" {...a11yProps(1)} />
-                        </Tabs>
-                    </AppBar>
-
-                    <SwipeableViews
-                        index={value}
-                        onChangeIndex={handleChangeIndex}
-                    >
-                        <TabPanel value={value} index={0}>
-                            <StockSearchMode searchProduct={props.searchProduct} branchProducts={branchProducts} addProductStockView={props.addProductStockView} stock={props.stock}/>
-                        </TabPanel>
-                        <TabPanel value={value} index={1}>
-                            <StockBarcodeMode product={props.product} setView={props.setView} searchBarcode={props.searchBarcode} addProductStockView={props.addProductStockView}/>
-                        </TabPanel>
-                    </SwipeableViews>
-
-                    <Box
-                        className="shadow1"
-                        bgcolor="background.paper"
-                        p={1}
-                        style={{ height: '4.0rem', position: "fixed", bottom:"0", width:"100%" }}
-                    >
-                        <Grid container >
-                            <Grid item xs={6} >
-                                <Button
-                                    variant="outlined"
-                                    style={{border: '1px solid #DAAB59', color: '#333333', padding: '5px 20px', textTransform: 'none', fontSize:'17px', float: 'right', marginRight: '5px'}}
-                                    onClick={() => history.push(paths.sell)}
-                                >
-                                    Start selling
-                                </Button>
-                            </Grid>
-                            <Grid item xs={6} >
-                                <Button
-                                    variant="contained"
-                                    style={{'backgroundColor': '#DAAB59' , color: '#333333', padding: '5px 20px', textTransform: 'none', fontSize:'17px', float: 'left', marginLeft: '5px'}}
-                                    onClick={() => {
-                                        localStorage.setItem("redirectPath" , paths.stock);
-                                        history.push(paths.add_products);
-                                    }}
-                                >
-                                    Add products
-                                </Button>
-                            </Grid>
-                        </Grid>
-                    </Box>
                 </Container>
             </Fragment>
         </div>

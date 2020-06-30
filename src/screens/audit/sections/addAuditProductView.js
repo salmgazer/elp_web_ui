@@ -62,7 +62,7 @@ const AddAuditProductView = props => {
         const newProduct = await branchProduct.product.fetch();
         setProduct(newProduct);
         setQuantityProduct(await productHandler.getProductQuantity());
-        setImage(new ProductServiceHandler(product).getProductImage());
+        setImage(new ProductServiceHandler(newProduct).getProductImage());
         setName(newProduct.name);
         setSellingPrice(await productHandler.getSellingPrice());
         setCostPrice(await productHandler.getCostPrice());
