@@ -327,11 +327,11 @@ export default class SaleService {
         let profit = 0;
 
         for (let step = 0; step < sale.length; step++) {
-            profit += parseFloat(await SaleService.getSaleEntryProfitById(sale[step].saleId));
+            profit += parseFloat(await new SaleService().getSaleEntryProfit(sale[step]));
         }
 
         for (let step = 0; step < sale.length; step++) {
-            total += parseFloat(await SaleService.getSaleEntrySellingPriceById(sale[step].saleId));
+            total += parseFloat(await new SaleService().getSaleEntrySellingPrice(sale[step]));
         }
 
         return {

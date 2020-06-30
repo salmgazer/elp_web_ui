@@ -239,7 +239,8 @@ const SellView = props => {
                             marginRight: '10px',
                             borderRadius: '15px',
                         }}
-                        onClick={() => history.push(paths.sales_history)}>
+                        onClick={() => history.push(paths.sales_history)}
+                    >
                         <CardDefault>
                             <Typography
                                 component="p"
