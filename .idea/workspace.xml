@@ -2,7 +2,8 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="f0e589bc-4276-4788-a686-0858c0f1eaa6" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/src/services/BranchStockService.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/services/BranchStockService.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/services/InvoiceService.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/services/InvoiceService.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/services/SaleService.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/services/SaleService.js" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -92,7 +93,7 @@
           <entry key="branches" value="6" />
           <entry key="companies" value="9" />
           <entry key="customers" value="1" />
-          <entry key="js" value="1351" />
+          <entry key="js" value="1353" />
           <entry key="json" value="18" />
           <entry key="scss" value="11" />
           <entry key="sql" value="1" />
@@ -107,7 +108,7 @@
         <counts>
           <entry key="Database Element" value="42" />
           <entry key="JSON" value="18" />
-          <entry key="JavaScript" value="1351" />
+          <entry key="JavaScript" value="1353" />
           <entry key="SCSS" value="11" />
           <entry key="Scratch" value="1" />
           <entry key="TypeScript" value="3" />
@@ -124,7 +125,7 @@
       <usages-collector id="statistics.file.extensions.edit">
         <counts>
           <entry key="cell" value="208" />
-          <entry key="js" value="51282" />
+          <entry key="js" value="51522" />
           <entry key="json" value="390" />
           <entry key="scss" value="47" />
           <entry key="sql" value="6" />
@@ -133,7 +134,7 @@
       <usages-collector id="statistics.file.types.edit">
         <counts>
           <entry key="JSON" value="390" />
-          <entry key="JavaScript" value="51282" />
+          <entry key="JavaScript" value="51522" />
           <entry key="SCSS" value="47" />
           <entry key="SQL" value="6" />
           <entry key="Scratch" value="208" />
@@ -187,7 +188,7 @@
           <file pinned="false" current-in-tab="false">
             <entry file="file://$PROJECT_DIR$/src/screens/stock/DirectiveViewStock.js">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="1638">
+                <state relative-caret-position="-608">
                   <caret line="91" column="30" selection-start-line="91" selection-start-column="30" selection-end-line="91" selection-end-column="30" />
                   <folding>
                     <element signature="e#0#39#0" expanded="true" />
@@ -205,13 +206,38 @@
               </provider>
             </entry>
           </file>
-          <file pinned="false" current-in-tab="true">
+          <file pinned="false" current-in-tab="false">
             <entry file="file://$PROJECT_DIR$/src/services/BranchStockService.js">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="380">
-                  <caret line="269" column="30" selection-start-line="269" selection-start-column="30" selection-end-line="269" selection-end-column="30" />
+                <state relative-caret-position="190">
+                  <caret line="412" column="34" lean-forward="true" selection-start-line="412" selection-start-column="34" selection-end-line="412" selection-end-column="35" />
                   <folding>
                     <element signature="e#0#36#0" expanded="true" />
+                  </folding>
+                </state>
+              </provider>
+            </entry>
+          </file>
+          <file pinned="false" current-in-tab="false">
+            <entry file="file://$PROJECT_DIR$/src/screens/sell/sell/Sell.js">
+              <provider selected="true" editor-type-id="text-editor">
+                <state relative-caret-position="323">
+                  <caret line="107" column="6" lean-forward="true" selection-start-line="107" selection-start-column="6" selection-end-line="107" selection-end-column="6" />
+                  <folding>
+                    <element signature="e#0#39#0" expanded="true" />
+                  </folding>
+                </state>
+              </provider>
+            </entry>
+          </file>
+          <file pinned="false" current-in-tab="true">
+            <entry file="file://$PROJECT_DIR$/src/services/InvoiceService.js">
+              <provider selected="true" editor-type-id="text-editor">
+                <state relative-caret-position="-9">
+                  <caret line="229" column="19" selection-start-line="229" selection-start-column="19" selection-end-line="229" selection-end-column="19" />
+                  <folding>
+                    <element signature="e#0#36#0" expanded="true" />
+                    <element signature="e#866#913#0" expanded="true" />
                   </folding>
                 </state>
               </provider>
@@ -233,8 +259,8 @@
           <file pinned="false" current-in-tab="true">
             <entry file="file://$PROJECT_DIR$/src/services/SaleService.js">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="52">
-                  <caret line="609" column="6" selection-start-line="609" selection-end-line="610" />
+                <state relative-caret-position="411">
+                  <caret line="690" column="14" selection-start-line="690" selection-start-column="14" selection-end-line="690" selection-end-column="14" />
                   <folding>
                     <element signature="e#0#40#0" expanded="true" />
                   </folding>
@@ -377,7 +403,6 @@
         <option value="$PROJECT_DIR$/src/screens/history/invoiceHistory/sections/WeekView.js" />
         <option value="$PROJECT_DIR$/src/screens/history/invoiceHistory/sections/DayView.js" />
         <option value="$PROJECT_DIR$/src/screens/history/invoiceHistory/sections/YearView.js" />
-        <option value="$PROJECT_DIR$/src/services/InvoiceService.js" />
         <option value="$PROJECT_DIR$/src/screens/history/invoiceHistory/sections/InvoiceSortCustomer.js" />
         <option value="$PROJECT_DIR$/src/screens/history/salesHistory/sections/SProductView.js" />
         <option value="$PROJECT_DIR$/src/screens/onboarding/addProducts/sections/MainView.js" />
@@ -395,7 +420,6 @@
         <option value="$PROJECT_DIR$/src/screens/onboarding/addProducts/sections/search/productsView.js" />
         <option value="$PROJECT_DIR$/src/screens/onboarding/addProducts/AddProducts.js" />
         <option value="$PROJECT_DIR$/src/screens/history/salesHistory/sections/DayView.js" />
-        <option value="$PROJECT_DIR$/src/services/SaleService.js" />
         <option value="$PROJECT_DIR$/src/screens/newDashboards/version2/DashboardTwo.js" />
         <option value="$PROJECT_DIR$/src/components/Modal/option/HistoryModal.js" />
         <option value="$PROJECT_DIR$/src/screens/audit/Audit.js" />
@@ -406,6 +430,8 @@
         <option value="$PROJECT_DIR$/src/screens/forgotPassword/sections/ResetPassword.js" />
         <option value="$PROJECT_DIR$/src/screens/stock/sections/stockProductSingle.js" />
         <option value="$PROJECT_DIR$/src/services/BranchStockService.js" />
+        <option value="$PROJECT_DIR$/src/services/InvoiceService.js" />
+        <option value="$PROJECT_DIR$/src/services/SaleService.js" />
       </list>
     </option>
   </component>
@@ -461,6 +487,21 @@
               <item name="src" type="462c0819:PsiDirectoryNode" />
               <item name="screens" type="462c0819:PsiDirectoryNode" />
               <item name="forgotPassword" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="web-ui" type="b2602c69:ProjectViewProjectNode" />
+              <item name="web-ui" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="screens" type="462c0819:PsiDirectoryNode" />
+              <item name="history" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="web-ui" type="b2602c69:ProjectViewProjectNode" />
+              <item name="web-ui" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="screens" type="462c0819:PsiDirectoryNode" />
+              <item name="history" type="462c0819:PsiDirectoryNode" />
+              <item name="salesHistory" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="web-ui" type="b2602c69:ProjectViewProjectNode" />
@@ -545,12 +586,12 @@
       <workItem from="1592905052146" duration="89051000" />
       <workItem from="1593167969865" duration="9006000" />
       <workItem from="1593197043182" duration="1190000" />
-      <workItem from="1593248999050" duration="116808000" />
+      <workItem from="1593248999050" duration="122063000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="688906000" />
+    <option name="totallyTimeSpent" value="694161000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="1911" y="-9" width="1554" height="882" extended-state="6" />
@@ -595,13 +636,6 @@
     <option name="myLimit" value="2678400000" />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/src/screens/history/salesHistory/sections/SortProduct.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="522">
-          <caret line="41" column="30" selection-start-line="41" selection-start-column="30" selection-end-line="41" selection-end-column="30" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/screens/history/salesHistory/sections/SProductView.js">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="62">
@@ -613,16 +647,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="62">
           <caret line="53" column="9" selection-start-line="53" selection-start-column="9" selection-end-line="53" selection-end-column="9" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/screens/sell/sell/Sell.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="171">
-          <caret line="99" column="30" selection-start-line="99" selection-start-column="30" selection-end-line="99" selection-end-column="30" />
-          <folding>
-            <element signature="e#0#39#0" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -952,26 +976,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/services/SaleService.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="52">
-          <caret line="609" column="6" selection-start-line="609" selection-end-line="610" />
-          <folding>
-            <element signature="e#0#40#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/screens/stock/DirectiveViewStock.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1638">
-          <caret line="91" column="30" selection-start-line="91" selection-start-column="30" selection-end-line="91" selection-end-column="30" />
-          <folding>
-            <element signature="e#0#39#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/screens/forgotPassword/sections/ForgotPassword.js">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="418">
@@ -1026,12 +1030,53 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/src/screens/stock/DirectiveViewStock.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-608">
+          <caret line="91" column="30" selection-start-line="91" selection-start-column="30" selection-end-line="91" selection-end-column="30" />
+          <folding>
+            <element signature="e#0#39#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/src/services/BranchStockService.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="380">
-          <caret line="269" column="30" selection-start-line="269" selection-start-column="30" selection-end-line="269" selection-end-column="30" />
+        <state relative-caret-position="190">
+          <caret line="412" column="34" lean-forward="true" selection-start-line="412" selection-start-column="34" selection-end-line="412" selection-end-column="35" />
           <folding>
             <element signature="e#0#36#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/screens/sell/sell/Sell.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="323">
+          <caret line="107" column="6" lean-forward="true" selection-start-line="107" selection-start-column="6" selection-end-line="107" selection-end-column="6" />
+          <folding>
+            <element signature="e#0#39#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/services/InvoiceService.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-9">
+          <caret line="229" column="19" selection-start-line="229" selection-start-column="19" selection-end-line="229" selection-end-column="19" />
+          <folding>
+            <element signature="e#0#36#0" expanded="true" />
+            <element signature="e#866#913#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/services/SaleService.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="411">
+          <caret line="690" column="14" selection-start-line="690" selection-start-column="14" selection-end-line="690" selection-end-column="14" />
+          <folding>
+            <element signature="e#0#40#0" expanded="true" />
           </folding>
         </state>
       </provider>

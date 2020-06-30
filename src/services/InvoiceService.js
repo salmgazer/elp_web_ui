@@ -227,7 +227,7 @@ export default class InvoiceService {
         let credit = 0;
         let sellingPrice = 0;
         let quantity = 0;
-
+console.log(invoice)
         for (let step = 0; step < invoice.length; step++) {
             costPrice += parseFloat(await SaleService.getSaleEntryCostPriceById(invoice[step].id));
         }

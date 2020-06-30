@@ -435,30 +435,31 @@ export default class SaleService {
         let quantity = 0;
 
         for (let step = 0; step < sale.length; step++) {
-            costPrice += parseFloat(await SaleService.getSaleEntryCostPriceById(sale[step].saleId));
+            costPrice += parseFloat(await new SaleService().getSaleEntryCostPrice(sale[step]));
         }
 
         for (let step = 0; step < sale.length; step++) {
-            profit += parseFloat(await SaleService.getSaleEntryProfitById(sale[step].saleId));
+            profit += parseFloat(await new SaleService().getSaleEntryProfit(sale[step]));
         }
 
-        for (let step = 0; step < sale.length; step++) {
+        /*for (let step = 0; step < sale.length; step++) {
             credit += parseFloat(await SaleService.getSaleEntryCreditById(sale[step].saleId));
+        }*/
+
+        for (let step = 0; step < sale.length; step++) {
+            sellingPrice += parseFloat(await new SaleService().getSaleEntrySellingPrice(sale[step]));
         }
 
         for (let step = 0; step < sale.length; step++) {
-            sellingPrice += parseFloat(await SaleService.getSaleEntrySellingPriceById(sale[step].saleId));
-        }
-
-        for (let step = 0; step < sale.length; step++) {
-            quantity += parseFloat(await SaleService.getSaleProductQuantity(sale[step].saleId));
+            quantity += parseFloat(sale[step].quantity);
         }
 
         return {
-            costPrice,
-            profit,
-            credit,
-            sellingPrice,
+            sales: sale.reverse(),
+            costPrice: costPrice.toFixed(2),
+            profit: profit.toFixed(2),
+            credit: credit.toFixed(2),
+            sellingPrice: sellingPrice.toFixed(2),
             quantity
         }
     }
@@ -604,42 +605,29 @@ export default class SaleService {
 
         let costPrice = 0;
         let profit = 0;
-        let credit = 0;
+        //let credit = 0;
         let sellingPrice = 0;
         let quantity = 0;
-console.log(sale.length , 'saleLength')
-        for (let step = 0; step < sale.length; step++) {
-            costPrice += parseFloat(await SaleService.getSaleEntryCostPriceById(sale[step].saleId));
-            console.log(costPrice, 'costPrice')
-            console.log(step, 'step')
 
+        for (let step = 0; step < sale.length; step++) {
+            costPrice += parseFloat(await this.getSaleEntryCostPrice(sale[step]));
         }
 
         for (let step = 0; step < sale.length; step++) {
-            profit += parseFloat(await SaleService.getSaleEntryProfitById(sale[step].saleId));
-            console.log(profit, 'profit')
-
+            profit += parseFloat(await this.getSaleEntryProfit(sale[step]));
         }
 
-        for (let step = 0; step < sale.length; step++) {
+        /*for (let step = 0; step < sale.length; step++) {
             credit += parseFloat(await SaleService.getSaleEntryCreditById(sale[step].saleId));
-            console.log(credit, 'credit')
+        }*/
 
+        for (let step = 0; step < sale.length; step++) {
+            sellingPrice += parseFloat(await this.getSaleEntrySellingPrice(sale[step]));
         }
 
         for (let step = 0; step < sale.length; step++) {
-            sellingPrice += parseFloat(await SaleService.getSaleEntrySellingPriceById(sale[step].saleId));
-            console.log(sellingPrice, 'sellingPrice')
-
+            quantity += parseFloat(sale[step].quantity);
         }
-
-        for (let step = 0; step < sale.length; step++) {
-            quantity += parseFloat(await SaleService.getSaleProductQuantity(sale[step].saleId));
-            console.log(quantity, 'quantity')
-
-        }
-
-        console.log(costPrice , profit,credit,sellingPrice,quantity)
 
         if (duration === 'week') {
             sale = await SaleService.weekSalesFormat(sale , date);
@@ -649,13 +637,11 @@ console.log(sale.length , 'saleLength')
             sale = await SaleService.yearSalesFormat(sale , date);
         }
 
-        console.log(sale)
-        console.log(costPrice , profit,credit,sellingPrice,quantity)
         return {
             sales: sale.reverse(),
             costPrice: costPrice.toFixed(2),
             profit: profit.toFixed(2),
-            credit: credit.toFixed(2),
+            //credit: credit.toFixed(2),
             sellingPrice: sellingPrice.toFixed(2),
             quantity
         }
@@ -666,28 +652,28 @@ console.log(sale.length , 'saleLength')
 
         let costPrice = 0;
         let profit = 0;
-        let credit = 0;
+        //let credit = 0;
         let sellingPrice = 0;
         let quantity = 0;
 
         for (let step = 0; step < sale.length; step++) {
-            costPrice += parseFloat(await SaleService.getSaleEntryCostPriceById(sale[step].saleId));
+            costPrice += parseFloat(await this.getSaleEntryCostPrice(sale[step]));
         }
 
         for (let step = 0; step < sale.length; step++) {
-            profit += parseFloat(await SaleService.getSaleEntryProfitById(sale[step].saleId));
+            profit += parseFloat(await this.getSaleEntryProfit(sale[step]));
         }
 
-        for (let step = 0; step < sale.length; step++) {
+        /*for (let step = 0; step < sale.length; step++) {
             credit += parseFloat(await SaleService.getSaleEntryCreditById(sale[step].saleId));
+        }*/
+
+        for (let step = 0; step < sale.length; step++) {
+            sellingPrice += parseFloat(await this.getSaleEntrySellingPrice(sale[step]));
         }
 
         for (let step = 0; step < sale.length; step++) {
-            sellingPrice += parseFloat(await SaleService.getSaleEntrySellingPriceById(sale[step].saleId));
-        }
-
-        for (let step = 0; step < sale.length; step++) {
-            quantity += parseFloat(await SaleService.getSaleProductQuantity(sale[step].saleId));
+            quantity += parseFloat(sale[step].quantity);
         }
 
         if (duration === 'week') {
@@ -702,7 +688,7 @@ console.log(sale.length , 'saleLength')
             sales: sale.reverse(),
             costPrice: costPrice.toFixed(2),
             profit: profit.toFixed(2),
-            credit: credit.toFixed(2),
+            //credit: credit.toFixed(2),
             sellingPrice: sellingPrice.toFixed(2),
             quantity
         }
