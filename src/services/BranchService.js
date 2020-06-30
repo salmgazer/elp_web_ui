@@ -9,8 +9,8 @@ import database from "../models/database";
 import * as Q from "@nozbe/watermelondb/QueryDescription";
 import SaleService from "./SaleService";
 import fromUnixTime from 'date-fns/fromUnixTime';
-import isSameDay from "date-fns/isSameDay";
-import getUnixTime from 'date-fns/getUnixTime';
+// import isSameDay from "date-fns/isSameDay";
+// import getUnixTime from 'date-fns/getUnixTime';
 
 export default class BranchService {
     constructor (branchId = LocalInfo.branchId) {

@@ -80,7 +80,7 @@ export default class SaleService {
         const customerId = (await CustomerService.getCashCustomer())[0].id;
 
         for (let i = 0; i < sales.length; i++){
-            if(sales[i].customerId == "0"){
+            if(sales[i].customerId === "0"){
                 await new ModelAction('Sales').update(sales[i].id , {
                     customerId: customerId
                 })
@@ -395,6 +395,8 @@ export default class SaleService {
                 return sales.filter(sale => isSameMonth(new Date(fromUnixTime(sale.entryDate)), day));
             case 'year':
                 return sales.filter(sale => isSameYear(new Date(fromUnixTime(sale.entryDate)), day));
+            default:
+                return false;
         }
     }
 
@@ -420,6 +422,8 @@ export default class SaleService {
                 return sales.filter(sale => isSameMonth(fromUnixTime(sale.entryDate), day));
             case 'year':
                 return sales.filter(sale => isSameYear(fromUnixTime(sale.entryDate), day));
+            default:
+                return false;
         }
     }
 

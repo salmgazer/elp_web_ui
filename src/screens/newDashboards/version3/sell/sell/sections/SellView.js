@@ -36,7 +36,7 @@ const SellView = props => {
     const branchProducts = props.branchProducts;
     const salesMade = (parseFloat(props.salesTodayDetails.total)).toFixed(2);
     const profitMade = (parseFloat(props.salesTodayDetails.profit)).toFixed(2);
-    const spCount = props.spCount;
+    //const spCount = props.spCount;
     const [value , setValue] = useState(0);
     const [isShowDrawer , setIsShowDrawer] = useState(false);
     // const [isDrawerShow , setIsDrawerShow] = useState(false);

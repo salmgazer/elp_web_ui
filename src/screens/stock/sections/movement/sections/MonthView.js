@@ -47,7 +47,7 @@ const useStyles = makeStyles(theme => ({
     });
 
     const getMovementDetails = async (date) => {
-      console.log(date);
+      console.log(date, name);
       let response = [];
 
       if (pageName === true){

@@ -124,6 +124,10 @@ export default class SupplierService {
         let supplier = "";
         let salesperson = "";
 
+        if (salesperson) {
+            console.log('ok')
+        }
+
         if(data.entityId === ""){
             let entity = "";
 
@@ -172,6 +176,8 @@ export default class SupplierService {
                             name: data.name
                         });
                     break;
+                    default:
+                        return false;
                 }
             }catch (e){
                 console.log(e);
@@ -223,8 +229,8 @@ export default class SupplierService {
         const branchSuppliers = await SupplierService.getBranchSuppliers();
         const branchSupplier = ((branchSuppliers).filter((item) => item.id === (localStorage.getItem("supplierId"))))[0];
 
-        let supplier = "";
-        let salesperson = "";
+        // let supplier = "";
+        // let salesperson = "";
 
         if(data.entityId === ""){
             let entity = "";
@@ -274,6 +280,8 @@ export default class SupplierService {
                             name: data.name
                         });
                         break;
+                    default:
+                        return false;
                 }
             }catch (e){
                 console.log(e);

@@ -46,6 +46,7 @@ const ProductCardHorizontal = props => {
     const [image , setImage] = useState('');
     const [quantityProduct , setQuantityProduct] = useState(0);
     const [productAuditDetials , setProductAuditDetials] = useState(false);
+    console.log(quantityProduct, productAuditDetials)
 
     useEffect(() => {
         // You need to restrict it at some point

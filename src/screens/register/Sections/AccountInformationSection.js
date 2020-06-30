@@ -115,41 +115,45 @@ export default function AccountInformationSection(props) {
             if (value !== formData.password) {
                 return false;
             }
+
+            if (error || errorMsg) {
+                console.log(error)
+            }
             return true;
         });
     });
 
-    const checkPassword = (event) => {
-        const { ...formData }  = formFields;
-        formData[event.target.name] = event.target.value;
-        setFormFields(formData);
-        props.collectData(event);
+    // const checkPassword = (event) => {
+    //     const { ...formData }  = formFields;
+    //     formData[event.target.name] = event.target.value;
+    //     setFormFields(formData);
+    //     props.collectData(event);
 
-        ValidatorForm.addValidationRule('isPasswordMatch', (value) => {
-            //const { ...values } = props.formData;
+    //     ValidatorForm.addValidationRule('isPasswordMatch', (value) => {
+    //         //const { ...values } = props.formData;
 
-            if (value !== formFields.password) {
-                return false;
-            }
-            return true;
-        });
-    };
+    //         if (value !== formFields.password) {
+    //             return false;
+    //         }
+    //         return true;
+    //     });
+    // };
 
-    const checkSameUsernamePassword = (event) => {
-        const { ...formData }  = formFields;
-        formData[event.target.name] = event.target.value;
-        setFormFields(formData);
-        props.collectData(event);
+    // const checkSameUsernamePassword = (event) => {
+    //     const { ...formData }  = formFields;
+    //     formData[event.target.name] = event.target.value;
+    //     setFormFields(formData);
+    //     props.collectData(event);
 
-        ValidatorForm.addValidationRule('isUsernamePasswordMatch', (value) => {
-            const { ...values } = props.formData;
+    //     ValidatorForm.addValidationRule('isUsernamePasswordMatch', (value) => {
+    //         const { ...values } = props.formData;
 
-            if (value == formFields.username) {
-                return false;
-            }
-            return true;
-        });
-    };
+    //         if (value === formFields.username) {
+    //             return false;
+    //         }
+    //         return true;
+    //     });
+    // };
 
     const handleChangeChk = name => async (event) => {
         setShowPassword({ ...showPassword, [name]: event.target.checked });
@@ -262,7 +266,7 @@ export default function AccountInformationSection(props) {
                 props.isValid(await AccountInformationForm.current.isFormValid());
             }
         )();
-    }, []);
+    });
 
     const handleChange = (event) => {
         const { ...formData }  = formFields;

@@ -85,7 +85,7 @@ const SupplierItemList = (props) => {
     const [owedAmount , setOwedAmount] = React.useState('');
 
     useEffect(() => {
-        if(owedAmount === ''){
+        if(owedAmount === '' || addDialog){
             getSuppliersOwed();
         }
     });

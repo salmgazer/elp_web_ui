@@ -37,7 +37,7 @@ const StoreSummary = props => {
         setCompanySales(result);
     };
 
-    const { history, database } = props;
+    //const { history, database } = props;
 
     /*
     * @todo replace user name with localInfo details.

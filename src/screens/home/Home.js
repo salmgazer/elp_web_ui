@@ -1,6 +1,6 @@
 import React from "react";
 import LocalInfo from '../../services/LocalInfo';
-import format from "date-fns/format";
+// import format from "date-fns/format";
 import "./Home.scss";
 
 const DayView = props => {

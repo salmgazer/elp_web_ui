@@ -14,12 +14,13 @@ const LowStockProductSingle = props => {
     const [image , setImage] = useState('');
     const [productQuantity , setProductQuantity] = useState(0);
     const [companyStocks , setCompanyStocks] = useState([]);
+    console.log(lastHistory, companyStocks)
 
     useEffect(() => {
         if (!product) {
             getProduct();
         }
-    }, []);
+    });
 
     const productHandler = new BranchProductService(branchProduct);
 

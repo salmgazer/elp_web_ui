@@ -47,6 +47,7 @@ const DayView = props => {
     });
 
     const getMovementDetails = async (date) => {
+        console.log(name)
         let response = [];
 
         if (pageName === true){

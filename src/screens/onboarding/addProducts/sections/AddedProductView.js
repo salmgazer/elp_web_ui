@@ -38,7 +38,7 @@ const useStyles = makeStyles(theme => ({
 
 const AddedProductView = props => {
     const [mainDialog, setMainDialog] = React.useState(false);
-    const quantity = props.pro_quantity;
+    //const quantity = props.pro_quantity;
     const [type, setType] = useState(10);
 
     const closeDialogHandler = (event) => {

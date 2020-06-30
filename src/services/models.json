@@ -4,6 +4,6 @@
     "primaryKeyName": "id"
   },
   "customers": {
-    "model"
+    "model":"Product"
   }
 }

@@ -48,7 +48,7 @@ const CartView = props => {
     const [qty , setQty] = useState('');
     const [tAmt , setTAmt] = useState('');
     const storedProducts = JSON.parse(localStorage.getItem("data"));
-    const storedCustomer = JSON.parse(localStorage.getItem("customerDetails"));
+    //const storedCustomer = JSON.parse(localStorage.getItem("customerDetails"));
 
     const setView = (step) => {
         props.setView(step);

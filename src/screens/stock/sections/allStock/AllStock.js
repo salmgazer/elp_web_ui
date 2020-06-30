@@ -11,7 +11,7 @@ import Button from "@material-ui/core/Button/Button";
 import SingleStock from './SingleStock';
 
 const AllStock = props => {
-    const { history } = props;
+    //const { history } = props;
     const branchProducts = props.branchProducts;
 
     const [searchValue , setSearchValue] = useState({

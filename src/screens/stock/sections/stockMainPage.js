@@ -15,7 +15,7 @@ import Tab from "@material-ui/core/Tab";
 import AppBar from "@material-ui/core/AppBar";
 import StockSearchMode from "./SearchMode/StockSearchMode";
 import StockBarcodeMode from "./BarcodeMode/StockBarcodeMode";
-import SecondaryButton from "../../../components/Buttons/SecondaryButton";
+// import SecondaryButton from "../../../components/Buttons/SecondaryButton";
 import Box from "@material-ui/core/Box";
 import BottomDrawer from "../../../components/Drawer/BottomDrawer/BottomDrawer";
 import ListItem from '@material-ui/core/ListItem';

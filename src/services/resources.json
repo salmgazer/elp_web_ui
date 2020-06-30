@@ -27,9 +27,5 @@
     "resource": "business_categories",
     "primaryKeyName": "id"
   },
-  "business_categories": {
-    "resource": "business_categories",
-    "primaryKeyName": "id"
-  },
   "others": {}
 }

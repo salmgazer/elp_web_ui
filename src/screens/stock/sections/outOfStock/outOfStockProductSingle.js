@@ -1,9 +1,9 @@
 import React, {useEffect, useState} from 'react';
 import Grid from "@material-ui/core/Grid/Grid";
-import Card from "@material-ui/core/Card/Card";
-import PrimaryButton from "../../../../components/Buttons/PrimaryButton";
+import Avatar from "@material-ui/core/Avatar/Avatar";
+import Button from "@material-ui/core/Button/Button";
 import ProductServiceHandler from "../../../../services/ProductServiceHandler";
-import BranchProductService from "../../../../services/BranchProductService";
+// import BranchProductService from "../../../../services/BranchProductService";
 import BranchStockService from "../../../../services/BranchStockService";
 
 const OutOfStockProductSingle = props => {
@@ -16,12 +16,12 @@ const OutOfStockProductSingle = props => {
     const [companyStocks , setCompanyStocks] = useState([]);
 
     useEffect(() => {
-        if (!product) {
+        if (!product || !lastHistory || !companyStocks) {
             getProduct();
         }
-    }, []);
+    });
 
-    const productHandler = new BranchProductService(branchProduct);
+    //const productHandler = new BranchProductService(branchProduct);
 
     const getProduct = async () => {
         const newProduct = await branchProduct.product.fetch();
@@ -41,12 +41,19 @@ const OutOfStockProductSingle = props => {
     return (
         <Grid container spacing={1} className={`shadow1 mb-3 borderRadius10`}>
             <Grid item xs={2}>
-                <Card
-                    className="shadow1 bordered"
-                    style={{margin: '5px auto' ,backgroundImage: `url(${image})` , backgroundPosition: 'center', backgroundSize: 'cover' , width: '40px' ,borderRadius: '50%', height: '40px', padding: '4px'}}
+                <Avatar
+                    alt={image}
+                    src={image}
+                    style={{
+                        width: "40px",
+                        height: "40px",
+                        borderRadius: "50%",
+                        margin: '10px auto',
+                        textAlign: 'center',
+                    }}
                 />
             </Grid>
-            <Grid item xs={5}
+            <Grid item xs={7}
                   className={`pt-0`}
                   style={{fontSize: '16px', textAlign: 'left', height: '60px', margin: '8px 0px'}}
             >
@@ -54,19 +61,20 @@ const OutOfStockProductSingle = props => {
                 >
                     {name}
                 </div>
-                <div className="font-weight-light mt-1" style={{color: '#53BF77', fontSize: '14px'}}>{`Items remaining : ${productQuantity}`}</div>
+                <div className="font-weight-light mt-1" style={{color: '#53BF77', fontSize: '14px'}}>{`Quantity remaining : ${productQuantity}`}</div>
             </Grid>
 
-            <Grid item xs={5}
+            <Grid item xs={3}
                   className={`pt-2`}
                   style={{fontSize: '20px', textAlign: 'left', height: '60px', margin: '8px 0px'}}
             >
                 <div onClick={addNewProductStockView.bind(this)}>
-                    <PrimaryButton
-                        classes={`px-2 my-1`}
+                    <Button
+                        variant="outlined"
+                        style={{border: '1px solid #DAAB59', color: '#DAAB59', padding: '5px 9px', textTransform: 'none', fontSize:'12px'}}
                     >
-                        Add quantity
-                    </PrimaryButton>
+                        Add stock
+                    </Button>
                 </div>
             </Grid>
         </Grid>

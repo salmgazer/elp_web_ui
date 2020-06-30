@@ -1,7 +1,6 @@
 import React, {useEffect, useState} from 'react';
 import Grid from "@material-ui/core/Grid/Grid";
-import Card from "@material-ui/core/Card/Card";
-import PrimaryButton from "../../../../components/Buttons/PrimaryButton";
+import Avatar from "@material-ui/core/Avatar/Avatar";
 import ProductServiceHandler from "../../../../services/ProductServiceHandler";
 import BranchProductService from "../../../../services/BranchProductService";
 import BranchStockService from "../../../../services/BranchStockService";
@@ -17,10 +16,10 @@ const LowStockProductSingle = props => {
     const [companyStocks , setCompanyStocks] = useState([]);
 
     useEffect(() => {
-        if (!product) {
+        if (!product || !lastHistory || !companyStocks) {
             getProduct();
         }
-    }, []);
+    });
 
     const productHandler = new BranchProductService(branchProduct);
 
@@ -42,9 +41,16 @@ const LowStockProductSingle = props => {
     return (
         <Grid container spacing={1} className={`shadow1 mb-3 borderRadius10`}>
             <Grid item xs={2}>
-                <Card
-                    className="shadow1 bordered"
-                    style={{margin: '5px auto' ,backgroundImage: `url(${image})` , backgroundPosition: 'center', backgroundSize: 'cover' , width: '40px' ,borderRadius: '50%', height: '40px', padding: '4px'}}
+                <Avatar
+                    alt={image}
+                    src={image}
+                    style={{
+                        width: "40px",
+                        height: "40px",
+                        borderRadius: "50%",
+                        margin: '10px auto',
+                        textAlign: 'center',
+                    }}
                 />
             </Grid>
             <Grid item xs={7}

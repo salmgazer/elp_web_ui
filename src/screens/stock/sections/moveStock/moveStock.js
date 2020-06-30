@@ -33,6 +33,7 @@ const MoveStock = props => {
     const [errorMsg, setErrorMsg] = useState('');
     const [moveTo, setMoveTo] = useState('');
     const [moveFrom, setMoveFrom] = useState('');
+    console.log(lastHistory, productQuantity)
 
     const [formFields , setFormFields] = useState({
         quantity: 1,
@@ -52,7 +53,7 @@ const MoveStock = props => {
         if (!product || branches.length === 0) {
             getProduct();
         }
-    }, []);
+    });
 
     const getProduct = async () => {
         const newProduct = await branchProduct.product.fetch();

@@ -1,11 +1,8 @@
 import React from 'react';
-import Paper from '@material-ui/core/Paper';
 import Typography from "@material-ui/core/Typography/Typography";
 import CardDefault from "../../../../components/Cards/CardDefault";
 import Grid from "@material-ui/core/Grid/Grid";
 import Box from "@material-ui/core/Box/Box";
-import confirmImg from "../../../../assets/img/dashboard.png";
-import BoxDefault from '../../../../components/Box/BoxDefault';
 
 
 export default function CardGridComponent(props) {

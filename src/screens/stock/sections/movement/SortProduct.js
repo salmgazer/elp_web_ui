@@ -78,6 +78,8 @@ class SortProduct extends Component{
                     activeStep: view
                 });
                 return true;
+            default:
+                return false;
         }
     };
 

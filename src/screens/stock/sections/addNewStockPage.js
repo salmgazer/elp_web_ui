@@ -177,6 +177,7 @@ const AddNewStockPage = props => {
         rememberChoice: false,
         branchId: LocalInfo.branchId,
     });
+    console.log(sellingPrice, unitPrice, errorMsg, btnState );
 
     const [changePriceFields , setChangePriceFields] = useState({
         sellingPrice: "",
@@ -293,7 +294,7 @@ const AddNewStockPage = props => {
         if (!product) {
             getProduct();
         }
-    }, []);
+    });
 
     const productHandler = new BranchProductService(branchProduct);
 

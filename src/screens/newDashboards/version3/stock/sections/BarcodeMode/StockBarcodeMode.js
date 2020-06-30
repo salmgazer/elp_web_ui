@@ -10,13 +10,13 @@ import SearchIcon from '@material-ui/icons/Search';
 import Button from "@material-ui/core/Button/Button";
 import Box from "@material-ui/core/Box/Box";
 import Don from '../../../../../../assets/img/Don.jpg';
-import MuiAlert from '@material-ui/lab/Alert';
+//import MuiAlert from '@material-ui/lab/Alert';
 import SimpleSnackbar from "../../../../../../components/Snackbar/SimpleSnackbar";
 import MainDialog from "../../../../../../components/Dialog/MainDialog";
 
-function Alert(props) {
-    return <MuiAlert elevation={6} variant="filled" {...props} />;
-}
+// function Alert(props) {
+//     return <MuiAlert elevation={6} variant="filled" {...props} />;
+// }
 
 const useStyles = makeStyles(theme => ({
     root: {
@@ -45,6 +45,7 @@ const StockBarcodeMode = props => {
     const [showProduct , setShowProduct] = useState(false);
     const [errorDialog, setErrorDialog] = useState(false);
     const [errorMessage, setErrorMessage] = useState('');
+    console.log(setProductName, setProductImage)
 
     const codeReader = new BrowserBarcodeReader();
     const beepSound = new Audio('data:audio/wav;base64,UklGRl9vT19XQVZFZm10IBAAAAABAAEAQB8AAEAfAAABAAgAZGF0YU'+Array(1e3).join(123));
