@@ -7,11 +7,13 @@ import ConfirmSMS from "./sections/ConfirmSMS";
 
 
 class ForgottenPassword extends Component{
-    state={
-        isDrawerShow: false,
-        activeStep: 0,
+    constructor(props){
+        super(props);
+        this.state = {
+            isDrawerShow: false,
+            activeStep: 0,
+        }
     };
-
     getStepContent = step => {
         switch (step) {
             case 0:

@@ -211,7 +211,7 @@ const AddNewStockPage = props => {
         }
 
         setMoneySourceDialog(true);
-    }
+    };
 
     const saveStock = () => {
         setLoading(true);
@@ -286,7 +286,7 @@ const AddNewStockPage = props => {
         else {
             setSwapItem(true);
         }
-    }
+    };
 
 
     useEffect(() => {
@@ -332,7 +332,7 @@ const AddNewStockPage = props => {
 
     const changePriceFieldsHandler = (event) => {
         const {...oldFormFields} = changePriceFields;
-        setNewLoading(false)
+        setNewLoading(false);
         /*if(event.target.name === 'costPrice'){
             setTotalPrice(formFields.quantity * event.target.value);
         }*/

@@ -53,7 +53,7 @@ const StockProductSingle = props => {
         setProduct(newProduct);
         setLastHistory(fetchLastHistory);
         setName(newProduct.name);
-        setImage(new ProductServiceHandler(product).getProductImage());
+        setImage(new ProductServiceHandler(newProduct).getProductImage());
         setProductQuantity(await productHandler.getProductQuantity());
         setCompanyStocks(await new BranchStockService().getBranchStockQuantities(branchProduct.productId));
         setCostPrice(await productHandler.getCostPrice());
@@ -117,8 +117,8 @@ const StockProductSingle = props => {
                     <Grid item xs={12}>
                         <img className={`img-fluid imageProduct mx-auto d-block pt-2`} src={image} alt={name}/>
                     </Grid>
-                    
-                    
+
+
                 </Grid>
             </div>
 
