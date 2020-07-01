@@ -54,7 +54,7 @@ const BarcodeMode = props => {
                     .then(result => {
                         beepSound.play();
                         setBarcodeNumber(result.text);
-                        barcodeSearchHandler();
+                        barcodeSearchHandler(result.text);
                         document.getElementById('barOverlay').style.display = 'block';
                     })
                     .catch(err => {
@@ -69,12 +69,12 @@ const BarcodeMode = props => {
         })
         .catch(err => console.error(err));
 
-    const barcodeSearchHandler = async() => {
-        if(barcodeNumber === '' || typeof barcodeNumber === 'undefined'){
+    const barcodeSearchHandler = async(barcode) => {
+        if(barcode === '' || typeof barcode === 'undefined'){
             alert('Barcode empty. Please try again.');
             return false;
         }
-        const products = await props.searchBarcode(barcodeNumber);
+        const products = await props.searchBarcode(barcode);
 
         if(products.length === 1){
             setBarcodeProducts([]);
@@ -89,6 +89,8 @@ const BarcodeMode = props => {
             setBarcodeProduct(false);
             setBarcodeProducts(products);
         }
+
+        setBarcodeNumber('');
     };
 
     const addProductHandler = (id) => {

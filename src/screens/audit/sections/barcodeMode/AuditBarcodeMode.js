@@ -55,7 +55,7 @@ const AuditBarcodeMode = props => {
                         alert(result.text);
                         beepSound.play();
                         setBarcodeNumber(result.text);
-                        barcodeSearchHandler();
+                        barcodeSearchHandler(result.text);
                         codeReader.reset();
                         document.getElementById('barOverlay').style.display = 'block';
                     })
@@ -70,8 +70,8 @@ const AuditBarcodeMode = props => {
         })
         .catch(err => console.error(err));
 
-    const barcodeSearchHandler = async() => {
-        if(barcodeNumber === '' || typeof barcodeNumber === 'undefined'){
+    const barcodeSearchHandler = async(barcode) => {
+        if(barcode === '' || typeof barcode === 'undefined'){
             alert('Barcode empty. Please try again.');
             return false;
         }
@@ -90,6 +90,8 @@ const AuditBarcodeMode = props => {
             setBarcodeProduct(false);
             setBarcodeProducts(products);
         }
+
+        setBarcodeNumber('');
     };
 
     const addProductToCart = (productId) => {

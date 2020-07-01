@@ -51,7 +51,7 @@ const StockBarcodeMode = props => {
                         alert(result.text);
                         beepSound.play();
                         setBarcodeNumber(result.text);
-                        barcodeSearchHandler();
+                        barcodeSearchHandler(result.text);
                         codeReader.reset();
                         document.getElementById('barOverlay').style.display = 'block';
                     })
@@ -66,17 +66,14 @@ const StockBarcodeMode = props => {
         })
         .catch(err => console.error(err));
 
-    const barcodeSearchHandler = async() => {
-        if(barcodeNumber === '' || typeof barcodeNumber === 'undefined'){
+    const barcodeSearchHandler = async(barcode) => {
+        if(barcode === '' || typeof barcode === 'undefined'){
             alert('Barcode empty. Please try again.');
             return false;
         }
         const products = await props.searchBarcode(barcodeNumber);
 
         if(products.length === 1){
-            console.log('^^^^^^^^^^^^^^^^^^^^')
-            console.log(await products[0].product.fetch())
-            console.log(products[0])
             setBarcodeProducts([]);
             setBProduct(products[0].id);
             setBarcodeProduct(await products[0].product.fetch());
@@ -92,6 +89,8 @@ const StockBarcodeMode = props => {
             setBarcodeProduct(false);
             setBarcodeProducts(products);
         }
+
+        setBarcodeNumber('');
     };
 
     const addProductHandler = (id) => {
