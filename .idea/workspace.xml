@@ -3,7 +3,6 @@
   <component name="ChangeListManager">
     <list default="true" id="f0e589bc-4276-4788-a686-0858c0f1eaa6" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/src/screens/audit/sections/barcodeMode/AuditBarcodeMode.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/screens/audit/sections/barcodeMode/AuditBarcodeMode.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/screens/onboarding/addProducts/sections/barcode/BarcodeMode.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/screens/onboarding/addProducts/sections/barcode/BarcodeMode.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/screens/sell/sell/sections/BarcodeMode/BarcodeMode.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/screens/sell/sell/sections/BarcodeMode/BarcodeMode.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/screens/stock/sections/BarcodeMode/StockBarcodeMode.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/screens/stock/sections/BarcodeMode/StockBarcodeMode.js" afterDir="false" />
     </list>
@@ -210,8 +209,8 @@
           <file pinned="false" current-in-tab="true">
             <entry file="file://$PROJECT_DIR$/src/screens/audit/sections/barcodeMode/AuditBarcodeMode.js">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="309">
-                  <caret line="80" column="28" selection-start-line="80" selection-start-column="28" selection-end-line="80" selection-end-column="28" />
+                <state relative-caret-position="81">
+                  <caret line="54" selection-start-line="54" selection-end-line="54" />
                 </state>
               </provider>
             </entry>
@@ -286,8 +285,8 @@
           <file pinned="false" current-in-tab="false">
             <entry file="file://$PROJECT_DIR$/src/screens/sell/sell/sections/BarcodeMode/BarcodeMode.js">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="874">
-                  <caret line="88" column="29" selection-start-line="88" selection-start-column="29" selection-end-line="88" selection-end-column="29" />
+                <state relative-caret-position="152">
+                  <caret line="50" selection-start-line="50" selection-end-line="50" />
                   <folding>
                     <element signature="e#0#39#0" expanded="true" />
                   </folding>
@@ -298,8 +297,8 @@
           <file pinned="false" current-in-tab="false">
             <entry file="file://$PROJECT_DIR$/src/screens/stock/sections/BarcodeMode/StockBarcodeMode.js">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="24">
-                  <caret line="53" column="56" selection-start-line="53" selection-start-column="56" selection-end-line="53" selection-end-column="56" />
+                <state relative-caret-position="195">
+                  <caret line="50" selection-start-line="50" selection-end-line="50" />
                   <folding>
                     <element signature="e#0#38#0" expanded="true" />
                   </folding>
@@ -310,8 +309,8 @@
           <file pinned="false" current-in-tab="true">
             <entry file="file://$PROJECT_DIR$/src/screens/onboarding/addProducts/sections/barcode/BarcodeMode.js">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="860">
-                  <caret line="92" column="29" selection-start-line="92" selection-start-column="29" selection-end-line="92" selection-end-column="29" />
+                <state relative-caret-position="214">
+                  <caret line="64" column="25" lean-forward="true" selection-start-line="64" selection-start-column="25" selection-end-line="64" selection-end-column="25" />
                 </state>
               </provider>
             </entry>
@@ -461,10 +460,10 @@
         <option value="$PROJECT_DIR$/src/index.js" />
         <option value="$PROJECT_DIR$/public/manifest.json" />
         <option value="$PROJECT_DIR$/public/index.html" />
-        <option value="$PROJECT_DIR$/src/screens/audit/sections/barcodeMode/AuditBarcodeMode.js" />
         <option value="$PROJECT_DIR$/src/screens/onboarding/addProducts/sections/barcode/BarcodeMode.js" />
         <option value="$PROJECT_DIR$/src/screens/sell/sell/sections/BarcodeMode/BarcodeMode.js" />
         <option value="$PROJECT_DIR$/src/screens/stock/sections/BarcodeMode/StockBarcodeMode.js" />
+        <option value="$PROJECT_DIR$/src/screens/audit/sections/barcodeMode/AuditBarcodeMode.js" />
       </list>
     </option>
   </component>
@@ -734,18 +733,18 @@
       <workItem from="1592905052146" duration="89051000" />
       <workItem from="1593167969865" duration="9006000" />
       <workItem from="1593197043182" duration="1190000" />
-      <workItem from="1593248999050" duration="150517000" />
+      <workItem from="1593248999050" duration="151339000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="722615000" />
+    <option name="totallyTimeSpent" value="723437000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="1911" y="-9" width="1554" height="882" extended-state="6" />
     <editor active="true" />
     <layout>
-      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.17516778" />
+      <window_info content_ui="combo" id="Project" order="0" weight="0.17516778" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="npm" order="2" side_tool="true" />
       <window_info id="DB Browser" order="3" />
@@ -1193,37 +1192,37 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/screens/audit/sections/barcodeMode/AuditBarcodeMode.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="309">
-          <caret line="80" column="28" selection-start-line="80" selection-start-column="28" selection-end-line="80" selection-end-column="28" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/screens/stock/sections/BarcodeMode/StockBarcodeMode.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="24">
-          <caret line="53" column="56" selection-start-line="53" selection-start-column="56" selection-end-line="53" selection-end-column="56" />
-          <folding>
-            <element signature="e#0#38#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/screens/sell/sell/sections/BarcodeMode/BarcodeMode.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="874">
-          <caret line="88" column="29" selection-start-line="88" selection-start-column="29" selection-end-line="88" selection-end-column="29" />
+        <state relative-caret-position="152">
+          <caret line="50" selection-start-line="50" selection-end-line="50" />
           <folding>
             <element signature="e#0#39#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/src/screens/stock/sections/BarcodeMode/StockBarcodeMode.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="195">
+          <caret line="50" selection-start-line="50" selection-end-line="50" />
+          <folding>
+            <element signature="e#0#38#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/screens/audit/sections/barcodeMode/AuditBarcodeMode.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="81">
+          <caret line="54" selection-start-line="54" selection-end-line="54" />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/src/screens/onboarding/addProducts/sections/barcode/BarcodeMode.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="860">
-          <caret line="92" column="29" selection-start-line="92" selection-start-column="29" selection-end-line="92" selection-end-column="29" />
+        <state relative-caret-position="214">
+          <caret line="64" column="25" lean-forward="true" selection-start-line="64" selection-start-column="25" selection-end-line="64" selection-end-column="25" />
         </state>
       </provider>
     </entry>

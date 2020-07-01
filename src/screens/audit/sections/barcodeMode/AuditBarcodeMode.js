@@ -52,7 +52,6 @@ const AuditBarcodeMode = props => {
                 codeReader
                     .decodeOnceFromVideoDevice(selectedDeviceId, 'video')
                     .then(result => {
-                        alert(result.text);
                         beepSound.play();
                         setBarcodeNumber(result.text);
                         barcodeSearchHandler(result.text);
