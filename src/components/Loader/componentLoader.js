@@ -9,11 +9,13 @@ const useStyles = makeStyles({
     root: {
         color: '#DAAB59',
         display: 'flex',
+        flexDirection: 'column',
         width: '100%',
         height: '100%',
         textAlign: 'center',
         justifyContent: 'center',
         alignItems: 'center',
+        minHeight: '300px',
     }
 });
 
@@ -29,9 +31,9 @@ const ComponentLoader = (props) => {
             /><br/>
 
             <Typography
-                component="h5"
+                component="p"
                 variant="h5"
-                style={{fontWeight: '400', fontSize: '16px' , padding: '14px'}}
+                style={{fontWeight: '400', fontSize: '16px' , padding: '10px 14px'}}
                 className={`text-center mx-auto`}
             >
                 {props.text}

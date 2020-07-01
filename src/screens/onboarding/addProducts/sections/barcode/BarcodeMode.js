@@ -72,6 +72,8 @@ const BarcodeMode = props => {
     const barcodeSearchHandler = async(barcode) => {
         if(barcode === '' || typeof barcode === 'undefined'){
             alert('Barcode empty. Please try again.');
+            codeReader.reset();
+
             return false;
         }
         const products = await props.searchBarcode(barcode);
@@ -90,6 +92,7 @@ const BarcodeMode = props => {
             setBarcodeProducts(products);
         }
 
+        codeReader.reset();
         setBarcodeNumber('');
     };
 

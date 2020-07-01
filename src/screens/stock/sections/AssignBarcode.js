@@ -50,15 +50,14 @@ const AssignBarcode = props => {
             codeReader
                 .decodeOnceFromVideoDevice(selectedDeviceId, 'video')
                 .then( async result => {
-                    alert(result.text);
                     beepSound.play();
                     setBarcodeNumber(result.text);
                     await addProductBarcode();
-                    codeReader.reset();
                     document.getElementById('barOverlay').style.display = 'block';
                 })
                 .catch(err => {
                     //document.getElementById('barError').textContent = err;
+                    codeReader.reset();
                     console.log(err)
                 });
         });
@@ -73,8 +72,6 @@ const AssignBarcode = props => {
 
     const getProduct = async () => {
         const newProduct = await branchProduct.product.fetch();
-        console.log(newProduct);
-        console.log(newProduct.barCode);
         setProduct(newProduct);
         setBarcodeNumber(newProduct.barCode);
         setName(newProduct.name);

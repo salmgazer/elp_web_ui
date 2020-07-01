@@ -12,7 +12,8 @@ import FormControlLabel from '@material-ui/core/FormControlLabel';
 import FormControl from '@material-ui/core/FormControl';
 import Typography from "@material-ui/core/Typography";
 import Button from "@material-ui/core/Button";
-import PrimaryLoader from "../../../../../components/Loader/Loader";
+//import PrimaryLoader from "../../../../../components/Loader/Loader";
+import ComponentLoader from "../../../../../components/Loader/componentLoader";
 //import ProductsView from "./productsView";
 //import ProductCard from "../../../../../components/Cards/ProductCard";
 const ProductsView = React.lazy(() => import("./productsView"));
@@ -169,7 +170,7 @@ const SearchMode = props => {
             <Grid container spacing={1} className='mt-3'>
                 {
                     products.length > 0 ?
-                        <Suspense fallback={<PrimaryLoader text={`Loading products`}/>}>
+                        <Suspense fallback={<ComponentLoader text={`Loading products...`}/>}>
                             {<ProductsView addProductHandler={addProductHandler.bind(this)} removeProductHandler={removeProductHandler.bind(this)} products={products} />}
                         </Suspense>
                     :
