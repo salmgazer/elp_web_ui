@@ -61,4 +61,5 @@ export default {
     error_page: '/error-page',
     under_construction: '/under-construction',
     dashboard_multiple: '/dashboard-multiple',
+    other_sales_history: '/other-history',
 };

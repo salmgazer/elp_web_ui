@@ -17,11 +17,11 @@ import FileCopyIcon from '@material-ui/icons/FileCopy';
 import PrintIcon from '@material-ui/icons/Print';
 import ListItemText from '@material-ui/core/ListItemText';
 import CompanyService from "../../../services/CompanyService";
-import SaleService from "../../../services/SaleService";
+// import SaleService from "../../../services/SaleService";
 
 const MainPage = props => {
 
-    const branchCustomers = props.branchCustomers;
+    //const branchCustomers = props.branchCustomers;
     const allSales = props.sales;
     const [isShowDrawer , setIsShowDrawer] = useState(false);
     const [companySales , setCompanySales] = useState(false);
@@ -121,6 +121,7 @@ const MainPage = props => {
             </Paper>
 
             <Box style={{marginTop: '5px' , paddingBottom: '60px'}} p={1} className={`mt-3 mb-5`}>
+            {console.log(sales)}
                 {sales.length === 0
                     ?
                     <div className={`rounded mx-1 my-2 p-2 bordered`}>

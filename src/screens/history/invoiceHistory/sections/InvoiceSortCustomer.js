@@ -3,6 +3,7 @@ import {withRouter} from "react-router-dom";
 import {withDatabase} from "@nozbe/watermelondb/DatabaseProvider";
 import withObservables from "@nozbe/with-observables";
 import BranchService from "../../../../services/BranchService";
+import Sales from "../../../../models/sales/Sales";
 import LocalInfo from "../../../../services/LocalInfo";
 
 import DayView from './DayView';
@@ -22,7 +23,9 @@ class SortCustomer extends Component{
             activeStep: 1,
             branchCustomers: [],
             currentCustomer: {},
-            pageName: true
+            pageName: true,
+            currentSale: {},
+            allSales: []
         };
     };
 
@@ -30,11 +33,24 @@ class SortCustomer extends Component{
     * Fetch all products when component is mounted
     * */
     async componentDidMount() {
-        const { branchCustomers } = this.props;
+        const { branchCustomers, currentSale, sales } = this.props;
 
         await this.setState({
             branchCustomers: branchCustomers,
+            currentSale: currentSale,
+            allSales: sales,
         });
+    }
+
+    async componentDidUpdate(prevProps) {
+        const {currentSale, sales} = this.props;
+
+        if(sales.length !== prevProps.sales.length){
+            await this.setState({
+            currentSale: currentSale,
+            allSales: sales,
+        });
+        }
     }
 
     getStepContent = step => {
@@ -42,7 +58,7 @@ class SortCustomer extends Component{
             case 1:
                 return <SortCustomerView setView={this.setStepContentView.bind(this)} searchCustomer={this.searchCustomerHandler.bind(this)} branchCustomers={this.state.branchCustomers} customerAdd={this.showAddView.bind(this)} />;
             case 0:
-                return <DayView setView={this.setStepContentView.bind(this)} customer={this.state.currentCustomer} pageName={this.state.pageName}  />;
+                return <DayView setView={this.setStepContentView.bind(this)} customer={this.state.currentCustomer} pageName={this.state.pageName} customerAdd={this.changeToPaymentView.bind(this)} />;
             case 2:
                 return <WeekView getChildrenView={this.getChildrenViewDetails.bind(this)} setView={this.setStepContentView.bind(this)} customer={this.state.currentCustomer} pageName={this.state.pageName}  />;
             case 3:
@@ -50,7 +66,7 @@ class SortCustomer extends Component{
             case 4:
                 return <YearView getChildrenView={this.getChildrenViewDetails.bind(this)} setView={this.setStepContentView.bind(this)} customer={this.state.currentCustomer} pageName={this.state.pageName}  />;
             case 5:
-                return <Payment setView={this.setStepContentView.bind(this)}  />;
+                return <Payment setView={this.setStepContentView.bind(this)} sale={this.state.currentSale} />;
             default:
                 return 'Complete';
         }
@@ -81,6 +97,19 @@ class SortCustomer extends Component{
 
         this.setState({
             currentCustomer: itemIndex,
+            activeStep: step
+        });
+    };
+
+    changeToPaymentView = async (id , step) => {
+        const old_list = this.state.allSales;
+
+        //Find index of specific object using findIndex method.
+        const itemIndex = old_list.filter((item => item.id === id));
+
+        console.log(itemIndex)
+        this.setState({
+            currentSale: itemIndex,
             activeStep: step
         });
     };
@@ -123,8 +152,9 @@ class SortCustomer extends Component{
 }
 
 const EnhancedDirectiveViewStock = withDatabase(
-    withObservables(['branchCustomers'], ({ branchCustomers ,  database }) => ({
+    withObservables(['branchCustomers'], ({ branchCustomers ,  database, sales }) => ({
         branchCustomers: new BranchService(LocalInfo.branchId).getCustomers(),
+        sales: database.collections.get(Sales.table).query().observe(),
     }))(withRouter(SortCustomer))
 );
 

@@ -66,6 +66,10 @@ const SingleDayInvoice = props => {
         setSaleEntries(entries);
     };
 
+    const viewPaymentDetails = (id) => {
+        props.viewPaymentDetails(id, 5);
+    };
+
     return(
         <div>
             {prodName === `${customer.firstName}`
@@ -139,7 +143,7 @@ const SingleDayInvoice = props => {
                                                 textTransform: 'none',
                                                 fontSize: '10px'
                                             }}
-                                            // onClick={openPayment.bind(this)}
+                                            onClick={viewPaymentDetails.bind(this, invoice.id)}
                                         >
                                             Enter payment
                                         </Button>

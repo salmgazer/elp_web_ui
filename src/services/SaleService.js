@@ -22,6 +22,7 @@ import lastDayOfYear from "date-fns/lastDayOfYear";
 import eachMonthOfInterval from "date-fns/eachMonthOfInterval";
 import * as Q from "@nozbe/watermelondb/QueryDescription";
 import SaleEntries from "../models/saleEntry/SaleEntries";
+import Sales from "../models/sales/Sales";
 import CustomerService from "./CustomerService";
 import eachDayOfInterval from 'date-fns/eachDayOfInterval';
 
@@ -756,6 +757,57 @@ export default class SaleService {
             sellingPrice: sellingPrice.toFixed(2),
             quantity: quantity
         }
+    }
+
+    static async getSaleHistory(duration , date){
+        const sales = await new ModelAction('Sales').findByColumnNotObserve(
+            {
+                name: 'branchId',
+                value: LocalInfo.branchId,
+                fxn: 'eq'
+            }
+        );
+
+        const day = new Date(date);
+
+        switch (duration) {
+            case 'day':
+                return sales.filter(sale => isSameDay(new Date(fromUnixTime(sale.salesDate)), day));
+            case 'week':
+                return sales.filter(sale => isSameWeek(new Date(fromUnixTime(sale.salesDate)), day , {
+                    weekStartsOn: 1
+                }));
+            case 'month':
+                return sales.filter(sale => isSameMonth(new Date(fromUnixTime(sale.salesDate)), day));
+            case 'year':
+                return sales.filter(sale => isSameYear(new Date(fromUnixTime(sale.salesDate)), day));
+            default:
+                return false;
+        }
+    }
+
+    async getAllSalesToday (duration, date) {
+        let sale = await SaleService.getSaleHistory(duration , date);
+
+        return {
+            sales: sale.reverse(),
+        }
+    }
+
+        /*
+    * Search for a branch customer in a sales table
+    * */
+    async searchSalesBranchCustomer(searchValue) {
+        const customers = await database.collections.get('customers').query(
+            Q.or(
+                Q.where('firstName', Q.like(`%${Q.sanitizeLikeString(searchValue)}%`)),
+                Q.where('otherNames', Q.like(`%${Q.sanitizeLikeString(searchValue)}%`)),
+                Q.where('phone', Q.like(`%${Q.sanitizeLikeString(searchValue)}%`))
+            )
+        ).fetch();
+
+        return  database.collections.get(Sales.table).query(Q.where('customerId',
+        Q.oneOf(customers.map(c => c.id))), Q.where('branchId', LocalInfo.branchId)).fetch();
     }
 
 }

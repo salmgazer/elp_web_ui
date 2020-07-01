@@ -1,7 +1,10 @@
 import React, {Component} from 'react';
 import {withRouter} from "react-router-dom";
 import ModelAction from "../../../../services/ModelAction";
+import {withDatabase} from "@nozbe/watermelondb/DatabaseProvider";
 import {confirmAlert} from "react-confirm-alert";
+import Sales from "../../../../models/sales/Sales";
+import withObservables from "@nozbe/with-observables";
 
 import DayView from './DayView';
 import WeekView from './WeekView';
@@ -16,13 +19,38 @@ class InvoiceSortDate extends Component {
         this.state = {
             activeStep: 0,
             pageName: false,
+            currentSale: {},
+            allSales: [],
+        }
+    }
+
+        /*
+    * Fetch all products when component is mounted
+    * */
+    async componentDidMount() {
+        const { currentSale, sales } = this.props;
+
+        await this.setState({
+            currentSale: currentSale,
+            allSales: sales,
+        });
+    }
+
+    async componentDidUpdate(prevProps) {
+        const {currentSale, sales} = this.props;
+
+        if(sales.length !== prevProps.sales.length){
+            await this.setState({
+            currentSale: currentSale,
+            allSales: sales,
+        });
         }
     }
 
     getStepContent = step => {
         switch (step) {
             case 0:
-                return <DayView setView={this.setStepContentView.bind(this)} pageName={this.state.pageName} deleteProduct={this.deleteProduct.bind(this)} updateSaleEntry={this.updateSaleEntry.bind(this)} />;
+                return <DayView setView={this.setStepContentView.bind(this)} pageName={this.state.pageName} deleteProduct={this.deleteProduct.bind(this)} updateSaleEntry={this.updateSaleEntry.bind(this)} customerAdd={this.showAddView.bind(this)} />;
             case 2:
                 return <WeekView getChildrenView={this.getChildrenViewDetails.bind(this)} setView={this.setStepContentView.bind(this)} pageName={this.state.pageName} />;
             case 3:
@@ -30,7 +58,7 @@ class InvoiceSortDate extends Component {
             case 4:
                 return <YearView getChildrenView={this.getChildrenViewDetails.bind(this)} setView={this.setStepContentView.bind(this)} pageName={this.state.pageName} />;
             case 5:
-                return <Payment setView={this.setStepContentView.bind(this)}  />;
+                return <Payment setView={this.setStepContentView.bind(this)} sale={this.state.currentSale} />;
             default:
                 return 'Complete';
         }
@@ -64,6 +92,19 @@ class InvoiceSortDate extends Component {
             default:
                 return false;
         }
+    };
+
+    showAddView = async (id , step) => {
+        const old_list = this.state.allSales;
+
+        //Find index of specific object using findIndex method.
+        const itemIndex = old_list.filter((item => item.id === id));
+
+        console.log(itemIndex)
+        this.setState({
+            currentSale: itemIndex,
+            activeStep: step
+        });
     };
 
     deleteProduct = async (pId) => {
@@ -133,4 +174,10 @@ class InvoiceSortDate extends Component {
 
 }
 
-export default withRouter(InvoiceSortDate);
+const EnhancedInvoiceSortDate = withDatabase(
+    withObservables(['sales'], ({ sales ,  database }) => ({
+        sales: database.collections.get(Sales.table).query().observe(),
+    }))(withRouter(InvoiceSortDate))
+);
+
+export default withRouter(EnhancedInvoiceSortDate);

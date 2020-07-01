@@ -15,9 +15,7 @@ import SimpleSnackbar from "../../../components/Snackbar/SimpleSnackbar";
 const useStyles = makeStyles(theme => ({
     root: {
       flexGrow: 1,
-
-    }
-    
+    } 
   }));
 
 const Payment = props => {

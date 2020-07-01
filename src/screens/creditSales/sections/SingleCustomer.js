@@ -33,11 +33,9 @@ const CustomerCard = (props) => {
         const sale = await props.sale;
         setSale(sale);
         const saleCustomer = await sale.customer.fetch();
-        console.log(saleCustomer);
         setCustomerName(saleCustomer.firstName + ' ' + saleCustomer.otherNames);
         const response = await new SaleService().getAllCreditSales(sale.id);
         setInvoiceDetails(response);
-        console.log(sale);
     };
 
     const viewPaymentDetails = (id) => {
