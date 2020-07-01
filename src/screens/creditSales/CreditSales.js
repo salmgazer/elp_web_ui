@@ -14,12 +14,15 @@ import BranchCustomer from "../../models/branchesCustomer/BranchCustomer";
 import Sales from "../../models/sales/Sales";
 
 class CreditSales extends Component{
-    state={
-        activeStep: 0,
-        pageName: false,
-        branchCustomers: [],
-        currentSale: {},
-        allSales: [],
+
+    constructor(props){
+        super(props);
+        this.state = {
+            activeStep: 0,
+            branchCustomers: [],
+            currentSale: {},
+            allSales: [],
+        }
     }
 
     /*

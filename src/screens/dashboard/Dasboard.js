@@ -22,7 +22,7 @@ import SettingsIcon from '@material-ui/icons/Settings';
 import Drawer from "../../components/Drawer/Drawer";
 
 import LocalInfo from '../../services/LocalInfo';
-import Manufacturer from "../../models/manufacturers/Manufacturer";
+// import Manufacturer from "../../models/manufacturers/Manufacturer";
 import Brand from "../../models/brands/Brand";
 import BranchProduct from "../../models/branchesProducts/BranchProduct";
 import Product from "../../models/products/Product";
@@ -30,7 +30,7 @@ import Customer from "../../models/customers/Customer";
 import Sales from "../../models/sales/Sales";
 import ModelAction from "../../services/ModelAction";
 import Carts from "../../models/carts/Carts";
-import CartEntry from "../../models/cartEntry/CartEntry";
+// import CartEntry from "../../models/cartEntry/CartEntry";
 import BranchProductStock from "../../models/branchesProductsStocks/BranchProductStock";
 import BranchProductStockHistory from "../../models/branchesProductsStocksHistories/BranchProductStockHistory";
 import SaleInstallments from "../../models/saleInstallments/SaleInstallment";
@@ -108,7 +108,7 @@ const Dashboard = props => {
     const username = JSON.parse(localStorage.getItem('userDetails')).firstName;
     console.log(username);
 
-    const { saleReturnHistories, stockReturnHistories, audits, auditedEntries, history, testProducts, stockMovements, purchases, branchProducts, branchProductStock, branchProductStockHistory, brands, manufacturers, products, database, customers, branchCustomers , sales , saleEntries , saleInstallments , carts , cartEntries, testBranch ,cashFlow, cartEntriesQ } = props;
+    const { saleReturnHistories, stockReturnHistories, audits, auditedEntries, history, testProducts, stockMovements, purchases, branchProducts, branchProductStock, branchProductStockHistory, brands, manufacturers, products,  customers, branchCustomers , sales , saleEntries , saleInstallments , carts , cartEntries, testBranch } = props;
     // const database = useDatabase();
 
     /*const createBrand = async() => {

@@ -66,6 +66,7 @@ import CustomerCare from "./screens/customerCare/CustomerCare";
 import Delivery from "./screens/delivery/Delivery";
 import history from "./utilities/history";
 import StockMovement from "./screens/stock/sections/StockMovement";
+import OtherStockHistory from './screens/stock/sections/otherStock/stock/sections/history/OtherStockHistory';
 
 // import DashboardOne from './screens/newDashboards/version1/DashboardOne';
 // import DashboardTwo from './screens/newDashboards/version2/DashboardTwo';
@@ -483,6 +484,12 @@ class App extends React.Component {
                     component={UnderConstruction}
                     title={`Under Construction`}
                     path={paths.under_construction}
+                />
+                <AuthenticatedRoute
+                    exact={true}
+                    component={OtherStockHistory}
+                    title={`Other Sales History`}
+                    path={paths.other_sales_history}
                 />
               <Route path="*">
                 <NoMatch />

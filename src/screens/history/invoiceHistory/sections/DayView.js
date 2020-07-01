@@ -192,7 +192,7 @@ const DayView = props => {
                     :
                     pageName === false ?
 
-                    invoices.map((invoice) => <SingleDayInvoice  key={invoice.id} invoice={invoice} deleteProduct={deleteProductHandler.bind(this)} updateSaleEntry={props.updateSaleEntry} />)
+                    invoices.map((invoice) => <SingleDayInvoice  key={invoice.id} invoice={invoice} deleteProduct={deleteProductHandler.bind(this)} updateSaleEntry={props.updateSaleEntry} viewPaymentDetails={props.customerAdd}/>)
                     :
                     invoices.map((invoice) => <CustomerDay  key={invoice.id} invoice={invoice} prodName={name} deleteProduct={deleteProductHandler.bind(this)} updateSaleEntry={props.updateSaleEntry} />)
                 }

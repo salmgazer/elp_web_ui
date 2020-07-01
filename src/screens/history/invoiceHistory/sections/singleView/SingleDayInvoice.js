@@ -68,6 +68,10 @@ const SingleDayInvoice = props => {
         props.deleteProduct(event);
     };
 
+    const viewPaymentDetails = (id) => {
+        props.viewPaymentDetails(id, 5);
+    };
+
     return(
         <div>
             <Grid container spacing={1} className={`bordered-sm mb-3`} style={{borderRadius: '4px'}}>
@@ -140,7 +144,7 @@ const SingleDayInvoice = props => {
                                                 textTransform: 'none',
                                                 fontSize: '10px'
                                             }}
-                                            // onClick={openPayment.bind(this)}
+                                            onClick={viewPaymentDetails.bind(this, invoice.id)}
                                         >
                                             Enter payment
                                         </Button>

@@ -53,7 +53,7 @@ const SellView = props => {
             <SectionNavbars
                 title={`Other stock`}
                 icons={
-                    <div onClick={() => history.push(paths.purchase_history)}>
+                    <div onClick={() => history.push(paths.other_sales_history)}>
                         <AccessTimeIcon
                             style={{fontSize: '2rem'}}
                         /><br />
@@ -61,7 +61,7 @@ const SellView = props => {
                     </div>
                 }
                 leftIcon={
-                    <div onClick={() => history.goBack()} >
+                    <div onClick={() => history.push(paths.stock)} >
                         <ArrowBackIcon
                             style={{fontSize: '2rem'}}
                         />
