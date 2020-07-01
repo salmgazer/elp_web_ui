@@ -1,6 +1,7 @@
 {
   "short_name": "My Store Aid",
   "name": "My Store Aid",
+  "descriptions": "Store management with an offline service",
   "icons": [
     {
       "src": "\/android-icon-36x36.png",
@@ -39,8 +40,8 @@
       "density": "4.0"
     }
   ],
-  "start_url": "",
+  "start_url": ".",
   "display": "standalone",
-  "theme_color": "#000000",
+  "theme_color": "#DAAB59",
   "background_color": "#ffffff"
 }
