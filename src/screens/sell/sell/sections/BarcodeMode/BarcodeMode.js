@@ -56,7 +56,9 @@ const BarcodeMode = props => {
                         document.getElementById('barOverlay').style.display = 'block';
                     })
                     .catch(err => {
-                        //document.getElementById('barError').textContent = err;
+                        codeReader.reset();
+                        document.getElementById('barOverlay').style.display = 'block';
+
                         console.log(err)
                     });
             });

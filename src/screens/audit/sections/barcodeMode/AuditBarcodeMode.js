@@ -60,6 +60,9 @@ const AuditBarcodeMode = props => {
                         document.getElementById('barOverlay').style.display = 'block';
                     })
                     .catch(err => {
+                        codeReader.reset();
+                        document.getElementById('barOverlay').style.display = 'block';
+
                         //document.getElementById('barError').textContent = err;
                         console.log(err)
                     });
@@ -240,123 +243,6 @@ const AuditBarcodeMode = props => {
                     />
                 </FormControl>
             </Box>
-            {/*<div id="barOverlay" className="text-center text-white"
-                 style={{ backgroundRepeat: 'no-repeat' , backgroundPosition: 'top', backgroundSize: '80% 250px', position: 'absolute', height: '65vh',zIndex: '1000',width: '100%',backgroundColor: '#919191',opacity: '0.4', outlineOffset: '0px', outline: '15px solid rgb(145, 145, 145)'}}>
-                <p className="text-center w-100 font-weight-bold"
-                   style={{marginTop: '30%',fontSize: '20px',color: 'black'}}>Click to scan
-                    barcode of product</p>
-            </div>*/}
-            {/*<div id="barOverlay" className="text-center text-white"
-                 style={{backgroundSize: '80% 250px', position: 'absolute', height: '40vh',zIndex: '1000',width: '100%',backgroundColor: '#919191',opacity: '0.4', outlineOffset: '0px', outline: '15px solid rgb(145, 145, 145)', marginTop: '18px'}}>
-                <p className="text-center w-100 font-weight-bold"
-                   style={{marginTop: '30%',fontSize: '20px',color: 'black'}}>Click to scan
-                    barcode of product</p>
-            </div>*/}
-
-            {/*<Grid container spacing={1} className={`p-3 mb-0 mx-1`}>
-                <Grid
-                    item xs={12}
-                    className={`text-right`}
-                >
-                    <div className={`video_canvas`}>
-                        <video
-                            id="video"
-                            width="235"
-                            height="200"
-                            muted={true}
-                            style={{backgroundColor: '#ffffff'}}
-                        >
-                        </video>
-                    </div>
-                </Grid>
-            </Grid>*/}
-            {/* <div
-                className={`newBox`}
-                style={{position:'relative', zIndex: 1030, right: 0, left: '-3.5%', width: '100%'}}
-            >
-                <Box
-                    className={`shadow1 bg-white`}
-                    p={1}
-                    style={{ position: "fixed", bottom:"0rem", width:"100%", height: '100px' }}
-                >
-                    <div className={`w-75 mx-auto`}>
-                        <Typography
-                            component="p"
-                            variant="h6"
-                            className={`text-center my-1 font-weight-bold`}
-                            style={{fontWeight: '400', fontSize: '16px' , margin: '5px auto', paddingTop: '10px'}}
-                        >
-                            Sell products
-                        </Typography>
-                        <Grid container spacing={1} className={`mb-2`}>
-                            <Grid
-                                item xs={10}
-                                className={`text-right`}
-                            >
-                                <Paper className={`${styles.root} text-center`} >
-                                    <InputBase
-                                        className={`${styles.input} search-box`}
-                                        placeholder="Enter barcode key"
-                                        value={barcodeNumber}
-                                        inputProps={{ 'aria-label': 'Enter barcode key' }}
-                                        onChange={(event) => setBarcodeNumber(event.target.value)}
-                                    />
-                                </Paper>
-                            </Grid>
-
-                            <Grid
-                                item xs={2}
-                                className={`text-left`}
-                                style={{color: '#D34343'}}
-                            >
-                                <div style={{backgroundColor: '#DAAB59', color: '#333333', borderRadius: '50%', width: '40px', height: '40px'}}>
-                                    <SearchIcon className={`p-2`} onClick={barcodeSearchHandler}/>
-                                </div>
-                            </Grid>
-                        </Grid>
-                    </div>
-                </Box>
-            </div> */}
-
-            {/*<Box
-                className={`newBox shadow1 bg-white py-2 pt-1`}
-                p={1}
-                style={{position:'relative', zIndex: 1030,  right: 0, left: 0, bottom: '1.0rem', width: '100%', minHeight: '100px'}}
-            >
-
-                <Typography
-                    component="h5"
-                    variant="h5"
-                    className={`mt-2`}
-                    style={{fontWeight: '500', fontSize: '18px', lineHeight: '1.5', marginTop: '40px', marginBottom: '20px'}}
-                >
-                    Scan the barcode of the product
-                </Typography>
-
-                <FormControl variant="outlined">
-                    <OutlinedInput
-                        id="outlined-adornment-amount"
-                        placeholder="Barcode number appears here"
-                        size="small"
-                        type="number"
-                        value={barcodeNumber}
-                        onChange={event => setBarcodeNumber(event.target.value)}
-                        style={{width: '90%' , maxWidth: '320px'}}
-                        startAdornment={<InputAdornment position="start"><GraphicEqIcon /> </InputAdornment>}
-                    />
-                </FormControl>
-
-                <Button
-                    variant="contained"
-                    style={{'backgroundColor': '#DAAB59' , color: '#333333', padding: '5px 70px', textTransform: 'none', marginTop: '40px', fontSize: '17px'}}
-                    onClick={barcodeSearchHandler.bind(this)}
-                >
-                    Finish
-                </Button>
-
-            </Box>*/}
-
-
         </div>
     );
 };
