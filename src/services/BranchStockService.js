@@ -13,7 +13,6 @@ export default class BranchStockService{
     }
 
     async addStock(formFields){
-        console.log(formFields)
         const stockColumns = {
             quantity: parseFloat(formFields.quantity),
             branchId: formFields.branchId,
@@ -28,7 +27,6 @@ export default class BranchStockService{
         try{
             const response = await new ModelAction('BranchProductStock').post(stockColumns);
 
-            console.log(response)
             if(await BranchStockService.addStockHistory()){
                 await BranchStockService.addPurchase(formFields);
                 await BranchStockService.updateProduct(formFields);
@@ -47,7 +45,6 @@ export default class BranchStockService{
             const response = await new ModelAction('BranchProduct').update(formFields.branchProductId , {
                 sellingPrice: parseFloat(formFields.sellingPrice)
             });
-            console.log(response)
 
             return true;
         } catch (e) {
@@ -71,7 +68,7 @@ export default class BranchStockService{
 
         try{
             const response = await new ModelAction('BranchProductStock').post(stockColumns);
-            console.log(response)
+
             if(await BranchStockService.addStockHistory()){
                 await BranchStockService.addPurchase(formFields);
                 await BranchStockService.updateProduct(formFields);
@@ -114,7 +111,7 @@ export default class BranchStockService{
 
     async moveStock(formFields){
         const response = await this.addStock(formFields);
-        alert(await formFields.branchProductId[0].id)
+
         if(response){
             const lastStock = await BranchStockService.getLastStock(formFields.branchId);
 
@@ -131,9 +128,8 @@ export default class BranchStockService{
             };
 
             try{
-                const response = await new ModelAction('StockMovement').post(stockMovementColumns);
+                await new ModelAction('StockMovement').post(stockMovementColumns);
 
-                console.log(response)
                 return true;
             } catch (e) {
                 return false;
@@ -214,12 +210,10 @@ export default class BranchStockService{
         const dataCollection = await database.collections.get(BranchProductStock.table);
         const branches = (LocalInfo.branches).map(branch => branch.id);
 
-        const stock = await dataCollection.query(
+        return await dataCollection.query(
             Q.where('productId' , productId),
             Q.where('branchId' , Q.oneOf(branches))
         ).fetch();
-
-        return stock;
     }
 
     async getProductStockQuantity(productId){
@@ -231,16 +225,8 @@ export default class BranchStockService{
         const dataCollection = await database.collections.get('branches_products');
 
         const stocks = await this.getCompanyProductStock(productId);
-        console.log(stocks)
-        const response = branches.map((branch) => {
+        return branches.map((branch) => {
             const branchStock = stocks.filter(stock => stock.branchId === branch.id);
-            console.log(branchStock)
-
-            let branchProduct = dataCollection.query(
-                Q.where('productId' , productId),
-                Q.where('branchId' , branch.id)
-            ).fetch();
-            console.log(branchProduct)
 
             return {
                 name: branch.name,
@@ -250,8 +236,6 @@ export default class BranchStockService{
                 branchProductId: branchStock.length > 0 ? branchStock[branchStock.length - 1].branchProductId : null,
             }
         });
-        console.log(response)
-        return response;
     }
 
     static async getBranchProductQuantity(productId , branchId){
@@ -261,14 +245,9 @@ export default class BranchStockService{
             Q.where('productId' , productId),
             Q.where('branchId' , branchId)
         ).fetch();
-        console.log(stock)
-
     }
 
     async getCompanyItemsLeft(){
-        const branches = (LocalInfo.branches).map(branch => branch.branchId);
-        console.log(branches);
-
         const companyStock = await new ModelAction('BranchProductStock').findByColumnNotObserve({
             name: 'branchId',
             value: this.branchId,
@@ -319,7 +298,7 @@ export default class BranchStockService{
             fxn: 'eq'
         });
 
-        const outOfStock = branchProducts.filter((product) => {
+        return branchProducts.filter((product) => {
             const stock = companyStock.filter((item) => item.productId === product.productId && item.branchId === this.branchId);
             const sales = companySaleEntries.filter((item) => item.productId === product.productId && item.branchId === this.branchId);
             const movement = companyStockMovement.filter((item) => item.productId === product.productId && item.branchId === this.branchId);
@@ -330,8 +309,6 @@ export default class BranchStockService{
 
             return product.lowestStock >= (countStock - (countSales + countMovement))
         });
-
-        return outOfStock;
     }
 
     async getItemsOutOfStock(){
@@ -359,7 +336,7 @@ export default class BranchStockService{
             fxn: 'eq'
         });
 
-        const outOfStock = branchProducts.filter((product) => {
+        return branchProducts.filter((product) => {
             const stock = companyStock.filter((item) => item.productId === product.productId && item.branchId === this.branchId);
             const sales = companySaleEntries.filter((item) => item.productId === product.productId && item.branchId === this.branchId);
             const movement = companyStockMovement.filter((item) => item.productId === product.productId && item.branchId === this.branchId);
@@ -372,8 +349,6 @@ export default class BranchStockService{
 
             return (countStock <= (countSales + countMovement))
         });
-
-        return outOfStock;
     }
 
     async getTotalCostPrice(){
@@ -472,13 +447,11 @@ export default class BranchStockService{
     */
     async getStockProductsById(id){
         try {
-            const stockCollection = await new ModelAction('BranchProductStock').findByColumnNotObserve({
+            return new ModelAction('BranchProductStock').findByColumnNotObserve({
                 name: 'id',
                 value: id,
                 fxn: 'eq',
             });
-
-            return stockCollection;
         }catch (e) {
             return e;
         }
@@ -489,13 +462,11 @@ export default class BranchStockService{
     */
    async getSellingStockProductsById(id){
     try {
-        const stockCollection = await new ModelAction('BranchProduct').findByColumnNotObserve({
+        return await new ModelAction('BranchProduct').findByColumnNotObserve({
             name: 'id',
             value: id,
             fxn: 'eq',
         });
-
-        return stockCollection;
     }catch (e) {
         return e;
     }

@@ -2,23 +2,34 @@ import React, {useState} from 'react';
 import Grid from "@material-ui/core/Grid/Grid";
 import SearchInput from "../../../Components/Input/SearchInput";
 import SingleProductBox from "../../../../components/Product/SingleProductBox";
-import Typography from "@material-ui/core/Typography/Typography";
 import Empty from '../../../../assets/img/employee.png';
-import Button from "@material-ui/core/Button/Button";
 import paths from "../../../../utilities/paths";
-import Box from "@material-ui/core/Box/Box";
+import EmptyContainer from "../../../../components/Empty/EmptyContainer";
+import {withRouter} from "react-router-dom";
 
 const StockSearchMode = props => {
     const branchProducts = props.branchProducts;
     const { history } = props;
+    const [headerText , setHeaderText] = useState('');
+    const [emptyBtnState , setEmptyBtnState] = useState(true);
     const [searchValue , setSearchValue] = useState({
-        search: ''
+        search: '',
+        state: 'inactive'
     });
 
     const setInputValue = async (name , value) => {
         const {...oldFormFields} = searchValue;
 
         oldFormFields[name] = value;
+        if(value.length > 0){
+            oldFormFields['state'] = 'active';
+            setHeaderText('Search didn\'t not find any product');
+            setEmptyBtnState(true);
+        }else{
+            oldFormFields['state'] = 'inactive';
+            setHeaderText('Seems you don\'t have any stock');
+            setEmptyBtnState(true);
+        }
 
         setSearchValue(oldFormFields);
 
@@ -48,44 +59,13 @@ const StockSearchMode = props => {
             >
                 {branchProducts.length === 0
                     ?
-                    // <Grid
-                    //     item xs={12}
-                    //     className={`text-left pl-2`}
-                    // >
-                    //     <div className={`rounded mx-1 my-2 p-2 bordered`}>
-                    //         <Typography
-                    //             component="h6"
-                    //             variant="h6"
-                    //             style={{fontSize: '16px'}}
-                    //             className={`text-center text-dark w-100`}
-                    //         >
-                    //             No product found
-                    //         </Typography>
-                    //     </div>
-                    // </Grid>
-                    <div>
-                        <Box component="div" m={2} style={{marginTop: '-1rem'}} >
-                            <img className="img100" src={Empty} alt={'payment'}/>
-                        </Box>
-
-
-                        <Typography className='text-dark font-weight-bold' style={{ fontSize: '17px', padding: '0px 10px 10px 10px' }} >
-                            Seems you don't have any stock
-                        </Typography>
-
-
-                        <Typography className='font-weight-light mt-1' style={{ fontSize: '15px', marginBottom: '20px' }} >
-                                Click Add Product to add products you sell to your store
-                        </Typography>
-
-                        <Button
-                            variant="contained"
-                            style={{'backgroundColor': '#DAAB59' , color: '#333333', padding: '5px 40px', textTransform: 'none', fontSize:'17px'}}
-                            onClick={() => history.push(paths.add_products)}
-                        >
-                            Add Product
-                        </Button>
-                    </div>
+                    <EmptyContainer
+                        buttonAction={() => history.push(paths.add_products)}
+                        imageLink={Empty}
+                        headerText={headerText}
+                        button={emptyBtnState}
+                        btnText="Add Product"
+                    />
                     :
                     branchProducts.map((branchProduct) =>
                         <SingleProductBox product={branchProduct} key={branchProduct.id} addProductHandler={addProductHandler.bind(this, branchProduct.id)}/>
@@ -96,4 +76,4 @@ const StockSearchMode = props => {
     );
 };
 
-export default StockSearchMode;
+export default withRouter(StockSearchMode);

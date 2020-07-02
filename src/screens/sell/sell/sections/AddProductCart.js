@@ -39,7 +39,6 @@ const useStyles = makeStyles(theme => ({
     }
 }));
 
-
 const AddProductCart = props => {
     const branchProduct = props.product[0];
     const [product , setProduct] = useState('');
@@ -306,7 +305,7 @@ const AddProductCart = props => {
                     <KeyboardBackspaceIcon style={{fontWeight: '700'}}/>
                 </span>
 
-                <span
+                {/*<span
                     className={`cart-icon`}
                     style={{lineHeight: '0.8'}}
                 >
@@ -316,7 +315,7 @@ const AddProductCart = props => {
                         <AddShoppingCartOutlinedIcon style={{fontWeight: '700'}}/>
                         <div style={{fontSize: '12px'}}>New cart</div>
                     </div>
-                </span>
+                </span>*/}
                 <div className={`w-100 m-2 my-5`}>
                     <img className={`img-fluid mx-auto w-50 h-75`} src={image} alt={`${name}`}/>
                 </div>
@@ -325,7 +324,7 @@ const AddProductCart = props => {
             <div className={`p-3 mx-0`}>
                 <div
                     className={`w-75 mx-auto bg-white shadow-ng`}
-                    style={{minHeight: '300px' , borderRadius: '30px', marginTop: '-70px'}}
+                    style={{minHeight: `${name.length > 20 ? '330px' : '300px'}` , borderRadius: '30px', marginTop: '-70px'}}
                 >
                     <Typography
                         component="h6"

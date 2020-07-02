@@ -237,6 +237,14 @@ const BarcodeMode = props => {
                         startAdornment={<InputAdornment position="start"><GraphicEqIcon /> </InputAdornment>}
                     />
                 </FormControl>
+
+                <Button
+                    variant="contained"
+                    style={{'backgroundColor': '#DAAB59' , color: '#333333', padding: '5px 70px', textTransform: 'none', marginTop: '40px', fontSize: '17px'}}
+                    onClick={barcodeSearchHandler.bind(this , barcodeNumber)}
+                >
+                    Finish
+                </Button>
             </Box>
             {/*<div id="barOverlay" className="text-center text-white"
                  style={{ backgroundRepeat: 'no-repeat' , backgroundPosition: 'top', backgroundSize: '80% 250px', position: 'absolute', height: '65vh',zIndex: '1000',width: '100%',backgroundColor: '#919191',opacity: '0.4', outlineOffset: '0px', outline: '15px solid rgb(145, 145, 145)'}}>

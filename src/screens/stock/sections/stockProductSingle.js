@@ -61,7 +61,6 @@ const StockProductSingle = props => {
     lastStock = lastStock[(lastStock.length - 1)];*/
 
     const [successDialog, setSuccessDialog] = useState(false);
-    console.log(setSuccessDialog);
 
     const backHandler = () => {
         props.setView(0);

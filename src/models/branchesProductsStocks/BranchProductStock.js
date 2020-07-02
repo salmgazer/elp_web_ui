@@ -14,6 +14,9 @@ export default class BranchProductStock extends Model {
     products: { type: 'belongs_to', key: 'productId' },
   };
 
+  /*
+  * @todo add paymentSource to branches_products_stocks
+  * */
   @field('branchProductId') branchProductId;
   @field('branchId') branchId;
   @field('productId') productId;

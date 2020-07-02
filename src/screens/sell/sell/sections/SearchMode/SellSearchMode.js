@@ -3,18 +3,20 @@ import Grid from "@material-ui/core/Grid";
 import Paper from "@material-ui/core/Paper";
 import {makeStyles} from "@material-ui/core";
 import ShoppingCartOutlinedIcon from '@material-ui/icons/ShoppingCartOutlined';
-//import AddIcon from "../../../../../components/ClickableIcons/AddIcon";
 import ProductCard from "../../../../../components/Cards/ProductCard";
-//import WarningIcon from "../../../../../components/ClickableIcons/WarningIcon";
 import Typography from "@material-ui/core/Typography/Typography";
 import SearchInput from "../../../../Components/Input/SearchInput";
 import BranchProductService from "../../../../../services/BranchProductService";
 import SimpleSnackbar from "../../../../../components/Snackbar/SimpleSnackbar";
 import SingleProductMainCard from "../singleProductMainCard";
 import Empty from '../../../../../assets/img/employee.png';
-import Button from "@material-ui/core/Button/Button";
 import paths from "../../../../../utilities/paths";
+import EmptyContainer from "../../../../../components/Empty/EmptyContainer";
+import {withRouter} from "react-router-dom";
+import ProductServiceHandler from "../../../../../services/ProductServiceHandler";
 import Box from "@material-ui/core/Box/Box";
+import Button from "@material-ui/core/Button/Button";
+import MainDialog from "../../../../../components/Dialog/MainDialog";
 
 const useStyles = makeStyles(theme => ({
     root: {
@@ -51,12 +53,19 @@ const useStyles = makeStyles(theme => ({
 
 const SellSearchMode = props => {
     const [searchValue, setSearchValue] = useState({
-        search: ''
+        search: '',
+        state: 'inactive'
     });
     const { history } = props;
+    const [headerText , setHeaderText] = useState('');
+    const [emptyBtnState , setEmptyBtnState] = useState(true);
     const [error, setError] = useState(false);
     const [errorMsg, setErrorMsg] = useState('');
     const [productAdded, setProductAdded] = useState(false);
+    const [showErrorProduct, setShowErrorProduct] = useState(false);
+    const [errorProduct, setErrorProduct] = useState(false);
+    const [errorBProduct, setErrorBProduct] = useState(false);
+    const [errorProductMsg, setErrorProductMsg] = useState('');
 
     const branchProducts = props.branchProducts;
 
@@ -110,22 +119,112 @@ const SellSearchMode = props => {
         }
     };
 
-    const removeProductHandler = (name) => {
-        alert(`${name} is out of stock or has no cost price. Please add stock`);
+    const removeProductHandler = async (name , bPro) => {
+        {/*{new BranchProductService(branchProduct).getSellingPrice() ? `GHC ${new BranchProductService(branchProduct).getSellingPrice()}` : `No cost price`}*/}
+
+        //return !!(await this.getProductQuantity() > 0 && await this.getCostPrice() && this.getSellingPrice());
+        let errors = '';
+
+        const theProduct = new BranchProductService(bPro);
+        if(!await theProduct.getProductQuantity()){
+            errors = 'No stock available.';
+        }
+
+        if(!await theProduct.getCostPrice()){
+            errors = (errors.trim()).concat('</br>No cost price available.');
+        }
+
+        if(!await theProduct.getSellingPrice()){
+            errors = (errors).concat('</br>No selling price available.');
+        }
+console.log(errors)
+        setErrorProductMsg(errors);
+        setErrorProduct(await bPro.product.fetch());
+        setErrorBProduct(bPro.id);
+        setShowErrorProduct(true);
+        //alert(`${name} is out of stock or has no cost price. Please add stock`);
     };
 
     const setInputValue = (name, value) => {
         const {...oldFormFields} = searchValue;
 
         oldFormFields[name] = value;
+        if(value.length > 0){
+            oldFormFields['state'] = 'active';
+            setHeaderText('Search didn\'t not find any product');
+            setEmptyBtnState(true);
+        }else{
+            oldFormFields['state'] = 'inactive';
+            setHeaderText('Click Add product to add products you sell to your store');
+            setEmptyBtnState(true);
+        }
 
         setSearchValue(oldFormFields);
 
         props.searchHandler(value);
     };
 
+    const addStockHandler = () => {
+        localStorage.setItem('redirectPath' , paths.sell);
+        localStorage.setItem('activeStockProduct' , errorBProduct);
+        props.history.push(paths.stock);
+    };
+
     return (
         <div>
+            <MainDialog
+                states={showErrorProduct}
+                handleDialogClose={() => setShowErrorProduct(false)}
+                title={`Selected Product`}
+            >
+                {
+                    errorProduct ?
+                        <>
+                            <div className={`w-100 m-2`}>
+                                <img className={`img-fluid mx-auto w-50 h-75`} src={new ProductServiceHandler(errorProduct).getProductImage()} alt={`${errorProduct.name}`}/>
+                            </div>
+
+                            <Typography
+                                component="p"
+                                variant="h6"
+                                className={`text-center my-2 font-weight-bold`}
+                                style={{fontWeight: '500', fontSize: '16px' , margin: '5px auto', paddingTop: '10px'}}
+                            >
+                                {errorProduct.name}
+                            </Typography>
+
+                            <Typography
+                                component="p"
+                                variant="h6"
+                                className={`text-center my-1`}
+                                style={{fontWeight: '300', color: 'red', fontSize: '12px' , margin: '5px auto', paddingTop: '10px'}}
+                            >
+                                { errorProductMsg }
+                            </Typography>
+
+                            <Box
+                                className={`bg-white my-3`}
+                                p={1}
+                            >
+                                <Button
+                                    variant="outlined"
+                                    style={{border: '1px solid #DAAB59', color: '#DAAB59', marginRight: '10px'}}
+                                    onClick = {() => setShowErrorProduct(false)}
+                                >
+                                    Cancel
+                                </Button>
+                                <Button
+                                    variant="contained"
+                                    style={{'backgroundColor': '#DAAB59', padding: '5px 15px', color: '#333333'}}
+                                    onClick={addStockHandler.bind(this)}
+                                >
+                                    Edit Product
+                                </Button>
+                            </Box>
+                        </>
+                        : ''
+                }
+            </MainDialog>
             <Grid container spacing={1} className={`my-1`}>
                 <Grid item xs={7} style={{padding: '4px 8px'}}>
                     <SearchInput
@@ -190,44 +289,13 @@ const SellSearchMode = props => {
                 <Grid container spacing={1} className='mt-3'>
                     {branchProducts.length === 0
                         ?
-                        // <Grid
-                        //     item xs={12}
-                        //     className={`text-left pl-2`}
-                        // >
-                        //     <div className={`rounded mx-1 my-2 p-2 bordered`}>
-                        //         <Typography
-                        //             component="h6"
-                        //             variant="h6"
-                        //             style={{fontSize: '16px'}}
-                        //             className={`text-center text-dark w-100`}
-                        //         >
-                        //             No product found
-                        //         </Typography>
-                        //     </div>
-                        // </Grid>
-                        <div>
-                            <Box component="div" m={2} style={{marginTop: '-1rem'}} >
-                                <img className="img100" src={Empty} alt={'payment'}/>
-                            </Box>
-
-                            
-                            <Typography className='text-dark font-weight-bold' style={{ fontSize: '17px', padding: '0px 10px 10px 10px' }} >
-                                Seems you don't have any stock
-                            </Typography>
-                            
-
-                            <Typography className='font-weight-light mt-1' style={{ fontSize: '15px', marginBottom: '20px' }} >
-                                    Click Add Stock to add products you sell to your store
-                            </Typography>
-
-                            <Button
-                                variant="contained"
-                                style={{'backgroundColor': '#DAAB59' , color: '#333333', padding: '5px 40px', textTransform: 'none', fontSize:'17px'}}
-                                onClick={() => history.push(paths.add_products)}
-                            >
-                                Add stock
-                            </Button>
-                        </div>
+                            <EmptyContainer
+                                buttonAction={() => history.push(paths.add_products)}
+                                imageLink={Empty}
+                                headerText={headerText}
+                                button={emptyBtnState}
+                                btnText="Add Product"
+                            />
                         :
                         branchProducts.map((branchProduct) =>
                             <Grid key={branchProduct.productId} item xs={4}
@@ -259,4 +327,4 @@ const SellSearchMode = props => {
     )
 };
 
-export default SellSearchMode;
+export default withRouter(SellSearchMode);

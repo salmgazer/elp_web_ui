@@ -10,7 +10,7 @@ import SwapHorizOutlinedIcon from '@material-ui/icons/SwapHorizOutlined';
 import InputBase from "@material-ui/core/InputBase/InputBase";
 import Paper from "@material-ui/core/Paper/Paper";
 import '../../../components/Input/styles/SellInput.scss';
-import {makeStyles} from "@material-ui/core";
+import {makeStyles, withStyles} from "@material-ui/core";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faCalculator} from "@fortawesome/free-solid-svg-icons";
 import Box from "@material-ui/core/Box/Box";
@@ -124,6 +124,23 @@ const optionGroupStyles = makeStyles(theme => ({
     },
 }));
 
+const PrimarySwitch = withStyles({
+    switchBase: {
+        color: `#009688 !important`,
+        '&$checked': {
+            color: `#009688 !important`,
+        },
+        '&$checked + $track': {
+            backgroundColor: `#009688 !important`,
+        },
+    },
+    root: {
+        float: `right !important`,
+    },
+    checked: {},
+    track: {},
+})(Switch);
+
 // Inspired by blueprintjs
 function StyledRadio(props) {
     const classes = optionGroupStyles();
@@ -148,12 +165,9 @@ const AddNewStockPage = props => {
     const [product , setProduct] = useState('');
     const [name , setName] = useState('');
     const [image , setImage] = useState('');
-    const [sellingPrice , setSellingPrice] = useState(branchProduct.sellingPrice);
     const [costPrice , setCostPrice] = useState(0);
     const [quantityProduct , setQuantityProduct] = useState(0);
     const [totalPrice , setTotalPrice] = useState("");
-    const [unitPrice , setUnitPrice] = useState("");
-
 
     const [moneySourceDialog, setMoneySourceDialog] = useState(false);
     const [sellingPriceDialog, setSellingPriceDialog] = useState(false);
@@ -164,20 +178,18 @@ const AddNewStockPage = props => {
     const [errorMsg, setErrorMsg] = useState('');
 
     const [swapItem, setSwapItem] = useState(true);
-    const [btnState , setBtnState] = useState(false);
 
     const [formFields , setFormFields] = useState({
         quantity: 1,
         sellingPrice: branchProduct.sellingPrice,
         costPrice: costPrice ? parseFloat(costPrice).toFixed(2) : "",
-        paymentSource: 'sales',
+        paymentSource: LocalInfo.stockMoneySource,
         type: 'stock',
         productId: branchProduct.productId,
         branchProductId: branchProduct.id,
-        rememberChoice: false,
+        stockMoneySourceRememberChoice: LocalInfo.stockMoneySourceRememberChoice,
         branchId: LocalInfo.branchId,
     });
-    console.log(sellingPrice, unitPrice, errorMsg, btnState );
 
     const [changePriceFields , setChangePriceFields] = useState({
         sellingPrice: "",
@@ -189,7 +201,6 @@ const AddNewStockPage = props => {
             setErrorDialog(true);
             setErrorMsg('Please fill all stock details');
             setLoading(false);
-            setBtnState(true);
             setTimeout(function(){
                 setErrorDialog(false);
             }, 3000);
@@ -202,7 +213,6 @@ const AddNewStockPage = props => {
                 setErrorDialog(true);
                 setErrorMsg('Cost price can not be more than selling price');
                 setLoading(false);
-                setBtnState(true);
                 setTimeout(function(){
                     setErrorDialog(false);
                 }, 3000);
@@ -211,7 +221,11 @@ const AddNewStockPage = props => {
             }
         }
 
-        setMoneySourceDialog(true);
+        if(LocalInfo.stockMoneySourceRememberChoice){
+            saveStock();
+        }else{
+            setMoneySourceDialog(true);
+        }
     };
 
     const saveStock = () => {
@@ -220,7 +234,6 @@ const AddNewStockPage = props => {
             setErrorDialog(true);
             setErrorMsg('Please fill all stock details');
             setLoading(false);
-            setBtnState(true);
             setTimeout(function(){
                 setErrorDialog(false);
             }, 3000);
@@ -233,7 +246,6 @@ const AddNewStockPage = props => {
                 setErrorDialog(true);
                 // setErrorMsg('Cost price can not be more than selling price');
                 setLoading(false);
-                setBtnState(true);
                 setTimeout(function(){
                     setErrorDialog(false);
                 }, 3000);
@@ -275,9 +287,9 @@ const AddNewStockPage = props => {
     };
 
     const OptionChangeHandler = (event) => {
+        event.persist();
         setInputValue('moneySource' , event.target.value);
-
-        //console.log(event.target.value);
+        LocalInfo.branchSettings(event);
     };
 
     const swapText = () => {
@@ -304,12 +316,10 @@ const AddNewStockPage = props => {
         setQuantityProduct(await productHandler.getProductQuantity());
         setImage(new ProductServiceHandler(newProduct).getProductImage());
         setName(newProduct.name);
-        setSellingPrice(await productHandler.getSellingPrice());
         const cp = await productHandler.getCostPrice();
         setCostPrice(cp);
-        setInputValue('costPrice' , cp)
+        setInputValue('costPrice' , cp);
         //setTotalPrice((parseFloat(cp * formFields.quantity)).toFixed(2))
-        console.log(formFields)
     };
 
     const setInputValue = (name , value) => {
@@ -354,6 +364,7 @@ const AddNewStockPage = props => {
     const handleSwitchChange = event => {
         const name = event.target.name;
         setInputValue(event.target.name , !formFields[name]);
+        LocalInfo.branchSettings(event);
     };
 
     const backHandler = () => {
@@ -374,7 +385,6 @@ const AddNewStockPage = props => {
         oldFormFields['costPrice'] = cp.toFixed(2);
 
         setFormFields(oldFormFields);
-        setUnitPrice(cp.toFixed(2));
         //setInputValue('costPrice' , cp.toFixed(2));
 
         setLoading(false);
@@ -425,7 +435,7 @@ const AddNewStockPage = props => {
             </SimpleSnackbar>
             <SimpleSnackbar
                 openState={errorDialog}
-                message={`Cost price can not be more than selling price`}
+                message={errorMsg}
             >
             </SimpleSnackbar>
             {/* <Snackbar open={errorDialog} autoHideDuration={3000} onClose={handleCloseSnack}>
@@ -600,11 +610,11 @@ const AddNewStockPage = props => {
                         <div className={`mx-auto mb-2`}>
                             <FormControlLabel
                                 control={
-                                    <Switch
-                                        checked={formFields.rememberChoice}
+                                    <PrimarySwitch
+                                        size={`medium`}
+                                        checked={formFields.stockMoneySourceRememberChoice}
                                         onChange={handleSwitchChange}
-                                        name="rememberChoice"
-                                        color="primary"
+                                        name="stockMoneySourceRememberChoice"
                                     />
                                 }
                                 label="Remember my choice"

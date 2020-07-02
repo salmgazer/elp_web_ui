@@ -66,6 +66,14 @@ export default class LocalInfo {
       return localStorage.getItem('branchSettings') ? JSON.parse(localStorage.getItem('branchSettings')).aggregateSales || false : false;
   }
 
+  static get stockMoneySource() {
+      return localStorage.getItem('branchSettings') ? JSON.parse(localStorage.getItem('branchSettings')).stockMoneySource || 'sales' : 'sales';
+  }
+
+  static get stockMoneySourceRememberChoice() {
+      return localStorage.getItem('branchSettings') ? JSON.parse(localStorage.getItem('branchSettings')).stockMoneySourceRememberChoice || false : false;
+  }
+
   static get companyId() {
     return localStorage.getItem(this.keys.companyId);
   }
@@ -88,10 +96,14 @@ export default class LocalInfo {
   }
 
   static branchSettings(event) {
-    console.log(event.target.name , event.target.value)
+    console.log(event.target.name , event.target.value);
       let settings = localStorage.getItem('branchSettings') ? JSON.parse(localStorage.getItem('branchSettings')) || {}: {};
 
-      settings = ({...settings, [event.target.name]: event.target.checked });
+      if(event.target.name === 'paymentSource'){
+          settings = ({...settings, ['stockMoneySource']: event.target.value });
+      }else{
+          settings = ({...settings, [event.target.name]: event.target.checked });
+      }
 
       localStorage.setItem("branchSettings", JSON.stringify(settings));
   }

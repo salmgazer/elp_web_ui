@@ -155,7 +155,6 @@ class AddProducts extends Component{
             );
 
             localStorage.removeItem('branchDeletedHistory');
-            console.log(removedProducts)
         }
         await SyncService.sync(LocalInfo.companyId, LocalInfo.branchId, LocalInfo.userId, database);
 

@@ -81,6 +81,10 @@ class Sell extends Component {
         }
     }
 
+    componentWillUnmount() {
+        this._isMounted = false;
+    }
+
     async getDateSaleDetails() {
         const salesTodayDetails = await new SaleService().getDaySalesDetails(LocalInfo.workingDate);
 

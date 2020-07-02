@@ -60,6 +60,13 @@ class DirectiveViewStock extends Component{
                 totalExpectedProfit: await new BranchStockService().getTotalExpectedProfit(),
             },
         });
+
+        const activeStockProduct = localStorage.getItem('activeStockProduct') || '';
+        localStorage.removeItem('activeStockProduct');
+
+        if(activeStockProduct){
+            this.showProductStockView(activeStockProduct);
+        }
     }
 
     async componentDidUpdate(prevProps) {
@@ -140,11 +147,8 @@ class DirectiveViewStock extends Component{
     * View a products stock
     * */
     showProductStockView = (productId) => {
-        console.log(productId)
         const old_list = this.state.branchProducts;
-
-        const newStep = this.state.companyBranches.length > 1 ? 1 : 5;
-        console.log(newStep)
+        //const newStep = this.state.companyBranches.length > 1 ? 1 : 5;
 
         //Find index of specific object using findIndex method.
         const itemIndex = old_list.filter((item => item.id === productId));
@@ -171,14 +175,11 @@ class DirectiveViewStock extends Component{
         }
    };
 
-
-
     /*
     * Add new stock
     * */
 
     addNewProductStockView = (productId) => {
-        console.log(`${productId} from addStock`);
         const old_list = this.state.branchProducts;
 
         //Find index of specific object using findIndex method.
@@ -192,11 +193,17 @@ class DirectiveViewStock extends Component{
     };
 
     async updateNewProduct(formFields){
-        console.log(formFields)
         try {
             const status = await new BranchStockService().addStock(formFields);
-            console.log(status)
             if(status){
+
+                const returnPage = localStorage.getItem('redirectPath') || '';
+                localStorage.removeItem('redirectPath');
+
+                if(returnPage){
+                    this.props.history.push(returnPage);
+                }
+
                 return true;
             }
             alert('Something went wrong');
@@ -209,8 +216,15 @@ class DirectiveViewStock extends Component{
     async moveStock(formFields){
         try {
             const status = await new BranchStockService().moveStock(formFields);
-            console.log(status)
+
             if(status){
+                const returnPage = localStorage.getItem('redirectPath') || '';
+                localStorage.removeItem('redirectPath');
+
+                if(returnPage){
+                    this.props.history.push(returnPage);
+                }
+
                 return true;
             }
 

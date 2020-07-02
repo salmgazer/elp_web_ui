@@ -9,13 +9,11 @@ const ProductCard = (props) => {
     if(props.isSell){
         branchProduct = props.branchProduct;
     }
-    const [product , setProduct] = useState('');
     const [isSellable , setIsSellable] = useState(false);
     const [name , setName] = useState('');
     const [image , setImage] = useState('');
     const [quantityProduct , setQuantityProduct] = useState(0);
     const [productAuditDetials , setProductAuditDetials] = useState(false);
-    console.log(product)
 
     useEffect(() => {
         // You need to restrict it at some point
@@ -32,7 +30,6 @@ const ProductCard = (props) => {
 
         const newProduct = await props.product;
 
-        setProduct(newProduct);
         setQuantityProduct(await props.storeCounted);
         setProductAuditDetials(await props.appCounted);
         setImage(new ProductServiceHandler(newProduct).getProductImage());
@@ -48,7 +45,7 @@ const ProductCard = (props) => {
     };
 
     const removeProductHandler = () => {
-        props.removeProductHandler(name);
+        props.removeProductHandler(name , branchProduct);
     };
 
     return(
