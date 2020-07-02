@@ -1,5 +1,5 @@
-import React, {useState, useEffect} from 'react';
-import Typography from '@material-ui/core/Typography';
+import React from 'react';
+// import Typography from '@material-ui/core/Typography';
 import './ChangePrice.scss';
 import SearchIcon from '@material-ui/icons/Search';
 import IconButton from '@material-ui/core/IconButton';
@@ -7,11 +7,11 @@ import InputBase from '@material-ui/core/InputBase';
 import Paper from '@material-ui/core/Paper';
 import { makeStyles } from '@material-ui/core/styles';
 import Grid from "@material-ui/core/Grid/Grid";
-import Select from '@material-ui/core/Select';
-import MenuItem from '@material-ui/core/MenuItem';
-import ProductCard from "../../../Components/Cards/ProductCard";
-import AddedIcon from "../../../Components/ClickableIcons/AddedIcon";
-import AddIcon from "../../../Components/ClickableIcons/AddIcon";
+// import Select from '@material-ui/core/Select';
+// import MenuItem from '@material-ui/core/MenuItem';
+// import ProductCard from "../../../Components/Cards/ProductCard";
+// import AddedIcon from "../../../Components/ClickableIcons/AddedIcon";
+// import AddIcon from "../../../Components/ClickableIcons/AddIcon";
 import ProductCardHorizontal from "../../../Components/Cards/ProductCardHorizontal";
 
 
@@ -38,15 +38,15 @@ const useStyles = makeStyles(theme => ({
 }));
 
 const SearchMode = props => {
-    const [type, setType] = useState(10);
+    // const [type, setType] = useState(10);
 
-    const handleTypeChange = event => {
-        setType(event.target.value);
-    };
+    // const handleTypeChange = event => {
+    //     setType(event.target.value);
+    // };
 
-    const addProduct = (pId , event) => {
-        props.productAdd(pId);
-    };
+    // const addProduct = (pId , event) => {
+    //     props.productAdd(pId);
+    // };
 
     const products = props.products;
 
@@ -57,10 +57,10 @@ const SearchMode = props => {
         props.productAdd(id);
     };
 
-    const removeProductHandler = (id) => {
-        console.log(id);
-        props.removeProduct(id);
-    };
+    // const removeProductHandler = (id) => {
+    //     console.log(id);
+    //     props.removeProduct(id);
+    // };
 
     return(
         <div className="shadow1 boxMain" style={{minHeight: '400px' , width: '96%', padding: '0px 2% 20px' , marginBottom: '60px'}}>

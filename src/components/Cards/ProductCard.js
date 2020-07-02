@@ -15,6 +15,7 @@ const ProductCard = (props) => {
     const [image , setImage] = useState('');
     const [quantityProduct , setQuantityProduct] = useState(0);
     const [productAuditDetials , setProductAuditDetials] = useState(false);
+    console.log(product)
 
     useEffect(() => {
         // You need to restrict it at some point

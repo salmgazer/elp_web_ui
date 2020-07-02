@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import MenuIcon from '@material-ui/icons/Menu';
 import SectionNavbars from "../../../components/Sections/SectionNavbars";
-import { makeStyles, useTheme } from '@material-ui/core/styles';
+import { makeStyles } from '@material-ui/core/styles';
 import {withRouter} from "react-router-dom";
 import './sections/ChangePrice.scss';
 import MainView from "./sections/MainView";

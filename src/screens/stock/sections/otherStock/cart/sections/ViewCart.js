@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from 'react';
 import { makeStyles } from '@material-ui/core/styles';
-import AddShoppingCartIcon from '@material-ui/icons/AddShoppingCart';
+// import AddShoppingCartIcon from '@material-ui/icons/AddShoppingCart';
 import SectionNavbars from "../../../../../../components/Sections/SectionNavbars";
 import Paper from '@material-ui/core/Paper';
 import Grid from '@material-ui/core/Grid';
@@ -261,7 +261,7 @@ const CartView = props => {
                         <Button
                             variant="outlined"
                             onClick={() => props.history.push(paths.sell)}
-                            style={{border: '1px solid #DAAB59', color: '#333333', padding: '5px 30px', marginRight: '10px', textTransform: 'none', fontSize:'17px'}}
+                            style={{border: '1px solid #DAAB59', color: '#333333', padding: '5px 30px', textTransform: 'none', fontSize:'17px', float: 'right', marginRight: '5px'}}
                         >
                             Add product
                         </Button>
@@ -269,7 +269,7 @@ const CartView = props => {
                     <Grid item xs={6} >
                         <Button
                             variant="contained"
-                            style={{'backgroundColor': '#DAAB59' , color: '#333333', padding: '5px 55px', textTransform: 'none', fontSize:'17px'}}
+                            style={{'backgroundColor': '#DAAB59' , color: '#333333', padding: '5px 55px', textTransform: 'none', fontSize:'17px', float: 'left', marginLeft: '5px'}}
                             onClick={openCheckoutHandler.bind(this)}
                             disabled={!counter}
                         >

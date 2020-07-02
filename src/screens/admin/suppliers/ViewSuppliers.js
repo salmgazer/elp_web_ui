@@ -7,7 +7,7 @@ import {makeStyles} from "@material-ui/core";
 import Paper from '@material-ui/core/Paper';
 import ButtonBase from '@material-ui/core/ButtonBase';
 import Search from '@material-ui/icons/Search';
-import Woman from '../../../assets/img/woman.jpg';
+// import Woman from '../../../assets/img/woman.jpg';
 import Typography from "@material-ui/core/Typography/Typography";
 
 import LocalInfo from '../../../services/LocalInfo';
@@ -81,6 +81,7 @@ const ViewSuppliers = props => {
     const classes = useStyles();
     const [mainDialog, setMainDialog] = React.useState(false);
     const [addDialog, setAddDialog] = React.useState(false);
+    console.log(addDialog)
 
     const { history } = props;
 
@@ -142,9 +143,9 @@ const ViewSuppliers = props => {
                         </Grid>
                         <Grid container style={{paddingTop: "10px"}}>
                             <Grid item xs={3} sm>
-                                <ButtonBase className={classes.image}>
+                                {/* <ButtonBase className={classes.image}>
                                     <img className={classes.img} alt="supplier photo" src={Woman} style={{width: "60px" , height: "60px" , borderRadius: "50%"}}></img>
-                                </ButtonBase>
+                                </ButtonBase> */}
                             </Grid>
                             <Grid item xs={5} sm container style={{borderBottom: "1px solid #d8d2d2" , paddingBottom: "7px" }} onClick={() => history.push(paths.supplier_detail)}>
                                 <Grid item xs container direction="column" spacing={2} style={{textAlign: "left"}}>
@@ -279,7 +280,7 @@ const ViewSuppliers = props => {
                                             }}
                                             className={classes.button}
                                         >
-                                            <EditIcon/>
+                                            {/* <EditIcon/> */}
                                         </Button>
 
                                     </div>

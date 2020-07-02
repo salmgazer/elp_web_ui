@@ -17,7 +17,6 @@ import Yesterday from './sections/Yesterday';
 import ThisWeek from './sections/ThisWeek';
 import ThisMonth from './sections/ThisMonth';
 import OtherToggle from "../../../../../../../components/DateToggle/OtherToggle";
-import SaleService from '../../../../../../../services/SaleService';
 
 class OtherStockHistory extends Component{
     constructor(props){
@@ -59,7 +58,7 @@ class OtherStockHistory extends Component{
     getStepContent = step => {
         switch (step) {
             case 0:
-                return <Today setView={this.setStepContentView.bind(this)} sales={this.state.allSales} />;
+                return <Today setView={this.setStepContentView.bind(this)} />;
             case 1:
                 return <Yesterday setView={this.setStepContentView.bind(this)} />;
             case 2:

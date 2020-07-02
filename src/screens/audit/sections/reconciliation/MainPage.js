@@ -17,6 +17,7 @@ const MainPage = props => {
     const [startDay , setDay] = useState(subDays(new Date() , 1));
     const [endDay , setEndDay] = useState(new Date());
     const [isDrawerShow , setIsDrawerShow] = useState(false);
+    console.log(setDay, setEndDay)
 
     // const changeView = (event) => {
     //     props.setView(6);

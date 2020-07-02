@@ -32,6 +32,7 @@ const CostInput = props => {
     const classes = useStyles();
     const inputName = props.inputName;
     const [quantity , setQuantity] = useState(parseFloat(props.initialValue));
+    console.log(quantity)
 
     const setValueHandler = (event) => {
         event.persist();

@@ -1,5 +1,5 @@
 import { Model } from '@nozbe/watermelondb';
-import {field, date, text, relation, readonly, children} from '@nozbe/watermelondb/decorators';
+import {field, date, readonly} from '@nozbe/watermelondb/decorators';
 import branchSuppliersSchema from './branchSuppliersSchema';
 import * as Q from "@nozbe/watermelondb/QueryDescription";
 import LocalInfo from "../../services/LocalInfo";

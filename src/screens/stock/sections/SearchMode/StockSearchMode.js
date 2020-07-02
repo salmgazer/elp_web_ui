@@ -75,7 +75,7 @@ const StockSearchMode = props => {
 
 
                         <Typography className='font-weight-light mt-1' style={{ fontSize: '15px', marginBottom: '20px' }} >
-                                Click Add Stock to add products you sell to your store
+                                Click Add Product to add products you sell to your store
                         </Typography>
 
                         <Button
@@ -83,7 +83,7 @@ const StockSearchMode = props => {
                             style={{'backgroundColor': '#DAAB59' , color: '#333333', padding: '5px 40px', textTransform: 'none', fontSize:'17px'}}
                             onClick={() => history.push(paths.add_products)}
                         >
-                            Add stock
+                            Add Product
                         </Button>
                     </div>
                     :

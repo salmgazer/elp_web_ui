@@ -28,7 +28,7 @@ import { confirmAlert } from 'react-confirm-alert';
 import UnitCost from '../../../../Components/Input/UnitCost';
 import LocalInfo from "../../../../../services/LocalInfo";
 import BranchProductService from "../../../../../services/BranchProductService";
-import MuiAlert from '@material-ui/lab/Alert';
+// import MuiAlert from '@material-ui/lab/Alert';
 import paths from "../../../../../utilities/paths";
 import { withRouter } from "react-router-dom";
 
@@ -140,9 +140,9 @@ function StyledRadio(props) {
     );
 }
 
-function Alert(props) {
-    return <MuiAlert elevation={6} variant="filled" {...props} />;
-}
+// function Alert(props) {
+//     return <MuiAlert elevation={6} variant="filled" {...props} />;
+// }
 
 const AddSupplierOrderItem = props => {
     const { history } = props;
@@ -171,6 +171,7 @@ const AddSupplierOrderItem = props => {
 
     const [swapItem, setSwapItem] = useState(true);
     const [btnState , setBtnState] = useState(false);
+    console.log(sellingPrice, errorMsg, btnState, unitPrice)
 
     const [formFields , setFormFields] = useState({
         quantity: 1,
@@ -312,7 +313,7 @@ const AddSupplierOrderItem = props => {
         if (!product) {
             getProduct();
         }
-    }, []);
+    });
 
     const productHandler = new BranchProductService(branchProduct);
 
@@ -368,9 +369,9 @@ const AddSupplierOrderItem = props => {
         setInputValue(event.target.name , !formFields[name]);
     };
 
-    const backHandler = () => {
-        props.setView(0);
-    };
+    // const backHandler = () => {
+    //     props.setView(0);
+    // };
 
     const setTotalPriceHandler = event => {
         if(event.target.value === "" && typeof event.target.value !== 'number'){

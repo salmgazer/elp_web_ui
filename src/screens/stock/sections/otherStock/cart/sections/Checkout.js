@@ -21,7 +21,6 @@ import CartService from "../../../../../../services/CartService";
 import SimpleSnackbar from "../../../../../../components/Snackbar/SimpleSnackbar";
 import CustomerListDrawer from "../../../../../../components/Drawer/CustomerListDrawer/CustomerListDrawer";
 import SaleService from "../../../../../../services/SaleService";
-import CustomerService from "../../../../../../services/CustomerService";
 
 const useStyles = makeStyles(theme => ({
     root: {
@@ -96,15 +95,15 @@ function StyledRadio(props) {
 
 const CheckoutView = props => {
     const { history } = props;
-    const [value, setValue] = React.useState('gift');
-    const [paymentValue, setPaymentValue] = React.useState(6);
+    const [value, setValue] = React.useState(6);
+    const [paymentValue, setPaymentValue] = React.useState('gift');
     const [cartData , setCartData] = React.useState(
         {
             amountPaid: props.cartTotalAmount,
             changeDue: 0,
             customer: props.currentCustomer,
-            salesType: value,
-            type: paymentValue
+            salesType: paymentValue,
+            type: value
         }
     );
     const classes = useStyles();
@@ -138,8 +137,8 @@ const CheckoutView = props => {
 
     const handleRadioChange = (event) => {
         console.log(event.target.value)
-        setValue(event.target.name);
-        setPaymentValue(parseFloat(event.target.value));
+        setValue(event.target.value);
+        setPaymentValue(parseFloat(event.target.name));
         const {...oldFormFields} = cartData;
         oldFormFields['salesType'] = event.target.name;
         oldFormFields['type'] = event.target.value;
@@ -164,7 +163,7 @@ const CheckoutView = props => {
         oldFormFields['customer'] = customer;
         setCartData(oldFormFields);
 
-        if(parseFloat(value) === 'gift'){
+        if(parseFloat(value) === 6){
             setCustomerId(customer);
         }
     };
@@ -181,31 +180,34 @@ const CheckoutView = props => {
         if(oldFormFields['changeDue'] === ''){
             oldFormFields['changeDue'] = 0.00;
         }
+        if(oldFormFields['salesType'] === ''){
+            oldFormFields['salesType'] = 'gift';
+        }
+        if(oldFormFields['type'] === ''){
+            oldFormFields['type'] = 6;
+        }
+        setCartData(oldFormFields);
         console.log(oldFormFields.type , oldFormFields.customer)
 
-        const cashCustomerId = (await CustomerService.getCashCustomer())[0].id;
-        if( oldFormFields.customer === cashCustomerId){
-            alert(`Please set a customer for this transaction`)
-        }else {
-            try {
-                console.log(cartData.type)
-                await new SaleService().makeSell(cartData , parseFloat(cartData.type));
-                setSuccessMsg('Recorded successfully');
-                setSuccess(true);
-                setTimeout(function () {
-                    setSuccessMsg('');
-                    setSuccess(false);
-                    history.push(paths.other_stock)
-                }, 2000);
-            }catch (e) {
-                setErrorMsg('OOPS. Something went wrong. Please try again');
-                setError(true);
-                setTimeout(function () {
-                    setErrorMsg('');
-                    setError(false);
-                }, 2000);
-                }
+        try {
+            console.log(cartData.type)
+            await new SaleService().makeSell(cartData , parseFloat(cartData.type));
+            setSuccessMsg('Recorded successfully');
+            setSuccess(true);
+            setTimeout(function () {
+                setSuccessMsg('');
+                setSuccess(false);
+                history.push(paths.other_stock)
+            }, 2000);
+        }catch (e) {
+            setErrorMsg('OOPS. Something went wrong. Please try again');
+            setError(true);
+            setTimeout(function () {
+                setErrorMsg('');
+                setError(false);
+            }, 2000);
         }
+        
     };
 
     const setSearchValue = (value) => {

@@ -57,6 +57,7 @@ const AuditHistory = props => {
     const [searchValue , setSearchValue] = useState({
         search: ''
     });
+    console.log(setSuccessDialog, setErrorMsg, setError )
 
     const handleTypeChange = event => {
         setType(event.target.value);

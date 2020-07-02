@@ -1,6 +1,6 @@
 import React, {useEffect , useState} from 'react';
 import { makeStyles } from '@material-ui/core/styles';
-import Card from "@material-ui/core/Card/Card";
+// import Card from "@material-ui/core/Card/Card";
 import Grid from "@material-ui/core/Grid/Grid";
 import EditIcon from '@material-ui/icons/Edit';
 import MainDialog from '../../../../../components/Dialog/ProductDialog';
@@ -73,6 +73,7 @@ const SingleDayProduct = props => {
     const [dateField , setDateField] = useState({
         entryDate: '',
     });
+    console.log(unitPrice)
 
 
     function a11yProps(index) {

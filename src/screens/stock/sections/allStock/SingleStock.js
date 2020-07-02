@@ -32,7 +32,7 @@ const ViewSingleProduct = props => {
         setCostPrice(await productHandler.getCostPrice());
         setSellingPrice( productHandler.getSellingPrice());
         setImage(new ProductServiceHandler(product).getProductImage());
-        setName((newProduct.name).length > 20 ? (newProduct.name).slice(0 , 20) + '...' : newProduct.name);
+        setName((newProduct.name));
     };
 
 
@@ -59,7 +59,7 @@ const ViewSingleProduct = props => {
                     <Grid item xs={9} style={{display: 'table', height: '60px', margin: '4px 0px'}}>
                         <div style={{textAlign: 'left', display: 'table-cell', verticalAlign: 'middle'}}>
                             <span className='text-dark font-weight-bold'>{name}</span>
-                            <div className="font-weight-light mt-1" style={{ fontSize: '14px'}}>{`Items remaining: ${quantity}`}</div>
+                            <div className="font-weight-light mt-1" style={{ fontSize: '14px'}}>{`Quantity remaining: ${quantity}`}</div>
                         </div>
                     </Grid>
 

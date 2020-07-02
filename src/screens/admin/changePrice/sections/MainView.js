@@ -13,7 +13,7 @@ import Button from "@material-ui/core/Button/Button";
 const MainView = props => {
     const branchProducts = props.branchProducts;
     const [value , setValue] = useState(0);
-    const { history } = props;
+    // const { history } = props;
     const a11yProps = (index) => {
         return {
             id: `full-width-tab-${index}`,

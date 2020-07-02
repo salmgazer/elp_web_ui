@@ -25,7 +25,7 @@ class SupplierOrderStock extends Component {
     };
 
     async componentDidMount() {
-        const { history, database , branchSupplierProducts , stockOrderId , stockOrderProducts } = this.props;
+        const {  branchSupplierProducts , stockOrderId , stockOrderProducts } = this.props;
         const totalAmount = (stockOrderProducts).reduce((a, b) => parseFloat(a) + parseFloat(b.quantity * b.costPrice || 0), 0).toFixed(2);
         const totalQuantity = (stockOrderProducts).reduce((a, b) => parseFloat(a) + parseFloat(b.quantity || 0), 0);
 
@@ -39,7 +39,7 @@ class SupplierOrderStock extends Component {
     }
 
     async componentDidUpdate(prevProps) {
-        const { history, database , branchSupplierProducts , stockOrderId , stockOrderProducts } = this.props;
+        const {  branchSupplierProducts , stockOrderId , stockOrderProducts } = this.props;
 
         const totalAmount = (stockOrderProducts).reduce((a, b) => parseFloat(a) + parseFloat(b.quantity * b.costPrice || 0), 0).toFixed(2);
         const totalQuantity = (stockOrderProducts).reduce((a, b) => parseFloat(a) + parseFloat(b.quantity || 0), 0);

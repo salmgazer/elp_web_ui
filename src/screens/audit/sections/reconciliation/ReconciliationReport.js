@@ -32,6 +32,7 @@ const ReconciliationReport = props => {
     const [variant, setVariant] = useState('day');
     const [startDay , setDay] = useState(subDays(new Date() , 1));
     const [endDay , setEndDay] = useState(new Date());
+    console.log(setVariant, setDay, setEndDay)
 
     const [isShowDrawer , setIsShowDrawer] = useState(false);
 

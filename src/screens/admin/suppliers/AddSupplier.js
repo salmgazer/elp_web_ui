@@ -9,7 +9,7 @@ import ArrowBackIcon from '@material-ui/icons/ArrowBack';
 import Typography from "@material-ui/core/Typography/Typography";
 import Box from "@material-ui/core/Box/Box";
 import Button from "@material-ui/core/Button/Button";
-import {TextValidator, ValidatorForm} from "react-material-ui-form-validator";
+import { ValidatorForm} from "react-material-ui-form-validator";
 import TextField from '@material-ui/core/TextField';
 import Modal from '@material-ui/core/Modal';
 import LocationOnIcon from '@material-ui/icons/LocationOn';
@@ -130,27 +130,27 @@ const useStyles = makeStyles(theme => ({
     }
 }));
 
-const ValidationTextField = withStyles({
-    root: {
-        '& input:valid + fieldset': {
-            borderColor: 'green',
-            borderWidth: 2,
-        },
-        '& input:invalid:not:focus + fieldset': {
-            borderColor: 'red',
-            borderWidth: 2,
-        },
-        '& input:invalid:focus + fieldset': {
-            borderColor: '#DAAB59',
-            borderWidth: 2,
-        },
-        '& input:valid:focus + fieldset': {
-            borderLeftWidth: 6,
-            borderColor: '#DAAB59',
-            padding: '4px !important', // override inline-style
-        },
-    },
-})(TextValidator);
+// const ValidationTextField = withStyles({
+//     root: {
+//         '& input:valid + fieldset': {
+//             borderColor: 'green',
+//             borderWidth: 2,
+//         },
+//         '& input:invalid:not:focus + fieldset': {
+//             borderColor: 'red',
+//             borderWidth: 2,
+//         },
+//         '& input:invalid:focus + fieldset': {
+//             borderColor: '#DAAB59',
+//             borderWidth: 2,
+//         },
+//         '& input:valid:focus + fieldset': {
+//             borderLeftWidth: 6,
+//             borderColor: '#DAAB59',
+//             padding: '4px !important', // override inline-style
+//         },
+//     },
+// })(TextValidator);
 
 const ValidationSelectField = withStyles({
     root: {
@@ -198,7 +198,7 @@ const AddSupplier = props => {
         if(suppliersSearch.length === 0 ){
             getSuppliers();
         }
-    }, []);
+    });
 
     const getSuppliers = async () => {
         //console.log(await SupplierService.getSuppliers(entityTypes[0].entity))

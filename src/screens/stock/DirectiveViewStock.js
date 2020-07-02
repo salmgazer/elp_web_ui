@@ -144,6 +144,7 @@ class DirectiveViewStock extends Component{
         const old_list = this.state.branchProducts;
 
         const newStep = this.state.companyBranches.length > 1 ? 1 : 5;
+        console.log(newStep)
 
         //Find index of specific object using findIndex method.
         const itemIndex = old_list.filter((item => item.id === productId));

@@ -114,7 +114,7 @@ const SupplierStock = props => {
         if(branchProducts.length === 0 ){
             getBranchProducts();
         }
-    }, []);
+    });
 
     const getBranchProducts = async () => {
         const products = await new BranchService(LocalInfo.branchId).getProducts();

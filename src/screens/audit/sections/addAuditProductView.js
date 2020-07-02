@@ -54,7 +54,7 @@ const AddAuditProductView = props => {
         if (!product) {
             getProduct();
         }
-    }, []);
+    });
 
     const productHandler = new BranchProductService(branchProduct);
 
@@ -128,14 +128,14 @@ const AddAuditProductView = props => {
         setFormFields(oldFormFields);
     };
 
-    const getCalculatorValue = (value) => {
-        const {...oldFormFields} = formFields;
+    // const getCalculatorValue = (value) => {
+    //     const {...oldFormFields} = formFields;
 
-        oldFormFields['costPrice'] = parseFloat(value);
+    //     oldFormFields['costPrice'] = parseFloat(value);
 
-        setFormFields(oldFormFields);
-        console.log(oldFormFields);
-    };
+    //     setFormFields(oldFormFields);
+    //     console.log(oldFormFields);
+    // };
 
     const handleCloseSnack = (event, reason) => {
         if (reason === 'clickaway') {

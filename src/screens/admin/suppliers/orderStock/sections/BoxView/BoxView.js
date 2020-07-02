@@ -13,6 +13,7 @@ const ViewSingleProduct = props => {
     const [image , setImage] = useState('');
     const [quantity , setQuantity] = useState(cartEntry.quantity);
     //const product = props.item;
+    console.log(setQuantity)
 
     useEffect(() => {
         // You need to restrict it at some point
@@ -20,7 +21,7 @@ const ViewSingleProduct = props => {
         if (!product) {
             getProduct();
         }
-    }, []);
+    });
 
     const getProduct = async () => {
         const newProduct = await props.item.product.fetch();

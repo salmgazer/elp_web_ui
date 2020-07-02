@@ -1,5 +1,5 @@
 import { Model } from '@nozbe/watermelondb';
-import {field, date, text, relation, readonly, children} from '@nozbe/watermelondb/decorators';
+import {field, date, relation, readonly} from '@nozbe/watermelondb/decorators';
 import branchSupplierProductsSchema from './branchSupplierProductsSchema';
 
 export default class BranchSupplierProducts extends Model {

@@ -16,7 +16,7 @@ class ViewSuppliersNew extends Component {
     };
 
     async componentDidMount() {
-        const { history, database , branchSuppliers} = this.props;
+        const {  branchSuppliers} = this.props;
 
         await this.setState({
             branchSuppliers: branchSuppliers,
@@ -24,7 +24,7 @@ class ViewSuppliersNew extends Component {
     }
 
     async componentDidUpdate(prevProps) {
-        const { history, database , branchSuppliers } = this.props;
+        const { branchSuppliers } = this.props;
 
         if(prevProps.branchSuppliers.length !== branchSuppliers.length){
             this.setState({

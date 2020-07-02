@@ -11,7 +11,7 @@ import WeekView from './WeekView';
 import MonthView from './MonthView';
 import YearView from './YearView';
 import SProductView from './SProductView';
-import SecondaryButton from "../../../../components/Buttons/SecondaryButton";
+// import SecondaryButton from "../../../../components/Buttons/SecondaryButton";
 
 
 class SortProduct extends Component{

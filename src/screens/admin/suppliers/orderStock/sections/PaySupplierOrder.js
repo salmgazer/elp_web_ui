@@ -1,6 +1,6 @@
 import React, {useState} from "react";
 import { withRouter } from "react-router-dom";
-import { useDatabase } from "@nozbe/watermelondb/hooks";
+// import { useDatabase } from "@nozbe/watermelondb/hooks";
 
 import paths from "../../../../../utilities/paths";
 import CssBaseline from "@material-ui/core/CssBaseline/CssBaseline";
@@ -12,9 +12,9 @@ import Box from "@material-ui/core/Box/Box";
 import warehouseImg from "../../../../../assets/img/warehouse.png";
 import Button from "@material-ui/core/Button/Button";
 import BoxDefault from "../../../../../components/Box/BoxDefault";
-import PriceInput from "../../../../../components/Input/PriceInput";
+// import PriceInput from "../../../../../components/Input/PriceInput";
 import SectionNavbars from "../../../../../components/Sections/SectionNavbars";
-import Modal from "../../../../../components/Modal/Modal";
+// import Modal from "../../../../../components/Modal/Modal";
 import Typography from "@material-ui/core/Typography/Typography";
 import Grid from "@material-ui/core/Grid/Grid";
 import Paper from "@material-ui/core/Paper/Paper";

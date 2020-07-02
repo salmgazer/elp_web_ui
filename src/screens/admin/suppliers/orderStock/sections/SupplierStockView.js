@@ -1,14 +1,14 @@
-import React, {useEffect, useState} from "react";
+import React, { useState} from "react";
 
 import Grid from '@material-ui/core/Grid';
 import paths from "../../../../../utilities/paths";
 import CssBaseline from "@material-ui/core/CssBaseline/CssBaseline";
 import {makeStyles} from "@material-ui/core";
 import { withRouter } from "react-router-dom";
-import {confirmAlert} from "react-confirm-alert";
+// import {confirmAlert} from "react-confirm-alert";
 
-import AddedIcon from "../../../../../components/ClickableIcons/AddedIcon";
-import AddIcon from "../../../../../components/ClickableIcons/AddIcon";
+// import AddedIcon from "../../../../../components/ClickableIcons/AddedIcon";
+// import AddIcon from "../../../../../components/ClickableIcons/AddIcon";
 
 import Paper from '@material-ui/core/Paper';
 import Typography from "@material-ui/core/Typography/Typography";
@@ -16,12 +16,12 @@ import SectionNavbars from "../../../../../components/Sections/SectionNavbars";
 
 import Box from "@material-ui/core/Box/Box";
 import ArrowBackIcon from "@material-ui/icons/ArrowBack";
-import SupplierService from "../../../../../services/SupplierService";
-import BranchService from "../../../../../services/BranchService";
-import LocalInfo from "../../../../../services/LocalInfo";
+// import SupplierService from "../../../../../services/SupplierService";
+// import BranchService from "../../../../../services/BranchService";
+// import LocalInfo from "../../../../../services/LocalInfo";
 import SecondaryButton from "../../../../../components/Buttons/SecondaryButton";
-import ProductCard from "../../../../../components/Cards/ProductCard";
-import SimpleSnackbar from "../../../../../components/Snackbar/SimpleSnackbar";
+// import ProductCard from "../../../../../components/Cards/ProductCard";
+// import SimpleSnackbar from "../../../../../components/Snackbar/SimpleSnackbar";
 import SearchInput from "../../../../Components/Input/SearchInput";
 import SystemDate from "../../../../../components/Date/SystemDate";
 import SingleProductBox from "../../../../../components/Product/SingleProductBox";
@@ -102,14 +102,14 @@ const SupplierStockView = props => {
     const classes = useStyles();
     const branchProducts = props.branchSupplierProducts;
     console.log(branchProducts)
-    const [error , setError] = useState(false);
-    const [errorMsg , setErrorMsg] = useState('');
-    const [success , setSuccess] = useState(false);
-    const [renderedProductsView , setRenderedProductsView] = useState('');
-    const [successMsg , setSuccessMsg] = useState('');
+    // const [error , setError] = useState(false);
+    // const [errorMsg , setErrorMsg] = useState('');
+    // const [success , setSuccess] = useState(false);
+    // const [renderedProductsView , setRenderedProductsView] = useState('');
+    // const [successMsg , setSuccessMsg] = useState('');
     //const [branchProducts , setBranchProducts] = useState([]);
-    const [loading , setLoading] = useState(false);
-    const [quantityAdded , setQuantityAdded] = useState(0);
+    // const [loading , setLoading] = useState(false);
+    // const [quantityAdded , setQuantityAdded] = useState(0);
 
     const [searchValue , setSearchValue] = useState({
         search: ''
@@ -314,7 +314,7 @@ const SupplierStockView = props => {
                     </Paper>
                 </div>
 
-                <SimpleSnackbar
+                {/* <SimpleSnackbar
                     type="success"
                     openState={success}
                     message={successMsg}
@@ -324,7 +324,7 @@ const SupplierStockView = props => {
                     type="warning"
                     openState={error}
                     message={errorMsg}
-                />
+                /> */}
 
                 <Grid container spacing={1} style={{marginTop: '170px'}} className={`pt-2`}>
                     <Grid item xs={11} style={{padding: '4px 8px'}} className={`mx-auto mt-7`}>

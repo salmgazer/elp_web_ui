@@ -20,6 +20,7 @@ const SingleDayView = props => {
     const [total , setTotal] = useState(false);
     const [mainDialog, setMainDialog] = React.useState(false);
     const [owedAmount , setOwedAmount] = useState('');
+    console.log(owedAmount)
 
     const preventDefault = event => event.preventDefault();
 

@@ -2,7 +2,6 @@ import React , {useState} from 'react';
 import Typography from "@material-ui/core/Typography/Typography";
 import Button from "@material-ui/core/Button/Button";
 import Box from "@material-ui/core/Box/Box";
-import {makeStyles} from "@material-ui/core";
 import { confirmAlert } from 'react-confirm-alert';
 import 'react-confirm-alert/src/react-confirm-alert.css';
 import SuccessDialog from "../../../Components/Dialog/SuccessDialog";
@@ -10,36 +9,12 @@ import Snackbar from '@material-ui/core/Snackbar';
 import MuiAlert from '@material-ui/lab/Alert';
 import ChangePriceInput from "../../../Components/Input/ChangePriceInput";
 
-
-const useStyles = makeStyles(theme => ({
-    root: {
-        width: '92%',
-        display: 'flex',
-        padding: '2px 5px',
-        alignItems: 'center',
-        borderRadius: '5px',
-        height: '35px',
-        border: '1px solid #ced4da',
-        fontSize: '0.9rem',
-        lineHeight: '1.5',
-        transition: 'border-color .15s ease-in-out,box-shadow .15s ease-in-out',
-    },
-    input: {
-        marginLeft: theme.spacing(1),
-        flex: 1,
-        textAlign: 'center',
-    },
-    iconButton: {
-        padding: 10,
-    }
-}));
-
 function Alert(props) {
     return <MuiAlert elevation={6} variant="filled" {...props} />;
 }
 
 const AddProductView = props => {
-    const [history , setHistory] = useState([{"st_id":"20766","st_date":"2020-02-18","st_quantity":"3","st_product":"32","st_store_id":"1","timestamps":"2020-02-18 11:27:05"},{"st_id":"17451","st_date":"2020-01-09","st_quantity":"1","st_product":"32","st_store_id":"1","timestamps":"2020-01-09 13:40:05"}]);
+    // const [history , setHistory] = useState([{"st_id":"20766","st_date":"2020-02-18","st_quantity":"3","st_product":"32","st_store_id":"1","timestamps":"2020-02-18 11:27:05"},{"st_id":"17451","st_date":"2020-01-09","st_quantity":"1","st_product":"32","st_store_id":"1","timestamps":"2020-01-09 13:40:05"}]);
     const [successDialog, setSuccessDialog] = React.useState(false);
     const [errorDialog, setErrorDialog] = useState(false);
     const [formFields , setFormFields] = React.useState({
@@ -49,37 +24,35 @@ const AddProductView = props => {
         pro_id: props.product[0].pro_id,
     });
 
-    const classes = useStyles();
-
     const product = props.product[0];
     const image = `https://elparah.store/admin/upload/${product.image}`;
 
-    const deleteHistory = (historyId , event) => {
-        console.log(historyId);
+    // const deleteHistory = (historyId , event) => {
+    //     console.log(historyId);
 
-        confirmAlert({
-            title: 'Confirm to delete',
-            message: 'Are you sure you want to delete this item.',
-            buttons: [
-                {
-                    label: 'Yes',
-                    onClick: () => {
-                        let old_list = [...history];
+    //     confirmAlert({
+    //         title: 'Confirm to delete',
+    //         message: 'Are you sure you want to delete this item.',
+    //         buttons: [
+    //             {
+    //                 label: 'Yes',
+    //                 onClick: () => {
+    //                     let old_list = [...history];
 
-                        const result = old_list.filter(item => item.st_id !== historyId);
+    //                     const result = old_list.filter(item => item.st_id !== historyId);
 
-                        setHistory([...result]);
-                    }
-                },
-                {
-                    label: 'No',
-                    onClick: () => {
-                        return false;
-                    }
-                }
-            ]
-        })
-    };
+    //                     setHistory([...result]);
+    //                 }
+    //             },
+    //             {
+    //                 label: 'No',
+    //                 onClick: () => {
+    //                     return false;
+    //                 }
+    //             }
+    //         ]
+    //     })
+    // };
 
     const saveStock = (event) => {
         if((formFields.costPrice !== "" || parseFloat(formFields.costPrice !== 0)) && (formFields.sellingPrice !== "" || parseFloat(formFields.sellingPrice !== 0))){

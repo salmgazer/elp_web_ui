@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react';
-import Card from "@material-ui/core/Card/Card";
+// import Card from "@material-ui/core/Card/Card";
 import Grid from "@material-ui/core/Grid/Grid";
 import ProductServiceHandler from "../../../../services/ProductServiceHandler";
 import Avatar from "@material-ui/core/Avatar/Avatar";
@@ -30,10 +30,10 @@ const AddedProductSingle = props => {
         //setName((newProduct.name).length > 20 ? (newProduct.name).slice(0 , 20) + '...' : newProduct.name);
     };
 
-    const deleteHistoryHandler = (pId) => {
-        console.log(pId)
-        props.deleteAuditProductEntry(pId);
-    };
+    // const deleteHistoryHandler = (pId) => {
+    //     console.log(pId)
+    //     props.deleteAuditProductEntry(pId);
+    // };
 
     // const editProductHandler = (pId) => {
     //     props.editAuditProductEntry(pId);

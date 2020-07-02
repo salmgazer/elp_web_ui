@@ -11,7 +11,6 @@ import SearchIcon from '@material-ui/icons/Search';
 import Select from "@material-ui/core/Select/Select";
 import MenuItem from "@material-ui/core/MenuItem/MenuItem";
 import {makeStyles} from "@material-ui/core";
-import Modal from "../../../Components/Modal/Modal";
 import MainDialog from "../../../Components/Dialog/MainDialog";
 
 const useStyles = makeStyles(theme => ({
@@ -38,7 +37,6 @@ const useStyles = makeStyles(theme => ({
 
 const AddedProductView = props => {
     const [mainDialog, setMainDialog] = React.useState(false);
-    const quantity = props.pro_quantity;
     const [type, setType] = useState(10);
 
     const closeDialogHandler = (event) => {
@@ -61,13 +59,13 @@ const AddedProductView = props => {
         props.setView(4);
     };
 
-    const deleteProductHandler = (event) => {
-        props.deleteProduct(event);
-    };
+    // const deleteProductHandler = (event) => {
+    //     props.deleteProduct(event);
+    // };
 
-    const editProductHandler = (pId , event) => {
-        props.productEdit(pId , 3);
-    };
+    // const editProductHandler = (pId , event) => {
+    //     props.productEdit(pId , 3);
+    // };
 
     const classes = useStyles();
 

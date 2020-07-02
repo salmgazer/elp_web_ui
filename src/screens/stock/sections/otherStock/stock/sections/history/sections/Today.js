@@ -11,8 +11,8 @@ import Empty from '../../../../../../../../assets/img/empty.png';
 import Button from "@material-ui/core/Button/Button";
 import paths from "../../../../../../../../utilities/paths";
 
-const MainPage = props => {
-    const allSales = props.sales;
+const Today = props => {
+    // const allSales = props.sales;
     const { history } = props;
     const [sales, setSales] = useState([]);
     const [companySales , setCompanySales] = useState(false);
@@ -104,4 +104,4 @@ const MainPage = props => {
 };
 
 
-export default withRouter(MainPage);
+export default withRouter(Today);

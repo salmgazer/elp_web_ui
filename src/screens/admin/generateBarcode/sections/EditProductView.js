@@ -1,11 +1,10 @@
-import React , {useState} from 'react';
+import React  from 'react';
 import Typography from "@material-ui/core/Typography/Typography";
 import Button from "@material-ui/core/Button/Button";
 import Box from "@material-ui/core/Box/Box";
-import {makeStyles} from "@material-ui/core";
 import QuantityInput from "../../../Components/Input/QuantityInput";
 import PriceInput from "../../../Components/Input/PriceInput";
-import { confirmAlert } from 'react-confirm-alert';
+// import { confirmAlert } from 'react-confirm-alert';
 import 'react-confirm-alert/src/react-confirm-alert.css';
 import SuccessDialog from "../../../Components/Dialog/SuccessDialog";
 import Tooltip from '@material-ui/core/Tooltip';
@@ -17,35 +16,9 @@ import CostCalculator from "../../../Components/Calculator/CostCalculator";
 import CostInput from "../../../Components/Input/CostInput";
 
 
-
-const useStyles = makeStyles(theme => ({
-    root: {
-        width: '92%',
-        display: 'flex',
-        padding: '2px 5px',
-        alignItems: 'center',
-        borderRadius: '5px',
-        height: '35px',
-        border: '1px solid #ced4da',
-        fontSize: '0.9rem',
-        lineHeight: '1.5',
-        transition: 'border-color .15s ease-in-out,box-shadow .15s ease-in-out',
-    },
-    input: {
-        marginLeft: theme.spacing(1),
-        flex: 1,
-        textAlign: 'center',
-    },
-    iconButton: {
-        padding: 10,
-    }
-}));
-
 const EditProductView = props => {
     const [successDialog, setSuccessDialog] = React.useState(false);
     const [calculatorDialog, setCalculatoDialog] = React.useState(false);
-
-    const classes = useStyles();
 
     const product = props.product[0];
     const image = `https://elparah.store/admin/upload/${product.image}`;

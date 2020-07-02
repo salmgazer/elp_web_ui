@@ -39,6 +39,7 @@ const CostInput = props => {
     const inputName = props.inputName;
     const [quantity , setQuantity] = useState(value);
     const [calculatorDialog, setCalculatorDialog] = useState(false);
+    console.log(quantity)
 
     const setValueHandler = (event) => {
         event.persist();

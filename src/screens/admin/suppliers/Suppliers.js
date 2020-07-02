@@ -3,7 +3,6 @@ import { withRouter } from "react-router-dom";
 import Component from "@reactions/component";
 import paths from "../../../utilities/paths";
 import CssBaseline from "@material-ui/core/CssBaseline/CssBaseline";
-import {makeStyles} from "@material-ui/core";
 import LocalInfo from '../../../services/LocalInfo';
 import Box from "@material-ui/core/Box/Box";
 import warehouseImg from "../../../assets/img/warehouse.png";
@@ -11,54 +10,12 @@ import Button from "@material-ui/core/Button/Button";
 import BoxDefault from "../../../components/Box/BoxDefault";
 import Drawer from "../../../components/Drawer/Drawer";
 import SectionNavbars from "../../../components/Sections/SectionNavbars";
-import MenuIcon from '@material-ui/icons/Menu';
+// import MenuIcon from '@material-ui/icons/Menu';
 import ArrowBackIcon from '@material-ui/icons/ArrowBack';
 
 
-const useStyles = makeStyles(theme => ({
-    root: {
-        width: '100%',
-    },
-    details: {
-        display: 'flex',
-        flexDirection: 'column',
-    },
-    content: {
-        flex: '1 0 auto',
-    },
-    button: {
-        marginRight: theme.spacing(1),
-    },
-    instructions: {
-        marginTop: theme.spacing(1),
-        marginBottom: theme.spacing(1),
-    },
-    shadow1: {
-        '-webkit-box-shadow': '3px 5px 5px 0px rgba(227,227,227,1)',
-        '-moz-box-shadow': '3px 5px 5px 0px rgba(227,227,227,1)',
-        'box-shadow': '3px 5px 5px 0px rgba(227,227,227,1)',
-    },
-    shadow2: {
-        'box-shadow': '0 0 1rem 2px #dcc7a4',
-    },
-    margin1: {
-        margin: '20px auto',
-    },
-    padding1: {
-        'padding-bottom': '20px',
-    },
-    boxRadius: {
-        'border-radius': '10px !important',
-    },
-
-    'input:focus': {
-        backgroundColor: '#daab59',
-    }
-}));
-
 const Suppliers = props => {
-    const classes = useStyles();
-    const [isShowDrawer , setIsShowDrawer] = useState(false);
+
     const [isDrawerShow , setIsDrawerShow] = useState(false);
 
     /*
@@ -72,8 +29,6 @@ const Suppliers = props => {
     if (LocalInfo.storeId && LocalInfo.userId) {
         history.push(paths.home);
     }
-
-    const [isStore , setIsStore] = React.useState(false);
 
 
     return (

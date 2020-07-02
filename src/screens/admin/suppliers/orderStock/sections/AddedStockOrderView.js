@@ -1,21 +1,23 @@
-import React, {useEffect, useState} from 'react';
+import React, {useEffect, 
+    //useState
+} from 'react';
 import { makeStyles } from '@material-ui/core/styles';
-import AddShoppingCartIcon from '@material-ui/icons/AddShoppingCart';
+// import AddShoppingCartIcon from '@material-ui/icons/AddShoppingCart';
 import SectionNavbars from "../../../../../components/Sections/SectionNavbars";
 import Paper from '@material-ui/core/Paper';
 import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
 import Button from "@material-ui/core/Button/Button";
-import PersonAddIcon from '@material-ui/icons/PersonAdd';
-import Box from "@material-ui/core/Box/Box";
+// import PersonAddIcon from '@material-ui/icons/PersonAdd';
+import Box from "@material-ui/core/Box/Box";     
 import AddedProductSingle from "./BoxView/BoxView";
 import { withRouter } from "react-router-dom";
-import paths from "../../../../../utilities/paths";
-import CustomersModal from "../../../../../components/Modal/Customer/CustomersModal";
-import AddCustomerModal from "../../../../../components/Modal/Customer/AddCustomerModal";
-import CustomerService from "../../../../../services/CustomerService";
-import CartService from "../../../../../services/CartService";
-import SimpleSnackbar from "../../../../../components/Snackbar/SimpleSnackbar";
+// import paths from "../../../../../utilities/paths";
+// import CustomersModal from "../../../../../components/Modal/Customer/CustomersModal";
+// import AddCustomerModal from "../../../../../components/Modal/Customer/AddCustomerModal";
+// import CustomerService from "../../../../../services/CustomerService";
+// import CartService from "../../../../../services/CartService";
+// import SimpleSnackbar from "../../../../../components/Snackbar/SimpleSnackbar";
 import ArrowBackIcon from '@material-ui/icons/ArrowBack';
 
 const useStyles = makeStyles(theme => ({
@@ -43,14 +45,14 @@ const useStyles = makeStyles(theme => ({
 }));
 
 const AddedStockOrderView = props => {
-    const [mainDialog, setMainDialog] = React.useState(false);
-    const [addDialog, setAddDialog] = React.useState(false);
-    const [checkUser , setCheckUser] = React.useState(false);
-    const [user , setUser] = React.useState(false);
-    const [customerName, setCustomerName] = React.useState('');
-    const [customerId , setCustomerId] = React.useState('');
-    const [error , setError] = useState(false);
-    const [errorMsg , setErrorMsg] = useState('');
+    // const [mainDialog, setMainDialog] = React.useState(false);
+    // const [addDialog, setAddDialog] = React.useState(false);
+    // const [checkUser , setCheckUser] = React.useState(false);
+    // const [user , setUser] = React.useState(false);
+    // const [customerName, setCustomerName] = React.useState('');
+    // const [customerId , setCustomerId] = React.useState('');
+    // const [error , setError] = useState(false);
+    // const [errorMsg , setErrorMsg] = useState('');
     const counter = props.productsAdded.length;
 
     useEffect(() => {
@@ -66,48 +68,48 @@ const AddedStockOrderView = props => {
         setCustomerName(await new CartService().getCartCustomer(props.currentCustomer));
     };*/
 
-    const handleChange = event => {
-        setUser(event.target.value);
-    };
+    // const handleChange = event => {
+    //     setUser(event.target.value);
+    // };
 
-    const classes = useStyles();
+     const classes = useStyles();
 
-    const closeDialogHandler = (event) => {
-        setMainDialog(false);
-        setAddDialog(false);
-    };
+    // const closeDialogHandler = (event) => {
+    //     setMainDialog(false);
+    //     setAddDialog(false);
+    // };
 
-    const openDialogHandler = async() => {
-        if(props.currentCustomer === 0){
-            setMainDialog(true);
-        }else{
-            const response = await new CartService().suspendCart();
+    // const openDialogHandler = async() => {
+    //     if(props.currentCustomer === 0){
+    //         setMainDialog(true);
+    //     }else{
+    //         const response = await new CartService().suspendCart();
 
-            if (response) {
-                setErrorMsg('Cart saved');
-                setError(true);
-                setTimeout(function(){
-                    props.history.push(paths.sell);
-                    setError(false);
-                }, 2000);
-            }else{
-                setErrorMsg('Cart was not saved. Please try again');
-                setError(true);
-                setTimeout(function(){
-                    props.setView(0);
-                    setError(false);
-                }, 3000);
-            }
-        }
-    };
+    //         if (response) {
+    //             setErrorMsg('Cart saved');
+    //             setError(true);
+    //             setTimeout(function(){
+    //                 props.history.push(paths.sell);
+    //                 setError(false);
+    //             }, 2000);
+    //         }else{
+    //             setErrorMsg('Cart was not saved. Please try again');
+    //             setError(true);
+    //             setTimeout(function(){
+    //                 props.setView(0);
+    //                 setError(false);
+    //             }, 3000);
+    //         }
+    //     }
+    // };
 
-    const getCustomerDialog = async() => {
-        setMainDialog(true);
-    };
+    // const getCustomerDialog = async() => {
+    //     setMainDialog(true);
+    // };
 
-    const openAddDialog = (event) => {
-        setAddDialog(true);
-    };
+    // const openAddDialog = (event) => {
+    //     setAddDialog(true);
+    // };
 
     const deleteProductHandler = (event) => {
         props.deleteProduct(event);
@@ -117,18 +119,18 @@ const AddedStockOrderView = props => {
         props.setView(3);
     };
 
-    const setCustomerHandler = (customer) => {
-        console.log(customer)
-        props.setCustomerHandler(customer);
-        //console.log(props.currentCustomer)
-    };
+    // const setCustomerHandler = (customer) => {
+    //     console.log(customer)
+    //     props.setCustomerHandler(customer);
+    //     //console.log(props.currentCustomer)
+    // };
 
-    const setAddCustomerHandler = async() => {
-        const lastCustomer = await new CustomerService().getLastCustomer();
-        props.setCustomerHandler(lastCustomer.id);
-        setAddDialog(false);
-        setMainDialog(false);
-    };
+    // const setAddCustomerHandler = async() => {
+    //     const lastCustomer = await new CustomerService().getLastCustomer();
+    //     props.setCustomerHandler(lastCustomer.id);
+    //     setAddDialog(false);
+    //     setMainDialog(false);
+    // };
 
     return(
         <div className={classes.root}>
@@ -144,11 +146,11 @@ const AddedStockOrderView = props => {
                 }
             />
 
-            <SimpleSnackbar
+            {/* <SimpleSnackbar
                 type="warning"
                 openState={error}
                 message={errorMsg}
-            />
+            /> */}
 
             <Grid container spacing={1}>
                 <Grid item xs={6}>
