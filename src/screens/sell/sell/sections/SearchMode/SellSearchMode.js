@@ -127,23 +127,33 @@ const SellSearchMode = props => {
 
         const theProduct = new BranchProductService(bPro);
         if(!await theProduct.getProductQuantity()){
-            errors = 'No stock available.';
+            errors = "No stock available.";
         }
 
         if(!await theProduct.getCostPrice()){
-            errors = (errors.trim()).concat('</br>No cost price available.');
+            errors = (errors).concat("\nNo cost price available.");
         }
 
         if(!await theProduct.getSellingPrice()){
-            errors = (errors).concat('</br>No selling price available.');
+            errors = (errors).concat("\nNo selling price available.");
         }
-console.log(errors)
+
         setErrorProductMsg(errors);
         setErrorProduct(await bPro.product.fetch());
         setErrorBProduct(bPro.id);
         setShowErrorProduct(true);
         //alert(`${name} is out of stock or has no cost price. Please add stock`);
     };
+
+    const addLineBreaks = string => {
+        return string.split('\n').map((text, index) => (
+            <React.Fragment key={`${text}-${index}`}>
+                {text}
+                <br />
+            </React.Fragment>
+        ));
+    };
+
 
     const setInputValue = (name, value) => {
         const {...oldFormFields} = searchValue;
@@ -195,11 +205,11 @@ console.log(errors)
 
                             <Typography
                                 component="p"
-                                variant="h6"
+                                variant="inherit"
                                 className={`text-center my-1`}
                                 style={{fontWeight: '300', color: 'red', fontSize: '12px' , margin: '5px auto', paddingTop: '10px'}}
                             >
-                                { errorProductMsg }
+                                { addLineBreaks(errorProductMsg) }
                             </Typography>
 
                             <Box
