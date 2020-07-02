@@ -23,7 +23,7 @@ import {faCalculator} from "@fortawesome/free-solid-svg-icons";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import SwapHorizOutlinedIcon from '@material-ui/icons/SwapHorizOutlined';
 import UnitCost from '../../../../Components/Input/UnitCost';
-
+import fromUnixTime from "date-fns/fromUnixTime";
 
 const useStyles = makeStyles(theme => ({
     root: {
@@ -50,7 +50,11 @@ const useStyles = makeStyles(theme => ({
         textTransform: 'none',
         fontWeight: 'bold',
         color: '#333333',
-    }
+    },
+    tabPrimaryColor: {
+        backgroundColor: `#daab59 !important`,
+        color: `#daab59 !important`,
+    },
   }));
 
 const SingleDayProduct = props => {
@@ -64,17 +68,14 @@ const SingleDayProduct = props => {
     const [totalPrice , setTotalPrice] = useState('');
     const [quantity , setQuantity] = useState(false);
     const [unitPrice , setUnitPrice] = useState("");
+    const [selectedDate , setSelectedDate] = useState('');
+
     const [formFields , setFormFields] = useState({
         quantity: 1,
     });
     const [priceFields , setPriceFields] = useState({
         sellingPrice: '',
     });
-    const [dateField , setDateField] = useState({
-        entryDate: '',
-    });
-    console.log(unitPrice)
-
 
     function a11yProps(index) {
         return {
@@ -110,26 +111,11 @@ const SingleDayProduct = props => {
 
     const handleChange = (event, newValue) => {
         setValue(newValue);
-      };
-  
-      const handleChangeIndex = index => {
-          setValue(index);
-      };
-    
-    //   const setInputValue = (name , value) => {
-    //     const {...oldFormFields} = formFields;
-    //     setTotalPrice((value * saleEntry.sellingPrice));
-    //     setQuantity(value);
-    //     oldFormFields['quantity'] = value;
-    //     setFormFields(oldFormFields);
-    // };
+    };
 
-    // const setPriceValue = (event) => {
-    //     const {...oldFormFields} = priceFields;
-    //     setTotalPrice(event.target.value);
-    //     oldFormFields['sellingPrice'] = event.target.value / quantity;
-    //     setPriceFields(oldFormFields);
-    // };
+    const handleChangeIndex = index => {
+      setValue(index);
+    };
 
     const setInputValue = (name , value) => {
         const {...oldFormFields} = formFields;
@@ -163,14 +149,10 @@ const SingleDayProduct = props => {
 
         setPriceFields(oldFormFields);
         setUnitPrice(cp.toFixed(2));
-
     };
 
     const setDate = (value) => {
-        const {...oldFormFields} = dateField;
-        oldFormFields['entryDate'] = format(value, 'MM/dd/yyyy');
-        setDateField(oldFormFields);
-        console.log(format(new Date(), 'MM/dd/yyyy'))
+        setSelectedDate(value)
     };
 
     const deleteHistoryHandler = (pId , event) => {
@@ -179,26 +161,26 @@ const SingleDayProduct = props => {
     };
 
     const updateSaleEntry = () => {
-        console.log(formFields)
         props.updateSaleEntry(saleEntry.id, formFields);
         setMainDialog(false);
     };
 
     const updatePriceEntry = () => {
-        console.log(priceFields)
         props.updatePriceEntry(saleEntry.id, priceFields);
         setMainDialog(false);
     };
 
     const updateDate = () => {
-        console.log(dateField)
-        props.updateDateEntry(saleEntry.id, dateField);
-        setMainDialog(false);
+        const response = props.updateDateEntry(saleEntry.id, selectedDate);
+
+        if(response){
+            setSelectedDate('');
+            setMainDialog(false);
+        }
     };
 
     return(
-        <div className="row pt-0 mx-auto text-center w-100" >   
-                           
+        <div className="row pt-0 mx-auto text-center w-100" >
             <Grid container spacing={1} className={`bordered rounded mb-3 pt-1 pb-1`}>
                 <Grid item xs={3}>
                     <Avatar
@@ -221,12 +203,12 @@ const SingleDayProduct = props => {
                     </div>
                 </Grid>
 
-                <Grid item xs={3} style={{height: '60px', margin: '10px 0px 0px 0px'}}>  
+                <Grid item xs={3} style={{height: '60px', margin: '10px 0px 0px 0px'}}>
                     <div className='text-dark font-weight-bold' style={{ fontSize: '13px', marginBottom: '10px'}} >{format(new Date(saleEntry.createdAt) , "h:mm a")}</div>
                     <EditIcon
                         onClick={openDialogHandler.bind(this)}
                         style={{fontSize: '20px', color: '#DAAB59', textAlign: 'right'}}
-                    /> 
+                    />
                 </Grid>
             </Grid>
 
@@ -261,8 +243,8 @@ const SingleDayProduct = props => {
                             />
                         </Grid>
                     </Grid>
-                    
-                    <AppBar position="static" color="white">
+
+                    <AppBar position="static" color={`default`}>
                         <Tabs
                             value={value}
                             onChange={handleChange}
@@ -270,6 +252,9 @@ const SingleDayProduct = props => {
                             textColor="primary"
                             variant="fullWidth"
                             aria-label="full width tabs example"
+                            classes= {{
+                                indicator: classes.tabPrimaryColor
+                            }}
                         >
                             <Tab className={classes.tabs} label="Change date"  {...a11yProps(0)} />
                             <Tab className={classes.tabs} label="Change quantity"  {...a11yProps(1)} />
@@ -285,7 +270,7 @@ const SingleDayProduct = props => {
 
                             <label className={`text-dark py-2 text-center`} style={{fontSize: '18px', fontWeight: '600', paddingTop: '100px'}}> Pick new date </label>
 
-                            <Dates style={{margin: '5px 40px 0px 40px', border: '1px solid #e5e5e5', backgroundColor: '#FFFFFF', width: '150px'}} selectedDate={saleEntry.entryDate} getValue={setDate.bind(this)} />
+                            <Dates style={{margin: '5px 40px 0px 40px', border: '1px solid #e5e5e5', backgroundColor: '#FFFFFF', width: '150px'}} initialDate={fromUnixTime(saleEntry.entryDate)} getValue={setDate.bind(this)} />
 
                             <Grid container spacing={1} style={{marginTop: '50px'}}>
                                 <Grid item xs={6}>
@@ -423,15 +408,15 @@ const SingleDayProduct = props => {
                                     </Button>
                                 </Grid>
                             </Grid>
-                          
+
                         </TabPanel>
 
-                    </SwipeableViews>   
-                    
+                    </SwipeableViews>
+
                 </div>
             </MainDialog>
 
-            
+
         </div>
     );
 };

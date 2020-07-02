@@ -22,7 +22,7 @@ const useStyles = makeStyles(({
     }
 }));
 
-const values = new SystemDateHandler().getStoreYears()
+const values = new SystemDateHandler().getStoreYears();
 
 const YearView = props => {
     const { history } = props;

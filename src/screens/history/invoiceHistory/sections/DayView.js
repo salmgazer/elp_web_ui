@@ -18,6 +18,9 @@ import SearchInput from "../../../Components/Input/SearchInput";
 import Empty from '../../../../assets/img/empty.png';
 import Button from "@material-ui/core/Button/Button";
 import paths from "../../../../utilities/paths";
+import ModelAction from "../../../../services/ModelAction";
+import SimpleSnackbar from "../../../../components/Snackbar/SimpleSnackbar";
+import getUnixTime from "date-fns/getUnixTime";
 
 const useStyles = makeStyles(theme => ({
     root: {
@@ -56,6 +59,10 @@ const DayView = props => {
     const [searchValue , setSearchValue] = useState({
         search: ''
     });
+    const [error , setError] = useState(false);
+    const [errorMsg , setErrorMsg] = useState('');
+    const [success , setSuccess] = useState(false);
+    const [successMsg , setSuccessMsg] = useState('');
 
     const handleDateChange = date => {
         setSelectedDate(date);
@@ -99,6 +106,57 @@ const DayView = props => {
         props.deleteProduct(event);
     };
 
+    const updateSaleEntry = async (pId, formFields) => {
+        if (formFields.sellingPrice) {
+            const data = {
+                sellingPrice: parseFloat(formFields.sellingPrice)
+            };
+            try {
+                await new ModelAction('SaleEntry').update(pId, data);
+
+                setSuccessMsg('Price successfully changed');
+                setSuccess(true);
+                getInvoiceDetails(selectedDate);
+                setTimeout(function () {
+                    setSuccessMsg('');
+                    setSuccess(false);
+                }, 2000);
+
+                return true;
+            }catch (e) {
+                setErrorMsg('OOPS. Something went wrong. Please try again');
+                setError(true);
+                setTimeout(function () {
+                    setErrorMsg('');
+                    setError(false);
+                }, 2000);
+                return false;
+            }
+        }
+        else {
+            try {
+                await new ModelAction('SaleEntry').update(pId, formFields);
+
+                setSuccessMsg('Quantity successfully changed');
+                setSuccess(true);
+                getInvoiceDetails(selectedDate);
+                setTimeout(function () {
+                    setSuccessMsg('');
+                    setSuccess(false);
+                }, 2000);
+                return true;
+            }catch (e) {
+                setErrorMsg('OOPS. Something went wrong. Please try again');
+                setError(true);
+                setTimeout(function () {
+                    setErrorMsg('');
+                    setError(false);
+                }, 2000);
+                return false;
+            }
+        }
+    };
+
     const setInputValue = async (name , value) => {
         const {...oldFormFields} = searchValue;
         let invoice = [];
@@ -109,11 +167,50 @@ const DayView = props => {
 
         invoice = await new InvoiceService().searchInvoice(value);
         setInvoices(invoice);
+    };
 
+    const updateDateEntry = async (entryId, date) => {
+        const data = {
+            entryDate: getUnixTime(date)
+        };
+
+        try {
+            await new ModelAction('SaleEntry').update(entryId, data);
+
+            setSuccessMsg('Date successfully changed');
+            setSuccess(true);
+            getInvoiceDetails(selectedDate);
+            setTimeout(function () {
+                setSuccessMsg('');
+                setSuccess(false);
+            }, 2000);
+
+            return true;
+        } catch (e) {
+            setErrorMsg('OOPS. Something went wrong. Please try again');
+            setError(true);
+            setTimeout(function () {
+                setErrorMsg('');
+                setError(false);
+            }, 2000);
+            return false;
+        }
     };
 
     return(
         <div className={classes.root}>
+            <SimpleSnackbar
+                type="success"
+                openState={success}
+                message={successMsg}
+            />
+
+            <SimpleSnackbar
+                type="warning"
+                openState={error}
+                message={errorMsg}
+            />
+
             <Grid container spacing={1}>
                 <Grid item xs={6} style={{padding: '2px 1px', marginTop: '12px'}}>
                     <SearchInput
@@ -149,33 +246,16 @@ const DayView = props => {
             <Box style={{marginTop: '5px' , paddingBottom: '60px'}} p={1} className={`mt-3 mb-5`}>
                 {invoices.length === 0
                     ?
-                    // <div className={`rounded mx-1 my-2 p-2 bordered`}>
-                    //     <Grid container spacing={1} className={`py-1`}>
-                    //         <Grid
-                    //             item xs={12}
-                    //             className={`text-left pl-2`}
-                    //         >
-                    //             <Typography
-                    //                 component="h6"
-                    //                 variant="h6"
-                    //                 style={{fontSize: '16px'}}
-                    //                 className={`text-center text-dark`}
-                    //             >
-                    //                 No sales made
-                    //             </Typography>
-                    //         </Grid>
-                    //     </Grid>
-                    // </div>
                     <div>
                         <Box component="div" m={2} style={{marginTop: '-1rem'}} >
                             <img className="img100" src={Empty} alt={'payment'}/>
                         </Box>
 
-                        
+
                         <Typography className='text-dark font-weight-bold' style={{ fontSize: '17px', padding: '0px 0px 10px 0px' }} >
                             Seems you have not sold any product
                         </Typography>
-                        
+
 
                         <Typography className='font-weight-light mt-1' style={{ fontSize: '15px', marginBottom: '20px' }} >
                                 Click sell to be able to view invoice history
@@ -192,9 +272,9 @@ const DayView = props => {
                     :
                     pageName === false ?
 
-                    invoices.map((invoice) => <SingleDayInvoice  key={invoice.id} invoice={invoice} deleteProduct={deleteProductHandler.bind(this)} updateSaleEntry={props.updateSaleEntry} viewPaymentDetails={props.customerAdd}/>)
+                    invoices.map((invoice) => <SingleDayInvoice  key={invoice.id} invoice={invoice} deleteProduct={deleteProductHandler.bind(this)} updateSaleEntry={updateSaleEntry.bind(this)} updateDateEntry={updateDateEntry.bind(this)} viewPaymentDetails={props.customerAdd}/>)
                     :
-                    invoices.map((invoice) => <CustomerDay  key={invoice.id} invoice={invoice} prodName={name} deleteProduct={deleteProductHandler.bind(this)} updateSaleEntry={props.updateSaleEntry} />)
+                    invoices.map((invoice) => <CustomerDay  key={invoice.id} invoice={invoice} prodName={name} deleteProduct={deleteProductHandler.bind(this)} updateSaleEntry={updateSaleEntry.bind(this)} updateDateEntry={updateDateEntry.bind(this)} />)
                 }
             </Box>
         </div>

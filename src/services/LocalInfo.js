@@ -96,7 +96,6 @@ export default class LocalInfo {
   }
 
   static branchSettings(event) {
-    console.log(event.target.name , event.target.value);
       let settings = localStorage.getItem('branchSettings') ? JSON.parse(localStorage.getItem('branchSettings')) || {}: {};
 
       if(event.target.name === 'paymentSource'){

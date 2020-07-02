@@ -23,7 +23,7 @@ const useStyles = makeStyles(theme => ({
     }
 }));
 
-const values = new SystemDateHandler().getStoreMonths()
+const values = new SystemDateHandler().getStoreMonths();
 
 const MonthView = props => {
     const classes = useStyles();
@@ -45,7 +45,15 @@ const MonthView = props => {
       // You need to restrict it at some point
       // This is just dummy code and should be replaced by actual
         if (!invoiceDetails) {
-            getInvoiceDetails(selectedMonth);
+            let activeHistoryIndex = localStorage.getItem("activeHistoryIndex") || '';
+
+            if(activeHistoryIndex){
+                setSelectedMonth(activeHistoryIndex);
+                getInvoiceDetails(activeHistoryIndex);
+                localStorage.removeItem("activeHistoryIndex")
+            }else{
+                getInvoiceDetails(selectedMonth);
+            }
         }
     });
 
@@ -140,11 +148,11 @@ const MonthView = props => {
                                 <img className="img100" src={Empty} alt={'payment'}/>
                             </Box>
 
-                            
+
                             <Typography className='text-dark font-weight-bold' style={{ fontSize: '17px', padding: '0px 0px 10px 0px' }} >
                                 Seems you have not sold any product
                             </Typography>
-                            
+
 
                             <Typography className='font-weight-light mt-1' style={{ fontSize: '15px', marginBottom: '20px' }} >
                                     Click sell to be able to view invoice history
@@ -162,22 +170,20 @@ const MonthView = props => {
                     :
                     pageName === false ?
 
-                    invoices.map((invoice , index) => 
+                    invoices.map((invoice , index) =>
                     <div key={index} onClick={getChildrenDetails.bind(this, invoice.index)}>
                         <SingleMonthView  key={index} invoice={invoice} />
-                    </div>    
+                    </div>
                     )
                     :
-                    invoices.map((invoice , index) => 
+                    invoices.map((invoice , index) =>
                     <div key={index} onClick={getChildrenDetails.bind(this, invoice.index)}>
                         <CustomerMonth customer={customer} key={index} invoice={invoice} prodName={name} />
-                    </div>    
+                    </div>
                     )
-
                 }
-
         </div>
     )
-  }
+  };
 
   export default withRouter(MonthView);

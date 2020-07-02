@@ -371,10 +371,12 @@ class AddProducts extends Component{
 
         const productIndex = old_list.findIndex((item => item.id === (formFields.productId)));
         const item = {...old_list[productIndex]};
-
+        console.log(item);
         if(!item.owned){
             item.owned = true;
         }
+
+        console.log(item);
 
         if((formFields.sellingPrice === "" || formFields.sellingPrice === null || formFields.sellingPrice === 0) && (formFields.costPrice === "" || formFields.costPrice === null || formFields.costPrice === 0) && (formFields.quantity === "" || formFields.quantity === null || formFields.quantity === 0)){
             old_list[productIndex] = item;
@@ -435,6 +437,7 @@ class AddProducts extends Component{
             formFields
         );
 
+        item.history = item.history || [];
         (item.history).push(historyItem);
 
         //quantity //branch_stock_id //id

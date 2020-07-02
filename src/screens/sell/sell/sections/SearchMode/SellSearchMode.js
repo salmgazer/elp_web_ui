@@ -186,6 +186,24 @@ const SellSearchMode = props => {
                 states={showErrorProduct}
                 handleDialogClose={() => setShowErrorProduct(false)}
                 title={`Selected Product`}
+                footer={
+                    <div className={`mx-auto`}>
+                        <Button
+                            variant="outlined"
+                            style={{border: '1px solid #DAAB59', color: '#DAAB59', marginRight: '10px'}}
+                            onClick = {() => setShowErrorProduct(false)}
+                        >
+                            Cancel
+                        </Button>
+                        <Button
+                            variant="contained"
+                            style={{'backgroundColor': '#DAAB59', padding: '5px 15px', color: '#333333'}}
+                            onClick={addStockHandler.bind(this)}
+                        >
+                            Edit Product
+                        </Button>
+                    </div>
+                }
             >
                 {
                     errorProduct ?
@@ -211,26 +229,6 @@ const SellSearchMode = props => {
                             >
                                 { addLineBreaks(errorProductMsg) }
                             </Typography>
-
-                            <Box
-                                className={`bg-white my-3`}
-                                p={1}
-                            >
-                                <Button
-                                    variant="outlined"
-                                    style={{border: '1px solid #DAAB59', color: '#DAAB59', marginRight: '10px'}}
-                                    onClick = {() => setShowErrorProduct(false)}
-                                >
-                                    Cancel
-                                </Button>
-                                <Button
-                                    variant="contained"
-                                    style={{'backgroundColor': '#DAAB59', padding: '5px 15px', color: '#333333'}}
-                                    onClick={addStockHandler.bind(this)}
-                                >
-                                    Edit Product
-                                </Button>
-                            </Box>
                         </>
                         : ''
                 }

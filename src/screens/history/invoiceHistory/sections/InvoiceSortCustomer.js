@@ -107,7 +107,6 @@ class SortCustomer extends Component{
         //Find index of specific object using findIndex method.
         const itemIndex = old_list.filter((item => item.id === id));
 
-        console.log(itemIndex)
         this.setState({
             currentSale: itemIndex,
             activeStep: step
@@ -141,9 +140,16 @@ class SortCustomer extends Component{
     render(){
         return(
             <div>
-                <DateToggle
-                    setView={this.setStepContentView.bind(this)}
-                />
+                {
+                    this.state.activeStep !== 1 ?
+                        <DateToggle
+                            setView={this.setStepContentView.bind(this)}
+                        />
+                        :
+                        ''
+
+                }
+
                 {this.getStepContent(this.state.activeStep)}
 
             </div>

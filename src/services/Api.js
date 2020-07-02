@@ -43,7 +43,6 @@ export default class Api {
     }
 
     async index(parentResources = {} , config = {}, requestPath = `${this.fullUrl(parentResources)}/${this.resource}`, name = "",  queryParams= {}) {
-        console.log(requestPath);
         return axios.get(requestPath, {
             headers: {...this.constructor.headers, ...config},
             onDownloadProgress: function (progressEvent) {

@@ -15,6 +15,8 @@ import Empty from '../../../../assets/img/empty.png';
 import Button from "@material-ui/core/Button/Button";
 import paths from "../../../../utilities/paths";
 import Box from "@material-ui/core/Box/Box";
+import startOfWeek from "date-fns/startOfWeek";
+import format from "date-fns/format";
 
 const useStyles = makeStyles(theme => ({
     root: {
@@ -26,8 +28,6 @@ const useStyles = makeStyles(theme => ({
   const values = new SystemDateHandler().getStoreWeeks();
 
   const WeekView = props => {
-    console.log(new SystemDateHandler().getStoreWeeks());
-
     const classes = useStyles();
     const { history } = props;
     const [selectedWeek, setSelectedWeek] = React.useState(values[0].value);
@@ -47,7 +47,19 @@ const useStyles = makeStyles(theme => ({
       // You need to restrict it at some point
       // This is just dummy code and should be replaced by actual
         if (!invoiceDetails) {
-            getInvoiceDetails(selectedWeek);
+            let activeHistoryIndex = localStorage.getItem("activeHistoryIndex") || '';
+
+            if(activeHistoryIndex){
+                const newDate = startOfWeek(
+                    new Date(activeHistoryIndex) ,
+                    { weekStartsOn: 1 }
+                );
+                setSelectedWeek(format(newDate, 'MM/dd/yyyy'));
+                getInvoiceDetails(activeHistoryIndex);
+                localStorage.removeItem("activeHistoryIndex")
+            }else{
+                getInvoiceDetails(selectedWeek);
+            }
         }
     });
 
@@ -140,11 +152,11 @@ const useStyles = makeStyles(theme => ({
                             <img className="img100" src={Empty} alt={'payment'}/>
                         </Box>
 
-                        
+
                         <Typography className='text-dark font-weight-bold' style={{ fontSize: '17px', padding: '0px 0px 10px 0px' }} >
                             Seems you have not sold any product
                         </Typography>
-                        
+
 
                         <Typography className='font-weight-light mt-1' style={{ fontSize: '15px', marginBottom: '20px' }} >
                                 Click sell to be able to view invoice history
