@@ -16,7 +16,7 @@ const ProductsView = (props) => {
     return (
         <>
             {
-                props.products.map((item , index) =>
+                props.products.slice(0,20).map((item , index) =>
                     <Grid key={index} item xs={4} style={{padding: '4px 8px', position: 'relative'}}
                           className={`mx-0 px-1`}>
                         {item.owned ?

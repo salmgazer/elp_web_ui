@@ -36,7 +36,7 @@ import Button from "@material-ui/core/Button/Button";
 import Drawer from "../../../components/Drawer/Drawer";
 import {makeStyles} from "@material-ui/core";
 
-const useStyles = makeStyles(theme => ({
+const useStyles = makeStyles(({
     tabPrimaryColor: {
         backgroundColor: `#daab59 !important`,
         color: `#daab59 !important`,

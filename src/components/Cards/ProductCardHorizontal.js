@@ -38,19 +38,15 @@ const useStyles = makeStyles(theme => ({
     }
 }));
 
-
 const ProductCardHorizontal = props => {
     const classes = useStyles();
     const [product , setProduct] = useState('');
     const [name , setName] = useState('');
     const [image , setImage] = useState('');
-    const [quantityProduct , setQuantityProduct] = useState(0);
-    const [productAuditDetials , setProductAuditDetials] = useState(false);
-    console.log(quantityProduct, productAuditDetials)
+    //const [quantityProduct , setQuantityProduct] = useState(0);
+    //const [productAuditDetials , setProductAuditDetials] = useState(false);
 
     useEffect(() => {
-        // You need to restrict it at some point
-        // This is just dummy code and should be replaced by actual
         if (!product) {
             getProduct();
         }
@@ -59,39 +55,29 @@ const ProductCardHorizontal = props => {
     const getProduct = async () => {
         const newProduct = await props.product;
         setProduct(newProduct);
-        setQuantityProduct(await props.storeCounted);
-        setProductAuditDetials(await props.appCounted);
-        setImage(new ProductServiceHandler(product).getProductImage());
-        setName((newProduct.name).length > 20 ? (newProduct.name).slice(0 , 20) + '...' : newProduct.name);
+        //setQuantityProduct(await props.storeCounted);
+        //setProductAuditDetials(await props.appCounted);
+        setImage(new ProductServiceHandler(newProduct).getProductImage());
+        setName(newProduct.name);
+    };
+
+    const addProductHandler = () => {
+        props.addProductHandler(product.id)
+    };
+
+    const setSellingPriceHandler = (event) => {
+        const formFields = {
+            productId: product.id,
+            sellingPrice: parseFloat(event.target.value)
+        };
+
+        props.addProductPrice(formFields);
     };
 
     return(
         <Grid container spacing={1} className={`bordered-sm shadow2 mb-3 borderRadius5`}>
-
-            {/* <Grid container style={{paddingTop: "7px"}}>
-                <Grid item xs={5} sm spacing={2}>
-                    <ButtonBase>
-                        <img className={`img-fluid w-75 rounded mx-auto d-block pt-2`} src={image} alt={`${name}`}/>
-                    </ButtonBase>
-                </Grid>
-
-                <Grid item xs={7} sm container className={`py-auto my-auto`}>
-                    <Grid item xs container direction="column" spacing={2} style={{textAlign: "left" , paddingLeft: "2px"}}>
-                        <Grid item xs className={`centered`} >
-                            <Typography className={`menu-item block`} style={{fontSize: "0.9rem" , fontWeight: "600"}}>
-                                {name}
-                            </Typography>
-                            <span className={`text-center font-weight-lighter text-dark`} style={{fontSize: '12px'}}>
-                                {props.children}
-                            </span>
-                        </Grid>
-                    </Grid>
-                </Grid>
-
-            </Grid> */}
-
             <Grid item xs={12}>
-                <Grid container >
+                <Grid container onClick={props.add ? addProductHandler.bind(this) : ''}>
                     <Grid item xs={3}>
                         <Avatar
                             alt={image}
@@ -116,7 +102,6 @@ const ProductCardHorizontal = props => {
                             </span>
                         </div>
                     </Grid>
-
                 </Grid>
             </Grid>
             <Divider variant={`fullWidth`} style={{width: '100%', color: '#e5e5e5'}}/>
@@ -141,22 +126,12 @@ const ProductCardHorizontal = props => {
                             }}
                             //error={entryTotal / quantity < cartEntry.costPrice}
                             //value={entryTotal || ''}
-                            //onChange={(event) => setTotalPriceHandler(event)}
+                            onChange={(event) => setSellingPriceHandler(event)}
                             style={{fontSize: '12px' , textAlign: `center !important`}}
                         />
-
-                        {/* <Typography
-                            component="p"
-                            variant="h6"
-                            style={{fontSize: '10px' , margin: '3px 0px', paddingTop: '5px' , color: '#D34343' , float: 'right'}}
-                            className={`font-weight-bold`}
-                        >
-                             { entryTotal / quantity < cartEntry.costPrice ? 'Invalid amount' : ''} 
-                        </Typography> */}
                     </Grid>
                 </Grid>
             </Grid>
-
         </Grid>
     );
 };

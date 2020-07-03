@@ -1,6 +1,7 @@
 import axios from 'axios';
 const resources = require('./resources.json');
 const apis = require('../config/apis.json');
+const env = require('../config/environments.json');
 
 export default class Api {
     constructor(resourceName) {
@@ -13,7 +14,7 @@ export default class Api {
         this.parentResources = parentResources || [];
 
         // get env
-        this.environment = 'development';
+        this.environment = env.NODE_ENV;
         this.apiConfig = apis["elp-core-api"][this.environment]['v1'];
     }
 
@@ -33,13 +34,16 @@ export default class Api {
         return fullPath;
     }
 
-    static get headers(){
-        return {
-            "X-El-Parah-Hash" : "8opvGdfmc6mJgqH3bcVGsmzj",
-            "X-El-Parah-Client" : "elp-pos-web-ui",
+    static get headers() {
+      const envHeaders = env.headers;
+        return Object.assign(envHeaders,{
             "Content-Type" : "application/json",
             "Accept" : "application/json",
-        };
+        });
+    }
+
+    static apiDomain() {
+      return apis["elp-core-api"][env.NODE_ENV].v1.basePath;
     }
 
     async index(parentResources = {} , config = {}, requestPath = `${this.fullUrl(parentResources)}/${this.resource}`, name = "",  queryParams= {}) {

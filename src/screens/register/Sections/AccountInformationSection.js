@@ -202,7 +202,7 @@ export default function AccountInformationSection(props) {
             let response = await new Api('others').index(
                 {},
                 {},
-                `https://core-api-dev.mystoreaid.net/v1/client/users/exists?username=${userData.username}`,
+                `https://${Api.apiDomain()}/v1/client/users/exists?username=${userData.username}`,
                 {},
             );
 
@@ -245,7 +245,7 @@ export default function AccountInformationSection(props) {
                 let response = await new Api('others').index(
                     {},
                     {},
-                    `https://core-api-dev.mystoreaid.net/v1/client/users/exists?username=${value}`,
+                    `https://${Api.apiDomain()}/v1/client/users/exists?username=${value}`,
                     {},
                 );
 

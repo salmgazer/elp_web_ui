@@ -14,9 +14,9 @@ import paths from "../../../../../utilities/paths";
 import EmptyContainer from "../../../../../components/Empty/EmptyContainer";
 import {withRouter} from "react-router-dom";
 import ProductServiceHandler from "../../../../../services/ProductServiceHandler";
-import Box from "@material-ui/core/Box/Box";
 import Button from "@material-ui/core/Button/Button";
 import MainDialog from "../../../../../components/Dialog/MainDialog";
+import WarningIcon from '@material-ui/icons/Warning';
 
 const useStyles = makeStyles(theme => ({
     root: {
@@ -33,7 +33,7 @@ const useStyles = makeStyles(theme => ({
     cart: {
         width: '95%',
         display: 'flex',
-        padding: '2px 5px',
+        padding: '4px 5px',
         alignItems: 'center',
         borderRadius: '6px',
         height: '35px',
@@ -131,24 +131,42 @@ const SellSearchMode = props => {
         }
 
         if(!await theProduct.getCostPrice()){
-            errors = (errors).concat("\nNo cost price available.");
+            if(errors){
+                errors = (errors).concat("\nNo cost price available.");
+            }else{
+                errors = "No cost price available."
+            }
         }
 
         if(!await theProduct.getSellingPrice()){
-            errors = (errors).concat("\nNo selling price available.");
+            if(errors){
+                errors = (errors).concat("\nNo selling price available.");
+            }else{
+                errors = "No selling price available."
+            }
         }
 
         setErrorProductMsg(errors);
         setErrorProduct(await bPro.product.fetch());
         setErrorBProduct(bPro.id);
         setShowErrorProduct(true);
-        //alert(`${name} is out of stock or has no cost price. Please add stock`);
     };
 
     const addLineBreaks = string => {
         return string.split('\n').map((text, index) => (
             <React.Fragment key={`${text}-${index}`}>
-                {text}
+                <WarningIcon
+                    style={{
+                        fontSize: '16px',
+                        paddingRight: '10px',
+                    }}
+                />
+                <span style={{
+                    paddingTop: '4px'
+                }}>
+                    {text}
+                </span>
+
                 <br />
             </React.Fragment>
         ));
@@ -224,8 +242,8 @@ const SellSearchMode = props => {
                             <Typography
                                 component="p"
                                 variant="inherit"
-                                className={`text-center my-1`}
-                                style={{fontWeight: '300', color: 'red', fontSize: '12px' , margin: '5px auto', paddingTop: '10px'}}
+                                className={`text-left my-1 bordered-sm`}
+                                style={{fontWeight: '700', color: 'red', fontSize: '13px' , margin: '5px auto', padding: '10px' , borderRadius: '3px'}}
                             >
                                 { addLineBreaks(errorProductMsg) }
                             </Typography>
