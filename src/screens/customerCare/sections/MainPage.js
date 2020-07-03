@@ -7,8 +7,8 @@ import Grid from '@material-ui/core/Grid';
 import Box from "@material-ui/core/Box";
 import SearchInput from "../../Components/Input/SearchInput";
 import Typography from '@material-ui/core/Typography';
-import SingleStore from './SingleStore';
-import AltStore from './AltStore';
+import SingleStore from './singleViews/SingleStore';
+import AltStore from './singleViews/AltStore';
 
 
 const MainPage = props => {
@@ -81,7 +81,7 @@ const MainPage = props => {
             <Box style={{marginTop: '5px' , paddingBottom: '5px'}} p={1} className={`mt-2 mb-1 mx-1`}>
                 {storeList.map((item) => <SingleStore key={item.id} store={item}/>)}
 
-                {altStoreList.map((item) => <AltStore key={item.id} store={item}/>)}
+                {altStoreList.map((item) => <AltStore key={item.id} store={item} setView={props.setView}/>)}
             </Box>
             
 

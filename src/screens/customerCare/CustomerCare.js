@@ -2,6 +2,7 @@ import React, {Component} from 'react';
 import {withRouter} from "react-router-dom";
 
 import MainPage from './sections/MainPage';
+import PageInfo from './sections/PageInfo'
 
 class CustomerCare extends Component {
 
@@ -33,6 +34,8 @@ class CustomerCare extends Component {
         switch (step) {
             case 0:
                 return <MainPage setView={this.setStepContentView.bind(this)} storeList={this.state.storeList} altStoreList={this.state.altStoreList} />;
+            case 1: 
+                return <PageInfo setView={this.setStepContentView.bind(this)} />
             default:
                 return 'Complete';
         }

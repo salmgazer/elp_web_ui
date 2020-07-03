@@ -1,5 +1,5 @@
 import { Model } from '@nozbe/watermelondb'
-import {field, children, date} from '@nozbe/watermelondb/decorators';
+import {field, date} from '@nozbe/watermelondb/decorators';
 import cashflowCategorySchema from "./cashflowCategorySchema";
 
 export default class CashflowCategory extends Model {

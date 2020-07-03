@@ -54,7 +54,7 @@ const AltStore = props => {
                         <span
                             style={{borderRadius: '6px' , fontSize: '12px' , fontWeight: '700', color: '#DAAB59'}}
                             className={`bordered px-2 py-2`}
-                            // onClick={() => setBranch(branch.id)}
+                            onClick={() => props.setView(1)}
                         >Open store</span>
                     </div>
                 </Grid>
