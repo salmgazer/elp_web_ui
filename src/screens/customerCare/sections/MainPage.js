@@ -9,6 +9,7 @@ import SearchInput from "../../Components/Input/SearchInput";
 import Typography from '@material-ui/core/Typography';
 import SingleStore from './singleViews/SingleStore';
 import AltStore from './singleViews/AltStore';
+import LocalInfo from '../../../services/LocalInfo';
 
 
 const MainPage = props => {
@@ -20,6 +21,13 @@ const MainPage = props => {
     const storeList = props.storeList;
 
     const altStoreList = props.altStoreList;
+    
+    const username = JSON.parse(localStorage.getItem('userDetails')).firstName;
+
+    const companies = JSON.parse(localStorage.getItem('userData')).companies;
+
+    console.log(companies);
+    console.log(companies[0].branches);
 
 
     const setInputValue = (name , value) => {
@@ -36,7 +44,7 @@ const MainPage = props => {
         <div>
 
             <SectionNavbars
-                title="Welcome User"
+                title={`Welcome ${username}`}
                 leftIcon={
                     <div onClick={() => setIsDrawerShow(true)}>
                         <MenuIcon
@@ -79,9 +87,30 @@ const MainPage = props => {
             </Grid>
 
             <Box style={{marginTop: '5px' , paddingBottom: '5px'}} p={1} className={`mt-2 mb-1 mx-1`}>
-                {storeList.map((item) => <SingleStore key={item.id} store={item}/>)}
+                
+                { 
+                    companies.map((company) => 
+                    
+                        company.branches.length > 1
+                        ?
+                            <div>
+                                {console.log(company.branches) }
+                            <SingleStore key={company.id} company={company} setView={props.setView}/> 
+                            </div>
+                        :
+                            <div>
+                                {console.log(company.branches) }
+                            <AltStore key={company.id} company={company} setView={props.setView}/>
+                            </div>  
+                            
+                    )
+                }
 
-                {altStoreList.map((item) => <AltStore key={item.id} store={item} setView={props.setView}/>)}
+
+
+                {/* {storeList.map((item) => <SingleStore key={item.id} company={item}/>)}
+
+                {altStoreList.map((item) => <AltStore key={item.id} store={item} setView={props.setView}/>)} */}
             </Box>
             
 
