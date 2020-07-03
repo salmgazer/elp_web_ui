@@ -17,6 +17,9 @@ import FileCopyIcon from '@material-ui/icons/FileCopy';
 import PrintIcon from '@material-ui/icons/Print';
 import ListItemText from '@material-ui/core/ListItemText';
 import CompanyService from "../../../services/CompanyService";
+import Empty from '../../../assets/img/employee.png';
+import paths from "../../../utilities/paths";
+import EmptyContainer from "../../../components/Empty/EmptyContainer";
 // import SaleService from "../../../services/SaleService";
 
 const MainPage = props => {
@@ -25,11 +28,12 @@ const MainPage = props => {
     const allSales = props.sales;
     const [isShowDrawer , setIsShowDrawer] = useState(false);
     const [companySales , setCompanySales] = useState(false);
-    const [sales, setSales] = useState([]);
+    const [headerText , setHeaderText] = useState('');
+    const [emptyBtnState , setEmptyBtnState] = useState(true);
     const { history } = props;
-    // console.log(branchCustomers);
     const [searchValue , setSearchValue] = useState({
-        search: ''
+        search: '',
+        state: 'inactive'
     });
 
     useEffect(() => {
@@ -43,14 +47,21 @@ const MainPage = props => {
     const getCompanyDetails = async () => {
         const response = await new CompanyService().getSalesDetails('year');
         setCompanySales(response);
-        setSales(allSales);
-        console.log(allSales);
     };
 
     const setInputValue = (name , value) => {
         const {...oldFormFields} = searchValue;
 
         oldFormFields[name] = value;
+        if(value.length > 0){
+            oldFormFields['state'] = 'active';
+            setHeaderText('Search didn\'t not find any customer');
+            setEmptyBtnState(true);
+        }else{
+            oldFormFields['state'] = 'inactive';
+            setHeaderText('Seems you don\'t have any customer who owes');
+            setEmptyBtnState(true);
+        }
 
         setSearchValue(oldFormFields);
 
@@ -121,26 +132,15 @@ const MainPage = props => {
             </Paper>
 
             <Box style={{marginTop: '5px' , paddingBottom: '60px'}} p={1} className={`mt-3 mb-5`}>
-            {console.log(sales)}
-                {sales.length === 0
+                {allSales.length === 0
                     ?
-                    <div className={`rounded mx-1 my-2 p-2 bordered`}>
-                        <Grid container spacing={1} className={`py-1`}>
-                            <Grid
-                                item xs={12}
-                                className={`text-left pl-2`}
-                            >
-                                <Typography
-                                    component="h6"
-                                    variant="h6"
-                                    style={{fontSize: '16px'}}
-                                    className={`text-center text-dark`}
-                                >
-                                    No customer found
-                                </Typography>
-                            </Grid>
-                        </Grid>
-                    </div>
+                    <EmptyContainer
+                        buttonAction={() => history.push(paths.sell)}
+                        imageLink={Empty}
+                        headerText={headerText}
+                        button={emptyBtnState}
+                        btnText="Enter sales"
+                    />
                     :
                     // <div style={{marginBottom: '4rem'}}>
                     //     {    branchCustomers.map((branchCustomer) =>
@@ -155,7 +155,7 @@ const MainPage = props => {
                     //         )
                     //     }
                     // </div>
-                    sales.map((sale) => <SingleCustomer key={sale.id} sale={sale} viewPaymentDetails={props.customerAdd}/> )
+                    allSales.map((sale) => <SingleCustomer key={sale.id} sale={sale} viewPaymentDetails={props.customerAdd}/> )
                     // sales.map((sale) => <SingleDayView  key={sale.id} sale={sale} /> )
 
                 }
