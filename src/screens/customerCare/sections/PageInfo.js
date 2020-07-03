@@ -42,7 +42,7 @@ const PageInfo = props => {
             <SectionNavbars
                 title="Customer care"
                 leftIcon={
-                    <div onClick={() => history.goBack()} >
+                    <div onClick={() => props.setView(0)} >
                         <ArrowBackIcon
                             style={{fontSize: '2rem'}}
                         />

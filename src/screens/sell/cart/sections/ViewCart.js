@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react';
-import { makeStyles } from '@material-ui/core/styles';
+import { makeStyles, withStyles } from '@material-ui/core/styles';
 import AddShoppingCartIcon from '@material-ui/icons/AddShoppingCart';
 import SectionNavbars from "../../../../components/Sections/SectionNavbars";
 import Paper from '@material-ui/core/Paper';
@@ -24,6 +24,30 @@ import SecondaryButton from "../../../../components/Buttons/SecondaryButton";
 import PrimaryButton from "../../../../components/Buttons/PrimaryButton";
 import SaleService from "../../../../services/SaleService";
 import PrimaryTextField from "../../../../components/Input/TextField";
+import MoreVertIcon from '@material-ui/icons/MoreVert';
+import BottomDrawer from "../../../../components/Drawer/BottomDrawer/BottomDrawer";
+import ListItem from "@material-ui/core/ListItem/ListItem";
+import ListItemIcon from "@material-ui/core/ListItemIcon/ListItemIcon";
+import ListItemText from "@material-ui/core/ListItemText/ListItemText";
+import SettingsIcon from '@material-ui/icons/Settings';
+import Switch from '@material-ui/core/Switch';
+
+const PrimarySwitch = withStyles({
+    switchBase: {
+        color: `#009688 !important`,
+        '&$checked': {
+            color: `#009688 !important`,
+        },
+        '&$checked + $track': {
+            backgroundColor: `#009688 !important`,
+        },
+    },
+    root: {
+        float: `right !important`,
+    },
+    checked: {},
+    track: {},
+})(Switch);
 
 const useStyles = makeStyles(theme => ({
     root: {
@@ -55,11 +79,17 @@ const CartView = props => {
     const [error , setError] = useState(false);
     const [errorMsg , setErrorMsg] = useState('');
     const counter = props.cartTotalProducts;
+    const [settingsState, setSettingsState] = useState({
+        aggregateSales: LocalInfo.aggregateSales,
+        checkoutSales: LocalInfo.checkoutSales,
+    });
     const [success , setSuccess] = useState(false);
     const [openPaymentState , setOpenPaymentState] = useState(false);
     const [successMsg , setSuccessMsg] = useState('');
+    const [isShowDrawer , setIsShowDrawer] = useState(false);
     const [isShowerCustomerDrawer , setIsShowerCustomerDrawer] = useState(false);
     const [isSaveCart , setIsSaveCart] = useState(false);
+    const [openSettingsState , setOpenSettingsState] = useState(false);
     const [formFields , setFormFields] = useState({
         amountPaid: '',
         changeDue: '',
@@ -77,8 +107,11 @@ const CartView = props => {
         setFormFields(oldFormFields);
     };
 
-    //console.log(props.currentCustomer)
-    //console.log(customerName)
+    const handleSettingsChange = (event) => {
+        event.persist();
+        setSettingsState({ ...settingsState, [event.target.name]: event.target.checked });
+        LocalInfo.branchSettings(event);
+    };
 
     useEffect(() => {
         // You need to restrict it at some point
@@ -214,7 +247,6 @@ const CartView = props => {
                                 props.setView(0);
                                 setError(false);
                             }, 3000);
-                            console.log('Something went wrong.')
                         }
                     }
                 },
@@ -241,7 +273,6 @@ const CartView = props => {
                                 await new SaleService().makeSell(formFields , formFields.type);
                                 props.history.push(paths.sell);
                             } catch (e) {
-                                console.log('Something went wrong')
                                 return false;
                             }
                         }
@@ -261,7 +292,6 @@ const CartView = props => {
                 await new SaleService().makeSell(formFields , formFields.type);
                 props.history.push(paths.sell);
             }catch (e) {
-                console.log('Something went wrong.')
             }
         }*/
     };
@@ -283,7 +313,31 @@ const CartView = props => {
                         />
                     </div>
                 }
+                rightIcon={
+                    <div onClick={() => setIsShowDrawer(!isShowDrawer)}>
+                        <MoreVertIcon
+                            style={{fontSize: '2rem'}}
+                        />
+                    </div>
+                }
             />
+
+            <div
+                onClick={() => setIsShowDrawer(false)}
+                onKeyDown={() => setIsShowDrawer(false)}
+            >
+                <BottomDrawer isShow={isShowDrawer}>
+                    <ListItem
+                        button
+                        key={6}
+                        onClick={() => setOpenSettingsState(true)}
+                    >
+                        <ListItemIcon><SettingsIcon/></ListItemIcon>
+                        <ListItemText primary="Settings" />
+                    </ListItem>
+                </BottomDrawer>
+
+            </div>
 
             <SimpleSnackbar
                 type="success"
@@ -368,6 +422,86 @@ const CartView = props => {
                     </div>
                 </div>
 
+
+            </MainDialog>
+
+            <MainDialog
+                title={`Settings`}
+                handleDialogClose={() => setOpenSettingsState(false)}
+                states={openSettingsState}
+            >
+                <Grid container spacing={1} className={`mb-3`}>
+                    <Grid item xs={12} className={`bordered px-2`} style={{ margin: '10px 0px 0px 0px'}} >
+                        <Grid container>
+                            <Grid item xs={6}>
+                                <Typography
+                                    component="h6"
+                                    variant="h6"
+                                    className={`py-2 text-left`}
+                                    style={{fontSize: '18px' , margin: '0px 0px' , fontWeight: '600'}}
+                                >
+                                    Checkout
+                                </Typography>
+                            </Grid>
+                            <Grid item xs={6}>
+                                <PrimarySwitch
+                                    size={`medium`}
+                                    checked={settingsState.checkoutSales}
+                                    onChange={handleSettingsChange}
+                                    name="checkoutSales"
+                                />
+                            </Grid>
+                        </Grid>
+
+                        <Typography
+                            component="p"
+                            variant="h6"
+                            className={`py-2 text-left`}
+                            style={{fontSize: '16px' , margin: '0px 0px'}}
+                        >
+                            Switch on to use the checkout feature or if you record sales individually.
+                        </Typography>
+                    </Grid>
+                    <Grid item xs={12} className={`bordered px-2`} style={{ margin: '10px 0px 0px 0px'}} >
+                        <Grid container>
+                            <Grid item xs={6}>
+                                <Typography
+                                    component="h6"
+                                    variant="h6"
+                                    className={`py-2 text-left`}
+                                    style={{fontSize: '18px' , margin: '0px 0px' , fontWeight: '600'}}
+                                >
+                                    Aggregate
+                                </Typography>
+                            </Grid>
+                            <Grid item xs={6} style={{float: 'right'}}>
+                                <PrimarySwitch
+                                    size={`medium`}
+                                    checked={settingsState.aggregateSales}
+                                    onChange={handleSettingsChange}
+                                    name="aggregateSales"
+                                />
+                            </Grid>
+                        </Grid>
+
+                        <Typography
+                            component="p"
+                            variant="h6"
+                            className={`py-2 text-left`}
+                            style={{fontSize: '16px' , margin: '0px 0px'}}
+                        >
+                            Switch on to record different instances of a product separately in cart.
+                        </Typography>
+                    </Grid>
+                </Grid>
+
+                <div onClick={() => setOpenSettingsState(false)}>
+                    <SecondaryButton
+                        classes={`capitalization font-weight-bold text-dark`}
+                    >
+                        Finish
+                    </SecondaryButton>
+                </div>
 
             </MainDialog>
 

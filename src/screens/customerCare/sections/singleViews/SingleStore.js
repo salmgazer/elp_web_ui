@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import Grid from "@material-ui/core/Grid";
 import StoreMallDirectoryRoundedIcon from '@material-ui/icons/StoreMallDirectoryRounded';
 import {Link, withRouter} from 'react-router-dom';
@@ -11,13 +11,10 @@ import LocationOnIcon from '@material-ui/icons/LocationOn';
 // import LocalInfo from "../../../../services/LocalInfo";
 // import BranchService from "../../../../services/BranchService";
 
-
-
 const SingleStore = props => {
     // const { history } = props;
     // const [companySales , setCompanySales] = useState(false);
-
-    const store = props.store;
+    const company = props.company;
 
     // useEffect(() => {
     //     // You need to restrict it at some point
@@ -49,13 +46,13 @@ const SingleStore = props => {
                     <div style={{textAlign: 'left', display: 'table-cell', verticalAlign: 'middle', fontSize: '14px'}}
                         className={`font-weight-bold text-uppercase`}
                     >
-                        {/* {props.companyName} */} {store.name}
-                        {/* <div className="font-weight-light mt-1 text-capitalize text-dark" style={{fontSize: '14px'}}>{branch.name}</div> */}
+                        {company.name}
+                        
                     </div>
                 </Grid>
                 <Grid item xs={4} style={{height: '60px', margin: '13px 0px'}}>
                     <div style={{textAlign: 'right' , width:'100%'}} className={`pt-2`}>
-                        <Link style={{textDecorationColor: '#333333'}}>
+                        <Link to={''} style={{textDecorationColor: '#333333'}}>
                             <span  style={{'marginTop': '30px', marginBottom: '20px', color: '#DAAB59', fontSize: '13px'}}>View branches</span> <br/>
                         </Link> 
                     </div>
@@ -85,15 +82,22 @@ const SingleStore = props => {
                         paddingBottom: '10px'
                     }}
                 >
-                    {store.branches.map((item) => 
+                    {company.branches.map((item) => 
 
-                        <div style={{marginBottom: '10px'}}>
+                        <div key={item.id} style={{marginBottom: '10px'}}>
+                            <Grid container >
+
+                                <Grid item xs={1}>
+                                    <LocationOnIcon key={item.id} style={{color: '#DAAB59'}}/> 
+                                </Grid>
                     
-                            <LocationOnIcon style={{color: '#DAAB59', marginTop: '10px'}}/> 
+                                <Grid xs={11} >
+                                    <Link key={item.id} to={''} style={{textDecorationColor: '#333333'}}>
+                                        <span  style={{'marginTop': '30px', marginBottom: '20px', color: '#403C3C', fontSize: '13px'}}>{item.name}</span> <br/>
+                                    </Link> 
+                                </Grid>
 
-                            <Link style={{textDecorationColor: '#333333'}}>
-                                <span  style={{'marginTop': '30px', marginBottom: '20px', color: '#403C3C', fontSize: '13px'}}>{item.name}</span> <br/>
-                            </Link> 
+                            </Grid>
 
                         </div>
                     

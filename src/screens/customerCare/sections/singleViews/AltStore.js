@@ -13,7 +13,7 @@ const AltStore = props => {
     // const { history } = props;
     // const [companySales , setCompanySales] = useState(false);
 
-    const store = props.store;
+    const company = props.company;
 
     // useEffect(() => {
     //     // You need to restrict it at some point
@@ -45,7 +45,7 @@ const AltStore = props => {
                     <div style={{textAlign: 'left', display: 'table-cell', verticalAlign: 'middle', fontSize: '14px'}}
                         className={`font-weight-bold text-uppercase`}
                     >
-                        {/* {props.companyName} */} {store.name}
+                        {/* {props.companyName} */} {company.name}
                         {/* <div className="font-weight-light mt-1 text-capitalize text-dark" style={{fontSize: '14px'}}>{branch.name}</div> */}
                     </div>
                 </Grid>
