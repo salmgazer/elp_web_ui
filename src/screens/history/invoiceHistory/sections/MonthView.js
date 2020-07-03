@@ -7,14 +7,12 @@ import { withRouter } from "react-router-dom";
 
 import SingleMonthView from './singleView/SingleMonthView';
 import CustomerMonth from './singleView/CustomerMonth';
-import BoxDefault from '../../../../components/Box/BoxDefault';
 import CardsSection from '../../../../components/Sections/CardsSection';
 import InvoiceService from '../../../../services/InvoiceService';
 import SystemDateHandler from "../../../../services/SystemDateHandler";
 import Empty from '../../../../assets/img/empty.png';
-import Button from "@material-ui/core/Button/Button";
 import paths from "../../../../utilities/paths";
-import Box from "@material-ui/core/Box/Box";
+import EmptyContainer from "../../../../components/Empty/EmptyContainer";
 
 const useStyles = makeStyles(theme => ({
     root: {
@@ -32,6 +30,8 @@ const MonthView = props => {
     const pageName = props.pageName;
     const [name , setName] = useState('');
     const [customer , setCustomer] = useState('');
+    const [headerText , setHeaderText] = useState('');
+    const [emptyBtnState , setEmptyBtnState] = useState(true);
 
     const handleChange = event => {
       setSelectedMonth(event.target.value);
@@ -71,6 +71,8 @@ const MonthView = props => {
         }else{
             response = await new InvoiceService().getInvoiceDetails('month' , date);
         }
+        setHeaderText('Seems you don\'t have any sales available');
+        setEmptyBtnState(true);
         setInvoiceDetails(response);
         setInvoices(response.invoices);
     };
@@ -120,53 +122,13 @@ const MonthView = props => {
 
                 {invoices.length === 0
                     ?
-                    <BoxDefault
-                        bgcolor="background.paper"
-                        p={1}
-                        className={'boxDefault'}
-                        style={{marginTop: '5px' }}
-                    >
-                        {/* <div className={`rounded mx-1 my-2 p-2 bordered`}>
-                            <Grid container spacing={1} className={`py-1`}>
-                                <Grid
-                                    item xs={12}
-                                    className={`text-left pl-2`}
-                                >
-                                    <Typography
-                                        component="h6"
-                                        variant="h6"
-                                        style={{fontSize: '16px'}}
-                                        className={`text-center text-dark`}
-                                    >
-                                        No sales made
-                                    </Typography>
-                                </Grid>
-                            </Grid>
-                        </div> */}
-                        <div>
-                            <Box component="div" m={2} style={{marginTop: '-1rem'}} >
-                                <img className="img100" src={Empty} alt={'payment'}/>
-                            </Box>
-
-
-                            <Typography className='text-dark font-weight-bold' style={{ fontSize: '17px', padding: '0px 0px 10px 0px' }} >
-                                Seems you have not sold any product
-                            </Typography>
-
-
-                            <Typography className='font-weight-light mt-1' style={{ fontSize: '15px', marginBottom: '20px' }} >
-                                    Click sell to be able to view invoice history
-                            </Typography>
-
-                            <Button
-                                variant="contained"
-                                style={{'backgroundColor': '#DAAB59' , color: '#333333', padding: '5px 40px', textTransform: 'none', fontSize:'17px'}}
-                                onClick={() => history.push(paths.sell)}
-                            >
-                                Record sales
-                            </Button>
-                        </div>
-                    </BoxDefault>
+                    <EmptyContainer
+                        buttonAction={() => history.push(paths.sell)}
+                        imageLink={Empty}
+                        headerText={headerText}
+                        button={emptyBtnState}
+                        btnText="Record sales"
+                    />
                     :
                     pageName === false ?
 

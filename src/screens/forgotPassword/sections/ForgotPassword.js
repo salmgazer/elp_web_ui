@@ -89,7 +89,7 @@ const ForgotPassword = props => {
             let response = await new Api('others').index(
                 {},
                 {},
-                `https://core-api-dev.mystoreaid.net/v1/client/users/verify_password_reset?phone=${contact}`,
+                `https://${Api.apiDomain()}/v1/client/users/verify_password_reset?phone=${contact}`,
                 {}
             );
 

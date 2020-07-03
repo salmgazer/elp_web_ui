@@ -111,7 +111,7 @@ const VerifySMS = props => {
                     params,
                     {},
                     {},
-                    `https://core-api-dev.mystoreaid.net/v1/client/users/verify`,
+                    `https://${Api.apiDomain()}/v1/client/users/verify`,
                 );
 
                 if(user){
@@ -152,7 +152,7 @@ const VerifySMS = props => {
                 {},
                 {},
                 {},
-                `https://core-api-dev.mystoreaid.net/v1/client/users/${userId}/resendOTP`
+                `https://${Api.apiDomain()}/v1/client/users/${userId}/resendOTP`
             );
 
             setSuccessMsg('Your verification code has been sent.');
@@ -185,7 +185,7 @@ const VerifySMS = props => {
                 {},
                 {},
                 {},
-                `https://core-api-dev.mystoreaid.net/v1/client/users/${userId}/updateUser?phone=${userContact}`
+                `https://${Api.apiDomain()}/v1/client/users/${userId}/updateUser?phone=${userContact}`
             );
 
             setSuccessMsg('Your verification code has been sent.');
@@ -244,7 +244,7 @@ const VerifySMS = props => {
                     let response = await new Api('others').index(
                         {},
                         {},
-                        `https://core-api-dev.mystoreaid.net/v1/client/users/exists?phone=${value}`,
+                        `https://${Api.apiDomain()}/v1/client/users/exists?phone=${value}`,
                         {},
                     );
 

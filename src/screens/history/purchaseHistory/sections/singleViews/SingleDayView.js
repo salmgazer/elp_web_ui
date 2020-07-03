@@ -72,7 +72,7 @@ const SingleDayView = props => {
     const [priceFields , setPriceFields] = useState({
         costPrice: '',
     });
-    console.log(unitCost)
+
 
     function a11yProps(index) {
         return {
@@ -203,7 +203,7 @@ const SingleDayView = props => {
     };
 
     const updatePriceEntry = () => {
-        console.log(priceFields)
+
         props.updatePriceEntry(purchase.id, priceFields);
         setMainDialog(false);
     };
