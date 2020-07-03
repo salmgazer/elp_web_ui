@@ -23,45 +23,21 @@ import * as Q from "@nozbe/watermelondb/QueryDescription";
 
 
 class ChangePrice extends Component{
-    state = {
-        isDrawerShow: false,
-        value: 0,
-        storeProducts: 1,
-        activeStep: 0,
-        branchProducts: [],
-        currentProduct: {},
-        addedProducts: [
-            {
-                "store_id": "1",
-                "store_name": "kwesi store",
-                "pro_id": "199",
-                "pro_name": " CB Guvee Red Wine 750ml",
-                "Weight_Type": "Litre",
-                "product_weight": "750000000",
-                "Bar_Code": "8851028002277",
-                "p_cat_id": "1",
-                "p_store_id": null,
-                "p_manufact_id": "140",
-                "image": "no_image.png",
-                "Cost_Price": "12",
-                "Selling_Price": "13",
-                "pro_quantity": "427",
-                "pro_detail_id": "106721",
-                "store_owner": "Kwasi Danso",
-                "Address_of_Store": "Oyibi, Near Bush Canteen",
-                "Physical_location": "Dzorwulu",
-                "Community_Area": "Oyibi",
-                "store_image": null,
-                "Phone_number": "0259657885",
-                "whatsapp": "0259657885"
-            },
-        ]
-    };
+    constructor(props){
+        super(props);
+        this.state = {
+            isDrawerShow: false,
+            value: 0,
+            storeProducts: 1,
+            activeStep: 0,
+            branchProducts: [],
+            currentProduct: {},
+            addedProducts: []
+        };
+    }
 
     async componentDidMount() {
         const { branchProducts } = this.props;
-
-
 
         await this.setState({
             branchProducts: branchProducts,
@@ -89,7 +65,7 @@ class ChangePrice extends Component{
 
         switch (step) {
             case 0:
-                return <MainView setView={this.setStepContentView.bind(this)} viewAddedProducts={this.viewAddedProducts(this)} products={this.state.productList} branchProducts={this.state.branchProducts} searchHandler={this.searchHandler.bind(this)} productAdd={this.showAddView.bind(this)} removeProduct={this.removeProduct.bind(this)} />;
+                return <MainView addProductPrice={this.addProductPrice.bind(this)} setView={this.setStepContentView.bind(this)} viewAddedProducts={this.viewAddedProducts(this)} products={this.state.productList} branchProducts={this.state.branchProducts} searchHandler={this.searchHandler.bind(this)} productAdd={this.showAddView.bind(this)} removeProduct={this.removeProduct.bind(this)} />;
             case 1:
                 return <AddProductView updateProduct={this.updateNewProduct.bind(this)} setView={this.setStepContentView.bind(this)} product={this.state.currentProduct}/>;
             case 2:
@@ -145,11 +121,32 @@ class ChangePrice extends Component{
         });
     };
 
+    async addProductPrice(formFields){
+        const oldAddedProducts = this.state.addedProducts;
+        const branchPro = this.state.branchProducts;
+
+        const productIndex = oldAddedProducts.findIndex((item => item.productId === (formFields.productId)));
+        const branchProductIndex = branchPro.findIndex((item => item.productId === (formFields.productId)));
+
+        let item = {};
+
+        if(productIndex){
+            item = {...oldAddedProducts[productIndex]};
+            item.sellingPrice = formFields.sellingPrice;
+        }else{
+            oldAddedProducts.push(formFields);
+        }
+
+        this.setState({
+            addedProducts: oldAddedProducts
+        });
+
+        //if(branchPro[branchProductIndex].sellingPrice >)
+    }
+
     async updateNewProduct(formFields){
-        console.log(formFields)
         try {
             const status = await new BranchStockService().addStock(formFields);
-            console.log(status)
             if(status){
                 return true;
             }
@@ -236,7 +233,11 @@ class ChangePrice extends Component{
                 <SectionNavbars
                     title="Change selling price"
                     leftIcon={
-                        <div onClick={() => this.props.history.goBack()}>
+                        <div
+                            onClick={() => this.state.activeStep === 0 ? this.props.history.goBack() : this.setState({
+                            activeStep: 0
+                            })}
+                        >
                             <ArrowBackIcon
                                 style={{fontSize: '2rem'}}
                             />

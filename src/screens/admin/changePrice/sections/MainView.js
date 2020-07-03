@@ -9,8 +9,18 @@ import SearchMode from "./SearchMode";
 import BarcodeMode from "./BarcodeMode";
 import Box from "@material-ui/core/Box/Box";
 import Button from "@material-ui/core/Button/Button";
+import {makeStyles} from "@material-ui/core";
+
+const useStyles = makeStyles(({
+    tabPrimaryColor: {
+        backgroundColor: `#daab59 !important`,
+        color: `#daab59 !important`,
+    },
+}));
 
 const MainView = props => {
+    const styles = useStyles();
+
     const branchProducts = props.branchProducts;
     const [value , setValue] = useState(0);
     // const { history } = props;
@@ -40,6 +50,9 @@ const MainView = props => {
                     textColor="primary"
                     variant="fullWidth"
                     aria-label="full width tabs example"
+                    classes= {{
+                        indicator: styles.tabPrimaryColor
+                    }}
                 >
                     <Tab label="Search mode" {...a11yProps(0)} />
                     <Tab label="Barcode mode" {...a11yProps(1)} />
@@ -50,7 +63,7 @@ const MainView = props => {
                 onChangeIndex={handleChangeIndex}
             >
                 <TabPanel value={value} index={0}>
-                    <SearchMode branchProducts={branchProducts} searchHandler={props.searchHandler} productAdd={props.productAdd} />
+                    <SearchMode addProductPrice={props.addProductPrice} branchProducts={branchProducts} searchHandler={props.searchHandler} productAdd={props.productAdd} />
                 </TabPanel>
                 <TabPanel value={value} index={1} >
                     <BarcodeMode/>

@@ -9,7 +9,6 @@ import BranchProductService from "../../../../services/BranchProductService";
 const SearchMode = props => {
 
     const addProductHandler = (id) => {
-        console.log(id);
         props.productAdd(id, 1);
     };
 
@@ -41,8 +40,6 @@ const SearchMode = props => {
                         styles={{width: '95%'}}
                     />
                 </Grid>
-
-
             </Grid>
 
             <Grid container spacing={1} className='mt-3'>
@@ -65,18 +62,13 @@ const SearchMode = props => {
                     </Grid>
                     :
                     branchProducts.map((branchProduct) =>
-                    <Grid key={branchProduct.productId} item xs={12} style={{padding: '4px 8px' , position: 'relative'}} className={`mx-0 px-1`}>
-                        <div
-                            onClick={addProductHandler.bind(this, branchProduct.productId)}
-                        >
-                            <ProductCardHorizontal product={branchProduct.product.fetch()}>
+                        <Grid key={branchProduct.productId} item xs={12} style={{padding: '4px 8px' , position: 'relative'}} className={`mx-0 px-1`}>
+                            <ProductCardHorizontal addProductPrice={props.addProductPrice} add={true} addProductHandler={addProductHandler.bind(this)} product={branchProduct.product.fetch()}>
                                 {new BranchProductService(branchProduct).getSellingPrice() ? `Selling price: GHC ${new BranchProductService(branchProduct).getSellingPrice()}` : `No selling price`}
                             </ProductCardHorizontal>
-
-                        </div>
-                    </Grid>
+                        </Grid>
                 )}
-                
+
                 {/* {products.map((item) =>
                     <Grid key={item.pro_id} item xs={12} style={{padding: '4px 8px' , position: 'relative'}} className={`mx-0 px-1`}>
                         <div onClick={addProductHandler.bind(this, item.pro_id)}>

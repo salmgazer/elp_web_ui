@@ -69,7 +69,6 @@ const Drawer = props => {
     };
 
     const [syncOpen, setSyncOpen] = React.useState(false);
-    console.log(state, syncOpen)
 
     const database = useDatabase();
 

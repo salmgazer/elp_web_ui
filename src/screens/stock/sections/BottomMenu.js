@@ -64,7 +64,7 @@ const BottomMenu = props => {
     };
 
     const saveChangePrice = async() => {
-        setNewLoading(true)
+        setNewLoading(true);
 
         const response = await new BranchStockService().changeProductSellingPrice(changePriceFields);
 
@@ -96,7 +96,6 @@ const BottomMenu = props => {
 
     const changePriceFieldsHandler = (event) => {
         const {...oldFormFields} = changePriceFields;
-        setNewLoading(false)
 
         oldFormFields[event.target.name] = event.target.value;
 
@@ -193,7 +192,7 @@ const BottomMenu = props => {
                     component="h6"
                     variant="h6"
                     style={{fontSize: '12px'}}
-                    
+
                 >
                     Add stock
                 </Typography>

@@ -15,6 +15,8 @@ import BranchProductService from "../../../../services/BranchProductService";
 // import BranchStockService from "../../../../services/BranchStockService";
 import ProductServiceHandler from "../../../../services/ProductServiceHandler";
 import LocalInfo from "../../../../services/LocalInfo";
+import ModelAction from "../../../../services/ModelAction";
+import BranchProduct from "../../../../models/branchesProducts/BranchProduct";
 
 const useStyles = makeStyles(theme => ({
     root: {
@@ -55,18 +57,12 @@ const AddProductView = props => {
     const [costPrice , setCostPrice] = useState(0);
     const [sellingPrice , setSellingPrice] = useState(branchProduct.sellingPrice);
     const [errorDialog, setErrorDialog] = useState(false);
-    const [formFields , setFormFields] = useState({
-        sellingPrice: branchProduct.sellingPrice,
-        costPrice: "",
-        productId: branchProduct.productId,
-        branchProductId: branchProduct.id,
-        branchId: LocalInfo.branchId,
-    });
+    const [loading, setLoading] = useState(false);
 
     const [changePriceFields , setChangePriceFields] = useState({
-        costPrice: "",
+        branchProductId: branchProduct.productId,
         sellingPrice: "",
-    });   
+    });
 
     useEffect(() => {
         if (!product) {
@@ -82,7 +78,7 @@ const AddProductView = props => {
         setProduct(newProduct);
         //setLastHistory(fetchLastHistory);
         setName(newProduct.name);
-        setImage(new ProductServiceHandler(product).getProductImage());
+        setImage(new ProductServiceHandler(newProduct).getProductImage());
         setCostPrice(await productHandler.getCostPrice());
         setSellingPrice(await productHandler.getSellingPrice());
     };
@@ -116,38 +112,46 @@ const AddProductView = props => {
         setChangePriceFields(oldFormFields);
     };
 
-    const saveChangePrice = () => {
-        const {...oldFormFields} = formFields;
+    const saveChangePrice = async () => {
+        setLoading(true);
+        const {...oldFormFields} = changePriceFields;
 
-        oldFormFields['costPrice'] = changePriceFields['costPrice'];
-        oldFormFields['sellingPrice'] = changePriceFields['sellingPrice'];
+        /*oldFormFields['sellingPrice'] = changePriceFields['sellingPrice'];
 
-        setFormFields(oldFormFields);
+        setFormFields(oldFormFields);*/
 
         setChangePriceFields({
             costPrice: "",
             sellingPrice: ""
         });
 
-        if((formFields.costPrice !== "" || parseFloat(formFields.costPrice !== 0)) && (formFields.sellingPrice !== "" || parseFloat(formFields.sellingPrice !== 0))){
-            if(parseFloat(formFields.costPrice) >= parseFloat(formFields.sellingPrice)){
+        if((oldFormFields.sellingPrice !== "" || parseFloat(oldFormFields.costPrice !== 0)) && (oldFormFields.sellingPrice !== "" || parseFloat(oldFormFields.sellingPrice !== 0))){
+            if(parseFloat(costPrice) >= parseFloat(oldFormFields.sellingPrice)){
                 setErrorDialog(true);
+                setLoading(false);
+
                 setTimeout(function(){
                     setErrorDialog(false);
                 }, 3000);
+                setLoading(false);
+
                 return false;
             }
 
         }
 
-        props.updateProduct(formFields);
+        await new ModelAction(BranchProduct.table).update(branchProduct.id , {
+            sellingPrice: parseFloat(oldFormFields.sellingPrice)
+        });
 
         setSuccessDialog(true);
 
         setTimeout(function(){
             setSuccessDialog(false);
-            props.setView(0)
+            props.setView(0);
         }, 2000);
+        setLoading(false);
+
     };
 
     // const setInputValue = (name , value) => {
@@ -206,7 +210,7 @@ const AddProductView = props => {
                     >
                         Current cost price : GHC {costPrice}
                     </Typography>
-                    <label className={`text-dark py-2 text-left`} style={{fontSize: '18px'}}> New cost price</label>
+                    {/*<label className={`text-dark py-2 text-left`} style={{fontSize: '18px'}}> New cost price</label>
 
                     <Paper className={classes.root} >
                         <InputBase
@@ -218,7 +222,7 @@ const AddProductView = props => {
                             onChange={(event) => changePriceFieldsHandler(event)}
                         />
 
-                    </Paper>
+                    </Paper>*/}
                     <Typography
                         component="p"
                         style={{fontSize: '15px' , margin: '0px 0px' , paddingBottom: '7px' , paddingTop: '20px'}}
@@ -239,10 +243,8 @@ const AddProductView = props => {
                             onChange={(event) => changePriceFieldsHandler(event)}
                         />
 
-                    </Paper>              
+                    </Paper>
                 </div>
-
-
             </div>
 
 
@@ -260,6 +262,7 @@ const AddProductView = props => {
                     Cancel
                 </Button>
                 <Button
+                    disabled={loading}
                     variant="contained"
                     style={{'backgroundColor': '#DAAB59' , color: '#333333', padding: '5px 50px'}}
                     onClick={saveChangePrice.bind(this)}

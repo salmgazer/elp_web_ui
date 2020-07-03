@@ -20,7 +20,6 @@ import PriceInput from "../../../../components/Input/PriceInput";
 import QuantityInput from "../../../../components/Input/QuantityInput";
 import Grid from "@material-ui/core/Grid/Grid";
 
-
 function Alert(props) {
     return <MuiAlert elevation={6} variant="filled" {...props} />;
 }
@@ -206,9 +205,7 @@ const AddProductView = props => {
                         ))}
                     </div>
                 </div>
-
             </div>
-
 
             <Box
                 className="shadow1"
