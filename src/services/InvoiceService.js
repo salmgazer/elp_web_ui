@@ -15,7 +15,6 @@ import format from "date-fns/format";
 import startOfWeek from "date-fns/startOfWeek";
 import endOfWeek from "date-fns/endOfWeek";
 import getWeekOfMonth from "date-fns/getWeekOfMonth";
-// import isWithinInterval from "date-fns/isWithinInterval";
 import startOfYear from "date-fns/startOfYear";
 import lastDayOfYear from "date-fns/lastDayOfYear";
 import eachMonthOfInterval from "date-fns/eachMonthOfInterval";
@@ -367,15 +366,13 @@ export default class InvoiceService {
     }
 
     static async getHistorybyCustomer (customerId){
-        const sales = await new ModelAction('Sales').findByColumnNotObserve(
+        return new ModelAction('Sales').findByColumnNotObserve(
             {
                 name: 'customerId',
                 value: customerId,
                 fxn: 'eq'
             }
         );
-
-        return sales;
     }
 
     async getDetailsbyCustomer (customerId) {
