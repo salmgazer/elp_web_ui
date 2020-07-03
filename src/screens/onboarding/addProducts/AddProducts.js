@@ -40,7 +40,7 @@ class AddProducts extends Component{
             let products = await new Api('others').index(
                 {},
                 {'Authorization': `Bearer ${accessToken}`},
-                `https://core-api-dev.mystoreaid.net/v1/client/branches/${branchId}/products`,
+                `https://${Api.apiDomain()}/v1/client/branches/${branchId}/products`,
             );
 
             localStorage.setItem('storeProductsLookup' , JSON.stringify(products.data.products));
@@ -125,7 +125,7 @@ class AddProducts extends Component{
                 branchProductsAdded,
                 {'Authorization': `Bearer ${accessToken}`},
                 {},
-                `https://core-api-dev.mystoreaid.net/v1/client/branches/${branchId}/products`,
+                `https://${Api.apiDomain()}/v1/client/branches/${branchId}/products`,
             );
 
             localStorage.removeItem('branchProductsAdded');
@@ -139,7 +139,7 @@ class AddProducts extends Component{
             let removedProducts = await new Api('others').destroy(
                 {'Authorization': `Bearer ${accessToken}`},
                 {},
-                `https://core-api-dev.mystoreaid.net/v1/client/branches/${branchId}/products?product_ids=${branchProductsRemoved}`,
+                `https://${Api.apiDomain()}/v1/client/branches/${branchId}/products?product_ids=${branchProductsRemoved}`,
             );
 
             localStorage.removeItem('branchProductsRemoved');
@@ -151,7 +151,7 @@ class AddProducts extends Component{
             let removedProducts = await new Api('others').destroy(
                 {'Authorization': `Bearer ${accessToken}`},
                 {},
-                `https://core-api-dev.mystoreaid.net/v1/client/branches/${branchId}/histories?history_ids=${branchDeletedHistory}`,
+                `https://${Api.apiDomain()}/v1/client/branches/${branchId}/histories?history_ids=${branchDeletedHistory}`,
             );
 
             localStorage.removeItem('branchDeletedHistory');

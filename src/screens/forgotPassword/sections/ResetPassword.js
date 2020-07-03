@@ -109,7 +109,7 @@ const ResetPassword = props => {
                 userData,
                 {},
                 {},
-                `https://core-api-dev.mystoreaid.net/v1/client/users/reset_password`,
+                `https://${Api.apiDomain()}/v1/client/users/reset_password`,
             );
 
             setSuccessMsg('Your password has been changed successfully. Please login to your account');

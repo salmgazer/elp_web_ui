@@ -24,11 +24,12 @@ export default class AuthService {
         };
 
         try {
+          console.log(Api.apiDomain());
             let user = await new Api('others').create(
                 params,
                 {},
                 {},
-                'https://core-api-dev.mystoreaid.net/v1/client/users/login',
+                `https://${Api.apiDomain()}/v1/client/users/login`,
                 'Logging in...'
             );
 
@@ -122,7 +123,7 @@ export default class AuthService {
                 params,
                 {},
                 {},
-                'https://core-api-dev.mystoreaid.net/v1/client/users/register'
+                `https://${Api.apiDomain()}/v1/client/users/register`
             );
 
             if( response ){

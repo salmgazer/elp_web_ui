@@ -29,3 +29,5 @@ yarn-error.log*
 .floo
 .flooignore
 .floorc.json
+
+src/config/environments.json

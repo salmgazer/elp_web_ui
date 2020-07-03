@@ -3,7 +3,7 @@ import LocalInfo from "./LocalInfo";
 import Api from "./Api";
 import globalModels from '../models/globalModels';
 
-const apiUrl = 'https://core-api-dev.mystoreaid.net/v1/client';
+const apiUrl = `https://${Api.apiDomain()}/v1/client`;
 
 export default class SyncService {
   static async sync(companyId, branchId, userId, database) {
