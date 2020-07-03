@@ -53,6 +53,9 @@ export default class InvoiceService {
         Q.oneOf(invoice.map(i => i.id))), Q.where('branchId', LocalInfo.branchId)).fetch();
     }
 
+    static async sellAgain(invoiceId){
+    };
+
     static async weekSalesFormat(invoices , date){
         let weekDaySales = [];
         const newDate = new Date(date);
@@ -227,7 +230,6 @@ export default class InvoiceService {
         let credit = 0;
         let sellingPrice = 0;
         let quantity = 0;
-console.log(invoice, credit, sellingPrice)
         for (let step = 0; step < invoice.length; step++) {
             costPrice += parseFloat(await SaleService.getSaleEntryCostPriceById(invoice[step].id));
         }
@@ -260,8 +262,8 @@ console.log(invoice, credit, sellingPrice)
             invoices: invoice.reverse(),
             costPrice: costPrice.toFixed(2),
             profit: profit.toFixed(2),
-            credit: profit.toFixed(2),
-            sellingPrice: profit.toFixed(2),
+            credit: credit.toFixed(2),
+            sellingPrice: sellingPrice.toFixed(2),
             quantity
         }
     }

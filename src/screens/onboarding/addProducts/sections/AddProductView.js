@@ -45,7 +45,6 @@ const AddProductView = props => {
     const productDetails = new ProductServiceHandler(product);
 
     const saveStock = (event) => {
-        console.log(formFields)
         setLoading(true);
         if((formFields.costPrice !== "" || parseFloat(formFields.costPrice !== 0)) && (formFields.sellingPrice !== "" || parseFloat(formFields.sellingPrice !== 0))){
             if(parseFloat(formFields.costPrice) >= parseFloat(formFields.sellingPrice)){
@@ -94,13 +93,9 @@ const AddProductView = props => {
 
     const setInputValue = (name , value) => {
         const {...oldFormFields} = formFields;
-        console.log(name , value)
-        if(name === 'costPrice'){
-            console.log('This came in')
-        }
+
         oldFormFields[name] = value;
         setFormFields(oldFormFields);
-        console.log(oldFormFields);
     };
 
     const handleCloseSnack = (event, reason) => {

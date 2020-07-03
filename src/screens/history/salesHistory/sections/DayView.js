@@ -55,7 +55,7 @@ const DayView = props => {
             let activeHistoryIndex = localStorage.getItem("activeHistoryIndex") || '';
 
             if(activeHistoryIndex){
-                setSelectedDate(activeHistoryIndex)
+                setSelectedDate(activeHistoryIndex);
                 getSaleDetails(activeHistoryIndex);
                 localStorage.removeItem("activeHistoryIndex")
             }else{
@@ -255,23 +255,6 @@ const DayView = props => {
             <Box style={{marginTop: '5px' , paddingBottom: '60px'}} p={1} className={`mt-3 mb-5`}>
                 {sales.length === 0
                     ?
-                    // <div className={`rounded mx-1 my-2 p-2 bordered`}>
-                    //     <Grid container spacing={1} className={`py-1`}>
-                    //         <Grid
-                    //             item xs={12}
-                    //             className={`text-left pl-2`}
-                    //         >
-                    //             <Typography
-                    //                 component="h6"
-                    //                 variant="h6"
-                    //                 style={{fontSize: '16px'}}
-                    //                 className={`text-center text-dark`}
-                    //             >
-                    //                 No sales made
-                    //             </Typography>
-                    //         </Grid>
-                    //     </Grid>
-                    // </div>
                     <div>
                         <Box component="div" m={2} style={{marginTop: '-1rem'}} >
                             <img className="img100" src={Empty} alt={'payment'}/>

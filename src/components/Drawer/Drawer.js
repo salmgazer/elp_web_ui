@@ -31,6 +31,7 @@ import CloudDoneIcon from '@material-ui/icons/CloudDone';
 import HelpIcon from '@material-ui/icons/Help';
 import formatDistanceToNow from 'date-fns/formatDistanceToNow';
 import fromUnixTime from 'date-fns/fromUnixTime';
+import RequestLoader from "../Loader/RequestLoader";
 
 const useStyles = makeStyles((theme) => ({
     list: {
@@ -61,6 +62,7 @@ const Drawer = props => {
     );
 
     const [open, setOpen] = React.useState(false);
+    const [logoutPop, setLogoutPop] = React.useState(false);
 
     const handleClick = () => {
         setOpen(!open);
@@ -91,12 +93,16 @@ const Drawer = props => {
     };*/
 
      const sync = async() => {
+         setLogoutPop(true);
+
          setSyncOpen(true);
          //backDrop();
          await SyncService.sync(LocalInfo.companyId, LocalInfo.branchId, LocalInfo.userId, database);
 
          alert("About to sync");
          alert("Done syncing");
+         //setLogoutPop(false);
+
          handleSyncClose();
      };
 
@@ -134,6 +140,7 @@ const Drawer = props => {
     // }
 
     const logout = async() => {
+        setLogoutPop(true);
         try {
             await SyncService.sync(LocalInfo.companyId, LocalInfo.branchId, LocalInfo.userId, database);
             await new AuthService().logout();
@@ -141,6 +148,8 @@ const Drawer = props => {
         }catch (e) {
             console.log(e)
         }
+        setLogoutPop(false);
+
     };
 
     const sideList = side => (
@@ -150,6 +159,10 @@ const Drawer = props => {
             onClick={toggleDrawer(side, false)}
             onKeyDown={toggleDrawer(side, false)}
         >
+            <RequestLoader
+                open={logoutPop}
+            />
+
             <span className="drawerDefault"
                 onClick={() => history.push(paths.dashboard)}
                 style={{display: 'flex', position: 'relative', background: '#ffffff', lineHeight: '27px', color: '#403C3C'}}

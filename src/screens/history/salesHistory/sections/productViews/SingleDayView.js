@@ -297,7 +297,7 @@ const SingleDayView = props => {
 
                             <label className={`text-dark py-2 text-center`} style={{fontSize: '18px', fontWeight: '600', paddingTop: '100px'}}> Pick new date </label>
 
-                            <Dates style={{margin: '5px 40px 0px 40px', border: '1px solid #e5e5e5', backgroundColor: '#FFFFFF', width: '150px'}} initialValue={fromUnixTime(sale.entryDate)} getValue={setDate.bind(this)} />
+                            <Dates style={{margin: '5px 40px 0px 40px', border: '1px solid #e5e5e5', backgroundColor: '#FFFFFF', width: '150px'}} initialDate={fromUnixTime(sale.entryDate)} getValue={setDate.bind(this)} />
 
                             <Grid container spacing={1} style={{marginTop: '50px'}}>
                                 <Grid item xs={6}>

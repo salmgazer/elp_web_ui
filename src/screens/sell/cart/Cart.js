@@ -33,7 +33,6 @@ class Cart extends Component{
         const {cartEntries , branchCustomers} = this.props;
 
         this.state.cartId = await new CartService().cartId();
-        console.log(branchCustomers);
 
         await this.setState({
             productList: cartEntries,

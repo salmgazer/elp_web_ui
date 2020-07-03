@@ -45,9 +45,9 @@ const SingleDayInvoice = props => {
     useEffect(() => {
         // You need to restrict it at some point
         // This is just dummy code and should be replaced by actual
-        if (!customer || !payment || !total) {
+        //if (!customer || !payment || !total) {
             getCustomer();
-        }
+        //}
     });
 
     const getCustomer = async () => {
@@ -70,6 +70,10 @@ const SingleDayInvoice = props => {
 
     const viewPaymentDetails = (id) => {
         props.viewPaymentDetails(id, 5);
+    };
+
+    const sellAgainHandler = () => {
+
     };
 
     return(
@@ -110,16 +114,11 @@ const SingleDayInvoice = props => {
                         }
                     </div>
                 </Grid>
-
             </Grid>
-
-
 
             <MainDialog handleDialogClose={closeDialogHandler.bind(this)} states={mainDialog} >
                 <div className="row pt-0 mx-auto text-center w-100" >
-
                     <Grid container spacing={1} className={`shadow1 mb-3 `} >
-
                         <Grid item xs={7} style={{display: 'table', height: '60px', margin: '8px 0px'}}>
                             <div style={{textAlign: 'left', display: 'table-cell', verticalAlign: 'middle'}}>
                                 <div className='text-dark font-weight-bold' style={{ fontSize: '16px', marginLeft: '10px'}} >{customer ? `${customer.firstName} ${customer.otherNames}` : 'Cash Customer'}</div>
@@ -157,7 +156,7 @@ const SingleDayInvoice = props => {
                     </Grid>
 
                     <Box style={{marginTop: '5px' , paddingBottom: '60px'}} p={1} className={`mt-3 mb-5`}>
-                        {saleEntries.map((item) => <SingleDayProduct  key={item.id} saleEntry={item} deleteStoreProduct={deleteProductHandler.bind(this)} updateSaleEntry={props.updateSaleEntry} updatePriceEntry={props.updateSaleEntry} updateDateEntry={props.updateSaleEntry} />)}
+                        {saleEntries.map((item) => <SingleDayProduct  key={item.id} saleEntry={item} deleteStoreProduct={deleteProductHandler.bind(this)} updateSaleEntry={props.updateSaleEntry} updatePriceEntry={props.updateSaleEntry} updateDateEntry={props.updateDateEntry} />)}
                     </Box>
 
                     {/* <Grid container spacing={1} className={`shadow1 mb-3`}> */}
@@ -181,26 +180,20 @@ const SingleDayInvoice = props => {
 
                         <Grid>
                             <Typography >
-                                <Link to={paths.sell}  style={{ color: '#DAAB59', marginRight: '60px'}}>
+                                <div onClick={sellAgainHandler.bind(this)} style={{ color: '#DAAB59', marginRight: '60px'}}>
                                     Sell again
-                                </Link>
+                                </div>
 
-
-
-                                <Link to="/invoice-history" onClick={closeDialogHandler.bind(this)}  style={{textAlign: 'right', color: '#DAAB59'}} >
+                                <div onClick={closeDialogHandler.bind(this)}  style={{textAlign: 'right', color: '#DAAB59'}} >
                                     Close
-                                </Link>
+                                </div>
                             </Typography>
                         </Grid>
 
                     {/* </Grid> */}
-
                 </div>
-
             </MainDialog>
-
         </div>
-
     );
 };
 
