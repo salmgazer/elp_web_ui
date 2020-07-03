@@ -65,7 +65,6 @@ class CategorySetup extends Component{
                 'subcategories' : newCategory.data.allChildren
             });
 
-            console.log(newCategory.data);
         }catch (error) {
             console.log(error)
         }
@@ -75,7 +74,7 @@ class CategorySetup extends Component{
         //const stateSubcategories = this.state.subcategories;
 
         let branchCategories = JSON.parse(localStorage.getItem('categoryLookup'));
-        console.log(branchCategories);
+
         const searchResults = branchCategories.filter((item) => {
             return item.parentId === itemId;
         });
@@ -87,7 +86,6 @@ class CategorySetup extends Component{
     };
 
     addSubCategoryHandler = (subCategoryId , event) => {
-        console.log(subCategoryId);
         let branchCategoriesAdded = JSON.parse(localStorage.getItem('branchCategoriesAdded')) || [];
         let branchCategoriesRemoved = JSON.parse(localStorage.getItem('branchCategoriesRemoved')) || [];
 
@@ -95,7 +93,7 @@ class CategorySetup extends Component{
 
         const subcategories = old_subcategories.findIndex((item => item.id === subCategoryId));
         const item = {...old_subcategories[subcategories]};
-        console.log(item)
+
         if(item.owned){
             return false;
         }else{
@@ -198,7 +196,8 @@ class CategorySetup extends Component{
     handleFinish = async() => {
         this.setState({
             loading: true,
-        })
+        });
+
         const { history } = this.props;
         const branchCategories = (this.state.subcategories).filter(item => item.owned === true);
 
@@ -206,34 +205,44 @@ class CategorySetup extends Component{
 
         const branchId = localStorage.getItem('activeBranch');
         const accessToken = localStorage.getItem('accessToken');
-        const branchAddedCategories = localStorage.getItem('branchCategoriesAdded');
+        const branchAddedCategories = localStorage.getItem('branchCategoriesAdded') || [];
 
-        try {
-            let branchCategories = await new Api('others').create(
-                {},
-                {'Authorization': `Bearer ${accessToken}`},
-                {},
-                `https://core-api-dev.mystoreaid.net/v1/client/branches/${branchId}/product_categories?product_category_ids=${branchAddedCategories}`,
-            );
+        if(branchAddedCategories === null || branchAddedCategories.length === 0){
+            this.setState({
+                loading: true,
+            });
 
-            if(branchCategories){
-                history.push(paths.add_products);
+            history.push(paths.add_products);
+        }else{
+            try {
+                let branchCategories = await new Api('others').create(
+                    {},
+                    {'Authorization': `Bearer ${accessToken}`},
+                    {},
+                    `https://core-api-dev.mystoreaid.net/v1/client/branches/${branchId}/product_categories?product_category_ids=${branchAddedCategories}`,
+                );
+
+                if(branchCategories){
+                    history.push(paths.add_products);
+                }
+
+                this.setState({
+                    errorDialog: true,
+                    errorMsg: 'Something went wrong. Please try again'
+                });
+            }catch (error) {
+                this.setState({
+                    errorDialog: true,
+                    errorMsg: error
+                });
+                console.log(error)
             }
-
             this.setState({
-                errorDialog: true,
-                errorMsg: 'Something went wrong. Please try again'
-            });
-        }catch (error) {
-            this.setState({
-                errorDialog: true,
-                errorMsg: error
-            });
-            console.log(error)
+                loading: true,
+            })
         }
-        this.setState({
-            loading: true,
-        })
+
+
     };
 
     render(){
