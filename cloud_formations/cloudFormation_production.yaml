@@ -165,7 +165,6 @@ Resources:
                 - npm install
             build:
               commands:
-                - aws s3 cp s3://elp-keys/elp_web_app/environments_production.json src/config/environments.json --region us-east-2
                 - echo Build started on `date`
                 - npm run build
             post_build:
