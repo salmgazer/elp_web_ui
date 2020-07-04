@@ -18,6 +18,7 @@ import AccessTimeIcon from '@material-ui/icons/AccessTime';
 import AddIcon from '@material-ui/icons/Add';
 import StoreIcon from '@material-ui/icons/Store';
 import LocationOnIcon from '@material-ui/icons/LocationOn';
+import paths from '../../../utilities/paths';
 
 const PageInfo = props => {
     const { history } = props;
@@ -81,11 +82,11 @@ const PageInfo = props => {
 
                             <Grid item xs={3} sm />
 
-                            <Grid xs={1} style={{ marginTop: "8px"}}>
+                            <Grid xs={1} style={{ marginTop: "8px"}} onClick={() => history.push(paths.sales_history)}> 
                                 <EventIcon />
                             </Grid>
 
-                            <Grid item xs={8} sm container >
+                            <Grid item xs={8} sm container onClick={() => history.push(paths.sales_history)}>
                                 <Grid item xs container direction="column" spacing={2} style={{textAlign: "left" , paddingLeft: "2px"}}>
                                     <Grid item xs>
                                         <Typography className="menu-item" style={{fontSize: "0.9rem" , fontWeight: "500", marginTop: '10px'}}>
@@ -100,11 +101,11 @@ const PageInfo = props => {
 
                             <Grid item xs={3} sm />
 
-                            <Grid xs={1} style={{ marginTop: "8px"}}>
+                            <Grid xs={1} style={{ marginTop: "8px"}} onClick={() => history.push(paths.purchase_history)}>
                                 <EventIcon />
                             </Grid>
 
-                            <Grid item xs={8} sm container >
+                            <Grid item xs={8} sm container onClick={() => history.push(paths.purchase_history)}>
                                 <Grid item xs container direction="column" spacing={2} style={{textAlign: "left" , paddingLeft: "2px"}}>
                                     <Grid item xs>
                                         <Typography className="menu-item" style={{fontSize: "0.9rem" , fontWeight: "500", marginTop: '10px'}}>
@@ -161,11 +162,11 @@ const PageInfo = props => {
 
                             <Grid item xs={3} sm />
 
-                            <Grid xs={1} style={{marginTop: "5px" }}>
+                            <Grid xs={1} style={{marginTop: "5px" }} onClick={() => history.push(paths.audit)}>
                                 <SearchIcon />
                             </Grid>
 
-                            <Grid item xs={8} sm container >
+                            <Grid item xs={8} sm container onClick={() => history.push(paths.audit)}>
                                 <Grid item xs container direction="column" spacing={2} style={{textAlign: "left" , paddingLeft: "2px"}}>
                                     <Grid item xs>
                                         <Typography className="menu-item" style={{fontSize: "0.9rem" , fontWeight: "500", marginTop: '10px'}}>
@@ -180,12 +181,12 @@ const PageInfo = props => {
 
                             <Grid item xs={3} sm />
 
-                            <Grid xs={1} style={{marginTop: "5px" }}>
+                            <Grid xs={1} style={{marginTop: "5px" }} onClick={() => history.push(paths.audit)}>
                                 <SearchIcon />
                             </Grid>
 
-                            <Grid item xs={8} sm container >
-                                <Grid item xs container direction="column" spacing={2} style={{textAlign: "left" , paddingLeft: "2px"}}>
+                            <Grid item xs={8} sm onClick={() => history.push(paths.audit)} >
+                                <Grid item xs direction="column" spacing={2} style={{textAlign: "left" , paddingLeft: "2px"}}>
                                     <Grid item xs>
                                         <Typography className="menu-item" style={{fontSize: "0.9rem" , fontWeight: "500", marginTop: '10px'}}>
                                              Audit shop
@@ -222,11 +223,11 @@ const PageInfo = props => {
 
                             <Grid item xs={3} sm />
 
-                            <Grid xs={1} style={{marginTop: "5px" }}>
+                            <Grid xs={1} style={{marginTop: "5px" }} onClick={() => history.push(paths.invoice_history)}>
                                 <ListIcon />
                             </Grid>
 
-                            <Grid item xs={8} sm container >
+                            <Grid item xs={8} sm container onClick={() => history.push(paths.invoice_history)}>
                                 <Grid item xs container direction="column" spacing={2} style={{textAlign: "left" , paddingLeft: "2px"}}>
                                     <Grid item xs>
                                         <Typography className="menu-item" style={{fontSize: "0.9rem" , fontWeight: "500", marginTop: '8px'}}>
@@ -241,12 +242,12 @@ const PageInfo = props => {
 
                             <Grid item xs={3} sm />
 
-                            <Grid xs={1} style={{marginTop: "5px" }}>
+                            <Grid xs={1} style={{marginTop: "5px" }} onClick={() => history.push(paths.purchase_history)}>
                                 <ListIcon />
                             </Grid>
 
-                            <Grid item xs={8} sm container >
-                                <Grid item xs container direction="column" spacing={2} style={{textAlign: "left" , paddingLeft: "2px"}}>
+                            <Grid item xs={8} sm onClick={() => history.push(paths.purchase_history)} >
+                                <Grid item xs  direction="column" spacing={2} style={{textAlign: "left" , paddingLeft: "2px"}}>
                                     <Grid item xs>
                                         <Typography className="menu-item" style={{fontSize: "0.9rem" , fontWeight: "500", marginTop: '8px'}}>
                                             Purchases
@@ -260,12 +261,12 @@ const PageInfo = props => {
 
                             <Grid item xs={3} sm />
 
-                            <Grid xs={1} style={{marginTop: "5px" }}>
+                            <Grid xs={1} style={{marginTop: "5px" }} onClick={() => history.push(paths.sales_history)}>
                                 <ListIcon />
                             </Grid>
 
-                            <Grid item xs={8} sm container >
-                                <Grid item xs container direction="column" spacing={2} style={{textAlign: "left" , paddingLeft: "2px"}}>
+                            <Grid item xs={8} sm onClick={() => history.push(paths.sales_history)} >
+                                <Grid item xs  direction="column" spacing={2} style={{textAlign: "left" , paddingLeft: "2px"}}>
                                     <Grid item xs>
                                         <Typography className="menu-item" style={{fontSize: "0.9rem" , fontWeight: "500", marginTop: '8px'}}>
                                             Sales
@@ -279,12 +280,12 @@ const PageInfo = props => {
 
                             <Grid item xs={3} sm />
 
-                            <Grid xs={1} style={{marginTop: "5px" }}>
+                            <Grid xs={1} style={{marginTop: "5px" }} onClick={() => history.push(paths.audit)}>
                                 <ListIcon />
                             </Grid>
 
-                            <Grid item xs={8} sm container >
-                                <Grid item xs container direction="column" spacing={2} style={{textAlign: "left" , paddingLeft: "2px"}}>
+                            <Grid item xs={8} sm onClick={() => history.push(paths.audit)} >
+                                <Grid item xs  direction="column" spacing={2} style={{textAlign: "left" , paddingLeft: "2px"}}>
                                     <Grid item xs>
                                         <Typography className="menu-item" style={{fontSize: "0.9rem" , fontWeight: "500", marginTop: '8px'}}>
                                             Audit
@@ -313,11 +314,11 @@ const PageInfo = props => {
 
                     <Grid container style={{borderBottom: "1px solid #d8d2d2" , padding: "3px 0px", borderTop: "1px solid #d8d2d2" }} >  
 
-                        <Grid xs={2} style={{marginTop: "10px" }}>
+                        <Grid xs={2} style={{marginTop: "10px" }} onClick={() => history.push(paths.category_setup)}>
                             <AddIcon />
                         </Grid>
 
-                        <Grid item xs={10} style={{ marginTop: "10px" }} >
+                        <Grid item xs={10} style={{ marginTop: "10px" }} onClick={() => history.push(paths.category_setup)}>
                             <Grid item xs  style={{textAlign: "left" ,  paddingBottom: "0px"}}>
                                 <Typography style={{fontSize: "15px"}}>
                                     Add new product
@@ -328,12 +329,12 @@ const PageInfo = props => {
 
                     <Grid container style={{borderBottom: "1px solid #d8d2d2" , padding: "3px 0px", borderTop: "1px solid #d8d2d2" }} >  
 
-                        <Grid xs={2} style={{marginTop: "10px" }}>
+                        <Grid xs={2} style={{marginTop: "10px" }} onClick={() => history.push(paths.dashboard)}>
                             <StoreIcon />
                         </Grid>
 
                         <Grid item xs={10} style={{ marginTop: "10px" }} >
-                            <Grid item xs  style={{textAlign: "left" ,  paddingBottom: "0px"}}>
+                            <Grid item xs  style={{textAlign: "left" ,  paddingBottom: "0px"}} onClick={() => history.push(paths.dashboard)}>
                                 <Typography style={{fontSize: "15px"}}>
                                     Enter shop
                                 </Typography>                                      

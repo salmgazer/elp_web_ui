@@ -110,7 +110,6 @@ const SearchMode = props => {
     });
 
     const products = props.products;
-
     const optionGroupClasses = optionGroupStyles();
 
     const addProductHandler = (id) => {
@@ -167,13 +166,13 @@ const SearchMode = props => {
                 </Grid>
             </Grid>
 
-            <Grid container spacing={1} className='mt-3'>
                 {
                     products.length > 0 ?
                         <Suspense fallback={<ComponentLoader text={`Loading products...`}/>}>
                             {<ProductsView addProductHandler={addProductHandler.bind(this)} removeProductHandler={removeProductHandler.bind(this)} products={products} />}
                         </Suspense>
                     :
+                    <Grid container spacing={1} className='mt-3'>
                         <div style={{
                             display: 'flex',
                             alignItem: 'center',
@@ -201,9 +200,9 @@ const SearchMode = props => {
                                 </Button>
                             </div>
                         </div>
+                    </Grid>
                 }
 
-            </Grid>
         </div>
     );
 };

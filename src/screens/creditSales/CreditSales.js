@@ -7,11 +7,11 @@ import withObservables from "@nozbe/with-observables";
 import ModelAction from "../../services/ModelAction";
 import Payment from './sections/Payment';
 import MainPage from './sections/MainPage';
-import CustomerService from '../../services/CustomerService';
 import { Q } from '@nozbe/watermelondb'
 import LocalInfo from "../../services/LocalInfo";
 import BranchCustomer from "../../models/branchesCustomer/BranchCustomer";
 import Sales from "../../models/sales/Sales";
+import SaleService from '../../services/SaleService';
 
 class CreditSales extends Component{
 
@@ -69,9 +69,9 @@ class CreditSales extends Component{
 
     async searchCustomerHandler(searchValue){
         try{
-            const customers = await new CustomerService().searchBranchCustomer(searchValue);
+            const customers = await new SaleService().searchSalesBranchCustomer(searchValue);
             this.setState({
-                branchCustomers: customers,
+                allSales: customers,
             });
         }catch (e) {
             return false;

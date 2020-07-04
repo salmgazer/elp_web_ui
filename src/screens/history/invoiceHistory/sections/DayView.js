@@ -21,6 +21,7 @@ import paths from "../../../../utilities/paths";
 import ModelAction from "../../../../services/ModelAction";
 import SimpleSnackbar from "../../../../components/Snackbar/SimpleSnackbar";
 import getUnixTime from "date-fns/getUnixTime";
+import EmptyContainer from "../../../../components/Empty/EmptyContainer";
 
 const useStyles = makeStyles(theme => ({
     root: {
@@ -63,6 +64,8 @@ const DayView = props => {
     const [errorMsg , setErrorMsg] = useState('');
     const [success , setSuccess] = useState(false);
     const [successMsg , setSuccessMsg] = useState('');
+    const [headerText , setHeaderText] = useState('');
+    const [emptyBtnState , setEmptyBtnState] = useState(true);
 
     const handleDateChange = date => {
         setSelectedDate(date);
@@ -98,6 +101,8 @@ const DayView = props => {
         }else{
             response = await new InvoiceService().getInvoiceDetails('day' , date);
         }
+        setHeaderText('Seems you don\'t have any sales available');
+        setEmptyBtnState(true);
         setInvoiceDetails(response);
         setInvoices(response.invoices);
     };
@@ -246,29 +251,13 @@ const DayView = props => {
             <Box style={{marginTop: '5px' , paddingBottom: '60px'}} p={1} className={`mt-3 mb-5`}>
                 {invoices.length === 0
                     ?
-                    <div>
-                        <Box component="div" m={2} style={{marginTop: '-1rem'}} >
-                            <img className="img100" src={Empty} alt={'payment'}/>
-                        </Box>
-
-
-                        <Typography className='text-dark font-weight-bold' style={{ fontSize: '17px', padding: '0px 0px 10px 0px' }} >
-                            Seems you have not sold any product
-                        </Typography>
-
-
-                        <Typography className='font-weight-light mt-1' style={{ fontSize: '15px', marginBottom: '20px' }} >
-                                Click sell to be able to view invoice history
-                        </Typography>
-
-                        <Button
-                            variant="contained"
-                            style={{'backgroundColor': '#DAAB59' , color: '#333333', padding: '5px 40px', textTransform: 'none', fontSize:'17px'}}
-                            onClick={() => history.push(paths.sell)}
-                        >
-                            Record sales
-                        </Button>
-                    </div>
+                    <EmptyContainer
+                        buttonAction={() => history.push(paths.sell)}
+                        imageLink={Empty}
+                        headerText={headerText}
+                        button={emptyBtnState}
+                        btnText="Record sales"
+                    />
                     :
                     pageName === false ?
 

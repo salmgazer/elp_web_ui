@@ -19,8 +19,8 @@ import getUnixTime from "date-fns/getUnixTime";
 import ModelAction from "../../../../services/ModelAction";
 import {confirmAlert} from "react-confirm-alert";
 import Empty from '../../../../assets/img/empty.png';
-import Button from "@material-ui/core/Button/Button";
 import paths from "../../../../utilities/paths";
+import EmptyContainer from "../../../../components/Empty/EmptyContainer";
 
 const useStyles = makeStyles(theme => ({
     root: {
@@ -41,6 +41,8 @@ const DayView = props => {
     const [errorMsg , setErrorMsg] = useState('');
     const [success , setSuccess] = useState(false);
     const [successMsg , setSuccessMsg] = useState('');
+    const [headerText , setHeaderText] = useState('');
+    const [emptyBtnState , setEmptyBtnState] = useState(true);
 
     const handleDateChange = date => {
         setSelectedDate(date);
@@ -70,6 +72,8 @@ const DayView = props => {
             const newProduct = await branchProduct.product.fetch();
             setName(newProduct.name);
         }
+        setHeaderText('Seems you have not bought any product');
+        setEmptyBtnState(true);
         setPurchaseDetails(response);
         setPurchases(response.purchases);
     };
@@ -251,46 +255,13 @@ const DayView = props => {
             <Box style={{marginTop: '5px' , paddingBottom: '60px'}} p={1} className={`mt-3 mb-5`}>
                 {purchases.length === 0
                     ?
-                    // <div className={`rounded mx-1 my-2 p-2 bordered`}>
-                    //     <Grid container spacing={1} className={`py-1`}>
-                    //         <Grid
-                    //             item xs={12}
-                    //             className={`text-left pl-2`}
-                    //         >
-                    //             <Typography
-                    //                 component="h6"
-                    //                 variant="h6"
-                    //                 style={{fontSize: '16px'}}
-                    //                 className={`text-center text-dark`}
-                    //             >
-                    //                 No purchases made
-                    //             </Typography>
-                    //         </Grid>
-                    //     </Grid>
-                    // </div>
-                    <div>
-                        <Box component="div" m={2} style={{marginTop: '-1rem'}} >
-                            <img className="img100" src={Empty} alt={'payment'}/>
-                        </Box>
-
-                        
-                        <Typography className='text-dark font-weight-bold' style={{ fontSize: '17px', padding: '0px 0px 10px 0px' }} >
-                            Seems you have not bought any product
-                        </Typography>
-                        
-
-                        <Typography className='font-weight-light mt-1' style={{ fontSize: '15px', marginBottom: '20px' }} >
-                                Click on Add Stock to be able to view purchase history
-                        </Typography>
-
-                        <Button
-                            variant="contained"
-                            style={{'backgroundColor': '#DAAB59' , color: '#333333', padding: '5px 40px', textTransform: 'none', fontSize:'17px'}}
-                            onClick={() => history.push(paths.stock)}
-                        >
-                            Add stock
-                        </Button>
-                    </div>
+                    <EmptyContainer
+                        buttonAction={() => history.push(paths.stock)}
+                        imageLink={Empty}
+                        headerText={headerText}
+                        button={emptyBtnState}
+                        btnText="Add stock"
+                    />
                     :
                     pageName === false ?
 
