@@ -31,3 +31,5 @@ yarn-error.log*
 .floorc.json
 
 src/config/environments.json
+src/config/environments_production.json
+src/config/environments_qa.json
