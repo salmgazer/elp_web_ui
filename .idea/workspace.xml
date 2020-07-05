@@ -1,10 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="f0e589bc-4276-4788-a686-0858c0f1eaa6" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/src/screens/onboarding/addProducts/AddProducts.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/screens/onboarding/addProducts/AddProducts.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/screens/onboarding/addProducts/sections/search/SearchMode.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/screens/onboarding/addProducts/sections/search/SearchMode.js" afterDir="false" />
-    </list>
+    <list default="true" id="f0e589bc-4276-4788-a686-0858c0f1eaa6" name="Default Changelist" comment="" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -207,8 +204,8 @@
           <file pinned="false" current-in-tab="false">
             <entry file="file://$PROJECT_DIR$/src/screens/admin/changePrice/sections/AddProductView.js">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="2268">
-                  <caret line="142" column="38" selection-start-line="142" selection-start-column="38" selection-end-line="142" selection-end-column="38" />
+                <state relative-caret-position="2358">
+                  <caret line="143" column="38" selection-start-line="143" selection-start-column="38" selection-end-line="143" selection-end-column="38" />
                 </state>
               </provider>
             </entry>
@@ -286,7 +283,7 @@
           <file pinned="false" current-in-tab="true">
             <entry file="file://$PROJECT_DIR$/src/screens/onboarding/addProducts/AddProducts.js">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="346">
+                <state relative-caret-position="6243">
                   <caret line="345" column="22" lean-forward="true" selection-start-line="345" selection-start-column="22" selection-end-line="345" selection-end-column="22" />
                   <folding>
                     <element signature="e#0#39#0" expanded="true" />
@@ -357,7 +354,7 @@
           <file pinned="false" current-in-tab="false">
             <entry file="file://$PROJECT_DIR$/src/screens/onboarding/addProducts/sections/search/SearchMode.js">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="471">
+                <state relative-caret-position="-717">
                   <caret line="128" column="32" selection-start-line="128" selection-start-column="20" selection-end-line="128" selection-end-column="32" />
                   <folding>
                     <element signature="n#!!block;n#StyledRadio#0" />
@@ -388,7 +385,6 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>handleChangeIndex</find>
       <find>handleChange</find>
       <find>&quot;react-router&quot;</find>
       <find>from &quot;react-router&quot;</find>
@@ -418,6 +414,7 @@
       <find>woman</find>
       <find>logo1</find>
       <find>sellingprice</find>
+      <find>optionFilter</find>
     </findStrings>
     <replaceStrings>
       <replace />
@@ -772,16 +769,15 @@
       <workItem from="1593613858038" duration="35391000" />
       <workItem from="1593773227391" duration="41004000" />
       <workItem from="1593881933283" duration="570000" />
-      <workItem from="1593888612528" duration="7662000" />
+      <workItem from="1593888612528" duration="8217000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="814238000" />
+    <option name="totallyTimeSpent" value="814793000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="1913" y="-7" width="1550" height="878" extended-state="6" />
-    <editor active="true" />
     <layout>
       <window_info content_ui="combo" id="Project" order="0" weight="0.17408907" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
@@ -804,7 +800,7 @@
       <window_info anchor="bottom" id="RNConsole" order="13" />
       <window_info anchor="bottom" id="Regex Tester" order="14" />
       <window_info anchor="bottom" id="Event Log" order="15" side_tool="true" />
-      <window_info anchor="bottom" id="Terminal" order="16" weight="0.49798658" />
+      <window_info active="true" anchor="bottom" id="Terminal" order="16" visible="true" weight="0.49798658" />
       <window_info anchor="bottom" id="Database Console" order="17" weight="0.32885906" />
       <window_info anchor="bottom" id="TypeScript" order="18" />
       <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
@@ -1062,8 +1058,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/screens/admin/changePrice/sections/AddProductView.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="2268">
-          <caret line="142" column="38" selection-start-line="142" selection-start-column="38" selection-end-line="142" selection-end-column="38" />
+        <state relative-caret-position="2358">
+          <caret line="143" column="38" selection-start-line="143" selection-start-column="38" selection-end-line="143" selection-end-column="38" />
         </state>
       </provider>
     </entry>
@@ -1168,16 +1164,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/screens/onboarding/addProducts/sections/search/SearchMode.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="471">
-          <caret line="128" column="32" selection-start-line="128" selection-start-column="20" selection-end-line="128" selection-end-column="32" />
-          <folding>
-            <element signature="n#!!block;n#StyledRadio#0" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/screens/onboarding/addProducts/sections/MainView.js">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="659">
@@ -1192,9 +1178,19 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/src/screens/onboarding/addProducts/sections/search/SearchMode.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-717">
+          <caret line="128" column="32" selection-start-line="128" selection-start-column="20" selection-end-line="128" selection-end-column="32" />
+          <folding>
+            <element signature="n#!!block;n#StyledRadio#0" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/src/screens/onboarding/addProducts/AddProducts.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="346">
+        <state relative-caret-position="6243">
           <caret line="345" column="22" lean-forward="true" selection-start-line="345" selection-start-column="22" selection-end-line="345" selection-end-column="22" />
           <folding>
             <element signature="e#0#39#0" expanded="true" />
