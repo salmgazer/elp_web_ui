@@ -107,9 +107,11 @@ const SearchMode = props => {
     const [searchValue , setSearchValue] = useState({
         search: props.searchValue,
         productOption: 'all',
+        searchState: false
     });
 
     const products = props.products;
+    //console.log(products)
     const optionGroupClasses = optionGroupStyles();
 
     const addProductHandler = (id) => {
@@ -132,10 +134,18 @@ const SearchMode = props => {
         const {...oldFormFields} = searchValue;
 
         oldFormFields[name] = value;
+        oldFormFields['searchState'] = true;
 
         setSearchValue(oldFormFields);
-
         props.searchHandler(value);
+    };
+
+    const setSearchState = () => {
+        const {...oldFormFields} = searchValue;
+
+        oldFormFields['searchState'] = false;
+
+        setSearchValue(oldFormFields);
     };
 
     return(
@@ -169,7 +179,7 @@ const SearchMode = props => {
                 {
                     products.length > 0 ?
                         <Suspense fallback={<ComponentLoader text={`Loading products...`}/>}>
-                            {<ProductsView addProductHandler={addProductHandler.bind(this)} removeProductHandler={removeProductHandler.bind(this)} products={products} />}
+                            {<ProductsView state={searchValue.searchState} isSetSearch={setSearchState.bind(this)} isSearch={searchValue.search} addProductHandler={addProductHandler.bind(this)} removeProductHandler={removeProductHandler.bind(this)} products={products} />}
                         </Suspense>
                     :
                     <Grid container spacing={1} className='mt-3'>

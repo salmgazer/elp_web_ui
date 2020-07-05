@@ -6,9 +6,28 @@ import ProductCard from "../../../../../components/Cards/ProductCard";
 import InfiniteScroll from "react-infinite-scroll-component";
 
 const ProductsView = (props) => {
-    const breakCount = props.products.length > 21 ? 21 : props.products.length;
-    const [products , setProducts] = useState(props.products.slice(0,breakCount));
+    //const [refreshCount , setRefreshCount] = useState(-1);
+    const [breakCount , setBreakCount] = useState(props.products.length > 21 ? 21 : props.products.length);
+    const [products , setProducts] = useState([]);
+    const [currentProducts , setCurrentProducts] = useState([]);
     const [hasMore , setHasMore] = useState(!!(props.products.length >= breakCount));
+
+    useEffect(() => {
+        // You need to restrict it at some point
+        // This is just dummy code and should be replaced by actual
+        if (currentProducts.length !== props.products.length) {
+            getProduct();
+        }
+    });
+
+    const getProduct = () => {
+        const bCount = props.products.length > 21 ? 21 : props.products.length;
+        setBreakCount(bCount);
+        setHasMore(!!(props.products.length >= bCount));
+
+        setProducts(props.products.slice(0,bCount));
+        setCurrentProducts(props.products);
+    };
 
     const addProductHandler = (id) => {
         props.addProductHandler(id);
@@ -37,6 +56,12 @@ const ProductsView = (props) => {
                     next={fetchMoreData}
                     hasMore={hasMore}
                     loader={<h4>Loading...</h4>}
+                    endMessage={
+                        <p style={{textAlign: 'center'}}>
+                            <b>Yay! You have seen it all</b>
+                        </p>
+                    }
+                    hasChildren={true}
                 >
                     <Grid container className='mt-3'>
                         {products.map((item , index) =>
