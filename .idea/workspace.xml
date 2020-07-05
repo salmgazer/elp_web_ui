@@ -1,7 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="f0e589bc-4276-4788-a686-0858c0f1eaa6" name="Default Changelist" comment="" />
+    <list default="true" id="f0e589bc-4276-4788-a686-0858c0f1eaa6" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/src/components/Drawer/Drawer.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/Drawer/Drawer.js" afterDir="false" />
+    </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -94,8 +96,8 @@
           <entry key="companies" value="10" />
           <entry key="customers" value="2" />
           <entry key="html" value="3" />
-          <entry key="js" value="1534" />
-          <entry key="json" value="22" />
+          <entry key="js" value="1537" />
+          <entry key="json" value="23" />
           <entry key="png" value="2" />
           <entry key="scss" value="13" />
           <entry key="sql" value="1" />
@@ -105,6 +107,7 @@
           <entry key="users_branches" value="6" />
           <entry key="users_companies" value="7" />
           <entry key="xml" value="2" />
+          <entry key="yaml" value="1" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.types.open">
@@ -112,19 +115,20 @@
           <entry key="Database Element" value="50" />
           <entry key="HTML" value="3" />
           <entry key="Image" value="2" />
-          <entry key="JSON" value="22" />
-          <entry key="JavaScript" value="1534" />
+          <entry key="JSON" value="23" />
+          <entry key="JavaScript" value="1537" />
           <entry key="SCSS" value="13" />
           <entry key="SVG" value="2" />
           <entry key="Scratch" value="1" />
           <entry key="TypeScript" value="4" />
           <entry key="UML" value="1" />
           <entry key="XML" value="2" />
+          <entry key="YAML" value="1" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.js.language.service.starts">
         <counts>
-          <entry key="ESLintLanguageService" value="20" />
+          <entry key="ESLintLanguageService" value="21" />
           <entry key="TypeScriptServerServiceImpl" value="2" />
         </counts>
       </usages-collector>
@@ -132,7 +136,7 @@
         <counts>
           <entry key="cell" value="252" />
           <entry key="html" value="1" />
-          <entry key="js" value="59413" />
+          <entry key="js" value="59421" />
           <entry key="json" value="454" />
           <entry key="scss" value="49" />
           <entry key="sql" value="60" />
@@ -143,7 +147,7 @@
         <counts>
           <entry key="HTML" value="1" />
           <entry key="JSON" value="454" />
-          <entry key="JavaScript" value="59413" />
+          <entry key="JavaScript" value="59421" />
           <entry key="SCSS" value="49" />
           <entry key="SQL" value="60" />
           <entry key="Scratch" value="252" />
@@ -154,11 +158,29 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
-      <file pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/.gitignore">
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/models/audit/auditSchema.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="352">
-              <caret line="33" selection-start-line="33" selection-end-line="33" />
+            <state relative-caret-position="114">
+              <caret line="6" column="25" selection-start-line="6" selection-start-column="17" selection-end-line="6" selection-end-column="25" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/src/models/auditEntry/auditEntriesSchema.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="266">
+              <caret line="14" column="2" lean-forward="true" selection-start-line="14" selection-start-column="2" selection-end-line="14" selection-end-column="2" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/components/Drawer/Drawer.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="128">
+              <caret line="141" column="10" selection-start-line="141" selection-start-column="10" selection-end-line="141" selection-end-column="10" />
             </state>
           </provider>
         </entry>
@@ -253,7 +275,6 @@
         <option value="$PROJECT_DIR$/src/screens/onboarding/categorySetup/CategorySetup.js" />
         <option value="$PROJECT_DIR$/src/screens/sell/sell/sections/SearchMode/SellSearchMode.js" />
         <option value="$PROJECT_DIR$/src/screens/stock/sections/stockMainPage.js" />
-        <option value="$PROJECT_DIR$/src/components/Drawer/Drawer.js" />
         <option value="$PROJECT_DIR$/src/components/Drawer/BottomDrawer/BottomDrawer.js" />
         <option value="$PROJECT_DIR$/src/screens/admin/changePrice/sections/MainView.js" />
         <option value="$PROJECT_DIR$/src/screens/admin/changePrice/sections/SearchMode.js" />
@@ -267,6 +288,7 @@
         <option value="$PROJECT_DIR$/src/screens/onboarding/addProducts/sections/search/SearchMode.js" />
         <option value="$PROJECT_DIR$/src/screens/onboarding/addProducts/AddProducts.js" />
         <option value="$PROJECT_DIR$/src/config/environments.json" />
+        <option value="$PROJECT_DIR$/src/components/Drawer/Drawer.js" />
       </list>
     </option>
   </component>
@@ -314,7 +336,20 @@
               <item name="web-ui" type="b2602c69:ProjectViewProjectNode" />
               <item name="web-ui" type="462c0819:PsiDirectoryNode" />
               <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="config" type="462c0819:PsiDirectoryNode" />
+              <item name="models" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="web-ui" type="b2602c69:ProjectViewProjectNode" />
+              <item name="web-ui" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="models" type="462c0819:PsiDirectoryNode" />
+              <item name="auditEntry" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="web-ui" type="b2602c69:ProjectViewProjectNode" />
+              <item name="web-ui" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="screens" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="web-ui" type="b2602c69:ProjectViewProjectNode" />
@@ -393,7 +428,7 @@
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="815290000" />
+    <option name="totallyTimeSpent" value="817002000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="1913" y="-7" width="1550" height="878" extended-state="6" />
@@ -438,27 +473,6 @@
     <option name="myLimit" value="2678400000" />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/src/screens/history/invoiceHistory/sections/singleView/SingleDayProduct.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="4482">
-          <caret line="272" column="157" selection-start-line="272" selection-start-column="157" selection-end-line="272" selection-end-column="157" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/components/Date/Date.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="54">
-          <caret line="9" column="66" selection-start-line="9" selection-start-column="55" selection-end-line="9" selection-end-column="66" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/screens/history/invoiceHistory/sections/WeekView.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="3150">
-          <caret line="193" column="17" selection-start-line="193" selection-start-column="17" selection-end-line="193" selection-end-column="17" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/screens/history/invoiceHistory/sections/MonthView.js">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="3096">
@@ -568,13 +582,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="378">
           <caret line="21" selection-start-line="21" selection-end-line="21" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/components/Drawer/Drawer.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="54">
-          <caret line="71" selection-start-line="71" selection-end-line="71" />
         </state>
       </provider>
     </entry>
@@ -806,8 +813,15 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/config/environments.json">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="114">
-          <caret line="6" column="1" lean-forward="true" selection-start-line="6" selection-start-column="1" selection-end-line="6" selection-end-column="1" />
+        <state relative-caret-position="133">
+          <caret line="7" lean-forward="true" selection-start-line="7" selection-end-line="7" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/cloud_formations/cloudFormation_qa.yaml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="414">
+          <caret line="169" column="19" lean-forward="true" selection-start-line="169" selection-start-column="19" selection-end-line="169" selection-end-column="19" />
         </state>
       </provider>
     </entry>
@@ -815,6 +829,27 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="352">
           <caret line="33" selection-start-line="33" selection-end-line="33" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/components/Drawer/Drawer.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="128">
+          <caret line="141" column="10" selection-start-line="141" selection-start-column="10" selection-end-line="141" selection-end-column="10" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/models/audit/auditSchema.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="114">
+          <caret line="6" column="25" selection-start-line="6" selection-start-column="17" selection-end-line="6" selection-end-column="25" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/models/auditEntry/auditEntriesSchema.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="266">
+          <caret line="14" column="2" lean-forward="true" selection-start-line="14" selection-start-column="2" selection-end-line="14" selection-end-column="2" />
         </state>
       </provider>
     </entry>
