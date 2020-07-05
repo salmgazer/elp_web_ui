@@ -1,7 +1,0 @@
-{
-  "NODE_ENV": "development",
-  "headers": {
-    "X-El-Parah-Hash" : "8opvGdfmc6mJgqH3bcVGsmzj",
-    "X-El-Parah-Client" : "elp-pos-web-ui"
-  }
-}
