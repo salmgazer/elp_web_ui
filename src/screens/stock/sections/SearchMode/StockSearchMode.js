@@ -53,9 +53,10 @@ const StockSearchMode = props => {
 
             <Grid
                 container
-                spacing={1}
-                className={`shadow1 boxMain mx-auto rounded mt-2`}
-                style={{width: '100%', padding: '10px 2% 20px' , marginBottom: '60px'}}
+                //spacing={1}
+                //className={`shadow1 boxMain mx-auto rounded mt-2`}
+                className={`borderRadius10 bg-white px-2 py-2 mt-2`}
+                style={{width: '100%', padding: '10px 0% 20px' }}
             >
                 {branchProducts.length === 0
                     ?
