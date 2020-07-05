@@ -111,7 +111,6 @@ const SearchMode = props => {
     });
 
     const products = props.products;
-    //console.log(products)
     const optionGroupClasses = optionGroupStyles();
 
     const addProductHandler = (id) => {
