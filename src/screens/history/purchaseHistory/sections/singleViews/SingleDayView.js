@@ -51,6 +51,10 @@ const useStyles = makeStyles(theme => ({
         textTransform: 'none',
         fontWeight: 'bold',
         color: '#333333',
+    },
+    tabPrimaryColor: {
+        backgroundColor: `#daab59 !important`,
+        color: `#daab59 !important`,
     }
   }));
 
@@ -210,7 +214,7 @@ const SingleDayView = props => {
 
     return(
         <div>
-            <Grid container spacing={1} className={`shadow1 mb-3 borderRadius10`}>
+            <Grid container spacing={1} className={`bordered-sm mb-3`} style={{borderRadius: '4px'}}>
                 <Grid item xs={3}>
                     <Avatar
                         alt={image}
@@ -281,6 +285,9 @@ const SingleDayView = props => {
                             textColor="primary"
                             variant="fullWidth"
                             aria-label="full width tabs example"
+                            classes= {{
+                                indicator: classes.tabPrimaryColor
+                            }}
                         >
                             <Tab className={classes.tabs} label="Change date"  {...a11yProps(0)} />
                             <Tab className={classes.tabs} label="Change quantity"  {...a11yProps(1)} />

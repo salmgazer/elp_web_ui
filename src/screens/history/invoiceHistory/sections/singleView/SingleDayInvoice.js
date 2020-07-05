@@ -178,16 +178,22 @@ const SingleDayInvoice = props => {
                             </Typography>
                         </CardDefault>
 
-                        <Grid>
-                            <Typography >
-                                <div onClick={sellAgainHandler.bind(this)} style={{ color: '#DAAB59', marginRight: '60px'}}>
-                                    Sell again
-                                </div>
+                        <Grid container style={{textAlign: 'center', paddingBottom: '20px'}}>
+                            <Grid xs={4} onClick={sellAgainHandler.bind(this)} style={{ color: '#DAAB59'}}>
+                                Sell again
+                            </Grid>
 
-                                <div onClick={closeDialogHandler.bind(this)}  style={{textAlign: 'right', color: '#DAAB59'}} >
-                                    Close
-                                </div>
-                            </Typography>
+                            <Grid xs={4} style={{ color: '#DAAB59'}}>
+                                Change date
+                            </Grid>
+
+                            <Grid xs={4} onClick={closeDialogHandler.bind(this)}  style={{ color: '#DAAB59'}}>
+                                Close
+                            </Grid>
+                                
+
+                                
+                            
                         </Grid>
 
                     {/* </Grid> */}

@@ -49,6 +49,10 @@ const useStyles = makeStyles(theme => ({
         textTransform: 'none',
         fontWeight: 'bold',
         color: '#333333',
+    },
+    tabPrimaryColor: {
+        backgroundColor: `#daab59 !important`,
+        color: `#daab59 !important`,
     }
   }));
 
@@ -282,6 +286,9 @@ const SingleDayView = props => {
                             textColor="primary"
                             variant="fullWidth"
                             aria-label="full width tabs example"
+                            classes= {{
+                                indicator: classes.tabPrimaryColor
+                            }}
                         >
                             <Tab className={classes.tabs} label="Change date"  {...a11yProps(0)} />
                             <Tab className={classes.tabs} label="Change quantity"  {...a11yProps(1)} />

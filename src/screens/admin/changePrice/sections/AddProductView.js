@@ -10,6 +10,7 @@ import 'react-confirm-alert/src/react-confirm-alert.css';
 import SuccessDialog from "../../../../components/Dialog/SuccessDialog";
 import Snackbar from '@material-ui/core/Snackbar';
 import MuiAlert from '@material-ui/lab/Alert';
+import Grid from "@material-ui/core/Grid/Grid";
 
 import BranchProductService from "../../../../services/BranchProductService";
 // import BranchStockService from "../../../../services/BranchStockService";
@@ -199,7 +200,7 @@ const AddProductView = props => {
             <br />
             <div
                 className={`row shadow1 pb-3`}
-                style={{'borderTopLeftRadius': '15px', 'borderTopRightRadius': '15px', marginBottom: '60px' , paddingLeft: '50px'}}
+                style={{'borderTopLeftRadius': '15px', 'borderTopRightRadius': '15px', marginBottom: '3.5rem' , paddingLeft: '50px',  minHeight: '280px'}}
             >
 
                 <div className={`rounded mb-3 mx-3 px-3 py-3`}>
@@ -225,7 +226,7 @@ const AddProductView = props => {
                     </Paper>*/}
                     <Typography
                         component="p"
-                        style={{fontSize: '15px' , margin: '0px 0px' , paddingBottom: '7px' , paddingTop: '20px'}}
+                        style={{fontSize: '15px' , margin: '0px 0px' , paddingBottom: '20px' , paddingTop: '20px'}}
                         className={`text-left text-dark`}
                     >
                         Current selling price : GHC {sellingPrice}
@@ -253,22 +254,31 @@ const AddProductView = props => {
                 bgcolor="background.paper"
                 p={1}
                 style={{ height: '2.5rem', position: "fixed", bottom:"0", width:"100%" }}
-            >
-                <Button
-                    variant="outlined"
-                    style={{border: '1px solid #DAAB59', color: '#DAAB59', padding: '5px 50px', marginRight: '10px'}}
-                    onClick={backHandler.bind(this)}
-                >
-                    Cancel
-                </Button>
-                <Button
-                    disabled={loading}
-                    variant="contained"
-                    style={{'backgroundColor': '#DAAB59' , color: '#333333', padding: '5px 50px'}}
-                    onClick={saveChangePrice.bind(this)}
-                >
-                    Save
-                </Button>
+            > 
+                <Grid container >
+                    <Grid xs={6}>
+                        <Button
+                            variant="outlined"
+                            style={{border: '1px solid #DAAB59', color: '#DAAB59', padding: '5px 40px', float: 'right', marginRight: '5px'}}
+                            onClick={backHandler.bind(this)}
+                        >
+                            Cancel
+                        </Button>
+                    </Grid>
+
+                    <Grid xs={6}>
+                        <Button
+                            disabled={loading}
+                            variant="contained"
+                            style={{'backgroundColor': '#DAAB59' , color: '#333333', padding: '5px 40px', float: 'left', marginLeft: '5px'}}
+                            onClick={saveChangePrice.bind(this)}
+                        >
+                            Save
+                        </Button>
+                    </Grid>
+                </Grid>
+                
+                
             </Box>
         </div>
     )

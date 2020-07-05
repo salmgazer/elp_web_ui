@@ -181,7 +181,7 @@ const SingleDayProduct = props => {
 
     return(
         <div className="row pt-0 mx-auto text-center w-100" >
-            <Grid container spacing={1} className={`bordered rounded mb-3 pt-1 pb-1`}>
+            <Grid container spacing={1} className={`bordered-sm rounded mb-3 pt-1 pb-1`}>
                 <Grid item xs={3}>
                     <Avatar
                         alt={image}

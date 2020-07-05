@@ -180,7 +180,7 @@ const SingleDayView = props => {
 
     return(
         <div>
-            <Grid container spacing={1} className={`shadow1 mb-3 borderRadius10`}>
+            <Grid container spacing={1} className={`bordered-sm mb-3`} style={{borderRadius: '4px'}}>
                 <Grid item xs={3}>
                     <Avatar
                         alt={image}
