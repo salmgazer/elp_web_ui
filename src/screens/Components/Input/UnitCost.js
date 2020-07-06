@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import Paper from "@material-ui/core/Paper/Paper";
 import InputBase from "@material-ui/core/InputBase/InputBase";
 import {makeStyles} from "@material-ui/core";
@@ -34,11 +34,16 @@ const useStyles = makeStyles(theme => ({
 }));
 
 const CostInput = props => {
-    let value = props.initialValue;
     const classes = useStyles();
     const inputName = props.inputName;
-    const [quantity , setQuantity] = useState(value);
+    const [quantity , setQuantity] = useState(props.initialValue ? parseFloat(props.initialValue) || '' : '');
     const [calculatorDialog, setCalculatorDialog] = useState(false);
+
+    useEffect(() => {
+        if (parseFloat(quantity) !== parseFloat(props.initialValue)) {
+            setQuantity(props.initialValue ? parseFloat(props.initialValue) || '' : '');
+        }
+    });
 
     const setValueHandler = (event) => {
         event.persist();
@@ -61,14 +66,20 @@ const CostInput = props => {
     };
 
     const getCalculatorValue = (value) => {
-        if(isNaN(value) || (value).length <= 0)
+        /*if(isNaN(value) || (value).length <= 0)
         {
             setQuantity();
             return
-        }
+        }*/
 
-        setQuantity(value);
-        props.getValue(inputName , value);
+        if(props.isSendQuantity){
+            console.log('log')
+            setQuantity(value[0].costPrice);
+            props.getValue(value)
+        }else{
+            setQuantity(value);
+            props.getValue('costPrice' , parseFloat(value));
+        }
     };
 
     return(
@@ -79,7 +90,7 @@ const CostInput = props => {
                 <InputBase
                     className={`${classes.input} search-box text-center`}
                     type="tel"
-                    value={value}
+                    value={quantity}
                     name={inputName}
                     classes={{
                         input: classes.center
@@ -101,7 +112,7 @@ const CostInput = props => {
             </Paper>
 
 
-            <CostCalculator product={props.product} calculatedPrice={getCalculatorValue.bind(this)} closeModal={getCalculatorModalState.bind(this)} calculatorDialog={calculatorDialog}/>
+            <CostCalculator isSendQuantity={props.isSendQuantity || false} product={props.product} calculatedPrice={getCalculatorValue.bind(this)} closeModal={getCalculatorModalState.bind(this)} calculatorDialog={calculatorDialog}/>
         </div>
     );
 };

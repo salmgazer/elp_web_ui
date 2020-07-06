@@ -3,11 +3,8 @@
   <component name="ChangeListManager">
     <list default="true" id="f0e589bc-4276-4788-a686-0858c0f1eaa6" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/Calculator/CostCalculator.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/Calculator/CostCalculator.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/Input/CostInput.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/Input/CostInput.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/Input/QuantityInput.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/Input/QuantityInput.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/screens/onboarding/addProducts/AddProducts.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/screens/onboarding/addProducts/AddProducts.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/screens/onboarding/addProducts/sections/AddProductView.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/screens/onboarding/addProducts/sections/AddProductView.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/screens/Components/Input/UnitCost.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/screens/Components/Input/UnitCost.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/screens/stock/sections/addNewStockPage.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/screens/stock/sections/addNewStockPage.js" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -103,7 +100,7 @@
           <entry key="companies" value="10" />
           <entry key="customers" value="2" />
           <entry key="html" value="3" />
-          <entry key="js" value="1548" />
+          <entry key="js" value="1550" />
           <entry key="json" value="23" />
           <entry key="png" value="2" />
           <entry key="scss" value="13" />
@@ -123,7 +120,7 @@
           <entry key="HTML" value="3" />
           <entry key="Image" value="2" />
           <entry key="JSON" value="23" />
-          <entry key="JavaScript" value="1548" />
+          <entry key="JavaScript" value="1550" />
           <entry key="SCSS" value="13" />
           <entry key="SVG" value="2" />
           <entry key="Scratch" value="1" />
@@ -143,7 +140,7 @@
         <counts>
           <entry key="cell" value="252" />
           <entry key="html" value="1" />
-          <entry key="js" value="60773" />
+          <entry key="js" value="61023" />
           <entry key="json" value="454" />
           <entry key="scss" value="49" />
           <entry key="sql" value="60" />
@@ -154,7 +151,7 @@
         <counts>
           <entry key="HTML" value="1" />
           <entry key="JSON" value="454" />
-          <entry key="JavaScript" value="60773" />
+          <entry key="JavaScript" value="61023" />
           <entry key="SCSS" value="49" />
           <entry key="SQL" value="60" />
           <entry key="Scratch" value="252" />
@@ -196,11 +193,32 @@
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="true">
+      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/screens/onboarding/addProducts/sections/AddProductView.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="18">
-              <caret line="17" selection-start-line="17" selection-end-line="17" />
+            <state relative-caret-position="280">
+              <caret line="186" column="28" lean-forward="true" selection-start-line="186" selection-start-column="28" selection-end-line="186" selection-end-column="28" />
+              <folding>
+                <element signature="e#831#910#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/src/screens/stock/sections/addNewStockPage.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="396">
+              <caret line="357" column="34" selection-start-line="357" selection-start-column="34" selection-end-line="357" selection-end-column="34" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/screens/Components/Input/UnitCost.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="265">
+              <caret line="73" column="11" selection-start-line="69" selection-start-column="8" selection-end-line="73" selection-end-column="11" />
             </state>
           </provider>
         </entry>
@@ -208,8 +226,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/components/Input/QuantityInput.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="126">
-              <caret line="38" column="103" selection-start-line="38" selection-start-column="103" selection-end-line="38" selection-end-column="103" />
+            <state relative-caret-position="173">
+              <caret line="43" column="50" selection-start-line="43" selection-start-column="50" selection-end-line="43" selection-end-column="50" />
               <folding>
                 <element signature="e#504#1055#0" />
               </folding>
@@ -220,8 +238,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/components/Input/CostInput.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="356">
-              <caret line="36" column="60" lean-forward="true" selection-start-line="33" selection-start-column="4" selection-end-line="36" selection-end-column="60" />
+            <state relative-caret-position="460">
+              <caret line="63" column="6" lean-forward="true" selection-start-line="63" selection-start-column="6" selection-end-line="63" selection-end-column="6" />
             </state>
           </provider>
         </entry>
@@ -248,22 +266,6 @@
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/screens/register/Sections/ShopInformationSection.js">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="108">
-              <caret line="166" column="39" selection-start-line="166" selection-start-column="39" selection-end-line="166" selection-end-column="39" />
-              <folding>
-                <element signature="e#0#57#0" expanded="true" />
-                <element signature="e#788#2591#0" />
-                <element signature="e#2635#3197#0" />
-                <element signature="e#3257#3823#0" />
-                <element signature="n#!!block;n#StyledRadio#0" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/screens/register/Sections/PersonalInformationSection.js">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="244">
@@ -272,27 +274,6 @@
                 <element signature="e#0#48#0" expanded="true" />
                 <element signature="e#434#779#0" />
                 <element signature="e#823#1385#0" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/screens/register/Register.js">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="297">
-              <caret line="215" column="10" selection-start-line="215" selection-start-column="10" selection-end-line="215" selection-end-column="10" />
-              <folding>
-                <element signature="e#0#39#0" expanded="true" />
-                <element signature="e#1537#1926#0" />
-                <element signature="n#!!block;n#QontoStepIcon#0" />
-                <element signature="e#2342#2404#0" />
-                <element signature="e#2444#2834#0" />
-                <element signature="e#2898#3508#0" />
-                <element signature="n#!!block;n#ColorlibStepIcon#0" />
-                <element signature="e#4068#4156#0" />
-                <element signature="e#4198#4407#0" />
-                <element signature="n#!!block;n#getSteps#0" />
               </folding>
             </state>
           </provider>
@@ -352,10 +333,8 @@
     <option name="CHANGED_PATHS">
       <list>
         <option value="$PROJECT_DIR$/src/screens/stock/sections/SearchMode/StockSearchMode.js" />
-        <option value="$PROJECT_DIR$/src/screens/Components/Input/UnitCost.js" />
         <option value="$PROJECT_DIR$/src/models/branchesProductsStocks/BranchProductStock.js" />
         <option value="$PROJECT_DIR$/src/services/BranchStockService.js" />
-        <option value="$PROJECT_DIR$/src/screens/stock/sections/addNewStockPage.js" />
         <option value="$PROJECT_DIR$/src/services/ModelAction.js" />
         <option value="$PROJECT_DIR$/src/components/Cards/ProductCard.js" />
         <option value="$PROJECT_DIR$/src/screens/stock/sections/stockProductSingle.js" />
@@ -400,8 +379,10 @@
         <option value="$PROJECT_DIR$/src/screens/onboarding/addProducts/AddProducts.js" />
         <option value="$PROJECT_DIR$/src/components/Calculator/CostCalculator.js" />
         <option value="$PROJECT_DIR$/src/components/Input/CostInput.js" />
-        <option value="$PROJECT_DIR$/src/components/Input/QuantityInput.js" />
         <option value="$PROJECT_DIR$/src/screens/onboarding/addProducts/sections/AddProductView.js" />
+        <option value="$PROJECT_DIR$/src/components/Input/QuantityInput.js" />
+        <option value="$PROJECT_DIR$/src/screens/Components/Input/UnitCost.js" />
+        <option value="$PROJECT_DIR$/src/screens/stock/sections/addNewStockPage.js" />
       </list>
     </option>
   </component>
@@ -517,6 +498,21 @@
               <item name="web-ui" type="b2602c69:ProjectViewProjectNode" />
               <item name="web-ui" type="462c0819:PsiDirectoryNode" />
               <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="screens" type="462c0819:PsiDirectoryNode" />
+              <item name="stock" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="web-ui" type="b2602c69:ProjectViewProjectNode" />
+              <item name="web-ui" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="screens" type="462c0819:PsiDirectoryNode" />
+              <item name="stock" type="462c0819:PsiDirectoryNode" />
+              <item name="sections" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="web-ui" type="b2602c69:ProjectViewProjectNode" />
+              <item name="web-ui" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
               <item name="services" type="462c0819:PsiDirectoryNode" />
             </path>
           </expand>
@@ -588,12 +584,12 @@
       <workItem from="1593881933283" duration="570000" />
       <workItem from="1593888612528" duration="8217000" />
       <workItem from="1594033372996" duration="715000" />
-      <workItem from="1594034381053" duration="11886000" />
+      <workItem from="1594034381053" duration="13962000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="830484000" />
+    <option name="totallyTimeSpent" value="832560000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-7" y="-7" width="1295" height="735" extended-state="6" />
@@ -638,13 +634,6 @@
     <option name="myLimit" value="2678400000" />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/src/screens/history/invoiceHistory/sections/singleView/SingleDayInvoice.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="183">
-          <caret line="78" column="11" selection-start-line="78" selection-start-column="11" selection-end-line="78" selection-end-column="11" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/services/CustomerService.js">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="78">
@@ -712,13 +701,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="342">
           <caret line="106" column="30" selection-start-line="106" selection-start-column="30" selection-end-line="106" selection-end-column="30" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/screens/stock/sections/addNewStockPage.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="206">
-          <caret line="185" column="49" selection-start-line="185" selection-start-column="33" selection-end-line="185" selection-end-column="49" />
         </state>
       </provider>
     </entry>
@@ -984,13 +966,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/components/Input/CostInput.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="356">
-          <caret line="36" column="60" lean-forward="true" selection-start-line="33" selection-start-column="4" selection-end-line="36" selection-end-column="60" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/screens/sell/sell/sections/AddProductCart.js">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="347">
@@ -1002,20 +977,44 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/src/screens/onboarding/addProducts/sections/AddProductView.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="280">
+          <caret line="186" column="28" lean-forward="true" selection-start-line="186" selection-start-column="28" selection-end-line="186" selection-end-column="28" />
+          <folding>
+            <element signature="e#831#910#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/components/Input/CostInput.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="460">
+          <caret line="63" column="6" lean-forward="true" selection-start-line="63" selection-start-column="6" selection-end-line="63" selection-end-column="6" />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/src/components/Input/QuantityInput.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="126">
-          <caret line="38" column="103" selection-start-line="38" selection-start-column="103" selection-end-line="38" selection-end-column="103" />
+        <state relative-caret-position="173">
+          <caret line="43" column="50" selection-start-line="43" selection-start-column="50" selection-end-line="43" selection-end-column="50" />
           <folding>
             <element signature="e#504#1055#0" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/screens/onboarding/addProducts/sections/AddProductView.js">
+    <entry file="file://$PROJECT_DIR$/src/screens/Components/Input/UnitCost.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="18">
-          <caret line="17" selection-start-line="17" selection-end-line="17" />
+        <state relative-caret-position="265">
+          <caret line="73" column="11" selection-start-line="69" selection-start-column="8" selection-end-line="73" selection-end-column="11" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/screens/stock/sections/addNewStockPage.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="396">
+          <caret line="357" column="34" selection-start-line="357" selection-start-column="34" selection-end-line="357" selection-end-column="34" />
         </state>
       </provider>
     </entry>
