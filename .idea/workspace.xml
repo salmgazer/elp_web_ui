@@ -191,7 +191,7 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/screens/register/Sections/AccountInformationSection.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="419">
+            <state relative-caret-position="110">
               <caret line="237" column="14" selection-start-line="237" selection-start-column="14" selection-end-line="237" selection-end-column="14" />
               <folding>
                 <element signature="e#0#59#0" expanded="true" />
@@ -523,16 +523,15 @@
       <workItem from="1593881933283" duration="570000" />
       <workItem from="1593888612528" duration="8217000" />
       <workItem from="1594033372996" duration="715000" />
-      <workItem from="1594034381053" duration="4768000" />
+      <workItem from="1594034381053" duration="5335000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="823366000" />
+    <option name="totallyTimeSpent" value="823933000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-7" y="-7" width="1295" height="735" extended-state="6" />
-    <editor active="true" />
     <layout>
       <window_info content_ui="combo" id="Project" order="0" weight="0.20647773" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
@@ -555,7 +554,7 @@
       <window_info anchor="bottom" id="RNConsole" order="13" />
       <window_info anchor="bottom" id="Regex Tester" order="14" />
       <window_info anchor="bottom" id="Event Log" order="15" side_tool="true" />
-      <window_info anchor="bottom" id="Terminal" order="16" weight="0.32724252" />
+      <window_info active="true" anchor="bottom" id="Terminal" order="16" visible="true" weight="0.32724252" />
       <window_info anchor="bottom" id="Database Console" order="17" weight="0.32885906" />
       <window_info anchor="bottom" id="TypeScript" order="18" />
       <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
@@ -931,7 +930,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/screens/register/Sections/AccountInformationSection.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="419">
+        <state relative-caret-position="110">
           <caret line="237" column="14" selection-start-line="237" selection-start-column="14" selection-end-line="237" selection-end-column="14" />
           <folding>
             <element signature="e#0#59#0" expanded="true" />
