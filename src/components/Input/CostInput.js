@@ -32,7 +32,7 @@ const CostInput = props => {
     const classes = useStyles();
     //let value = props.initialValue;
     const initialValue = parseFloat(props.initialValue) ? parseFloat(props.initialValue).toFixed(2) : '';
-console.log(initialValue)
+
     const inputName = props.inputName;
     const [quantity , setQuantity] = useState(initialValue);
     const [calculatorDialog, setCalculatorDialog] = useState(false);
@@ -50,8 +50,13 @@ console.log(initialValue)
     };
 
     const getCalculatorValue = (value) => {
-        setQuantity(value)
-        props.getValue('costPrice' , parseFloat(value));
+        if(props.isSendQuantity){
+            setQuantity(value[0].costPrice);
+            props.getValue(value)
+        }else{
+            setQuantity(value);
+            props.getValue('costPrice' , parseFloat(value));
+        }
     };
 
     const getCalculatorModalState = (value) => {
@@ -64,7 +69,7 @@ console.log(initialValue)
 
     return(
         <div>
-            <CostCalculator product={props.product} calculatedPrice={getCalculatorValue.bind(this)} closeModal={getCalculatorModalState.bind(this)} calculatorDialog={calculatorDialog}/>
+            <CostCalculator isSendQuantity={props.isSendQuantity || false} product={props.product} calculatedPrice={getCalculatorValue.bind(this)} closeModal={getCalculatorModalState.bind(this)} calculatorDialog={calculatorDialog}/>
 
             <label className={`text-dark py-2 text-center`} style={{fontSize: '18px', fontWeight: '600'}}> {props.label}</label>
 

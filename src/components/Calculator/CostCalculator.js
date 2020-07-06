@@ -32,8 +32,16 @@ const CostCalculator = (props) => {
 
         const costPrice = (totalCost / (quantityPack * quantityRoll)).toFixed(2);
 
-        props.calculatedPrice(costPrice);
-        console.log(costPrice)
+        if(props.isSendQuantity){
+            props.calculatedPrice(
+                [
+                    {costPrice: parseFloat(costPrice)},
+                    {quantity: parseFloat(parseFloat(formFields.quantityPack) * parseFloat(formFields.quantityRoll))}
+                ]
+            )
+        }else{
+            props.calculatedPrice(costPrice);
+        }
         props.closeModal(false);
     };
 

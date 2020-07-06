@@ -97,6 +97,17 @@ const AddProductView = props => {
         setFormFields(oldFormFields);
     };
 
+    const setCostValue = (value) => {
+        const {...oldFormFields} = formFields;
+
+        for (let i = 0; i < value.length; i++){
+            const itemKey = Object.keys(value[i]);
+            oldFormFields[itemKey] = value[i][itemKey];
+        }
+
+        setFormFields(oldFormFields);
+    };
+
     const handleCloseSnack = (event, reason) => {
         if (reason === 'clickaway') {
             return;
@@ -171,9 +182,9 @@ const AddProductView = props => {
                 </Typography>
 
                 <div className={`rounded bordered mb-3 mx-3 px-3 py-3`}>
-                    <QuantityInput startValue={0} label={`Quantity counted`} inputName="quantity" getValue={setInputValue.bind(this)}/>
+                    <QuantityInput startValue={formFields.quantity} label={`Quantity counted`} inputName="quantity" getValue={setInputValue.bind(this)}/>
 
-                    <CostInput product={product} label={`Cost price`} inputName="costPrice" initialValue={formFields.costPrice} getValue={setInputValue.bind(this)} >
+                    <CostInput isSendQuantity={true} product={product} label={`Cost price`} inputName="costPrice" initialValue={formFields.costPrice} getValue={setCostValue.bind(this)} >
                         <FontAwesomeIcon icon={faCalculator} fixedWidth />
                     </CostInput>
 
