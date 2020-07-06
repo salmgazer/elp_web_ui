@@ -150,6 +150,8 @@ export default function ShopInformationSection(props) {
     const userFields = props.formData;
     const classes = useStyles();
     const [categories , setCategories] = useState([]);
+    const [checkStatus , setCheckStatus] = useState(false);
+
     const [formFields , setFormFields] = useState({
         companyName: userFields.companyName,
         location: userFields.location,
@@ -157,13 +159,21 @@ export default function ShopInformationSection(props) {
         storeType: userFields.storeType,
     });
 
-    useEffect(() => {
+    /*useEffect(() => {
         (
             async function validateForm(){
                 //let newCategory = await new Api('business_categories').index();
                 props.isValid(await ShopInformationForm.current.isFormValid());
+                console.log(props.isValid(await ShopInformationForm.current.isFormValid()));
             }
         )();
+    });*/
+
+    useEffect(() => {
+        if (!checkStatus) {
+            handleFormValidation();
+            setCheckStatus(1);
+        }
     });
 
     useEffect(() => {
@@ -191,7 +201,6 @@ export default function ShopInformationSection(props) {
     };
 
     const handleFormValidation = async(result) => {
-        console.log(await ShopInformationForm.current.isFormValid())
         props.isValid(await ShopInformationForm.current.isFormValid());
     };
 

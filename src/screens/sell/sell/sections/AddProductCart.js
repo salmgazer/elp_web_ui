@@ -9,7 +9,6 @@ import {makeStyles} from "@material-ui/core";
 import SimpleSnackbar from "../../../../components/Snackbar/SimpleSnackbar";
 import ProductServiceHandler from "../../../../services/ProductServiceHandler";
 import {withRouter} from 'react-router-dom';
-import AddShoppingCartOutlinedIcon from '@material-ui/icons/AddShoppingCartOutlined';
 import BranchProductService from "../../../../services/BranchProductService";
 import CustomerService from "../../../../services/CustomerService";
 import CartService from "../../../../services/CartService";

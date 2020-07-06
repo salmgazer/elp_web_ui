@@ -362,6 +362,6 @@ const Register = props => {
             </div>
         </div>
     );
-}
+};
 
 export default withRouter(Register);
