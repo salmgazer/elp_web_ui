@@ -119,6 +119,10 @@ const AddProductView = props => {
     /*const undoProductAdd = () => {
         props.undoAddProduct(product.id);
     };*/
+    const addDefaultSrc = (event) => {
+        console.log('I am here')
+        event.target.src = "https://elparah.store/admin/upload/no_image.png";
+    };
 
     const productHistory = productDetails.getProductHistory();
 
@@ -159,7 +163,7 @@ const AddProductView = props => {
                 </Typography>
             </div>
             <div>
-                <img className={`img-fluid imageProduct mx-auto d-block pt-2`} src={productDetails.getProductImage()} alt={productDetails.getProductName()}/>
+                <img onError={addDefaultSrc.bind(this)} className={`img-fluid imageProduct mx-auto d-block pt-2`} src={productDetails.getProductImage()} alt={productDetails.getProductName()}/>
             </div>
 
             <Snackbar open={errorDialog} autoHideDuration={6000} onClose={handleCloseSnack}>
