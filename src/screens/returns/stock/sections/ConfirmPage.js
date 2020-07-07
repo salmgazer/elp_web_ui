@@ -181,12 +181,13 @@ const CartView = props => {
             <SectionNavbars
                 title="Return Purchases"
                 leftIcon={
-                    <div onClick={() => setView(0)}>
+                    <div>
                         <ArrowBackIcon
                             style={{fontSize: '2rem'}}
                         />
                     </div>
                 }
+                leftOnClick={() => setView(0)}
             />
 
             <SimpleSnackbar

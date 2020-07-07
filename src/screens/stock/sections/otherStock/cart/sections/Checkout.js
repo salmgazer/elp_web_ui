@@ -219,12 +219,13 @@ const CheckoutView = props => {
             <SectionNavbars
                 title="Payment"
                 leftIcon={
-                    <div onClick={backHandler.bind(this)}>
+                    <div>
                         <ArrowBackIcon
                             style={{fontSize: '2rem'}}
                         />
                     </div>
                 }
+                leftOnClick={backHandler.bind(this)}
             />
 
             <SimpleSnackbar

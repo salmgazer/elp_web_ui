@@ -29,18 +29,19 @@ const SavedCart = props => {
     };
 
     const carts = props.carts;
-console.log(carts)
+    
     return (
         <div className={`mt-6`}>
             <SectionNavbars
                 title="Sales"
                 leftIcon={
-                    <div onClick={() => backHandler()}>
+                    <div>
                         <ArrowBackIcon
                             style={{fontSize: '2rem'}}
                         />
                     </div>
                 }
+                leftOnClick={backHandler.bind(this)}
             />
 
             <Box className={`mt-5 shadow1 pb-2`} p={1}>

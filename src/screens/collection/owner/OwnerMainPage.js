@@ -67,21 +67,23 @@ const OwnerMainPage = props => {
             <SectionNavbars
                 title="Collection"
                 leftIcon={
-                    <div onClick={() => setIsDrawerShow(true)}>
+                    <div>
                         <MenuIcon
                             style={{fontSize: '2rem'}}
                         />
                     </div>
                 }
+                leftOnClick={() => setIsDrawerShow(true)}
                 rightIcon={
-                    <div onClick={() => history.push(paths.dashboard)}>
+                    <div>
                         <AppsIcon
                             style={{fontSize: '2rem'}}
                         />
                     </div>
                 }
+                altOnClick={() => history.push(paths.dashboard)}
                 icons={
-                    <div onClick={() => props.setView(2)}>
+                    <div>
                         <AddCircleRoundedIcon
                             style={{
                                 fontSize: '2.5rem',
@@ -90,6 +92,7 @@ const OwnerMainPage = props => {
                         />
                     </div>
                 }
+                rightOnClick={() => props.setView(2)}
             />
 
             <div

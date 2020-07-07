@@ -61,13 +61,14 @@ class OrderHistory extends Component {
                             />
                         </div>
                     }
-                    icons={
-                        <div onClick={() => this.setState({isShowDrawer: true})}>
-                            <MoreVertIcon
-                                style={{fontSize: '2rem'}}
-                            />
-                        </div>
-                    }
+                    leftOnClick={() => this.props.history.goBack()} 
+                    // icons={
+                    //     <div onClick={() => this.setState({isShowDrawer: true})}>
+                    //         <MoreVertIcon
+                    //             style={{fontSize: '2rem'}}
+                    //         />
+                    //     </div>
+                    // }
                 />
 
                 <div

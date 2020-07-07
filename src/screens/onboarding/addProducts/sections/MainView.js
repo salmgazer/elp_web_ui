@@ -98,19 +98,21 @@ const MainView = props => {
             <SectionNavbars
                 title={`Add Product`}
                 leftIcon={
-                    <div onClick={openMenu}>
+                    <div>
                         <MenuIcon
                             style={{fontSize: '2rem'}}
                         />
                     </div>
                 }
+                leftOnClick={openMenu}
                 icons={
-                    <div onClick={() => setIsShowDrawer(!isShowDrawer)}>
+                    <div>
                         <MoreVertIcon
                             style={{fontSize: '2rem'}}
                         />
                     </div>
                 }
+                rightOnClick={() => setIsShowDrawer(!isShowDrawer)}
             />
 
             <div

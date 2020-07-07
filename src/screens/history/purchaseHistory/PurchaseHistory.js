@@ -60,12 +60,13 @@ const PurchaseHistory = props => {
             <SectionNavbars
                 title="Purchase history"
                 leftIcon={
-                    <div onClick={() => history.goBack()} >
+                    <div>
                         <ArrowBackIcon
                             style={{fontSize: '2rem'}}
                         />
                     </div>
                 }
+                leftOnClick={() => history.goBack()} 
                 // icons={
                 //     <div onClick={() => this.setState({isShowDrawer: true})}>
                 //         <MoreVertIcon

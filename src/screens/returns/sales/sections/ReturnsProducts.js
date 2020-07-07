@@ -71,21 +71,22 @@ const ReturnsProducts = props => {
             <SectionNavbars
                 title="Sales returns"
                 leftIcon={
-                    <div onClick={() => setView(0)} >
+                    <div>
                         <ArrowBackIcon
                             style={{fontSize: '2rem'}}
                         />
                     </div>
                 }
+                leftOnClick={() => setView(0)}
                 icons={
                     <Button
                         variant="contained"
                         style={{'backgroundColor': 'white' , color: '#DAAB59', padding: '5px 20px', textTransform: 'none', fontSize:'17px'}}
-                        onClick={returnAll.bind(this, products)}
                     >
                         Return all
                     </Button>
                 }
+                rightOnClick={returnAll.bind(this, products)}
             />
 
             <SimpleSnackbar

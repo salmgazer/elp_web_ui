@@ -130,10 +130,10 @@ const AddProductView = props => {
             <SectionNavbars title="Add product"
                 leftIcon= {
                     <ArrowBackIcon
-                        onClick={backHandler.bind(this)}
                         style={{fontSize: '2.5rem'}}
                     />
                 }
+                leftOnClick={backHandler.bind(this)}
             />
                 {/*<MenuIcon
                     onClick={() => this.setState({isDrawerShow: true})}

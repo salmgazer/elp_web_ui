@@ -58,19 +58,21 @@ const StockMovement = props => {
             <SectionNavbars
                 title="Stock movement"
                 leftIcon={
-                    <div onClick={() => history.goBack()}>
+                    <div>
                         <ArrowBackIcon
                             style={{fontSize: '2rem'}}
                         />
                     </div>
                 }
+                leftOnClick={() => history.goBack()}
                 icons={
-                    <div onClick={() => setIsShowDrawer(true)}>
+                    <div>
                         <MoreVertIcon
                             style={{fontSize: '2rem'}}
                         />
                     </div>
                 }
+                rightOnClick={() => setIsShowDrawer(true)}
             />
 
             <div

@@ -52,12 +52,13 @@ const StoreSummary = props => {
                 <SectionNavbars
                     title={`Welcome ${username}`}
                     leftIcon={
-                        <div onClick={() => setIsDrawerShow(true)}>
+                        <div>
                             <MenuIcon
                                 style={{fontSize: '2rem'}}
                             />
                         </div>
                     }
+                    leftOnClick={() => setIsDrawerShow(true)}
                 />
 
                 <div

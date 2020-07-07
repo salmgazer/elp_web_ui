@@ -262,8 +262,17 @@ class CategorySetup extends Component{
 
         return(
             <div>
-                <SectionNavbars title="Setup Shop">
-                    <ArrowBackIcon />
+                <SectionNavbars 
+                    title="Setup Shop"
+                    leftIcon={
+                        <div>
+                            <ArrowBackIcon
+                                style={{fontSize: '2rem'}}
+                            />
+                        </div>
+                    }
+                    leftOnClick={this.handleBack}
+                >
                 </SectionNavbars>
 
                 <SimpleSnackbar
