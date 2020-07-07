@@ -35,13 +35,12 @@ const useStyles = makeStyles(theme => ({
 
 const QuantityInput = props => {
     const classes = useStyles();
-
     const [quantity , setQuantity] = useState(props.startValue ? parseFloat(props.startValue) || '' : '');
     const inputName = props.inputName;
 
     useEffect(() => {
         if (parseFloat(quantity) !== parseFloat(props.startValue)) {
-            setQuantity(parseFloat(props.startValue));
+            setQuantity(props.startValue ? parseFloat(props.startValue) || '' : '');
         }
     });
 
@@ -49,6 +48,8 @@ const QuantityInput = props => {
         if(isNaN(quantity) || quantity.length <= 0)
         {
             setQuantity(1);
+            props.getValue(inputName , 1);
+
             return
         }
 
@@ -69,7 +70,6 @@ const QuantityInput = props => {
         setQuantity(parseFloat(quantity) - 1);
 
         props.getValue(inputName , qn);
-
     };
 
     const setValueHandler = (event) => {

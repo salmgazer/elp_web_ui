@@ -31,7 +31,7 @@ const AddProductView = props => {
     const product = props.product[0];
 
     const [formFields , setFormFields] = useState({
-        quantity: 0,
+        quantity: '',
         sellingPrice: product.owned && Array.isArray(product.stock) ? parseFloat(product.sellingPrice).toFixed(2) : '',
         costPrice: product.owned && Array.isArray(product.stock) ? parseFloat(product.stock[product.stock.length - 1].costPrice).toFixed(2) : '',
         productId: props.product[0].id,

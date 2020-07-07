@@ -2,12 +2,8 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="f0e589bc-4276-4788-a686-0858c0f1eaa6" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/App.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/App.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/Cards/ProductCard.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/Cards/ProductCard.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/Input/QuantityInput.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/Input/QuantityInput.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/screens/onboarding/addProducts/sections/AddProductView.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/screens/onboarding/addProducts/sections/AddProductView.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/screens/verifySMS/Verify_sms.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/screens/verifySMS/Verify_sms.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/services/AuthService.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/services/AuthService.js" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -103,7 +99,7 @@
           <entry key="companies" value="10" />
           <entry key="customers" value="2" />
           <entry key="html" value="3" />
-          <entry key="js" value="1562" />
+          <entry key="js" value="1563" />
           <entry key="json" value="23" />
           <entry key="png" value="2" />
           <entry key="scss" value="13" />
@@ -123,7 +119,7 @@
           <entry key="HTML" value="3" />
           <entry key="Image" value="2" />
           <entry key="JSON" value="23" />
-          <entry key="JavaScript" value="1562" />
+          <entry key="JavaScript" value="1563" />
           <entry key="SCSS" value="13" />
           <entry key="SVG" value="2" />
           <entry key="Scratch" value="1" />
@@ -143,7 +139,7 @@
         <counts>
           <entry key="cell" value="252" />
           <entry key="html" value="1" />
-          <entry key="js" value="61429" />
+          <entry key="js" value="61473" />
           <entry key="json" value="454" />
           <entry key="scss" value="49" />
           <entry key="sql" value="60" />
@@ -154,7 +150,7 @@
         <counts>
           <entry key="HTML" value="1" />
           <entry key="JSON" value="454" />
-          <entry key="JavaScript" value="61429" />
+          <entry key="JavaScript" value="61473" />
           <entry key="SCSS" value="49" />
           <entry key="SQL" value="60" />
           <entry key="Scratch" value="252" />
@@ -202,7 +198,7 @@
         <entry file="file://$PROJECT_DIR$/src/services/AuthService.js">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="208">
-              <caret line="131" column="39" lean-forward="true" selection-start-line="131" selection-start-column="39" selection-end-line="131" selection-end-column="39" />
+              <caret line="131" column="39" selection-start-line="131" selection-start-column="39" selection-end-line="131" selection-end-column="39" />
               <folding>
                 <element signature="e#0#46#0" expanded="true" />
               </folding>
@@ -222,10 +218,10 @@
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="true">
+      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/screens/verifySMS/Verify_sms.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="329">
+            <state relative-caret-position="70">
               <caret line="125" column="65" selection-start-line="125" selection-start-column="65" selection-end-line="125" selection-end-column="65" />
               <folding>
                 <element signature="e#0#46#0" expanded="true" />
@@ -238,7 +234,7 @@
         <entry file="file://$PROJECT_DIR$/src/services/LocalInfo.js">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="491">
-              <caret line="48" column="3" lean-forward="true" selection-start-line="48" selection-start-column="3" selection-end-line="48" selection-end-column="3" />
+              <caret line="48" column="3" selection-start-line="48" selection-start-column="3" selection-end-line="48" selection-end-column="3" />
             </state>
           </provider>
         </entry>
@@ -264,8 +260,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/screens/onboarding/addProducts/sections/AddProductView.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="113">
-              <caret line="156" column="32" lean-forward="true" selection-start-line="156" selection-start-column="32" selection-end-line="156" selection-end-column="32" />
+            <state relative-caret-position="180">
+              <caret line="187" column="30" selection-start-line="187" selection-start-column="30" selection-end-line="187" selection-end-column="30" />
               <folding>
                 <element signature="e#831#910#0" expanded="true" />
               </folding>
@@ -273,11 +269,11 @@
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/services/ProductServiceHandler.js">
+      <file pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/src/components/Input/QuantityInput.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="193">
-              <caret line="61" column="145" lean-forward="true" selection-start-line="61" selection-start-column="98" selection-end-line="61" selection-end-column="145" />
+            <state relative-caret-position="131">
+              <caret line="40" column="21" selection-start-line="40" selection-start-column="21" selection-end-line="40" selection-end-column="21" />
             </state>
           </provider>
         </entry>
@@ -377,15 +373,15 @@
         <option value="$PROJECT_DIR$/src/screens/onboarding/addProducts/AddProducts.js" />
         <option value="$PROJECT_DIR$/src/components/Calculator/CostCalculator.js" />
         <option value="$PROJECT_DIR$/src/components/Input/CostInput.js" />
-        <option value="$PROJECT_DIR$/src/components/Input/QuantityInput.js" />
         <option value="$PROJECT_DIR$/src/screens/stock/sections/addNewStockPage.js" />
         <option value="$PROJECT_DIR$/src/screens/Components/Input/UnitCost.js" />
         <option value="$PROJECT_DIR$/src/services/ProductServiceHandler.js" />
         <option value="$PROJECT_DIR$/src/components/Cards/ProductCard.js" />
-        <option value="$PROJECT_DIR$/src/screens/onboarding/addProducts/sections/AddProductView.js" />
         <option value="$PROJECT_DIR$/src/services/AuthService.js" />
         <option value="$PROJECT_DIR$/src/App.js" />
         <option value="$PROJECT_DIR$/src/screens/verifySMS/Verify_sms.js" />
+        <option value="$PROJECT_DIR$/src/screens/onboarding/addProducts/sections/AddProductView.js" />
+        <option value="$PROJECT_DIR$/src/components/Input/QuantityInput.js" />
       </list>
     </option>
   </component>
@@ -565,18 +561,18 @@
       <workItem from="1593881933283" duration="570000" />
       <workItem from="1593888612528" duration="8217000" />
       <workItem from="1594033372996" duration="715000" />
-      <workItem from="1594034381053" duration="20226000" />
+      <workItem from="1594034381053" duration="21366000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="838824000" />
+    <option name="totallyTimeSpent" value="839964000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-7" y="-7" width="1295" height="735" extended-state="6" />
     <editor active="true" />
     <layout>
-      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.20647773" />
+      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.20647773" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="npm" order="2" side_tool="true" />
       <window_info id="DB Browser" order="3" />
@@ -869,16 +865,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/components/Input/QuantityInput.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="173">
-          <caret line="43" column="50" selection-start-line="43" selection-start-column="50" selection-end-line="43" selection-end-column="50" />
-          <folding>
-            <element signature="e#504#1055#0" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/screens/stock/sections/addNewStockPage.js">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="491">
@@ -920,7 +906,7 @@
     <entry file="file://$PROJECT_DIR$/src/services/ProductServiceHandler.js">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="193">
-          <caret line="61" column="145" lean-forward="true" selection-start-line="61" selection-start-column="98" selection-end-line="61" selection-end-column="145" />
+          <caret line="61" column="145" selection-start-line="61" selection-start-column="98" selection-end-line="61" selection-end-column="145" />
         </state>
       </provider>
     </entry>
@@ -938,16 +924,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/screens/onboarding/addProducts/sections/AddProductView.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="113">
-          <caret line="156" column="32" lean-forward="true" selection-start-line="156" selection-start-column="32" selection-end-line="156" selection-end-column="32" />
-          <folding>
-            <element signature="e#831#910#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/screens/onboarding/addProducts/AddProducts.js">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="165">
@@ -961,14 +937,14 @@
     <entry file="file://$PROJECT_DIR$/src/services/LocalInfo.js">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="491">
-          <caret line="48" column="3" lean-forward="true" selection-start-line="48" selection-start-column="3" selection-end-line="48" selection-end-column="3" />
+          <caret line="48" column="3" selection-start-line="48" selection-start-column="3" selection-end-line="48" selection-end-column="3" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/services/AuthService.js">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="208">
-          <caret line="131" column="39" lean-forward="true" selection-start-line="131" selection-start-column="39" selection-end-line="131" selection-end-column="39" />
+          <caret line="131" column="39" selection-start-line="131" selection-start-column="39" selection-end-line="131" selection-end-column="39" />
           <folding>
             <element signature="e#0#46#0" expanded="true" />
           </folding>
@@ -1006,11 +982,28 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/screens/verifySMS/Verify_sms.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="329">
+        <state relative-caret-position="70">
           <caret line="125" column="65" selection-start-line="125" selection-start-column="65" selection-end-line="125" selection-end-column="65" />
           <folding>
             <element signature="e#0#46#0" expanded="true" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/screens/onboarding/addProducts/sections/AddProductView.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="180">
+          <caret line="187" column="30" selection-start-line="187" selection-start-column="30" selection-end-line="187" selection-end-column="30" />
+          <folding>
+            <element signature="e#831#910#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/components/Input/QuantityInput.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="131">
+          <caret line="40" column="21" selection-start-line="40" selection-start-column="21" selection-end-line="40" selection-end-column="21" />
         </state>
       </provider>
     </entry>
