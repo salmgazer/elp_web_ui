@@ -168,7 +168,7 @@ const BottomMenu = props => {
                             <InputBase
                                 className={`${classes.input} search-box text-center`}
                                 type="tel"
-                                initialValue=""
+                                initialvalue=""
                                 value={changePriceFields.sellingPrice}
                                 name="sellingPrice"
                                 onChange={(event) => changePriceFieldsHandler(event)}

@@ -53,7 +53,6 @@ const DayView = props => {
         // }
         setPurchaseDetails(response);
         setPurchases(response.purchases);
-        console.log(response)
     };
 
     const setView = (step) => {
@@ -63,10 +62,9 @@ const DayView = props => {
     const updateStockEntry =  async(pId, formFields) => {
         if (formFields.quantity === 0) {
 
-            console.log('happy')
         }
         else {
-            console.log('sad')
+
         }
     };
 

@@ -10,8 +10,6 @@ import format from "date-fns/format";
 import SaleService from "../../../../../services/SaleService";
 import Avatar from "@material-ui/core/Avatar/Avatar";
 import CardDefault from '../../../../../components/Cards/CardDefault';
-import {Link} from "react-router-dom";
-import paths from "../../../../../utilities/paths";
 
 import {makeStyles} from "@material-ui/core";
 
@@ -55,7 +53,7 @@ const SingleDayInvoice = props => {
         /*
         * @todo get entries via query on model
         * */
-        const entries = await invoice.salesEntries(); //await new SaleService().getSaleProductsById(invoice.id);
+        const entries = await invoice.salesEntries(); 
         const saleTotal = await SaleService.getSaleEntryAmountById(invoice.id);
         const paymentStatus = await SaleService.getSalePaymentStatus(invoice.id);
         setCustomer(response);
@@ -82,7 +80,6 @@ const SingleDayInvoice = props => {
                 <Grid item xs={3} sm>
                     <Avatar
                         alt={customer ? `${customer.firstName} ${customer.otherNames}` : 'Cash Customer'}
-                        //src={Woman}
                         className={classes.primaryColor}
                         style={{
                             width: "60px",
@@ -159,44 +156,30 @@ const SingleDayInvoice = props => {
                         {saleEntries.map((item) => <SingleDayProduct  key={item.id} saleEntry={item} deleteStoreProduct={deleteProductHandler.bind(this)} updateSaleEntry={props.updateSaleEntry} updatePriceEntry={props.updateSaleEntry} updateDateEntry={props.updateDateEntry} />)}
                     </Box>
 
-                    {/* <Grid container spacing={1} className={`shadow1 mb-3`}> */}
+                    <CardDefault styles={{width: '90%', marginTop: '5px', marginBottom: '10px'}}>
+                        <Typography
+                            className='text-dark font-weight-bold'
+                            style={{fontSize: '18px', padding: '5px', color: 'black'}}
+                        >
+                            Total cost : GHC {parseFloat(total).toFixed(2)}
 
-                        {/* <Grid item xs={12} style={{display: 'table', height: '60px', margin: '8px 0px'}}>
-                            <div style={{textAlign: 'center', display: 'table-cell', verticalAlign: 'middle'}}>
-                                <div className="text-dark font-weight-bold" style={{ fontSize: '15px'}}>Total cost </div>
-                                <div className="font-weight-light mt-1" style={{ fontSize: '20px'}}>GHC {parseFloat(total).toFixed(2)}</div>
-                            </div>
-                        </Grid> */}
+                        </Typography>
+                    </CardDefault>
 
-                        <CardDefault styles={{width: '90%', marginTop: '5px', marginBottom: '10px'}}>
-                            <Typography
-                                className='text-dark font-weight-bold'
-                                style={{fontSize: '18px', padding: '5px', color: 'black'}}
-                            >
-                                Total cost : GHC {parseFloat(total).toFixed(2)}
-
-                            </Typography>
-                        </CardDefault>
-
-                        <Grid container style={{textAlign: 'center', paddingBottom: '20px'}}>
-                            <Grid xs={4} onClick={sellAgainHandler.bind(this)} style={{ color: '#DAAB59'}}>
-                                Sell again
-                            </Grid>
-
-                            <Grid xs={4} style={{ color: '#DAAB59'}}>
-                                Change date
-                            </Grid>
-
-                            <Grid xs={4} onClick={closeDialogHandler.bind(this)}  style={{ color: '#DAAB59'}}>
-                                Close
-                            </Grid>
-                                
-
-                                
-                            
+                    <Grid container style={{textAlign: 'center', paddingBottom: '20px'}}>
+                        <Grid item xs={4} onClick={sellAgainHandler.bind(this)} style={{ color: '#DAAB59'}}>
+                            Sell again
                         </Grid>
 
-                    {/* </Grid> */}
+                        <Grid item xs={4} style={{ color: '#DAAB59'}}>
+                            Change date
+                        </Grid>
+
+                        <Grid item xs={4} onClick={closeDialogHandler.bind(this)}  style={{ color: '#DAAB59'}}>
+                            Close
+                        </Grid>                            
+                    </Grid>
+
                 </div>
             </MainDialog>
         </div>

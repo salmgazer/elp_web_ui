@@ -10,7 +10,6 @@ const ItemsOutOfStock = (props) => {
     const products = props.stock;
 
     const backHandler = () => {
-        console.log('me');
         props.setView(0);
     };
 

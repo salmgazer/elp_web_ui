@@ -164,7 +164,7 @@ const AddProductCart = props => {
     };
 
     const setUnitPriceHandler = event => {
-        console.log(formFields.sellingPrice , branchProduct.sellingPrice)
+        // console.log(formFields.sellingPrice , branchProduct.sellingPrice)
         let sp = (event.target.value);
 
         if (sp < costPrice) {
@@ -175,7 +175,7 @@ const AddProductCart = props => {
             }, 3000);
         }
         const discount = (parseFloat(formFields.sellingPrice - sp)).toFixed(2);
-        console.log(sp , formFields.sellingPrice , discount)
+        //.log(sp , formFields.sellingPrice , discount)
 
         /*
         * @todo how to handle increase not discount...

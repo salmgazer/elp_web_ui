@@ -47,7 +47,6 @@ const DayView = props => {
     });
 
     const getMovementDetails = async (date) => {
-        console.log(name)
         let response = [];
 
         if (pageName === true){
@@ -72,7 +71,6 @@ const DayView = props => {
 
         setGetDetails(response);
         setEntries(response.entries);
-        console.log(response)
     };
 
     const handleDateChange = date => {

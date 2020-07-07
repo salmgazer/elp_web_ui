@@ -65,7 +65,6 @@ class StockReturns extends Component{
 
 
     returnProducts = async (step, saleEntries) => {
-        console.log(saleEntries);
         this.setState({
             saleEntries: saleEntries,
             activeStep: step

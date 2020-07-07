@@ -33,7 +33,6 @@ const MoveStock = props => {
     const [errorMsg, setErrorMsg] = useState('');
     const [moveTo, setMoveTo] = useState('');
     const [moveFrom, setMoveFrom] = useState('');
-    console.log(lastHistory, productQuantity)
 
     const [formFields , setFormFields] = useState({
         quantity: 1,
@@ -91,11 +90,9 @@ const MoveStock = props => {
 
     const setInputValue = (name , value) => {
         const {...oldFormFields} = formFields;
-        console.log(name , value)
         if(name === 'moveTo'){
             const nr = companyStocks.filter(item => (item.id === value && item.productId === product.id));
             setMoveTo(nr[0]);
-            console.log(nr[0])
             oldFormFields['branchId'] = value;
             oldFormFields['branchProductId'] = nr[0].branchProductId;
         }else if(name === 'moveFrom'){
@@ -129,7 +126,6 @@ const MoveStock = props => {
     };
 
     const moveStock = () => {
-        console.log(formFields)
         setLoading(true);
         if((formFields.quantity === "" || formFields.quantity === null || parseFloat(formFields.quantity === 0)) || (formFields.moveFrom === "" || formFields.moveFrom === null) || (formFields.moveTo === "" || (formFields.moveTo === null))) {
             setErrorDialog(true);
@@ -164,8 +160,6 @@ const MoveStock = props => {
 
             return false;
         }
-
-        console.log(formFields)
 
         if(props.moveStock(formFields)){
             setSuccessDialog(true);

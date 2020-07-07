@@ -34,7 +34,6 @@ const SingleViewCustomer = props => {
             setName(newCustomer.firstName + ' ' + newCustomer.otherNames);
             setLastPurchase(response.invoice);
         }
-        console.log(response);
 
     };
 

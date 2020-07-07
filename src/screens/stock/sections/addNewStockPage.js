@@ -505,7 +505,7 @@ const AddNewStockPage = props => {
                                     classes={{
                                         input: classes.center
                                     }}
-                                    defaultValue=''
+                                    //defaultValue=''
                                     value={totalPrice}
                                     name="totalCost"
                                     onChange={(event) => setTotalPriceHandler(event)}
@@ -518,7 +518,7 @@ const AddNewStockPage = props => {
                         >
                             <SwapHorizOutlinedIcon
                                 className={`mt-4`}
-                                onclick={swapText}
+                                onClick={swapText}
                                 style={{fontSize: '25px'}}
                             />
                         </Grid>
