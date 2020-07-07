@@ -99,7 +99,7 @@ const PurchaseHistory = props => {
                 </BottomDrawer>
             </div>
 
-            <AppBar position="static" color="white">
+            <AppBar position="static" color="default">
                 <Tabs
                     value={value}
                     onChange={handleChange}

@@ -89,7 +89,7 @@ const InvoiceHistory = props => {
                 </BottomDrawer>
             </div>
 
-            <AppBar position="static" color="transparent">
+            <AppBar position="static" color="default">
                 <Tabs
                     value={value}
                     onChange={handleChange}

@@ -40,7 +40,6 @@ const DayView = props => {
     });
 
     const getInvoiceDetails = async (date) => {
-        console.log(date);
         let response = [];
 
         if (pageName === true){
@@ -50,20 +49,17 @@ const DayView = props => {
             }else{
                 const branchCustomer = props.customer[0];
                 const newCustomer = await branchCustomer.customer.fetch();
-                console.log(newCustomer);
 
                 response = await new InvoiceService().getInvoiceDetailsbyCustomer('day' , date , newCustomer.id);
 
                 setName(`${newCustomer.firstName} ${newCustomer.otherNames}`);
             }
 
-            console.log(response)
         }else{
             response = await new InvoiceService().getInvoiceDetails('day' , date);
         }
         setInvoiceDetails(response);
         setInvoices(response.invoices);
-        console.log(response)
     };
 
     const setView = (step) => {

@@ -75,7 +75,16 @@ const CostCalculator = (props) => {
                     </Button>
                 </Box>]}
                 handleClose={handleModalClose.bind(this)}
-                title={[<div key={props.product.id} ><h5 className={`font-weight-bold text-dark my-0`}>Cost Price Calculator</h5><span style={{fontSize: '16px', fontWeight: '400'}}>{props.product.name}</span></div>]}
+                title={[
+                    <div key={props.product.id} >
+                        <h5 className={`font-weight-bold text-dark my-0`}>
+                            Cost Price Calculator
+                        </h5>
+                        <span style={{fontSize: '16px', fontWeight: '400'}}>
+                            {props.product.name}
+                        </span>
+                    </div>
+                ]}
                 states={props.calculatorDialog}
             >
                 <PriceInput inputName="quantityRoll" getValue={setInputValue.bind(this)} label={`Quantity on a roll/box`}/>

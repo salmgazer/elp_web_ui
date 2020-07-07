@@ -100,7 +100,6 @@ class SortProduct extends Component{
         //Find index of specific object using findIndex method.
         const itemIndex = old_list.filter((item => item.productId === productId));
 
-        console.log(itemIndex)
         this.setState({
             currentProduct: itemIndex,
             activeStep: step

@@ -47,7 +47,6 @@ const useStyles = makeStyles(theme => ({
     });
 
     const getMovementDetails = async (date) => {
-      console.log(date, name);
       let response = [];
 
       if (pageName === true){
@@ -72,7 +71,6 @@ const useStyles = makeStyles(theme => ({
 
       setGetDetails(response);
       setEntries(response.entries);
-      console.log(response)
     };
 
     const handleChange = event => {
@@ -103,7 +101,6 @@ const useStyles = makeStyles(theme => ({
                         value={selectedMonth}
                         style={{width: '150px',  margin: '10px 0px', fontSize: '7px'}}
                         onChange={handleChange}
-                        color="#DAAB59"
                         SelectProps={{
                             native: true,
                         }}

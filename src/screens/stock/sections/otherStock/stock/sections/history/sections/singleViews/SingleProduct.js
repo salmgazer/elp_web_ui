@@ -3,26 +3,20 @@ import { makeStyles } from '@material-ui/core/styles';
 // import Card from "@material-ui/core/Card/Card";
 import Grid from "@material-ui/core/Grid/Grid";
 import EditIcon from '@material-ui/icons/Edit';
-import MainDialog from '../../../../../components/Dialog/ProductDialog';
+import MainDialog from '../../../../../../../../../components/Dialog/ProductDialog';
 import DeleteIcon from '@material-ui/icons/Delete';
 import AppBar from '@material-ui/core/AppBar';
 import Tabs from "@material-ui/core/Tabs/Tabs";
 import Tab from "@material-ui/core/Tab/Tab";
 import SwipeableViews from "react-swipeable-views";
-import TabPanel from '../../../../../components/Tabs/TabPanel';
-import Dates from '../../../../../components/Date/Date';
+import TabPanel from '../../../../../../../../../components/Tabs/TabPanel';
+import Dates from '../../../../../../../../../components/Date/Date';
 import Button from "@material-ui/core/Button/Button";
-import ProductServiceHandler from "../../../../../services/ProductServiceHandler";
-import SaleService from "../../../../../services/SaleService";
+import ProductServiceHandler from "../../../../../../../../../services/ProductServiceHandler";
+import SaleService from "../../../../../../../../../services/SaleService";
 import format from "date-fns/format";
-import Paper from "@material-ui/core/Paper/Paper";
-import InputBase from "@material-ui/core/InputBase/InputBase";
-import QuantityInput from "../../../../Components/Input/QuantityInput";
+import QuantityInput from "../../../../../../../../Components/Input/QuantityInput";
 import Avatar from "@material-ui/core/Avatar/Avatar";
-import {faCalculator} from "@fortawesome/free-solid-svg-icons";
-import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
-import SwapHorizOutlinedIcon from '@material-ui/icons/SwapHorizOutlined';
-import UnitCost from '../../../../Components/Input/UnitCost';
 import fromUnixTime from "date-fns/fromUnixTime";
 
 const useStyles = makeStyles(theme => ({
@@ -67,14 +61,10 @@ const SingleDayProduct = props => {
     const [image , setImage] = useState('');
     const [totalPrice , setTotalPrice] = useState('');
     const [quantity , setQuantity] = useState(false);
-    const [unitPrice , setUnitPrice] = useState("");
     const [selectedDate , setSelectedDate] = useState('');
 
     const [formFields , setFormFields] = useState({
         quantity: 1,
-    });
-    const [priceFields , setPriceFields] = useState({
-        sellingPrice: '',
     });
 
     function a11yProps(index) {
@@ -119,36 +109,14 @@ const SingleDayProduct = props => {
 
     const setInputValue = (name , value) => {
         const {...oldFormFields} = formFields;
-        const {...oldPriceFields} = priceFields;
 
-        if(name === 'sellingPrice'){
-            setTotalPrice((value * quantity).toFixed(2));
-            oldPriceFields[name] = value;
-            setPriceFields(oldPriceFields);
-        }else if(name === 'quantity'){
+         if(name === 'quantity'){
             setTotalPrice((value * saleEntry.sellingPrice).toFixed(2));
             setQuantity(value);
             oldFormFields[name] = value;
             setFormFields(oldFormFields);
         }
 
-    };
-
-    const setTotalPriceHandler = event => {
-        if(event.target.value === "" && typeof event.target.value !== 'number'){
-            setTotalPrice("");
-            return true;
-        }
-        setTotalPrice((event.target.value));
-        setInputValue(event.target.name , event.target.value);
-        const cp = (parseFloat(event.target.value) / quantity);
-
-        const {...oldFormFields} = priceFields;
-
-        oldFormFields['sellingPrice'] = cp.toFixed(2);
-
-        setPriceFields(oldFormFields);
-        setUnitPrice(cp.toFixed(2));
     };
 
     const setDate = (value) => {
@@ -162,11 +130,6 @@ const SingleDayProduct = props => {
 
     const updateSaleEntry = () => {
         props.updateSaleEntry(saleEntry.id, formFields);
-        setMainDialog(false);
-    };
-
-    const updatePriceEntry = () => {
-        props.updatePriceEntry(saleEntry.id, priceFields);
         setMainDialog(false);
     };
 
@@ -258,7 +221,6 @@ const SingleDayProduct = props => {
                         >
                             <Tab className={classes.tabs} label="Change date"  {...a11yProps(0)} />
                             <Tab className={classes.tabs} label="Change quantity"  {...a11yProps(1)} />
-                            <Tab className={classes.tabs} label="Change price"  {...a11yProps(2)} />
                         </Tabs>
                     </AppBar>
 
@@ -316,93 +278,6 @@ const SingleDayProduct = props => {
                                         variant="contained"
                                         style={{'backgroundColor': '#DAAB59' , color: '#333333', padding: '5px 15px', textTransform: 'none', fontSize:'15px'}}
                                         onClick={updateSaleEntry.bind(this)}
-                                    >
-                                        Save changes
-                                    </Button>
-                                </Grid>
-                            </Grid>
-
-                        </TabPanel>
-
-                        <TabPanel value={value} index={2}  >
-
-                            {/* <label className={`text-dark py-2 text-center`} style={{fontSize: '18px', fontWeight: '600'}}> New selling price </label>
-
-                            <Paper className={classes.root} id="selling_price" >
-                                <InputBase
-                                    className={`${classes.input} search-box text-center`}
-                                    type="tel"
-
-                                    value={totalPrice}
-                                    name='sellingPrice'
-                                    onChange={(event) => setPriceValue(event)}
-                                    endAdornment={
-                                        <InputAdornment position="end">
-                                            <IconButton
-                                                aria-label="toggle password visibility"
-                                                edge="end"
-                                            >
-                                                <FontAwesomeIcon  icon={faCalculator} fixedWidth />
-                                            </IconButton>
-                                        </InputAdornment>
-                                    }
-                                />
-                            </Paper> */}
-
-                            <Grid container spacing={1} className={`my-2`}>
-                                <Grid
-                                    item xs={5}
-                                >
-                                    <label className={`text-dark py-2 text-center`} style={{fontSize: '18px', fontWeight: '600'}}> Total price</label>
-
-                                    <Paper className={classes.root} id="left_input" >
-                                        <InputBase
-                                            className={`${classes.input} search-box text-center`}
-                                            type="tel"
-                                            classes={{
-                                                input: classes.center
-                                            }}
-                                            defaultValue=''
-                                            value={totalPrice}
-                                            name="totalPrice"
-                                            onChange={(event) => setTotalPriceHandler(event)}
-                                        />
-
-                                    </Paper>
-                                </Grid>
-                                <Grid
-                                    item xs={2}
-                                >
-                                    <SwapHorizOutlinedIcon
-                                        className={`mt-4`}
-                                        style={{fontSize: '25px'}}
-                                    />
-                                </Grid>
-                                <Grid
-                                    item xs={5}
-                                >
-                                    <UnitCost product={product} id="right_input" label={`Unit price`} inputName="sellingPrice" initialValue={totalPrice/quantity} getValue={setInputValue.bind(this)} >
-                                        <FontAwesomeIcon icon={faCalculator} fixedWidth />
-                                    </UnitCost>
-                                </Grid>
-                            </Grid>
-
-                            <Grid container spacing={1} style={{marginTop: '50px'}}>
-                                <Grid item xs={6}>
-                                    <Button
-                                        variant="outlined"
-                                        style={{border: '1px solid #DAAB59', color: '#DAAB59', padding: '5px 30px', textTransform: 'none', fontSize:'15px'}}
-                                        onClick={closeDialogHandler.bind(this)}
-                                    >
-                                        Cancel
-                                    </Button>
-                                </Grid>
-
-                                <Grid item xs={6}>
-                                    <Button
-                                        variant="contained"
-                                        style={{'backgroundColor': '#DAAB59' , color: '#333333', padding: '5px 15px', textTransform: 'none', fontSize:'15px'}}
-                                        onClick={updatePriceEntry.bind(this)}
                                     >
                                         Save changes
                                     </Button>
