@@ -120,7 +120,6 @@ const AddProductView = props => {
         props.undoAddProduct(product.id);
     };*/
     const addDefaultSrc = (event) => {
-        console.log('I am here')
         event.target.src = "https://elparah.store/admin/upload/no_image.png";
     };
 

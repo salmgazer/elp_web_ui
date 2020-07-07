@@ -107,7 +107,7 @@ export default class AuthService {
             },
             branch: {
                 "name": data.companyName,
-                "startDate": "",
+                "startDate": format(new Date , 'yyyy-MM-dd'),
                 "location": data.companyName,
                 "gps": "",
                 "logo": "",
@@ -118,7 +118,6 @@ export default class AuthService {
         };
 
         try{
-            console.log(params)
             const response = await new Api('others').create(
                 params,
                 {},
@@ -133,7 +132,7 @@ export default class AuthService {
                 localStorage.setItem('companyId' , JSON.stringify(response.data.companies[0].id));
                 localStorage.setItem('userData' , JSON.stringify(response.data));
                 localStorage.setItem('lastSyncedAt' , getTime(new Date()));
-
+                localStorage.setItem('isRegistering' , 'true');
                 user = response.data.user;
                 console.log(user);
                 //const response = await this.sendOTP(user.firstName ,user.phone , user.otp);
