@@ -192,7 +192,7 @@ const MainView = props => {
                             {
                                 props.loading ?
                                     <PrimaryLoader
-                                        style={{width: '30px' , height: '2.5rem'}}
+                                        style={{width: '30px' , minHeight: '2.5rem'}}
                                         color="#FFFFFF"
                                         type="Oval"
                                         className={`mt-1`}
@@ -221,7 +221,7 @@ const MainView = props => {
             <Box
                 className={`shadow1 bg-white mt-5`}
                 p={1}
-                style={{ height: '2.5rem', position: "fixed", bottom:"0", width:"100%" }}
+                style={{ minHeight: '2.5rem', position: "fixed", bottom:"0", width:"100%" }}
             >
                 <Grid container >
                     <Grid item xs={12} >

@@ -43,7 +43,7 @@ const DayView = props => {
                 getPurchaseDetails(selectedDate);
             }
         });
-    
+
     const getPurchaseDetails = async (date) => {
         const response = await new PurchaseService().getPurchaseDetails('day', date);
         // if (pageName === true){
@@ -112,14 +112,14 @@ const DayView = props => {
                         />
                     </div>
                 }
-                icons={                  
+                icons={
                     <Button
                         variant="contained"
                         style={{'backgroundColor': 'white' , color: '#DAAB59', padding: '5px 15px', textTransform: 'none', fontSize:'15px'}}
-                        onClick={returnAll.bind(this, purchases)} 
+                        onClick={returnAll.bind(this, purchases)}
                     >
                         Return all
-                    </Button>                  
+                    </Button>
                 }
             />
 
@@ -147,7 +147,7 @@ const DayView = props => {
 
             <Grid container spacing={1} style={{marginTop: '5px', borderTop: "1px solid #d8d2d2"}}>
                 <Grid item xs={6} >
-                    
+
                 </Grid>
 
                 <Grid item xs={6} >
@@ -195,7 +195,7 @@ const DayView = props => {
                         </Grid>
                     </div>
                     :
-                    purchases.map((item) => <SingleProduct key={item.id} purchase={item} updateStockEntry={updateStockEntry.bind(this)} />)  
+                    purchases.map((item) => <SingleProduct key={item.id} purchase={item} updateStockEntry={updateStockEntry.bind(this)} />)
                 }
             </Box>
 
@@ -203,21 +203,21 @@ const DayView = props => {
                 className="shadow1"
                 bgcolor="background.paper"
                 p={1}
-                style={{ height: '2.5rem', position: "fixed", bottom:"0", width:"100%" }}
+                style={{ minHeight: '2.5rem', position: "fixed", bottom:"0", width:"100%" }}
             >
                 <Button
                     variant="outlined"
                     style={{border: '1px solid #DAAB59', color: '#333333', padding: '5px 50px', textTransform: 'none', fontSize:'17px'}}
                     onClick={() => setView(1)}
                 >
-                    Back  
+                    Back
                 </Button>
             </Box> */}
             <Box
                 className="shadow1"
                 bgcolor="background.paper"
                 p={1}
-                style={{ height: '2.5rem', position: "fixed", bottom:"0", width:"100%" }}
+                style={{ minHeight: '2.5rem', position: "fixed", bottom:"0", width:"100%" }}
             >
                 <Button
                     variant="contained"

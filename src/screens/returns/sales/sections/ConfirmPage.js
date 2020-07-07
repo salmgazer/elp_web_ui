@@ -66,7 +66,7 @@ const CartView = props => {
         setCheck(true);
         let quant = 0;
         let total = 0;
-        for (let i=0; i<storedProducts.length; i++) { 
+        for (let i=0; i<storedProducts.length; i++) {
             quant += parseFloat(storedProducts[i].quantity);
             total += parseFloat(storedProducts[i].sellingPrice);
         }
@@ -75,7 +75,7 @@ const CartView = props => {
     }
 
     const returnProd =  async() => {
-        
+
         /*
         *@todo create table for stock returns
         */
@@ -86,11 +86,11 @@ const CartView = props => {
                 await new ModelAction('SaleReturnHistories').post(storedProducts[i]);
 
                 storedProducts[i].quantity = storedProducts[i].initialQuantity - storedProducts[i].quantity;
-    
+
                 if (storedProducts[i].quantity === 0) {
-    
+
                     await new ModelAction('Sales').softDelete(storedProducts[i].saleId);
-                    
+
                     setSuccessMsg('Item deleted successfully');
                     setSuccess(true);
                     setTimeout(function () {
@@ -99,11 +99,11 @@ const CartView = props => {
                         setSuccess(false);
                     }, 2000);
                 }
-    
+
                 else {
-                  
+
                     await new ModelAction('SaleEntry').update(storedProducts[i].id, storedProducts[i]);
-                  
+
                     setSuccessMsg('Item returned successfully');
                     setSuccess(true);
                     setTimeout(function () {
@@ -111,9 +111,9 @@ const CartView = props => {
                         props.setView(0);
                         setSuccess(false);
                     }, 2000);
-                    
+
                 }
-    
+
             }
             return true;
         }
@@ -142,7 +142,7 @@ const CartView = props => {
                             for (let i=0; i<storedProducts.length; i++) {
                                 if (storedProducts[i].id === event) {
                                     storedProducts.splice(storedProducts.indexOf(i), 1);
-                                    localStorage.setItem("data", JSON.stringify(storedProducts));  
+                                    localStorage.setItem("data", JSON.stringify(storedProducts));
                                 }
                             }
 
@@ -212,7 +212,7 @@ const CartView = props => {
                         </Typography>
                     </Paper>
                 </Grid>
-                
+
                 <Grid item xs={6}>
                     <Paper className={classes.paper}>
                         <Typography className={classes.title} component="p" >
@@ -224,7 +224,7 @@ const CartView = props => {
                     </Paper>
                 </Grid>
             </Grid>
-            
+
 
             {/* <Button
                 variant="outlined"
@@ -263,7 +263,7 @@ const CartView = props => {
                 className="shadow1"
                 bgcolor="background.paper"
                 p={1}
-                style={{ height: '2.5rem', position: "fixed", bottom:"0", width:"100%" }}
+                style={{ minHeight: '2.5rem', position: "fixed", bottom:"0", width:"100%" }}
             >
                 <Button
                     variant="contained"
@@ -273,7 +273,7 @@ const CartView = props => {
                     Confirm
                 </Button>
             </Box>
-           
+
         </div>
     )
 }

@@ -284,7 +284,7 @@ const StockMainPage = props => {
                             className="shadow1"
                             bgcolor="background.paper"
                             p={1}
-                            style={{ height: '4.0rem', position: "fixed", bottom:"0", width:"100%" }}
+                            style={{ minHeight: '4.0rem', position: "fixed", bottom:"0", width:"100%" }}
                         >
                             <Grid container >
                                 <Grid item xs={6} >

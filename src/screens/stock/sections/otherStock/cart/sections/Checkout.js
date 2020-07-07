@@ -207,7 +207,7 @@ const CheckoutView = props => {
                 setError(false);
             }, 2000);
         }
-        
+
     };
 
     const setSearchValue = (value) => {
@@ -267,12 +267,12 @@ const CheckoutView = props => {
 
                     <FormControl component="fieldset">
                     <RadioGroup aria-label="payment" name="payment" value={value} onChange={handleRadioChange.bind(this)}>
-                    
-                        
+
+
                             <Grid item xs={12} >
                                 <FormControlLabel value={6} name={'gift'} control={<StyledRadio />} label="Gift" style={{display: 'block', marginBottom: '10px', marginLeft: '20px'}}/>
                             </Grid>
-                                
+
                             <Grid item xs={12} >
                                 <FormControlLabel value={7} name={'family'} control={<StyledRadio />} label="Family" style={{display: 'block', marginBottom: '10px', marginLeft: '20px'}}/>
                             </Grid>
@@ -284,7 +284,7 @@ const CheckoutView = props => {
                             <Grid item xs={12} >
                                 <FormControlLabel value={9} name={'expired'} control={<StyledRadio />} label="Expired" style={{display: 'block', marginBottom: '10px', marginLeft: '20px'}}/>
                             </Grid>
-                    
+
                     </RadioGroup>
                     </FormControl>
                 </Grid>
@@ -315,10 +315,10 @@ const CheckoutView = props => {
                 className="shadow1"
                 bgcolor="background.paper"
                 p={1}
-                style={{ height: '2.5rem', position: "fixed", bottom:"0px", width:"100%" }}
+                style={{ minHeight: '2.5rem', position: "fixed", bottom:"0px", width:"100%" }}
             >
                 <Grid container >
-                    
+
                     <Grid item xs={12} >
                         <Button
                             variant="contained"

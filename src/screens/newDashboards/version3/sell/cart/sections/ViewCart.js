@@ -259,7 +259,7 @@ const CartView = props => {
                 className="shadow1"
                 bgcolor="background.paper"
                 p={1}
-                style={{ height: '2.5rem', position: "fixed", bottom:"0", width:"100%", display: 'flex', alignContent: 'center' }}
+                style={{ minHeight: '2.5rem', position: "fixed", bottom:"0", width:"100%", display: 'flex', alignContent: 'center' }}
             >
                 <div
                     onClick={() => props.history.push(paths.sell)}
@@ -281,7 +281,7 @@ const CartView = props => {
             <Box
                 className="shadow1"
                 bgcolor="background.paper"
-                style={{ height: '2.5rem', position: "fixed", bottom:"10px", width:"100%" }}
+                style={{ minHeight: '2.5rem', position: "fixed", bottom:"10px", width:"100%" }}
             >
                 <Button
                     variant="outlined"

@@ -56,7 +56,7 @@ const CostCalculator = (props) => {
                     className="mx-auto"
                     bgcolor="background.paper"
                     p={1}
-                    style={{ height: '2.5rem', width:"100%"}}
+                    style={{ minHeight: '2.5rem', width:"100%"}}
                     key={props.product.id}
                 >
                     <Button

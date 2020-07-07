@@ -77,17 +77,17 @@ const ReturnsProducts = props => {
                         />
                     </div>
                 }
-                icons={                  
+                icons={
                     <Button
                         variant="contained"
                         style={{'backgroundColor': 'white' , color: '#DAAB59', padding: '5px 20px', textTransform: 'none', fontSize:'17px'}}
-                        onClick={returnAll.bind(this, products)} 
+                        onClick={returnAll.bind(this, products)}
                     >
                         Return all
-                    </Button>                  
+                    </Button>
                 }
             />
-            
+
             <SimpleSnackbar
                 type="success"
                 openState={success}
@@ -102,7 +102,7 @@ const ReturnsProducts = props => {
 
             <Paper style={{marginTop: '60px'}} >
                 <Grid container style={{paddingTop: "7px"}} >
-                    <Grid item xs={6} style={{display: 'table', height: '60px', margin: '8px 0px'}}  >  
+                    <Grid item xs={6} style={{display: 'table', height: '60px', margin: '8px 0px'}}  >
                         <div style={{textAlign: 'left', display: 'table-cell', verticalAlign: 'middle'}}>
                             <span className='text-dark font-weight-bold' style={{ marginLeft: '15px'}} >{storedCustomer.name}</span>
                             <div className="font-weight-light mt-1" style={{ fontSize: '14px', marginLeft: '15px'}}>{storedCustomer.date}</div>
@@ -154,7 +154,7 @@ const ReturnsProducts = props => {
                         </Grid>
                     </div>
                     :
-                    products.map((item) => <SingleProduct key={item.id} saleEntry={item} updateSaleEntry={updateSaleEntry.bind(this)} />)  
+                    products.map((item) => <SingleProduct key={item.id} saleEntry={item} updateSaleEntry={updateSaleEntry.bind(this)} />)
                 }
             </Box>
 
@@ -162,7 +162,7 @@ const ReturnsProducts = props => {
                 className="shadow1"
                 bgcolor="background.paper"
                 p={1}
-                style={{ height: '2.5rem', position: "fixed", bottom:"0", width:"100%" }}
+                style={{ minHeight: '2.5rem', position: "fixed", bottom:"0", width:"100%" }}
             >
                 <Button
                     variant="contained"

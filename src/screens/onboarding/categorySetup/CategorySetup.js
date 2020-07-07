@@ -89,7 +89,7 @@ class CategorySetup extends Component{
         let branchCategoriesAdded = JSON.parse(localStorage.getItem('branchCategoriesAdded')) || [];
         let branchCategoriesRemoved = JSON.parse(localStorage.getItem('branchCategoriesRemoved')) || [];
 
-        const old_subcategories = this.state.subcategories;
+        const {...old_subcategories} = this.state.subcategories;
 
         const subcategories = old_subcategories.findIndex((item => item.id === subCategoryId));
         const item = {...old_subcategories[subcategories]};
@@ -271,7 +271,7 @@ class CategorySetup extends Component{
                                 className="shadow1"
                                 bgcolor="background.paper"
                                 p={1}
-                                style={{ height: '2.5rem', position: "fixed", bottom:"0", width:"100%" }}
+                                style={{ minHeight: '2.5rem', position: "fixed", bottom:"0", width:"100%" }}
                             >
                                 <Button
                                     variant="outlined"
@@ -299,7 +299,7 @@ class CategorySetup extends Component{
                                 className="shadow1"
                                 bgcolor="background.paper"
                                 p={1}
-                                style={{ height: '2.5rem', position: "fixed", bottom:"0", width:"100%" }}
+                                style={{ minHeight: '2.5rem', position: "fixed", bottom:"0", width:"100%" }}
                             >
                                 <Grid container >
                                     <Grid item xs={6} >

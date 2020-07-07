@@ -82,7 +82,7 @@ const MainView = props => {
             <Box
                 className={`shadow1 bg-white`}
                 p={1}
-                style={{ height: '2.5rem', position: "fixed", bottom:"0", width:"100%" }}
+                style={{ minHeight: '2.5rem', position: "fixed", bottom:"0", width:"100%" }}
             >
                 <Button
                     variant="contained"

@@ -80,8 +80,8 @@ const Dashboard = props => {
                         display: 'flex',
                         alignItems: 'center',
                         flexDirection: 'column',
-                        paddingTop: '0px' , 
-                        marginBottom: '0px' , 
+                        paddingTop: '0px' ,
+                        marginBottom: '0px' ,
                         height: '190px'
                     }}
                 >
@@ -110,7 +110,7 @@ const Dashboard = props => {
                                 border: '0.5px solid #daab59'
                             }}
                         >
-                            
+
                             <Typography
                                 component="p"
                                 variant="h6"
@@ -130,14 +130,14 @@ const Dashboard = props => {
                                 border: '0.5px solid #daab59'
                             }}
                         >
-                            
+
                             <Typography
                                 component="p"
                                 variant="h6"
                                 style={{fontWeight: '700', fontSize: '0.9rem', color: '#daab59'}}
                                 onClick={() => history.push(paths.dashboardV1)}
                             >
-                                View new dashboard version 1    
+                                View new dashboard version 1
                             </Typography>
                         </CardDefault>
                     </div>
@@ -159,7 +159,7 @@ const Dashboard = props => {
                                 border: '0.5px solid #daab59'
                             }}
                         >
-                            
+
                             <Typography
                                 component="p"
                                 variant="h6"
@@ -179,14 +179,14 @@ const Dashboard = props => {
                                 border: '0.5px solid #daab59'
                             }}
                         >
-                            
+
                             <Typography
                                 component="p"
                                 variant="h6"
                                 style={{fontWeight: '700', fontSize: '0.9rem', color: '#daab59'}}
                                 onClick={() => history.push(paths.newSell)}
                             >
-                                View new dashboard version 3       
+                                View new dashboard version 3
                             </Typography>
                         </CardDefault>
                     </div>
@@ -197,7 +197,7 @@ const Dashboard = props => {
                     bgcolor="background.paper"
                     p={1}
                     className={`shadow1`}
-                    style={{ height: '4.0rem', position: "fixed", bottom:"0", width:"100%" }}
+                    style={{ minHeight: '4.0rem', position: "fixed", bottom:"0", width:"100%" }}
                 >
                     <Button
                         variant="contained"

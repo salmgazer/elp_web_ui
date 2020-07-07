@@ -32,7 +32,7 @@ const useStyles = makeStyles(theme => ({
     },
 }));
 
-const StockMovement = props => { 
+const StockMovement = props => {
     const [value , setValue] = useState(0);
     const [isShowDrawer , setIsShowDrawer] = useState(false);
     const classes = useStyles();
@@ -133,7 +133,7 @@ const StockMovement = props => {
                 className="shadow1"
                 bgcolor="background.paper"
                 p={1}
-                style={{ height: '2.5rem', position: "fixed", bottom:"0", width:"100%" }}
+                style={{ minHeight: '2.5rem', position: "fixed", bottom:"0", width:"100%" }}
             >
                 <Grid container >
                     <Grid item xs={12} >
@@ -148,7 +148,7 @@ const StockMovement = props => {
             </Box>
         </div>
     )
-    
+
 
 }
 

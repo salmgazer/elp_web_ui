@@ -33,7 +33,7 @@ const useStyles = makeStyles(theme => ({
     },
     money: {
         fontSize: '17px',
-        
+
     },
     tabs: {
         textTransform: 'none',
@@ -85,7 +85,7 @@ const MainPage = props => {
                 <Drawer isShow={isDrawerShow} />
             </div>
 
-            
+
 
             <Grid container spacing={1} className={classes.root} >
                 <Grid item xs={4}>
@@ -98,7 +98,7 @@ const MainPage = props => {
                         </Typography>
                     </Paper>
                 </Grid>
-                
+
                 <Grid item xs={4}>
                     <Paper className={classes.paper}>
                         <Typography className={classes.title} component="p" >
@@ -155,17 +155,17 @@ const MainPage = props => {
                 className="shadow1"
                 bgcolor="background.paper"
                 p={1}
-                style={{ height: '2.5rem', position: "fixed", bottom:"0", width:"100%" }}
+                style={{ minHeight: '2.5rem', position: "fixed", bottom:"0", width:"100%" }}
             >
-             
+
                 <Button
                     variant="contained"
                     style={{backgroundColor:'#DAAB59' , color: '#333333', padding: '5px 40px', textTransform: 'none', fontSize:'15px'}}
                     onClick={historyHandler.bind(this)}
                 >
                     View history
-                </Button> 
-                
+                </Button>
+
             </Box>
 
         </div>

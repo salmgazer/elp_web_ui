@@ -254,7 +254,7 @@ const CartView = props => {
             <Box
                 className="shadow1"
                 bgcolor="background.paper"
-                style={{ height: '2.5rem', position: "fixed", bottom:"10px", width:"100%" }}
+                style={{ minHeight: '2.5rem', position: "fixed", bottom:"10px", width:"100%" }}
             >
                 <Grid container >
                     <Grid item xs={6} >

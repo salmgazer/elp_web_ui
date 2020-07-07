@@ -43,7 +43,7 @@ const ReturnsProducts = props => {
 
             <Paper style={{marginTop: '60px'}} >
                 <Grid container style={{paddingTop: "7px"}}>
-                    <Grid item xs={6} style={{display: 'table', height: '60px', margin: '8px 0px'}} direction="column" >  
+                    <Grid item xs={6} style={{display: 'table', height: '60px', margin: '8px 0px'}} direction="column" >
                         <div style={{textAlign: 'left', display: 'table-cell', verticalAlign: 'middle'}}>
                             <span className='text-dark font-weight-bold' style={{ marginLeft: '15px'}} >{supplier.name}</span>
                             <div className="font-weight-light mt-1" style={{ fontSize: '14px', marginLeft: '15px'}}>{supplier.date}</div>
@@ -95,7 +95,7 @@ const ReturnsProducts = props => {
                         </Grid>
                     </div>
                     :
-                    products.map((item) => <SingleProduct key={item.id} product={item} />)  
+                    products.map((item) => <SingleProduct key={item.id} product={item} />)
                 }
             </Box>
 
@@ -103,7 +103,7 @@ const ReturnsProducts = props => {
                 className="shadow1"
                 bgcolor="background.paper"
                 p={1}
-                style={{ height: '2.5rem', position: "fixed", bottom:"0", width:"100%" }}
+                style={{ minHeight: '2.5rem', position: "fixed", bottom:"0", width:"100%" }}
             >
                 <Button
                     variant="contained"

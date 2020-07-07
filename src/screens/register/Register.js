@@ -289,7 +289,7 @@ const Register = props => {
                             boxShadow={1}
                             bgcolor="background.paper"
                             p={1}
-                            style={{ height: '2.5rem', position: "fixed", bottom:"0", width:"100%" }}
+                            style={{ minHeight: '2.5rem', position: "fixed", bottom:"0", width:"100%" }}
                         >
                             <Button
                                 variant="outlined"
@@ -310,7 +310,7 @@ const Register = props => {
                                 {
                                     loading ?
                                         <PrimaryLoader
-                                            style={{width: '30px' , height: '2.5rem'}}
+                                            style={{width: '30px' , minHeight: '2.5rem'}}
                                             color="#FFFFFF"
                                             type="Oval"
                                             className={`mt-1`}
@@ -334,7 +334,7 @@ const Register = props => {
                             boxShadow={1}
                             bgcolor="background.paper"
                             p={1}
-                            style={{ height: '2.5rem', position: "fixed", bottom:"0", width:"100%" }}
+                            style={{ minHeight: '2.5rem', position: "fixed", bottom:"0", width:"100%" }}
                         >
                             {activeStep === 0 ? '' :
                                 <Button

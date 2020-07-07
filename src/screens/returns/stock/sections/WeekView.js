@@ -108,7 +108,7 @@ const WeekView = props => {
                     :
 
                     returns.map((item) => <SingleDay key={item.id} returns={item} setView={props.setView} />)
-                    
+
                 }
             </Box>
 
@@ -116,14 +116,14 @@ const WeekView = props => {
                 className="shadow1"
                 bgcolor="background.paper"
                 p={1}
-                style={{ height: '2.5rem', position: "fixed", bottom:"0", width:"100%" }}
+                style={{ minHeight: '2.5rem', position: "fixed", bottom:"0", width:"100%" }}
             >
                 <Button
                     variant="outlined"
                     style={{border: '1px solid #DAAB59', color: '#333333', padding: '5px 50px', textTransform: 'none', fontSize:'17px'}}
                     onClick={() => setView(1)}
                 >
-                    Back  
+                    Back
                 </Button>
             </Box>
 

@@ -139,7 +139,7 @@ const StockBarcodeMode = props => {
                 <Box
                     className={`bg-white my-3`}
                     p={1}
-                    style={{ height: '2.5rem', width:"100%" }}
+                    style={{ minHeight: '2.5rem', width:"100%" }}
                 >
                     <Button
                         variant="outlined"

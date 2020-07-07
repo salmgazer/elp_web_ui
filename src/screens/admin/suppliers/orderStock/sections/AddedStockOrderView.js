@@ -1,4 +1,4 @@
-import React, {useEffect, 
+import React, {useEffect,
     //useState
 } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
@@ -9,7 +9,7 @@ import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
 import Button from "@material-ui/core/Button/Button";
 // import PersonAddIcon from '@material-ui/icons/PersonAdd';
-import Box from "@material-ui/core/Box/Box";     
+import Box from "@material-ui/core/Box/Box";
 import AddedProductSingle from "./BoxView/BoxView";
 import { withRouter } from "react-router-dom";
 // import paths from "../../../../../utilities/paths";
@@ -230,7 +230,7 @@ const AddedStockOrderView = props => {
                 className="shadow1"
                 bgcolor="background.paper"
                 p={1}
-                style={{ height: '2.5rem', position: "fixed", bottom:"0", width:"100%", display: 'flex', alignContent: 'center' }}
+                style={{ minHeight: '2.5rem', position: "fixed", bottom:"0", width:"100%", display: 'flex', alignContent: 'center' }}
             >
                 <div
                     onClick={() => props.history.push(paths.sell)}
@@ -252,7 +252,7 @@ const AddedStockOrderView = props => {
             <Box
                 className="shadow1"
                 bgcolor="background.paper"
-                style={{ height: '2.5rem', position: "fixed", bottom:"10px", width:"100%" }}
+                style={{ minHeight: '2.5rem', position: "fixed", bottom:"10px", width:"100%" }}
             >
                 <Button
                     variant="contained"
