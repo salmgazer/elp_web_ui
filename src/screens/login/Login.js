@@ -122,7 +122,7 @@ const Login = props => {
             const userId = userAccess.user.userId;
             await SyncService.sync(companyId, LocalInfo.branchId, userId, database);
             const activeCustomer = await CustomerService.getCashCustomer();
-            console.log(activeCustomer);
+
             await database.adapter.setLocal("activeCustomer" , activeCustomer[0].id);
             await new CartService().cartId();
             await new AuditService().auditId();
