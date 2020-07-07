@@ -8,11 +8,23 @@ const Step1 = (props) => {
     const subcategories = props.subcategories;
     const categories = props.categories;
 
+    const _viewSubCategory = (event) => {
+        props.clickFnc('all' , event);
+    };
+
     return(
         <div className={`mb-5`}>
             <p style={{marginTop: '60px', fontSize: '18px', fontWeight: '400', color: '#333333'}}>Select product categories you sell</p>
 
             <div className="scrollWrapper">
+                <span
+                    key={0}
+                    className={`shadow1 ${props.activeItem === 0 ? `activeBorder activeColor` : ''}`}
+                    style={{cursor: 'pointer' , width: '40px'}}
+                    onClick={_viewSubCategory.bind(this)}
+                >
+                    All
+                </span>
                 {categories.map((item) => <CategorySingle activeItem={props.activeItem} _viewSubCategory={props.clickFnc} key={item.id} item={item}/>)}
             </div>
 
