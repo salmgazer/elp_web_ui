@@ -359,7 +359,7 @@ const VerifySMS = props => {
                                         {
                                             loadingContact ?
                                                 <PrimaryLoader
-                                                    style={{width: '30px' , height: '2.5rem'}}
+                                                    style={{width: '30px' , minHeight: '2.5rem'}}
                                                     color="#FFFFFF"
                                                     type="Oval"
                                                     className={`mt-1`}
@@ -425,7 +425,7 @@ const VerifySMS = props => {
                                 {
                                     loading ?
                                         <PrimaryLoader
-                                            style={{width: '30px' , height: '2.5rem'}}
+                                            style={{width: '30px' , minHeight: '2.5rem'}}
                                             color="#FFFFFF"
                                             type="Oval"
                                             className={`mt-1`}
@@ -466,7 +466,7 @@ const VerifySMS = props => {
                                         {
                                             loadingSMS ?
                                                 <PrimaryLoader
-                                                    style={{width: '30px' , height: '2.5rem'}}
+                                                    style={{width: '30px' , minHeight: '2.5rem'}}
                                                     color="#FFFFFF"
                                                     type="Oval"
                                                     className={`mt-1`}

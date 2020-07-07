@@ -451,7 +451,7 @@ const Dashboard = props => {
                     bgcolor="background.paper"
                     p={1}
                     className={`shadow1`}
-                    style={{ height: '4.0rem', position: "fixed", bottom:"0", width:"100%" }}
+                    style={{ minHeight: '4.0rem', position: "fixed", bottom:"0", width:"100%" }}
                 >
                     <Button
                         variant="contained"

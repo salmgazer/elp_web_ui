@@ -39,14 +39,14 @@ const ItemsLowStock = (props) => {
             <Box style={{marginTop: '5px' , margin: '2px 5px', paddingBottom: '60px'}} p={1} className={`mt-3 mb-5`}>
 
                 {products.map((product) => <LowStockProductSingle addNewProductStockView={props.addNewProductStockView} key={product.id} product={product}/>)}
-            
+
             </Box>
 
             <Box
                 className="shadow1"
                 bgcolor="background.paper"
                 p={1}
-                style={{ height: '2.5rem', position: "fixed", bottom:"0", width:"100%" }}
+                style={{ minHeight: '2.5rem', position: "fixed", bottom:"0", width:"100%" }}
             >
                 <div
                     onClick={backHandler.bind(this)}

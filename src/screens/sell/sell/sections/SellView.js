@@ -414,7 +414,7 @@ const SellView = props => {
             <Box
                 className={`shadow1 bg-white`}
                 p={1}
-                style={{ height: '2.5rem', position: "fixed", padding: '5px 5%', bottom:"0", width:"96%" , display: 'flex' , alignItems: 'center', justifyContent: 'space-around'}}
+                style={{ minHeight: '2.5rem', position: "fixed", padding: '5px 5%', bottom:"0", width:"96%" , display: 'flex' , alignItems: 'center', justifyContent: 'space-around'}}
             >
                 <div style={{flex: 1}}
                      onClick={() => history.push(paths.stock)}

@@ -35,16 +35,16 @@ const WeekView = props => {
               getInvoiceDetails(selectedWeek);
           }
       });
-  
+
       const getInvoiceDetails = async (date) => {
           let response = [];
-  
+
           if (pageName === true){
               const branchCustomer = props.customer[0];
               const newCustomer = await branchCustomer.customer.fetch();
-  
+
               response = await new InvoiceService().getInvoiceDetailsbyCustomer('week' , date , newCustomer.id);
-  
+
               setName(newCustomer.firstName);
               setCustomer(newCustomer);
           }else{
@@ -141,7 +141,7 @@ const WeekView = props => {
                     :
 
                     invoices.map((invoice , index) => <CustomerWeek customer={customer} key={index} invoice={invoice} prodName={name} />)
-                    
+
                 }
             </Box>
 
@@ -149,14 +149,14 @@ const WeekView = props => {
                 className="shadow1"
                 bgcolor="background.paper"
                 p={1}
-                style={{ height: '2.5rem', position: "fixed", bottom:"0", width:"100%" }}
+                style={{ minHeight: '2.5rem', position: "fixed", bottom:"0", width:"100%" }}
             >
                 <Button
                     variant="outlined"
                     style={{border: '1px solid #DAAB59', color: '#333333', padding: '5px 50px', textTransform: 'none', fontSize:'17px'}}
                     onClick={() => setView(1)}
                 >
-                    Back  
+                    Back
                 </Button>
             </Box>
 

@@ -29,7 +29,7 @@ const useStyles = makeStyles(theme => ({
       },
       money: {
           fontSize: '17px',
-          
+
       },
       paper3: {
         padding: theme.spacing(1),
@@ -79,7 +79,7 @@ const MainPage = props => {
                 <Drawer isShow={isDrawerShow} />
             </div>
 
-            
+
 
             <Grid container spacing={1} className={classes.root} >
                 <Grid item xs={4}>
@@ -92,7 +92,7 @@ const MainPage = props => {
                         </Typography>
                     </Paper>
                 </Grid>
-                
+
                 <Grid item xs={4}>
                     <Paper className={classes.paper}>
                         <Typography className={classes.title} component="p" >
@@ -129,25 +129,25 @@ const MainPage = props => {
 
                 <label className={`text-center`} style={{fontSize: '15px', marginTop: '10px',}}> Amount cash collected</label>
 
-                <TextField 
-                    id="outlined-basic" 
+                <TextField
+                    id="outlined-basic"
                     name="amount"
-                    variant="outlined" 
-                    size="small" 
+                    variant="outlined"
+                    size="small"
                     // onChange={handChange.bind(this)}
                     type='number'
-                    style={{margin: '10px 0px 30px 0px'}} 
+                    style={{margin: '10px 0px 30px 0px'}}
                 />
 
                 <Button
                     type="submit"
                     variant="outlined"
                     style={{
-                        border: '1px solid', 
-                        color: '#DAAB59', 
-                        padding: '4px 50px', 
-                        marginBottom: '15px', 
-                        textTransform: 'none', 
+                        border: '1px solid',
+                        color: '#DAAB59',
+                        padding: '4px 50px',
+                        marginBottom: '15px',
+                        textTransform: 'none',
                         fontSize:'15px'}}
                 >
                         Save
@@ -166,7 +166,7 @@ const MainPage = props => {
                         <Typography style={{ fontSize: '18px', padding: '30px', marginBottom: '30px', fontStyle: 'italic'}} >
                             No saved collections today
                         </Typography>
-                        
+
                     </Paper>
                 </div>
                 :
@@ -186,17 +186,17 @@ const MainPage = props => {
                 className="shadow1"
                 bgcolor="background.paper"
                 p={1}
-                style={{ height: '2.5rem', position: "fixed", bottom:"0", width:"100%" }}
+                style={{ minHeight: '2.5rem', position: "fixed", bottom:"0", width:"100%" }}
             >
-             
+
                 <Button
                     variant="contained"
                     style={{backgroundColor:'#DAAB59' , color: '#333333', padding: '5px 40px', textTransform: 'none', fontSize:'15px'}}
                     onClick={historyHandler.bind(this)}
                 >
                     View history
-                </Button> 
-                
+                </Button>
+
             </Box>
 
         </div>

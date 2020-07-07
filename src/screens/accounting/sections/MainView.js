@@ -33,7 +33,7 @@ const useStyles = makeStyles(theme => ({
     },
     money: {
         fontSize: '17px',
-        
+
     },
     tabs: {
         textTransform: 'none',
@@ -137,7 +137,7 @@ const MainView = props => {
     const handleChange = (event, newValue) => {
         setValue(newValue);
       };
-  
+
     const handleChangeIndex = index => {
         setValue(index);
     };
@@ -176,7 +176,7 @@ const MainView = props => {
 
     return(
         <div>
-            <SectionNavbar 
+            <SectionNavbar
                 title="Accounting"
                 icons={
                     <MoreVertIcon
@@ -210,7 +210,7 @@ const MainView = props => {
                         </Typography>
                     </Paper>
                 </Grid>
-                
+
                 <Grid item xs={4}>
                     <Paper className={classes.paper}>
                         <Typography className={classes.title} component="p" >
@@ -255,13 +255,13 @@ const MainView = props => {
                 onChangeIndex={handleChangeIndex}
             >
                 <TabPanel value={value} index={0} >
-                    <ViewCashIn 
-                        addItem={addNewItem.bind(this)} 
+                    <ViewCashIn
+                        addItem={addNewItem.bind(this)}
                         handAchange={handAnotherCashIn.bind(this)}
-                        handle={changeIn.bind(this)} 
+                        handle={changeIn.bind(this)}
                         deleteCollection={deleteHandlerIn.bind(this)}
-                        amtValue={props.amountValCashIn} 
-                        items={props.listOfCashInItems} 
+                        amtValue={props.amountValCashIn}
+                        items={props.listOfCashInItems}
                         defaultUser="Sales"
                         topic="Collections for today"
                         labels="Received from"
@@ -270,13 +270,13 @@ const MainView = props => {
                 </TabPanel>
 
                 <TabPanel value={value} index={1} >
-                    <ViewCashIn 
-                        addItem={addAnotherItem.bind(this)} 
+                    <ViewCashIn
+                        addItem={addAnotherItem.bind(this)}
                         handAchange={handAnotherCashOut.bind(this)}
-                        handle={changeOut.bind(this)} 
+                        handle={changeOut.bind(this)}
                         deleteCollection={deleteHandlerOut.bind(this)}
-                        amtValue={props.amountValCashOut} 
-                        items={props.listOfCashOutItems} 
+                        amtValue={props.amountValCashOut}
+                        items={props.listOfCashOutItems}
                         defaultUser="Offloading fee"
                         topic="Expenses for today"
                         labels="Paid to"
@@ -284,8 +284,8 @@ const MainView = props => {
                     />
                 </TabPanel>
                 <TabPanel value={value} index={2} >
-                    
-                    <ViewReport 
+
+                    <ViewReport
                         CashInItems={props.listOfCashInItems}
                         CashOutItems={props.listOfCashOutItems}
                     />
@@ -296,16 +296,16 @@ const MainView = props => {
                 className="shadow1"
                 bgcolor="background.paper"
                 p={1}
-                style={{ height: '2.5rem', position: "fixed", bottom:"0", width:"100%" }}
+                style={{ minHeight: '2.5rem', position: "fixed", bottom:"0", width:"100%" }}
             >
-             
+
                 <Button
                     variant="contained"
                     style={{backgroundColor:'#DAAB59' , color: '#333333', padding: '5px 40px', textTransform: 'none', fontSize:'17px'}}
                 >
                     View cash in
-                </Button> 
-                
+                </Button>
+
             </Box>
 
 
