@@ -62,7 +62,7 @@ const Drawer = props => {
     );
 
     const [open, setOpen] = React.useState(false);
-    const [logoutPop, setLogoutPop] = React.useState(false);
+    //const [logoutPop, setLogoutPop] = React.useState(false);
 
     const handleClick = () => {
         setOpen(!open);
@@ -92,7 +92,7 @@ const Drawer = props => {
     };*/
 
      const sync = async() => {
-         setLogoutPop(true);
+         //setLogoutPop(true);
 
          setSyncOpen(true);
          //backDrop();
@@ -139,7 +139,7 @@ const Drawer = props => {
     // }
 
     const logout = async() => {
-        setLogoutPop(true);
+        //setLogoutPop(true);
         try {
             await SyncService.sync(LocalInfo.companyId, LocalInfo.branchId, LocalInfo.userId, database);
             await new AuthService().logout();
@@ -147,7 +147,7 @@ const Drawer = props => {
         }catch (e) {
             console.log(e)
         }
-        setLogoutPop(false);
+        //setLogoutPop(false);
 
     };
 
@@ -158,9 +158,9 @@ const Drawer = props => {
             onClick={toggleDrawer(side, false)}
             onKeyDown={toggleDrawer(side, false)}
         >
-            <RequestLoader
+            {/*<RequestLoader
                 open={logoutPop}
-            />
+            />*/}
 
             <span className="drawerDefault"
                 onClick={() => history.push(paths.dashboard)}

@@ -84,7 +84,6 @@ class SalesReturns extends Component{
             //Find index of specific object using findIndex method.
             const itemIndex = old_list.filter((item => item.customerId === customerId));
 
-            console.log(itemIndex)
             this.setState({
                 currentCustomer: itemIndex,
                 activeStep: step
@@ -98,7 +97,6 @@ class SalesReturns extends Component{
     };
 
     returnProducts = async (step, saleEntries) => {
-        console.log(saleEntries);
         this.setState({
             saleEntries: saleEntries,
             activeStep: step

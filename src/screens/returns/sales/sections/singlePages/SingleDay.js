@@ -40,7 +40,6 @@ const SingleDayView = props => {
     };
     
     const openReturnsHandler = (saleEntries) => {
-        console.log(saleEntries);
         props.returnProducts(5, saleEntries);
 
         const {...oldFormFields} = formFields;

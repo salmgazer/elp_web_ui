@@ -84,7 +84,6 @@ const CartView = props => {
 
         try {
             for (let i=0; i<storedProducts.length; i++) {
-                console.log(storedProducts[i]);
 
                 await new ModelAction('StockReturnHistories').post(storedProducts[i]);
 

@@ -46,7 +46,6 @@ const WeekView = props => {
     });
 
     const getMovementDetails = async (date) => {
-      console.log(date, name);
       let response = [];
 
       if (pageName === true){
@@ -71,7 +70,6 @@ const WeekView = props => {
 
       setGetDetails(response);
       setEntries(response.entries);
-      console.log(response)
     };
 
     const handleChange = event => {
@@ -102,7 +100,6 @@ const WeekView = props => {
                         value={selectedWeek}
                         style={{width: '220px',  margin: '10px 0px', fontSize: '5px'}}
                         onChange={handleChange}
-                        color="#DAAB59"
                         SelectProps={{
                             native: true,
                         }}

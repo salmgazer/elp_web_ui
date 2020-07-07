@@ -123,6 +123,7 @@ const VerifySMS = props => {
                     setTimeout(function(){
                         setSuccessDialog(false);
                         setLoading(false);
+                        localStorage.removeItem('isRegistering');
                         history.push(paths.get_started);
                     }, 2000);
                 }

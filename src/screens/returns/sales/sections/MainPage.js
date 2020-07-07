@@ -35,7 +35,6 @@ const MainPage = props => {
     };
 
     const addCustomerHandler = (id) => {
-        //console.log(id);
         props.customerAdd(id, 0);
     };
 

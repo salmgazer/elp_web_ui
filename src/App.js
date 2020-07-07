@@ -547,8 +547,9 @@ export class PublicRoute extends React.Component {
         const Component = this.props.component;
 
         const isAuthenticated = LocalInfo.isAuthenticated;
+        const isRegistering = localStorage.getItem('isRegistering') || false;
 
-        return isAuthenticated ? (
+        return isAuthenticated && isRegistering !== 'true' ? (
             <Redirect to={from} />
         ) : (
             <Component/>

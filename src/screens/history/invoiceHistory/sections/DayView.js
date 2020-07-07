@@ -6,7 +6,6 @@ import {
   MuiPickersUtilsProvider,
   KeyboardDatePicker,
 } from '@material-ui/pickers';
-import Typography from '@material-ui/core/Typography';
 import Box from "@material-ui/core/Box/Box";
 import { withRouter } from "react-router-dom";
 
@@ -16,7 +15,6 @@ import InvoiceService from "../../../../services/InvoiceService";
 import CardsSection from '../../../../components/Sections/CardsSection';
 import SearchInput from "../../../Components/Input/SearchInput";
 import Empty from '../../../../assets/img/empty.png';
-import Button from "@material-ui/core/Button/Button";
 import paths from "../../../../utilities/paths";
 import ModelAction from "../../../../services/ModelAction";
 import SimpleSnackbar from "../../../../components/Snackbar/SimpleSnackbar";

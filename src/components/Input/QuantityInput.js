@@ -1,4 +1,4 @@
-import React , {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import Grid from "@material-ui/core/Grid/Grid";
 import AddCircleOutlineOutlinedIcon from '@material-ui/icons/AddCircleOutlineOutlined';
 import RemoveCircleOutlineOutlinedIcon from '@material-ui/icons/RemoveCircleOutlineOutlined';
@@ -35,13 +35,21 @@ const useStyles = makeStyles(theme => ({
 
 const QuantityInput = props => {
     const classes = useStyles();
-    const [quantity , setQuantity] = useState(parseFloat(props.startValue) || '');
+    const [quantity , setQuantity] = useState(props.startValue ? parseFloat(props.startValue) || '' : '');
     const inputName = props.inputName;
+
+    useEffect(() => {
+        if (parseFloat(quantity) !== parseFloat(props.startValue)) {
+            setQuantity(props.startValue ? parseFloat(props.startValue) || '' : '');
+        }
+    });
 
     const increaseQ = () => {
         if(isNaN(quantity) || quantity.length <= 0)
         {
             setQuantity(1);
+            props.getValue(inputName , 1);
+
             return
         }
 
@@ -62,7 +70,6 @@ const QuantityInput = props => {
         setQuantity(parseFloat(quantity) - 1);
 
         props.getValue(inputName , qn);
-
     };
 
     const setValueHandler = (event) => {

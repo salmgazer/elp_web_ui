@@ -21,7 +21,6 @@ const AddProductCart = props => {
     const [costPrice , setCostPrice] = useState(0);
     const [success , setSuccess] = useState(false);
     const [successMsg , setSuccessMsg] = useState('');
-    console.log(setSuccess, setSuccessMsg)
 
     const [formFields , setFormFields] = useState({
         quantity: 1,

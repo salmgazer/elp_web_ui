@@ -27,10 +27,9 @@ const ReturnsProducts = props => {
     const updateSaleEntry =  async(pId, formFields) => {
         if (formFields.quantity === 0) {
 
-            console.log('happy')
         }
         else {
-            console.log('ok')
+
         }
     };
 

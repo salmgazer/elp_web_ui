@@ -88,7 +88,6 @@ const SingleProduct = props => {
     const updateSaleEntry = () => {
         let data = JSON.parse(localStorage.getItem('data')) || [];
         
-        console.log(formFields)
         const response = props.updateSaleEntry(saleEntry.id, formFields);
         data.push(formFields);
         localStorage.setItem('data', JSON.stringify(data));

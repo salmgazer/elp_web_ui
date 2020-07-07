@@ -95,6 +95,9 @@ export default function AccountInformationSection(props) {
     const AccountInformationForm = useRef(null);
     const [ error, setError] = useState('none');
     const [ errorMsg, setErrorMsg] = useState('');
+    const [checkStatus , setCheckStatus] = useState(0);
+    //const [checkStatus , setCheckStatus] = useState(0);
+    const [checkUsername , setCheckUsername] = useState(0);
 
     const userFields = props.formData;
     const [showPassword, setShowPassword] = useState({
@@ -112,48 +115,19 @@ export default function AccountInformationSection(props) {
         // custom rule will have name 'isPasswordMatch'
         ValidatorForm.addValidationRule('isPasswordMatch', (value) => {
             const { ...formData } = formFields;
-            if (value !== formData.password) {
+
+            if (value !== formData.password && formData.password === "") {
                 return false;
             }
 
-            if (error || errorMsg) {
+            /*if (error || errorMsg) {
                 console.log(error)
-            }
+            }*/
+
+            //handleFormValidation();
             return true;
         });
     });
-
-    // const checkPassword = (event) => {
-    //     const { ...formData }  = formFields;
-    //     formData[event.target.name] = event.target.value;
-    //     setFormFields(formData);
-    //     props.collectData(event);
-
-    //     ValidatorForm.addValidationRule('isPasswordMatch', (value) => {
-    //         //const { ...values } = props.formData;
-
-    //         if (value !== formFields.password) {
-    //             return false;
-    //         }
-    //         return true;
-    //     });
-    // };
-
-    // const checkSameUsernamePassword = (event) => {
-    //     const { ...formData }  = formFields;
-    //     formData[event.target.name] = event.target.value;
-    //     setFormFields(formData);
-    //     props.collectData(event);
-
-    //     ValidatorForm.addValidationRule('isUsernamePasswordMatch', (value) => {
-    //         const { ...values } = props.formData;
-
-    //         if (value === formFields.username) {
-    //             return false;
-    //         }
-    //         return true;
-    //     });
-    // };
 
     const handleChangeChk = name => async (event) => {
         setShowPassword({ ...showPassword, [name]: event.target.checked });
@@ -229,8 +203,11 @@ export default function AccountInformationSection(props) {
                 setError('block');
                 setErrorMsg('Username exists in database. Use another username');
             }else{
+
                 setError('none');
                 setErrorMsg('');
+                //setCheckUsername(0);
+                //props.isValid(await AccountInformationForm.current.isFormValid());
             }
         } catch (error) {
             console.log('Could not check username. Please enter again!');
@@ -240,32 +217,43 @@ export default function AccountInformationSection(props) {
     useEffect(() => {
         // custom rule will have name 'isUserExist'
         ValidatorForm.addValidationRule('isUserExist', async (value) => {
+            //if(!checkUsername){
+                try{
+                    let response = await new Api('others').index(
+                        {},
+                        {},
+                        `https://${Api.apiDomain()}/v1/client/users/exists?username=${value}`,
+                        {},
+                    );
 
-            try{
-                let response = await new Api('others').index(
-                    {},
-                    {},
-                    `https://${Api.apiDomain()}/v1/client/users/exists?username=${value}`,
-                    {},
-                );
+                    setCheckUsername(1);
 
-                if(response.data.valid === false){
+                    if(response.data.valid === false){
+                        return false;
+                    }
+                    return true;
+                } catch (e) {
                     return false;
                 }
-                return true;
-            } catch (e) {
-                return false;
-            }
+            //}
         });
     });
 
-    useEffect(() => {
+    /*useEffect(() => {
         (
             async function validateForm(){
                 //let newCategory = await new Api('business_categories').index();
                 props.isValid(await AccountInformationForm.current.isFormValid());
+                console.log(props.isValid(await AccountInformationForm.current.isFormValid()));
             }
         )();
+    });*/
+
+    useEffect(() => {
+        if (!checkStatus) {
+            handleFormValidation();
+            setCheckStatus(1);
+        }
     });
 
     const handleChange = (event) => {

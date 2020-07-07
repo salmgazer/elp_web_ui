@@ -9,7 +9,6 @@ import {makeStyles} from "@material-ui/core";
 import SimpleSnackbar from "../../../../components/Snackbar/SimpleSnackbar";
 import ProductServiceHandler from "../../../../services/ProductServiceHandler";
 import {withRouter} from 'react-router-dom';
-import AddShoppingCartOutlinedIcon from '@material-ui/icons/AddShoppingCartOutlined';
 import BranchProductService from "../../../../services/BranchProductService";
 import CustomerService from "../../../../services/CustomerService";
 import CartService from "../../../../services/CartService";
@@ -165,7 +164,7 @@ const AddProductCart = props => {
     };
 
     const setUnitPriceHandler = event => {
-        console.log(formFields.sellingPrice , branchProduct.sellingPrice)
+        // console.log(formFields.sellingPrice , branchProduct.sellingPrice)
         let sp = (event.target.value);
 
         if (sp < costPrice) {
@@ -176,7 +175,7 @@ const AddProductCart = props => {
             }, 3000);
         }
         const discount = (parseFloat(formFields.sellingPrice - sp)).toFixed(2);
-        console.log(sp , formFields.sellingPrice , discount)
+        //.log(sp , formFields.sellingPrice , discount)
 
         /*
         * @todo how to handle increase not discount...

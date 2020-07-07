@@ -1,4 +1,4 @@
-import React, {useState , useRef } from 'react';
+import React, {useState, useRef, useEffect} from 'react';
 import {
     withStyles,
     makeStyles,
@@ -53,13 +53,20 @@ export default function PersonalInformationSection(props) {
     const PersonalInformationForm = useRef(null);
     const [error , setError] = useState('none');
     const [errorMsg , setErrorMsg] = useState('');
-
+    const [checkStatus , setCheckStatus] = useState(false);
     const userFields = props.formData;
     const classes = useStyles();
     const [formFields , setFormFields] = useState({
         firstName: userFields.firstName,
         otherNames: userFields.otherNames,
         phone: userFields.phone,
+    });
+
+    useEffect(() => {
+        if (!checkStatus) {
+            handleFormValidation();
+            setCheckStatus(1);
+        }
     });
 
     const handleChange = async(event) => {
@@ -70,6 +77,7 @@ export default function PersonalInformationSection(props) {
     };
 
     const handleFormValidation = async(result) => {
+        console.log(props.isValid(await PersonalInformationForm.current.isFormValid()));
         props.isValid(await PersonalInformationForm.current.isFormValid());
     };
 

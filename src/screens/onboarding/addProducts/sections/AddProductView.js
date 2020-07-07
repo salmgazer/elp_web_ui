@@ -31,9 +31,9 @@ const AddProductView = props => {
     const product = props.product[0];
 
     const [formFields , setFormFields] = useState({
-        quantity: 0,
-        sellingPrice: product.owned ? parseFloat(product.sellingPrice).toFixed(2) : '',
-        costPrice: product.owned ? parseFloat(product.stock[product.stock.length - 1].costPrice).toFixed(2) : '',
+        quantity: '',
+        sellingPrice: product.owned && Array.isArray(product.stock) ? parseFloat(product.sellingPrice).toFixed(2) : '',
+        costPrice: product.owned && Array.isArray(product.stock) ? parseFloat(product.stock[product.stock.length - 1].costPrice).toFixed(2) : '',
         productId: props.product[0].id,
         branchId: LocalInfo.branchId,
     });
@@ -97,6 +97,17 @@ const AddProductView = props => {
         setFormFields(oldFormFields);
     };
 
+    const setCostValue = (value) => {
+        const {...oldFormFields} = formFields;
+
+        for (let i = 0; i < value.length; i++){
+            const itemKey = Object.keys(value[i]);
+            oldFormFields[itemKey] = value[i][itemKey];
+        }
+
+        setFormFields(oldFormFields);
+    };
+
     const handleCloseSnack = (event, reason) => {
         if (reason === 'clickaway') {
             return;
@@ -108,6 +119,9 @@ const AddProductView = props => {
     /*const undoProductAdd = () => {
         props.undoAddProduct(product.id);
     };*/
+    const addDefaultSrc = (event) => {
+        event.target.src = "https://elparah.store/admin/upload/no_image.png";
+    };
 
     const productHistory = productDetails.getProductHistory();
 
@@ -148,7 +162,7 @@ const AddProductView = props => {
                 </Typography>
             </div>
             <div>
-                <img className={`img-fluid imageProduct mx-auto d-block pt-2`} src={productDetails.getProductImage()} alt={productDetails.getProductName()}/>
+                <img onError={addDefaultSrc.bind(this)} className={`img-fluid imageProduct mx-auto d-block pt-2`} src={productDetails.getProductImage()} alt={productDetails.getProductName()}/>
             </div>
 
             <Snackbar open={errorDialog} autoHideDuration={6000} onClose={handleCloseSnack}>
@@ -171,9 +185,9 @@ const AddProductView = props => {
                 </Typography>
 
                 <div className={`rounded bordered mb-3 mx-3 px-3 py-3`}>
-                    <QuantityInput startValue={0} label={`Quantity counted`} inputName="quantity" getValue={setInputValue.bind(this)}/>
+                    <QuantityInput startValue={formFields.quantity} label={`Quantity counted`} inputName="quantity" getValue={setInputValue.bind(this)}/>
 
-                    <CostInput product={product} label={`Cost price`} inputName="costPrice" initialValue={formFields.costPrice} getValue={setInputValue.bind(this)} >
+                    <CostInput isSendQuantity={true} product={product} label={`Cost price`} inputName="costPrice" initialValue={formFields.costPrice} getValue={setCostValue.bind(this)} >
                         <FontAwesomeIcon icon={faCalculator} fixedWidth />
                     </CostInput>
 

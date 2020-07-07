@@ -341,6 +341,24 @@ const AddNewStockPage = props => {
         setFormFields(oldFormFields);
     };
 
+    const setCostValue = (value) => {
+        const {...oldFormFields} = formFields;
+
+        for (let i = 0; i < value.length; i++){
+            const itemKey = Object.keys(value[i]);
+            oldFormFields[itemKey] = value[i][itemKey];
+        }
+
+        setTotalPrice((parseFloat(value[0].costPrice) * parseFloat(value[1].quantity)).toFixed(2));
+        if(oldFormFields.costPrice === "" || oldFormFields.quantity === "" || oldFormFields.costPrice === 0 || oldFormFields.quantity === 0){
+            setLoading(true)
+        }else{
+            setLoading(false)
+        }
+
+        setFormFields(oldFormFields);
+    };
+
     const changePriceFieldsHandler = (event) => {
         const {...oldFormFields} = changePriceFields;
         setNewLoading(false);
@@ -472,7 +490,7 @@ const AddNewStockPage = props => {
                 </Typography>
 
                 <div className={`rounded bordered mb-3 mx-3 px-3 py-3`}>
-                    <QuantityInput startValue={1} label={`Quantity to add`} inputName="quantity" getValue={setInputValue.bind(this)}/>
+                    <QuantityInput startValue={formFields.quantity} label={`Quantity to add`} inputName="quantity" getValue={setInputValue.bind(this)}/>
 
                     <Grid container spacing={1} className={`my-2`}>
                         <Grid
@@ -487,7 +505,7 @@ const AddNewStockPage = props => {
                                     classes={{
                                         input: classes.center
                                     }}
-                                    defaultValue=''
+                                    //defaultValue=''
                                     value={totalPrice}
                                     name="totalCost"
                                     onChange={(event) => setTotalPriceHandler(event)}
@@ -500,14 +518,14 @@ const AddNewStockPage = props => {
                         >
                             <SwapHorizOutlinedIcon
                                 className={`mt-4`}
-                                onclick={swapText}
+                                onClick={swapText}
                                 style={{fontSize: '25px'}}
                             />
                         </Grid>
                         <Grid
                             item xs={5}
                         >
-                            <UnitCost product={product} id="right_input" label={`Unit price`} inputName="costPrice" initialValue={formFields.costPrice} getValue={setInputValue.bind(this)} >
+                            <UnitCost isSendQuantity={true} product={product} id="right_input" label={`Unit price`} inputName="costPrice" initialValue={formFields.costPrice} getValue={setCostValue.bind(this)} >
                                 <FontAwesomeIcon icon={faCalculator} fixedWidth />
                             </UnitCost>
                         </Grid>
