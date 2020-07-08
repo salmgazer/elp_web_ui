@@ -117,10 +117,13 @@ class CategorySetup extends Component{
         localStorage.setItem('branchCategoriesAdded' , JSON.stringify(branchCategoriesAdded));
 
         //let branchCategories = JSON.parse(localStorage.getItem('categoryLookup'));
+        let searchResults = old_subcategories;
 
-        const searchResults = old_subcategories.filter((item) => {
-            return item.parentId === this.state.activeItem;
-        });
+        if(this.state.activeItem !== 0){
+            searchResults = old_subcategories.filter((item) => {
+                return item.parentId === this.state.activeItem;
+            });
+        }
 
         this.setState({
             subcategories: searchResults,
@@ -183,8 +186,8 @@ class CategorySetup extends Component{
     getStepContent = step => {
         const categories = this.state.categories;
         const subcategories = this.state.subcategories;
-        const categoriesItem = JSON.parse(localStorage.getItem('categoryLookup')) || [];
-        const shop_subcategories = categoriesItem.filter((item) => item.owned === true);
+        const items = JSON.parse(localStorage.getItem('categoryLookup')) || [];
+        const shop_subcategories = items.filter((item) => item.owned === true);
 
         switch (step) {
             case 0:
