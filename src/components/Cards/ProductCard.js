@@ -12,24 +12,34 @@ const ProductCard = (props) => {
     const [isSellable , setIsSellable] = useState(false);
     const [name , setName] = useState('');
     const [image , setImage] = useState('');
+    const [quantity , setQuantity] = useState('');
     const [quantityProduct , setQuantityProduct] = useState(0);
     const [productAuditDetials , setProductAuditDetials] = useState(false);
 
     useEffect(() => {
         // You need to restrict it at some point
         // This is just dummy code and should be replaced by actual
-        //if (!product) {
-            getProduct();
-        //}
+        getProduct();
     });
+
+    
 
     const getProduct = async () => {
         if(props.isSell){
             setIsSellable(await new BranchProductService(branchProduct).isProductSellable());
+            const productHandler = await new BranchProductService(branchProduct);
+            setQuantity(await productHandler.getProductQuantity());
         }
 
-        const newProduct = await props.product;
+        // if (props.quantity){
+        //     console.log('stock')
+        // } else {
+        //     const productHandler = await new BranchProductService(branchProduct);
+        //     setQuantity(await productHandler.getProductQuantity());
+        //     console.log('sell')
+        // }
 
+        const newProduct = await props.product;
         setQuantityProduct(await props.storeCounted);
         setProductAuditDetials(await props.appCounted);
         setImage(new ProductServiceHandler(newProduct).getProductImage());
@@ -55,6 +65,22 @@ const ProductCard = (props) => {
     return(
             props.isSell ?
                 <Paper onClick={props.isSell && isSellable ? addProductHandler.bind(this) : removeProductHandler.bind(this)} className={`shadow mb-2 bg-white pro-item`} >
+                    <span style={{
+                        fontSize: '15px',
+                        color: '#000000',
+                        position: 'absolute',
+                        top: -10,
+                        right: '5%',
+                        backgroundColor: '#FFFFFF',
+                        width: '25px',
+                        height: '25px',
+                        borderRadius: '50%',
+                        fontWeight: '500'
+                    }}
+                    className={`shadow`}
+                    >
+                        {quantity}
+                    </span>
                     <img onError={addDefaultSrc.bind(this)} className={`img-fluid w-75 rounded mx-auto d-block pt-2`} src={image} alt={`${name}`}/>
 
                     <Typography
@@ -77,6 +103,7 @@ const ProductCard = (props) => {
                 </Paper>
             :
                 <Paper className={`shadow mb-2 bg-white pro-item`} >
+                    
                     <img onError={addDefaultSrc.bind(this)} className={`img-fluid w-75 rounded mx-auto d-block pt-2`} src={image} alt={`${name}`}/>
 
                     <Typography

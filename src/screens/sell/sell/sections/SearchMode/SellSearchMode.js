@@ -331,7 +331,6 @@ const SellSearchMode = props => {
                                     posFunc={addProductOneHandler}
                                     negFunc={removeProductHandler}
                                 />
-
                                 {/*<div
                                     onClick={
                                         new BranchProductService(branchProduct).isProductSellable() === false ?
