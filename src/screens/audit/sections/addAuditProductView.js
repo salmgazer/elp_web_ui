@@ -156,12 +156,13 @@ const AddAuditProductView = props => {
             <SectionNavbars
                 title={`Audit`}
                 leftIcon={
-                    <div onClick={() => props.setView(0)}>
+                    <div>
                         <ArrowBackIcon
                             style={{fontSize: '2rem'}}
                         />
                     </div>
                 }
+                leftOnClick={() => props.setView(0)}
             />
 
             <div

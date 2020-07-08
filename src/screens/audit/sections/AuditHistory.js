@@ -111,12 +111,13 @@ const AuditHistory = props => {
             <SectionNavbar
                 title="Audit History"
                 leftIcon={
-                    <div onClick={setView.bind(this , 0)}>
+                    <div>
                         <ArrowBackIcon
                             style={{fontSize: '2rem'}}
                         />
                     </div>
                 }
+                leftOnClick={setView.bind(this , 0)}
             />
 
             <SimpleSnackbar

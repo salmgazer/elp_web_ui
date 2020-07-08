@@ -31,19 +31,21 @@ const ReconciliationHistory = props => {
             <SectionNavbar
                 title={`Reconciliation history`}
                 leftIcon={
-                    <div onClick={backHandler.bind(this)}>
+                    <div>
                         <ArrowBackIcon
                             style={{fontSize: '2rem'}}
                         />
                     </div>
                 }
+                leftOnClick={backHandler.bind(this)}
                 icons={
-                    <div onClick={() => setIsShowDrawer(!isShowDrawer)}>
+                    <div>
                         <MoreVertIcon
                             style={{fontSize: '2rem'}}
                         />
                     </div>
                 }
+                rightOnClick={() => setIsShowDrawer(!isShowDrawer)}
             />
 
             <div

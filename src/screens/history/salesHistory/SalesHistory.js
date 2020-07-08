@@ -57,12 +57,13 @@ const SalesHistory = props => {
             <SectionNavbars
                 title="Sales history"
                 leftIcon={
-                    <div onClick={() => history.goBack()} >
+                    <div>
                         <ArrowBackIcon
                             style={{fontSize: '2rem'}}
                         />
                     </div>
                 }
+                leftOnClick={() => history.goBack()} 
                 // icons={
                 //     <div onClick={() => setIsShowDrawer(true)}>
                 //         <MoreVertIcon
@@ -104,7 +105,7 @@ const SalesHistory = props => {
                     style={{marginTop: '60px'}}
                     textColor="primary"
                     variant="fullWidth"
-                    selectionFollowsFocus={true}
+                    selectionfollowsfocus="true"
                     aria-label="full width tabs example"
                     classes= {{
                         indicator: styles.tabPrimaryColor

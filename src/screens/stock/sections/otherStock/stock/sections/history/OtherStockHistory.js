@@ -82,12 +82,13 @@ class OtherStockHistory extends Component{
                 <SectionNavbars
                     title="Other Sales"
                     leftIcon={
-                        <div onClick={() => this.props.history.goBack()} >
+                        <div>
                             <ArrowBackIcon
                                 style={{fontSize: '2rem'}}
                             />
                         </div>
                     }
+                    leftOnClick={() => this.props.history.goBack()}
                 />
 
                 <OtherToggle

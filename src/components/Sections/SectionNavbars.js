@@ -30,19 +30,19 @@ export default function SectionNavbars(props) {
         <div className={classes.root}>
             <AppBar position="fixed" style={{ background: '#DAAB59' , color: '#343a40'}}>
                 <Toolbar variant="dense">
-                    <IconButton color="inherit" style={{color: '#000000'}} edge="start" className={classes.menuButton} aria-label="menu">
+                    <IconButton color="inherit" style={{color: '#000000'}} edge="start" className={classes.menuButton} aria-label="menu" onClick={props.leftOnClick}>
                         {props.leftIcon}
                     </IconButton>
                     <Typography variant="h6" color="inherit" style={{'fontWeight': 700, 'color': '#3d3d3d', textAlign: 'center', margin: '0 auto'}} >
                         {props.title}
                     </Typography>
                     <div className={`rightMenuIcons`}>
-                        <IconButton>
+                        <IconButton onClick={props.altOnClick}>
                             {props.rightIcon}
                         </IconButton>
                     </div>
                     <div className={`rightMenuIcons`}>
-                        <IconButton color="inherit">
+                        <IconButton color="inherit" onClick={props.rightOnClick}>
                             {props.icons}
                         </IconButton>
                     </div>

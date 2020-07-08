@@ -63,19 +63,21 @@ const ReconciliationReport = props => {
             <SectionNavbar
                 title={`Reconciliation report`}
                 leftIcon={
-                    <div onClick={setView.bind(this , 5)}>
+                    <div>
                         <ArrowBackIcon
                             style={{fontSize: '2rem'}}
                         />
                     </div>
                 }
+                leftOnClick={setView.bind(this , 5)}
                 icons={
-                    <div onClick={() => setIsShowDrawer(!isShowDrawer)}>
+                    <div>
                         <MoreVertIcon
                             style={{fontSize: '2rem'}}
                         />
                     </div>
                 }
+                rightOnClick={() => setIsShowDrawer(!isShowDrawer)}
             />
 
             <div

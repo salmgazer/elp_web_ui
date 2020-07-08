@@ -78,6 +78,7 @@ const DayView = props => {
                         />
                     </div>
                 }
+                leftOnClick={() => setView(1)}
             />
 
             <Grid container spacing={2} style={{marginTop: '60px'}} className={`pt-2`}>
