@@ -21,7 +21,8 @@ class CategorySetup extends Component{
             errorDialog: false,
             errorMsg: '',
             activeItem: 0,
-            loading: true
+            loading: true,
+            counter: 0,
         };
 
         this.currentPathname = null;
@@ -60,9 +61,10 @@ class CategorySetup extends Component{
             );
             localStorage.setItem('categoryLookup' , JSON.stringify(newCategory.data.allChildren));
 
-            this.setState({
+            await this.setState({
                 'categories' : newCategory.data.allParents,
-                'subcategories' : newCategory.data.allChildren
+                'subcategories' : newCategory.data.allChildren,
+                'counter': ((JSON.parse(localStorage.getItem('categoryLookup'))).filter(item => item.owned === true)).length
             });
 
         }catch (error) {
@@ -121,7 +123,8 @@ class CategorySetup extends Component{
         });
 
         this.setState({
-            subcategories: searchResults
+            subcategories: searchResults,
+            counter: ((JSON.parse(localStorage.getItem('categoryLookup'))).filter(item => item.owned === true)).length
         });
     };
 
@@ -148,7 +151,8 @@ class CategorySetup extends Component{
             localStorage.setItem('categoryLookup' , JSON.stringify(old_subcategories));
 
             this.setState({
-                subcategories: old_subcategories
+                subcategories: old_subcategories,
+                counter: ((JSON.parse(localStorage.getItem('categoryLookup'))).filter(item => item.owned === true)).length
             });
         }else{
             return false;
@@ -179,7 +183,8 @@ class CategorySetup extends Component{
     getStepContent = step => {
         const categories = this.state.categories;
         const subcategories = this.state.subcategories;
-        const shop_subcategories = JSON.parse(localStorage.getItem('categoryLookup')).filter((item) => item.owned === true);
+        const categoriesItem = JSON.parse(localStorage.getItem('categoryLookup')) || [];
+        const shop_subcategories = categoriesItem.filter((item) => item.owned === true);
 
         switch (step) {
             case 0:
@@ -258,7 +263,7 @@ class CategorySetup extends Component{
     render(){
         const steps = this.getSteps();
 
-        const counter = ((JSON.parse(localStorage.getItem('categoryLookup'))).filter(item => item.owned === true)).length;
+        const counter = this.state.counter;
 
         return(
             <div>
