@@ -108,14 +108,14 @@ const SearchMode = props => {
         search: props.searchValue,
         productOption: 'all',
         searchState: false
-    });   
+    });
 
     const products = props.products;
     const optionGroupClasses = optionGroupStyles();
 
-    const allQuantity = products.length;
-    const stockQuantity = JSON.parse(localStorage.getItem('storeProductsLookup')).filter((product) => (Array.isArray(product.stock) && product.owned === true));
-    const incomplete = JSON.parse(localStorage.getItem('storeProductsLookup')).filter((product) => (product.owned === true && ((!product.sellingPrice) || (Array.isArray(product.stock) && (product.stock[(product.stock.length - 1).costPrice]) === null || 0))));
+    const storageProducts = JSON.parse(localStorage.getItem('storeProductsLookup')) || [];
+    const stockQuantity = storageProducts.filter((product) => (Array.isArray(product.stock) && product.owned === true));
+    const incomplete = storageProducts.filter((product) => (product.owned === true && ((!product.sellingPrice) || (Array.isArray(product.stock) && (product.stock[(product.stock.length - 1).costPrice]) === null || 0))));
 
     const addProductHandler = (id) => {
         props.productAdd(id);
