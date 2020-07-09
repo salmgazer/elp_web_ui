@@ -164,7 +164,7 @@ const SearchMode = props => {
                     >
                         <FormControlLabel value="all" control={<StyledRadio />} label="All" />
                         <span style={{
-                            fontSize: '15px',
+                            fontSize: '12px',
                             color: '#000000',
                             position: 'relative',
                             top: -10,
@@ -177,7 +177,7 @@ const SearchMode = props => {
                         }}
                         className={`shadow`}
                         >
-                            {allQuantity}
+                            {products.length}
                         </span>
                         <FormControlLabel value="stocked" control={<StyledRadio />} label="Stocked" />
                         <span style={{
