@@ -73,9 +73,8 @@ const CostInput = props => {
         }*/
 
         if(props.isSendQuantity){
-            console.log('log')
             setQuantity(value[0].costPrice);
-            props.getValue(value)
+            props.getValues(value)
         }else{
             setQuantity(value);
             props.getValue('costPrice' , parseFloat(value));

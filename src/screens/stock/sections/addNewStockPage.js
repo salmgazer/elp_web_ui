@@ -525,7 +525,7 @@ const AddNewStockPage = props => {
                         <Grid
                             item xs={5}
                         >
-                            <UnitCost isSendQuantity={true} product={product} id="right_input" label={`Unit price`} inputName="costPrice" initialValue={formFields.costPrice} getValue={setCostValue.bind(this)} >
+                            <UnitCost isSendQuantity={true} product={product} id="right_input" label={`Unit price`} inputName="costPrice" initialValue={formFields.costPrice} getValues={setCostValue.bind(this)} getValue={setInputValue.bind(this)} >
                                 <FontAwesomeIcon icon={faCalculator} fixedWidth />
                             </UnitCost>
                         </Grid>

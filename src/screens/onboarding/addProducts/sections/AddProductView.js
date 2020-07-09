@@ -56,7 +56,7 @@ const AddProductView = props => {
                 return false;
             }
         }
-
+        console.log(formFields)
         props.addNewProduct(formFields);
 
         setSuccessDialog(true);
@@ -100,9 +100,13 @@ const AddProductView = props => {
     const setCostValue = (value) => {
         const {...oldFormFields} = formFields;
 
-        for (let i = 0; i < value.length; i++){
-            const itemKey = Object.keys(value[i]);
-            oldFormFields[itemKey] = value[i][itemKey];
+        if(Array.isArray(value)){
+            for (let i = 0; i < value.length; i++){
+                const itemKey = Object.keys(value[i]);
+                oldFormFields[itemKey] = value[i][itemKey];
+            }
+        }else{
+
         }
 
         setFormFields(oldFormFields);
@@ -187,7 +191,7 @@ const AddProductView = props => {
                 <div className={`rounded bordered mb-3 mx-3 px-3 py-3`}>
                     <QuantityInput startValue={formFields.quantity} label={`Quantity counted`} inputName="quantity" getValue={setInputValue.bind(this)}/>
 
-                    <CostInput isSendQuantity={true} product={product} label={`Cost price`} inputName="costPrice" initialValue={formFields.costPrice} getValue={setCostValue.bind(this)} >
+                    <CostInput isSendQuantity={true} product={product} label={`Cost price`} inputName="costPrice" initialValue={formFields.costPrice} getValues={setCostValue.bind(this)} getValue={setInputValue.bind(this)} >
                         <FontAwesomeIcon icon={faCalculator} fixedWidth />
                     </CostInput>
 
