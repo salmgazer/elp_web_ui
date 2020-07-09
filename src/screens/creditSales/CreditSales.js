@@ -84,7 +84,6 @@ class CreditSales extends Component{
         //Find index of specific object using findIndex method.
         const itemIndex = old_list.filter((item => item.id === id));
 
-        console.log(itemIndex)
         this.setState({
             currentSale: itemIndex,
             activeStep: step

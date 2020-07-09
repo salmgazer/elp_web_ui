@@ -61,12 +61,13 @@ const ViewCustomers = props => {
             <SectionNavbars
                 title="Customers"
                 leftIcon={
-                    <div onClick={changeView.bind(this)}>
+                    <div>
                         <ArrowBackIcon
                             style={{fontSize: '2rem'}}
                         />
                     </div>
                 }
+                leftOnClick={changeView.bind(this)}
             />
 
             <Grid container spacing={1} className={classes.root} justify="space-around" style={{padding: '0px 2% 20px', textAlign: 'center'}} >
