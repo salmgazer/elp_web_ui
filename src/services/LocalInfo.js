@@ -108,7 +108,7 @@ export default class LocalInfo {
   }
 
   static get lastSyncedAt() {
-    return localStorage.getItem(this.keys.lastSyncedAt);
+    return localStorage.getItem(this.keys.lastSyncedAt) || false;
   }
 
   static get storeName() {
