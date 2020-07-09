@@ -33,12 +33,13 @@ const AllStock = props => {
             <SectionNavbars
                 title="All Stock"
                 leftIcon={
-                    <div onClick={() => props.setView(2)} >
+                    <div>
                         <ArrowBackIcon
                             style={{fontSize: '2rem'}}
                         />
                     </div>
                 }
+                leftOnClick={() => props.setView(2)}
             />
 
             <Paper style={{marginTop: '60px', marginBottom: '10px'}} >

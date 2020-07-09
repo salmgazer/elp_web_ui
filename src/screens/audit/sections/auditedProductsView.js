@@ -149,12 +149,13 @@ const AuditedProductsView = props => {
             <SectionNavbars
                 title="Audit"
                 leftIcon={
-                    <div onClick={backHandler.bind(this)} >
+                    <div>
                         <ArrowBackIcon
                             style={{fontSize: '2rem'}}
                         />
                     </div>
                 }
+                leftOnClick={backHandler.bind(this)} 
             />
 
             <div

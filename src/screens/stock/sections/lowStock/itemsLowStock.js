@@ -18,10 +18,10 @@ const ItemsLowStock = (props) => {
             <SectionNavbars title="Stock"
                 leftIcon= {
                     <ArrowBackIcon
-                        onClick={backHandler.bind(this)}
                         style={{fontSize: '2.5rem'}}
                     />
                 }
+                leftOnClick={backHandler.bind(this)}
             />
 
 

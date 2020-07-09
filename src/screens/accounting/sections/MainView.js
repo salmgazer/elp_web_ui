@@ -184,12 +184,13 @@ const MainView = props => {
                 />
                 }
                 leftIcon={
-                    <div onClick={() => setIsDrawerShow(true)}>
+                    <div>
                         <MenuIcon
                             style={{fontSize: '2rem'}}
                         />
                     </div>
                 }
+                leftOnClick={() => setIsDrawerShow(true)}
             />
 
             <div

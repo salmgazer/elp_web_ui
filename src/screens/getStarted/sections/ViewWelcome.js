@@ -4,10 +4,27 @@ import Box from "@material-ui/core/Box/Box";
 import shopImg from "../../../assets/img/completion.png";
 import BoxDefault from "../../../components/Box/BoxDefault";
 import Button from "@material-ui/core/Button/Button";
+import SyncService from "../../../services/SyncService";
+import LocalInfo from '../../../services/LocalInfo';
+import { useDatabase } from "@nozbe/watermelondb/hooks";
+import AuthService from "../../../services/AuthService";
 
 const ViewWelcome = props => {
+
+    const database = useDatabase();
+
     const nextPageHandler = event => {
         props.step(event);
+    };
+
+    const logout = async() => {
+        try {
+            await SyncService.sync(LocalInfo.companyId, LocalInfo.branchId, LocalInfo.userId, database);
+            await new AuthService().logout();
+
+        }catch (e) {
+            console.log(e)
+        }
     };
 
     return(
@@ -56,6 +73,13 @@ const ViewWelcome = props => {
                         onClick={nextPageHandler.bind(this)}
                     >
                         Get started
+                    </Button>
+                    <Button
+                        variant="outlined"
+                        style={{border: '1px solid #DAAB59', color: '#DAAB59', borderRadius: '15px', padding: '8px 60px', textTransform: 'none', fontSize:'18px', fontWeight: '700'}}
+                        onClick={logout}
+                    >
+                        Logout
                     </Button>
                 </BoxDefault>
             </div>

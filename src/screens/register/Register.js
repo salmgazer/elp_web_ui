@@ -259,8 +259,17 @@ const Register = props => {
 
     return (
         <div className={classes.root}>
-            <SectionNavbars title="Create Account">
-                <ArrowBackIcon onClick={() => history.push(paths.login)}/>
+            <SectionNavbars 
+                title="Create Account"
+                leftIcon={
+                    <div>
+                        <ArrowBackIcon
+                            style={{fontSize: '2rem'}}
+                        />
+                    </div>
+                }
+                leftOnClick={() => history.goBack()}
+            >
             </SectionNavbars>
 
             <SimpleSnackbar

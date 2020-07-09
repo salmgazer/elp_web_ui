@@ -96,10 +96,9 @@ export default function AccountInformationSection(props) {
     const [ error, setError] = useState('none');
     const [ errorMsg, setErrorMsg] = useState('');
     const [checkStatus , setCheckStatus] = useState(0);
-    //const [checkStatus , setCheckStatus] = useState(0);
     const [checkUsername , setCheckUsername] = useState(0);
 
-    const userFields = props.formData;
+    const {...userFields} = props.formData;
     const [showPassword, setShowPassword] = useState({
         showPassword: false,
         checkedB: false,
@@ -109,24 +108,6 @@ export default function AccountInformationSection(props) {
         username: userFields.username,
         password: userFields.password,
         passwordRepeat: userFields.passwordRepeat,
-    });
-
-    useEffect(() => {
-        // custom rule will have name 'isPasswordMatch'
-        ValidatorForm.addValidationRule('isPasswordMatch', (value) => {
-            const { ...formData } = formFields;
-
-            if (value !== formData.password && formData.password === "") {
-                return false;
-            }
-
-            /*if (error || errorMsg) {
-                console.log(error)
-            }*/
-
-            //handleFormValidation();
-            return true;
-        });
     });
 
     const handleChangeChk = name => async (event) => {
@@ -236,6 +217,19 @@ export default function AccountInformationSection(props) {
                     return false;
                 }
             //}
+        });
+    });
+
+    useEffect(() => {
+        // custom rule will have name 'isPasswordMatch'
+        ValidatorForm.addValidationRule('isPasswordMatch', async (value) => {
+            const { ...formData } = formFields;
+            console.log(value , 'reset' , formData.password)
+            if (value !== formData.password && formData.password === "") {
+                return false;
+            }
+
+            return true;
         });
     });
 
@@ -357,7 +351,7 @@ export default function AccountInformationSection(props) {
                         value={formFields.passwordRepeat}
                         onChange={handleChange}
                         validators={['isPasswordMatch', 'required']}
-                        errorMessages={['Passwords don\'t match', 'Password confirmation is a required field', 'password mismatch']}
+                        errorMessages={['Passwords don\'t match', 'Password confirmation is a required field']}
                         helperText=""
                         InputProps={{
                             endAdornment:

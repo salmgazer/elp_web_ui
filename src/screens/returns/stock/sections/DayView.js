@@ -106,21 +106,22 @@ const DayView = props => {
             <SectionNavbars
                 title="Return Purchases"
                 leftIcon={
-                    <div onClick={() => history.goBack()} >
+                    <div>
                         <ArrowBackIcon
                             style={{fontSize: '2rem'}}
                         />
                     </div>
                 }
+                leftOnClick={() => history.goBack()} 
                 icons={
                     <Button
                         variant="contained"
                         style={{'backgroundColor': 'white' , color: '#DAAB59', padding: '5px 15px', textTransform: 'none', fontSize:'15px'}}
-                        onClick={returnAll.bind(this, purchases)}
                     >
                         Return all
                     </Button>
                 }
+                rightOnClick={returnAll.bind(this, purchases)}
             />
 
             <SimpleSnackbar

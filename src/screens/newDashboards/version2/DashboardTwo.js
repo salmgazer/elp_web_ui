@@ -135,19 +135,21 @@ const Dashboard = props => {
                 <SectionNavbars
                     title={ LocalInfo.company.name }
                     leftIcon={
-                        <div onClick={() => setIsDrawerShow(true)}>
+                        <div>
                             <MenuIcon
                                 style={{fontSize: '2rem'}}
                             />
                         </div>
                     }
+                    leftOnClick={() => setIsDrawerShow(true)}
                     icons={
-                        <div onClick={logout}>
+                        <div>
                             <ExitToAppIcon
                                 style={{fontSize: '2rem'}}
                             />
                         </div>
                     }
+                    rightOnClick={logout}
                 />
 
                 <div

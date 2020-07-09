@@ -112,7 +112,7 @@ const MoveStock = props => {
                 {
                     label: 'Yes',
                     onClick: () => {
-                        props.setView(0);
+                        props.setView(1);
                     }
                 },
                 {
@@ -167,7 +167,7 @@ const MoveStock = props => {
             setTimeout(function(){
                 setSuccessDialog(false);
                 setLoading(false);
-                props.setView(0)
+                props.setView(1)
             }, 2000);
         }else{
             setErrorDialog(true);
@@ -194,10 +194,10 @@ const MoveStock = props => {
             <SectionNavbars title="Stock"
                 leftIcon= {
                     <ArrowBackIcon
-                        onClick={backHandler.bind(this)}
                         style={{fontSize: '2.5rem'}}
                     />
                 }
+                leftOnClick={backHandler.bind(this)}
             />
 
             <SimpleSnackbar

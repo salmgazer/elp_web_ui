@@ -303,23 +303,25 @@ const CartView = props => {
                 icons={
                     <AddShoppingCartIcon
                         style={{fontSize: '2rem'}}
-                        onClick={openDialogHandler.bind(this)}
                     />
                 }
+                rightOnClick={openDialogHandler.bind(this)}
                 leftIcon={
-                    <div onClick={() => props.history.push(paths.sell)}>
+                    <div>
                         <ArrowBackIcon
                             style={{fontSize: '2rem'}}
                         />
                     </div>
                 }
+                leftOnClick={() => props.history.push(paths.sell)}
                 rightIcon={
-                    <div onClick={() => setIsShowDrawer(!isShowDrawer)}>
+                    <div>
                         <MoreVertIcon
                             style={{fontSize: '2rem'}}
                         />
                     </div>
                 }
+                altOnClick={() => setIsShowDrawer(!isShowDrawer)}
             />
 
             <div

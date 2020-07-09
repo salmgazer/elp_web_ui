@@ -82,6 +82,7 @@ export default class AuthService {
     };
 
     register = async( data ) => {
+        console.log(data)
         // check if user exists - core-api
         // user registers : username and password on AuthService -- done
         // create suppliers_company on core-api - companies table -- done
@@ -116,7 +117,8 @@ export default class AuthService {
                 "type": data.storeType,
             },
         };
-
+        console.log(params)
+        return false;
         try{
             const response = await new Api('others').create(
                 params,

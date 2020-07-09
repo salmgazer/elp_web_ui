@@ -47,12 +47,13 @@ const MainPage = props => {
             <SectionNavbars
                 title="Sales returns"
                 leftIcon={
-                    <div onClick={() => history.goBack()} >
+                    <div>
                         <ArrowBackIcon
                             style={{fontSize: '2rem'}}
                         />
                     </div>
                 }
+                leftOnClick={() => history.goBack()}
             />
 
             <Paper style={{marginTop: '60px', marginBottom: '10px'}} >
