@@ -96,8 +96,7 @@ class Reconciliation extends Component{
 
     generateReport = async (duration, startDate, endDate) => {
         const response = await new ReconcilationService().getBranchReconcilationDetails(duration, startDate, endDate);
-
-        console.log(response);
+s
     };
 
     render(){

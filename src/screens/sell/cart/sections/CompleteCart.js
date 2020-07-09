@@ -80,8 +80,6 @@ const CheckoutView = props => {
         const qty = await SaleService.getSaleProductQuantity(sale);
         const lastsale = await SaleService.getLastSale();
         const need = await new SaleService().getSaleProductsById(sale);
-        console.log(need);
-        console.log(lastsale);
 
         const recDate = format(new Date(lastsale.createdAt) , 'dd/MM/yyyy | h:mm a');
         const rec = lastsale.receiptNumber;

@@ -96,19 +96,21 @@ const Admin = props => {
                         <SectionNavbars
                             title="Admin"
                             leftIcon={
-                                <div onClick={() => setIsDrawerShow(true)}>
+                                <div>
                                     <MenuIcon
                                         style={{fontSize: '2rem'}}
                                     />
                                 </div>
                             }
+                            leftOnClick={() => setIsDrawerShow(true)}
                             rightIcon={
-                                <div onClick={() => history.push(paths.dashboard)}>
+                                <div>
                                     <AppsIcon
                                         style={{fontSize: '2rem'}}
                                     />
                                 </div>
                             }
+                            altOnClick={() => history.push(paths.dashboard)}
                         />
 
                         <div
