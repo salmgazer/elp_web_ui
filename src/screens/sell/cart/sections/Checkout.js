@@ -56,7 +56,6 @@ const useStyles = makeStyles(theme => ({
   }));
 
 const CheckoutView = props => {
-    console.log(props.currentCustomer)
     const [cartData , setCartData] = React.useState(
         {
             amountPaid: '',
@@ -82,8 +81,7 @@ const CheckoutView = props => {
             type: 0
         }
     );
-    //console.log(props.currentCustomer)
-    //console.log(customerName)
+
 
     useEffect(() => {
         // You need to restrict it at some point
@@ -287,12 +285,13 @@ const CheckoutView = props => {
             <SectionNavbars
                 title="Payment"
                 leftIcon={
-                    <div onClick={backHandler.bind(this)}>
+                    <div>
                         <ArrowBackIcon
                             style={{fontSize: '2rem'}}
                         />
                     </div>
                 }
+                leftOnClick={backHandler.bind(this)}
             />
 
             <SimpleSnackbar

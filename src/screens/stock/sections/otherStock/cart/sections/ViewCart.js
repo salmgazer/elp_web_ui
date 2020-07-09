@@ -162,12 +162,13 @@ const CartView = props => {
             <SectionNavbars
                 title="Cart"
                 leftIcon={
-                    <div onClick={() => props.history.push(paths.other_stock)}>
+                    <div>
                         <ArrowBackIcon
                             style={{fontSize: '2rem'}}
                         />
                     </div>
                 }
+                leftOnClick={() => props.history.push(paths.other_stock)}
             />
 
             <SimpleSnackbar

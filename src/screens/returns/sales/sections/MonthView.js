@@ -64,12 +64,13 @@ const MonthView = props => {
             <SectionNavbars
                 title="Sales returns"
                 leftIcon={
-                    <div onClick={() => setView(1)} >
+                    <div>
                         <ArrowBackIcon
                             style={{fontSize: '2rem'}}
                         />
                     </div>
                 }
+                leftOnClick={() => setView(1)}
             />
 
             <Grid container spacing={2} style={{marginTop: '60px'}} className={`pt-2`}>

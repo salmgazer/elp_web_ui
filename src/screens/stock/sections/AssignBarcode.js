@@ -108,10 +108,10 @@ const AssignBarcode = props => {
             <SectionNavbars title="Assign Barcode"
                 leftIcon= {
                     <ArrowBackIcon
-                        onClick={backHandler.bind(this)}
                         style={{fontSize: '2.5rem'}}
                     />
                 }
+                leftOnClick={backHandler.bind(this)}
             />
 
             <SimpleSnackbar

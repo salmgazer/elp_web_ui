@@ -386,7 +386,7 @@ const AddNewStockPage = props => {
     };
 
     const backHandler = () => {
-        props.setView(0);
+        props.setView(1);
     };
 
     const setTotalPriceHandler = event => {
@@ -435,10 +435,11 @@ const AddNewStockPage = props => {
             <SectionNavbars title="Stock"
                 leftIcon= {
                     <ArrowBackIcon
-                        onClick={backHandler.bind(this)}
+                        //onClick={backHandler.bind(this)}
                         style={{fontSize: '2.5rem'}}
                     />
                 }
+                leftOnClick={backHandler.bind(this)}
             />
 
             <SimpleSnackbar

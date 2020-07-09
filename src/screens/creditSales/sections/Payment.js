@@ -43,7 +43,6 @@ const Payment = props => {
     const getCustomer = async () => {
         const response = await new SaleService().getAllCreditSales(sale.id);
         setInvoiceDetails(response);
-        console.log(response);
     };
 
     const backHandler = (event) => {
@@ -101,12 +100,13 @@ const Payment = props => {
             <SectionNavbars
                 title="Payment"
                 leftIcon={
-                    <div onClick={backHandler.bind(this)} >
+                    <div>
                         <ArrowBackIcon
                             style={{fontSize: '2rem'}}
                         />
                     </div>
                 }
+                leftOnClick={backHandler.bind(this)}
             />
 
             <SimpleSnackbar
@@ -136,9 +136,9 @@ const Payment = props => {
                 </Typography>
             </Paper>
 
-            <Typography className='font-weight-light mt-1' style={{ fontSize: '17px', marginBottom: '10px', color: '#DAAB59' }} >
+            {/* <Typography className='font-weight-light mt-1' style={{ fontSize: '17px', marginBottom: '10px', color: '#DAAB59' }} >
                     Total due : GHC {invoiceDetails.credit}
-            </Typography>
+            </Typography> */}
 
             <TextField
                 label="Enter amount paid"

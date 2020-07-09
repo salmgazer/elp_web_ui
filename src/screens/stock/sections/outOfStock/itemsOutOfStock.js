@@ -18,10 +18,10 @@ const ItemsOutOfStock = (props) => {
             <SectionNavbars title="Stock"
                 leftIcon= {
                     <ArrowBackIcon
-                        onClick={backHandler.bind(this)}
                         style={{fontSize: '2.5rem'}}
                     />
                 }
+                leftOnClick={backHandler.bind(this)}
             />
 
             <div className="row p-0 pt-0 mx-0 text-center shadow1 mb-3">

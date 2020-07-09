@@ -32,12 +32,13 @@ console.log(collection)
             <SectionNavbars
                 title="Collection"
                 leftIcon={
-                    <div onClick={backHandler.bind(this)}>
+                    <div>
                         <ArrowBackIosIcon
                             style={{fontSize: '2rem'}}
                         />
                     </div>
                 }
+                leftOnClick={backHandler.bind(this)}
             />
 
             <Paper style={{marginTop: '60px'}} >

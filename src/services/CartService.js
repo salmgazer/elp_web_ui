@@ -14,7 +14,7 @@ export default class CartService {
         if(!await database.adapter.getLocal("cartId")){
             const dataCollection = database.collections.get(Carts.table);
             const activeCustomer = (await CustomerService.getCashCustomer())[0];
-console.log(activeCustomer)
+
             await database.action(async () => {
                 const newCart = await dataCollection.create(cart => {
                     cart.discount = 0;

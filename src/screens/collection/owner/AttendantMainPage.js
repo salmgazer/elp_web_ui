@@ -118,12 +118,13 @@ const AttendantMainPage = props => {
             <SectionNavbars
                 title="Collection"
                 leftIcon={
-                    <div onClick={() => setIsDrawerShow(true)}>
+                    <div>
                         <MenuIcon
                             style={{fontSize: '2rem'}}
                         />
                     </div>
                 }
+                leftOnClick={() => setIsDrawerShow(true)}
             />
 
             <SimpleSnackbar

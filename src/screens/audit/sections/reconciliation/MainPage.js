@@ -52,12 +52,13 @@ const MainPage = props => {
             <SectionNavbars
                 title={`Reconciliation`}
                 leftIcon={
-                    <div onClick={() => setIsDrawerShow(true)}>
+                    <div>
                         <MenuIcon
                             style={{fontSize: '2rem'}}
                         />
                     </div>
                 }
+                leftOnClick={() => setIsDrawerShow(true)}
             />
 
             <div

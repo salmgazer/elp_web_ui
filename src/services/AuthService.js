@@ -93,7 +93,7 @@ export default class AuthService {
         let user;
         const params = {
             user: {
-                "password": data.password,
+                "password": data.passwordRepeat,
                 "firstName": data.firstName,
                 "otherNames": data.otherNames,
                 "phone": data.phone,

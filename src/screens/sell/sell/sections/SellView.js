@@ -116,26 +116,29 @@ const SellView = props => {
             <SectionNavbars
                 title={`Sales`}
                 icons={
-                    <div onClick={() => setIsShowDrawer(!isShowDrawer)}>
+                    <div>
                         <MoreVertIcon
                             style={{fontSize: '2rem'}}
                         />
                     </div>
                 }
+                rightOnClick={() => setIsShowDrawer(!isShowDrawer)}
                 rightIcon={
-                    <div onClick={() => history.push(paths.dashboard)}>
+                    <div>
                         <AppsIcon
                             style={{fontSize: '2rem'}}
                         />
                     </div>
                 }
+                altOnClick={() => history.push(paths.dashboard)}
                 leftIcon={
-                    <div onClick={() => setIsDrawerShow(true)}>
+                    <div>
                         <MenuIcon
                             style={{fontSize: '2rem'}}
                         />
                     </div>
                 }
+                leftOnClick={() => setIsDrawerShow(true)}
             />
 
             <div
