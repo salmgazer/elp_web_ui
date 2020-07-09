@@ -31,7 +31,7 @@ import CloudDoneIcon from '@material-ui/icons/CloudDone';
 import HelpIcon from '@material-ui/icons/Help';
 import formatDistanceToNow from 'date-fns/formatDistanceToNow';
 import fromUnixTime from 'date-fns/fromUnixTime';
-import RequestLoader from "../Loader/RequestLoader";
+//import RequestLoader from "../Loader/RequestLoader";
 
 const useStyles = makeStyles((theme) => ({
     list: {
@@ -57,9 +57,11 @@ const Drawer = props => {
     const [state, setState] = React.useState({
         left: props.isShow,
     });
-    const lastSync = formatDistanceToNow(
-        fromUnixTime(LocalInfo.lastSyncedAt / 1000)
-    );
+
+    const lastSync = LocalInfo.lastSyncedAt ?
+        `${formatDistanceToNow(
+            fromUnixTime(LocalInfo.lastSyncedAt / 1000)
+        )} ago` : 'Never synced before';
 
     const [open, setOpen] = React.useState(false);
     //const [logoutPop, setLogoutPop] = React.useState(false);
@@ -196,7 +198,7 @@ const Drawer = props => {
             <List className="drawerDefault" style={{background:'#FFFFFF', color: '#403C3C'}}>
                 <ListItem button key={1}  >
                     <ListItemIcon><CloudDoneIcon style={{color: '#403C3C'}} /></ListItemIcon>
-                    <ListItemText primary={`Last sync: ${lastSync} ago`} />
+                    <ListItemText primary={`Last sync: ${lastSync}`} />
                     <ListItemText
                         style={{
                             padding: '5px 10px',
