@@ -22,7 +22,7 @@ const ProductCard = (props) => {
         getProduct();
     });
 
-    
+
 
     const getProduct = async () => {
         if(props.isSell){
@@ -70,7 +70,7 @@ const ProductCard = (props) => {
                         color: '#000000',
                         position: 'absolute',
                         top: -10,
-                        right: '5%',
+                        left: '0%',
                         backgroundColor: '#FFFFFF',
                         width: '25px',
                         height: '25px',
@@ -103,7 +103,7 @@ const ProductCard = (props) => {
                 </Paper>
             :
                 <Paper className={`shadow mb-2 bg-white pro-item`} >
-                    
+
                     <img onError={addDefaultSrc.bind(this)} className={`img-fluid w-75 rounded mx-auto d-block pt-2`} src={image} alt={`${name}`}/>
 
                     <Typography
@@ -124,28 +124,6 @@ const ProductCard = (props) => {
                     }
 
                 </Paper>
-
-        /*<Paper onClick={props.isSell && isSellable ? addProductHandler.bind(this) : ''} className={`shadow mb-2 bg-white pro-item`} >
-            <img className={`img-fluid w-75 rounded mx-auto d-block pt-2`} src={image} alt={`${name}`}/>
-
-            <Typography
-                component="p"
-                variant="h6"
-                className={`px-1 mt-1 py-1 pro-item-name text-center text-capitalize font-weight-bold text-dark`}
-            >
-                {name}
-            </Typography>
-
-            {props.audit ?
-                <span className={`text-center font-weight-lighter text-dark`} style={{fontSize: '12px'}}>
-                    App: {quantityProduct ? `${quantityProduct}` : 0} | Count: {productAuditDetials ? `${productAuditDetials.quantityCounted}` : 0}
-                </span> :
-                <span className={`text-center font-weight-lighter text-dark`} style={{fontSize: '12px'}}>
-                    {props.children}
-                </span>
-            }
-
-        </Paper>*/
     );
 };
 
