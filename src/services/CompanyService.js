@@ -36,8 +36,6 @@ export default class CompanyService {
             }
         );
 
-        console.log(sales)
-
         switch (duration) {
             case 'today':
                 return sales.filter(sale => isToday(fromUnixTime(sale.salesDate)));
@@ -77,7 +75,6 @@ export default class CompanyService {
             credit += parseFloat(await SaleService.getSaleEntryCreditById(sales[step].id));
         }
 
-        console.log(sales,total,profit,credit,purchases)
         return {
             total,profit,credit,purchases
         };

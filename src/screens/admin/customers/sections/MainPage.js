@@ -32,12 +32,13 @@ const Customers = props => {
                         <SectionNavbars
                             title="Customers"
                             leftIcon={
-                                <div onClick={() => history.goBack()} >
+                                <div>
                                     <ArrowBackIcon
                                         style={{fontSize: '2rem'}}
                                     />
                                 </div>
                             }
+                            leftOnClick={() => history.goBack()}
                         />
 
                         <div className={`getStarted mt-6`}>

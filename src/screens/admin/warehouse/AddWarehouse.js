@@ -64,8 +64,7 @@ const AddWarehouse = props => {
     /*
     * @todo replace user name with localInfo details.
     * */
-    const username = JSON.parse(localStorage.getItem('userDetails')).firstName;
-    console.log(username);
+    //const username = JSON.parse(localStorage.getItem('userDetails')).firstName;
 
     const { history } = props;
 

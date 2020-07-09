@@ -204,7 +204,6 @@ class ChangePrice extends Component{
     };
 
     addNewProduct = async(formFields) => {
-        console.log(formFields)
         let old_list = this.state.productList;
 
         const productIndex = old_list.findIndex((item => item.pro_id === (formFields.pro_id)));
@@ -233,16 +232,13 @@ class ChangePrice extends Component{
                 <SectionNavbars
                     title="Change selling price"
                     leftIcon={
-                        <div
-                            onClick={() => this.state.activeStep === 0 ? this.props.history.goBack() : this.setState({
-                            activeStep: 0
-                            })}
-                        >
-                            <ArrowBackIcon
-                                style={{fontSize: '2rem'}}
-                            />
-                        </div>
+                        <ArrowBackIcon
+                            style={{fontSize: '2rem'}}
+                        />
                     }
+                    leftOnClick={() => this.state.activeStep === 0 ? this.props.history.goBack() : this.setState({
+                        activeStep: 0
+                        })}
                 />
 
                 {this.getStepContent(this.state.activeStep)}

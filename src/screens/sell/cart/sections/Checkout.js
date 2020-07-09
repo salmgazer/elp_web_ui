@@ -56,7 +56,6 @@ const useStyles = makeStyles(theme => ({
   }));
 
 const CheckoutView = props => {
-    console.log(props.currentCustomer)
     const [cartData , setCartData] = React.useState(
         {
             amountPaid: '',
@@ -82,8 +81,7 @@ const CheckoutView = props => {
             type: 0
         }
     );
-    //console.log(props.currentCustomer)
-    //console.log(customerName)
+
 
     useEffect(() => {
         // You need to restrict it at some point

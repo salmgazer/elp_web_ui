@@ -41,7 +41,7 @@ const optionGroupStyles = makeStyles(theme => ({
     },
     margin: {
         margin: '1px auto',
-        width: '95%',
+        width: '100%',
         'text-align': 'center',
     },
     left: {
@@ -108,10 +108,14 @@ const SearchMode = props => {
         search: props.searchValue,
         productOption: 'all',
         searchState: false
-    });
+    });   
 
     const products = props.products;
     const optionGroupClasses = optionGroupStyles();
+
+    const allQuantity = products.length;
+    const stockQuantity = JSON.parse(localStorage.getItem('storeProductsLookup')).filter((product) => (Array.isArray(product.stock) && product.owned === true));
+    const incomplete = JSON.parse(localStorage.getItem('storeProductsLookup')).filter((product) => (product.owned === true && ((!product.sellingPrice) || (Array.isArray(product.stock) && (product.stock[(product.stock.length - 1).costPrice]) === null || 0))));
 
     const addProductHandler = (id) => {
         props.productAdd(id);
@@ -159,8 +163,56 @@ const SearchMode = props => {
                         defaultValue={searchValue.productOption}
                     >
                         <FormControlLabel value="all" control={<StyledRadio />} label="All" />
+                        <span style={{
+                            fontSize: '15px',
+                            color: '#000000',
+                            position: 'relative',
+                            top: -10,
+                            right: '5%',
+                            backgroundColor: '#FFFFFF',
+                            width: '25px',
+                            height: '25px',
+                            borderRadius: '50%',
+                            fontWeight: '500'
+                        }}
+                        className={`shadow`}
+                        >
+                            {allQuantity}
+                        </span>
                         <FormControlLabel value="stocked" control={<StyledRadio />} label="Stocked" />
+                        <span style={{
+                            fontSize: '15px',
+                            color: '#000000',
+                            position: 'relative',
+                            top: -10,
+                            right: '5%',
+                            backgroundColor: '#FFFFFF',
+                            width: '25px',
+                            height: '25px',
+                            borderRadius: '50%',
+                            fontWeight: '500'
+                        }}
+                        className={`shadow`}
+                        >
+                            {stockQuantity.length}
+                        </span>
                         <FormControlLabel value="incomplete" control={<StyledRadio />} label="Incomplete" />
+                        <span style={{
+                            fontSize: '15px',
+                            color: '#000000',
+                            position: 'fixed',
+                            top: 0,
+                            right: '5%',
+                            backgroundColor: '#FFFFFF',
+                            width: '25px',
+                            height: '25px',
+                            borderRadius: '50%',
+                            fontWeight: '500'
+                        }}
+                        className={`shadow`}
+                        >
+                            {incomplete.length}
+                        </span>
                     </RadioGroup>
                 </FormControl>
             </Grid>

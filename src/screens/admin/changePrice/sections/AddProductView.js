@@ -173,7 +173,6 @@ const AddProductView = props => {
         setErrorDialog(false);
     };
 
-
     return(
         <div style={{paddingTop: '60px'}}>
             <SuccessDialog states={successDialog}/>
@@ -238,7 +237,7 @@ const AddProductView = props => {
                         <InputBase
                             className={`${classes.input} search-box text-center`}
                             type="tel"
-                            initialValue=""
+                            initialvalue=""
                             value={changePriceFields.sellingPrice}
                             name="sellingPrice"
                             onChange={(event) => changePriceFieldsHandler(event)}
@@ -256,7 +255,7 @@ const AddProductView = props => {
                 style={{ minHeight: '2.5rem', position: "fixed", bottom:"0", width:"100%" }}
             >
                 <Grid container >
-                    <Grid xs={6}>
+                    <Grid item xs={6}>
                         <Button
                             variant="outlined"
                             style={{border: '1px solid #DAAB59', color: '#DAAB59', padding: '5px 40px', float: 'right', marginRight: '5px'}}
@@ -266,7 +265,7 @@ const AddProductView = props => {
                         </Button>
                     </Grid>
 
-                    <Grid xs={6}>
+                    <Grid item xs={6}>
                         <Button
                             disabled={loading}
                             variant="contained"
