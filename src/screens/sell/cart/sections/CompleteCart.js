@@ -87,7 +87,7 @@ const CheckoutView = props => {
         setReceipt(rec.slice(0,8));
         setQuantity(qty);
         setDate(recDate);
-        setPaymentType(lastsale.paymentType)
+        setPaymentType(lastsale.paymentType);
         setSalesId(sale);
         setAmountPaid((parseFloat(localStorage.getItem('amountPaid'))).toFixed(2));
         setSalesTotal((parseFloat(total)).toFixed(2));
@@ -100,15 +100,12 @@ const CheckoutView = props => {
                 setCustomerName(await new CustomerService().getCustomerName(customers[i]))
             }
         }
-
-
     };
 
     const classes = useStyles();
 
     return(
         <div className={classes.root} >
-
             <div
                 style={{
                     position: 'relative',
@@ -133,44 +130,34 @@ const CheckoutView = props => {
             </Typography>
 
             <Paper variant="outlined" className={classes.paper}>
-
                 <Typography className='text-dark font-weight-bold' style={{ fontSize: '20px', marginTop: '10px' }} >
                     Summary
                 </Typography>
 
                 <table className={classes.table} align='center'>
-                    <tr>
-                        <td className={classes.td}>Total :</td>
-                        <td className={classes.td}>{`GHC ${salesTotal}`}</td>
-                    </tr>
-                    <tr>
-                        <td className={classes.td}>Paid :</td>
-                        <td className={classes.td}>{`GHC ${amountPaid}`}</td>
-                    </tr>
-                    {
-                        parseFloat(salesTotal) > parseFloat(amountPaid) ? (
+                    <tbody>
+                        <tr>
+                            <td className={classes.td}>Total :</td>
+                            <td className={classes.td}>{`GHC ${salesTotal}`}</td>
+                        </tr>
+                        <tr>
+                            <td className={classes.td}>Paid :</td>
+                            <td className={classes.td}>{`GHC ${amountPaid}`}</td>
+                        </tr>
+                        {
+                            parseFloat(salesTotal) > parseFloat(amountPaid) ? (
+                                    <tr>
+                                        <td className={classes.td}>Outstanding :</td>
+                                        <td className={classes.td}>GHC {(parseFloat(salesTotal) - parseFloat(amountPaid)).toFixed(2)}</td>
+                                    </tr>
+                                ):
                                 <tr>
-                                    <td className={classes.td}>Outstanding :</td>
-                                    <td className={classes.td}>GHC {(parseFloat(salesTotal) - parseFloat(amountPaid)).toFixed(2)}</td>
+                                    <td className={classes.td}> Change :</td>
+                                    <td className={classes.td}>{`GHC ${(parseFloat(amountPaid) - parseFloat(salesTotal)).toFixed(2)}`}</td>
                                 </tr>
-                            ):
-                            <tr>
-                                <td className={classes.td}> Change :</td>
-                                <td className={classes.td}>{`GHC ${(parseFloat(amountPaid) - parseFloat(salesTotal)).toFixed(2)}`}</td>
-                            </tr>
-                    }
-
+                        }
+                    </tbody>
                 </table>
-
-                {/* <Button
-                    variant="outlined"
-                    style={{fontSize: '16px', }}
-                    className={classes.button}
-                    onclick={print}
-                >
-                    <LocalPrintshopIcon />
-                    &nbsp; Print reciept
-                </Button> */}
                 <ReactToPrint
                     trigger={() =>
                         <Button
@@ -201,32 +188,9 @@ const CheckoutView = props => {
                         changeRem= {`GHC ${amountPaid - salesTotal}`}
                      />
                 </div>
-
             </Paper>
-
-            {/*<div
-                onClick={() => history.push(paths.sell)}
-            >
-                <Button
-                    variant="contained"
-                    className='text-dark font-weight-bold'
-                    style={{
-                        backgroundColor: '#DAAB59',
-                        color: '#333333',
-                        padding: '5px 40px',
-                        textTransform: 'none',
-                        fontSize: '20px',
-                        marginTop: '10px'
-                    }}
-                >
-                    Continue selling
-                </Button>
-            </div>*/}
-
-
         </div>
     )
-
-}
+};
 
 export default withRouter(CheckoutView);

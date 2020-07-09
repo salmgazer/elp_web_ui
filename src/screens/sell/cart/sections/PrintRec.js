@@ -72,26 +72,28 @@ class PrintRec extends React.Component {
                     </Grid>
                     <Grid item xs={8}>
                         <table style={{borderCollapse: 'collapse', width: '100%', fontSize: '13px'}} align='center'>
-                            <tr>
-                                <td className={style.td}>Receipt No. :</td>
-                                <td className={style.td}>{this.props.receiptNumber}</td>
-                            </tr>
-                            <tr>
-                                <td className={style.td}>Date :</td>
-                                <td className={style.td}>{this.props.date}</td>
-                            </tr>
-                            <tr>
-                                <td className={style.td}> Seller :</td>
-                                <td className={style.td}>{(this.props.seller).toUpperCase()}</td>
-                            </tr>
-                            <tr>
-                                <td className={style.td}> Customer :</td>
-                                <td className={style.td}>{this.props.customer}</td>
-                            </tr>
-                            <tr>
-                                <td className={style.td}> Payment type :</td>
-                                <td className={style.td}>{this.props.paymentType}</td>
-                            </tr>
+                            <tbody>
+                                <tr>
+                                    <td className={style.td}>Receipt No. :</td>
+                                    <td className={style.td}>{this.props.receiptNumber}</td>
+                                </tr>
+                                <tr>
+                                    <td className={style.td}>Date :</td>
+                                    <td className={style.td}>{this.props.date}</td>
+                                </tr>
+                                <tr>
+                                    <td className={style.td}> Seller :</td>
+                                    <td className={style.td}>{(this.props.seller).toUpperCase()}</td>
+                                </tr>
+                                <tr>
+                                    <td className={style.td}> Customer :</td>
+                                    <td className={style.td}>{this.props.customer}</td>
+                                </tr>
+                                <tr>
+                                    <td className={style.td}> Payment type :</td>
+                                    <td className={style.td}>{this.props.paymentType}</td>
+                                </tr>
+                            </tbody>
                         </table>
                     </Grid>
                     <Grid item xs={2}>
@@ -102,10 +104,12 @@ class PrintRec extends React.Component {
 
                 <table style={{borderCollapse: 'collapse', width: '100%', marginBottom: '20px', border: 'solid', fontSize: '13px'}} align='center'>
                     <thead style={{border: 'solid'}}>
-                        <th style={{border: 'solid'}}>Item</th>
-                        <th style={{border: 'solid'}}>Qty</th>
-                        <th style={{border: 'solid'}}>Price</th>
-                        <th style={{border: 'solid'}}>Total</th>
+                        <tr>
+                            <th style={{border: 'solid'}}>Item</th>
+                            <th style={{border: 'solid'}}>Qty</th>
+                            <th style={{border: 'solid'}}>Price</th>
+                            <th style={{border: 'solid'}}>Total</th>
+                        </tr>
                     </thead>
                     {this.props.products.map((item) =>
                         <SingleReceipt key={item.id} saleEntry={item} />
@@ -115,31 +119,33 @@ class PrintRec extends React.Component {
                 <Grid container spacing={1}>
                     <Grid item xs={12}>
                         <table style={{borderCollapse: 'collapse', width: '100%', fontSize: '13px'}} align='center'>
-                            <tr>
-                                <td className={style.td}>Item count :</td>
-                                <td className={style.td}>{this.props.totalQty}</td>
-                            </tr>
-                            <tr>
-                                <td className={style.td}>Total :</td>
-                                <td className={style.td}>{`GHC ${this.props.totalAmt}`}</td>
-                            </tr>
-                            <tr>
-                                <td className={style.td}>Amount paid :</td>
-                                <td className={style.td}>{`GHC ${this.props.amtPaid}`}</td>
-                            </tr>
+                            <tbody>
+                                <tr>
+                                    <td className={style.td}>Item count :</td>
+                                    <td className={style.td}>{this.props.totalQty}</td>
+                                </tr>
+                                <tr>
+                                    <td className={style.td}>Total :</td>
+                                    <td className={style.td}>{`GHC ${this.props.totalAmt}`}</td>
+                                </tr>
+                                <tr>
+                                    <td className={style.td}>Amount paid :</td>
+                                    <td className={style.td}>{`GHC ${this.props.amtPaid}`}</td>
+                                </tr>
 
-                            {
-                                parseFloat(this.props.totalAmt) > parseFloat(this.props.amtPaid) ? (
-                                    <tr>
-                                        <td className={style.td}>Outstanding :</td>
-                                        <td className={style.td}>GHC {(parseFloat(this.props.totalAmt) - parseFloat(this.props.amtPaid)).toFixed(2)}</td>
-                                    </tr>
-                                ):
-                                    <tr>
-                                        <td className={style.td}>Change :</td>
-                                        <td className={style.td}>{this.props.changeRem}</td>
-                                    </tr>
-                            }
+                                {
+                                    parseFloat(this.props.totalAmt) > parseFloat(this.props.amtPaid) ? (
+                                        <tr>
+                                            <td className={style.td}>Outstanding :</td>
+                                            <td className={style.td}>GHC {(parseFloat(this.props.totalAmt) - parseFloat(this.props.amtPaid)).toFixed(2)}</td>
+                                        </tr>
+                                    ):
+                                        <tr>
+                                            <td className={style.td}>Change :</td>
+                                            <td className={style.td}>{this.props.changeRem}</td>
+                                        </tr>
+                                }
+                            </tbody>
                         </table>
                     </Grid>
                 </Grid>
