@@ -276,7 +276,7 @@ const AddAuditProductView = props => {
                     <Grid item xs={6} >
                         <Button
                             variant="outlined"
-                            style={{border: '1px solid #DAAB59', color: '#DAAB59', padding: '5px 50px', marginRight: '10px'}}
+                            style={{border: '1px solid #DAAB59', color: '#DAAB59', padding: '5px 50px', float: 'right', marginRight: '5px'}}
                             onClick={backHandler.bind(this)}
                         >
                             Cancel
@@ -285,7 +285,7 @@ const AddAuditProductView = props => {
                     <Grid item xs={6} >
                         <Button
                             variant="contained"
-                            style={{'backgroundColor': '#DAAB59' , color: '#333333', padding: '5px 50px'}}
+                            style={{'backgroundColor': '#DAAB59' , color: '#333333', padding: '5px 50px', float: 'left', marginLeft: '5px'}}
                             onClick={saveStock.bind(this)}
                             disabled={loading}
                         >

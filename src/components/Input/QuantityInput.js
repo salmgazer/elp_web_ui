@@ -74,14 +74,15 @@ const QuantityInput = props => {
 
     const setValueHandler = (event) => {
         event.persist();
-        if(isNaN(event.target.value) || (event.target.value).length <= 0)
+        const value = parseFloat(event.target.value);
+
+        if(typeof (value) !== 'number' && value.length !== 0)
         {
-            setQuantity();
-            return
+            return false;
         }
 
-        setQuantity(event.target.value);
-        props.getValue(inputName , event.target.value);
+        setQuantity(value);
+        props.getValue(inputName , value);
 
     };
 
