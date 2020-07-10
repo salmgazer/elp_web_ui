@@ -82,6 +82,8 @@ import ErrorPage from './screens/newDashboards/version2/section/ErrorPage';
 import UnderConstruction from './screens/newDashboards/version2/section/UnderConstruction';
 import DashboardMultipleBranches from './screens/newDashboards/version2/DashboardMultipleBranches';
 
+import AttendantSetup from './screens/register/attendantSetup';
+
 function NoMatch() {
   return (
     <div>
@@ -111,6 +113,12 @@ class App extends React.Component {
                 path={paths.cart}
                 component={Cart}
                 title={`Cart`}
+              />
+              <AuthenticatedRoute
+                exact={true}
+                path={paths.attendant_setup}
+                component={AttendantSetup}
+                title={`Setup`}
               />
               <AuthenticatedRoute
                 exact={true}
