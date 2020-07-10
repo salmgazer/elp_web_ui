@@ -33,7 +33,7 @@ const SingleProductBox = props => {
                         color: '#000000',
                         position: 'absolute',
                         top: -10,
-                        right: '5%',
+                        left: '0%',
                         backgroundColor: '#FFFFFF',
                         width: '25px',
                         height: '25px',

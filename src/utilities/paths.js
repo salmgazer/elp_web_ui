@@ -62,4 +62,5 @@ export default {
     under_construction: '/under-construction',
     dashboard_multiple: '/dashboard-multiple',
     other_sales_history: '/other-history',
+    attendant_setup: '/attendant-setup',
 };
