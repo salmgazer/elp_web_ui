@@ -1,8 +1,11 @@
-import React from 'react';
+import React, {Suspense} from 'react';
 import CategorySingle from "./CategorySingle";
 import Box from "@material-ui/core/Box/Box";
 import Grid from "@material-ui/core/Grid/Grid";
 import SubCategorySingle from "./SubCategorySingle";
+import ComponentLoader from "../../../../components/Loader/componentLoader";
+
+const CategoriesView = React.lazy(() => import("./CategoriesView"));
 
 const Step1 = (props) => {
     const subcategories = props.subcategories;
@@ -14,25 +17,13 @@ const Step1 = (props) => {
 
     return(
         <div className={`mb-5`}>
-            <p style={{marginTop: '60px', fontSize: '18px', fontWeight: '400', color: '#333333'}}>Select product categories you sell</p>
-
-            <div className="scrollWrapper">
-                <span
-                    key={0}
-                    className={`shadow1 ${props.activeItem === 0 ? `activeBorder activeColor` : ''}`}
-                    style={{cursor: 'pointer' , width: '40px'}}
-                    onClick={_viewSubCategory.bind(this)}
-                >
-                    All
-                </span>
-                {categories.map((item) => <CategorySingle activeItem={props.activeItem} _viewSubCategory={props.clickFnc} key={item.id} item={item}/>)}
-            </div>
-
-            <Box style={{marginTop: '5px'}} p={1}>
-                <Grid container spacing={1}>
-                    {subcategories.map((item) => <SubCategorySingle key={item.id} item={item} _addSubCategoryHandler={props.addSubCategory} _removeSubCategoryHandler={props.removeSubCategory}/>)}
-                </Grid>
-            </Box>
+            {
+                categories.length > 0 ?
+                    <Suspense fallback={<ComponentLoader text={`Loading categories...`}/>}>
+                        <CategoriesView categories={categories} subcategories={subcategories} activeItem={props.activeItem} clickFnc={props.clickFnc} _viewSubCategory={_viewSubCategory.bind(this)} _addSubCategoryHandler={props.addSubCategory} _removeSubCategoryHandler={props.removeSubCategory}/>
+                    </Suspense>
+                : ''
+            }
         </div>
     );
 };

@@ -142,8 +142,8 @@ const SellView = props => {
             />
 
             <div
-                onClick={() => setIsDrawerShow(false)}
-                onKeyDown={() => setIsDrawerShow(false)}
+                //onClick={() => setIsDrawerShow(false)}
+                //onKeyDown={() => setIsDrawerShow(false)}
             >
                 <Drawer isShow={isDrawerShow} />
             </div>

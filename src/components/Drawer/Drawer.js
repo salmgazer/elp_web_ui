@@ -63,7 +63,7 @@ const Drawer = props => {
             fromUnixTime(LocalInfo.lastSyncedAt / 1000)
         )} ago` : 'Never synced before';
 
-    const [open, setOpen] = React.useState(false);
+    const [open, setOpen] = React.useState(props.isShow);
     //const [logoutPop, setLogoutPop] = React.useState(false);
 
     const handleClick = () => {
@@ -75,6 +75,7 @@ const Drawer = props => {
     const database = useDatabase();
 
     useEffect(() => {
+        setOpen(props.isShow);
         toggleDrawer('left' , props.isShow);
     });
 
@@ -283,9 +284,9 @@ const Drawer = props => {
     return (
         <div>
             <SwipeableDrawer
-                open={props.isShow}
+                open={open}
                 onClose={toggleDrawer('left', false)}
-                onOpen={toggleDrawer('left', props.isShow)}
+                onOpen={toggleDrawer('left', open)}
             >
                 {sideList('left')}
             </SwipeableDrawer>
