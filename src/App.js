@@ -77,6 +77,8 @@ import UnderConstruction from './screens/newDashboards/version2/section/UnderCon
 import DashboardMultipleBranches from './screens/newDashboards/version2/DashboardMultipleBranches';
 import PageLoader from "./components/Loader/PageLoader";
 
+import AttendantSetup from './screens/register/AttendantSetup';
+
 function NoMatch() {
   return (
     <div>
@@ -128,6 +130,12 @@ class App extends React.Component {
                     path={paths.dashboard_multiple}
                     component={DashboardMultipleBranches}
                     title={`Dashboard`}
+                  />
+                  <AuthenticatedRoute
+                    exact={true}
+                    path={paths.attendant_setup}
+                    component={AttendantSetup}
+                    title={`Setup`}
                   />
                   <AuthenticatedRoute
                     exact={true}

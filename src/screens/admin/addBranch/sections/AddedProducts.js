@@ -8,13 +8,12 @@ import Paper from "@material-ui/core/Paper/Paper";
 import Select from "@material-ui/core/Select/Select";
 import MenuItem from "@material-ui/core/MenuItem/MenuItem";
 import {makeStyles} from "@material-ui/core";
-import AddedProductSingle from "./viewAdded/AddedSingleView";
-import SectionNavbars from "../../../components/Sections/SectionNavbars";
+import SingleProduct from "./singleViews/SingleProduct";
+import SectionNavbars from "../../../../components/Sections/SectionNavbars";
 import ArrowBackIcon from '@material-ui/icons/ArrowBack';
-import Drawer from "../../../components/Drawer/Drawer";
-import SimpleSnackbar from "../../../components/Snackbar/SimpleSnackbar";
-import {confirmAlert} from "react-confirm-alert";
-import SearchInput from "../../Components/Input/SearchInput";
+import MainDialog from "../../../../components/Dialog/MainDialog";
+import SearchInput from "../../../Components/Input/SearchInput";
+import PrimaryLoader from "../../../../components/Loader/Loader";
 
 const useStyles = makeStyles(theme => ({
     root: {
@@ -51,86 +50,29 @@ const useStyles = makeStyles(theme => ({
 }));
 
 const AuditedProductsView = props => {
+    const {history} = props;
     const [type, setType] = useState('all');
-    const [isDrawerShow , setIsDrawerShow] = useState(false);
-    const [successDialog, setSuccessDialog] = useState(false);
-    const [loading , setLoading] = useState(false);
-    const [errorMsg , setErrorMsg] = useState('');
-    const [error , setError] = useState(false);
+    const [mainDialog, setMainDialog] = useState(false);
     const [searchValue , setSearchValue] = useState({
         search: ''
     });
 
     const handleTypeChange = event => {
         setType(event.target.value);
-        props.changeAuditedProductsType(event.target.value)
+        // props.changeProductsType(event.target.value)
     };
 
-    const backHandler = (event) => {
-        props.setView(0);
+    const closeDialogHandler = (event) => {
+        setMainDialog(false);
     };
 
-    const balanceAll = async (event) => {
-        setLoading(true);
-
-        await confirmAlert({
-            title: 'Confirm to balance all',
-            message: 'Are you sure you want to balance all products.',
-            buttons: [
-                {
-                    label: 'Yes',
-                    onClick: async () => {
-                        const response = await props.balanceAllHandler();
-                        if(response){
-                            setSuccessDialog(true);
-
-                            setTimeout(function(){
-                                setSuccessDialog(false);
-                                setLoading(false);
-                                props.setView(0)
-                            }, 2000);
-                        }else{
-                            setErrorMsg('OOPS. Something went wrong please try again');
-                            setError(true);
-                            setTimeout(function(){
-                                setError(false);
-                            }, 3000);
-                        }
-                    }
-                },
-                {
-                    label: 'No',
-                    onClick: () => {
-                        setLoading(false);
-                        return false;
-                    }
-                }
-            ]
-        })
-
-       /* await props.balanceAllHandler();
-
-        setSuccessDialog(true);
-
-        setTimeout(function(){
-            setSuccessDialog(false);
-            setLoading(false);
-            props.setView(0)
-        }, 2000);*/
-        /*if(status){
-
-        }else{
-            setErrorMsg('OOPS. Something went wrong please try again');
-            setError(true);
-            setTimeout(function(){
-                setError(false);
-            }, 3000);
-        }*/
+    const openDialogHandler = (event) => {
+        setMainDialog(true);
     };
 
-    const editProductHandler = (pId , event) => {
-        //props.productEdit(pId , 3);
-    };
+    // const editProductHandler = (pId , event) => {
+    //     //props.productEdit(pId , 3);
+    // };
 
     const setInputValue = (name , value) => {
         const {...oldFormFields} = searchValue;
@@ -139,7 +81,7 @@ const AuditedProductsView = props => {
 
         setSearchValue(oldFormFields);
 
-        props.searchAuditedHandler(value);
+        props.searchProduct(value);
     };
 
     const classes = useStyles();
@@ -147,7 +89,7 @@ const AuditedProductsView = props => {
     return(
         <div>
             <SectionNavbars
-                title="Audit"
+                title="Stock"
                 leftIcon={
                     <div>
                         <ArrowBackIcon
@@ -155,19 +97,12 @@ const AuditedProductsView = props => {
                         />
                     </div>
                 }
-                leftOnClick={backHandler.bind(this)} 
+                leftOnClick={() => history.goBack()} 
             />
 
-            <div
-                onClick={() => setIsDrawerShow(false)}
-                onKeyDown={() => setIsDrawerShow(false)}
-            >
-                <Drawer isShow={isDrawerShow} />
-            </div>
-
-            <SimpleSnackbar
+            {/* <SimpleSnackbar
                 openState={successDialog}
-                message={`Audit successfully completed`}
+                message={`Products successfully added`}
             >
             </SimpleSnackbar>
 
@@ -176,7 +111,7 @@ const AuditedProductsView = props => {
                 openState={error}
                 message={errorMsg}
             >
-            </SimpleSnackbar>
+            </SimpleSnackbar> */}
 
             <div className="row p-0 pt-0 mx-0 mt-6 text-center shadow1">
                 <Typography
@@ -185,7 +120,7 @@ const AuditedProductsView = props => {
                     style={{fontSize: '18px' , margin: '0px 0px', paddingTop: '5px' , paddingBottom: '5px'}}
                     className={`text-center mx-auto w-100 text-dark font-weight-bold`}
                 >
-                    {`Items added : (${props.auditEntries.length})` }
+                    {`Added products : (${props.addedProducts.length})` }
                 </Typography>
 
                 <Grid container spacing={1}>
@@ -204,9 +139,9 @@ const AuditedProductsView = props => {
                                 style={{width: '100%' , backgroundColor: 'rgba(255, 255, 255, 0)' , border: 'none'}}
                             >
                                 <MenuItem value="all">All products</MenuItem>
-                                <MenuItem value="positive">Positive difference</MenuItem>
-                                <MenuItem value="negative">Negative difference</MenuItem>
-                                <MenuItem value="zero">Zero difference</MenuItem>
+                                <MenuItem value="incomplete">Incomplete products</MenuItem>
+                                <MenuItem value="unstocked">Unstocked products</MenuItem>
+                                <MenuItem value="stocked">Stocked products</MenuItem>
                             </Select>
                         </Paper>
                     </Grid>
@@ -217,9 +152,61 @@ const AuditedProductsView = props => {
             <div style={{width: '95%', padding: '0px 2%' , paddingTop: '5px', paddingBottom: '60px'}}>
 
                 <Box style={{marginTop: '2px' , paddingBottom: '60px'}} p={1} className={`mt-3 mb-5`}>
-                    {props.auditEntries.map((item) => <AddedProductSingle deleteAuditProductEntry={props.deleteProductHandler} editAuditProductEntry={props.productAdd} editStoreProduct={editProductHandler.bind(this)} key={item.id} product={item.product.fetch()} item={item}/>)}
+                    {props.addedProducts.map((item) => <SingleProduct key={item.id} item={item}/>)}
                 </Box>
             </div>
+
+            <MainDialog handleDialogClose={closeDialogHandler.bind(this)} states={mainDialog}>
+                <div className="row p-3 pt-0 mx-auto text-center">
+
+                    <Typography
+                        component="p"
+                        variant="h6"
+                        style={{fontSize: '16px' , margin: '0px 0px', padding: '16px', lineHeight: '1.3'}}
+                        className={`text-center mb-2 mx-auto text-dark font-weight-bold`}
+                    >
+                        You have not stocked up all the products in the list.
+                    </Typography>
+
+                    <div className="text-center mx-auto">
+                        <label style={{fontWeight: '500'}}>I want to complete stock info.</label>
+                        <Button
+                            variant="outlined"
+                            style={{border: '1px solid #DAAB59', color: '#DAAB59', padding: '5px 80px'}}
+                            onClick={closeDialogHandler.bind(this)}
+                            className={`capitalization mt-2`}
+                            disabled={props.loading}
+                        >
+                            Go back
+                        </Button>
+                    </div>
+
+                    <div className="text-center mx-auto my-4">
+                        <label style={{fontWeight: '500'}}>I have finished adding products.</label>
+                        <Button
+                            variant="outlined"
+                            style={{'backgroundColor': '#DAAB59' , border: '1px solid #DAAB59', color: '#000000', padding: '7px 86px'}}
+                            onClick={() => props.setView(3)}
+                            className={`capitalization mt-2`}
+                            disabled={props.loading}
+                        >
+                            {
+                                props.loading ?
+                                    <PrimaryLoader
+                                        style={{width: '30px' , minHeight: '2.5rem'}}
+                                        color="#FFFFFF"
+                                        type="Oval"
+                                        className={`mt-1`}
+                                        width={25}
+                                        height={25}
+                                    />
+                                    :
+                                    'Finish'
+                            }
+                        </Button>
+                    </div>
+                </div>
+            </MainDialog>
 
             <Box
                 className="shadow1"
@@ -232,7 +219,7 @@ const AuditedProductsView = props => {
                         <Button
                             variant="outlined"
                             style={{border: '1px solid #DAAB59', color: '#DAAB59', padding: '5px 50px', float: 'right', marginRight: '5px'}}
-                            onClick={backHandler.bind(this)}
+                            onClick={() => history.goBack()} 
                         >
                             Back
                         </Button>
@@ -240,11 +227,10 @@ const AuditedProductsView = props => {
                     <Grid item xs={6} >
                         <Button
                             variant="contained"
-                            style={{'backgroundColor': '#DAAB59' , color: '#333333', padding: '5px 20px', float: 'left', marginLeft: '5px'}}
-                            onClick={balanceAll.bind(this)}
-                            disabled={loading}
+                            style={{'backgroundColor': '#DAAB59' , color: '#333333', padding: '5px 50px', float: 'left', marginLeft: '5px'}}
+                            onClick={openDialogHandler.bind(this)}
                         >
-                            Balance all
+                            Finish
                         </Button>
                     </Grid>
                 </Grid>
