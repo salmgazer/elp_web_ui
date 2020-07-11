@@ -6,16 +6,16 @@ import SubCategorySingle from "./SubCategorySingle";
 import InfiniteScroll from "react-infinite-scroll-component";
 
 const CategoriesView = (props) => {
-    console.log(props.subcategories)
     const [breakCount , setBreakCount] = useState(props.subcategories.length > 30 ? 30 : props.subcategories.length);
     const [products , setProducts] = useState([]);
     const [currentProducts , setCurrentProducts] = useState([]);
+    const [currentCounter , setCurrentCounter] = useState(0);
     const [hasMore , setHasMore] = useState(!!(props.subcategories.length >= breakCount));
 
     useEffect(() => {
         // You need to restrict it at some point
         // This is just dummy code and should be replaced by actual
-        if (currentProducts.length !== props.subcategories.length) {
+        if (currentProducts.length !== props.subcategories.length || currentCounter !== props.counter) {
             getProduct();
         }
     });
@@ -24,7 +24,7 @@ const CategoriesView = (props) => {
         const bCount = props.subcategories.length > 30 ? 30 : props.subcategories.length;
         setBreakCount(bCount);
         setHasMore(!!(props.subcategories.length >= bCount));
-
+        setCurrentCounter(props.counter);
         setProducts(props.subcategories.slice(0,bCount));
         setCurrentProducts(props.subcategories);
     };
@@ -80,8 +80,8 @@ const CategoriesView = (props) => {
                                     <SubCategorySingle
                                         key={item.id}
                                         item={item}
-                                        _addSubCategoryHandler={props.addSubCategory}
-                                        _removeSubCategoryHandler={props.removeSubCategory}
+                                        _addSubCategoryHandler={props._addSubCategoryHandler}
+                                        _removeSubCategoryHandler={props._removeSubCategoryHandler}
                                     />
                                 )
                             }

@@ -8,11 +8,11 @@ const SubCategorySingle = props => {
     const category = props.item;
 
     const addSubCategoryHandler = (id , event) => {
-        props._addSubCategoryHandler(id);
+        props._addSubCategoryHandler(id , event);
     };
 
     const removeSubCategoryHandler = (id , event) => {
-        props._removeSubCategoryHandler(id);
+        props._removeSubCategoryHandler(id , event);
     };
 
     return(
@@ -20,14 +20,14 @@ const SubCategorySingle = props => {
 
             { category.owned ?
                 <Card
-                
+
                     className="shadow1"
                     style={{margin: '5px auto' ,backgroundImage: `url(${category.image ? `https://elparah.store/admin/upload/${category.image}` : 'https://elparah.store/admin/upload/no_image.png'})` , backgroundPosition: 'center top', backgroundSize: '100%', backgroundRepeat: 'no-repeat' , width: '100%' , height: '160px', padding: '0px', position: 'relative'}}
                     onClick={(event) => removeSubCategoryHandler(category.id , event)}
                 >
-                
+
                         <div
-                            
+
                         >
                             <AddedIcon
                                 styles={{
@@ -42,8 +42,8 @@ const SubCategorySingle = props => {
                                 }}
                             />
                         </div>
-                    
-                    
+
+
                     <div style={{fontSize: '14px', width: '100%', minHeight: '40px', backgroundColor: '#3333338c', color: '#ffffff', position: 'relative', top: '70%', left:'0', right: '0', padding: '5px 0px'}}>
                         {category.name}
                     </div>
@@ -54,9 +54,9 @@ const SubCategorySingle = props => {
                     style={{margin: '5px auto' ,backgroundImage: `url(${category.image ? `https://elparah.store/admin/upload/${category.image}` : 'https://elparah.store/admin/upload/no_image.png'})` , backgroundPosition: 'center top', backgroundSize: '100%', backgroundRepeat: 'no-repeat' , width: '100%' , height: '160px', padding: '0px', position: 'relative'}}
                     onClick={(event) => addSubCategoryHandler(category.id , event)}
                 >
-                
+
                 <div
-                    
+
                 >
                     <AddIcon
                         styles={{
@@ -70,14 +70,14 @@ const SubCategorySingle = props => {
                             color: '#DAAB59',
                         }}
                     />
-                </div>          
-                    
+                </div>
+
                     <div style={{fontSize: '14px', width: '100%', minHeight: '40px', backgroundColor: '#3333338c', color: '#ffffff', position: 'relative', top: '70%', left:'0', right: '0', padding: '5px 0px'}}>
                         {category.name}
                     </div>
                 </Card>
             }
-                
+
         </Grid>
     );
 };

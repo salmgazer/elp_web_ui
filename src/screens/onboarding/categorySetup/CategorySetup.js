@@ -191,9 +191,9 @@ class CategorySetup extends Component{
 
         switch (step) {
             case 0:
-                return <Step1 activeItem={this.state.activeItem} addSubCategory={this.addSubCategoryHandler.bind(this)} removeSubCategory={this.removeSubCategoryHandler.bind(this)} clickFnc={this.selectCategoryHandler.bind(this)} categories={categories} subcategories={subcategories}/> ;
+                return <Step1 counter={this.state.counter} activeItem={this.state.activeItem} addSubCategory={this.addSubCategoryHandler.bind(this)} removeSubCategory={this.removeSubCategoryHandler.bind(this)} clickFnc={this.selectCategoryHandler.bind(this)} categories={categories} subcategories={subcategories}/> ;
             case 1:
-                return <Step2 search={this.searchHandler.bind(this)} addSubCategory={this.addSubCategoryHandler.bind(this)} removeSubCategory={this.removeSubCategoryHandler.bind(this)} subcategories={shop_subcategories}/>;
+                return <Step2 counter={this.state.counter} search={this.searchHandler.bind(this)} addSubCategory={this.addSubCategoryHandler.bind(this)} removeSubCategory={this.removeSubCategoryHandler.bind(this)} subcategories={shop_subcategories}/>;
             default:
                 return 'Complete';
         }
@@ -225,7 +225,7 @@ class CategorySetup extends Component{
         const accessToken = localStorage.getItem('accessToken');
         const branchAddedCategories = localStorage.getItem('branchCategoriesAdded') || [];
 
-        if(branchAddedCategories === null || branchAddedCategories.length === 0){
+        if((branchAddedCategories === null || branchAddedCategories.length === 0)){
             this.setState({
                 loading: true,
             });
@@ -270,7 +270,7 @@ class CategorySetup extends Component{
 
         return(
             <div>
-                <SectionNavbars 
+                <SectionNavbars
                     title="Setup Shop"
                     leftIcon={
                         <div>

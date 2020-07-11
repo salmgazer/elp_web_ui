@@ -35,7 +35,7 @@ const Step2 = (props) => {
                 </Grid>
             </Box>
 
-            <Box style={{marginTop: '5px'}} p={1}>
+            <Box style={{marginTop: '5px' , marginBottom: '4rem'}} p={1}>
                 {props.subcategories.map((item) => <SelectedCategorySingle key={item.id} item={item} removeSubCategory={props.removeSubCategory} />)}
             </Box>
         </div>
