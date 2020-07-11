@@ -241,6 +241,9 @@ class CategorySetup extends Component{
                 );
 
                 if(branchCategories){
+                    localStorage.removeItem("branchCategoriesAdded");
+                    localStorage.removeItem("branchCategories");
+                    localStorage.removeItem("branchCategoriesRemoved");
                     history.push(paths.add_products);
                 }
 

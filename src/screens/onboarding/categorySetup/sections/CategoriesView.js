@@ -73,6 +73,9 @@ const CategoriesView = (props) => {
                             </p>
                         }
                         hasChildren={true}
+                        style={{
+                            overflow: 'none'
+                        }}
                     >
                         <Grid container spacing={1}>
                             {
