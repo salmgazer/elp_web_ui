@@ -39,6 +39,7 @@
     "react-confirm-alert": "^2.6.1",
     "react-datepicker": "^2.14.1",
     "react-dom": "^16.13.0",
+    "react-ga": "^3.1.2",
     "react-infinite-scroll-component": "^5.0.5",
     "react-loader-spinner": "^3.1.5",
     "react-material-ui-form-validator": "^2.0.10",

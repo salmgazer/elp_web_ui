@@ -1,6 +1,8 @@
 import React from "react";
 import "./App.scss";
-import "react-loader-spinner/dist/loader/css/react-spinner-loader.css"
+import "react-loader-spinner/dist/loader/css/react-spinner-loader.css";
+import * as ReactGA from 'react-ga';
+
 import DatabaseProvider from "@nozbe/watermelondb/DatabaseProvider";
 import database from "./models/database";
 import Login from "./screens/login/Login";
@@ -78,6 +80,13 @@ import DashboardMultipleBranches from './screens/newDashboards/version2/Dashboar
 import PageLoader from "./components/Loader/PageLoader";
 
 import AttendantSetup from './screens/register/AttendantSetup';
+const trackingId = "G-FX059V8F4Q";
+
+ReactGA.initialize(trackingId);
+history.listen(location => {
+    ReactGA.set({ page: location.pathname }); // Update the user's current page
+    ReactGA.pageview(location.pathname); // Record a pageview for the given page
+});
 
 function NoMatch() {
   return (
