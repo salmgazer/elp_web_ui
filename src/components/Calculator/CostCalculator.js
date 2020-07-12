@@ -57,7 +57,7 @@ const CostCalculator = (props) => {
                     bgcolor="background.paper"
                     p={1}
                     style={{ minHeight: '2.5rem', width:"100%"}}
-                    key={props.product.id}
+                    key={0}
                 >
                     <Button
                         variant="outlined"
@@ -76,7 +76,7 @@ const CostCalculator = (props) => {
                 </Box>]}
                 handleClose={handleModalClose.bind(this)}
                 title={[
-                    <div key={props.product.id} >
+                    <div key={1} >
                         <h5 className={`font-weight-bold text-dark my-0`}>
                             Cost Price Calculator
                         </h5>

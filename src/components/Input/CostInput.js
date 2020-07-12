@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import Grid from "@material-ui/core/Grid/Grid";
 import Paper from "@material-ui/core/Paper/Paper";
 import InputBase from "@material-ui/core/InputBase/InputBase";
@@ -31,28 +31,38 @@ const useStyles = makeStyles(theme => ({
 const CostInput = props => {
     const classes = useStyles();
     //let value = props.initialValue;
-    const initialValue = parseFloat(props.initialValue) ? parseFloat(props.initialValue).toFixed(2) : '';
+    //const initialValue = parseFloat(props.initialValue) ? parseFloat(props.initialValue).toFixed(2) : '';
 
     const inputName = props.inputName;
-    const [quantity , setQuantity] = useState(initialValue);
+    const [quantity , setQuantity] = useState(props.initialValue ? parseFloat(props.initialValue) || '' : '');
     const [calculatorDialog, setCalculatorDialog] = useState(false);
+
+    useEffect(() => {
+        if (parseFloat(quantity) !== parseFloat(props.initialValue)) {
+            setQuantity(props.initialValue ? parseFloat(props.initialValue) || '' : '');
+        }
+    });
 
     const setValueHandler = (event) => {
         event.persist();
+        const value = event.target.value;
+
         if(isNaN(event.target.value) || (event.target.value).length <= 0)
         {
-            setQuantity();
-            return
+            setQuantity('');
+            props.getValue(inputName , '');
+            return false
         }
 
-        setQuantity(event.target.value);
-        props.getValue(inputName , event.target.value);
+        setQuantity(value);
+        props.getValue(inputName , value);
     };
 
     const getCalculatorValue = (value) => {
         if(props.isSendQuantity){
             setQuantity(value[0].costPrice);
-            props.getValues(value)
+
+            props.getCalculatorValue(value)
         }else{
             setQuantity(value);
             props.getValue('costPrice' , parseFloat(value));
