@@ -38,7 +38,7 @@ const MainView = props => {
     const [mainDialog, setMainDialog] = useState(false);
     const [isShowDrawer , setIsShowDrawer] = useState(false);
     const [isDrawerShow , setIsDrawerShow] = useState(false);
-
+    const [loading , setLoading] = useState(false);
     const a11yProps = (index) => {
         return {
             id: `full-width-tab-${index}`,
@@ -67,10 +67,12 @@ const MainView = props => {
         const returnPage = localStorage.getItem('redirectPath') || '';
 
         if(returnPage){
+            setLoading(true);
             props.finishAddProducts();
         }else{
             setMainDialog(true);
         }
+        setLoading(false);
     };
 
     const closeDialogHandler = (event) => {
@@ -230,11 +232,24 @@ const MainView = props => {
                         <Button
                             variant="contained"
                             style={{'backgroundColor': '#DAAB59' , color: '#333333', padding: '7px 80px', fontSize: '14px'}}
-
+                            disabled={loading}
                             className={`capitalization font-weight-bold text-dark`}
                             onClick={openDialogHandler.bind(this)}
                         >
-                            Finish
+                            {
+                                loading ?
+                                    <PrimaryLoader
+                                        style={{width: '30px' , height: '30px'}}
+                                        color="#FFFFFF"
+                                        type="Oval"
+                                        className={`mt-1`}
+                                        width={25}
+                                        height={25}
+                                    />
+                                    :
+                                    'Finish'
+                            }
+
                             {/*<span className={`btnPCount`}>
                                 {props.spCount}
                             </span>*/}
