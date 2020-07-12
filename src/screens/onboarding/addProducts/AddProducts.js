@@ -43,10 +43,20 @@ class AddProducts extends Component{
                 `https://${Api.apiDomain()}/v1/client/branches/${branchId}/products`,
             );
 
-            localStorage.setItem('storeProductsLookup' , JSON.stringify(products.data.products));
+            let localProducts = products.data.products;
+            const storageProducts = JSON.parse(localStorage.getItem("branchProductsAdded")) || [];
+
+            if(storageProducts.length > 0){
+                for (let i = 0; i < storageProducts.length; i++) {
+                    console.log(storageProducts[i]);
+                    localProducts = await this.startupAddNewProduct(storageProducts[i] , localProducts);
+                }
+            }
+
+            localStorage.setItem('storeProductsLookup' , JSON.stringify(localProducts));
 
             this.setState({
-                'productList' : products.data.products,
+                'productList' : localProducts,
             });
         }catch (error) {
             console.log(error)
@@ -103,6 +113,67 @@ class AddProducts extends Component{
             searchValue: search,
             productList: searchResults
         });
+    };
+
+    startupAddNewProduct = async(formFields , products) => {
+        let old_list = products;
+
+        const productIndex = old_list.findIndex((item => item.id === (formFields.productId)));
+        const item = {...old_list[productIndex]};
+        if(!item.owned){
+            item.owned = true;
+        }
+
+        if((formFields.sellingPrice === "" || formFields.sellingPrice === null || formFields.sellingPrice === 0) && (formFields.costPrice === "" || formFields.costPrice === null || formFields.costPrice === 0) && (formFields.quantity === "" || formFields.quantity === null || formFields.quantity === 0)){
+            old_list[productIndex] = item;
+            const tempId = uuidv1();
+
+            formFields = {
+                branchId: formFields.branchId,
+                productId: formFields.productId,
+                costPrice: null,
+                sellingPrice: null,
+                quantity: formFields.quantity === null ? null : parseFloat(formFields.quantity),
+                tempId: tempId,
+            };
+
+            return old_list;
+        }
+
+        if(formFields.sellingPrice !== "" || formFields.sellingPrice !== null){
+            item.sellingPrice = formFields.sellingPrice === null ? null : parseFloat(formFields.sellingPrice);
+        }
+
+        const tempId = uuidv1();
+        const historyItem = {
+            quantity: formFields.quantity,
+            branch_stock_id: formFields.branchId,
+            id: tempId,
+            tempId: tempId,
+            created_at: getTime(new Date()),
+        };
+
+        formFields = {
+            branchId: formFields.branchId,
+            productId: formFields.productId,
+            costPrice: formFields.costPrice === null ? null : parseFloat(formFields.costPrice),
+            sellingPrice: formFields.sellingPrice === null ? null : parseFloat(formFields.sellingPrice),
+            quantity: formFields.quantity === null ? null : parseFloat(formFields.quantity),
+            tempId: tempId,
+        };
+
+        item.stock = item.stock || [];
+        (item.stock).push(
+            formFields
+        );
+
+        item.history = item.history || [];
+        (item.history).push(historyItem);
+
+        //quantity //branch_stock_id //id
+        old_list[productIndex] = item;
+
+        return old_list;
     };
 
     completeAddProducts = async() => {
@@ -360,7 +431,7 @@ class AddProducts extends Component{
         });
     };
 
-    addNewProduct = async(formFields) => {
+    addNewProduct = async(formFields , startup = false) => {
         //console.log(formFields);
         const search = this.state.searchValue;
         let branchProductsAdded = JSON.parse(localStorage.getItem('branchProductsAdded')) || [];
