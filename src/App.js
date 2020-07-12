@@ -80,7 +80,7 @@ import DashboardMultipleBranches from './screens/newDashboards/version2/Dashboar
 import PageLoader from "./components/Loader/PageLoader";
 
 import AttendantSetup from './screens/register/AttendantSetup';
-const trackingId = "G-FX059V8F4Q";
+const trackingId = "UA-135455363-3";
 
 ReactGA.initialize(trackingId);
 history.listen(location => {
