@@ -47,14 +47,17 @@ const CostInput = props => {
 
     const setValueHandler = (event) => {
         event.persist();
-        /*if(isNaN(event.target.value) || (event.target.value).length <= 0)
-        {
-            setQuantity();
-            return
-        }*/
+        const value = event.target.value;
 
-        setQuantity(event.target.value);
-        props.getValue(inputName , event.target.value);
+        if(isNaN(event.target.value) || (event.target.value).length <= 0)
+        {
+            setQuantity('');
+            props.getValue(inputName , '');
+            return false
+        }
+
+        setQuantity(value);
+        props.getValue(inputName , value);
     };
 
     const openCalculator = () => {
@@ -66,16 +69,9 @@ const CostInput = props => {
     };
 
     const getCalculatorValue = (value) => {
-        /*if(isNaN(value) || (value).length <= 0)
-        {
-            setQuantity();
-            return
-        }*/
-
         if(props.isSendQuantity){
-            console.log('log')
             setQuantity(value[0].costPrice);
-            props.getValue(value)
+            props.getCalculatorValue(value)
         }else{
             setQuantity(value);
             props.getValue('costPrice' , parseFloat(value));

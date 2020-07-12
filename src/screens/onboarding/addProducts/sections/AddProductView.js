@@ -187,7 +187,7 @@ const AddProductView = props => {
                 <div className={`rounded bordered mb-3 mx-3 px-3 py-3`}>
                     <QuantityInput startValue={formFields.quantity} label={`Quantity counted`} inputName="quantity" getValue={setInputValue.bind(this)}/>
 
-                    <CostInput isSendQuantity={true} product={product} label={`Cost price`} inputName="costPrice" initialValue={formFields.costPrice} getValue={setCostValue.bind(this)} >
+                    <CostInput isSendQuantity={true} product={product} label={`Cost price`} inputName="costPrice" initialValue={formFields.costPrice} getCalculatorValue={setCostValue.bind(this)} getValue={setInputValue.bind(this)}>
                         <FontAwesomeIcon icon={faCalculator} fixedWidth />
                     </CostInput>
 

@@ -349,7 +349,7 @@ const AddNewStockPage = props => {
             oldFormFields[itemKey] = value[i][itemKey];
         }
 
-        setTotalPrice((parseFloat(value[0].costPrice) * parseFloat(value[1].quantity)).toFixed(2));
+        setTotalPrice((parseFloat(oldFormFields.costPrice) * parseFloat(oldFormFields.quantity)).toFixed(2));
         if(oldFormFields.costPrice === "" || oldFormFields.quantity === "" || oldFormFields.costPrice === 0 || oldFormFields.quantity === 0){
             setLoading(true)
         }else{
@@ -526,7 +526,7 @@ const AddNewStockPage = props => {
                         <Grid
                             item xs={5}
                         >
-                            <UnitCost isSendQuantity={true} product={product} id="right_input" label={`Unit price`} inputName="costPrice" initialValue={formFields.costPrice} getValue={setCostValue.bind(this)} >
+                            <UnitCost isSendQuantity={true} product={product} id="right_input" label={`Unit price`} inputName="costPrice" initialValue={formFields.costPrice} getCalculatorValue={setCostValue.bind(this)} getValue={setInputValue.bind(this)}>
                                 <FontAwesomeIcon icon={faCalculator} fixedWidth />
                             </UnitCost>
                         </Grid>
