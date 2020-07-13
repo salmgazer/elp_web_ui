@@ -56,7 +56,6 @@ const AddProductView = props => {
                 return false;
             }
         }
-        console.log(formFields)
         props.addNewProduct(formFields);
 
         setSuccessDialog(true);

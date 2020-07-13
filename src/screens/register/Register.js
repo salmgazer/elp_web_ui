@@ -254,12 +254,12 @@ const Register = props => {
             }, 3000);
         }
 
-        history.push(paths.verify_sms);
+        history.push(paths.get_started);
     };
 
     return (
         <div className={classes.root}>
-            <SectionNavbars 
+            <SectionNavbars
                 title="Create Account"
                 leftIcon={
                     <div>

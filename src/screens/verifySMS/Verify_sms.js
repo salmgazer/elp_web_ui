@@ -1,4 +1,4 @@
-import React, {useRef, useState} from "react";
+import React, {useEffect, useRef, useState} from "react";
 import OtpInput from 'react-otp-input';
 import Component from "@reactions/component";
 import CssBaseline from '@material-ui/core/CssBaseline';
@@ -87,6 +87,30 @@ const VerifySMS = props => {
     const [error , setError] = useState('none');
     const [changeContact , setChangeContact] = useState(false);
     const PersonalInformationForm = useRef(null);
+
+    useEffect(() => {
+        let currentPathname = null;
+        let currentSearch = null;
+
+        history.listen((newLocation, action) => {
+            if (action === "PUSH") {
+                if (
+                    newLocation.pathname !== currentPathname ||
+                    newLocation.search !== currentSearch
+                ) {
+                    currentPathname = newLocation.pathname;
+                    currentSearch = newLocation.search;
+
+                    history.push({
+                        pathname: newLocation.pathname,
+                        search: newLocation.search
+                    });
+                }
+            } else {
+                history.go(1);
+            }
+        });
+    });
 
     //Logic for verifying SMS
     const verifySMS = async({otp}) => {
