@@ -254,7 +254,7 @@ const Register = props => {
             }, 3000);
         }
 
-        history.push(paths.get_started);
+        history.push(paths.verify_sms);
     };
 
     return (

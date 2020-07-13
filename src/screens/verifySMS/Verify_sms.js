@@ -166,6 +166,54 @@ const VerifySMS = props => {
         }
     };
 
+    const skip = async() => {
+        setLoading(true);
+
+        let code = parseFloat(localStorage.getItem('userOTP'));
+
+        const params = {
+            "phone" : localStorage.getItem('userContact'),
+            "password" : localStorage.getItem('randomString'),
+            "otp" : code.toString(),
+        };
+
+        if(code){
+            try {
+                let user = await new Api('others').update(
+                    params,
+                    {},
+                    {},
+                    `https://${Api.apiDomain()}/v1/client/users/verify`,
+                );
+
+                if(user){
+                    localStorage.setItem('accessToken' , user.data.token);
+                    localStorage.removeItem('randomString');
+                    localStorage.removeItem('userOTP');
+                    setSuccessMsg('You have successfully created an account.');
+                    setSuccessDialog(true);
+                    setTimeout(function(){
+                        setSuccessDialog(false);
+                        setLoading(false);
+                        localStorage.removeItem('isRegistering');
+                        history.push(paths.get_started);
+                    }, 2000);
+                }
+            }catch (error) {
+                setErrorMsg('Please try again.');
+                setErrorDialog(true);
+                setLoading(false);
+
+                console.log(error)
+            }
+        }else{
+            setLoading(false);
+            setErrorMsg('Number you entered is incorrect. Please enter again!');
+            setErrorDialog(true);
+            return false
+        }
+    };
+
     const resendSMS = async () => {
         setLoadingSMS(true);
 
@@ -460,6 +508,28 @@ const VerifySMS = props => {
                                         'Finish'
                                 }
                             </Button>
+                            <Button
+                                variant="outlined"
+                                style={{border: '1px solid #DAAB59', textAlign: 'center', color: '#DAAB59', padding: '8px 15px', fontSize: '12px', marginLeft: '10px'}}
+                                className={classes.button + ' ' + classes.shadow1}
+                                onClick={() => skip()}
+                                disabled={loading}
+                            >
+                                {
+                                    loading ?
+                                        <PrimaryLoader
+                                            style={{width: '30px' , minHeight: '2.5rem'}}
+                                            color="#FFFFFF"
+                                            type="Oval"
+                                            className={`mt-1`}
+                                            width={25}
+                                            height={25}
+                                        />
+                                        :
+                                        'Skip & continue'
+                                }
+                            </Button>
+
                             <Typography
                                 variant="h6"
                                 component="p"
