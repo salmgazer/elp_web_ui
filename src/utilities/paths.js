@@ -63,4 +63,8 @@ export default {
     dashboard_multiple: '/dashboard-multiple',
     other_sales_history: '/other-history',
     attendant_setup: '/attendant-setup',
+    fridge_setup: '/fridge-setup',
+    fridge_sell: '/fridge-sell',
+    fridge_stock: '/fridge-stock',
+    fridge_audit: '/fridge-audit',
 };

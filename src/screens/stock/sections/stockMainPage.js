@@ -32,6 +32,7 @@ import LibraryAddIcon from '@material-ui/icons/LibraryAdd';
 import Grid from '@material-ui/core/Grid';
 import AppsIcon from '@material-ui/icons/Apps';
 import Button from "@material-ui/core/Button/Button";
+import EditIcon from '@material-ui/icons/Edit';
 
 import Drawer from "../../../components/Drawer/Drawer";
 import {makeStyles} from "@material-ui/core";
@@ -151,6 +152,14 @@ const StockMainPage = props => {
                             <ListItem button key={9} onClick={setView.bind(this , 4)}>
                                 <ListItemIcon><ReportProblemOutlinedIcon style={{color: '#707070'}} /></ListItemIcon>
                                 <ListItemText primary="View low stock" />
+                            </ListItem>
+                            <ListItem
+                                button
+                                key={7}
+                                onClick={() => history.push(paths.change_price)}
+                            >
+                                <ListItemIcon><EditIcon/></ListItemIcon>
+                                <ListItemText primary="Change price" />
                             </ListItem>
                             <ListItem button key={10} onClick={() => history.push(paths.other_stock)} >
                                 <ListItemIcon><RedeemIcon style={{color: '#707070'}} /></ListItemIcon>

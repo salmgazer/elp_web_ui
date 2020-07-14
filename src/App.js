@@ -77,6 +77,11 @@ import UnderConstruction from './screens/newDashboards/version2/section/UnderCon
 import DashboardMultipleBranches from './screens/newDashboards/version2/DashboardMultipleBranches';
 import PageLoader from "./components/Loader/PageLoader";
 
+import FridgeSetup from "./screens/scenarios/fridge/setup/FridgeSetup";
+import FridgeSell from "./screens/scenarios/fridge/sell/Sell";
+import FridgeStock from "./screens/scenarios/fridge/stock/DirectiveViewStock";
+import FridgeAudit from "./screens/scenarios/fridge/sell/Sell";
+
 import AttendantSetup from './screens/register/AttendantSetup';
 
 function NoMatch() {
@@ -445,6 +450,30 @@ class App extends React.Component {
                         component={OtherStockHistory}
                         title={`Other Sales History`}
                         path={paths.other_sales_history}
+                    />
+                    <AuthenticatedRoute
+                        exact={true}
+                        component={FridgeSetup}
+                        title={`Fridge Setup`}
+                        path={paths.fridge_setup}
+                    />
+                    <AuthenticatedRoute
+                        exact={true}
+                        component={FridgeSell}
+                        title={`Fridge Sell`}
+                        path={paths.fridge_sell}
+                    />
+                    <AuthenticatedRoute
+                        exact={true}
+                        component={FridgeStock}
+                        title={`Fridge Stock`}
+                        path={paths.fridge_stock}
+                    />
+                    <AuthenticatedRoute
+                        exact={true}
+                        component={FridgeAudit}
+                        title={`Fridge Audit`}
+                        path={paths.fridge_audit}
                     />
                   <Route path="*">
                     <NoMatch />
