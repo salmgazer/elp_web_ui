@@ -25,6 +25,7 @@ import SimpleSnackbar from "../../components/Snackbar/SimpleSnackbar";
 import PrimaryLoader from "../../components/Loader/Loader";
 import LocalInfo from "../../services/LocalInfo";
 import format from "date-fns/format";
+import Api from "../../services/Api";
 
 const useQontoStepIconStyles = makeStyles({
     root: {
@@ -244,6 +245,39 @@ const Register = props => {
             localStorage.setItem('firstName' , req.user.firstName);
             LocalInfo.setWorkingDate(format(new Date(), 'MM/dd/yyyy'));
             localStorage.setItem('workingDate' , format(new Date(), 'MM/dd/yyyy'));
+
+            const params = {
+                "phone" : localStorage.getItem('userContact'),
+                "password" : localStorage.getItem('randomString'),
+                "otp" : req.user.otp,
+            };
+
+            try {
+                let user = await new Api('others').update(
+                    params,
+                    {},
+                    {},
+                    `https://${Api.apiDomain()}/v1/client/users/verify`,
+                );
+
+                if(user){
+                    localStorage.setItem('accessToken' , user.data.token);
+                    localStorage.removeItem('randomString');
+                    localStorage.removeItem('userOTP');
+                    setTimeout(function(){
+                        setLoading(false);
+                        localStorage.removeItem('isRegistering');
+                        history.push(paths.get_started);
+                    }, 2000);
+                }
+            }catch (error) {
+                setErrorMsg('Something went wrong trying to log in.');
+                setErrorDialog(true);
+                setLoading(false);
+
+                console.log(error)
+            }
+
         }else{
             setLoading(false);
             await setErrorDialog(true);
@@ -254,7 +288,7 @@ const Register = props => {
             }, 3000);
         }
 
-        history.push(paths.verify_sms);
+        //history.push(paths.verify_sms);
     };
 
     return (
