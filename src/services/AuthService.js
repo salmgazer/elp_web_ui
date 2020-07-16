@@ -93,7 +93,7 @@ export default class AuthService {
         let user;
         const params = {
             user: {
-                "password": data.passwordRepeat,
+                "password": data.password,
                 "firstName": data.firstName,
                 "otherNames": data.otherNames,
                 "phone": data.phone,
@@ -126,7 +126,7 @@ export default class AuthService {
             );
 
             if( response ){
-                localStorage.setItem('randomString' , data.passwordRepeat);
+                localStorage.setItem('randomString' , data.password);
                 localStorage.setItem('activeBranch' , response.data.companies[0].branches[0].id);
                 localStorage.setItem('userDetails' , JSON.stringify(response.data.user));
                 localStorage.setItem('companyId' , JSON.stringify(response.data.companies[0].id));
