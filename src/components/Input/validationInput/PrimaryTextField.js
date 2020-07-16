@@ -164,12 +164,12 @@ const PrimaryValidationField = (props) => {
                     }
                 } catch (error) {
                     setError(true);
-                    setErrorMsg('Could not check username. Please enter again!');
+                    setErrorMsg('Could not check phone number. Please enter again!');
                     setValid(false);
                     props.setValid(name , false);
                     props.setValue(name , phoneNumber);
 
-                    console.log('Could not check username. Please enter again!');
+                    console.log('Could not check phone number. Please enter again!');
                 }
             }else {
                 props.setValid(name , false);
