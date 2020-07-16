@@ -18,6 +18,7 @@ class CategorySetup extends Component{
             activeStep: 0,
             categories: [],
             subcategories: [],
+            shop_subcategories: [],
             errorDialog: false,
             errorMsg: '',
             activeItem: 0,
@@ -50,6 +51,11 @@ class CategorySetup extends Component{
                 history.go(1);
             }
         });
+
+        const items = JSON.parse(localStorage.getItem('categoryLookup')) || [];
+        this.setState({
+            shop_subcategories: items.filter((item) => item.owned === true)
+        }) 
 
         const branchId = localStorage.getItem('activeBranch');
         const accessToken = localStorage.getItem('accessToken');
@@ -174,7 +180,7 @@ class CategorySetup extends Component{
         });
 
         this.setState({
-            subcategories: subcategories
+            shop_subcategories: subcategories
         });
     };
 
@@ -186,8 +192,8 @@ class CategorySetup extends Component{
     getStepContent = step => {
         const categories = this.state.categories;
         const subcategories = this.state.subcategories;
-        const items = JSON.parse(localStorage.getItem('categoryLookup')) || [];
-        const shop_subcategories = items.filter((item) => item.owned === true);
+        //const items = JSON.parse(localStorage.getItem('categoryLookup')) || [];
+        const shop_subcategories = this.state.shop_subcategories;
 
         switch (step) {
             case 0:
