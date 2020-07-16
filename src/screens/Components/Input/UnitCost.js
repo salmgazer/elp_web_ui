@@ -83,7 +83,7 @@ const CostInput = props => {
         <div>
             <label className={`text-dark py-2 text-center`} style={{fontSize: '18px', fontWeight: '600'}}> {props.label}</label>
 
-            <Paper className={classes.root} id={props.id} >
+            <Paper className={classes.root} id={props.id} style={props.style} >
                 <InputBase
                     className={`${classes.input} search-box text-center`}
                     type="tel"
@@ -92,6 +92,7 @@ const CostInput = props => {
                     classes={{
                         input: classes.center
                     }}
+                    
                     onChange={(event) => setValueHandler(event)}
                     endAdornment={
                         <InputAdornment position="end">

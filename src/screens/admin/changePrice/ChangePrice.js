@@ -5,10 +5,7 @@ import {withRouter} from "react-router-dom";
 import './sections/ChangePrice.scss';
 import MainView from "./sections/MainView";
 import AddProductView from "./sections/AddProductView";
-import AddedProductView from "./sections/AddedProductView";
 import {confirmAlert} from "react-confirm-alert";
-import EditProductView from "./sections/EditProductView";
-import CompleteView from "./sections/CompleteView";
 import './changePrice.scss';
 import ArrowBackIcon from '@material-ui/icons/ArrowBack';
 
@@ -68,12 +65,6 @@ class ChangePrice extends Component{
                 return <MainView addProductPrice={this.addProductPrice.bind(this)} setView={this.setStepContentView.bind(this)} viewAddedProducts={this.viewAddedProducts(this)} products={this.state.productList} branchProducts={this.state.branchProducts} searchHandler={this.searchHandler.bind(this)} productAdd={this.showAddView.bind(this)} removeProduct={this.removeProduct.bind(this)} />;
             case 1:
                 return <AddProductView updateProduct={this.updateNewProduct.bind(this)} setView={this.setStepContentView.bind(this)} product={this.state.currentProduct}/>;
-            case 2:
-                return <AddedProductView deleteProduct={this.deleteProduct.bind(this)} products={this.state.addedProducts} setView={this.setStepContentView.bind(this)} pro_quantity={this.state.storeProducts} productEdit={this.showEditView.bind(this)}/>;
-            case 3:
-                return <EditProductView products={this.state.addedProducts} setView={this.setStepContentView.bind(this)} product={this.state.currentProduct} />;
-            case 4:
-                return <CompleteView/>;
             default:
                 return 'Complete';
         }
