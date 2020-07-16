@@ -13,19 +13,19 @@ import PhoneAndroidOutlinedIcon from '@material-ui/icons/PhoneAndroidOutlined';
 import StepConnector from '@material-ui/core/StepConnector';
 import Button from '@material-ui/core/Button';
 import Box from '@material-ui/core/Box';
-import paths from "../../utilities/paths";
-import SectionNavbars from '../../components/Sections/SectionNavbars';
+import paths from "../../../utilities/paths";
+import SectionNavbars from '../../../components/Sections/SectionNavbars';
 import ArrowBackIcon from '@material-ui/icons/ArrowBack';
-import AuthService from '../../services/AuthService';
-import "./Register.scss";
+import PersonalInformationSection from './PersonalInformationSection';
+import ShopInformationSection from './ShopInformationSection';
+import AccountInformationSection from './AccountInformationSection';
+import AuthService from '../../../services/AuthService';
+import "../Register.scss";
 import SimpleSnackbar from "../../components/Snackbar/SimpleSnackbar";
 import PrimaryLoader from "../../components/Loader/Loader";
 import LocalInfo from "../../services/LocalInfo";
 import format from "date-fns/format";
 import Api from "../../services/Api";
-import PersonalInformationSection from "./section/PersonalInformationSection";
-import ShopInformationSection from "./section/ShopInformationSection";
-import AccountInformationSection from "./section/AccountInformationSection";
 
 const useQontoStepIconStyles = makeStyles({
     root: {
@@ -158,8 +158,8 @@ const useStyles = makeStyles(theme => ({
         marginRight: theme.spacing(1),
     },
     instructions: {
-        marginTop: theme.spacing(2),
-        marginBottom: theme.spacing(2),
+        marginTop: theme.spacing(1),
+        marginBottom: theme.spacing(1),
     },
 }));
 
@@ -186,24 +186,9 @@ const Register = props => {
         username: '',
         password: '',
         passwordRepeat: '',
-        isValid: false,
-        checkedB: false,
+        isValid: true,
     });
 
-    const [isValid , setIsValid] = useState(false);
-
-    const [dataValid , setDataValid] = useState({
-        firstName: false,
-        otherNames: false,
-        phone: false,
-        companyName: false,
-        location: false,
-        businessCategoryId: false,
-        storeType: true,
-        username: false,
-        password: false,
-        passwordRepeat: false,
-    });
 
     /*@todo
     * change state for password and confirm password...
@@ -211,54 +196,30 @@ const Register = props => {
     function getStepContent(step) {
         switch (step) {
             case 0:
-                return <PersonalInformationSection isValid={formValidHandler} validDataHandler={validDataHandler} formData={data} dataValid={dataValid} collectData={formDataHandler}/>;
+                return <PersonalInformationSection isValid={formValidHandler} formData={data} collectData={formDataHandler}/>;
             case 1:
-                return <ShopInformationSection isValid={formValidHandler} validDataHandler={validDataHandler} formData={data} dataValid={dataValid} collectData={formDataHandler}/>;
+                return <ShopInformationSection isValid={formValidHandler} formData={data} collectData={formDataHandler}/>;
             case 2:
-                return <AccountInformationSection isValid={formValidHandler} validDataHandler={validDataHandler} formData={data} dataValid={dataValid} collectData={formDataHandler}/>;
+                return <AccountInformationSection isValid={formValidHandler} formData={data} collectData={formDataHandler}/>;
             default:
                 return 'Complete';
         }
     }
 
-    const formValidHandler = (result) => {
-        setIsValid(result);
-    };
-
-    const formDataHandler = async (name , value) => {
+    const formDataHandler = event => {
         const { ...formData }  = data;
 
-        formData[name] = value;
+        formData[event.target.name] = event.target.value;
 
         setData(formData);
     };
 
-    const validDataHandler = async (name , value) => {
-        const { ...formData }  = dataValid;
+    const formValidHandler = result => {
+        const { ...formData }  = data;
 
-        formData[name] = value;
+        formData['isValid'] = !result;
 
-        setDataValid(formData);
-
-        if(activeStep === 0){
-            if(formData.firstName && formData.otherNames && formData.phone){
-                setIsValid(false);
-            }else {
-                setIsValid(true);
-            }
-        }else if (activeStep === 1){
-            if(formData.companyName && formData.location && formData.businessCategoryId && formData.storeType){
-                setIsValid(false);
-            }else {
-                setIsValid(true);
-            }
-        }else if (activeStep === 2){
-            if(formData.username && formData.passwordRepeat && formData.password){
-                setIsValid(false);
-            }else {
-                setIsValid(true);
-            }
-        }
+        setData(formData);
     };
 
     const handleNext = () => {
@@ -387,7 +348,7 @@ const Register = props => {
                                 style={{'backgroundColor': '#DAAB59' , color: '#333333', padding: '5px 50px'}}
                                 onClick={handleFinish}
                                 className={classes.button}
-                                disabled={isValid || loading}
+                                disabled={data.isValid || loading}
                             >
                                 {
                                     loading ?
@@ -413,7 +374,7 @@ const Register = props => {
                             {getStepContent(activeStep)}
                         </div>
                         <Box
-                            boxShadow={2}
+                            boxShadow={1}
                             bgcolor="background.paper"
                             p={1}
                             style={{ minHeight: '2.5rem', position: "fixed", bottom:"0", width:"100%" }}
@@ -434,7 +395,7 @@ const Register = props => {
                                 style={{'backgroundColor': '#DAAB59' , color: '#333333', padding: '5px 50px'}}
                                 onClick={handleNext}
                                 className={classes.button}
-                                disabled={isValid}
+                                disabled={data.isValid}
                             >
                                 Next
                             </Button>
@@ -442,6 +403,31 @@ const Register = props => {
                     </div>
                 )}
             </div>
+            {/*<PrimaryValidationField
+                name="firstName"
+                label="First name"
+                required={true}
+              />
+
+              <PrimaryValidationField
+                  name="otherNames"
+                  label="Other names"
+              />
+
+              <PrimaryValidationField
+                  name="password"
+                  label="Password"
+                  required={true}
+              />
+
+              <PrimaryValidationField
+                  name="phone"
+                  label="Phone number"
+                  pattern="^(?:\(\d{3}\)|\d{3})[- ]?\d{3}[- ]?\d{4}$"
+                  required={true}
+                  checkUserPhone={true}
+                  type="tel"
+              />*/}
         </div>
     );
 };

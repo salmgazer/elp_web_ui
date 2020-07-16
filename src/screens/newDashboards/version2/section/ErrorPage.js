@@ -27,7 +27,7 @@ const ErrorPage = props => {
         <div className={classes.root} >
 
             <SectionNavbars
-                title={ LocalInfo.company.name }
+                title={ `Page does not exist` }
                 leftIcon={
                     <div onClick={() => history.goBack()} >
                         <ArrowBackIcon
@@ -48,11 +48,11 @@ const ErrorPage = props => {
                 <img className="img100" src={ErrorImage} alt={'payment'}/>
             </Box>
 
-            
+
             <Typography className='text-dark font-weight-bold' style={{ fontSize: '20px', padding: '20px' }} >
                 PAGE NOT FOUND
             </Typography>
-            
+
 
             <Typography className='font-weight-light mt-1' style={{ fontSize: '17px', marginBottom: '20px' }} >
                     Sorry! It seems the page you clicked on does not exist

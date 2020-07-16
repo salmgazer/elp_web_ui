@@ -52,6 +52,7 @@
     "react-swipeable-views": "^0.13.9",
     "react-to-print": "^2.6.3",
     "uuid": "^7.0.2",
+    "validate.js": "^0.13.1",
     "worker-loader": "^2.0.0"
   },
   "scripts": {

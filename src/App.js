@@ -182,6 +182,12 @@ class App extends React.Component {
                     title={`Registration`}
                     path={paths.register}
                   />
+                  {/*<PublicRoute
+                    exact={true}
+                    component={RegisterNew}
+                    title={`Registration`}
+                    path={paths.register_test}
+                  />*/}
                     <PublicRoute
                         exact={true}
                         component={ResetPassword}

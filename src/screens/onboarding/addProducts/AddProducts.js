@@ -48,7 +48,6 @@ class AddProducts extends Component{
 
             if(storageProducts.length > 0){
                 for (let i = 0; i < storageProducts.length; i++) {
-                    console.log(storageProducts[i]);
                     localProducts = await this.startupAddNewProduct(storageProducts[i] , localProducts);
                 }
             }
