@@ -130,6 +130,11 @@ const SearchMode = props => {
     };
 
     const OptionChangeHandler = async (event) => {
+        const {...oldFormFields} = searchValue;
+
+        oldFormFields[event.target.name] = event.target.value;
+
+        setSearchValue(oldFormFields);
         await props.optionFilter(event.target.value);
     };
 
@@ -158,9 +163,8 @@ const SearchMode = props => {
                     <RadioGroup
                         className={optionGroupClasses.margin}
                         onChange={OptionChangeHandler}
-                        aria-label="store_type"
-                        name="storeType"
-                        defaultValue={searchValue.productOption}
+                        name="productOption"
+                        value={searchValue.productOption}
                     >
                         <FormControlLabel value="all" control={<StyledRadio />} label="All" />
                         <span style={{
@@ -230,7 +234,7 @@ const SearchMode = props => {
                 {
                     products.length > 0 ?
                         <Suspense fallback={<ComponentLoader text={`Loading products...`}/>}>
-                            {<ProductsView state={searchValue.searchState} isSetSearch={setSearchState.bind(this)} isSearch={searchValue.search} addProductHandler={addProductHandler.bind(this)} removeProductHandler={removeProductHandler.bind(this)} products={products} />}
+                            {<ProductsView incomplete={!!(searchValue.productOption === 'incomplete')} state={searchValue.searchState} isSetSearch={setSearchState.bind(this)} isSearch={searchValue.search} addProductHandler={addProductHandler.bind(this)} removeProductHandler={removeProductHandler.bind(this)} products={products} />}
                         </Suspense>
                     :
                     <Grid container spacing={1} className='mt-3'>

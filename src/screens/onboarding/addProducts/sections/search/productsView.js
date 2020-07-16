@@ -11,7 +11,7 @@ const ProductsView = (props) => {
     const [products , setProducts] = useState([]);
     const [currentProducts , setCurrentProducts] = useState([]);
     const [hasMore , setHasMore] = useState(!!(props.products.length >= breakCount));
-
+console.log(props.incomplete)
     useEffect(() => {
         // You need to restrict it at some point
         // This is just dummy code and should be replaced by actual
@@ -63,58 +63,64 @@ const ProductsView = (props) => {
                     }
                     hasChildren={true}
                 >
-                    <Grid container className='mt-3'>
-                        {products.map((item , index) =>
-                            <Grid
-                                key={index}
-                                item
-                                xs={4}
-                                style={{padding: '4px 8px', position: 'relative'}}
-                                className={`mx-0 px-1`}
-                            >
-                                {
-                                item.owned ?
-                                    <div
-                                        onClick={removeProductHandler.bind(this, item.id)}
+                    {
+                        props.incomplete ?
+                            ''
+                        :
+                            <Grid container className='mt-3'>
+                                {products.map((item , index) =>
+                                    <Grid
+                                        key={index}
+                                        item
+                                        xs={4}
+                                        style={{padding: '4px 8px', position: 'relative'}}
+                                        className={`mx-0 px-1`}
                                     >
-                                        <AddedIcon
-                                            styles={{
-                                                width: '30px',
-                                                height: '30px',
-                                                borderRadius: '50%',
-                                                top: '-2px',
-                                                float: 'right',
-                                                position: 'absolute',
-                                                right: '-2px',
-                                                color: '#28a745',
-                                                zIndex: '1500',
-                                            }}
-                                        />
-                                    </div> :
-                                    <div
-                                        onClick={addProductHandler.bind(this, item.id)}
-                                    >
-                                        <AddIcon
-                                            styles={{
-                                                width: '30px',
-                                                height: '30px',
-                                                borderRadius: '50%',
-                                                top: '-2px',
-                                                float: 'right',
-                                                position: 'absolute',
-                                                right: '-2px',
-                                                color: '#DAAB59',
-                                                zIndex: '1500',
-                                            }}
-                                        />
-                                    </div>
-                                }
-                                <div key={index} onClick={addProductHandler.bind(this, item.id)}>
-                                    <ProductCard isAddProduct={true} product={item} notTruncate={true}/>
-                                </div>
+                                        {
+                                            item.owned ?
+                                                <div
+                                                    onClick={removeProductHandler.bind(this, item.id)}
+                                                >
+                                                    <AddedIcon
+                                                        styles={{
+                                                            width: '30px',
+                                                            height: '30px',
+                                                            borderRadius: '50%',
+                                                            top: '-2px',
+                                                            float: 'right',
+                                                            position: 'absolute',
+                                                            right: '-2px',
+                                                            color: '#28a745',
+                                                            zIndex: '1500',
+                                                        }}
+                                                    />
+                                                </div> :
+                                                <div
+                                                    onClick={addProductHandler.bind(this, item.id)}
+                                                >
+                                                    <AddIcon
+                                                        styles={{
+                                                            width: '30px',
+                                                            height: '30px',
+                                                            borderRadius: '50%',
+                                                            top: '-2px',
+                                                            float: 'right',
+                                                            position: 'absolute',
+                                                            right: '-2px',
+                                                            color: '#DAAB59',
+                                                            zIndex: '1500',
+                                                        }}
+                                                    />
+                                                </div>
+                                        }
+                                        <div key={index} onClick={addProductHandler.bind(this, item.id)}>
+                                            <ProductCard isAddProduct={true} product={item} notTruncate={true}/>
+                                        </div>
+                                    </Grid>
+                                )}
                             </Grid>
-                        )}
-                    </Grid>
+                    }
+
                 </InfiniteScroll>
             }
         </>

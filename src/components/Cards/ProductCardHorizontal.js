@@ -6,6 +6,7 @@ import Divider from '@material-ui/core/Divider';
 import Avatar from "@material-ui/core/Avatar/Avatar";
 import InputBase from "@material-ui/core/InputBase/InputBase";
 import {makeStyles} from "@material-ui/core";
+import BranchProductService from "../../services/BranchProductService";
 
 const useStyles = makeStyles(theme => ({
     root: {
@@ -32,6 +33,7 @@ const useStyles = makeStyles(theme => ({
     },
     error: {
         border: '1px solid #D34343',
+        color: '#D34343',
     },
     iconButton: {
         padding: 10,
@@ -42,12 +44,21 @@ const ProductCardHorizontal = props => {
     const classes = useStyles();
     const [product , setProduct] = useState('');
     const [name , setName] = useState('');
+    const [error , setError] = useState(false);
     const [image , setImage] = useState('');
+    const [costPrice , setCostPrice] = useState(0);
+    const [sellingPrice , setSellingPrice] = useState(0);
     //const [quantityProduct , setQuantityProduct] = useState(0);
     //const [productAuditDetials , setProductAuditDetials] = useState(false);
+    const branchProduct = props.branchProduct;
+
+    const [formFields , setFormfields] = useState({
+        branchProductId: branchProduct.id,
+        sellingPrice: "",
+    });
 
     useEffect(() => {
-        if (!product) {
+        if (!product || parseFloat(sellingPrice) !== branchProduct.sellingPrice) {
             getProduct();
         }
     });
@@ -55,8 +66,8 @@ const ProductCardHorizontal = props => {
     const getProduct = async () => {
         const newProduct = await props.product;
         setProduct(newProduct);
-        //setQuantityProduct(await props.storeCounted);
-        //setProductAuditDetials(await props.appCounted);
+        setCostPrice(await new BranchProductService(branchProduct).getCostPrice());
+        setSellingPrice(await new BranchProductService(branchProduct).getSellingPrice());
         setImage(new ProductServiceHandler(newProduct).getProductImage());
         setName(newProduct.name);
     };
@@ -65,19 +76,28 @@ const ProductCardHorizontal = props => {
         props.addProductHandler(product.id)
     };
 
-    const setSellingPriceHandler = (event) => {
-        const formFields = {
-            productId: product.id,
-            sellingPrice: parseFloat(event.target.value)
-        };
+    const doNothing = () => {
+        return;
+    };
 
-        props.addProductPrice(formFields);
+    const setSellingPriceHandler = async (event) => {
+        const {...fields} = formFields;
+        const value = event.target.value;
+
+        fields[event.target.name] = event.target.value;
+        if(value <= costPrice){
+            setError(true);
+        }else{
+            setError(false);
+            await props.addProductPrice(fields);
+        }
+        setFormfields(fields);
     };
 
     return(
         <Grid container spacing={1} className={`bordered-sm shadow2 mb-3 borderRadius5`}>
             <Grid item xs={12}>
-                <Grid container onClick={props.add ? addProductHandler.bind(this) : ''}>
+                <Grid container onClick={props.add ? addProductHandler.bind(this) : doNothing.bind(this)}>
                     <Grid item xs={3}>
                         <Avatar
                             alt={image}
@@ -98,7 +118,10 @@ const ProductCardHorizontal = props => {
                             <div className='text-dark font-weight-bold'>{name}</div>
                             {/* <div className="font-weight-light mt-1" style={{ fontSize: '14px'}}>{`Quantity: ${quantity}`}</div> */}
                             <span className={`text-center font-weight-lighter text-dark`} style={{fontSize: '12px'}}>
-                                {props.children}
+                                {new BranchProductService(branchProduct).getSellingPrice() ? `Selling price: GHC ${new BranchProductService(branchProduct).getSellingPrice()}` : `No selling price`}
+                            </span><br/>
+                            <span className={`text-center font-weight-lighter text-dark`} style={{fontSize: '12px'}}>
+                                {costPrice ? `Cost price: GHC ${parseFloat(costPrice).toFixed(2)}` : `No cost price`}
                             </span>
                         </div>
                     </Grid>
@@ -124,8 +147,9 @@ const ProductCardHorizontal = props => {
                                 input: classes.textCenter, // class name, e.g. `classes-nesting-label-x`
                                 error: classes.error
                             }}
-                            //error={entryTotal / quantity < cartEntry.costPrice}
-                            //value={entryTotal || ''}
+                            name="sellingPrice"
+                            error={error}
+                            value={formFields.sellingPrice}
                             onChange={(event) => setSellingPriceHandler(event)}
                             style={{fontSize: '12px' , textAlign: `center !important`}}
                         />

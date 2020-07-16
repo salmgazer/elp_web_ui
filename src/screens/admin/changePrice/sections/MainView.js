@@ -1,88 +1,72 @@
 import React, {useState} from 'react';
 import { withRouter } from 'react-router-dom';
-import AppBar from "@material-ui/core/AppBar/AppBar";
-import Tabs from "@material-ui/core/Tabs/Tabs";
-import Tab from "@material-ui/core/Tab/Tab";
-import SwipeableViews from "react-swipeable-views";
-import TabPanel from "../../../../components/Tabs/TabPanel";
-import SearchMode from "./SearchMode";
-import BarcodeMode from "./BarcodeMode";
-import Box from "@material-ui/core/Box/Box";
-import Button from "@material-ui/core/Button/Button";
-import {makeStyles} from "@material-ui/core";
-
-const useStyles = makeStyles(({
-    tabPrimaryColor: {
-        backgroundColor: `#daab59 !important`,
-        color: `#daab59 !important`,
-    },
-}));
+import Grid from "@material-ui/core/Grid/Grid";
+import SearchInput from "../../../Components/Input/SearchInput";
+import Typography from "@material-ui/core/Typography/Typography";
+import ProductCardHorizontal from "../../../../components/Cards/ProductCardHorizontal";
 
 const MainView = props => {
-    const styles = useStyles();
-
     const branchProducts = props.branchProducts;
-    const [value , setValue] = useState(0);
-    // const { history } = props;
-    const a11yProps = (index) => {
-        return {
-            id: `full-width-tab-${index}`,
-            'aria-controls': `full-width-tabpanel-${index}`,
-        };
-    };
+    const [searchValue , setSearchValue] = useState({
+        search: ''
+    });
 
-    const handleChange = (event, newValue) => {
-        setValue(newValue);
-    };
+    const setInputValue = (name , value) => {
+        const {...oldFormFields} = searchValue;
 
-    const handleChangeIndex = index => {
-        setValue(index);
+        oldFormFields[name] = value;
+
+        setSearchValue(oldFormFields);
+
+        props.searchHandler(value);
     };
 
     return(
-        <div style={{marginTop: '70px'}}>
+        <div className="" style={{marginTop: '60px'}}>
+            <Grid container spacing={1}>
+                <Grid item xs={12} style={{marginTop: '5px', padding: '4px 4px'}}>
+                    <SearchInput
+                        inputName="search"
+                        getValue={setInputValue.bind(this)}
+                        styles={{width: '95%'}}
+                    />
+                </Grid>
+            </Grid>
 
-            <AppBar position="static" color="default">
-                <Tabs
-                    value={value}
-                    onChange={handleChange}
-                    indicatorColor="primary"
-                    textColor="primary"
-                    variant="fullWidth"
-                    aria-label="full width tabs example"
-                    classes= {{
-                        indicator: styles.tabPrimaryColor
-                    }}
-                >
-                    <Tab label="Search mode" {...a11yProps(0)} />
-                    <Tab label="Barcode mode" {...a11yProps(1)} />
-                </Tabs>
-            </AppBar>
-            <SwipeableViews
-                index={value}
-                onChangeIndex={handleChangeIndex}
+            <Grid
+                container
+                spacing={1}
+                className='mt-3 shadow1 boxMain mx-auto'
+                style={{
+                    width: '96%',
+                    padding: '20px 2%' ,
+                }}
             >
-                <TabPanel value={value} index={0}>
-                    <SearchMode addProductPrice={props.addProductPrice} branchProducts={branchProducts} searchHandler={props.searchHandler} productAdd={props.productAdd} />
-                </TabPanel>
-                <TabPanel value={value} index={1} >
-                    <BarcodeMode/>
-                </TabPanel>
-            </SwipeableViews>
-            <Box
-                className={`shadow1 bg-white`}
-                p={1}
-                style={{ minHeight: '2.5rem', position: "fixed", bottom:"0", width:"100%" }}
-            >
-                <Button
-                    variant="contained"
-                    style={{'backgroundColor': '#DAAB59' , color: '#333333', padding: '5px 20px', fontSize: '17px'}}
-                    //onClick={() => history.goBack()}
-                    className={`capitalization font-weight-bold text-dark`}
-                >
-                    Save changes
-                </Button>
-            </Box>
+                {branchProducts.length === 0
+                    ?
+                    <Grid
+                        item xs={12}
+                        className={`text-left pl-2`}
+                    >
+                        <div className={`rounded mx-1 my-2 p-2 bordered`}>
+                            <Typography
+                                component="h6"
+                                variant="h6"
+                                style={{fontSize: '16px'}}
+                                className={`text-center text-dark w-100`}
+                            >
+                                No product found
+                            </Typography>
+                        </div>
+                    </Grid>
+                    :
+                    branchProducts.map((branchProduct) =>
+                        <Grid key={branchProduct.productId} item xs={12} style={{padding: '4px 8px' , position: 'relative'}} className={`mx-0 px-1`}>
+                            <ProductCardHorizontal branchProduct={branchProduct} addProductPrice={props.addProductPrice} product={branchProduct.product.fetch()}>
+                            </ProductCardHorizontal>
+                        </Grid>
+                    )}
+            </Grid>
         </div>
     )
 };

@@ -430,7 +430,7 @@ class AddProducts extends Component{
         });
     };
 
-    addNewProduct = async(formFields , startup = false) => {
+    addNewProduct = async(formFields) => {
         //console.log(formFields);
         const search = this.state.searchValue;
         let branchProductsAdded = JSON.parse(localStorage.getItem('branchProductsAdded')) || [];
