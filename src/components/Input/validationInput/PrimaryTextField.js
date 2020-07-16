@@ -138,38 +138,57 @@ const PrimaryValidationField = (props) => {
             setValue(phoneNumber);
 
             if(value.length === 12){
-                try {
-                    let response = await new Api('others').index(
-                        {},
-                        {},
-                        `https://${Api.apiDomain()}/v1/client/users/exists?phone=${phoneNumber}`,
-                        {},
-                    );
+                if(props.checkUserPhone){
+                    try {
+                        let response = await new Api('others').index(
+                            {},
+                            {},
+                            `https://${Api.apiDomain()}/v1/client/users/exists?phone=${phoneNumber}`,
+                            {},
+                        );
 
-                    if(response.data.valid === true){
-                        setError(false);
-                        setValid(true);
-                        setErrorMsg('');
-                        props.setValue(name , phoneNumber);
-                        props.setValid(name , true);
+                        if(response.data.valid === true){
+                            setError(false);
+                            setValid(true);
+                            setErrorMsg('');
+                            props.setValue(name , phoneNumber);
+                            props.setValid(name , true);
 
-                        return true;
-                    }else{
+                            return true;
+                        }else{
+                            props.setValid(name , false);
+                            props.setValue(name , phoneNumber);
+
+                            setError(true);
+                            setValid(false);
+                            setErrorMsg('Number exists in database. Use another number');
+                        }
+                    } catch (error) {
+                        setError(true);
+                        setErrorMsg('Could not check phone number. Please enter again!');
+                        setValid(false);
                         props.setValid(name , false);
                         props.setValue(name , phoneNumber);
 
-                        setError(true);
-                        setValid(false);
-                        setErrorMsg('Number exists in database. Use another number');
+                        console.log('Could not check phone number. Please enter again!');
                     }
-                } catch (error) {
-                    setError(true);
-                    setErrorMsg('Could not check phone number. Please enter again!');
-                    setValid(false);
-                    props.setValid(name , false);
-                    props.setValue(name , phoneNumber);
+                }else{
+                    const result = new ValidationService().validateOne(event.target.name , event.target.value);
 
-                    console.log('Could not check phone number. Please enter again!');
+                    if(result === undefined){
+                        setError(false);
+                        setValid(true);
+                        setErrorMsg('');
+
+                        props.setValue(event.target.name , event.target.value);
+                        props.setValid(event.target.name , true);
+                    }else{
+                        setValid(false);
+                        setError(true);
+                        setErrorMsg(addLineBreaks(result));
+                        props.setValue(event.target.name , event.target.value);
+                        props.setValid(event.target.name , false);
+                    }
                 }
             }else {
                 props.setValid(name , false);
