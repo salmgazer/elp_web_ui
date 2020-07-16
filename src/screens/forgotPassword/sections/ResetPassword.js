@@ -20,6 +20,9 @@ import Api from "../../../services/Api";
 import Snackbar from '@material-ui/core/Snackbar';
 import MuiAlert from '@material-ui/lab/Alert';
 import SimpleSnackbar from "../../../components/Snackbar/SimpleSnackbar";
+import PrimaryValidationField from "../../../components/Input/validationInput/PrimaryTextField";
+import PrimaryLoader from "../../../components/Loader/Loader";
+import PrimaryPasswordField from "../../../components/Input/validationInput/PrimaryPasswordField";
 
 const useStyles = makeStyles(theme => ({
     root: {
@@ -66,9 +69,9 @@ function Alert(props) {
 }
 
 const ResetPassword = props => {
-    const resetForm = useRef(null);
     const { history } = props;
     const classes = useStyles();
+    const [checkStatus , setCheckStatus] = useState(false);
     const [successDialog, setSuccessDialog] = useState(false);
     const [successMsg, setSuccessMsg] = useState('');
     const [errorDialog, setErrorDialog] = useState(false);
@@ -78,26 +81,26 @@ const ResetPassword = props => {
         passwordRepeat: ""
     });
     const [btnState , setBtnState] = useState(false);
-    const [showPassword , setShowPassword] = useState(false);
 
-    useEffect(() => {
-        // custom rule will have name 'isPasswordMatch'
-        ValidatorForm.addValidationRule('isPasswordMatch', (value) => {
-            const { ...formData } = formFields;
-            if (value !== formData.password) {
-                return false;
-            }
-            return true;
-        });
+    const [stepError , setStepError] = useState({
+        password: false,
+        passwordRepeat: false,
     });
 
-    const changeInput = (event) => {
+    const handleChange = async (name , value) => {
         const { ...formData }  = formFields;
-        formData[event.target.name] = event.target.value;
+        formData[name] = value;
         setFormFields(formData);
     };
 
+    const handleFormValidation = async (name , value) => {
+        const { ...formData }  = stepError;
+        formData[name] = value;
+        setStepError(formData);
+    };
+
     const submit = async () => {
+        setBtnState(true);
         const userData = {
             userId: localStorage.getItem('randomId'),
             otp: localStorage.getItem('userOTP'),
@@ -120,12 +123,13 @@ const ResetPassword = props => {
             }, 2000);
 
             history.push(paths.login);
-            console.log(response)
         } catch (error) {
             document.getElementById("loginForm").reset();
             setErrorMsg('Could not send code. Please enter again!');
             setErrorDialog(true);
         }
+
+        setBtnState(false);
     };
 
     const handleCloseSnack = (event, reason) => {
@@ -166,91 +170,58 @@ const ResetPassword = props => {
                         </Alert>
                     </Snackbar>
 
-                    <ValidatorForm
-                        ref={resetForm}
-                        id="resetForm"
-                        onSubmit={() => submit()}
-                        onError={errors => console.log(errors)}
-                    >
-                        <div className={`${classes.margin} mt-3`} style={{'paddingBottom': '10px'}}>
-                            <Grid item xs={12} className={`mb-3`}>
-                                <ValidationTextField
-                                    className={classes.margin}
-                                    label="Password"
-                                    required
-                                    variant="outlined"
-                                    name="password"
-                                    validatorListener={result => setBtnState(result)}
-                                    onChange={changeInput}
-                                    value={formFields.password}
-                                    validators={['required', 'minStringLength:4']}
-                                    errorMessages={['Password is a required field', 'The minimum length for password is 4']}
-                                    helperText=""
-                                    id="password"
-                                    type={showPassword ? 'text' : 'password'}
-                                    InputProps={{
-                                        endAdornment:
-                                            <InputAdornment position="end">
-                                                <IconButton
-                                                    aria-label="toggle password visibility"
-                                                    onClick={() => setShowPassword(!showPassword)}
-                                                    edge="end"
-                                                >
-                                                    {showPassword ? <Visibility /> : <VisibilityOff />}
-                                                </IconButton>
-                                            </InputAdornment>
-                                    }}
-                                />
-                            </Grid>
+                    <Grid container spacing={3} className={`px-4 mt-2`}>
+                        <PrimaryPasswordField
+                            name="password"
+                            label="Password"
+                            required={true}
+                            setValue={handleChange}
+                            setValid={handleFormValidation}
+                            value={formFields.password}
+                            values={[formFields.password , formFields.passwordRepeat]}
+                        />
 
-                            <Grid item xs={12}>
-                                <ValidationTextField
-                                    className={classes.margin}
-                                    label="Confirm password"
-                                    required
-                                    variant="outlined"
-                                    name="passwordRepeat"
-                                    validatorListener={result => setBtnState(result)}
-                                    id="passwordConfirm"
-                                    type={showPassword ? 'text' : 'password'}
-                                    value={formFields.passwordRepeat}
-                                    onChange={changeInput}
-                                    validators={['isPasswordMatch', 'required']}
-                                    errorMessages={['Passwords don\'t match', 'Password confirmation is a required field', 'password mismatch']}
-                                    helperText=""
-                                    InputProps={{
-                                        endAdornment:
-                                            <InputAdornment position="end">
-                                                <IconButton
-                                                    aria-label="toggle password visibility"
-                                                    onClick={() => setShowPassword(!showPassword)}
-                                                    edge="end"
-                                                >
-                                                    {showPassword ? <Visibility /> : <VisibilityOff />}
-                                                </IconButton>
-                                            </InputAdornment>
-                                    }}
-                                />
-                            </Grid>
-                        </div>
+                        <PrimaryPasswordField
+                            name="passwordRepeat"
+                            label="Password Confirmation"
+                            required={true}
+                            setValue={handleChange}
+                            setValid={handleFormValidation}
+                            value={formFields.passwordRepeat}
+                            values={[formFields.password , formFields.passwordRepeat]}
+                        />
 
-                        <br/>
                         <Button
                             variant="contained"
-                            style={{'backgroundColor': '#DAAB59' , color: '#333333', padding: '10px 40px', fontSize: '14px', fontWeight: '700'}}
-                            className={`${classes.button} mb-3`}
-                            type="submit"
-                            disabled={!btnState}
+                            style={{'backgroundColor': '#DAAB59' , color: '#333333', padding: '5px 50px' , textAlign: 'center'}}
+                            onClick={submit}
+                            className={`${classes.button} mx-auto mt-2 mb-5`}
+                            disabled={!(stepError.passwordRepeat && stepError.password) || btnState}
                         >
-                            Submit
+                            {
+                                btnState ?
+                                    <PrimaryLoader
+                                        style={{width: '30px' , minHeight: '2.5rem'}}
+                                        color="#FFFFFF"
+                                        type="Oval"
+                                        className={`mt-1`}
+                                        width={25}
+                                        height={25}
+                                    />
+                                    :
+                                    'Submit'
+                            }
                         </Button>
-                    </ValidatorForm>
+                    </Grid>
 
-                    <Link to={paths.login}>
-                        <div
-                            className={`text-dark mt-3`}
-                            style={{'marginTop': '20px', fontSize: '22px'}}>Back to login screen</div> <br/>
+                    <Link
+                        to={paths.login}
+                        className={`text-dark mt-3`}
+                        style={{'marginTop': '20px', fontSize: '20px' , textDecorationColor: '#333333'}}
+                    >
+                        Back to login screen
                     </Link>
+                    <br/>
                 </Container>
             </React.Fragment>
         </div>

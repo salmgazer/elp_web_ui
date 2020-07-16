@@ -328,7 +328,7 @@ const PrimaryValidationField = (props) => {
                 pattern={props.pattern || ""}
                 value={value}
                 required={props.required || false}
-                onChange={props.checkUserPhone ? checkUserPhone : props.checkUsername ? checkUserName : validateField}
+                onChange={props.name === 'phone' ? checkUserPhone : props.checkUsername ? checkUserName : validateField}
                 type={props.type || `text`}
                 InputProps={{
                     endAdornment: rightIcon ?
