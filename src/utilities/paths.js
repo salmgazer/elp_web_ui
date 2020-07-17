@@ -67,4 +67,8 @@ export default {
     fridge_sell: '/fridge-sell',
     fridge_stock: '/fridge-stock',
     fridge_audit: '/fridge-audit',
+    tot_setup: '/tot-setup',
+    tot_sell: '/tot-sell',
+    tot_stock: '/tot-stock',
+    tot_audit: '/tot-audit',
 };
