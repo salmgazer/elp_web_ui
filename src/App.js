@@ -83,6 +83,9 @@ import FridgeSetup from "./screens/scenarios/fridge/setup/FridgeSetup";
 import FridgeSell from "./screens/scenarios/fridge/sell/Sell";
 import FridgeStock from "./screens/scenarios/fridge/stock/DirectiveViewStock";
 import FridgeAudit from "./screens/scenarios/fridge/sell/Sell";
+import TotSetup from "./screens/scenarios/tot/setup/TotSetup";
+import TotSell from "./screens/scenarios/tot/sell/Sell";
+
 
 import AttendantSetup from './screens/register/AttendantSetup';
 const trackingId = "UA-135455363-3";
@@ -489,6 +492,18 @@ class App extends React.Component {
                         component={FridgeAudit}
                         title={`Fridge Audit`}
                         path={paths.fridge_audit}
+                    />
+                    <AuthenticatedRoute
+                        exact={true}
+                        component={TotSetup}
+                        title={`Tot Setup`}
+                        path={paths.tot_setup}
+                    />
+                    <AuthenticatedRoute
+                        exact={true}
+                        component={TotSell}
+                        title={`Tot Sell`}
+                        path={paths.tot_sell}
                     />
                   <Route path="*">
                     <NoMatch />

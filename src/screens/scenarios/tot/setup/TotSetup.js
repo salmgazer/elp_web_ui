@@ -4,6 +4,8 @@ import {makeStyles} from "@material-ui/core";
 import Step1 from "./sections/Step1";
 import Step2 from "./sections/Step2";
 import Step3 from "./sections/Step3";
+import Step4 from "./sections/Step4";
+import Step5 from "./sections/Step5";
 import { withRouter } from "react-router-dom";
 
 const useStyles = makeStyles(theme => ({
@@ -12,8 +14,8 @@ const useStyles = makeStyles(theme => ({
     },
 }));
 
-const Setup = props => {
-    const [activeStep , setActiveStep] = React.useState(0);
+const TotSetup = props => {
+    const [activeStep , setActiveStep] = React.useState(4);
     let currentPathname = null;
     let currentSearch = null;
 
@@ -55,6 +57,10 @@ const Setup = props => {
                 return <Step2 step={setStepContentView.bind(this)} />;
             case 2:
                 return <Step3 step={setStepContentView.bind(this)} />;
+            case 3:
+                return <Step4 step={setStepContentView.bind(this)} />;
+            case 4:
+                return <Step5 step={setStepContentView.bind(this)} />;
             default:
                 return 'Complete';
         }
@@ -71,4 +77,4 @@ const Setup = props => {
     );
 };
 
-export default withRouter(Setup);
+export default withRouter(TotSetup);
