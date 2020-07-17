@@ -4,6 +4,7 @@ import AddedIcon from "../../../../../components/ClickableIcons/AddedIcon";
 import AddIcon from "../../../../../components/ClickableIcons/AddIcon";
 import ProductCard from "../../../../../components/Cards/ProductCard";
 import InfiniteScroll from "react-infinite-scroll-component";
+import ProductCardHorizontal from "../../../../../components/Cards/AddIncompleteProductCard";
 
 const ProductsView = (props) => {
     //const [refreshCount , setRefreshCount] = useState(-1);
@@ -11,7 +12,7 @@ const ProductsView = (props) => {
     const [products , setProducts] = useState([]);
     const [currentProducts , setCurrentProducts] = useState([]);
     const [hasMore , setHasMore] = useState(!!(props.products.length >= breakCount));
-console.log(props.incomplete)
+
     useEffect(() => {
         // You need to restrict it at some point
         // This is just dummy code and should be replaced by actual
@@ -65,7 +66,16 @@ console.log(props.incomplete)
                 >
                     {
                         props.incomplete ?
-                            ''
+                            <Grid container className='mt-3'>
+                                {products.map((item , index) =>
+                                    <div key={index}>
+                                        <ProductCardHorizontal
+                                            product={item}
+                                            addStock={props.addIncompleteStock}
+                                        />
+                                    </div>
+                                )}
+                            </Grid>
                         :
                             <Grid container className='mt-3'>
                                 {products.map((item , index) =>

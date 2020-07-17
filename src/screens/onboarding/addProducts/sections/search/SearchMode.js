@@ -234,7 +234,7 @@ const SearchMode = props => {
                 {
                     products.length > 0 ?
                         <Suspense fallback={<ComponentLoader text={`Loading products...`}/>}>
-                            {<ProductsView incomplete={!!(searchValue.productOption === 'incomplete')} state={searchValue.searchState} isSetSearch={setSearchState.bind(this)} isSearch={searchValue.search} addProductHandler={addProductHandler.bind(this)} removeProductHandler={removeProductHandler.bind(this)} products={products} />}
+                            {<ProductsView addIncompleteStock={props.addIncompleteStock} incomplete={!!(searchValue.productOption === 'incomplete')} state={searchValue.searchState} isSetSearch={setSearchState.bind(this)} isSearch={searchValue.search} addProductHandler={addProductHandler.bind(this)} removeProductHandler={removeProductHandler.bind(this)} products={products} />}
                         </Suspense>
                     :
                     <Grid container spacing={1} className='mt-3'>

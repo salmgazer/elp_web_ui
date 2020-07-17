@@ -21,16 +21,17 @@ export default class ProductServiceHandler {
     * */
     getCostPrice(){
       let mostRecentCostPrice = null;
-      this.product.stock.sort(function(stock1,stock2){
+      const stock = Array.isArray(this.product.stock) ? this.product.stock : [];
+      stock.sort(function(stock1,stock2){
         return new Date(stock2.created_at) - new Date(stock1.created_at);
       });
-      for (let m = this.product.stock.length - 1; m >= 0; m--) {
-        if (this.product.stock[m].costPrice) {
-          mostRecentCostPrice = this.product.stock[m].costPrice;
+      for (let m = stock.length - 1; m >= 0; m--) {
+        if (stock[m].costPrice) {
+          mostRecentCostPrice = stock[m].costPrice;
           break;
         }
       }
-      return mostRecentCostPrice;
+        return mostRecentCostPrice ? mostRecentCostPrice.toFixed(2) : 0;
       // return this.product.stock ? (this.product.stock[((this.product.stock).length - 1)].costPrice).toFixed(2) : null;
     }
 

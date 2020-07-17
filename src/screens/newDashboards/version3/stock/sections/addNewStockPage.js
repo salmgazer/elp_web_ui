@@ -165,7 +165,6 @@ const AddNewStockPage = props => {
 
     const [swapItem, setSwapItem] = useState(true);
     const [btnState , setBtnState] = useState(false);
-    console.log(sellingPrice, unitPrice, errorMsg, btnState)
 
     const [formFields , setFormFields] = useState({
         quantity: 1,
@@ -212,7 +211,7 @@ const AddNewStockPage = props => {
         }
 
         setMoneySourceDialog(true);
-    }
+    };
 
     const saveStock = () => {
         setLoading(true);
@@ -306,7 +305,6 @@ const AddNewStockPage = props => {
         setName(newProduct.name);
         setSellingPrice(await productHandler.getSellingPrice());
         setCostPrice(await productHandler.getCostPrice());
-        console.log(formFields)
     };
 
     const setInputValue = (name , value) => {
@@ -330,7 +328,7 @@ const AddNewStockPage = props => {
 
     const changePriceFieldsHandler = (event) => {
         const {...oldFormFields} = changePriceFields;
-        setNewLoading(false)
+        setNewLoading(false);
         /*if(event.target.name === 'costPrice'){
             setTotalPrice(formFields.quantity * event.target.value);
         }*/
@@ -390,14 +388,6 @@ const AddNewStockPage = props => {
 
         changeSellingPriceModalState();
     };
-
-    // const handleCloseSnack = (event, reason) => {
-    //     if (reason === 'clickaway') {
-    //         return;
-    //     }
-
-    //     setErrorDialog(false);
-    // };
 
     return(
         <div className={`mt-6`}>

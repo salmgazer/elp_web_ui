@@ -72,7 +72,7 @@ class AddProducts extends Component{
 
         switch (step) {
             case 0:
-                return <MainView searchValue={this.state.searchValue} searchHandler={this.searchHandler.bind(this)} optionFilter={this.optionProductHandler.bind(this)} finishAddProducts={this.completeAddProducts.bind(this)} loading={this.state.loading} searchBarcode={this.searchBarcode.bind(this)} setView={this.setStepContentView.bind(this)} product={this.state.currentProduct} viewAddedProducts={this.viewAddedProducts(this)} products={this.state.productList} productAdd={this.showAddView.bind(this)} removeProduct={this.removeProduct.bind(this)} spCount={shop_products.length} />;
+                return <MainView addIncompleteStock={this.addIncompleteStock.bind(this)} searchValue={this.state.searchValue} searchHandler={this.searchHandler.bind(this)} optionFilter={this.optionProductHandler.bind(this)} finishAddProducts={this.completeAddProducts.bind(this)} loading={this.state.loading} searchBarcode={this.searchBarcode.bind(this)} setView={this.setStepContentView.bind(this)} product={this.state.currentProduct} viewAddedProducts={this.viewAddedProducts(this)} products={this.state.productList} productAdd={this.showAddView.bind(this)} removeProduct={this.removeProduct.bind(this)} spCount={shop_products.length} />;
             case 1:
                 return <AddProductView searchHandler={this.searchHandler.bind(this)} deleteHistory={this.deleteHistory.bind(this)} undoAddProduct={this.undoAddProducts.bind(this)} addNewProduct={this.addNewProduct.bind(this)} setView={this.setStepContentView.bind(this)} product={this.state.currentProduct}/>;
             case 2:
@@ -243,9 +243,8 @@ class AddProducts extends Component{
         return 0;
     };
 
-    deleteHistory = (historyId) => {
+    deleteHistory = (historyId , productId = this.state.currentProduct[0].id) => {
         //console.log(historyId);
-        const productId = this.state.currentProduct[0].id;
         let branchDeletedHistory = JSON.parse(localStorage.getItem('branchDeletedHistory')) || [];
         let branchProductsAdded = JSON.parse(localStorage.getItem('branchProductsAdded')) || [];
         let currentProductList = JSON.parse(localStorage.getItem('storeProductsLookup'));
@@ -520,6 +519,120 @@ class AddProducts extends Component{
             searchValue: this.state.searchValue,
             productList: searchResults
         });
+    };
+
+    deleteIncompleteHistory = (historyId , productId = this.state.currentProduct[0].id) => {
+        //console.log(historyId);
+        let branchDeletedHistory = JSON.parse(localStorage.getItem('branchDeletedHistory')) || [];
+        //branchDeletedHistory = branchDeletedHistory.filter((item) => item !== historyId);
+        let branchProductsAdded = JSON.parse(localStorage.getItem('branchProductsAdded')) || [];
+        let currentProductList = JSON.parse(localStorage.getItem('storeProductsLookup'));
+
+        const productIndex = currentProductList.findIndex((item) => item.id === productId);
+        const productHistoryIndex = ((currentProductList[productIndex]).history).findIndex((history) => history.id === historyId);
+
+        const historySingle = currentProductList[productIndex].history[productHistoryIndex];
+
+        let productStock = '';
+        if(historySingle.tempId){
+            productStock = (currentProductList[productIndex].stock).filter((stock) => stock.tempId !== historySingle.id);
+            branchProductsAdded = branchProductsAdded.filter((stock) => stock.tempId !== historySingle.id);
+        }else{
+            branchDeletedHistory.push(historyId);
+            productStock = (currentProductList[productIndex].stock).filter((stock) => stock.tempId !== historySingle.branchProductStockId);
+        }
+
+        const productHistory = ((currentProductList[productIndex]).history).filter((history) => history.id !== historyId);
+        const currentProduct = currentProductList.filter((product) => product.id === productId);
+
+        currentProductList[productIndex].history = productHistory;
+        currentProductList[productIndex].stock = productStock;
+
+        localStorage.setItem('branchDeletedHistory' , JSON.stringify(branchDeletedHistory));
+        localStorage.setItem('storeProductsLookup' , JSON.stringify(currentProductList));
+        localStorage.setItem('branchProductsAdded' , JSON.stringify(branchProductsAdded));
+    };
+
+    addIncompleteStock = async(formFields) => {
+        let branchProductsAdded = JSON.parse(localStorage.getItem('branchProductsAdded')) || [];
+        branchProductsAdded = branchProductsAdded.filter((item) => item.productId !== formFields.productId);
+
+        let old_list = JSON.parse(localStorage.getItem('storeProductsLookup'));
+
+        const productIndex = old_list.findIndex((item => item.id === (formFields.productId)));
+        const item = {...old_list[productIndex]};
+        if(!item.owned){
+            item.owned = true;
+        }
+
+        const history = item.history || [];
+
+        for (let i = 0; i < history.length; i++){
+            await this.deleteIncompleteHistory(history[i].id , formFields.productId);
+        }
+
+        item.stock = [];
+        item.history = [];
+
+        if((formFields.sellingPrice === "" || formFields.sellingPrice === null || formFields.sellingPrice === 0) && (formFields.costPrice === "" || formFields.costPrice === null || formFields.costPrice === 0) && (formFields.quantity === "" || formFields.quantity === null || formFields.quantity === 0)){
+            old_list[productIndex] = item;
+            const tempId = uuidv1();
+
+            formFields = {
+                branchId: formFields.branchId,
+                productId: formFields.productId,
+                costPrice: null,
+                sellingPrice: null,
+                quantity: formFields.quantity === null ? null : parseFloat(formFields.quantity),
+                tempId: tempId,
+            };
+
+            branchProductsAdded.push(formFields);
+
+            localStorage.setItem('branchProductsAdded' , JSON.stringify(branchProductsAdded));
+
+            localStorage.setItem('storeProductsLookup' , JSON.stringify(old_list));
+
+            return true
+        }
+
+        if(formFields.sellingPrice !== "" || formFields.sellingPrice !== null){
+            item.sellingPrice = formFields.sellingPrice === null ? null : parseFloat(formFields.sellingPrice);
+        }
+
+        const tempId = uuidv1();
+        const historyItem = {
+            quantity: formFields.quantity,
+            branch_stock_id: formFields.branchId,
+            id: tempId,
+            tempId: tempId,
+            created_at: getTime(new Date()),
+        };
+
+        formFields = {
+            branchId: formFields.branchId,
+            productId: formFields.productId,
+            costPrice: formFields.costPrice === null || "" ? null : parseFloat(formFields.costPrice),
+            sellingPrice: formFields.sellingPrice === null || "" ? null : parseFloat(formFields.sellingPrice),
+            quantity: formFields.quantity === null ? null : parseFloat(formFields.quantity),
+            tempId: tempId,
+        };
+
+        branchProductsAdded.push(formFields);
+        (item.stock).push(
+            formFields
+        );
+
+        (item.history).push(historyItem);
+
+        //quantity //branch_stock_id //id
+        old_list[productIndex] = item;
+
+        localStorage.setItem('branchProductsAdded' , JSON.stringify(branchProductsAdded));
+
+        localStorage.setItem('storeProductsLookup' , JSON.stringify(old_list));
+
+console.log(item)
     };
 
     deleteProduct = (pId , event) => {
