@@ -141,7 +141,7 @@ const ProductCardHorizontal = props => {
     };
 
     return(
-        <Grid container spacing={1} className={`bordered-sm shadow2 mb-3 borderRadius5 mx-1`}>
+        <Grid container spacing={1} className={`bordered-sm shadow2 mb-3 borderRadius5`}>
             <Grid item xs={12}>
                 <Grid container onClick={props.add ? addProductHandler.bind(this) : doNothing.bind(this)}>
                     <Grid item xs={3}>

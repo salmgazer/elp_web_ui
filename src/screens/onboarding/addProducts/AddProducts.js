@@ -16,6 +16,7 @@ import SyncService from "../../../services/SyncService";
 import LocalInfo from "../../../services/LocalInfo";
 import database from "../../../models/database";
 import ProductRequest from "../../admin/productRequest/ProductRequest";
+import ProductServiceHandler from "../../../services/ProductServiceHandler";
 
 class AddProducts extends Component{
     constructor(props){
@@ -30,6 +31,7 @@ class AddProducts extends Component{
             productList: [],
             addedProducts: [],
             searchValue: '',
+            productOption: 'all'
         }
     }
 
@@ -72,7 +74,7 @@ class AddProducts extends Component{
 
         switch (step) {
             case 0:
-                return <MainView addIncompleteStock={this.addIncompleteStock.bind(this)} searchValue={this.state.searchValue} searchHandler={this.searchHandler.bind(this)} optionFilter={this.optionProductHandler.bind(this)} finishAddProducts={this.completeAddProducts.bind(this)} loading={this.state.loading} searchBarcode={this.searchBarcode.bind(this)} setView={this.setStepContentView.bind(this)} product={this.state.currentProduct} viewAddedProducts={this.viewAddedProducts(this)} products={this.state.productList} productAdd={this.showAddView.bind(this)} removeProduct={this.removeProduct.bind(this)} spCount={shop_products.length} />;
+                return <MainView productOption={this.state.productOption} addIncompleteStock={this.addIncompleteStock.bind(this)} searchValue={this.state.searchValue} searchHandler={this.searchHandler.bind(this)} optionFilter={this.optionProductHandler.bind(this)} finishAddProducts={this.completeAddProducts.bind(this)} loading={this.state.loading} searchBarcode={this.searchBarcode.bind(this)} setView={this.setStepContentView.bind(this)} product={this.state.currentProduct} viewAddedProducts={this.viewAddedProducts(this)} products={this.state.productList} productAdd={this.showAddView.bind(this)} removeProduct={this.removeProduct.bind(this)} spCount={shop_products.length} />;
             case 1:
                 return <AddProductView searchHandler={this.searchHandler.bind(this)} deleteHistory={this.deleteHistory.bind(this)} undoAddProduct={this.undoAddProducts.bind(this)} addNewProduct={this.addNewProduct.bind(this)} setView={this.setStepContentView.bind(this)} product={this.state.currentProduct}/>;
             case 2:
@@ -102,7 +104,27 @@ class AddProducts extends Component{
         * @todo
         * Work on fetching data from source
         * */
-        let storeProducts = JSON.parse(localStorage.getItem('storeProductsLookup'));
+        //let storeProducts = JSON.parse(localStorage.getItem('storeProductsLookup'));
+
+        let storeProducts = [];
+        const localProducts = JSON.parse(localStorage.getItem('storeProductsLookup')) || [];
+
+        switch (this.state.productOption) {
+            case 'all':
+                storeProducts = localProducts;
+
+                break;
+            case 'stocked':
+                storeProducts = localProducts.filter((product) => (product.owned === true && product.sellingPrice && new ProductServiceHandler(product).getCostPrice() && new ProductServiceHandler(product).getProductQuantity()));
+
+                break;
+            case 'incomplete':
+                storeProducts = localProducts.filter((product) => ((product.owned === true && ((product.sellingPrice === null || 0) || !(new ProductServiceHandler(product).getCostPrice()) || !(new ProductServiceHandler(product).getProductQuantity())))));
+
+                break;
+            default:
+                break;
+        }
 
         const searchResults = storeProducts.filter(function(item) {
             return (item.name).toLowerCase().indexOf(search.toLowerCase()) !== -1
@@ -405,18 +427,19 @@ class AddProducts extends Component{
 
     optionProductHandler = async (value) => {
         let storeProducts = [];
+        const localProducts = JSON.parse(localStorage.getItem('storeProductsLookup')) || [];
 
         switch (value) {
             case 'all':
-                storeProducts = JSON.parse(localStorage.getItem('storeProductsLookup'));
+                storeProducts = localProducts;
 
                 break;
             case 'stocked':
-                storeProducts = JSON.parse(localStorage.getItem('storeProductsLookup')).filter((product) => (Array.isArray(product.stock) && product.owned === true));
+                storeProducts = localProducts.filter((product) => (product.owned === true && product.sellingPrice && new ProductServiceHandler(product).getCostPrice() && new ProductServiceHandler(product).getProductQuantity()));
 
                 break;
             case 'incomplete':
-                storeProducts = JSON.parse(localStorage.getItem('storeProductsLookup')).filter((product) => (product.owned === true && ((!product.sellingPrice) || (Array.isArray(product.stock) && (product.stock[(product.stock.length - 1).costPrice]) === null || 0))));
+                storeProducts = localProducts.filter((product) => ((product.owned === true && ((product.sellingPrice === null || 0) || !(new ProductServiceHandler(product).getCostPrice()) || !(new ProductServiceHandler(product).getProductQuantity())))));
 
                 break;
             default:
@@ -425,7 +448,8 @@ class AddProducts extends Component{
         }
 
         this.setState({
-            productList: storeProducts
+            productList: storeProducts,
+            productOption: value
         });
     };
 
@@ -525,7 +549,7 @@ class AddProducts extends Component{
         //console.log(historyId);
         let branchDeletedHistory = JSON.parse(localStorage.getItem('branchDeletedHistory')) || [];
         //branchDeletedHistory = branchDeletedHistory.filter((item) => item !== historyId);
-        let branchProductsAdded = JSON.parse(localStorage.getItem('branchProductsAdded')) || [];
+        //let branchProductsAdded = JSON.parse(localStorage.getItem('branchProductsAdded')) || [];
         let currentProductList = JSON.parse(localStorage.getItem('storeProductsLookup'));
 
         const productIndex = currentProductList.findIndex((item) => item.id === productId);
@@ -533,24 +557,12 @@ class AddProducts extends Component{
 
         const historySingle = currentProductList[productIndex].history[productHistoryIndex];
 
-        let productStock = '';
         if(historySingle.tempId){
-            productStock = (currentProductList[productIndex].stock).filter((stock) => stock.tempId !== historySingle.id);
-            branchProductsAdded = branchProductsAdded.filter((stock) => stock.tempId !== historySingle.id);
         }else{
             branchDeletedHistory.push(historyId);
-            productStock = (currentProductList[productIndex].stock).filter((stock) => stock.tempId !== historySingle.branchProductStockId);
         }
 
-        const productHistory = ((currentProductList[productIndex]).history).filter((history) => history.id !== historyId);
-        const currentProduct = currentProductList.filter((product) => product.id === productId);
-
-        currentProductList[productIndex].history = productHistory;
-        currentProductList[productIndex].stock = productStock;
-
         localStorage.setItem('branchDeletedHistory' , JSON.stringify(branchDeletedHistory));
-        localStorage.setItem('storeProductsLookup' , JSON.stringify(currentProductList));
-        localStorage.setItem('branchProductsAdded' , JSON.stringify(branchProductsAdded));
     };
 
     addIncompleteStock = async(formFields) => {
@@ -631,8 +643,6 @@ class AddProducts extends Component{
         localStorage.setItem('branchProductsAdded' , JSON.stringify(branchProductsAdded));
 
         localStorage.setItem('storeProductsLookup' , JSON.stringify(old_list));
-
-console.log(item)
     };
 
     deleteProduct = (pId , event) => {

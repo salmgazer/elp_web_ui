@@ -62,11 +62,14 @@ const ProductsView = (props) => {
                             <b>Yay! You have seen it all</b>
                         </p>
                     }
+                    style={{
+                        overflow: 'none'
+                    }}
                     hasChildren={true}
                 >
                     {
                         props.incomplete ?
-                            <Grid container className='mt-3'>
+                            <Grid container className='mt-3 px-2'>
                                 {products.map((item , index) =>
                                     <div key={index}>
                                         <ProductCardHorizontal

@@ -14,6 +14,7 @@ import Typography from "@material-ui/core/Typography";
 import Button from "@material-ui/core/Button";
 //import PrimaryLoader from "../../../../../components/Loader/Loader";
 import ComponentLoader from "../../../../../components/Loader/componentLoader";
+import ProductServiceHandler from "../../../../../services/ProductServiceHandler";
 //import ProductsView from "./productsView";
 //import ProductCard from "../../../../../components/Cards/ProductCard";
 const ProductsView = React.lazy(() => import("./productsView"));
@@ -106,7 +107,7 @@ function StyledRadio(props) {
 const SearchMode = props => {
     const [searchValue , setSearchValue] = useState({
         search: props.searchValue,
-        productOption: 'all',
+        productOption: props.productOption,
         searchState: false
     });
 
@@ -114,9 +115,9 @@ const SearchMode = props => {
     const optionGroupClasses = optionGroupStyles();
 
     const storageProducts = JSON.parse(localStorage.getItem('storeProductsLookup')) || [];
-    const stockQuantity = storageProducts.filter((product) => (Array.isArray(product.stock) && product.owned === true));
-    const incomplete = storageProducts.filter((product) => (product.owned === true && ((!product.sellingPrice) || (Array.isArray(product.stock) && (product.stock[(product.stock.length - 1).costPrice]) === null || 0))));
-
+    const stockQuantity = storageProducts.filter((product) => (product.owned === true && product.sellingPrice && new ProductServiceHandler(product).getCostPrice() && new ProductServiceHandler(product).getProductQuantity()));
+    const incomplete = storageProducts.filter((product) => ((product.owned === true && ((product.sellingPrice === null || 0) || !(new ProductServiceHandler(product).getCostPrice()) || !(new ProductServiceHandler(product).getProductQuantity())))));
+    // && ((!product.sellingPrice) || (Array.isArray(product.stock) && (product.stock[(product.stock.length - 1).costPrice]) === null || 0))
     const addProductHandler = (id) => {
         props.productAdd(id);
     };
@@ -164,7 +165,7 @@ const SearchMode = props => {
                         className={optionGroupClasses.margin}
                         onChange={OptionChangeHandler}
                         name="productOption"
-                        value={searchValue.productOption}
+                        value={props.productOption}
                     >
                         <FormControlLabel value="all" control={<StyledRadio />} label="All" />
                         <span style={{
@@ -181,7 +182,7 @@ const SearchMode = props => {
                         }}
                         className={`shadow`}
                         >
-                            {products.length}
+                            {storageProducts.length}
                         </span>
                         <FormControlLabel value="stocked" control={<StyledRadio />} label="Stocked" />
                         <span style={{
@@ -234,7 +235,7 @@ const SearchMode = props => {
                 {
                     products.length > 0 ?
                         <Suspense fallback={<ComponentLoader text={`Loading products...`}/>}>
-                            {<ProductsView addIncompleteStock={props.addIncompleteStock} incomplete={!!(searchValue.productOption === 'incomplete')} state={searchValue.searchState} isSetSearch={setSearchState.bind(this)} isSearch={searchValue.search} addProductHandler={addProductHandler.bind(this)} removeProductHandler={removeProductHandler.bind(this)} products={products} />}
+                            {<ProductsView addIncompleteStock={props.addIncompleteStock} incomplete={!!(props.productOption === 'incomplete')} state={searchValue.searchState} isSetSearch={setSearchState.bind(this)} isSearch={searchValue.search} addProductHandler={addProductHandler.bind(this)} removeProductHandler={removeProductHandler.bind(this)} products={products} />}
                         </Suspense>
                     :
                     <Grid container spacing={1} className='mt-3'>

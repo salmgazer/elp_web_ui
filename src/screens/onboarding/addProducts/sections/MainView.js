@@ -93,6 +93,10 @@ const MainView = props => {
         }
     };
 
+    const saveChangesHandler = () => {
+        props.optionFilter('all');
+    };
+
     const styles = useStyles();
 
     return(
@@ -216,7 +220,7 @@ const MainView = props => {
                 onChangeIndex={handleChangeIndex}
             >
                 <TabPanel value={value} index={0}>
-                    <SearchMode addIncompleteStock={props.addIncompleteStock} setView={props.setView} searchValue={props.searchValue} searchHandler={props.searchHandler} optionFilter={props.optionFilter} products={props.products} productAdd={addProduct.bind(this)} removeProduct={removeProduct.bind(this)}/>
+                    <SearchMode productOption={props.productOption} addIncompleteStock={props.addIncompleteStock} setView={props.setView} searchValue={props.searchValue} searchHandler={props.searchHandler} optionFilter={props.optionFilter} products={props.products} productAdd={addProduct.bind(this)} removeProduct={removeProduct.bind(this)}/>
                 </TabPanel>
                 <TabPanel value={value} index={1}>
                     <BarcodeMode product={props.product} setView={props.setView} searchBarcode={props.searchBarcode} productAdd={addProduct.bind(this)} removeProduct={removeProduct.bind(this)} />
@@ -229,31 +233,45 @@ const MainView = props => {
             >
                 <Grid container >
                     <Grid item xs={12} >
-                        <Button
-                            variant="contained"
-                            style={{'backgroundColor': '#DAAB59' , color: '#333333', padding: '7px 80px', fontSize: '14px'}}
-                            disabled={loading}
-                            className={`capitalization font-weight-bold text-dark`}
-                            onClick={openDialogHandler.bind(this)}
-                        >
-                            {
-                                loading ?
-                                    <PrimaryLoader
-                                        style={{width: '30px' , height: '30px'}}
-                                        color="#FFFFFF"
-                                        type="Oval"
-                                        className={`mt-1`}
-                                        width={25}
-                                        height={25}
-                                    />
-                                    :
-                                    'Finish'
-                            }
+                        {
+                            props.productOption === 'incomplete'
+                                ?
+                                    <Button
+                                        variant="contained"
+                                        style={{'backgroundColor': '#DAAB59' , color: '#333333', padding: '7px 30px', fontSize: '14px'}}
+                                        disabled={loading}
+                                        className={`capitalization font-weight-bold text-dark`}
+                                        onClick={saveChangesHandler.bind(this)}
+                                    >
+                                        Save changes
+                                    </Button>
+                                :
+                                    <Button
+                                        variant="contained"
+                                        style={{'backgroundColor': '#DAAB59' , color: '#333333', padding: '7px 80px', fontSize: '14px'}}
+                                        disabled={loading}
+                                        className={`capitalization font-weight-bold text-dark`}
+                                        onClick={openDialogHandler.bind(this)}
+                                    >
+                                        {
+                                            loading ?
+                                                <PrimaryLoader
+                                                    style={{width: '30px' , height: '30px'}}
+                                                    color="#FFFFFF"
+                                                    type="Oval"
+                                                    className={`mt-1`}
+                                                    width={25}
+                                                    height={25}
+                                                />
+                                                :
+                                                'Finish'
+                                        }
 
-                            {/*<span className={`btnPCount`}>
-                                {props.spCount}
-                            </span>*/}
-                        </Button>
+                                        {/*<span className={`btnPCount`}>
+                                    {props.spCount}
+                                </span>*/}
+                                    </Button>
+                        }
                     </Grid>
                 </Grid>
             </Box>
