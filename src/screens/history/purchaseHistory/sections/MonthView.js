@@ -71,6 +71,7 @@ const MonthView = props => {
         }
         setHeaderText('Seems you have not bought any product');
         setEmptyBtnState(true);
+        setPurchaseDetails(response);
         setPurchases(response.purchases);
     };
 

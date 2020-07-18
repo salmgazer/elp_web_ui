@@ -69,7 +69,7 @@ const BottomMenu = props => {
         const response = await new BranchStockService().changeProductSellingPrice(changePriceFields);
 
         if(response){
-            props.setSP(parseFloat(changePriceFields.sellingPrice))
+            await props.setSP(parseFloat(changePriceFields.sellingPrice));
             setSuccessMsg('Selling price was changed successfully');
             setSuccess(true);
             setTimeout(function(){
@@ -98,6 +98,12 @@ const BottomMenu = props => {
         const {...oldFormFields} = changePriceFields;
 
         oldFormFields[event.target.name] = event.target.value;
+
+        if(parseFloat(props.costPrice) < parseFloat(event.target.value)){
+            setNewLoading(false);
+        }else{
+            setNewLoading(true);
+        }
 
         setChangePriceFields(oldFormFields);
     };
