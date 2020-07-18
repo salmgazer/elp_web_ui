@@ -51,8 +51,6 @@ const AuditHistory = props => {
         const response = await AuditService.getAuditHistory(date);
         setAuditList(response);
         setPurchaseDetails(true);
-        console.log(response)
-        console.log(response)
     };
 
     const setView = (view) => {
@@ -60,7 +58,6 @@ const AuditHistory = props => {
     };
 
     const auditProducts = (id) => {
-        console.log(id);
         props.auditProducts(id, 4);
     };
 
@@ -214,6 +211,6 @@ const AuditHistory = props => {
         </div>
 
     )
-}
+};
 
 export default withRouter(AuditHistory);

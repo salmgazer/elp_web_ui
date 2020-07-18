@@ -2,19 +2,17 @@ import LocalInfo from "./LocalInfo";
 import database from "../models/database";
 import {v4 as uuid} from "uuid";
 import ModelAction from "./ModelAction";
-import AuditEntries from "../models/auditEntry/AuditEntries";
 import BranchStockService from "./BranchStockService";
 import SaleService from "./SaleService";
 import { Q } from '@nozbe/watermelondb';
 import getUnixTime from "date-fns/getUnixTime";
 import CustomerService from "./CustomerService";
-import Audits from "../models/audit/Audit";
 import startOfDay from 'date-fns/startOfDay';
 import endOfDay from 'date-fns/endOfDay';
-import AuditCartService from "./AuditCartService";
+import AuditCartEntries from "../models/auditCartEntry/AuditCartEntries";
 import AuditCarts from "../models/auditCart/AuditCart";
 
-export default class AuditService {
+export default class AuditCartService {
     constructor(){
         this.branchId = LocalInfo.branchId;
     }
@@ -22,9 +20,8 @@ export default class AuditService {
     async auditId() {
         const aId = localStorage.getItem("auditId") || "";
         if(!aId){
-
             try{
-                const response = await new ModelAction('Audits').post({
+                const response = await new ModelAction('AuditCarts').post({
                     branchId: LocalInfo.branchId,
                     createdBy: LocalInfo.userId,
                     status: 'unbalanced',
@@ -44,9 +41,9 @@ export default class AuditService {
     }
 
     static async auditEntryQuantity() {
-        const auditId = await new AuditService().auditId();
+        const auditId = await new AuditCartService().auditId();
 
-        let quantity = await new ModelAction('AuditEntries').findByColumnNotObserve({
+        let quantity = await new ModelAction('AuditCartEntries').findByColumnNotObserve({
             name: 'auditId',
             value: auditId,
             fxn: 'eq'
@@ -55,8 +52,44 @@ export default class AuditService {
         return await quantity;
     }
 
+    static async deleteLocalAudits() {
+        try {
+            const audits = await new ModelAction('AuditCarts').indexNotObserve();
+            const entries = await new ModelAction('AuditCartEntries').indexNotObserve();
+
+            for(let i = 0; i < audits.length; i++){
+                await new ModelAction('AuditCarts').destroy(audits[i].id);
+            }
+
+            for(let i = 0; i < entries.length; i++){
+                await new ModelAction('AuditCartEntries').destroy(entries[i].id);
+            }
+        }catch (e) {
+            console.log(e);
+            return e;
+        }
+    }
+
+    /*static async deleteAudits() {
+        try {
+            const audits = await new ModelAction('Audits').indexNotObserve();
+            const entries = await new ModelAction('AuditEntries').indexNotObserve();
+
+            for(let i = 0; i < audits.length; i++){
+                await new ModelAction('Audits').softDelete(audits[i].id);
+            }
+
+            for(let i = 0; i < entries.length; i++){
+                await new ModelAction('AuditEntries').softDelete(entries[i].id);
+            }
+        }catch (e) {
+            console.log(e);
+            return e;
+        }
+    }*/
+
     async changeAuditedProductsType(value , auditId = this.auditId()) {
-        const collection = await database.collections.get(AuditEntries.table);
+        const collection = await database.collections.get(AuditCartEntries.table);
 
         const entries = await collection.query(
             Q.where('auditId' , await auditId)
@@ -87,7 +120,7 @@ export default class AuditService {
             fxn: 'like'
         });
 
-        return database.collections.get(AuditEntries.table).query(
+        return database.collections.get(AuditCartEntries.table).query(
             Q.where('productId', Q.oneOf(products.map(p => p.id))),
             Q.where('branchId', LocalInfo.branchId),
             Q.where('auditId' , await auditId)
@@ -97,7 +130,7 @@ export default class AuditService {
     async addProductToAudit(data) {
         const auditId = await this.auditId();
 
-        const dataCollection = database.collections.get(AuditEntries.table);
+        const dataCollection = database.collections.get(AuditCartEntries.table);
 
         let product = await dataCollection.query(
             Q.where('auditId' , auditId),
@@ -108,7 +141,7 @@ export default class AuditService {
             product = product[0];
 
             try {
-                new ModelAction('AuditEntries').update(product.id , {
+                new ModelAction('AuditCartEntries').update(product.id , {
                     auditId: product.auditId,
                     branchId: LocalInfo.branchId,
                     productId: product.productId,
@@ -138,7 +171,7 @@ export default class AuditService {
         };
 
         try {
-            new ModelAction('AuditEntries').post(columns);
+            new ModelAction('AuditCartEntries').post(columns);
 
             return true;
         } catch (e) {
@@ -147,7 +180,7 @@ export default class AuditService {
     }
 
     async getAuditProductDetails(productId , auditId = this.auditId()){
-        const dataCollection = database.collections.get(AuditEntries.table);
+        const dataCollection = database.collections.get(AuditCartEntries.table);
 
         const product = await dataCollection.query(
             Q.where('productId' , productId),
@@ -161,54 +194,20 @@ export default class AuditService {
         }
     }
 
-    static async importCartToAudit(auditId , activeAuditId) {
-        const entries = [];
-        const auditEntries = await new ModelAction('AuditCartEntries').findByColumnNotObserve({
-            name: 'auditId',
-            value: activeAuditId,
-            fxn: 'eq'
-        });
-
-        for (let i = 0; i < auditEntries.length; i++){
-            const entry = auditEntries[i];
-
-            const entryColumns = {
-                auditId: auditId,
-                branchId: LocalInfo.branchId,
-                productId: entry.productId,
-                branchProductId: entry.branchProductId,
-                sellingPrice: entry.sellingPrice,
-                costPrice: parseFloat(entry.costPrice),
-                storeQuantity: parseFloat(entry.storeQuantity),
-                quantityCounted: entry.quantityCounted,
-            };
-
-            const response = await new ModelAction('AuditEntries').post(entryColumns);
-
-            entries.push(response);
-        }
-        return entries;
-    }
-
-    async balanceAllProducts() {
-        const auditId = await new AuditCartService().auditId();
+    async balanceAllProducts(auditId = this.auditId()) {
+        const aId = await auditId;
 
         try {
-            const auditData = await new ModelAction('AuditCarts').findByIdNotObserve(auditId);
-
-            const auditColumn = {
-                branchId: auditData.branchId,
-                createdBy: auditData.createdBy,
-                status: 'balanced',
-                isActive: true,
-                auditDate: auditData.auditDate,
-            };
-
-            const response = await new ModelAction('Audits').post(auditColumn);
-
-            const auditEntries = await AuditService.importCartToAudit(response.id , auditId);
-
+            const auditEntries = await new ModelAction('AuditCartEntries').findByColumnNotObserve({
+                name: 'auditId',
+                value: aId,
+                fxn: 'eq'
+            });
             let saleCount = 0;
+
+            /*
+            * @todo change audit date current working date
+            * */
 
             const salesColumn = {
                 type: 'audit',
@@ -221,7 +220,9 @@ export default class AuditService {
                 createdBy: LocalInfo.userId,
             };
 
-            const sale = await new ModelAction('Sales').post(salesColumn);
+            await new ModelAction('Sales').post(salesColumn);
+
+            const sale = await SaleService.getLastSale();
 
             for (let i = 0; i < auditEntries.length; i++){
                 const entry = auditEntries[i];
@@ -273,33 +274,43 @@ export default class AuditService {
                 await new ModelAction('Sales').softDelete(sale.id);
             }
 
-            await AuditCartService.deleteLocalAudits();
+            await new ModelAction('AuditCarts').update(aId , {
+                status: 'balanced',
+                isActive: false
+            });
 
             localStorage.removeItem("auditId");
             await database.adapter.removeLocal("auditId");
 
-            await new AuditCartService().auditId();
+            await this.auditId();
             return true;
         }catch (e) {
-            console.log(e);
             return false;
         }
+
     }
 
     static async getAuditHistory(date){
+        /*const auditEntries = await new ModelAction('AuditEntries').findByColumnNotObserve({
+            name: 'branchId',
+            value: LocalInfo.branchId,
+            fxn: 'eq'
+        });
+*/
         const day = new Date(date);
 
         const start = getUnixTime(startOfDay(day));
         const end = getUnixTime(endOfDay(day));
 
-        return await database.collections.get(Audits.table).query(
+        return await database.collections.get(AuditCarts.table).query(
+            Q.where('isActive' , false),
             Q.where('branchId' , LocalInfo.branchId),
             Q.where('auditDate' , Q.between(start , end)),
         ).fetch();
     }
 
     async getAuditDetails(date) {
-        const audit = await AuditService.getAuditHistory(date);
+        const audit = await AuditCartService.getAuditHistory(date);
 
         console.log(audit);
 
@@ -309,7 +320,7 @@ export default class AuditService {
     }
 
     static async getProductAuditHistory(productId) {
-        return database.collections.get(AuditEntries.table).query(
+        return database.collections.get(AuditCartEntries.table).query(
             Q.where('branchId' , LocalInfo.branchId),
             Q.where('branchProductId' , productId)
         ).fetch();

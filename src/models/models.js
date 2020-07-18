@@ -16,6 +16,8 @@ import BranchPurchases from "./branchPurchases/BranchPurchases";
 import StockMovement from "./stockMovements/StockMovement"
 import Audits from "./audit/Audit";
 import AuditEntries from "./auditEntry/AuditEntries";
+import AuditCarts from "./auditCart/AuditCart";
+import AuditCartEntries from "./auditCartEntry/AuditCartEntries";
 import SuppliersCompany from "./suppliers_company/SuppliersCompany";
 import BranchSuppliers from "./branchSuppliers/BranchSuppliers";
 import BranchSupplierProducts from "./branchSupplierProducts/BranchSupplierProducts";
@@ -47,6 +49,8 @@ export default {
     StockMovement,
     Audits,
     AuditEntries,
+    AuditCarts,
+    AuditCartEntries,
     SuppliersCompany,
     BranchSuppliers,
     BranchSupplierStock,

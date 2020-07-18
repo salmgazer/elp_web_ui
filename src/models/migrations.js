@@ -16,6 +16,8 @@ import auditSchema from "./audit/auditSchema";
 import auditEntriesSchema from "./auditEntry/auditEntriesSchema";
 import stockReturnHistoriesSchema from "./stockReturnHistories/stockReturnHistoriesSchema";
 import saleReturnHistoriesSchema from "./saleReturnHistories/saleReturnHistoriesSchema";
+import auditCartSchema from "./auditCart/auditCartSchema";
+import auditCartEntriesSchema from "./auditCartEntry/auditCartEntriesSchema";
 
 /*import suppliersCompanySchema from "./suppliers_company/suppliersCompanySchema";
 import branchSuppliersSchema from "./branchSuppliers/branchSuppliersSchema";
@@ -49,7 +51,13 @@ export default schemaMigrations({
           ]
       },
     */
-
+      {
+          toVersion: 13,
+          steps: [
+              createTable(auditCartSchema),
+              createTable(auditCartEntriesSchema),
+          ]
+      },
       {
           toVersion: 12,
           steps: [

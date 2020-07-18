@@ -20,6 +20,8 @@ import BranchPurchases from "./branchPurchases/BranchPurchases";
 import StockMovement from "./stockMovements/StockMovement";
 import Audits from "./audit/Audit";
 import AuditEntries from "./auditEntry/AuditEntries";
+import AuditCarts from "./auditCart/AuditCart";
+import AuditCartEntries from "./auditCartEntry/AuditCartEntries";
 import StockReturnHistories from "./stockReturnHistories/StockReturnHistories";
 import SaleReturnHistories from "./saleReturnHistories/SaleReturnHistories";
 
@@ -61,6 +63,8 @@ export default new Database({
     StockMovement,
     Audits,
     AuditEntries,
+    AuditCarts,
+    AuditCartEntries,
     StockReturnHistories,
     SaleReturnHistories,
     /*

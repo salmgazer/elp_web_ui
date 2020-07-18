@@ -7,6 +7,7 @@ import {Q} from "@nozbe/watermelondb";
 import BranchService from "../../services/BranchService";
 import LocalInfo from "../../services/LocalInfo";
 import AuditService from "../../services/AuditService";
+import AuditCartService from "../../services/AuditCartService";
 import AddAuditProductView from "./sections/addAuditProductView";
 import AuditedProductsView from "./sections/auditedProductsView";
 import AuditEntries from "../../models/auditEntry/AuditEntries";
@@ -16,6 +17,7 @@ import Audits from "../../models/audit/Audit";
 import AuditHistory from './sections/AuditHistory';
 import AuditHistoryDetails from './sections/AuditHistoryDetails';
 import GetStartedAudit from "./getStarted/getStartedAudit";
+import AuditCartEntries from "../../models/auditCartEntry/AuditCartEntries";
 
 class Audit extends Component {
     constructor(props){
@@ -36,13 +38,13 @@ class Audit extends Component {
     }
 
     async componentDidMount() {
-        const { audits, branchProducts , auditedEntries} = this.props;
-        const activeAuditId = await new AuditService().auditId();
-        const auditEntries = await AuditService.auditEntryQuantity();
+        const { audits, branchProducts} = this.props;
+        const activeAuditId = await new AuditCartService().auditId();
+        const auditEntries = await AuditCartService.auditEntryQuantity();
 
         await this.setState({
             branchProducts: branchProducts,
-            spCount: auditedEntries.length,
+            spCount: auditEntries.length,
             auditEntries: auditEntries,
             activeAuditId: activeAuditId,
             auditHistory: audits,
@@ -50,10 +52,11 @@ class Audit extends Component {
     }
 
     async componentDidUpdate(prevProps) {
-        const { audits, branchProducts , auditedEntries} = this.props;
-        const auditEntries = await AuditService.auditEntryQuantity();
+        const { audits, branchProducts} = this.props;
 
-        if(this.props.activeAudit.length !== prevProps.activeAudit.length || auditedEntries.length !== prevProps.auditedEntries.length || audits.length !== prevProps.audits.length){
+        const auditEntries = await AuditCartService.auditEntryQuantity();
+
+        if(audits.length !== prevProps.audits.length || auditEntries.length !== this.state.auditEntries.length){
             this.setState({
                 branchProducts: branchProducts,
                 spCount: auditEntries.length,
@@ -98,7 +101,7 @@ class Audit extends Component {
     * */
     changeAuditedProductsType = async (value) => {
         try {
-            const products = await new AuditService().changeAuditedProductsType(value);
+            const products = await new AuditCartService().changeAuditedProductsType(value);
 
             this.setState({
                 auditEntries: products,
@@ -159,7 +162,7 @@ class Audit extends Component {
     searchAuditedHandler = async (searchValue) => {
 
         try {
-            const products = await new AuditService().searchBranchAuditedProduct(searchValue);
+            const products = await new AuditCartService().searchBranchAuditedProduct(searchValue);
 
             this.setState({
                 auditEntries: products,
@@ -248,7 +251,7 @@ class Audit extends Component {
                 {
                     label: 'Yes',
                     onClick: () => {
-                        new ModelAction('AuditEntries').destroy(pId);
+                        new ModelAction('AuditCartEntries').destroy(pId);
                     }
                 },
                 {
@@ -300,7 +303,7 @@ class Audit extends Component {
     *Add product to cart
     * */
     addProductToCartHandler = (formFields) => {
-        return new AuditService().addProductToAudit(formFields);
+        return new AuditCartService().addProductToAudit(formFields);
     };
 
     render() {
@@ -313,20 +316,11 @@ class Audit extends Component {
 }
 
 const EnhancedAudit = withDatabase(
-    withObservables(['branchProducts' , 'audits' , 'auditedEntries' , 'activeAudit'], ({ database , branchProducts, auditedEntries , activeAudit , audits}) => ({
+    withObservables(['branchProducts' , 'audits'], ({ database , branchProducts , audits}) => ({
         branchProducts: new BranchService(LocalInfo.branchId).getProducts(),
         audits: database.collections.get(Audits.table).query(
-            Q.where('branchId' , LocalInfo.branchId),
-            Q.where('isActive' , true)
-        ).observe(),
-        auditedEntries: database.collections.get(AuditEntries.table).query(
-            Q.where('auditId' , localStorage.getItem('auditId')),
             Q.where('branchId' , LocalInfo.branchId)
-        ).observe(),
-        activeAudit: database.collections.get(Audits.table).query(
-            Q.where('isActive' , true),
-            Q.where('branchId' , LocalInfo.branchId),
-        ).observe(),
+        ).observe()
     }))(withRouter(Audit))
 );
 

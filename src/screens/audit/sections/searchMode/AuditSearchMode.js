@@ -5,6 +5,7 @@ import Typography from "@material-ui/core/Typography/Typography";
 import SearchInput from "../../../Components/Input/SearchInput";
 import BranchProductService from "../../../../services/BranchProductService";
 import AuditService from "../../../../services/AuditService";
+import AuditCartService from "../../../../services/AuditCartService";
 
 const AuditSearchMode = props => {
     const [searchValue , setSearchValue] = useState({
@@ -119,7 +120,7 @@ const AuditSearchMode = props => {
                                     <div
                                         onClick={addProductHandler.bind(this, branchProduct.productId)}
                                     >
-                                        <ProductCard audit={true} appCounted={new AuditService().getAuditProductDetails(branchProduct.productId)} storeCounted={new BranchProductService(branchProduct).getProductQuantity()} product={branchProduct.product.fetch()}>
+                                        <ProductCard audit={true} appCounted={new AuditCartService().getAuditProductDetails(branchProduct.productId)} storeCounted={new BranchProductService(branchProduct).getProductQuantity()} product={branchProduct.product.fetch()}>
                                         </ProductCard>
                                     </div>
                                 </Grid>

@@ -28,7 +28,6 @@ import eachDayOfInterval from 'date-fns/eachDayOfInterval';
 
 export default class SaleService {
     async makeSell(data , paymentType){
-        console.log(paymentType)
         const cartId = await new CartService().cartId();
 
         try {
