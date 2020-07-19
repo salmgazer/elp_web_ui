@@ -350,6 +350,7 @@ const SingleDayView = props => {
                                         variant="contained"
                                         style={{'backgroundColor': '#DAAB59' , color: '#333333', padding: '5px 15px', textTransform: 'none', fontSize:'15px'}}
                                         onClick={updateStockQuantity.bind(this)}
+                                        disabled={parseFloat(quantity) <= 0 || quantity === ''}
                                     >
                                         Save changes
                                     </Button>

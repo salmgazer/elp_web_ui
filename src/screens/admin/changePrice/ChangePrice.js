@@ -114,7 +114,7 @@ class ChangePrice extends Component{
                     }
                     leftOnClick={() => this.state.activeStep === 0 ? this.props.history.goBack() : this.setState({
                         activeStep: 0
-                        })}
+                    })}
                 />
 
                 {this.getStepContent(this.state.activeStep)}

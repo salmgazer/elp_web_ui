@@ -4,6 +4,8 @@ import Grid from "@material-ui/core/Grid/Grid";
 import SearchInput from "../../../Components/Input/SearchInput";
 import Typography from "@material-ui/core/Typography/Typography";
 import ProductCardHorizontal from "../../../../components/Cards/ProductCardHorizontal";
+import Button from "@material-ui/core/Button/Button";
+import Box from "@material-ui/core/Box/Box";
 
 const MainView = props => {
     const branchProducts = props.branchProducts;
@@ -67,6 +69,22 @@ const MainView = props => {
                         </Grid>
                     )}
             </Grid>
+
+            <Box
+                className="shadow1"
+                bgcolor="background.paper"
+                p={1}
+                style={{ minHeight: '2.5rem', position: "fixed", bottom:"0", width:"100%" }}
+            >
+                <Button
+                    variant="contained"
+                    className="mx-auto"
+                    style={{textAlign: 'center', 'backgroundColor': '#DAAB59' , color: '#333333', padding: '5px 20px'}}
+                    onClick={() => props.history.goBack()}
+                >
+                    Finish
+                </Button>
+            </Box>
         </div>
     )
 };
