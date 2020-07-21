@@ -61,6 +61,9 @@ const PrimaryValidationField = (props) => {
     const [rightIcon , setRightIcon] = useState(props.fetch || false);
     const [errorMsg , setErrorMsg] = useState("");
     const inputRef = useRef();
+    const [timer, setTimer] = useState(0);
+    const timerRef = useRef(timer);
+    timerRef.current = timer;
 
     useEffect(() => {
         if (props.value !== value) {
@@ -205,12 +208,18 @@ const PrimaryValidationField = (props) => {
 
     const checkUserName = async (event) => {
         //event.persist();
+
         const value = (event.target.value).trim() || "";
         const name = event.target.name;
+        await props.setValue(name , value);
+        console.log(timer)
+        console.log('^^^^^^^^^^^^')
+        console.log(timerRef.current)
+        clearTimeout(timer);
 
         if (value === "" || value === undefined) {
             props.setValid(name , false);
-            props.setValue(name , value);
+            //props.setValue(name , value);
 
             setError(true);
             setValid(false);
@@ -218,61 +227,66 @@ const PrimaryValidationField = (props) => {
         }
 
         if (value.length >= 3) {
-            try {
-                let response = await new Api('others').index(
-                    {},
-                    {},
-                    `https://${Api.apiDomain()}/v1/client/users/exists?username=${value}`,
-                    {},
-                );
+            setError(false);
+            setValid(true);
+            setErrorMsg('');
 
-                if(response.data.valid === true){
-                    setError(false);
-                    setValid(true);
-                    setErrorMsg('');
-                    await props.setValue(name , value);
-                    await props.setValid(name , true);
+            setTimer(setTimeout(() => {
+                setTimer(timerRef.current);
+                //clearTimeout(countRef.current)
+                console.log(value)
+                /*try {
+                    let response = await new Api('others').index(
+                        {},
+                        {},
+                        `https://${Api.apiDomain()}/v1/client/users/exists?username=${value}`,
+                        {},
+                    );
 
-                    return true;
-                }else{
-                    await props.setValid(name , false);
-                    await props.setValue(name , value);
+                    if(response.data.valid === true){
+                        setError(false);
+                        setValid(true);
+                        setErrorMsg('');
+                        await props.setValid(name , true);
 
+                        return true;
+                    }else{
+                        await props.setValid(name , false);
+
+                        setError(true);
+                        setValid(false);
+                        setErrorMsg('Username exists in database. Use another username');
+                        confirmAlert({
+                            title: 'Account',
+                            message: 'Do you already have an account?',
+                            buttons: [
+                                {
+                                    label: 'Yes',
+                                    onClick: () => {
+                                        history.push(paths.login)
+                                    }
+                                },
+                                {
+                                    label: 'No',
+                                    onClick: () => {
+                                        return false;
+                                    }
+                                }
+                            ]
+                        });
+                    }
+                } catch (error) {
                     setError(true);
+                    setErrorMsg('Could not check username. Please enter again!');
                     setValid(false);
-                    setErrorMsg('Username exists in database. Use another username');
-                    confirmAlert({
-                        title: 'Account',
-                        message: 'Do you already have an account?',
-                        buttons: [
-                            {
-                                label: 'Yes',
-                                onClick: () => {
-                                    history.push(paths.login)
-                                }
-                            },
-                            {
-                                label: 'No',
-                                onClick: () => {
-                                    return false;
-                                }
-                            }
-                        ]
-                    });
-                }
-            } catch (error) {
-                setError(true);
-                setErrorMsg('Could not check username. Please enter again!');
-                setValid(false);
-                await props.setValid(name , false);
-                await props.setValue(name , value);
+                    await props.setValid(name , false);
 
-                console.log('Could not check username. Please enter again!');
-            }
-
+                    console.log('Could not check username. Please enter again!');
+                }*/
+            },2000));
         }else {
             await props.setValid(name , false);
-            await props.setValue(name , value);
+            //await props.setValue(name , value);
 
             setError(true);
             setValid(false);

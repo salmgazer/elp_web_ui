@@ -5,6 +5,7 @@ import { Q } from '@nozbe/watermelondb'
 import BranchProductService from "./BranchProductService";
 import BranchProductStock from "../models/branchesProductsStocks/BranchProductStock";
 import getUnixTime from "date-fns/getUnixTime";
+import TypeFormatter from "../utilities/TypeFormatter";
 
 export default class BranchStockService{
     constructor(){
@@ -270,7 +271,7 @@ export default class BranchStockService{
         const sales = (companySaleEntries).reduce((a, b) => a + (b['quantity'] || 0), 0);
         const stockMovement = (companyStockMovement).reduce((a, b) => a + (b['quantity'] || 0), 0);
 
-        return parseFloat(stock - (sales + stockMovement));
+        return new TypeFormatter('currency').dataType(stock - (sales + stockMovement));
     }
 
     async getLowStockItems(){

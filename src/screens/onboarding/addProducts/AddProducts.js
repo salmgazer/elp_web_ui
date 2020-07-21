@@ -198,9 +198,6 @@ class AddProducts extends Component{
     };
 
     completeAddProducts = async() => {
-        //console.log(database)
-        //console.log(this.props.history)
-
         const branchId = localStorage.getItem('activeBranch');
         const accessToken = localStorage.getItem('accessToken');
 
@@ -212,53 +209,82 @@ class AddProducts extends Component{
         const branchProductsRemoved = localStorage.getItem('branchProductsRemoved') || [];
         const branchDeletedHistory = localStorage.getItem('branchDeletedHistory') || [];
 
-        if (Array.isArray(branchProductsAdded) && branchProductsAdded.length) {
-            const addedProducts = await new Api('others').create(
-                branchProductsAdded,
-                {'Authorization': `Bearer ${accessToken}`},
-                {},
-                `https://${Api.apiDomain()}/v1/client/branches/${branchId}/products`,
-            );
+        try {
+            if (typeof branchDeletedHistory != "undefined" && branchDeletedHistory != null && branchDeletedHistory.length != null
+                && branchDeletedHistory.length > 0) {
 
-            localStorage.removeItem('branchProductsAdded');
+                try {
+                    await new Api('others').destroy(
+                        {'Authorization': `Bearer ${accessToken}`},
+                        {},
+                        `https://${Api.apiDomain()}/v1/client/branches/${branchId}/histories?history_ids=${branchDeletedHistory}`,
+                    );
+
+                    localStorage.removeItem('branchDeletedHistory');
+                }catch (e) {
+                    console.log(e)
+                }
+            }
+
+            /*
+            * @todo why did you use the single operator...
+            * */
+            if (typeof branchProductsRemoved != "undefined" && branchProductsRemoved != null && branchProductsRemoved.length != null
+                && branchProductsRemoved.length > 0) {
+                try {
+                    await new Api('others').destroy(
+                        {'Authorization': `Bearer ${accessToken}`},
+                        {},
+                        `https://${Api.apiDomain()}/v1/client/branches/${branchId}/products?product_ids=${branchProductsRemoved}`,
+                    );
+
+                    localStorage.removeItem('branchProductsRemoved');
+                }catch (e) {
+                    console.log(e)
+                }
+            }
+
+            if (Array.isArray(branchProductsAdded) && branchProductsAdded.length) {
+                try {
+                    await new Api('others').create(
+                        branchProductsAdded,
+                        {'Authorization': `Bearer ${accessToken}`},
+                        {},
+                        `https://${Api.apiDomain()}/v1/client/branches/${branchId}/products`,
+                    );
+
+                    localStorage.removeItem('branchProductsAdded');
+                }catch (e) {
+                    console.log(e)
+                }
+            }
+
+            try {
+                await SyncService.sync(LocalInfo.companyId, LocalInfo.branchId, LocalInfo.userId, database);
+
+                const returnPage = localStorage.getItem('redirectPath') || '';
+                localStorage.removeItem('redirectPath');
+
+                if(returnPage){
+                    this.props.history.push(returnPage);
+                }
+
+                this.setState({
+                    loading: false,
+                    activeStep: 4,
+                });
+            }catch (e) {
+                console.log(e);
+                alert('Sync failed please try again manually');
+                this.setState({
+                    loading: false,
+                });
+            }
+        }catch (e) {
+            this.setState({
+                loading: false,
+            });
         }
-        /*
-        * @todo why did you use the single operator...
-        * */
-        if (typeof branchProductsRemoved != "undefined" && branchProductsRemoved != null && branchProductsRemoved.length != null
-            && branchProductsRemoved.length > 0) {
-            let removedProducts = await new Api('others').destroy(
-                {'Authorization': `Bearer ${accessToken}`},
-                {},
-                `https://${Api.apiDomain()}/v1/client/branches/${branchId}/products?product_ids=${branchProductsRemoved}`,
-            );
-
-            localStorage.removeItem('branchProductsRemoved');
-        }
-
-        if (typeof branchDeletedHistory != "undefined" && branchDeletedHistory != null && branchDeletedHistory.length != null
-            && branchDeletedHistory.length > 0) {
-            let removedProducts = await new Api('others').destroy(
-                {'Authorization': `Bearer ${accessToken}`},
-                {},
-                `https://${Api.apiDomain()}/v1/client/branches/${branchId}/histories?history_ids=${branchDeletedHistory}`,
-            );
-
-            localStorage.removeItem('branchDeletedHistory');
-        }
-        await SyncService.sync(LocalInfo.companyId, LocalInfo.branchId, LocalInfo.userId, database);
-
-        const returnPage = localStorage.getItem('redirectPath') || '';
-        localStorage.removeItem('redirectPath');
-
-        if(returnPage){
-            this.props.history.push(returnPage);
-        }
-
-        this.setState({
-            loading: false,
-            activeStep: 4,
-        });
     };
 
     viewAddedProducts = () => {
